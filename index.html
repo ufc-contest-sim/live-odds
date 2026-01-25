@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UFC Contest Live Odds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,228 +14,644 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: #12182b;
+            --bg-hover: #1a2340;
+            --border: #2a3555;
+            --text-primary: #e8edf5;
+            --text-secondary: #7a8599;
+            --accent-green: #00ff88;
+            --accent-red: #ff4466;
+            --accent-blue: #3b82f6;
+            --accent-gold: #ffd700;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        /* Landing Page Styles */
+        .landing-page {
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .landing-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .landing-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        
+        .landing-header h1 span {
+            color: var(--accent-green);
+        }
+        
+        .landing-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .contest-grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .contest-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px 30px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .contest-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.1);
+        }
+        
+        .contest-info h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .contest-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .contest-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .contest-arrow {
+            font-size: 2rem;
+            color: var(--accent-green);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.2s ease;
+        }
+        
+        .contest-card:hover .contest-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Leaderboard Page Styles */
+        .leaderboard-page {
+            display: none;
             padding: 20px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
         
         header {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #334155;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .back-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
         }
         
         h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #f1f5f9;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 3px;
+            color: var(--text-primary);
         }
         
         .updated {
-            color: #94a3b8;
-            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 5px;
         }
         
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         
         .stat-card {
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #334155;
+            background: var(--bg-card);
+            padding: 18px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
         }
         
         .stat-label {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
         }
         
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: #22c55e;
+            color: var(--accent-green);
+        }
+        
+        .stat-value.neutral {
+            color: var(--text-primary);
         }
         
         .filters {
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 8px;
+            background: var(--bg-card);
+            padding: 15px 20px;
+            border-radius: 10px;
             margin-bottom: 20px;
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
             align-items: center;
+            border: 1px solid var(--border);
         }
         
         input, select {
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: #e2e8f0;
-            padding: 8px 12px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 10px 14px;
             border-radius: 6px;
             font-size: 0.9rem;
+            font-family: inherit;
         }
         
         input:focus, select:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: var(--accent-blue);
+        }
+        
+        input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .clear-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        
+        .clear-btn:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
         }
         
         .table-container {
-            background: #1e293b;
-            border-radius: 8px;
+            background: var(--bg-card);
+            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #334155;
+            border: 1px solid var(--border);
+        }
+        
+        .table-scroll {
+            overflow-x: auto;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 900px;
         }
         
         th {
-            background: #0f172a;
-            padding: 12px;
+            background: var(--bg-dark);
+            padding: 14px 12px;
             text-align: left;
             font-weight: 600;
-            color: #f1f5f9;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
             position: sticky;
             top: 0;
             cursor: pointer;
             user-select: none;
+            white-space: nowrap;
         }
         
         th:hover {
-            background: #1e293b;
+            color: var(--text-primary);
+        }
+        
+        th.sorted {
+            color: var(--accent-green);
         }
         
         td {
-            padding: 10px 12px;
-            border-top: 1px solid #334155;
+            padding: 0;
+            border-top: 1px solid var(--border);
         }
         
-        tr:hover {
-            background: #0f172a;
+        .row-main {
+            display: contents;
+            cursor: pointer;
+        }
+        
+        .row-main:hover td {
+            background: var(--bg-hover);
+        }
+        
+        .row-main td {
+            padding: 12px;
         }
         
         .positive {
-            color: #22c55e;
+            color: var(--accent-green);
             font-weight: 600;
         }
         
         .negative {
-            color: #ef4444;
+            color: var(--accent-red);
             font-weight: 600;
+        }
+        
+        .username {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        /* Expandable Lineup Row */
+        .lineup-row {
+            display: none;
+        }
+        
+        .lineup-row.expanded {
+            display: table-row;
+        }
+        
+        .lineup-row td {
+            background: var(--bg-dark);
+            padding: 0 12px 15px 12px;
+        }
+        
+        .lineup-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding-top: 10px;
+        }
+        
+        .fighter-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .fighter-chip .slot {
+            background: var(--accent-blue);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .expand-icon {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        
+        .row-main.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .row-count {
+            color: var(--text-secondary);
+            margin-left: auto;
+            font-size: 0.9rem;
         }
         
         .loading {
             text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+        
+        .no-results {
+            text-align: center;
             padding: 40px;
-            color: #94a3b8;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 768px) {
+            .landing-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filters input, .filters select {
+                width: 100%;
+            }
+            
+            .row-count {
+                margin-left: 0;
+                text-align: center;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1 id="contest-name">Loading...</h1>
-            <div class="updated" id="last-updated"></div>
-        </header>
-        
-        <div class="stats" id="stats"></div>
-        
-        <div class="filters">
-            <input type="text" id="search-user" placeholder="Search username...">
-            <input type="number" id="min-win" placeholder="Min Win %" step="0.1" style="width: 120px;">
-            <input type="number" id="min-roi" placeholder="Min ROI %" step="1" style="width: 120px;">
-            <select id="sort-by">
-                <option value="WinPct">Sort: Win %</option>
-                <option value="NetEV">Sort: Net EV</option>
-                <option value="ROI%">Sort: ROI %</option>
-            </select>
-            <span style="color: #94a3b8; margin-left: auto;" id="row-count"></span>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landing-page">
+        <div class="landing-header">
+            <h1>UFC <span>LIVE ODDS</span></h1>
+            <p>Real-time win probabilities from Monte Carlo simulation</p>
         </div>
         
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Username</th>
-                        <th>Win %</th>
-                        <th>ROI %</th>
-                        <th>Net EV</th>
-                        <th>EV</th>
-                        <th>Copies</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard">
-                    <tr><td colspan="7" class="loading">Loading data...</td></tr>
-                </tbody>
-            </table>
+        <div class="contest-grid" id="contest-grid">
+            <div class="loading">Loading contests...</div>
+        </div>
+    </div>
+
+    <!-- Leaderboard Page -->
+    <div class="leaderboard-page" id="leaderboard-page">
+        <div class="container">
+            <header>
+                <div>
+                    <button class="back-btn" onclick="showLanding()">
+                        ← All Contests
+                    </button>
+                </div>
+                <div style="text-align: right;">
+                    <h1 id="contest-name">Loading...</h1>
+                    <div class="updated" id="last-updated"></div>
+                </div>
+            </header>
+            
+            <div class="stats" id="stats"></div>
+            
+            <div class="filters">
+                <input type="text" id="search-user" placeholder="Search username...">
+                <input type="number" id="min-win" placeholder="Min Win %" step="0.1" style="width: 130px;">
+                <input type="number" id="min-roi" placeholder="Min ROI %" step="1" style="width: 130px;">
+                <select id="sort-by">
+                    <option value="WinPct">Sort: Win %</option>
+                    <option value="NetEV">Sort: Net EV</option>
+                    <option value="ROI%">Sort: ROI %</option>
+                    <option value="EV">Sort: EV</option>
+                    <option value="Copies">Sort: Copies</option>
+                </select>
+                <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
+                <span class="row-count" id="row-count"></span>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"></th>
+                                <th onclick="setSort('Row')">Rank</th>
+                                <th onclick="setSort('Username')">Username</th>
+                                <th onclick="setSort('WinPct')">Win %</th>
+                                <th onclick="setSort('ROI%')">ROI %</th>
+                                <th onclick="setSort('NetEV')">Net EV</th>
+                                <th onclick="setSort('EV')">EV</th>
+                                <th onclick="setSort('Copies')">Copies</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard">
+                            <tr><td colspan="8" class="loading">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     
     <script>
+        // Contest configuration - add your contests here
+        const CONTESTS = [
+            {
+                id: 'main-25',
+                name: 'UFC Main Event - $25 Entry',
+                file: 'live_odds.json',
+                entryFee: 25
+            }
+            // Add more contests here as needed:
+            // {
+            //     id: 'knockout-5',
+            //     name: 'UFC $300K Knockout - $5 Entry', 
+            //     file: 'knockout_odds.json',
+            //     entryFee: 5
+            // }
+        ];
+        
         let allData = [];
         let filteredData = [];
+        let currentContest = null;
+        let expandedRows = new Set();
+        let currentSort = 'WinPct';
+        let sortAscending = false;
         
-        async function loadData() {
+        // Initialize landing page
+        function initLanding() {
+            const grid = document.getElementById('contest-grid');
+            
+            if (CONTESTS.length === 0) {
+                grid.innerHTML = '<div class="no-results">No contests configured</div>';
+                return;
+            }
+            
+            // If only one contest, go directly to it
+            if (CONTESTS.length === 1) {
+                loadContest(CONTESTS[0]);
+                return;
+            }
+            
+            grid.innerHTML = CONTESTS.map(contest => `
+                <div class="contest-card" onclick="loadContest(${JSON.stringify(contest).replace(/"/g, '&quot;')})">
+                    <div class="contest-info">
+                        <h2>${contest.name}</h2>
+                        <div class="contest-meta">
+                            <span>💰 $${contest.entryFee} Entry</span>
+                        </div>
+                    </div>
+                    <div class="contest-arrow">→</div>
+                </div>
+            `).join('');
+        }
+        
+        function showLanding() {
+            document.getElementById('landing-page').style.display = 'block';
+            document.getElementById('leaderboard-page').style.display = 'none';
+            currentContest = null;
+            expandedRows.clear();
+        }
+        
+        function showLeaderboard() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('leaderboard-page').style.display = 'block';
+        }
+        
+        async function loadContest(contest) {
+            currentContest = contest;
+            showLeaderboard();
+            
+            document.getElementById('leaderboard').innerHTML = 
+                '<tr><td colspan="8" class="loading">Loading data...</td></tr>';
+            
             try {
-                const response = await fetch('live_odds.json');
+                const response = await fetch(contest.file);
                 const data = await response.json();
                 
-                document.getElementById('contest-name').textContent = data.contest_name;
+                document.getElementById('contest-name').textContent = contest.name;
                 document.getElementById('last-updated').textContent = 
                     'Last updated: ' + new Date(data.last_updated).toLocaleString();
                 
-                // Stats
-                document.getElementById('stats').innerHTML = `
-                    <div class="stat-card">
-                        <div class="stat-label">Total Lineups</div>
-                        <div class="stat-value">${data.total_lineups.toLocaleString()}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Top Win %</div>
-                        <div class="stat-value">${data.summary.top_win_pct.toFixed(2)}%</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Top Net EV</div>
-                        <div class="stat-value">$${data.summary.top_netev.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Top ROI</div>
-                        <div class="stat-value">${data.summary.top_roi.toFixed(2)}%</div>
-                    </div>
-                `;
-                
                 allData = data.leaderboard;
-                filterAndRender();
+                expandedRows.clear();
+                clearFilters();
+                
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('leaderboard').innerHTML = 
-                    '<tr><td colspan="7" style="color: #ef4444;">Error loading data. Make sure live_odds.json exists.</td></tr>';
+                    `<tr><td colspan="8" class="no-results" style="color: var(--accent-red);">
+                        Error loading ${contest.file}. Make sure the file exists.
+                    </td></tr>`;
             }
+        }
+        
+        function updateStats(data) {
+            const totalLineups = data.length;
+            const topWinPct = data.length > 0 ? Math.max(...data.map(r => r.WinPct || 0)) : 0;
+            const topNetEV = data.length > 0 ? Math.max(...data.map(r => r.NetEV || 0)) : 0;
+            const topROI = data.length > 0 ? Math.max(...data.map(r => r['ROI%'] || 0)) : 0;
+            
+            const isFiltered = document.getElementById('search-user').value || 
+                               document.getElementById('min-win').value || 
+                               document.getElementById('min-roi').value;
+            
+            const label = isFiltered ? 'Filtered' : 'Total';
+            
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">${label} Lineups</div>
+                    <div class="stat-value neutral">${totalLineups.toLocaleString()}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Top Win %</div>
+                    <div class="stat-value">${topWinPct.toFixed(2)}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Top Net EV</div>
+                    <div class="stat-value ${topNetEV >= 0 ? '' : 'negative'}">$${topNetEV.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Top ROI</div>
+                    <div class="stat-value ${topROI >= 0 ? '' : 'negative'}">${topROI.toFixed(2)}%</div>
+                </div>
+            `;
+        }
+        
+        function setSort(column) {
+            if (currentSort === column) {
+                sortAscending = !sortAscending;
+            } else {
+                currentSort = column;
+                sortAscending = false;
+            }
+            document.getElementById('sort-by').value = column;
+            filterAndRender();
+        }
+        
+        function clearFilters() {
+            document.getElementById('search-user').value = '';
+            document.getElementById('min-win').value = '';
+            document.getElementById('min-roi').value = '';
+            document.getElementById('sort-by').value = 'WinPct';
+            currentSort = 'WinPct';
+            sortAscending = false;
+            filterAndRender();
+        }
+        
+        function toggleRow(rowId) {
+            if (expandedRows.has(rowId)) {
+                expandedRows.delete(rowId);
+            } else {
+                expandedRows.add(rowId);
+            }
+            filterAndRender();
         }
         
         function filterAndRender() {
             const searchUser = document.getElementById('search-user').value.toLowerCase();
             const minWin = parseFloat(document.getElementById('min-win').value) || 0;
             const minROI = parseFloat(document.getElementById('min-roi').value) || -999999;
-            const sortBy = document.getElementById('sort-by').value;
             
             // Filter
             filteredData = allData.filter(row => {
@@ -243,7 +662,22 @@
             });
             
             // Sort
-            filteredData.sort((a, b) => (b[sortBy] || 0) - (a[sortBy] || 0));
+            filteredData.sort((a, b) => {
+                let aVal = a[currentSort] || 0;
+                let bVal = b[currentSort] || 0;
+                
+                // Handle string sorting for Username
+                if (currentSort === 'Username') {
+                    aVal = (a.Username || '').toLowerCase();
+                    bVal = (b.Username || '').toLowerCase();
+                    return sortAscending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                }
+                
+                return sortAscending ? aVal - bVal : bVal - aVal;
+            });
+            
+            // Update stats based on filtered data
+            updateStats(filteredData);
             
             // Render (show top 1000 for performance)
             const displayData = filteredData.slice(0, 1000);
@@ -252,31 +686,69 @@
                 `Showing ${displayData.length.toLocaleString()} of ${filteredData.length.toLocaleString()} lineups`;
             
             const tbody = document.getElementById('leaderboard');
-            tbody.innerHTML = displayData.map((row, idx) => `
-                <tr>
-                    <td>${idx + 1}</td>
-                    <td>${row.Username || ''}</td>
-                    <td>${(row.WinPct || 0).toFixed(2)}%</td>
-                    <td class="${(row['ROI%'] || 0) >= 0 ? 'positive' : 'negative'}">
-                        ${(row['ROI%'] || 0).toFixed(2)}%
-                    </td>
-                    <td class="${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
-                        $${(row.NetEV || 0).toFixed(2)}
-                    </td>
-                    <td>$${(row.EV || 0).toFixed(2)}</td>
-                    <td>${row.Copies || 0}</td>
-                </tr>
-            `).join('');
+            
+            if (displayData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="no-results">No lineups match your filters</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = displayData.map((row, idx) => {
+                const rowId = `row-${idx}`;
+                const isExpanded = expandedRows.has(rowId);
+                
+                // Build fighter chips
+                const fighters = [];
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && fighter !== '') {
+                        fighters.push({ slot: `F${i}`, name: fighter });
+                    }
+                }
+                
+                return `
+                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
+                        <td><span class="expand-icon">${isExpanded ? '▼' : '▶'}</span></td>
+                        <td>${idx + 1}</td>
+                        <td class="username">${row.Username || ''}</td>
+                        <td>${(row.WinPct || 0).toFixed(2)}%</td>
+                        <td class="${(row['ROI%'] || 0) >= 0 ? 'positive' : 'negative'}">
+                            ${(row['ROI%'] || 0).toFixed(2)}%
+                        </td>
+                        <td class="${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
+                            $${(row.NetEV || 0).toFixed(2)}
+                        </td>
+                        <td>$${(row.EV || 0).toFixed(2)}</td>
+                        <td>${row.Copies || 0}</td>
+                    </tr>
+                    <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
+                        <td colspan="8">
+                            <div class="lineup-container">
+                                ${fighters.map(f => `
+                                    <div class="fighter-chip">
+                                        <span class="slot">${f.slot}</span>
+                                        ${f.name}
+                                    </div>
+                                `).join('')}
+                                ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
         
         // Event listeners
         document.getElementById('search-user').addEventListener('input', filterAndRender);
         document.getElementById('min-win').addEventListener('input', filterAndRender);
         document.getElementById('min-roi').addEventListener('input', filterAndRender);
-        document.getElementById('sort-by').addEventListener('change', filterAndRender);
+        document.getElementById('sort-by').addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            sortAscending = false;
+            filterAndRender();
+        });
         
-        // Load on start
-        loadData();
+        // Start
+        initLanding();
     </script>
 </body>
 </html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFC Contest Live Odds</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #334155;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #f1f5f9;
+        }
+        
+        .updated {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+        
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        
+        .filters {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        input, select {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .table-container {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #0f172a;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #f1f5f9;
+            position: sticky;
+            top: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        th:hover {
+            background: #1e293b;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-top: 1px solid #334155;
+        }
+        
+        tr:hover {
+            background: #0f172a;
+        }
+        
+        .positive {
+            color: #22c55e;
+            font-weight: 600;
+        }
+        
+        .negative {
+            color: #ef4444;
+            font-weight: 600;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="contest-name">Loading...</h1>
+            <div class="updated" id="last-updated"></div>
+        </header>
+        
+        <div class="stats" id="stats"></div>
+        
+        <div class="filters">
+            <input type="text" id="search-user" placeholder="Search username...">
+            <input type="number" id="min-win" placeholder="Min Win %" step="0.1" style="width: 120px;">
+            <input type="number" id="min-roi" placeholder="Min ROI %" step="1" style="width: 120px;">
+            <select id="sort-by">
+                <option value="WinPct">Sort: Win %</option>
+                <option value="NetEV">Sort: Net EV</option>
+                <option value="ROI%">Sort: ROI %</option>
+            </select>
+            <span style="color: #94a3b8; margin-left: auto;" id="row-count"></span>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Win %</th>
+                        <th>ROI %</th>
+                        <th>Net EV</th>
+                        <th>EV</th>
+                        <th>Copies</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard">
+                    <tr><td colspan="7" class="loading">Loading data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        let allData = [];
+        let filteredData = [];
+        
+        async function loadData() {
+            try {
+                const response = await fetch('live_odds.json');
+                const data = await response.json();
+                
+                document.getElementById('contest-name').textContent = data.contest_name;
+                document.getElementById('last-updated').textContent = 
+                    'Last updated: ' + new Date(data.last_updated).toLocaleString();
+                
+                // Stats
+                document.getElementById('stats').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-label">Total Lineups</div>
+                        <div class="stat-value">${data.total_lineups.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Top Win %</div>
+                        <div class="stat-value">${data.summary.top_win_pct.toFixed(2)}%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Top Net EV</div>
+                        <div class="stat-value">$${data.summary.top_netev.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Top ROI</div>
+                        <div class="stat-value">${data.summary.top_roi.toFixed(2)}%</div>
+                    </div>
+                `;
+                
+                allData = data.leaderboard;
+                filterAndRender();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('leaderboard').innerHTML = 
+                    '<tr><td colspan="7" style="color: #ef4444;">Error loading data. Make sure live_odds.json exists.</td></tr>';
+            }
+        }
+        
+        function filterAndRender() {
+            const searchUser = document.getElementById('search-user').value.toLowerCase();
+            const minWin = parseFloat(document.getElementById('min-win').value) || 0;
+            const minROI = parseFloat(document.getElementById('min-roi').value) || -999999;
+            const sortBy = document.getElementById('sort-by').value;
+            
+            // Filter
+            filteredData = allData.filter(row => {
+                const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
+                const winMatch = (row.WinPct || 0) >= minWin;
+                const roiMatch = (row['ROI%'] || -999999) >= minROI;
+                return userMatch && winMatch && roiMatch;
+            });
+            
+            // Sort
+            filteredData.sort((a, b) => (b[sortBy] || 0) - (a[sortBy] || 0));
+            
+            // Render (show top 1000 for performance)
+            const displayData = filteredData.slice(0, 1000);
+            
+            document.getElementById('row-count').textContent = 
+                `Showing ${displayData.length.toLocaleString()} of ${filteredData.length.toLocaleString()} lineups`;
+            
+            const tbody = document.getElementById('leaderboard');
+            tbody.innerHTML = displayData.map((row, idx) => `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td>${row.Username || ''}</td>
+                    <td>${(row.WinPct || 0).toFixed(2)}%</td>
+                    <td class="${(row['ROI%'] || 0) >= 0 ? 'positive' : 'negative'}">
+                        ${(row['ROI%'] || 0).toFixed(2)}%
+                    </td>
+                    <td class="${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
+                        $${(row.NetEV || 0).toFixed(2)}
+                    </td>
+                    <td>$${(row.EV || 0).toFixed(2)}</td>
+                    <td>${row.Copies || 0}</td>
+                </tr>
+            `).join('');
+        }
+        
+        // Event listeners
+        document.getElementById('search-user').addEventListener('input', filterAndRender);
+        document.getElementById('min-win').addEventListener('input', filterAndRender);
+        document.getElementById('min-roi').addEventListener('input', filterAndRender);
+        document.getElementById('sort-by').addEventListener('change', filterAndRender);
+        
+        // Load on start
+        loadData();
+    </script>
+</body>
+</html>

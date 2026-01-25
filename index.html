@@ -526,12 +526,6 @@
                 return;
             }
             
-            // If only one contest, go directly to it
-            if (CONTESTS.length === 1) {
-                loadContest(CONTESTS[0]);
-                return;
-            }
-            
             grid.innerHTML = CONTESTS.map(contest => `
                 <div class="contest-card" onclick="loadContest(${JSON.stringify(contest).replace(/"/g, '&quot;')})">
                     <div class="contest-info">

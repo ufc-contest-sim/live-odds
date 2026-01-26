@@ -547,7 +547,7 @@
     <div id="landing-page" class="landing-page">
         <div class="landing-header">
             <h1>UFC <span>LIVE ODDS</span></h1>
-            <p>Real-time contest tracking and analysis</p>
+            <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
         </div>
         <div id="contests-list" class="contest-grid"></div>
     </div>
@@ -635,26 +635,55 @@
     </div>
 
     <script>
-        const CONTESTS = [
-            { name: "UFC 300K KNOCKOUT SPECIAL", file: "ufc-300k.json" }
-        ];
-        
+        // Dynamic contest loading - no more hardcoding!
+        let CONTESTS = [];
         let allData = [];
         let filteredData = [];
+        let currentContest = null;
+        let expandedRows = new Set();
         let currentSort = 'WinPct';
         let sortAscending = false;
-        let expandedRows = new Set();
-        let currentContest = null;
         
-        function initLanding() {
-            const list = document.getElementById('contests-list');
-            list.innerHTML = CONTESTS.map((contest, idx) => `
+        // Load contests from contests.json
+        async function loadContestConfig() {
+            try {
+                const response = await fetch('contests.json');
+                if (!response.ok) throw new Error('contests.json not found');
+                const config = await response.json();
+                CONTESTS = config.contests || [];
+                return true;
+            } catch (error) {
+                console.error('Error loading contests.json:', error);
+                // Fallback: try to detect JSON files in directory
+                return false;
+            }
+        }
+        
+        // Initialize landing page
+        async function initLanding() {
+            const grid = document.getElementById('contests-list');
+            
+            // Load contest config
+            const loaded = await loadContestConfig();
+            
+            if (!loaded || CONTESTS.length === 0) {
+                grid.innerHTML = `
+                    <div class="error-message">
+                        <p>No contests found.</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
+                            Make sure contests.json exists in the web folder.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = CONTESTS.map((contest, idx) => `
                 <div class="contest-card" onclick="loadContest(${idx})">
                     <div class="contest-info">
                         <h2>${contest.name}</h2>
                         <div class="contest-meta">
-                            <span>📊 Live Tracking</span>
-                            <span>🎯 Real-time Odds</span>
+                            <span>💰 $${contest.entryFee} Entry</span>
                         </div>
                     </div>
                     <div class="contest-arrow">→</div>
@@ -762,22 +791,22 @@
             
             const label = isFiltered ? 'Filtered' : 'Total';
             
-            // Format ROI with commas (for thousands)
+            // Format ROI with commas (for thousands) and 1 decimal place
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
                 const formatted = absRoi.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
                 });
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
             
-            // Format Net EV with commas and 1 decimal place
+            // Format Net EV with commas and 2 decimal places
             const formatNetEV = (netEV) => {
                 const absNetEV = Math.abs(netEV);
                 const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
                 });
                 return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
             };
@@ -883,8 +912,8 @@
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
                 const formatted = absRoi.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
                 });
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
@@ -892,8 +921,8 @@
             const formatNetEV = (netEV) => {
                 const absNetEV = Math.abs(netEV);
                 const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
                 });
                 return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
             };

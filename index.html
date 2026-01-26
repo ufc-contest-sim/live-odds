@@ -372,6 +372,11 @@
             border: 1px solid var(--border);
         }
         
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -548,6 +553,7 @@
         <div class="landing-header">
             <h1>UFC <span>LIVE ODDS</span></h1>
             <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
+            <p>Email me suggestions - Danny_Hollis24@yahoo.com</p>
         </div>
         <div id="contests-list" class="contest-grid"></div>
     </div>
@@ -564,30 +570,10 @@
                 </button>
             </header>
             
-            <div class="stats-and-fighters">
-                <div class="stats-vertical">
-                    <h3>Portfolio Stats</h3>
-                    <div id="stats-vertical"></div>
-                </div>
-                
-                <div class="fighter-draft-container">
-                    <h3>Fighter Draft %</h3>
-                    <table class="fighter-draft-table">
-                        <thead>
-                            <tr>
-                                <th>Fighter</th>
-                                <th>Draft %</th>
-                            </tr>
-                        </thead>
-                        <tbody id="fighter-draft-tbody"></tbody>
-                    </table>
-                </div>
-            </div>
-            
             <div class="filters">
                 <div class="filter-group">
                     <label for="search-user">Username:</label>
-                    <input type="text" id="search-user" placeholder="Search username...">
+                    <input type="text" id="search-user" placeholder="Enter username...">
                 </div>
                 <div class="filter-group">
                     <label for="min-win">Min Win %:</label>
@@ -610,26 +596,48 @@
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
             </div>
             
+            <div class="stats-and-fighters">
+                <div class="stats-vertical">
+                    <h3>Portfolio Stats</h3>
+                    <div id="stats-vertical"></div>
+                </div>
+                
+                <div class="fighter-draft-container">
+                    <h3>Fighter Draft %</h3>
+                    <table class="fighter-draft-table">
+                        <thead>
+                            <tr>
+                                <th>Fighter</th>
+                                <th>Draft %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fighter-draft-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
             <div class="table-header">
                 <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
             </div>
             
             <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 40px;"></th>
-                            <th style="width: 60px;">Rank</th>
-                            <th class="sortable" onclick="setSort('Username')">Username</th>
-                            <th class="sortable" onclick="setSort('WinPct')">Win %</th>
-                            <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
-                            <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
-                            <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
-                            <th style="width: 80px;">Copies</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard"></tbody>
-                </table>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;"></th>
+                                <th style="width: 60px;">Rank</th>
+                                <th class="sortable" onclick="setSort('Username')">Username</th>
+                                <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                                <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
+                                <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
+                                <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
+                                <th style="width: 80px;">Copies</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -126,7 +126,7 @@
         }
         
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
         }
         
@@ -171,36 +171,125 @@
             margin-top: 5px;
         }
         
-        .stats {
+        /* Two-column layout for stats and fighter table */
+        .stats-and-fighters {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
             margin-bottom: 25px;
         }
         
-        .stat-card {
+        .stats-vertical {
             background: var(--bg-card);
-            padding: 18px 20px;
+            padding: 20px;
             border-radius: 10px;
             border: 1px solid var(--border);
         }
         
-        .stat-label {
+        .stats-vertical h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--accent-green);
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-row .label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-row .value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .stat-row .value.positive {
+            color: var(--accent-green);
+        }
+        
+        .stat-row .value.negative {
+            color: var(--accent-red);
+        }
+        
+        .stat-row .value.neutral {
+            color: var(--text-primary);
+        }
+        
+        /* Fighter draft % table */
+        .fighter-draft-container {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .fighter-draft-container h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--accent-green);
+            sticky: top 0;
+            background: var(--bg-card);
+            padding-bottom: 10px;
+        }
+        
+        .fighter-draft-table {
+            width: 100%;
+        }
+        
+        .fighter-draft-table thead {
+            position: sticky;
+            top: 45px;
+            background: var(--bg-card);
+            z-index: 10;
+        }
+        
+        .fighter-draft-table th {
+            text-align: left;
+            padding: 10px 12px;
             color: var(--text-secondary);
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
         }
         
-        .stat-value {
-            font-size: 1.6rem;
-            font-weight: 700;
+        .fighter-draft-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        
+        .fighter-draft-table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        .fighter-draft-table .fighter-name {
+            font-weight: 500;
+        }
+        
+        .fighter-draft-table .draft-pct {
             color: var(--accent-green);
-        }
-        
-        .stat-value.neutral {
-            color: var(--text-primary);
+            font-weight: 600;
         }
         
         .filters {
@@ -212,42 +301,68 @@
             gap: 12px;
             flex-wrap: wrap;
             align-items: center;
-            border: 1px solid var(--border);
         }
         
-        input, select {
+        .filters input,
+        .filters select {
             background: var(--bg-dark);
             border: 1px solid var(--border);
             color: var(--text-primary);
-            padding: 10px 14px;
+            padding: 8px 12px;
             border-radius: 6px;
             font-size: 0.9rem;
             font-family: inherit;
         }
         
-        input:focus, select:focus {
+        .filters input:focus,
+        .filters select:focus {
             outline: none;
-            border-color: var(--accent-blue);
+            border-color: var(--accent-green);
         }
         
-        input::placeholder {
+        .filters input::placeholder {
             color: var(--text-secondary);
+        }
+        
+        .filters label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-right: 6px;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .clear-btn {
-            background: transparent;
+            background: none;
             border: 1px solid var(--border);
             color: var(--text-secondary);
-            padding: 10px 16px;
+            padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             transition: all 0.2s;
+            margin-left: auto;
         }
         
         .clear-btn:hover {
             border-color: var(--accent-red);
             color: var(--accent-red);
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .row-count {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
         
         .table-container {
@@ -257,55 +372,72 @@
             border: 1px solid var(--border);
         }
         
-        .table-scroll {
-            overflow-x: auto;
-        }
-        
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 900px;
+        }
+        
+        thead {
+            background: var(--bg-dark);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         th {
-            background: var(--bg-dark);
-            padding: 14px 12px;
             text-align: left;
+            padding: 14px 16px;
+            color: var(--text-secondary);
             font-weight: 600;
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border);
             cursor: pointer;
-            user-select: none;
-            white-space: nowrap;
+            transition: color 0.2s;
         }
         
         th:hover {
             color: var(--text-primary);
         }
         
-        th.sorted {
-            color: var(--accent-green);
-        }
-        
-        td {
-            padding: 0;
-            border-top: 1px solid var(--border);
+        th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.3;
+            font-size: 0.7rem;
         }
         
         .row-main {
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.2s;
             cursor: pointer;
         }
         
-        .row-main:hover td {
+        .row-main:hover {
             background: var(--bg-hover);
         }
         
-        .row-main td {
-            padding: 12px;
+        .row-main.expanded {
+            background: var(--bg-hover);
+            border-bottom: none;
+        }
+        
+        td {
+            padding: 14px 16px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        
+        .expand-icon {
+            color: var(--accent-green);
+            font-size: 0.7rem;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        
+        .username {
+            font-weight: 500;
+            color: var(--accent-blue);
         }
         
         .positive {
@@ -318,37 +450,28 @@
             font-weight: 600;
         }
         
-        .username {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        /* Expandable Lineup Row */
         .lineup-row {
             display: none;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border);
         }
         
         .lineup-row.expanded {
             display: table-row;
         }
         
-        .lineup-row td {
-            background: var(--bg-dark);
-            padding: 0 12px 15px 12px;
-        }
-        
         .lineup-container {
+            padding: 16px 20px;
             display: flex;
-            gap: 10px;
             flex-wrap: wrap;
-            padding-top: 10px;
+            gap: 10px;
         }
         
         .fighter-chip {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            padding: 8px 14px;
-            border-radius: 20px;
+            border-radius: 6px;
+            padding: 6px 12px;
             font-size: 0.85rem;
             display: flex;
             align-items: center;
@@ -356,36 +479,16 @@
         }
         
         .fighter-chip .slot {
-            background: var(--accent-blue);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
+            background: var(--accent-green);
+            color: var(--bg-dark);
             padding: 2px 6px;
             border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.7rem;
         }
         
-        .expand-icon {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            transition: transform 0.2s;
-        }
-        
-        .row-main.expanded .expand-icon {
-            transform: rotate(180deg);
-        }
-        
-        .row-count {
-            color: var(--text-secondary);
-            margin-left: auto;
-            font-size: 0.9rem;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 60px;
-            color: var(--text-secondary);
-        }
-        
+        .loading,
+        .error-message,
         .no-results {
             text-align: center;
             padding: 40px;
@@ -393,19 +496,26 @@
         }
         
         .error-message {
-            text-align: center;
-            padding: 40px;
             color: var(--accent-red);
         }
-
-        /* Mobile tweaks */
+        
+        @media (max-width: 1400px) {
+            .stats-and-fighters {
+                grid-template-columns: 1fr;
+            }
+            
+            .fighter-draft-container {
+                max-height: 300px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .landing-header h1 {
                 font-size: 2.5rem;
             }
             
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
+            h1 {
+                font-size: 1.8rem;
             }
             
             .filters {
@@ -413,141 +523,138 @@
                 align-items: stretch;
             }
             
-            .filters input, .filters select {
-                width: 100%;
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
             }
             
-            .row-count {
+            .clear-btn {
                 margin-left: 0;
-                text-align: center;
             }
-
-            header {
-                flex-direction: column;
-                gap: 15px;
+            
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .fighter-chip {
+                font-size: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Landing Page -->
-    <div class="landing-page" id="landing-page">
+    <div id="landing-page" class="landing-page">
         <div class="landing-header">
             <h1>UFC <span>LIVE ODDS</span></h1>
-            <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
+            <p>Real-time contest tracking and analysis</p>
         </div>
-        
-        <div class="contest-grid" id="contest-grid">
-            <div class="loading">Loading contests...</div>
-        </div>
+        <div id="contests-list" class="contest-grid"></div>
     </div>
 
-    <!-- Leaderboard Page -->
-    <div class="leaderboard-page" id="leaderboard-page">
+    <div id="leaderboard-page" class="leaderboard-page">
         <div class="container">
             <header>
                 <div>
-                    <button class="back-btn" onclick="showLanding()">
-                        ← All Contests
-                    </button>
+                    <h1 id="contest-name">UFC 300K KNOCKOUT SPECIAL</h1>
+                    <div class="updated" id="last-updated">Last updated: --</div>
                 </div>
-                <div style="text-align: right;">
-                    <h1 id="contest-name">Loading...</h1>
-                    <div class="updated" id="last-updated"></div>
-                </div>
+                <button class="back-btn" onclick="showLanding()">
+                    ← All Contests
+                </button>
             </header>
             
-            <div class="stats" id="stats"></div>
-            
-            <div class="filters">
-                <input type="text" id="search-user" placeholder="Search username...">
-                <input type="number" id="min-win" placeholder="Min Win %" step="0.1" style="width: 130px;">
-                <input type="number" id="min-roi" placeholder="Min ROI %" step="1" style="width: 130px;">
-                <select id="sort-by">
-                    <option value="WinPct">Sort: Win %</option>
-                    <option value="NetEV">Sort: Net EV</option>
-                    <option value="ROI%">Sort: ROI %</option>
-                    <option value="EV">Sort: EV</option>
-                    <option value="Copies">Sort: Copies</option>
-                </select>
-                <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
-                <span class="row-count" id="row-count"></span>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-scroll">
-                    <table>
+            <div class="stats-and-fighters">
+                <div class="stats-vertical">
+                    <h3>Portfolio Stats</h3>
+                    <div id="stats-vertical"></div>
+                </div>
+                
+                <div class="fighter-draft-container">
+                    <h3>Fighter Draft %</h3>
+                    <table class="fighter-draft-table">
                         <thead>
                             <tr>
-                                <th style="width: 30px;"></th>
-                                <th onclick="setSort('Row')">Rank</th>
-                                <th onclick="setSort('Username')">Username</th>
-                                <th onclick="setSort('WinPct')">Win %</th>
-                                <th onclick="setSort('ROI%')">ROI %</th>
-                                <th onclick="setSort('NetEV')">Net EV</th>
-                                <th onclick="setSort('EV')">EV</th>
-                                <th onclick="setSort('Copies')">Copies</th>
+                                <th>Fighter</th>
+                                <th>Draft %</th>
                             </tr>
                         </thead>
-                        <tbody id="leaderboard">
-                            <tr><td colspan="8" class="loading">Loading data...</td></tr>
-                        </tbody>
+                        <tbody id="fighter-draft-tbody"></tbody>
                     </table>
                 </div>
             </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="search-user">Username:</label>
+                    <input type="text" id="search-user" placeholder="Search username...">
+                </div>
+                <div class="filter-group">
+                    <label for="min-win">Min Win %:</label>
+                    <input type="number" id="min-win" placeholder="0" step="0.01" style="width: 100px;">
+                </div>
+                <div class="filter-group">
+                    <label for="min-roi">Min ROI %:</label>
+                    <input type="number" id="min-roi" placeholder="-100" step="0.01" style="width: 100px;">
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort:</label>
+                    <select id="sort-by">
+                        <option value="WinPct">Win %</option>
+                        <option value="ROI%">ROI %</option>
+                        <option value="NetEV">Net EV</option>
+                        <option value="ProjScore">Proj Score</option>
+                        <option value="Username">Username</option>
+                    </select>
+                </div>
+                <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
+            </div>
+            
+            <div class="table-header">
+                <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;"></th>
+                            <th style="width: 60px;">Rank</th>
+                            <th class="sortable" onclick="setSort('Username')">Username</th>
+                            <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                            <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
+                            <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
+                            <th class="sortable" onclick="setSort('ProjScore')">Proj Score</th>
+                            <th style="width: 80px;">Copies</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard"></tbody>
+                </table>
+            </div>
         </div>
     </div>
-    
+
     <script>
-        // Dynamic contest loading - no more hardcoding!
-        let CONTESTS = [];
+        const CONTESTS = [
+            { name: "UFC 300K KNOCKOUT SPECIAL", file: "ufc-300k.json" }
+        ];
+        
         let allData = [];
         let filteredData = [];
-        let currentContest = null;
-        let expandedRows = new Set();
         let currentSort = 'WinPct';
         let sortAscending = false;
+        let expandedRows = new Set();
+        let currentContest = null;
         
-        // Load contests from contests.json
-        async function loadContestConfig() {
-            try {
-                const response = await fetch('contests.json');
-                if (!response.ok) throw new Error('contests.json not found');
-                const config = await response.json();
-                CONTESTS = config.contests || [];
-                return true;
-            } catch (error) {
-                console.error('Error loading contests.json:', error);
-                // Fallback: try to detect JSON files in directory
-                return false;
-            }
-        }
-        
-        // Initialize landing page
-        async function initLanding() {
-            const grid = document.getElementById('contest-grid');
-            
-            // Load contest config
-            const loaded = await loadContestConfig();
-            
-            if (!loaded || CONTESTS.length === 0) {
-                grid.innerHTML = `
-                    <div class="error-message">
-                        <p>No contests found.</p>
-                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
-                            Make sure contests.json exists in the web folder.
-                        </p>
-                    </div>
-                `;
-                return;
-            }
-            
-            grid.innerHTML = CONTESTS.map((contest, idx) => `
+        function initLanding() {
+            const list = document.getElementById('contests-list');
+            list.innerHTML = CONTESTS.map((contest, idx) => `
                 <div class="contest-card" onclick="loadContest(${idx})">
                     <div class="contest-info">
                         <h2>${contest.name}</h2>
                         <div class="contest-meta">
-                            <span>💰 $${contest.entryFee} Entry</span>
+                            <span>📊 Live Tracking</span>
+                            <span>🎯 Real-time Odds</span>
                         </div>
                     </div>
                     <div class="contest-arrow">→</div>
@@ -597,6 +704,49 @@
             }
         }
         
+        function calculateFighterDraftPct(data) {
+            const fighterCounts = {};
+            const totalLineups = data.length;
+            
+            // Count occurrences of each fighter
+            data.forEach(row => {
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && fighter !== '') {
+                        fighterCounts[fighter] = (fighterCounts[fighter] || 0) + 1;
+                    }
+                }
+            });
+            
+            // Convert to array with percentages and sort by draft %
+            const fighterStats = Object.entries(fighterCounts)
+                .map(([fighter, count]) => ({
+                    fighter,
+                    count,
+                    pct: totalLineups > 0 ? (count / totalLineups) * 100 : 0
+                }))
+                .sort((a, b) => b.pct - a.pct);
+            
+            return fighterStats;
+        }
+        
+        function updateFighterDraftTable(data) {
+            const fighterStats = calculateFighterDraftPct(data);
+            const tbody = document.getElementById('fighter-draft-tbody');
+            
+            if (fighterStats.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = fighterStats.map(f => `
+                <tr>
+                    <td class="fighter-name">${f.fighter}</td>
+                    <td class="draft-pct">${f.pct.toFixed(2)}%</td>
+                </tr>
+            `).join('');
+        }
+        
         function updateStats(data) {
             const totalLineups = data.length;
             
@@ -612,24 +762,47 @@
             
             const label = isFiltered ? 'Filtered' : 'Total';
             
-            document.getElementById('stats').innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-label">${label} Lineups</div>
-                    <div class="stat-value neutral">${totalLineups.toLocaleString()}</div>
+            // Format ROI with commas (for thousands)
+            const formatROI = (roi) => {
+                const absRoi = Math.abs(roi);
+                const formatted = absRoi.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                return roi < 0 ? `-${formatted}%` : `${formatted}%`;
+            };
+            
+            // Format Net EV with commas and 1 decimal place
+            const formatNetEV = (netEV) => {
+                const absNetEV = Math.abs(netEV);
+                const formatted = absNetEV.toLocaleString(undefined, {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                });
+                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+            
+            document.getElementById('stats-vertical').innerHTML = `
+                <div class="stat-row">
+                    <span class="label">${label} Lineups</span>
+                    <span class="value neutral">${totalLineups.toLocaleString()}</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Win %</div>
-                    <div class="stat-value">${portfolioWinPct.toFixed(2)}%</div>
+                <div class="stat-row">
+                    <span class="label">Win %</span>
+                    <span class="value">${portfolioWinPct.toFixed(2)}%</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Portfolio EV</div>
-                    <div class="stat-value ${portfolioNetEV >= 0 ? '' : 'negative'}">$${portfolioNetEV.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                <div class="stat-row">
+                    <span class="label">Portfolio EV</span>
+                    <span class="value ${portfolioNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(portfolioNetEV)}</span>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Portfolio ROI</div>
-                    <div class="stat-value ${portfolioROI >= 0 ? '' : 'negative'}">${portfolioROI.toFixed(2)}%</div>
+                <div class="stat-row">
+                    <span class="label">Portfolio ROI</span>
+                    <span class="value ${portfolioROI >= 0 ? 'positive' : 'negative'}">${formatROI(portfolioROI)}</span>
                 </div>
             `;
+            
+            // Update fighter draft % table
+            updateFighterDraftTable(data);
         }
         
         function setSort(column) {
@@ -706,6 +879,25 @@
                 return;
             }
             
+            // Format functions for table cells
+            const formatROI = (roi) => {
+                const absRoi = Math.abs(roi);
+                const formatted = absRoi.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                return roi < 0 ? `-${formatted}%` : `${formatted}%`;
+            };
+            
+            const formatNetEV = (netEV) => {
+                const absNetEV = Math.abs(netEV);
+                const formatted = absNetEV.toLocaleString(undefined, {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                });
+                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+            
             tbody.innerHTML = displayData.map((row, idx) => {
                 const rowId = `row-${idx}`;
                 const isExpanded = expandedRows.has(rowId);
@@ -719,6 +911,9 @@
                     }
                 }
                 
+                // Get projected score (assuming it's in the data, or calculate if needed)
+                const projScore = row.ProjScore || row.AvgScore || 0;
+                
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
                         <td><span class="expand-icon">${isExpanded ? '▼' : '▶'}</span></td>
@@ -726,12 +921,12 @@
                         <td class="username">${row.Username || ''}</td>
                         <td>${(row.WinPct || 0).toFixed(2)}%</td>
                         <td class="${(row['ROI%'] || 0) >= 0 ? 'positive' : 'negative'}">
-                            ${(row['ROI%'] || 0).toFixed(2)}%
+                            ${formatROI(row['ROI%'] || 0)}
                         </td>
                         <td class="${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
-                            $${(row.NetEV || 0).toFixed(2)}
+                            ${formatNetEV(row.NetEV || 0)}
                         </td>
-                        <td>$${(row.EV || 0).toFixed(2)}</td>
+                        <td>${projScore.toFixed(2)}</td>
                         <td>${row.Copies || 0}</td>
                     </tr>
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">

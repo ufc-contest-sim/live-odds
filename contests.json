@@ -1,40 +1,40 @@
 {
   "contests": [
     {
-      "id": "ufc_600k_ufc_324_special",
-      "name": "DraftKings - 600K UFC 324 Special",
-      "file": "UFC_600K_UFC_324_Special.json",
-      "entryFee": 25.0
-    },
-    {
       "id": "ufc_300k_knockout_special",
-      "name": "DraftKings - 300K KO Special",
+      "name": "UFC 300K Knockout Special",
       "file": "UFC_300K_Knockout_Special.json",
       "entryFee": 555.0
     },
     {
+      "id": "ufc_30k_triangle",
+      "name": "UFC 30k Triangle",
+      "file": "UFC_30k_Triangle.json",
+      "entryFee": 200.0
+    },
+    {
       "id": "ufc_40k_arm_bar",
-      "name": "DraftKings - 40K Arm Bar",
-      "file": "UFC_40K_Arm_Bar.json",
+      "name": "UFC 40k Arm Bar",
+      "file": "UFC_40k_Arm_Bar.json",
       "entryFee": 5.0
     },
     {
       "id": "ufc_40k_hook",
-      "name": "DraftKings - 40K Hook",
-      "file": "UFC_40K_Hook.json",
+      "name": "UFC 40k Hook",
+      "file": "UFC_40k_Hook.json",
       "entryFee": 8.0
     },
     {
       "id": "ufc_40k_thunderdome",
-      "name": "DraftKings - 40K Thunderdome",
-      "file": "UFC_40K_Thunderdome.json",
+      "name": "UFC 40k Thunderdome",
+      "file": "UFC_40k_Thunderdome.json",
       "entryFee": 5300.0
     },
     {
-      "id": "ufc_30k_triangle",
-      "name": "DraftKings - 30K Triangle",
-      "file": "UFC_30K_Triangle.json",
-      "entryFee": 200.0
+      "id": "ufc_600k_ufc_324_special",
+      "name": "UFC 600K UFC 324 Special",
+      "file": "UFC_600K_UFC_324_Special.json",
+      "entryFee": 25.0
     }
   ]
 }

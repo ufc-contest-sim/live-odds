@@ -174,23 +174,23 @@
         /* Two-column layout for stats and fighter table */
         .stats-and-fighters {
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 25px;
         }
         
         .stats-vertical {
             background: var(--bg-card);
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
             border: 1px solid var(--border);
         }
         
         .stats-vertical h3 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             letter-spacing: 2px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--accent-green);
         }
         
@@ -198,7 +198,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--border);
         }
         
@@ -208,13 +208,13 @@
         
         .stat-row .label {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         
         .stat-row .value {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 600;
         }
         
@@ -233,7 +233,7 @@
         /* Fighter draft % table */
         .fighter-draft-container {
             background: var(--bg-card);
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
             border: 1px solid var(--border);
             max-height: 400px;
@@ -242,9 +242,9 @@
         
         .fighter-draft-container h3 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             letter-spacing: 2px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--accent-green);
             sticky: top 0;
             background: var(--bg-card);
@@ -437,7 +437,7 @@
         
         .username {
             font-weight: 500;
-            color: var(--accent-blue);
+            color: var(--text-primary);
         }
         
         .positive {
@@ -603,7 +603,7 @@
                         <option value="WinPct">Win %</option>
                         <option value="ROI%">ROI %</option>
                         <option value="NetEV">Net EV</option>
-                        <option value="ProjScore">Proj Score</option>
+                        <option value="Mean Score">Proj Score</option>
                         <option value="Username">Username</option>
                     </select>
                 </div>
@@ -624,7 +624,7 @@
                             <th class="sortable" onclick="setSort('WinPct')">Win %</th>
                             <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
                             <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
-                            <th class="sortable" onclick="setSort('ProjScore')">Proj Score</th>
+                            <th class="sortable" onclick="setSort('Mean Score')">Proj Score</th>
                             <th style="width: 80px;">Copies</th>
                         </tr>
                     </thead>
@@ -940,8 +940,8 @@
                     }
                 }
                 
-                // Get projected score (assuming it's in the data, or calculate if needed)
-                const projScore = row.ProjScore || row.AvgScore || 0;
+                // Get projected score (it's called "Mean Score" in the data)
+                const projScore = row['Mean Score'] || 0;
                 
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">

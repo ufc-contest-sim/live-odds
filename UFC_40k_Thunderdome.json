@@ -1,6 +1,6 @@
 {
   "contest_name": "UFC 40k Thunderdome",
-  "last_updated": "2026-01-25T23:32:55.530927",
+  "last_updated": "2026-01-26T13:26:31.976055",
   "total_lineups": 8,
   "summary": {
     "top_win_pct": 100.0,
@@ -29,7 +29,7 @@
       "MeanScore": 577.530029296875,
       "SDScore": 0.0,
       "P99Score": 577.530029296875,
-      "TotalPayout": 250000000.0
+      "TotalPayout": 250000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -52,7 +52,7 @@
       "MeanScore": 533.260009765625,
       "SDScore": 0.0,
       "P99Score": 533.260009765625,
-      "TotalPayout": 150000000.0
+      "TotalPayout": 150000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -142,8 +142,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 413.8399963378906,
-      "SDScore": 6.031867572614512e-05,
-      "P99Score": 413.84013666011367,
+      "SDScore": 0.0,
+      "P99Score": 413.8399963378906,
       "TotalPayout": 0.0
     },
     {

@@ -1,6 +1,6 @@
 {
   "contest_name": "UFC 300K Knockout Special",
-  "last_updated": "2026-01-25T23:32:54.970148",
+  "last_updated": "2026-01-26T13:26:31.355798",
   "total_lineups": 585,
   "summary": {
     "top_win_pct": 100.0,
@@ -95,9 +95,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 386.7699890136719,
+      "MeanScore": 386.77001953125,
       "SDScore": 0.0,
-      "P99Score": 386.7699890136719,
+      "P99Score": 386.77001953125,
       "TotalPayout": 0.0
     },
     {
@@ -121,7 +121,7 @@
       "MeanScore": 508.66998291015625,
       "SDScore": 0.0,
       "P99Score": 508.66998291015625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -141,9 +141,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.8399963378906,
-      "SDScore": 5.368023259966216e-05,
-      "P99Score": 366.8401212167856,
+      "MeanScore": 366.8400268554688,
+      "SDScore": 0.0,
+      "P99Score": 366.8400268554688,
       "TotalPayout": 0.0
     },
     {
@@ -486,9 +486,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 435.5799865722656,
+      "MeanScore": 435.5799560546875,
       "SDScore": 0.0,
-      "P99Score": 435.5799865722656,
+      "P99Score": 435.5799560546875,
       "TotalPayout": 0.0
     },
     {
@@ -558,7 +558,7 @@
       "MeanScore": 498.0700073242188,
       "SDScore": 0.0,
       "P99Score": 498.0700073242188,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -579,8 +579,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 340.3500061035156,
-      "SDScore": 4.749497276176318e-05,
-      "P99Score": 340.3501165933445,
+      "SDScore": 0.0,
+      "P99Score": 340.3500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -627,7 +627,7 @@
       "MeanScore": 516.5499877929688,
       "SDScore": 0.0,
       "P99Score": 516.5499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -648,8 +648,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.1600036621094,
-      "SDScore": 6.0559469800244254e-05,
-      "P99Score": 416.1601445445032,
+      "SDScore": 0.0,
+      "P99Score": 416.1600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -673,7 +673,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -696,7 +696,7 @@
       "MeanScore": 560.800048828125,
       "SDScore": 0.0,
       "P99Score": 560.800048828125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -717,8 +717,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.0899963378906,
-      "SDScore": 6.0559469800244254e-05,
-      "P99Score": 416.0901372202844,
+      "SDScore": 0.0,
+      "P99Score": 416.0899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -740,9 +740,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 505.5299987792969,
-      "SDScore": 7.836786572702279e-05,
-      "P99Score": 505.5301810902147,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 505.5299987792969,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -880,7 +880,7 @@
       "MeanScore": 522.5,
       "SDScore": 0.0,
       "P99Score": 522.5,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -900,9 +900,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 403.0799865722656,
-      "SDScore": 3.003845826696587e-05,
-      "P99Score": 403.0800564521692,
+      "MeanScore": 403.08001708984375,
+      "SDScore": 0.0,
+      "P99Score": 403.08001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -972,7 +972,7 @@
       "MeanScore": 516.5499877929688,
       "SDScore": 0.0,
       "P99Score": 516.5499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -1015,9 +1015,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 476.2099914550781,
+      "MeanScore": 476.21002197265625,
       "SDScore": 0.0,
-      "P99Score": 476.2099914550781,
+      "P99Score": 476.21002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -1038,9 +1038,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 386.7699890136719,
+      "MeanScore": 386.77001953125,
       "SDScore": 0.0,
-      "P99Score": 386.7699890136719,
+      "P99Score": 386.77001953125,
       "TotalPayout": 0.0
     },
     {
@@ -1133,7 +1133,7 @@
       "MeanScore": 518.75,
       "SDScore": 0.0,
       "P99Score": 518.75,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -1156,7 +1156,7 @@
       "MeanScore": 538.3200073242188,
       "SDScore": 0.0,
       "P99Score": 538.3200073242188,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -1200,8 +1200,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 409.0500183105469,
-      "SDScore": 4.545963726527217e-05,
-      "P99Score": 409.0501240654774,
+      "SDScore": 0.0,
+      "P99Score": 409.0500183105469,
       "TotalPayout": 0.0
     },
     {
@@ -1245,9 +1245,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 262.1099853515625,
+      "MeanScore": 262.1100158691406,
       "SDScore": 0.0,
-      "P99Score": 262.1099853515625,
+      "P99Score": 262.1100158691406,
       "TotalPayout": 0.0
     },
     {
@@ -1292,8 +1292,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 360.1399841308594,
-      "SDScore": 5.2167808998789424e-05,
-      "P99Score": 360.1401054913309,
+      "SDScore": 0.0,
+      "P99Score": 360.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -1383,9 +1383,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 213.04000854492188,
+      "MeanScore": 213.03997802734372,
       "SDScore": 0.0,
-      "P99Score": 213.04000854492188,
+      "P99Score": 213.03997802734372,
       "TotalPayout": 0.0
     },
     {
@@ -1452,9 +1452,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 191.4199981689453,
-      "SDScore": 2.8033587186317477e-05,
-      "P99Score": 191.42006338482128,
+      "MeanScore": 191.41998291015625,
+      "SDScore": 0.0,
+      "P99Score": 191.41998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -1545,8 +1545,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 332.3899841308594,
-      "SDScore": 4.561942558664615e-05,
-      "P99Score": 332.3900902575131,
+      "SDScore": 0.0,
+      "P99Score": 332.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -1614,8 +1614,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 470.5500183105469,
-      "SDScore": 7.034305930398502e-05,
-      "P99Score": 470.5501819529733,
+      "SDScore": 0.0,
+      "P99Score": 470.5500183105469,
       "TotalPayout": 0.0
     },
     {
@@ -1639,7 +1639,7 @@
       "MeanScore": 523.3900146484375,
       "SDScore": 0.0,
       "P99Score": 523.3900146484375,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -1752,8 +1752,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 329.3899841308594,
-      "SDScore": 4.465211940617159e-05,
-      "P99Score": 329.3900880072224,
+      "SDScore": 0.0,
+      "P99Score": 329.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -1774,9 +1774,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 188.22000122070312,
+      "MeanScore": 188.2199859619141,
       "SDScore": 0.0,
-      "P99Score": 188.22000122070312,
+      "P99Score": 188.2199859619141,
       "TotalPayout": 0.0
     },
     {
@@ -1890,8 +1890,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 456.3899841308594,
-      "SDScore": 6.428963556110926e-05,
-      "P99Score": 456.3901336909164,
+      "SDScore": 0.0,
+      "P99Score": 456.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -1936,9 +1936,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 495.7799987792969,
-      "SDScore": 7.686786356834629e-05,
-      "P99Score": 495.7801776006879,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 495.7799987792969,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -1961,7 +1961,7 @@
       "MeanScore": 548.2099609375,
       "SDScore": 0.0,
       "P99Score": 548.2099609375,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -1982,9 +1982,9 @@
       "ROI%": 116.2162162162162,
       "WinPct": 0.0,
       "MeanScore": 581.8200073242188,
-      "SDScore": 5.230710913728265e-05,
-      "P99Score": 581.8201290087509,
-      "TotalPayout": 12000000.0
+      "SDScore": 0.0,
+      "P99Score": 581.8200073242188,
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2007,7 +2007,7 @@
       "MeanScore": 651.8300170898438,
       "SDScore": 0.0,
       "P99Score": 651.8300170898438,
-      "TotalPayout": 30000000.0
+      "TotalPayout": 30000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2053,7 +2053,7 @@
       "MeanScore": 518.739990234375,
       "SDScore": 0.0,
       "P99Score": 518.739990234375,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2099,7 +2099,7 @@
       "MeanScore": 531.239990234375,
       "SDScore": 0.0,
       "P99Score": 531.239990234375,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2122,7 +2122,7 @@
       "MeanScore": 511.280029296875,
       "SDScore": 0.0,
       "P99Score": 511.280029296875,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2191,7 +2191,7 @@
       "MeanScore": 507.1900024414063,
       "SDScore": 0.0,
       "P99Score": 507.1900024414063,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2237,7 +2237,7 @@
       "MeanScore": 538.22998046875,
       "SDScore": 0.0,
       "P99Score": 538.22998046875,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2283,7 +2283,7 @@
       "MeanScore": 513.9299926757812,
       "SDScore": 0.0,
       "P99Score": 513.9299926757812,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2444,7 +2444,7 @@
       "MeanScore": 538.1400146484375,
       "SDScore": 0.0,
       "P99Score": 538.1400146484375,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2467,7 +2467,7 @@
       "MeanScore": 548.2099609375,
       "SDScore": 0.0,
       "P99Score": 548.2099609375,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2534,8 +2534,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.1600036621094,
-      "SDScore": 6.0559469800244254e-05,
-      "P99Score": 416.1601445445032,
+      "SDScore": 0.0,
+      "P99Score": 416.1600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -2697,7 +2697,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2741,8 +2741,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 394.4100036621094,
-      "SDScore": 5.835656528882653e-05,
-      "P99Score": 394.410139419781,
+      "SDScore": 0.0,
+      "P99Score": 394.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -2789,7 +2789,7 @@
       "MeanScore": 502.489990234375,
       "SDScore": 0.0,
       "P99Score": 502.489990234375,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2835,7 +2835,7 @@
       "MeanScore": 560.800048828125,
       "SDScore": 0.0,
       "P99Score": 560.800048828125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2856,8 +2856,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.8500061035156,
-      "SDScore": 1.6185199108371238e-05,
-      "P99Score": 416.8500437559192,
+      "SDScore": 0.0,
+      "P99Score": 416.8500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -2927,7 +2927,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -2947,9 +2947,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 213.04000854492188,
+      "MeanScore": 213.03997802734372,
       "SDScore": 0.0,
-      "P99Score": 213.04000854492188,
+      "P99Score": 213.03997802734372,
       "TotalPayout": 0.0
     },
     {
@@ -3063,9 +3063,9 @@
       "ROI%": 620.7207207207207,
       "WinPct": 0.0,
       "MeanScore": 665.5900268554688,
-      "SDScore": 9.12388511732923e-05,
-      "P99Score": 665.5902391087762,
-      "TotalPayout": 40000000.0
+      "SDScore": 0.0,
+      "P99Score": 665.5900268554688,
+      "TotalPayout": 40000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3085,9 +3085,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 433.0299682617188,
+      "MeanScore": 433.0299987792969,
       "SDScore": 0.0,
-      "P99Score": 433.0299682617188,
+      "P99Score": 433.0299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -3180,7 +3180,7 @@
       "MeanScore": 539.800048828125,
       "SDScore": 0.0,
       "P99Score": 539.800048828125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3247,8 +3247,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 418.0799865722656,
-      "SDScore": 1.525955205917835e-05,
-      "P99Score": 418.0800220712921,
+      "SDScore": 0.0,
+      "P99Score": 418.0799865722656,
       "TotalPayout": 0.0
     },
     {
@@ -3293,8 +3293,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 380.6000061035156,
-      "SDScore": 4.513836371823058e-05,
-      "P99Score": 380.6001111110521,
+      "SDScore": 0.0,
+      "P99Score": 380.6000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -3315,10 +3315,10 @@
       "NetEV": 295.0,
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
-      "MeanScore": 499.33001708984375,
+      "MeanScore": 499.3299865722656,
       "SDScore": 0.0,
-      "P99Score": 499.33001708984375,
-      "TotalPayout": 8500000.0
+      "P99Score": 499.3299865722656,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3410,7 +3410,7 @@
       "MeanScore": 532.719970703125,
       "SDScore": 0.0,
       "P99Score": 532.719970703125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3479,7 +3479,7 @@
       "MeanScore": 519.6199951171875,
       "SDScore": 0.0,
       "P99Score": 519.6199951171875,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3683,9 +3683,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 427.8999938964844,
+      "MeanScore": 427.9000244140625,
       "SDScore": 0.0,
-      "P99Score": 427.8999938964844,
+      "P99Score": 427.9000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -3706,9 +3706,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 476.2099914550781,
+      "MeanScore": 476.21002197265625,
       "SDScore": 0.0,
-      "P99Score": 476.2099914550781,
+      "P99Score": 476.21002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -3778,7 +3778,7 @@
       "MeanScore": 527.6599731445312,
       "SDScore": 0.0,
       "P99Score": 527.6599731445312,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3793,15 +3793,15 @@
       "F5": "Josh Hokit",
       "F6": "Ty Miller",
       "EntryFee": 555.0,
-      "AvgWinPayout": 53333.33333333395,
-      "EV": 53333.33333333395,
-      "NetEV": 52778.33333333395,
-      "ROI%": 9509.60960960972,
+      "AvgWinPayout": 53333.33333333333,
+      "EV": 53333.33333333333,
+      "NetEV": 52778.33333333333,
+      "ROI%": 9509.60960960961,
       "WinPct": 100.0,
       "MeanScore": 701.239990234375,
       "SDScore": 0.0,
       "P99Score": 701.239990234375,
-      "TotalPayout": 533333333.33333945
+      "TotalPayout": 533333.3333333333
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3822,9 +3822,9 @@
       "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "MeanScore": 565.3400268554688,
-      "SDScore": 3.7378116248423296e-05,
-      "P99Score": 565.34011380997,
-      "TotalPayout": 10000000.0
+      "SDScore": 0.0,
+      "P99Score": 565.3400268554688,
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -3868,8 +3868,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 360.1399841308594,
-      "SDScore": 5.2167808998789424e-05,
-      "P99Score": 360.1401054913309,
+      "SDScore": 0.0,
+      "P99Score": 360.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -4031,7 +4031,7 @@
       "MeanScore": 516.5499877929688,
       "SDScore": 0.0,
       "P99Score": 516.5499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4123,7 +4123,7 @@
       "MeanScore": 601.27001953125,
       "SDScore": 0.0,
       "P99Score": 601.27001953125,
-      "TotalPayout": 15000000.0
+      "TotalPayout": 15000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4144,8 +4144,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 298.3999938964844,
-      "SDScore": 3.168883981805289e-05,
-      "P99Score": 298.4000676157495,
+      "SDScore": 0.0,
+      "P99Score": 298.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4166,9 +4166,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 455.6499938964844,
+      "MeanScore": 455.6499633789063,
       "SDScore": 0.0,
-      "P99Score": 455.6499938964844,
+      "P99Score": 455.6499633789063,
       "TotalPayout": 0.0
     },
     {
@@ -4231,14 +4231,14 @@
       "F6": "Ty Miller",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2333.333333333321,
-      "NetEV": 1778.3333333333212,
-      "ROI%": 320.4204204204182,
+      "EV": 2333.333333333333,
+      "NetEV": 1778.333333333333,
+      "ROI%": 320.4204204204204,
       "WinPct": 0.0,
       "MeanScore": 634.280029296875,
       "SDScore": 0.0,
       "P99Score": 634.280029296875,
-      "TotalPayout": 23333333.333333213
+      "TotalPayout": 23333.33333333333
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4399,7 +4399,7 @@
       "MeanScore": 509.8699951171875,
       "SDScore": 0.0,
       "P99Score": 509.8699951171875,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4422,7 +4422,7 @@
       "MeanScore": 516.5499877929688,
       "SDScore": 0.0,
       "P99Score": 516.5499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4445,7 +4445,7 @@
       "MeanScore": 611.800048828125,
       "SDScore": 0.0,
       "P99Score": 611.800048828125,
-      "TotalPayout": 15000000.0
+      "TotalPayout": 15000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4627,8 +4627,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 383.6499938964844,
-      "SDScore": 4.316053095565663e-05,
-      "P99Score": 383.6500943028938,
+      "SDScore": 0.0,
+      "P99Score": 383.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4652,7 +4652,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4675,7 +4675,7 @@
       "MeanScore": 488.8500061035156,
       "SDScore": 0.0,
       "P99Score": 488.8500061035156,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4695,9 +4695,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 432.3000183105469,
-      "SDScore": 5.709601568108619e-05,
-      "P99Score": 432.3001511357416,
+      "MeanScore": 432.2999877929688,
+      "SDScore": 0.0,
+      "P99Score": 432.2999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -4719,8 +4719,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 310.8999938964844,
-      "SDScore": 3.7572289587488136e-05,
-      "P99Score": 310.9000813027004,
+      "SDScore": 0.0,
+      "P99Score": 310.8999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4741,9 +4741,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 392.08001708984375,
+      "MeanScore": 392.0799865722656,
       "SDScore": 0.0,
-      "P99Score": 392.08001708984375,
+      "P99Score": 392.0799865722656,
       "TotalPayout": 0.0
     },
     {
@@ -4790,7 +4790,7 @@
       "MeanScore": 551.0599975585938,
       "SDScore": 0.0,
       "P99Score": 551.0599975585938,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4813,7 +4813,7 @@
       "MeanScore": 485.71002197265625,
       "SDScore": 0.0,
       "P99Score": 485.71002197265625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4859,7 +4859,7 @@
       "MeanScore": 485.71002197265625,
       "SDScore": 0.0,
       "P99Score": 485.71002197265625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -4880,8 +4880,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 415.3700256347656,
-      "SDScore": 1.9452188429608847e-05,
-      "P99Score": 415.3700708873228,
+      "SDScore": 0.0,
+      "P99Score": 415.3700256347656,
       "TotalPayout": 0.0
     },
     {
@@ -4902,9 +4902,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.3700256347656,
+      "MeanScore": 452.3699951171875,
       "SDScore": 0.0,
-      "P99Score": 452.3700256347656,
+      "P99Score": 452.3699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -4926,8 +4926,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 330.3299865722656,
-      "SDScore": 4.481478704655896e-05,
-      "P99Score": 330.3300908270502,
+      "SDScore": 0.0,
+      "P99Score": 330.3299865722656,
       "TotalPayout": 0.0
     },
     {
@@ -5087,9 +5087,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 494.6100158691406,
-      "SDScore": 6.759998785164791e-05,
-      "P99Score": 494.6101731302287,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 494.6100158691406,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -5135,7 +5135,7 @@
       "MeanScore": 499.71002197265625,
       "SDScore": 0.0,
       "P99Score": 499.71002197265625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -5201,9 +5201,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 274.1400146484375,
+      "MeanScore": 274.1399841308594,
       "SDScore": 0.0,
-      "P99Score": 274.1400146484375,
+      "P99Score": 274.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -5248,8 +5248,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 478.9700012207031,
-      "SDScore": 7.298310507881233e-05,
-      "P99Score": 478.97017100479445,
+      "SDScore": 0.0,
+      "P99Score": 478.9700012207031,
       "TotalPayout": 0.0
     },
     {
@@ -5271,8 +5271,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 332.6700134277344,
-      "SDScore": 4.561942558664615e-05,
-      "P99Score": 332.6701195543881,
+      "SDScore": 0.0,
+      "P99Score": 332.6700134277344,
       "TotalPayout": 0.0
     },
     {
@@ -5449,15 +5449,15 @@
       "F5": "Josh Hokit",
       "F6": "Ty Miller",
       "EntryFee": 555.0,
-      "AvgWinPayout": 53333.33333333395,
-      "EV": 53333.33333333395,
-      "NetEV": 52778.33333333395,
-      "ROI%": 9509.60960960972,
+      "AvgWinPayout": 53333.33333333333,
+      "EV": 53333.33333333333,
+      "NetEV": 52778.33333333333,
+      "ROI%": 9509.60960960961,
       "WinPct": 100.0,
       "MeanScore": 701.239990234375,
       "SDScore": 0.0,
       "P99Score": 701.239990234375,
-      "TotalPayout": 533333333.33333945
+      "TotalPayout": 533333.3333333333
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -5572,7 +5572,7 @@
       "MeanScore": 520.219970703125,
       "SDScore": 0.0,
       "P99Score": 520.219970703125,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -5641,7 +5641,7 @@
       "MeanScore": 489.1900024414063,
       "SDScore": 0.0,
       "P99Score": 489.1900024414063,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -5664,7 +5664,7 @@
       "MeanScore": 551.0599975585938,
       "SDScore": 0.0,
       "P99Score": 551.0599975585938,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6006,10 +6006,10 @@
       "NetEV": 445.0,
       "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 546.8300170898438,
+      "MeanScore": 546.8299560546875,
       "SDScore": 0.0,
-      "P99Score": 546.8300170898438,
-      "TotalPayout": 10000000.0
+      "P99Score": 546.8299560546875,
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6030,8 +6030,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 360.1399841308594,
-      "SDScore": 5.2167808998789424e-05,
-      "P99Score": 360.1401054913309,
+      "SDScore": 0.0,
+      "P99Score": 360.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -6076,9 +6076,9 @@
       "ROI%": 170.27027027027026,
       "WinPct": 0.0,
       "MeanScore": 604.0900268554688,
-      "SDScore": 6.781493271156282e-05,
-      "P99Score": 604.0901846165933,
-      "TotalPayout": 15000000.0
+      "SDScore": 0.0,
+      "P99Score": 604.0900268554688,
+      "TotalPayout": 15000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6121,9 +6121,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 274.1400146484375,
+      "MeanScore": 274.1399841308594,
       "SDScore": 0.0,
-      "P99Score": 274.1400146484375,
+      "P99Score": 274.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -6145,8 +6145,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 178.1899871826172,
-      "SDScore": 2.5519861535727363e-05,
-      "P99Score": 178.1900465506928,
+      "SDScore": 0.0,
+      "P99Score": 178.1899871826172,
       "TotalPayout": 0.0
     },
     {
@@ -6193,7 +6193,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6239,7 +6239,7 @@
       "MeanScore": 486.0400085449219,
       "SDScore": 0.0,
       "P99Score": 486.0400085449219,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6260,8 +6260,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 246.34999084472656,
-      "SDScore": 3.814888014794588e-05,
-      "P99Score": 246.3500795922928,
+      "SDScore": 0.0,
+      "P99Score": 246.34999084472656,
       "TotalPayout": 0.0
     },
     {
@@ -6283,9 +6283,9 @@
       "ROI%": 260.36036036036035,
       "WinPct": 0.0,
       "MeanScore": 621.9500122070312,
-      "SDScore": 7.514457917497627e-05,
-      "P99Score": 621.9501870194632,
-      "TotalPayout": 20000000.0
+      "SDScore": 0.0,
+      "P99Score": 621.9500122070312,
+      "TotalPayout": 20000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6351,9 +6351,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 476.2099914550781,
+      "MeanScore": 476.21002197265625,
       "SDScore": 0.0,
-      "P99Score": 476.2099914550781,
+      "P99Score": 476.21002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -6377,7 +6377,7 @@
       "MeanScore": 623.5400390625,
       "SDScore": 0.0,
       "P99Score": 623.5400390625,
-      "TotalPayout": 20000000.0
+      "TotalPayout": 20000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6400,7 +6400,7 @@
       "MeanScore": 545.8400268554688,
       "SDScore": 0.0,
       "P99Score": 545.8400268554688,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6469,7 +6469,7 @@
       "MeanScore": 686.52001953125,
       "SDScore": 0.0,
       "P99Score": 686.52001953125,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 100000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6513,9 +6513,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 505.5299987792969,
-      "SDScore": 7.836786572702279e-05,
-      "P99Score": 505.5301810902147,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 505.5299987792969,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6676,7 +6676,7 @@
       "MeanScore": 488.8500061035156,
       "SDScore": 0.0,
       "P99Score": 488.8500061035156,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6691,15 +6691,15 @@
       "F5": "Josh Hokit",
       "F6": "Ty Miller",
       "EntryFee": 555.0,
-      "AvgWinPayout": 53333.33333333395,
-      "EV": 53333.33333333395,
-      "NetEV": 52778.33333333395,
-      "ROI%": 9509.60960960972,
+      "AvgWinPayout": 53333.33333333333,
+      "EV": 53333.33333333333,
+      "NetEV": 52778.33333333333,
+      "ROI%": 9509.60960960961,
       "WinPct": 100.0,
       "MeanScore": 701.239990234375,
       "SDScore": 0.0,
       "P99Score": 701.239990234375,
-      "TotalPayout": 533333333.33333945
+      "TotalPayout": 533333.3333333333
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6743,8 +6743,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.8500061035156,
-      "SDScore": 1.6185199108371238e-05,
-      "P99Score": 416.8500437559192,
+      "SDScore": 0.0,
+      "P99Score": 416.8500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -6812,8 +6812,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 456.3899841308594,
-      "SDScore": 6.428963556110926e-05,
-      "P99Score": 456.3901336909164,
+      "SDScore": 0.0,
+      "P99Score": 456.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -6853,14 +6853,14 @@
       "F6": "Ty Miller",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2333.333333333321,
-      "NetEV": 1778.3333333333212,
-      "ROI%": 320.4204204204182,
+      "EV": 2333.333333333333,
+      "NetEV": 1778.333333333333,
+      "ROI%": 320.4204204204204,
       "WinPct": 0.0,
       "MeanScore": 634.280029296875,
       "SDScore": 0.0,
       "P99Score": 634.280029296875,
-      "TotalPayout": 23333333.333333213
+      "TotalPayout": 23333.33333333333
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -6996,8 +6996,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 472.2200012207031,
-      "SDScore": 7.137001960135774e-05,
-      "P99Score": 472.2201672521965,
+      "SDScore": 0.0,
+      "P99Score": 472.2200012207031,
       "TotalPayout": 0.0
     },
     {
@@ -7067,7 +7067,7 @@
       "MeanScore": 579.5999755859375,
       "SDScore": 0.0,
       "P99Score": 579.5999755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -7090,7 +7090,7 @@
       "MeanScore": 537.72998046875,
       "SDScore": 0.0,
       "P99Score": 537.72998046875,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -7202,9 +7202,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 416.5199890136719,
+      "MeanScore": 416.52001953125,
       "SDScore": 0.0,
-      "P99Score": 416.5199890136719,
+      "P99Score": 416.52001953125,
       "TotalPayout": 0.0
     },
     {
@@ -7228,7 +7228,7 @@
       "MeanScore": 537.7099609375,
       "SDScore": 0.0,
       "P99Score": 537.7099609375,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -7249,9 +7249,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 504.1600036621094,
-      "SDScore": 6.759998785164791e-05,
-      "P99Score": 504.1601609231974,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 504.1600036621094,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -7318,9 +7318,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 492.9499816894531,
-      "SDScore": 7.629776029589176e-05,
-      "P99Score": 492.9501591845856,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 492.9499816894531,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -7548,8 +7548,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.0899963378906,
-      "SDScore": 6.0559469800244254e-05,
-      "P99Score": 416.0901372202844,
+      "SDScore": 0.0,
+      "P99Score": 416.0899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -7640,8 +7640,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.0299987792969,
-      "SDScore": 5.003178726822402e-05,
-      "P99Score": 416.0301151706388,
+      "SDScore": 0.0,
+      "P99Score": 416.0299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -7911,14 +7911,14 @@
       "F6": "Ty Miller",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2333.333333333321,
-      "NetEV": 1778.3333333333212,
-      "ROI%": 320.4204204204182,
+      "EV": 2333.333333333333,
+      "NetEV": 1778.333333333333,
+      "ROI%": 320.4204204204204,
       "WinPct": 0.0,
       "MeanScore": 634.280029296875,
       "SDScore": 0.0,
       "P99Score": 634.280029296875,
-      "TotalPayout": 23333333.333333213
+      "TotalPayout": 23333.33333333333
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -7941,7 +7941,7 @@
       "MeanScore": 610.3900146484375,
       "SDScore": 0.0,
       "P99Score": 610.3900146484375,
-      "TotalPayout": 15000000.0
+      "TotalPayout": 15000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -7987,7 +7987,7 @@
       "MeanScore": 508.8599853515625,
       "SDScore": 0.0,
       "P99Score": 508.8599853515625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8056,7 +8056,7 @@
       "MeanScore": 489.6400146484375,
       "SDScore": 0.0,
       "P99Score": 489.6400146484375,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8079,7 +8079,7 @@
       "MeanScore": 551.0599975585938,
       "SDScore": 0.0,
       "P99Score": 551.0599975585938,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8100,8 +8100,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 405.5500183105469,
-      "SDScore": 4.282201176081464e-05,
-      "P99Score": 405.5501179294429,
+      "SDScore": 0.0,
+      "P99Score": 405.5500183105469,
       "TotalPayout": 0.0
     },
     {
@@ -8171,7 +8171,7 @@
       "MeanScore": 543.02001953125,
       "SDScore": 0.0,
       "P99Score": 543.02001953125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8217,7 +8217,7 @@
       "MeanScore": 520.8299560546875,
       "SDScore": 0.0,
       "P99Score": 520.8299560546875,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8238,8 +8238,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 415.3700256347656,
-      "SDScore": 1.9452188429608847e-05,
-      "P99Score": 415.3700708873228,
+      "SDScore": 0.0,
+      "P99Score": 415.3700256347656,
       "TotalPayout": 0.0
     },
     {
@@ -8329,9 +8329,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 188.22000122070312,
+      "MeanScore": 188.2199859619141,
       "SDScore": 0.0,
-      "P99Score": 188.22000122070312,
+      "P99Score": 188.2199859619141,
       "TotalPayout": 0.0
     },
     {
@@ -8376,8 +8376,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 198.1599884033203,
-      "SDScore": 2.9178282644413263e-05,
-      "P99Score": 198.1600562821561,
+      "SDScore": 0.0,
+      "P99Score": 198.1599884033203,
       "TotalPayout": 0.0
     },
     {
@@ -8399,8 +8399,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 329.3899841308594,
-      "SDScore": 4.465211940617159e-05,
-      "P99Score": 329.3900880072224,
+      "SDScore": 0.0,
+      "P99Score": 329.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -8445,8 +8445,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 278.6499938964844,
-      "SDScore": 1.3754774347494914e-05,
-      "P99Score": 278.65002589487443,
+      "SDScore": 0.0,
+      "P99Score": 278.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -8698,8 +8698,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 288.8999938964844,
-      "SDScore": 2.501589363411201e-05,
-      "P99Score": 288.90005209215536,
+      "SDScore": 0.0,
+      "P99Score": 288.8999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -8746,7 +8746,7 @@
       "MeanScore": 501.3800048828125,
       "SDScore": 0.0,
       "P99Score": 501.3800048828125,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8792,7 +8792,7 @@
       "MeanScore": 499.8999938964844,
       "SDScore": 0.0,
       "P99Score": 499.8999938964844,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8882,8 +8882,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 415.3700256347656,
-      "SDScore": 1.9452188429608847e-05,
-      "P99Score": 415.3700708873228,
+      "SDScore": 0.0,
+      "P99Score": 415.3700256347656,
       "TotalPayout": 0.0
     },
     {
@@ -8905,8 +8905,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.1600036621094,
-      "SDScore": 6.0559469800244254e-05,
-      "P99Score": 416.1601445445032,
+      "SDScore": 0.0,
+      "P99Score": 416.1600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -8974,9 +8974,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 505.5299987792969,
-      "SDScore": 7.836786572702279e-05,
-      "P99Score": 505.5301810902147,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 505.5299987792969,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -8999,7 +8999,7 @@
       "MeanScore": 487.6199951171875,
       "SDScore": 0.0,
       "P99Score": 487.6199951171875,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9043,8 +9043,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 336.9100036621094,
-      "SDScore": 4.687812875295827e-05,
-      "P99Score": 336.9101127169445,
+      "SDScore": 0.0,
+      "P99Score": 336.9100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -9065,9 +9065,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 274.1400146484375,
+      "MeanScore": 274.1399841308594,
       "SDScore": 0.0,
-      "P99Score": 274.1400146484375,
+      "P99Score": 274.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -9135,8 +9135,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 346.1600036621094,
-      "SDScore": 4.944660003469531e-05,
-      "P99Score": 346.16011869210223,
+      "SDScore": 0.0,
+      "P99Score": 346.1600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -9250,8 +9250,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 457.6600036621094,
-      "SDScore": 6.451561037230518e-05,
-      "P99Score": 457.6601537478624,
+      "SDScore": 0.0,
+      "P99Score": 457.6600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -9273,8 +9273,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 420.8500061035156,
-      "SDScore": 1.3215159733619596e-05,
-      "P99Score": 420.8500368465744,
+      "SDScore": 0.0,
+      "P99Score": 420.8500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -9295,9 +9295,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 188.22000122070312,
+      "MeanScore": 188.2199859619141,
       "SDScore": 0.0,
-      "P99Score": 188.22000122070312,
+      "P99Score": 188.2199859619141,
       "TotalPayout": 0.0
     },
     {
@@ -9344,7 +9344,7 @@
       "MeanScore": 539.800048828125,
       "SDScore": 0.0,
       "P99Score": 539.800048828125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9479,9 +9479,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 264.0799865722656,
+      "MeanScore": 264.0800170898437,
       "SDScore": 0.0,
-      "P99Score": 264.0799865722656,
+      "P99Score": 264.0800170898437,
       "TotalPayout": 0.0
     },
     {
@@ -9502,9 +9502,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 323.4300231933594,
-      "SDScore": 4.248079507392135e-05,
-      "P99Score": 323.4301220184667,
+      "MeanScore": 323.42999267578125,
+      "SDScore": 0.0,
+      "P99Score": 323.42999267578125,
       "TotalPayout": 0.0
     },
     {
@@ -9620,7 +9620,7 @@
       "MeanScore": 589.3399658203125,
       "SDScore": 0.0,
       "P99Score": 589.3399658203125,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9643,7 +9643,7 @@
       "MeanScore": 545.8400268554688,
       "SDScore": 0.0,
       "P99Score": 545.8400268554688,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9666,7 +9666,7 @@
       "MeanScore": 545.8400268554688,
       "SDScore": 0.0,
       "P99Score": 545.8400268554688,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9689,7 +9689,7 @@
       "MeanScore": 545.8400268554688,
       "SDScore": 0.0,
       "P99Score": 545.8400268554688,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9709,9 +9709,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 240.489990234375,
+      "MeanScore": 240.4900054931641,
       "SDScore": 0.0,
-      "P99Score": 240.489990234375,
+      "P99Score": 240.4900054931641,
       "TotalPayout": 0.0
     },
     {
@@ -9801,10 +9801,10 @@
       "NetEV": 295.0,
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
-      "MeanScore": 484.10003662109375,
+      "MeanScore": 484.0999755859375,
       "SDScore": 0.0,
-      "P99Score": 484.10003662109375,
-      "TotalPayout": 8500000.0
+      "P99Score": 484.0999755859375,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9825,8 +9825,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 406.3399963378906,
-      "SDScore": 5.934573006402787e-05,
-      "P99Score": 406.3401343967036,
+      "SDScore": 0.0,
+      "P99Score": 406.3399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -9873,7 +9873,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -9917,8 +9917,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 470.5500183105469,
-      "SDScore": 7.034305930398502e-05,
-      "P99Score": 470.5501819529733,
+      "SDScore": 0.0,
+      "P99Score": 470.5500183105469,
       "TotalPayout": 0.0
     },
     {
@@ -9940,8 +9940,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 235.12001037597656,
-      "SDScore": 3.517152965199251e-05,
-      "P99Score": 235.1200921971898,
+      "SDScore": 0.0,
+      "P99Score": 235.12001037597656,
       "TotalPayout": 0.0
     },
     {
@@ -10057,7 +10057,7 @@
       "MeanScore": 577.530029296875,
       "SDScore": 0.0,
       "P99Score": 577.530029296875,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10172,7 +10172,7 @@
       "MeanScore": 505.6000061035156,
       "SDScore": 0.0,
       "P99Score": 505.6000061035156,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10287,7 +10287,7 @@
       "MeanScore": 504.0499877929688,
       "SDScore": 0.0,
       "P99Score": 504.0499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10471,7 +10471,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10517,7 +10517,7 @@
       "MeanScore": 505.6000061035156,
       "SDScore": 0.0,
       "P99Score": 505.6000061035156,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10652,9 +10652,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 470.4000244140625,
+      "MeanScore": 470.3999938964844,
       "SDScore": 0.0,
-      "P99Score": 470.4000244140625,
+      "P99Score": 470.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -10676,9 +10676,9 @@
       "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "MeanScore": 565.3400268554688,
-      "SDScore": 3.7378116248423296e-05,
-      "P99Score": 565.34011380997,
-      "TotalPayout": 10000000.0
+      "SDScore": 0.0,
+      "P99Score": 565.3400268554688,
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10721,9 +10721,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 262.1099853515625,
+      "MeanScore": 262.1100158691406,
       "SDScore": 0.0,
-      "P99Score": 262.1099853515625,
+      "P99Score": 262.1100158691406,
       "TotalPayout": 0.0
     },
     {
@@ -10767,9 +10767,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 274.1400146484375,
+      "MeanScore": 274.1399841308594,
       "SDScore": 0.0,
-      "P99Score": 274.1400146484375,
+      "P99Score": 274.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -10793,7 +10793,7 @@
       "MeanScore": 575.1300048828125,
       "SDScore": 0.0,
       "P99Score": 575.1300048828125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10883,8 +10883,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.1600036621094,
-      "SDScore": 6.0559469800244254e-05,
-      "P99Score": 416.1601445445032,
+      "SDScore": 0.0,
+      "P99Score": 416.1600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -10908,7 +10908,7 @@
       "MeanScore": 504.0499877929688,
       "SDScore": 0.0,
       "P99Score": 504.0499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -10931,7 +10931,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11069,7 +11069,7 @@
       "MeanScore": 597.0800170898438,
       "SDScore": 0.0,
       "P99Score": 597.0800170898438,
-      "TotalPayout": 15000000.0
+      "TotalPayout": 15000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11135,9 +11135,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 435.5799865722656,
+      "MeanScore": 435.5799560546875,
       "SDScore": 0.0,
-      "P99Score": 435.5799865722656,
+      "P99Score": 435.5799560546875,
       "TotalPayout": 0.0
     },
     {
@@ -11184,7 +11184,7 @@
       "MeanScore": 672.8800048828125,
       "SDScore": 0.0,
       "P99Score": 672.8800048828125,
-      "TotalPayout": 50000000.0
+      "TotalPayout": 50000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11230,7 +11230,7 @@
       "MeanScore": 532.719970703125,
       "SDScore": 0.0,
       "P99Score": 532.719970703125,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11274,9 +11274,9 @@
       "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "MeanScore": 554.8200073242188,
-      "SDScore": 2.158026547782832e-05,
-      "P99Score": 554.8200575274235,
-      "TotalPayout": 10000000.0
+      "SDScore": 0.0,
+      "P99Score": 554.8200073242188,
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11345,7 +11345,7 @@
       "MeanScore": 518.75,
       "SDScore": 0.0,
       "P99Score": 518.75,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11437,7 +11437,7 @@
       "MeanScore": 485.71002197265625,
       "SDScore": 0.0,
       "P99Score": 485.71002197265625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11483,7 +11483,7 @@
       "MeanScore": 516.5499877929688,
       "SDScore": 0.0,
       "P99Score": 516.5499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11503,9 +11503,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 455.6499938964844,
+      "MeanScore": 455.6499633789063,
       "SDScore": 0.0,
-      "P99Score": 455.6499938964844,
+      "P99Score": 455.6499633789063,
       "TotalPayout": 0.0
     },
     {
@@ -11527,8 +11527,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 330.3299865722656,
-      "SDScore": 4.481478704655896e-05,
-      "P99Score": 330.3300908270502,
+      "SDScore": 0.0,
+      "P99Score": 330.3299865722656,
       "TotalPayout": 0.0
     },
     {
@@ -11644,7 +11644,7 @@
       "MeanScore": 589.3399658203125,
       "SDScore": 0.0,
       "P99Score": 589.3399658203125,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11805,7 +11805,7 @@
       "MeanScore": 487.0499877929688,
       "SDScore": 0.0,
       "P99Score": 487.0499877929688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11825,9 +11825,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 237.2899932861328,
+      "MeanScore": 237.29000854492188,
       "SDScore": 0.0,
-      "P99Score": 237.2899932861328,
+      "P99Score": 237.29000854492188,
       "TotalPayout": 0.0
     },
     {
@@ -11849,9 +11849,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 505.5299987792969,
-      "SDScore": 7.836786572702279e-05,
-      "P99Score": 505.5301810902147,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 505.5299987792969,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -11872,8 +11872,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 402.6600036621094,
-      "SDScore": 5.860542170686874e-05,
-      "P99Score": 402.6601399987076,
+      "SDScore": 0.0,
+      "P99Score": 402.6600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -11894,10 +11894,10 @@
       "NetEV": 295.0,
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
-      "MeanScore": 520.9500122070312,
+      "MeanScore": 520.949951171875,
       "SDScore": 0.0,
-      "P99Score": 520.9500122070312,
-      "TotalPayout": 8500000.0
+      "P99Score": 520.949951171875,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12012,7 +12012,7 @@
       "MeanScore": 570.7900390625,
       "SDScore": 0.0,
       "P99Score": 570.7900390625,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12056,8 +12056,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 415.3700256347656,
-      "SDScore": 1.9452188429608847e-05,
-      "P99Score": 415.3700708873228,
+      "SDScore": 0.0,
+      "P99Score": 415.3700256347656,
       "TotalPayout": 0.0
     },
     {
@@ -12124,9 +12124,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 455.6499938964844,
+      "MeanScore": 455.6499633789063,
       "SDScore": 0.0,
-      "P99Score": 455.6499938964844,
+      "P99Score": 455.6499633789063,
       "TotalPayout": 0.0
     },
     {
@@ -12173,7 +12173,7 @@
       "MeanScore": 568.97998046875,
       "SDScore": 0.0,
       "P99Score": 568.97998046875,
-      "TotalPayout": 10000000.0
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12219,7 +12219,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12242,7 +12242,7 @@
       "MeanScore": 610.3900146484375,
       "SDScore": 0.0,
       "P99Score": 610.3900146484375,
-      "TotalPayout": 15000000.0
+      "TotalPayout": 15000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12285,10 +12285,10 @@
       "NetEV": 295.0,
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
-      "MeanScore": 511.83001708984375,
+      "MeanScore": 511.8299865722656,
       "SDScore": 0.0,
-      "P99Score": 511.83001708984375,
-      "TotalPayout": 8500000.0
+      "P99Score": 511.8299865722656,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12357,7 +12357,7 @@
       "MeanScore": 519.6900024414062,
       "SDScore": 0.0,
       "P99Score": 519.6900024414062,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12516,8 +12516,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 198.1599884033203,
-      "SDScore": 2.9178282644413263e-05,
-      "P99Score": 198.1600562821561,
+      "SDScore": 0.0,
+      "P99Score": 198.1599884033203,
       "TotalPayout": 0.0
     },
     {
@@ -12541,7 +12541,7 @@
       "MeanScore": 508.66998291015625,
       "SDScore": 0.0,
       "P99Score": 508.66998291015625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12564,7 +12564,7 @@
       "MeanScore": 498.0700073242188,
       "SDScore": 0.0,
       "P99Score": 498.0700073242188,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12585,8 +12585,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 345.6800231933594,
-      "SDScore": 4.944660003469531e-05,
-      "P99Score": 345.68013822335223,
+      "SDScore": 0.0,
+      "P99Score": 345.6800231933594,
       "TotalPayout": 0.0
     },
     {
@@ -12702,7 +12702,7 @@
       "MeanScore": 520.3400268554688,
       "SDScore": 0.0,
       "P99Score": 520.3400268554688,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12746,8 +12746,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 393.1000061035156,
-      "SDScore": 3.698671157523738e-05,
-      "P99Score": 393.1000921474735,
+      "SDScore": 0.0,
+      "P99Score": 393.1000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -12768,9 +12768,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 274.1400146484375,
+      "MeanScore": 274.1399841308594,
       "SDScore": 0.0,
-      "P99Score": 274.1400146484375,
+      "P99Score": 274.1399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -12794,7 +12794,7 @@
       "MeanScore": 485.71002197265625,
       "SDScore": 0.0,
       "P99Score": 485.71002197265625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -12815,8 +12815,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 466.4700012207031,
-      "SDScore": 6.971962255241643e-05,
-      "P99Score": 466.47016341279885,
+      "SDScore": 0.0,
+      "P99Score": 466.4700012207031,
       "TotalPayout": 0.0
     },
     {
@@ -12929,10 +12929,10 @@
       "NetEV": 645.0,
       "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 590.3600463867188,
-      "SDScore": 5.959045576233922e-05,
-      "P99Score": 590.3601850148489,
-      "TotalPayout": 12000000.0
+      "MeanScore": 590.3599853515625,
+      "SDScore": 0.0,
+      "P99Score": 590.3599853515625,
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -13045,9 +13045,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 505.5299987792969,
-      "SDScore": 7.836786572702279e-05,
-      "P99Score": 505.5301810902147,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 505.5299987792969,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -13091,9 +13091,9 @@
       "ROI%": 53.15315315315316,
       "WinPct": 0.0,
       "MeanScore": 505.5299987792969,
-      "SDScore": 7.836786572702279e-05,
-      "P99Score": 505.5301810902147,
-      "TotalPayout": 8500000.0
+      "SDScore": 0.0,
+      "P99Score": 505.5299987792969,
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -13208,7 +13208,7 @@
       "MeanScore": 581.8499755859375,
       "SDScore": 0.0,
       "P99Score": 581.8499755859375,
-      "TotalPayout": 12000000.0
+      "TotalPayout": 12000.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -13229,8 +13229,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 416.8500061035156,
-      "SDScore": 1.6185199108371238e-05,
-      "P99Score": 416.8500437559192,
+      "SDScore": 0.0,
+      "P99Score": 416.8500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -13300,7 +13300,7 @@
       "MeanScore": 520.760009765625,
       "SDScore": 0.0,
       "P99Score": 520.760009765625,
-      "TotalPayout": 8500000.0
+      "TotalPayout": 8500.0
     },
     {
       "Contest": "UFC $300K Knockout Special",
@@ -13320,9 +13320,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 465.6500244140625,
+      "MeanScore": 465.6499938964844,
       "SDScore": 0.0,
-      "P99Score": 465.6500244140625,
+      "P99Score": 465.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -13413,8 +13413,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 294.1000061035156,
-      "SDScore": 2.8548007840543094e-05,
-      "P99Score": 294.10007251611296,
+      "SDScore": 0.0,
+      "P99Score": 294.1000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -13435,9 +13435,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 222.20999145507807,
+      "MeanScore": 222.2100067138672,
       "SDScore": 0.0,
-      "P99Score": 222.20999145507807,
+      "P99Score": 222.2100067138672,
       "TotalPayout": 0.0
     },
     {

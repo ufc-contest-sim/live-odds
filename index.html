@@ -597,54 +597,32 @@
             }
         }
         
-        // ✅ UPDATED: Portfolio (aggregate) stats instead of "Top" stats
         function updateStats(data) {
             const totalLineups = data.length;
-
-            // Total entries (accounts for Copies)
-            const totalEntries = data.reduce((sum, r) => sum + (r.Copies || 1), 0);
-
-            // Portfolio Net EV (sum of all lineup NetEV × copies)
-            const portfolioNetEV = data.reduce((sum, r) => {
-                return sum + ((r.NetEV || 0) * (r.Copies || 1));
-            }, 0);
-
-            // Total money invested (entries × entry fee)
-            const entryFee = currentContest?.entryFee || 0;
-            const totalEntryFees = totalEntries * entryFee;
-
-            // Portfolio ROI = total NetEV / total entry fees
-            const portfolioROI = totalEntryFees > 0
-                ? (portfolioNetEV / totalEntryFees) * 100
-                : 0;
-
-            // Portfolio Win % (chance at least one lineup wins):
-            // 1 - Π(1 - p_i)^copies
-            let loseAllProb = 1;
-            data.forEach(r => {
-                const winProb = (r.WinPct || 0) / 100;
-                const copies = r.Copies || 1;
-                loseAllProb *= Math.pow((1 - winProb), copies);
-            });
-            const portfolioWinPct = (1 - loseAllProb) * 100;
-
+            
+            // Calculate portfolio totals (sum of all filtered lineups)
+            const portfolioWinPct = data.reduce((sum, r) => sum + (r.WinPct || 0), 0);
+            const portfolioNetEV = data.reduce((sum, r) => sum + (r.NetEV || 0), 0);
+            const portfolioCost = data.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
+            const portfolioROI = portfolioCost > 0 ? (portfolioNetEV / portfolioCost) * 100 : 0;
+            
             const isFiltered = document.getElementById('search-user').value || 
                                document.getElementById('min-win').value || 
                                document.getElementById('min-roi').value;
-
+            
             const label = isFiltered ? 'Filtered' : 'Total';
-
+            
             document.getElementById('stats').innerHTML = `
                 <div class="stat-card">
                     <div class="stat-label">${label} Lineups</div>
                     <div class="stat-value neutral">${totalLineups.toLocaleString()}</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Portfolio Win %</div>
+                    <div class="stat-label">Win %</div>
                     <div class="stat-value">${portfolioWinPct.toFixed(2)}%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Portfolio Net EV</div>
+                    <div class="stat-label">Portfolio EV</div>
                     <div class="stat-value ${portfolioNetEV >= 0 ? '' : 'negative'}">$${portfolioNetEV.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
                 </div>
                 <div class="stat-card">

@@ -603,7 +603,7 @@
                         <option value="WinPct">Win %</option>
                         <option value="ROI%">ROI %</option>
                         <option value="NetEV">Net EV</option>
-                        <option value="Mean Score">Proj Score</option>
+                        <option value="MeanScore">Proj Score</option>
                         <option value="Username">Username</option>
                     </select>
                 </div>
@@ -624,7 +624,7 @@
                             <th class="sortable" onclick="setSort('WinPct')">Win %</th>
                             <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
                             <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
-                            <th class="sortable" onclick="setSort('Mean Score')">Proj Score</th>
+                            <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
                             <th style="width: 80px;">Copies</th>
                         </tr>
                     </thead>
@@ -940,8 +940,8 @@
                     }
                 }
                 
-                // Get projected score (it's called "Mean Score" in the data)
-                const projScore = row['Mean Score'] || 0;
+                // Get projected score (it's called "MeanScore" in the data)
+                const projScore = row['MeanScore'] || 0;
                 
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">

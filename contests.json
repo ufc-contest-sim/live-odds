@@ -1,0 +1,16 @@
+{
+  "contests": [
+    {
+      "id": "ufc_300k_knockout_special",
+      "name": "UFC 300K Knockout Special",
+      "file": "UFC_300K_Knockout_Special.json",
+      "entryFee": 555.0
+    },
+    {
+      "id": "ufc_600k_ufc_324_special",
+      "name": "UFC 600K UFC 324 Special",
+      "file": "UFC_600K_UFC_324_Special.json",
+      "entryFee": 25.0
+    }
+  ]
+}

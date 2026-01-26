@@ -391,6 +391,12 @@
             padding: 40px;
             color: var(--text-secondary);
         }
+        
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            color: var(--accent-red);
+        }
 
         /* Mobile tweaks */
         @media (max-width: 768px) {
@@ -493,23 +499,8 @@
     </div>
     
     <script>
-        // Contest configuration - add your contests here
-        const CONTESTS = [
-            {
-                id: 'main-25',
-                name: 'UFC Main Event - $25 Entry',
-                file: 'live_odds.json',
-                entryFee: 25
-            }
-            // Add more contests here as needed:
-            // {
-            //     id: 'knockout-5',
-            //     name: 'UFC $300K Knockout - $5 Entry', 
-            //     file: 'knockout_odds.json',
-            //     entryFee: 5
-            // }
-        ];
-        
+        // Dynamic contest loading - no more hardcoding!
+        let CONTESTS = [];
         let allData = [];
         let filteredData = [];
         let currentContest = null;
@@ -517,17 +508,42 @@
         let currentSort = 'WinPct';
         let sortAscending = false;
         
+        // Load contests from contests.json
+        async function loadContestConfig() {
+            try {
+                const response = await fetch('contests.json');
+                if (!response.ok) throw new Error('contests.json not found');
+                const config = await response.json();
+                CONTESTS = config.contests || [];
+                return true;
+            } catch (error) {
+                console.error('Error loading contests.json:', error);
+                // Fallback: try to detect JSON files in directory
+                return false;
+            }
+        }
+        
         // Initialize landing page
-        function initLanding() {
+        async function initLanding() {
             const grid = document.getElementById('contest-grid');
             
-            if (CONTESTS.length === 0) {
-                grid.innerHTML = '<div class="no-results">No contests configured</div>';
+            // Load contest config
+            const loaded = await loadContestConfig();
+            
+            if (!loaded || CONTESTS.length === 0) {
+                grid.innerHTML = `
+                    <div class="error-message">
+                        <p>No contests found.</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
+                            Make sure contests.json exists in the web folder.
+                        </p>
+                    </div>
+                `;
                 return;
             }
             
-            grid.innerHTML = CONTESTS.map(contest => `
-                <div class="contest-card" onclick="loadContest(${JSON.stringify(contest).replace(/"/g, '&quot;')})">
+            grid.innerHTML = CONTESTS.map((contest, idx) => `
+                <div class="contest-card" onclick="loadContest(${idx})">
                     <div class="contest-info">
                         <h2>${contest.name}</h2>
                         <div class="contest-meta">
@@ -551,7 +567,8 @@
             document.getElementById('leaderboard-page').style.display = 'block';
         }
         
-        async function loadContest(contest) {
+        async function loadContest(contestIndex) {
+            const contest = CONTESTS[contestIndex];
             currentContest = contest;
             showLeaderboard();
             
@@ -560,6 +577,7 @@
             
             try {
                 const response = await fetch(contest.file);
+                if (!response.ok) throw new Error(`Failed to load ${contest.file}`);
                 const data = await response.json();
                 
                 document.getElementById('contest-name').textContent = contest.name;
@@ -573,7 +591,7 @@
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('leaderboard').innerHTML = 
-                    `<tr><td colspan="8" class="no-results" style="color: var(--accent-red);">
+                    `<tr><td colspan="8" class="error-message">
                         Error loading ${contest.file}. Make sure the file exists.
                     </td></tr>`;
             }

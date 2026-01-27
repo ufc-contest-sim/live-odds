@@ -291,7 +291,8 @@
             letter-spacing: 2px;
             margin-bottom: 20px;
             color: var(--accent-green);
-            sticky: top 0;
+            position: sticky;
+            top: 0;
             background: var(--bg-card);
             padding-bottom: 10px;
         }
@@ -950,11 +951,9 @@
         function switchView(view) {
             currentView = view;
             
-            // Update toggle buttons
             document.getElementById('btn-by-username').classList.toggle('active', view === 'username');
             document.getElementById('btn-by-lineup').classList.toggle('active', view === 'lineup');
             
-            // Show/hide views
             document.getElementById('view-username').classList.toggle('active', view === 'username');
             document.getElementById('view-lineup').classList.toggle('active', view === 'lineup');
             
@@ -970,7 +969,6 @@
             currentContest = contest;
             showLeaderboard();
             
-            // Reset to username view
             switchView('username');
             
             document.getElementById('leaderboard').innerHTML = 
@@ -1004,7 +1002,6 @@
             const lineupMap = new Map();
             
             allData.forEach(row => {
-                // Create a lineup key from sorted fighter names
                 const fighters = [];
                 const fightersOriginal = [];
                 for (let i = 1; i <= 6; i++) {
@@ -1017,7 +1014,6 @@
                 const lineupKey = fighters.sort().join('|');
                 
                 if (!lineupMap.has(lineupKey)) {
-                    // Only store unique lineups (first occurrence)
                     lineupMap.set(lineupKey, {
                         fighters: fightersOriginal,
                         copies: row.Copies || 1,
@@ -1028,10 +1024,8 @@
                 }
             });
             
-            // Convert to array
             lineupData = Array.from(lineupMap.values());
             
-            // Build list of all unique fighters
             const fighterSet = new Set();
             lineupData.forEach(lineup => {
                 lineup.fighters.forEach(f => fighterSet.add(f));
@@ -1102,7 +1096,6 @@
         function filterAndRenderLineups() {
             const minWin = parseFloat(document.getElementById('lineup-min-win').value) || 0;
             
-            // Filter by selected fighters (must have ALL selected fighters)
             filteredLineupData = lineupData.filter(lineup => {
                 const hasAllFighters = selectedFighters.every(sf => 
                     lineup.fighters.includes(sf)
@@ -1111,7 +1104,6 @@
                 return hasAllFighters && winMatch;
             });
             
-            // Sort
             const sortKey = lineupSort === 'WinPct' ? 'winPct' : 
                            lineupSort === 'NetEV' ? 'netEV' : 
                            lineupSort === 'MeanScore' ? 'meanScore' : 'winPct';
@@ -1122,7 +1114,6 @@
                 return lineupSortAscending ? aVal - bVal : bVal - aVal;
             });
             
-            // Render
             const displayData = filteredLineupData.slice(0, 500);
             
             document.getElementById('lineup-row-count').textContent = 
@@ -1404,4 +1395,14 @@
         
         // Lineup view event listeners
         document.getElementById('lineup-min-win').addEventListener('input', filterAndRenderLineups);
-        document.getElementById('lineup-sor
+        document.getElementById('lineup-sort-by').addEventListener('change', (e) => {
+            lineupSort = e.target.value;
+            lineupSortAscending = false;
+            filterAndRenderLineups();
+        });
+        
+        // Initialize
+        initLanding();
+    </script>
+</body>
+</html>

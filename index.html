@@ -718,7 +718,7 @@
         <div class="landing-header">
             <h1>UFC <span>LIVE ODDS</span></h1>
             <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
-            <p>Email me suggestions - <a href="mailto:dhollis.analytics@gmail.com">dhollis.analytics@gmail.com</a></p>
+            <p>Email me suggestions - <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0f4b6e6161765047606363667c3d3b4f766e676060216c6062">[email&#160;protected]</a></p>
         </div>
         <div id="contests-list" class="contest-grid"></div>
     </div>
@@ -870,7 +870,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Dynamic contest loading
         let CONTESTS = [];
         let allData = [];
@@ -1006,49 +1006,30 @@
             allData.forEach(row => {
                 // Create a lineup key from sorted fighter names
                 const fighters = [];
+                const fightersOriginal = [];
                 for (let i = 1; i <= 6; i++) {
                     const fighter = row[`F${i}`];
                     if (fighter && fighter !== '') {
                         fighters.push(fighter);
+                        fightersOriginal.push(fighter);
                     }
                 }
                 const lineupKey = fighters.sort().join('|');
                 
-                if (lineupMap.has(lineupKey)) {
-                    // Aggregate data for duplicate lineups
-                    const existing = lineupMap.get(lineupKey);
-                    existing.copies += (row.Copies || 1);
-                    existing.totalWinPct += (row.WinPct || 0);
-                    existing.totalNetEV += (row.NetEV || 0);
-                    existing.count += 1;
-                } else {
+                if (!lineupMap.has(lineupKey)) {
+                    // Only store unique lineups (first occurrence)
                     lineupMap.set(lineupKey, {
-                        fighters: fighters,
-                        fightersOriginal: [], // Will store in original slot order
+                        fighters: fightersOriginal,
                         copies: row.Copies || 1,
-                        totalWinPct: row.WinPct || 0,
-                        totalNetEV: row.NetEV || 0,
-                        meanScore: row.MeanScore || 0,
-                        count: 1
+                        winPct: row.WinPct || 0,
+                        netEV: row.NetEV || 0,
+                        meanScore: row.MeanScore || 0
                     });
-                    // Store original order
-                    for (let i = 1; i <= 6; i++) {
-                        const fighter = row[`F${i}`];
-                        if (fighter && fighter !== '') {
-                            lineupMap.get(lineupKey).fightersOriginal.push(fighter);
-                        }
-                    }
                 }
             });
             
-            // Convert to array and calculate averages
-            lineupData = Array.from(lineupMap.values()).map(lineup => ({
-                fighters: lineup.fightersOriginal,
-                copies: lineup.copies,
-                winPct: lineup.totalWinPct / lineup.count,
-                netEV: lineup.totalNetEV / lineup.count,
-                meanScore: lineup.meanScore
-            }));
+            // Convert to array
+            lineupData = Array.from(lineupMap.values());
             
             // Build list of all unique fighters
             const fighterSet = new Set();
@@ -1423,14 +1404,4 @@
         
         // Lineup view event listeners
         document.getElementById('lineup-min-win').addEventListener('input', filterAndRenderLineups);
-        document.getElementById('lineup-sort-by').addEventListener('change', (e) => {
-            lineupSort = e.target.value;
-            lineupSortAscending = false;
-            filterAndRenderLineups();
-        });
-        
-        // Initialize
-        initLanding();
-    </script>
-</body>
-</html>
+        document.getElementById('lineup-sor

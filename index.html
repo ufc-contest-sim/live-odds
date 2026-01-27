@@ -348,6 +348,72 @@
             font-weight: 600;
         }
         
+        .fighter-dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+            margin-top: 4px;
+        }
+        
+        .fighter-dropdown-list.show {
+            display: block;
+        }
+        
+        .fighter-option {
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .fighter-option:hover {
+            background: var(--bg-hover);
+        }
+        
+        .fighter-option.selected {
+            background: var(--bg-hover);
+            color: var(--accent-green);
+        }
+        
+        .selected-fighters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .fighter-chip-selected {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .fighter-chip-selected .remove-fighter {
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .fighter-chip-selected .remove-fighter:hover {
+            opacity: 1;
+        }
+        
         .filters input,
         .filters select {
             background: var(--bg-dark);
@@ -615,14 +681,29 @@
                 </button>
             </header>
             
+            <div class="view-tabs">
+                <button class="tab-btn active" onclick="switchView('username')">By Username</button>
+                <button class="tab-btn" onclick="switchView('lineup')">By Lineup</button>
+            </div>
+            
             <div class="filters">
                 <div class="filter-group" id="username-filter">
                     <label for="search-user">Username:</label>
                     <input type="text" id="search-user" placeholder="Enter username...">
                 </div>
-                <div class="filter-group" id="fighter-filter" style="display: none;">
-                    <label for="search-fighter">Fighter(s):</label>
-                    <input type="text" id="search-fighter" placeholder="Enter fighter name(s)...">
+                <div class="filter-group" id="fighter-filter" style="display: none; flex-direction: column; align-items: flex-start; flex: 1; max-width: 500px;">
+                    <label for="fighter-dropdown">Fighter(s):</label>
+                    <div style="position: relative; width: 100%;">
+                        <input 
+                            type="text" 
+                            id="fighter-dropdown" 
+                            placeholder="Search fighters..."
+                            autocomplete="off"
+                            style="width: 100%;"
+                        >
+                        <div id="fighter-dropdown-list" class="fighter-dropdown-list"></div>
+                    </div>
+                    <div id="selected-fighters" class="selected-fighters"></div>
                 </div>
                 <div class="filter-group">
                     <label for="sort-by">Sort:</label>
@@ -635,11 +716,6 @@
                     </select>
                 </div>
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
-            </div>
-            
-            <div class="view-tabs">
-                <button class="tab-btn active" onclick="switchView('username')">By Username</button>
-                <button class="tab-btn" onclick="switchView('lineup')">By Lineup</button>
             </div>
             
             <div class="stats-and-fighters">
@@ -719,6 +795,91 @@
         let currentSort = 'NetEV';
         let sortAscending = false;
         let currentView = 'username';
+        let allFighters = [];
+        let selectedFighters = [];
+        
+        function extractAllFighters(data) {
+            const fighterSet = new Set();
+            data.forEach(row => {
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && fighter !== '') {
+                        fighterSet.add(fighter);
+                    }
+                }
+            });
+            allFighters = Array.from(fighterSet).sort();
+        }
+        
+        function setupFighterDropdown() {
+            const input = document.getElementById('fighter-dropdown');
+            const dropdownList = document.getElementById('fighter-dropdown-list');
+            
+            input.addEventListener('focus', () => {
+                updateFighterDropdown('');
+                dropdownList.classList.add('show');
+            });
+            
+            input.addEventListener('input', (e) => {
+                updateFighterDropdown(e.target.value);
+                dropdownList.classList.add('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#fighter-filter')) {
+                    dropdownList.classList.remove('show');
+                }
+            });
+        }
+        
+        function updateFighterDropdown(searchTerm) {
+            const dropdownList = document.getElementById('fighter-dropdown-list');
+            const filtered = allFighters.filter(fighter => 
+                fighter.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                !selectedFighters.includes(fighter)
+            );
+            
+            if (filtered.length === 0) {
+                dropdownList.innerHTML = '<div class="fighter-option" style="color: var(--text-secondary); cursor: default;">No fighters found</div>';
+                return;
+            }
+            
+            dropdownList.innerHTML = filtered.slice(0, 50).map(fighter => 
+                `<div class="fighter-option" onclick="addFighter('${fighter.replace(/'/g, "\\'")}')">${fighter}</div>`
+            ).join('');
+        }
+        
+        function addFighter(fighter) {
+            if (!selectedFighters.includes(fighter)) {
+                selectedFighters.push(fighter);
+                updateSelectedFightersDisplay();
+                document.getElementById('fighter-dropdown').value = '';
+                document.getElementById('fighter-dropdown-list').classList.remove('show');
+                filterAndRender();
+            }
+        }
+        
+        function removeFighter(fighter) {
+            selectedFighters = selectedFighters.filter(f => f !== fighter);
+            updateSelectedFightersDisplay();
+            filterAndRender();
+        }
+        
+        function updateSelectedFightersDisplay() {
+            const container = document.getElementById('selected-fighters');
+            if (selectedFighters.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            container.innerHTML = selectedFighters.map(fighter => 
+                `<div class="fighter-chip-selected">
+                    ${fighter}
+                    <span class="remove-fighter" onclick="removeFighter('${fighter.replace(/'/g, "\\'")}')">&times;</span>
+                </div>`
+            ).join('');
+        }
         
         function switchView(view) {
             currentView = view;
@@ -823,6 +984,8 @@
                 
                 allData = data.leaderboard;
                 expandedRows.clear();
+                extractAllFighters(data.leaderboard);
+                setupFighterDropdown();
                 clearFilters();
                 
             } catch (error) {
@@ -946,7 +1109,9 @@
         
         function clearFilters() {
             document.getElementById('search-user').value = '';
-            document.getElementById('search-fighter').value = '';
+            document.getElementById('fighter-dropdown').value = '';
+            selectedFighters = [];
+            updateSelectedFightersDisplay();
             document.getElementById('sort-by').value = 'NetEV';
             currentSort = 'NetEV';
             sortAscending = false;
@@ -964,7 +1129,6 @@
         
         function filterAndRender() {
             const searchUser = document.getElementById('search-user').value.toLowerCase();
-            const searchFighter = document.getElementById('search-fighter').value.toLowerCase();
             
             // Filter
             filteredData = allData.filter(row => {
@@ -972,24 +1136,21 @@
                     const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
                     return userMatch;
                 } else {
-                    // For lineup view, filter by fighters in the lineup
-                    if (!searchFighter) return true;
-                    
-                    // Split search terms by comma or space to allow multiple fighter searches
-                    const searchTerms = searchFighter.split(/[,\s]+/).filter(term => term.length > 0);
+                    // For lineup view, filter by selected fighters
+                    if (selectedFighters.length === 0) return true;
                     
                     // Get all fighters in this lineup
                     const lineupFighters = [];
                     for (let i = 1; i <= 6; i++) {
                         const fighter = row[`F${i}`];
                         if (fighter && fighter !== '') {
-                            lineupFighters.push(fighter.toLowerCase());
+                            lineupFighters.push(fighter);
                         }
                     }
                     
-                    // Check if ALL search terms are found in the lineup
-                    return searchTerms.every(term => 
-                        lineupFighters.some(fighter => fighter.includes(term))
+                    // Check if ALL selected fighters are in the lineup
+                    return selectedFighters.every(selectedFighter => 
+                        lineupFighters.includes(selectedFighter)
                     );
                 }
             });
@@ -1186,7 +1347,6 @@
         
         // Event listeners
         document.getElementById('search-user').addEventListener('input', filterAndRender);
-        document.getElementById('search-fighter').addEventListener('input', filterAndRender);
         document.getElementById('sort-by').addEventListener('change', (e) => {
             currentSort = e.target.value;
             sortAscending = false;

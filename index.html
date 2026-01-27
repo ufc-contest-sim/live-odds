@@ -616,9 +616,13 @@
             </header>
             
             <div class="filters">
-                <div class="filter-group">
+                <div class="filter-group" id="username-filter">
                     <label for="search-user">Username:</label>
                     <input type="text" id="search-user" placeholder="Enter username...">
+                </div>
+                <div class="filter-group" id="fighter-filter" style="display: none;">
+                    <label for="search-fighter">Fighter(s):</label>
+                    <input type="text" id="search-fighter" placeholder="Enter fighter name(s)...">
                 </div>
                 <div class="filter-group">
                     <label for="sort-by">Sort:</label>
@@ -725,15 +729,17 @@
             });
             event.target.classList.add('active');
             
-            // Show/hide appropriate tables
+            // Show/hide appropriate tables and filters
             if (view === 'username') {
                 document.getElementById('username-table').style.display = 'block';
                 document.getElementById('lineup-table').style.display = 'none';
-                document.getElementById('search-user').parentElement.style.display = 'flex';
+                document.getElementById('username-filter').style.display = 'flex';
+                document.getElementById('fighter-filter').style.display = 'none';
             } else {
                 document.getElementById('username-table').style.display = 'none';
                 document.getElementById('lineup-table').style.display = 'block';
-                document.getElementById('search-user').parentElement.style.display = 'none';
+                document.getElementById('username-filter').style.display = 'none';
+                document.getElementById('fighter-filter').style.display = 'flex';
             }
             
             filterAndRender();
@@ -940,6 +946,7 @@
         
         function clearFilters() {
             document.getElementById('search-user').value = '';
+            document.getElementById('search-fighter').value = '';
             document.getElementById('sort-by').value = 'NetEV';
             currentSort = 'NetEV';
             sortAscending = false;
@@ -957,11 +964,34 @@
         
         function filterAndRender() {
             const searchUser = document.getElementById('search-user').value.toLowerCase();
+            const searchFighter = document.getElementById('search-fighter').value.toLowerCase();
             
             // Filter
             filteredData = allData.filter(row => {
-                const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
-                return userMatch;
+                if (currentView === 'username') {
+                    const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
+                    return userMatch;
+                } else {
+                    // For lineup view, filter by fighters in the lineup
+                    if (!searchFighter) return true;
+                    
+                    // Split search terms by comma or space to allow multiple fighter searches
+                    const searchTerms = searchFighter.split(/[,\s]+/).filter(term => term.length > 0);
+                    
+                    // Get all fighters in this lineup
+                    const lineupFighters = [];
+                    for (let i = 1; i <= 6; i++) {
+                        const fighter = row[`F${i}`];
+                        if (fighter && fighter !== '') {
+                            lineupFighters.push(fighter.toLowerCase());
+                        }
+                    }
+                    
+                    // Check if ALL search terms are found in the lineup
+                    return searchTerms.every(term => 
+                        lineupFighters.some(fighter => fighter.includes(term))
+                    );
+                }
             });
             
             // Sort
@@ -1156,6 +1186,7 @@
         
         // Event listeners
         document.getElementById('search-user').addEventListener('input', filterAndRender);
+        document.getElementById('search-fighter').addEventListener('input', filterAndRender);
         document.getElementById('sort-by').addEventListener('change', (e) => {
             currentSort = e.target.value;
             sortAscending = false;

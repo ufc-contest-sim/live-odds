@@ -313,6 +313,41 @@
             align-items: center;
         }
         
+        .view-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: var(--bg-card);
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+        
+        .tab-btn.active {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+            font-weight: 600;
+        }
+        
         .filters input,
         .filters select {
             background: var(--bg-dark);
@@ -598,6 +633,11 @@
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
             </div>
             
+            <div class="view-tabs">
+                <button class="tab-btn active" onclick="switchView('username')">By Username</button>
+                <button class="tab-btn" onclick="switchView('lineup')">By Lineup</button>
+            </div>
+            
             <div class="stats-and-fighters">
                 <div class="stats-vertical">
                     <h3>Portfolio Stats</h3>
@@ -625,7 +665,7 @@
                 </div>
             </div>
             
-            <div class="table-container">
+            <div class="table-container" id="username-table">
                 <div class="table-scroll">
                     <table>
                         <thead>
@@ -644,6 +684,24 @@
                     </table>
                 </div>
             </div>
+            
+            <div class="table-container" id="lineup-table" style="display: none;">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">Rank</th>
+                                <th>Lineup</th>
+                                <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                                <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
+                                <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
+                                <th style="width: 80px;">Copies</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lineup-leaderboard"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -656,6 +714,30 @@
         let expandedRows = new Set();
         let currentSort = 'NetEV';
         let sortAscending = false;
+        let currentView = 'username';
+        
+        function switchView(view) {
+            currentView = view;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide appropriate tables
+            if (view === 'username') {
+                document.getElementById('username-table').style.display = 'block';
+                document.getElementById('lineup-table').style.display = 'none';
+                document.getElementById('search-user').parentElement.style.display = 'flex';
+            } else {
+                document.getElementById('username-table').style.display = 'none';
+                document.getElementById('lineup-table').style.display = 'block';
+                document.getElementById('search-user').parentElement.style.display = 'none';
+            }
+            
+            filterAndRender();
+        }
         
         // Load contests from contests.json
         async function loadContestConfig() {
@@ -900,11 +982,20 @@
             // Update stats based on filtered data
             updateStats(filteredData);
             
+            // Render based on current view
+            if (currentView === 'username') {
+                renderUsernameView(filteredData);
+            } else {
+                renderLineupView(filteredData);
+            }
+        }
+        
+        function renderUsernameView(data) {
             // Render (show top 1000 for performance)
-            const displayData = filteredData.slice(0, 1000);
+            const displayData = data.slice(0, 1000);
             
             document.getElementById('row-count').textContent = 
-                `Showing ${displayData.length.toLocaleString()} of ${filteredData.length.toLocaleString()} lineups`;
+                `Showing ${displayData.length.toLocaleString()} of ${data.length.toLocaleString()} lineups`;
             
             const tbody = document.getElementById('leaderboard');
             
@@ -975,6 +1066,89 @@
                                 ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
                             </div>
                         </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function renderLineupView(data) {
+            // Group by unique lineup
+            const lineupMap = new Map();
+            
+            data.forEach(row => {
+                const lineupKey = row.LineupKey || '';
+                if (!lineupKey) return;
+                
+                if (!lineupMap.has(lineupKey)) {
+                    lineupMap.set(lineupKey, {
+                        lineup: lineupKey,
+                        fighters: [],
+                        WinPct: row.WinPct || 0,
+                        NetEV: row.NetEV || 0,
+                        MeanScore: row.MeanScore || 0,
+                        Copies: 0
+                    });
+                    
+                    // Get fighters
+                    for (let i = 1; i <= 6; i++) {
+                        const fighter = row[`F${i}`];
+                        if (fighter && fighter !== '') {
+                            lineupMap.get(lineupKey).fighters.push(fighter);
+                        }
+                    }
+                }
+                
+                // Add to copies count
+                lineupMap.get(lineupKey).Copies += (row.Copies || 1);
+            });
+            
+            // Convert to array and sort
+            let uniqueLineups = Array.from(lineupMap.values());
+            uniqueLineups.sort((a, b) => {
+                let aVal = a[currentSort] || 0;
+                let bVal = b[currentSort] || 0;
+                return sortAscending ? aVal - bVal : bVal - aVal;
+            });
+            
+            const displayData = uniqueLineups.slice(0, 1000);
+            const tbody = document.getElementById('lineup-leaderboard');
+            
+            document.getElementById('row-count').textContent = 
+                `Showing ${displayData.length.toLocaleString()} of ${uniqueLineups.length.toLocaleString()} unique lineups`;
+            
+            if (displayData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-results">No lineups found</td></tr>';
+                return;
+            }
+            
+            const formatNetEV = (netEV) => {
+                const absNetEV = Math.abs(netEV);
+                const formatted = absNetEV.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+            
+            tbody.innerHTML = displayData.map((lineup, idx) => {
+                return `
+                    <tr class="row-main">
+                        <td>${idx + 1}</td>
+                        <td>
+                            <div class="lineup-container" style="padding: 8px 0;">
+                                ${lineup.fighters.map(f => `
+                                    <div class="fighter-chip">
+                                        ${f}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </td>
+                        <td>${(lineup.WinPct || 0).toFixed(2)}%</td>
+                        <td class="${(lineup.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
+                            ${formatNetEV(lineup.NetEV || 0)}
+                        </td>
+                        <td>${(lineup.MeanScore || 0).toFixed(2)}</td>
+                        <td>${lineup.Copies || 0}</td>
                     </tr>
                 `;
             }).join('');

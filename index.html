@@ -181,6 +181,41 @@
             margin-top: 5px;
         }
         
+        /* View Toggle Tabs */
+        .view-toggle {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 4px;
+            width: fit-content;
+            border: 1px solid var(--border);
+        }
+        
+        .view-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        
+        .view-toggle-btn:hover {
+            color: var(--text-primary);
+        }
+        
+        .view-toggle-btn.active {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+            font-weight: 600;
+        }
+        
         /* Two-column layout for stats and fighter table */
         .stats-and-fighters {
             display: grid;
@@ -502,6 +537,108 @@
             font-size: 0.7rem;
         }
         
+        /* Fighter Filter for By Lineup view */
+        .fighter-filter-container {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        
+        .fighter-filter-container h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--accent-green);
+        }
+        
+        .fighter-filter-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .fighter-select-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+        }
+        
+        .fighter-select {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        
+        .fighter-select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+        
+        .selected-fighters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .selected-fighter-tag {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .selected-fighter-tag .remove-btn {
+            background: rgba(0,0,0,0.2);
+            border: none;
+            color: var(--bg-dark);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .selected-fighter-tag .remove-btn:hover {
+            background: rgba(0,0,0,0.4);
+        }
+        
+        /* Lineup view table - fighters always visible */
+        .lineup-view-table .fighter-cells {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .lineup-view-table .fighter-mini-chip {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        
         .loading,
         .error-message,
         .no-results {
@@ -512,6 +649,15 @@
         
         .error-message {
             color: var(--accent-red);
+        }
+        
+        /* Hide/show views */
+        .view-content {
+            display: none;
+        }
+        
+        .view-content.active {
+            display: block;
         }
         
         @media (max-width: 1400px) {
@@ -555,6 +701,15 @@
             .fighter-chip {
                 font-size: 0.75rem;
             }
+            
+            .view-toggle {
+                width: 100%;
+            }
+            
+            .view-toggle-btn {
+                flex: 1;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -563,7 +718,7 @@
         <div class="landing-header">
             <h1>UFC <span>LIVE ODDS</span></h1>
             <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
-            <p>Email me suggestions - Danny_Hollis24@yahoo.com</p>
+            <p>Email me suggestions - <a href="mailto:dhollis.analytics@gmail.com">dhollis.analytics@gmail.com</a></p>
         </div>
         <div id="contests-list" class="contest-grid"></div>
     </div>
@@ -580,80 +735,143 @@
                 </button>
             </header>
             
-            <div class="filters">
-                <div class="filter-group">
-                    <label for="search-user">Username:</label>
-                    <input type="text" id="search-user" placeholder="Enter username...">
-                </div>
-                <div class="filter-group">
-                    <label for="min-win">Min Win %:</label>
-                    <input type="number" id="min-win" placeholder="0" step="0.01" style="width: 100px;">
-                </div>
-                <div class="filter-group">
-                    <label for="min-roi">Min ROI %:</label>
-                    <input type="number" id="min-roi" placeholder="-100" step="0.01" style="width: 100px;">
-                </div>
-                <div class="filter-group">
-                    <label for="sort-by">Sort:</label>
-                    <select id="sort-by">
-                        <option value="WinPct">Win %</option>
-                        <option value="ROI%">ROI %</option>
-                        <option value="NetEV">Net EV</option>
-                        <option value="MeanScore">Proj Score</option>
-                        <option value="Username">Username</option>
-                    </select>
-                </div>
-                <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
+            <!-- View Toggle -->
+            <div class="view-toggle">
+                <button class="view-toggle-btn active" id="btn-by-username" onclick="switchView('username')">By Username</button>
+                <button class="view-toggle-btn" id="btn-by-lineup" onclick="switchView('lineup')">By Lineup</button>
             </div>
             
-            <div class="stats-and-fighters">
-                <div class="stats-vertical">
-                    <h3>Portfolio Stats</h3>
-                    <div id="stats-vertical"></div>
+            <!-- BY USERNAME VIEW -->
+            <div id="view-username" class="view-content active">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="search-user">Username:</label>
+                        <input type="text" id="search-user" placeholder="Enter username...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="min-win">Min Win %:</label>
+                        <input type="number" id="min-win" placeholder="0" step="0.01" style="width: 100px;">
+                    </div>
+                    <div class="filter-group">
+                        <label for="min-roi">Min ROI %:</label>
+                        <input type="number" id="min-roi" placeholder="-100" step="0.01" style="width: 100px;">
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort-by">Sort:</label>
+                        <select id="sort-by">
+                            <option value="WinPct">Win %</option>
+                            <option value="ROI%">ROI %</option>
+                            <option value="NetEV">Net EV</option>
+                            <option value="MeanScore">Proj Score</option>
+                            <option value="Username">Username</option>
+                        </select>
+                    </div>
+                    <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
                 </div>
                 
-                <div class="fighter-draft-container">
-                    <h3>Fighter Draft %</h3>
-                    <table class="fighter-draft-table">
-                        <thead>
-                            <tr>
-                                <th>Fighter</th>
-                                <th>Draft %</th>
-                            </tr>
-                        </thead>
-                        <tbody id="fighter-draft-tbody"></tbody>
-                    </table>
+                <div class="stats-and-fighters">
+                    <div class="stats-vertical">
+                        <h3>Portfolio Stats</h3>
+                        <div id="stats-vertical"></div>
+                    </div>
+                    
+                    <div class="fighter-draft-container">
+                        <h3>Fighter Draft %</h3>
+                        <table class="fighter-draft-table">
+                            <thead>
+                                <tr>
+                                    <th>Fighter</th>
+                                    <th>Draft %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fighter-draft-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="table-header">
+                    <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;"></th>
+                                    <th style="width: 60px;">Rank</th>
+                                    <th class="sortable" onclick="setSort('Username')">Username</th>
+                                    <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                                    <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
+                                    <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
+                                    <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
+                                    <th style="width: 80px;">Copies</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             
-            <div class="table-header">
-                <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-scroll">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width: 40px;"></th>
-                                <th style="width: 60px;">Rank</th>
-                                <th class="sortable" onclick="setSort('Username')">Username</th>
-                                <th class="sortable" onclick="setSort('WinPct')">Win %</th>
-                                <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
-                                <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
-                                <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
-                                <th style="width: 80px;">Copies</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboard"></tbody>
-                    </table>
+            <!-- BY LINEUP VIEW -->
+            <div id="view-lineup" class="view-content">
+                <div class="fighter-filter-container">
+                    <h3>Filter by Fighters</h3>
+                    <div class="fighter-filter-row">
+                        <div class="fighter-select-wrapper">
+                            <select class="fighter-select" id="fighter-select" onchange="addFighterFilter()">
+                                <option value="">Select a fighter to filter...</option>
+                            </select>
+                        </div>
+                        <button class="clear-btn" onclick="clearFighterFilters()">Clear Fighter Filters</button>
+                    </div>
+                    <div class="selected-fighters" id="selected-fighters"></div>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="lineup-min-win">Min Win %:</label>
+                        <input type="number" id="lineup-min-win" placeholder="0" step="0.01" style="width: 100px;">
+                    </div>
+                    <div class="filter-group">
+                        <label for="lineup-sort-by">Sort:</label>
+                        <select id="lineup-sort-by">
+                            <option value="WinPct">Win %</option>
+                            <option value="ROI%">ROI %</option>
+                            <option value="NetEV">Net EV</option>
+                            <option value="MeanScore">Proj Score</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-header">
+                    <div class="row-count" id="lineup-row-count">Showing 0 of 0 unique lineups</div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table class="lineup-view-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60px;">Rank</th>
+                                    <th>Fighters</th>
+                                    <th class="sortable" onclick="setLineupSort('WinPct')">Win %</th>
+                                    <th class="sortable" onclick="setLineupSort('NetEV')">Proj EV</th>
+                                    <th class="sortable" onclick="setLineupSort('MeanScore')">Proj Score</th>
+                                    <th style="width: 80px;">Copies</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lineup-leaderboard"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Dynamic contest loading - no more hardcoding!
+        // Dynamic contest loading
         let CONTESTS = [];
         let allData = [];
         let filteredData = [];
@@ -661,6 +879,15 @@
         let expandedRows = new Set();
         let currentSort = 'WinPct';
         let sortAscending = false;
+        
+        // Lineup view state
+        let currentView = 'username';
+        let lineupData = [];
+        let filteredLineupData = [];
+        let selectedFighters = [];
+        let allFighters = [];
+        let lineupSort = 'WinPct';
+        let lineupSortAscending = false;
         
         // Load contests from contests.json
         async function loadContestConfig() {
@@ -672,7 +899,6 @@
                 return true;
             } catch (error) {
                 console.error('Error loading contests.json:', error);
-                // Fallback: try to detect JSON files in directory
                 return false;
             }
         }
@@ -681,7 +907,6 @@
         async function initLanding() {
             const grid = document.getElementById('contests-list');
             
-            // Load contest config
             const loaded = await loadContestConfig();
             
             if (!loaded || CONTESTS.length === 0) {
@@ -714,6 +939,7 @@
             document.getElementById('leaderboard-page').style.display = 'none';
             currentContest = null;
             expandedRows.clear();
+            selectedFighters = [];
         }
         
         function showLeaderboard() {
@@ -721,10 +947,31 @@
             document.getElementById('leaderboard-page').style.display = 'block';
         }
         
+        function switchView(view) {
+            currentView = view;
+            
+            // Update toggle buttons
+            document.getElementById('btn-by-username').classList.toggle('active', view === 'username');
+            document.getElementById('btn-by-lineup').classList.toggle('active', view === 'lineup');
+            
+            // Show/hide views
+            document.getElementById('view-username').classList.toggle('active', view === 'username');
+            document.getElementById('view-lineup').classList.toggle('active', view === 'lineup');
+            
+            if (view === 'lineup') {
+                buildLineupData();
+                populateFighterSelect();
+                filterAndRenderLineups();
+            }
+        }
+        
         async function loadContest(contestIndex) {
             const contest = CONTESTS[contestIndex];
             currentContest = contest;
             showLeaderboard();
+            
+            // Reset to username view
+            switchView('username');
             
             document.getElementById('leaderboard').innerHTML = 
                 '<tr><td colspan="8" class="loading">Loading data...</td></tr>';
@@ -740,6 +987,7 @@
                 
                 allData = data.leaderboard;
                 expandedRows.clear();
+                selectedFighters = [];
                 clearFilters();
                 
             } catch (error) {
@@ -751,11 +999,194 @@
             }
         }
         
+        // Build unique lineup data for the lineup view
+        function buildLineupData() {
+            const lineupMap = new Map();
+            
+            allData.forEach(row => {
+                // Create a lineup key from sorted fighter names
+                const fighters = [];
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && fighter !== '') {
+                        fighters.push(fighter);
+                    }
+                }
+                const lineupKey = fighters.sort().join('|');
+                
+                if (lineupMap.has(lineupKey)) {
+                    // Aggregate data for duplicate lineups
+                    const existing = lineupMap.get(lineupKey);
+                    existing.copies += (row.Copies || 1);
+                    existing.totalWinPct += (row.WinPct || 0);
+                    existing.totalNetEV += (row.NetEV || 0);
+                    existing.count += 1;
+                } else {
+                    lineupMap.set(lineupKey, {
+                        fighters: fighters,
+                        fightersOriginal: [], // Will store in original slot order
+                        copies: row.Copies || 1,
+                        totalWinPct: row.WinPct || 0,
+                        totalNetEV: row.NetEV || 0,
+                        meanScore: row.MeanScore || 0,
+                        count: 1
+                    });
+                    // Store original order
+                    for (let i = 1; i <= 6; i++) {
+                        const fighter = row[`F${i}`];
+                        if (fighter && fighter !== '') {
+                            lineupMap.get(lineupKey).fightersOriginal.push(fighter);
+                        }
+                    }
+                }
+            });
+            
+            // Convert to array and calculate averages
+            lineupData = Array.from(lineupMap.values()).map(lineup => ({
+                fighters: lineup.fightersOriginal,
+                copies: lineup.copies,
+                winPct: lineup.totalWinPct / lineup.count,
+                netEV: lineup.totalNetEV / lineup.count,
+                meanScore: lineup.meanScore
+            }));
+            
+            // Build list of all unique fighters
+            const fighterSet = new Set();
+            lineupData.forEach(lineup => {
+                lineup.fighters.forEach(f => fighterSet.add(f));
+            });
+            allFighters = Array.from(fighterSet).sort();
+        }
+        
+        function populateFighterSelect() {
+            const select = document.getElementById('fighter-select');
+            select.innerHTML = '<option value="">Select a fighter to filter...</option>' +
+                allFighters
+                    .filter(f => !selectedFighters.includes(f))
+                    .map(f => `<option value="${f}">${f}</option>`)
+                    .join('');
+        }
+        
+        function addFighterFilter() {
+            const select = document.getElementById('fighter-select');
+            const fighter = select.value;
+            if (fighter && !selectedFighters.includes(fighter)) {
+                selectedFighters.push(fighter);
+                renderSelectedFighters();
+                populateFighterSelect();
+                filterAndRenderLineups();
+            }
+            select.value = '';
+        }
+        
+        function removeFighterFilter(fighter) {
+            selectedFighters = selectedFighters.filter(f => f !== fighter);
+            renderSelectedFighters();
+            populateFighterSelect();
+            filterAndRenderLineups();
+        }
+        
+        function clearFighterFilters() {
+            selectedFighters = [];
+            renderSelectedFighters();
+            populateFighterSelect();
+            filterAndRenderLineups();
+        }
+        
+        function renderSelectedFighters() {
+            const container = document.getElementById('selected-fighters');
+            if (selectedFighters.length === 0) {
+                container.innerHTML = '<span style="color: var(--text-secondary); font-size: 0.9rem;">No fighters selected - showing all lineups</span>';
+            } else {
+                container.innerHTML = selectedFighters.map(f => `
+                    <div class="selected-fighter-tag">
+                        ${f}
+                        <button class="remove-btn" onclick="removeFighterFilter('${f}')">&times;</button>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function setLineupSort(column) {
+            if (lineupSort === column) {
+                lineupSortAscending = !lineupSortAscending;
+            } else {
+                lineupSort = column;
+                lineupSortAscending = false;
+            }
+            document.getElementById('lineup-sort-by').value = column;
+            filterAndRenderLineups();
+        }
+        
+        function filterAndRenderLineups() {
+            const minWin = parseFloat(document.getElementById('lineup-min-win').value) || 0;
+            
+            // Filter by selected fighters (must have ALL selected fighters)
+            filteredLineupData = lineupData.filter(lineup => {
+                const hasAllFighters = selectedFighters.every(sf => 
+                    lineup.fighters.includes(sf)
+                );
+                const winMatch = lineup.winPct >= minWin;
+                return hasAllFighters && winMatch;
+            });
+            
+            // Sort
+            const sortKey = lineupSort === 'WinPct' ? 'winPct' : 
+                           lineupSort === 'NetEV' ? 'netEV' : 
+                           lineupSort === 'MeanScore' ? 'meanScore' : 'winPct';
+            
+            filteredLineupData.sort((a, b) => {
+                const aVal = a[sortKey] || 0;
+                const bVal = b[sortKey] || 0;
+                return lineupSortAscending ? aVal - bVal : bVal - aVal;
+            });
+            
+            // Render
+            const displayData = filteredLineupData.slice(0, 500);
+            
+            document.getElementById('lineup-row-count').textContent = 
+                `Showing ${displayData.length.toLocaleString()} of ${filteredLineupData.length.toLocaleString()} unique lineups`;
+            
+            const tbody = document.getElementById('lineup-leaderboard');
+            
+            if (displayData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-results">No lineups match your filters</td></tr>';
+                return;
+            }
+            
+            const formatNetEV = (netEV) => {
+                const absNetEV = Math.abs(netEV);
+                const formatted = absNetEV.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+            
+            tbody.innerHTML = displayData.map((lineup, idx) => `
+                <tr class="row-main">
+                    <td>${idx + 1}</td>
+                    <td>
+                        <div class="fighter-cells">
+                            ${lineup.fighters.map(f => `
+                                <span class="fighter-mini-chip">${f}</span>
+                            `).join('')}
+                        </div>
+                    </td>
+                    <td>${lineup.winPct.toFixed(2)}%</td>
+                    <td class="${lineup.netEV >= 0 ? 'positive' : 'negative'}">
+                        ${formatNetEV(lineup.netEV)}
+                    </td>
+                    <td>${lineup.meanScore.toFixed(2)}</td>
+                    <td>${lineup.copies}</td>
+                </tr>
+            `).join('');
+        }
+        
         function calculateFighterDraftPct(data) {
             const fighterCounts = {};
             const totalLineups = data.length;
             
-            // Count occurrences of each fighter
             data.forEach(row => {
                 for (let i = 1; i <= 6; i++) {
                     const fighter = row[`F${i}`];
@@ -765,7 +1196,6 @@
                 }
             });
             
-            // Convert to array with percentages and sort by draft %
             const fighterStats = Object.entries(fighterCounts)
                 .map(([fighter, count]) => ({
                     fighter,
@@ -797,7 +1227,6 @@
         function updateStats(data) {
             const totalLineups = data.length;
             
-            // Calculate portfolio totals (sum of all filtered lineups)
             const portfolioWinPct = data.reduce((sum, r) => sum + (r.WinPct || 0), 0);
             const portfolioNetEV = data.reduce((sum, r) => sum + (r.NetEV || 0), 0);
             const portfolioCost = data.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
@@ -809,7 +1238,6 @@
             
             const label = isFiltered ? 'Filtered' : 'Total';
             
-            // Format ROI with commas (for thousands) and 1 decimal place
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
                 const formatted = absRoi.toLocaleString(undefined, {
@@ -819,7 +1247,6 @@
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
             
-            // Format Net EV with commas and 2 decimal places
             const formatNetEV = (netEV) => {
                 const absNetEV = Math.abs(netEV);
                 const formatted = absNetEV.toLocaleString(undefined, {
@@ -848,7 +1275,6 @@
                 </div>
             `;
             
-            // Update fighter draft % table
             updateFighterDraftTable(data);
         }
         
@@ -887,7 +1313,6 @@
             const minWin = parseFloat(document.getElementById('min-win').value) || 0;
             const minROI = parseFloat(document.getElementById('min-roi').value) || -999999;
             
-            // Filter
             filteredData = allData.filter(row => {
                 const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
                 const winMatch = (row.WinPct || 0) >= minWin;
@@ -895,12 +1320,10 @@
                 return userMatch && winMatch && roiMatch;
             });
             
-            // Sort
             filteredData.sort((a, b) => {
                 let aVal = a[currentSort] || 0;
                 let bVal = b[currentSort] || 0;
                 
-                // Handle string sorting for Username
                 if (currentSort === 'Username') {
                     aVal = (a.Username || '').toLowerCase();
                     bVal = (b.Username || '').toLowerCase();
@@ -910,10 +1333,8 @@
                 return sortAscending ? aVal - bVal : bVal - aVal;
             });
             
-            // Update stats based on filtered data
             updateStats(filteredData);
             
-            // Render (show top 1000 for performance)
             const displayData = filteredData.slice(0, 1000);
             
             document.getElementById('row-count').textContent = 
@@ -926,7 +1347,6 @@
                 return;
             }
             
-            // Format functions for table cells
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
                 const formatted = absRoi.toLocaleString(undefined, {
@@ -949,7 +1369,6 @@
                 const rowId = `row-${idx}`;
                 const isExpanded = expandedRows.has(rowId);
                 
-                // Build fighter chips
                 const fighters = [];
                 for (let i = 1; i <= 6; i++) {
                     const fighter = row[`F${i}`];
@@ -958,7 +1377,6 @@
                     }
                 }
                 
-                // Get projected score (it's called "MeanScore" in the data)
                 const projScore = row['MeanScore'] || 0;
                 
                 return `
@@ -1003,7 +1421,15 @@
             filterAndRender();
         });
         
-        // Start
+        // Lineup view event listeners
+        document.getElementById('lineup-min-win').addEventListener('input', filterAndRenderLineups);
+        document.getElementById('lineup-sort-by').addEventListener('change', (e) => {
+            lineupSort = e.target.value;
+            lineupSortAscending = false;
+            filterAndRenderLineups();
+        });
+        
+        // Initialize
         initLanding();
     </script>
 </body>

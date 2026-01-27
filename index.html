@@ -1277,7 +1277,7 @@
                         WinPct: row.WinPct || 0,
                         NetEV: row.NetEV || 0,
                         MeanScore: row.MeanScore || 0,
-                        Copies: 0
+                        Copies: row.Copies || 1
                     });
                     
                     // Get fighters
@@ -1288,9 +1288,7 @@
                         }
                     }
                 }
-                
-                // Add to copies count
-                lineupMap.get(lineupKey).Copies += (row.Copies || 1);
+                // Don't add to copies - just use the Copies value from the first occurrence
             });
             
             // Convert to array and sort

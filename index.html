@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UFC Contest Live Odds</title>
+    <title>UFC Live Sweat</title>
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CP85MXD2MT"></script>
@@ -662,9 +662,9 @@
 <body>
     <div id="landing-page" class="landing-page">
         <div class="landing-header">
-            <h1>UFC <span>LIVE ODDS</span></h1>
+            <h1>UFC <span>LIVE SWEAT</span></h1>
             <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
-            <p>Email me suggestions - Danny_Hollis24@yahoo.com</p>
+            <p>Email me suggestions - <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b6f2d7d8d8cfe9fed9dadadfc58482f6cfd7ded9d998d5d9db">[email&#160;protected]</a></p>
         </div>
         <div id="contests-list" class="contest-grid"></div>
     </div>
@@ -785,7 +785,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Dynamic contest loading - no more hardcoding!
         let CONTESTS = [];
         let allData = [];
@@ -1345,14 +1345,4 @@
         
         // Event listeners
         document.getElementById('search-user').addEventListener('input', filterAndRender);
-        document.getElementById('sort-by').addEventListener('change', (e) => {
-            currentSort = e.target.value;
-            sortAscending = false;
-            filterAndRender();
-        });
-        
-        // Start
-        initLanding();
-    </script>
-</body>
-</html>
+        document.getElementById('sort-by')

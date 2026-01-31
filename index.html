@@ -684,6 +684,7 @@
             <div class="view-tabs">
                 <button class="tab-btn active" onclick="switchView('username')">By Username</button>
                 <button class="tab-btn" onclick="switchView('lineup')">By Lineup</button>
+                <button class="tab-btn" onclick="switchView('portfolio')">By Portfolio</button>
             </div>
             
             <div class="filters">
@@ -779,6 +780,24 @@
                             </tr>
                         </thead>
                         <tbody id="lineup-leaderboard"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-container" id="portfolio-table" style="display: none;">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">Rank</th>
+                                <th class="sortable" onclick="setSort('Username')">Username</th>
+                                <th style="width: 80px;">Entries</th>
+                                <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                                <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
+                                <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="portfolio-leaderboard"></tbody>
                     </table>
                 </div>
             </div>
@@ -883,26 +902,32 @@
         
         function switchView(view) {
             currentView = view;
-            
+
             // Update tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
+
             // Show/hide appropriate tables and filters
+            document.getElementById('username-table').style.display = 'none';
+            document.getElementById('lineup-table').style.display = 'none';
+            document.getElementById('portfolio-table').style.display = 'none';
+
             if (view === 'username') {
                 document.getElementById('username-table').style.display = 'block';
-                document.getElementById('lineup-table').style.display = 'none';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
-            } else {
-                document.getElementById('username-table').style.display = 'none';
+            } else if (view === 'lineup') {
                 document.getElementById('lineup-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'none';
                 document.getElementById('fighter-filter').style.display = 'flex';
+            } else if (view === 'portfolio') {
+                document.getElementById('portfolio-table').style.display = 'block';
+                document.getElementById('username-filter').style.display = 'flex';
+                document.getElementById('fighter-filter').style.display = 'none';
             }
-            
+
             filterAndRender();
         }
         
@@ -1132,13 +1157,13 @@
             
             // Filter
             filteredData = allData.filter(row => {
-                if (currentView === 'username') {
+                if (currentView === 'username' || currentView === 'portfolio') {
                     const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
                     return userMatch;
                 } else {
                     // For lineup view, filter by selected fighters
                     if (selectedFighters.length === 0) return true;
-                    
+
                     // Get all fighters in this lineup
                     const lineupFighters = [];
                     for (let i = 1; i <= 6; i++) {
@@ -1147,9 +1172,9 @@
                             lineupFighters.push(fighter);
                         }
                     }
-                    
+
                     // Check if ALL selected fighters are in the lineup
-                    return selectedFighters.every(selectedFighter => 
+                    return selectedFighters.every(selectedFighter =>
                         lineupFighters.includes(selectedFighter)
                     );
                 }
@@ -1176,8 +1201,10 @@
             // Render based on current view
             if (currentView === 'username') {
                 renderUsernameView(filteredData);
-            } else {
+            } else if (currentView === 'lineup') {
                 renderLineupView(filteredData);
+            } else if (currentView === 'portfolio') {
+                renderPortfolioView(filteredData);
             }
         }
         
@@ -1342,7 +1369,100 @@
                 `;
             }).join('');
         }
-        
+
+        function renderPortfolioView(data) {
+            // Group by username and aggregate stats
+            const portfolioMap = new Map();
+
+            data.forEach(row => {
+                const username = row.Username || 'Unknown';
+
+                if (!portfolioMap.has(username)) {
+                    portfolioMap.set(username, {
+                        Username: username,
+                        Entries: 0,
+                        TotalWinPct: 0,
+                        TotalNetEV: 0,
+                        TotalCost: 0
+                    });
+                }
+
+                const portfolio = portfolioMap.get(username);
+                portfolio.Entries += 1;
+                portfolio.TotalWinPct += (row.WinPct || 0);
+                portfolio.TotalNetEV += (row.NetEV || 0);
+                portfolio.TotalCost += (row.EntryFee || 0);
+            });
+
+            // Convert to array and calculate ROI
+            let portfolios = Array.from(portfolioMap.values()).map(p => ({
+                ...p,
+                WinPct: p.TotalWinPct,
+                NetEV: p.TotalNetEV,
+                'ROI%': p.TotalCost > 0 ? (p.TotalNetEV / p.TotalCost) * 100 : 0
+            }));
+
+            // Sort
+            portfolios.sort((a, b) => {
+                let aVal = a[currentSort] || 0;
+                let bVal = b[currentSort] || 0;
+
+                if (currentSort === 'Username') {
+                    aVal = (a.Username || '').toLowerCase();
+                    bVal = (b.Username || '').toLowerCase();
+                    return sortAscending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                }
+
+                return sortAscending ? aVal - bVal : bVal - aVal;
+            });
+
+            const displayData = portfolios.slice(0, 1000);
+            const tbody = document.getElementById('portfolio-leaderboard');
+
+            document.getElementById('row-count').textContent =
+                `Showing ${displayData.length.toLocaleString()} of ${portfolios.length.toLocaleString()} portfolios`;
+
+            if (displayData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-results">No portfolios found</td></tr>';
+                return;
+            }
+
+            const formatROI = (roi) => {
+                const absRoi = Math.abs(roi);
+                const formatted = absRoi.toLocaleString(undefined, {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                });
+                return roi < 0 ? `-${formatted}%` : `${formatted}%`;
+            };
+
+            const formatNetEV = (netEV) => {
+                const absNetEV = Math.abs(netEV);
+                const formatted = absNetEV.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+
+            tbody.innerHTML = displayData.map((portfolio, idx) => {
+                return `
+                    <tr class="row-main">
+                        <td>${idx + 1}</td>
+                        <td class="username">${portfolio.Username}</td>
+                        <td>${portfolio.Entries}</td>
+                        <td>${portfolio.WinPct.toFixed(2)}%</td>
+                        <td class="${portfolio.NetEV >= 0 ? 'positive' : 'negative'}">
+                            ${formatNetEV(portfolio.NetEV)}
+                        </td>
+                        <td class="${portfolio['ROI%'] >= 0 ? 'positive' : 'negative'}">
+                            ${formatROI(portfolio['ROI%'])}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
         // Event listeners
         document.getElementById('search-user').addEventListener('input', filterAndRender);
         document.getElementById('sort-by').addEventListener('change', (e) => {

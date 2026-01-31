@@ -934,7 +934,7 @@
         // Load contests from contests.json
         async function loadContestConfig() {
             try {
-                const response = await fetch('contests.json');
+                const response = await fetch('contests.json?v=' + Date.now());
                 if (!response.ok) throw new Error('contests.json not found');
                 const config = await response.json();
                 CONTESTS = config.contests || [];
@@ -999,7 +999,7 @@
                 '<tr><td colspan="8" class="loading">Loading data...</td></tr>';
             
             try {
-                const response = await fetch(contest.file);
+                const response = await fetch(contest.file + '?v=' + Date.now());
                 if (!response.ok) throw new Error(`Failed to load ${contest.file}`);
                 const data = await response.json();
                 

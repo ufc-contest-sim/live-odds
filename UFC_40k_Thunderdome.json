@@ -1,11 +1,11 @@
 {
   "contest_name": "UFC 40k Thunderdome",
-  "last_updated": "2026-01-31T21:39:13.980005",
+  "last_updated": "2026-01-31T22:06:21.341372",
   "total_lineups": 8,
   "summary": {
-    "top_win_pct": 49.87,
-    "top_netev": 7529.78,
-    "top_roi": 142.07
+    "top_win_pct": 51.91,
+    "top_netev": 7717.02,
+    "top_roi": 145.6
   },
   "leaderboard": [
     {
@@ -26,9 +26,9 @@
       "NetEV": -5300.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 384.5409012887573,
-      "SDScore": 52.62483369353961,
-      "P99Score": 506.9645712713268,
+      "MeanScore": 432.9887758494873,
+      "SDScore": 37.737824377129805,
+      "P99Score": 520.7800833586086,
       "TotalPayout": 0.0
     },
     {
@@ -45,14 +45,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 5300.0,
       "AvgWinPayout": 0.0,
-      "EV": 6942.9,
-      "NetEV": 1642.8999999999996,
-      "ROI%": 30.998113207547163,
+      "EV": 7253.94,
+      "NetEV": 1953.94,
+      "ROI%": 36.86679245283018,
       "WinPct": 0.0,
-      "MeanScore": 474.97347019970704,
-      "SDScore": 62.80500707215829,
-      "P99Score": 621.0797648785774,
-      "TotalPayout": 1735725000.0
+      "MeanScore": 523.1727977885743,
+      "SDScore": 50.71664568370907,
+      "P99Score": 641.1573586512822,
+      "TotalPayout": 1813485000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -68,14 +68,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 5300.0,
       "AvgWinPayout": 0.0,
-      "EV": 6282.06,
-      "NetEV": 982.0600000000004,
-      "ROI%": 18.52943396226416,
+      "EV": 7174.38,
+      "NetEV": 1874.38,
+      "ROI%": 35.365660377358495,
       "WinPct": 0.0,
-      "MeanScore": 484.78090518151856,
-      "SDScore": 52.62483474131044,
-      "P99Score": 607.2045776015674,
-      "TotalPayout": 1570515000.0
+      "MeanScore": 533.2287872449951,
+      "SDScore": 37.73782570192388,
+      "P99Score": 621.0200978360483,
+      "TotalPayout": 1793595000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -91,14 +91,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 5300.0,
       "AvgWinPayout": 25000.0,
-      "EV": 12829.78,
-      "NetEV": 7529.780000000001,
-      "ROI%": 142.071320754717,
-      "WinPct": 49.8712,
-      "MeanScore": 479.06345334960935,
-      "SDScore": 62.80499954870362,
-      "P99Score": 625.1697305263069,
-      "TotalPayout": 3207445000.0
+      "EV": 13017.02,
+      "NetEV": 7717.02,
+      "ROI%": 145.60415094339623,
+      "WinPct": 51.914,
+      "MeanScore": 527.262774142456,
+      "SDScore": 50.7166380979109,
+      "P99Score": 645.2473173579584,
+      "TotalPayout": 3254255000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -114,14 +114,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 5300.0,
       "AvgWinPayout": 25000.0,
-      "EV": 11892.78,
-      "NetEV": 6592.780000000001,
-      "ROI%": 124.39207547169812,
-      "WinPct": 42.1788,
-      "MeanScore": 485.1009151636963,
-      "SDScore": 52.624835762254925,
-      "P99Score": 607.5245899588172,
-      "TotalPayout": 2973195000.0
+      "EV": 12554.66,
+      "NetEV": 7254.66,
+      "ROI%": 136.88037735849056,
+      "WinPct": 48.086,
+      "MeanScore": 533.5487831270752,
+      "SDScore": 37.73782553517195,
+      "P99Score": 621.3400933302054,
+      "TotalPayout": 3138665000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -141,9 +141,9 @@
       "NetEV": -5300.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 379.50250992840574,
-      "SDScore": 62.93606381295752,
-      "P99Score": 525.9136881776078,
+      "MeanScore": 427.773997435791,
+      "SDScore": 51.13059815170816,
+      "P99Score": 546.7215557423656,
       "TotalPayout": 0.0
     },
     {
@@ -164,9 +164,9 @@
       "NetEV": -5300.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.84346594293214,
-      "SDScore": 62.804998379002974,
-      "P99Score": 511.9497403984992,
+      "MeanScore": 414.04278394152834,
+      "SDScore": 50.71663683417386,
+      "P99Score": 532.0273242171388,
       "TotalPayout": 0.0
     },
     {
@@ -182,15 +182,15 @@
       "F5": "Oban Elliott",
       "F6": "Quillan Salkilld",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 25000.0,
-      "EV": 2052.48,
-      "NetEV": -3247.52,
-      "ROI%": -61.27396226415094,
-      "WinPct": 7.95,
-      "MeanScore": 430.51094365429685,
-      "SDScore": 37.69829552051477,
-      "P99Score": 518.2102932918701,
-      "TotalPayout": 513120000.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "MeanScore": 430.4387803469238,
+      "SDScore": 37.7378260695239,
+      "P99Score": 518.2300917931425,
+      "TotalPayout": 0.0
     }
   ]
 }

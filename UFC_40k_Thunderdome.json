@@ -1,11 +1,11 @@
 {
   "contest_name": "UFC 40k Thunderdome",
-  "last_updated": "2026-01-31T22:06:21.341372",
+  "last_updated": "2026-01-31T23:09:13.948526",
   "total_lineups": 8,
   "summary": {
-    "top_win_pct": 51.91,
-    "top_netev": 7717.02,
-    "top_roi": 145.6
+    "top_win_pct": 100.0,
+    "top_netev": 19700.0,
+    "top_roi": 371.7
   },
   "leaderboard": [
     {
@@ -26,9 +26,9 @@
       "NetEV": -5300.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 432.9887758494873,
-      "SDScore": 37.737824377129805,
-      "P99Score": 520.7800833586086,
+      "MeanScore": 407.239990234375,
+      "SDScore": 0.0,
+      "P99Score": 407.239990234375,
       "TotalPayout": 0.0
     },
     {
@@ -45,14 +45,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 5300.0,
       "AvgWinPayout": 0.0,
-      "EV": 7253.94,
-      "NetEV": 1953.94,
-      "ROI%": 36.86679245283018,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 523.1727977885743,
-      "SDScore": 50.71664568370907,
-      "P99Score": 641.1573586512822,
-      "TotalPayout": 1813485000.0
+      "MeanScore": 490.219970703125,
+      "SDScore": 0.0,
+      "P99Score": 490.219970703125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -68,14 +68,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 5300.0,
       "AvgWinPayout": 0.0,
-      "EV": 7174.38,
-      "NetEV": 1874.38,
-      "ROI%": 35.365660377358495,
+      "EV": 15000.0,
+      "NetEV": 9700.0,
+      "ROI%": 183.0188679245283,
       "WinPct": 0.0,
-      "MeanScore": 533.2287872449951,
-      "SDScore": 37.73782570192388,
-      "P99Score": 621.0200978360483,
-      "TotalPayout": 1793595000.0
+      "MeanScore": 507.47998046875,
+      "SDScore": 0.0,
+      "P99Score": 507.47998046875,
+      "TotalPayout": 15000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -90,15 +90,15 @@
       "F5": "Lawrence Lui",
       "F6": "Quillan Salkilld",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 25000.0,
-      "EV": 13017.02,
-      "NetEV": 7717.02,
-      "ROI%": 145.60415094339623,
-      "WinPct": 51.914,
-      "MeanScore": 527.262774142456,
-      "SDScore": 50.7166380979109,
-      "P99Score": 645.2473173579584,
-      "TotalPayout": 3254255000.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "MeanScore": 494.3099670410156,
+      "SDScore": 0.0,
+      "P99Score": 494.3099670410156,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -114,14 +114,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 5300.0,
       "AvgWinPayout": 25000.0,
-      "EV": 12554.66,
-      "NetEV": 7254.66,
-      "ROI%": 136.88037735849056,
-      "WinPct": 48.086,
-      "MeanScore": 533.5487831270752,
-      "SDScore": 37.73782553517195,
-      "P99Score": 621.3400933302054,
-      "TotalPayout": 3138665000.0
+      "EV": 25000.0,
+      "NetEV": 19700.0,
+      "ROI%": 371.6981132075472,
+      "WinPct": 100.0,
+      "MeanScore": 507.7999877929688,
+      "SDScore": 0.0,
+      "P99Score": 507.7999877929688,
+      "TotalPayout": 25000.0
     },
     {
       "Contest": "UFC $40k Thunderdome",
@@ -141,9 +141,9 @@
       "NetEV": -5300.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 427.773997435791,
-      "SDScore": 51.13059815170816,
-      "P99Score": 546.7215557423656,
+      "MeanScore": 420.5699768066406,
+      "SDScore": 0.0,
+      "P99Score": 420.5699768066406,
       "TotalPayout": 0.0
     },
     {
@@ -164,9 +164,9 @@
       "NetEV": -5300.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 414.04278394152834,
-      "SDScore": 50.71663683417386,
-      "P99Score": 532.0273242171388,
+      "MeanScore": 381.0899963378906,
+      "SDScore": 0.0,
+      "P99Score": 381.0899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -187,9 +187,9 @@
       "NetEV": -5300.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 430.4387803469238,
-      "SDScore": 37.7378260695239,
-      "P99Score": 518.2300917931425,
+      "MeanScore": 404.6899719238281,
+      "SDScore": 0.0,
+      "P99Score": 404.6899719238281,
       "TotalPayout": 0.0
     }
   ]

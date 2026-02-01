@@ -1,11 +1,11 @@
 {
   "contest_name": "UFC 35k Triangle",
-  "last_updated": "2026-01-31T22:06:20.784387",
+  "last_updated": "2026-01-31T23:09:13.413638",
   "total_lineups": 194,
   "summary": {
-    "top_win_pct": 59.37,
-    "top_netev": 4221.35,
-    "top_roi": 2110.68
+    "top_win_pct": 100.0,
+    "top_netev": 5550.0,
+    "top_roi": 2775.0
   },
   "leaderboard": [
     {
@@ -22,14 +22,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 160.09133333333332,
-      "NetEV": -39.90866666666668,
-      "ROI%": -19.954333333333334,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 478.9439780393066,
-      "SDScore": 51.13059004539374,
-      "P99Score": 597.8915174877739,
-      "TotalPayout": 40022833.33333333
+      "MeanScore": 471.739990234375,
+      "SDScore": 0.0,
+      "P99Score": 471.739990234375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -49,9 +49,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 432.9887758494873,
-      "SDScore": 37.737824377129805,
-      "P99Score": 520.7800833586086,
+      "MeanScore": 407.239990234375,
+      "SDScore": 0.0,
+      "P99Score": 407.239990234375,
       "TotalPayout": 0.0
     },
     {
@@ -68,14 +68,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 296.6332,
-      "NetEV": 96.6332,
-      "ROI%": 48.3166,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 506.3139909835205,
-      "SDScore": 51.13059268616585,
-      "P99Score": 625.2615365753423,
-      "TotalPayout": 74158300.0
+      "MeanScore": 499.1099853515625,
+      "SDScore": 0.0,
+      "P99Score": 499.1099853515625,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -95,9 +95,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 420.398795131958,
-      "SDScore": 37.73782530210408,
-      "P99Score": 508.1901047928913,
+      "MeanScore": 394.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 394.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -118,9 +118,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 414.91877779016113,
-      "SDScore": 37.73782511504415,
-      "P99Score": 502.7100870159279,
+      "MeanScore": 389.16998291015625,
+      "SDScore": 0.0,
+      "P99Score": 389.16998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -141,9 +141,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 413.9240115114746,
-      "SDScore": 51.13060048425032,
-      "P99Score": 532.8715752443537,
+      "MeanScore": 406.7200012207031,
+      "SDScore": 0.0,
+      "P99Score": 406.7200012207031,
       "TotalPayout": 0.0
     },
     {
@@ -160,14 +160,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 32.77272857142907,
-      "NetEV": -167.22727142857093,
-      "ROI%": -83.61363571428546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.7487707287598,
-      "SDScore": 37.73782531260571,
-      "P99Score": 540.5400804141234,
-      "TotalPayout": 8193182.1428572675
+      "MeanScore": 426.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 426.9999694824219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -187,9 +187,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 375.20399014343263,
-      "SDScore": 51.130598071202506,
-      "P99Score": 494.1515482627231,
+      "MeanScore": 368.0,
+      "SDScore": 0.0,
+      "P99Score": 368.0,
       "TotalPayout": 0.0
     },
     {
@@ -210,9 +210,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.348794180542,
-      "SDScore": 37.73782440183796,
-      "P99Score": 454.14010174714304,
+      "MeanScore": 340.6000061035156,
+      "SDScore": 0.0,
+      "P99Score": 340.6000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -229,14 +229,14 @@
       "F6": "Oban Elliott",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.276,
-      "NetEV": -199.724,
-      "ROI%": -99.862,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 453.67399131054685,
-      "SDScore": 51.13059816068657,
-      "P99Score": 572.6215496380083,
-      "TotalPayout": 69000.0
+      "MeanScore": 446.4700012207031,
+      "SDScore": 0.0,
+      "P99Score": 446.4700012207031,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -256,9 +256,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 327.6187948649902,
-      "SDScore": 37.73782530512416,
-      "P99Score": 415.4101045329492,
+      "MeanScore": 301.8699951171875,
+      "SDScore": 0.0,
+      "P99Score": 301.8699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -279,9 +279,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 438.56880145336913,
-      "SDScore": 37.73782719330365,
-      "P99Score": 526.3601155138905,
+      "MeanScore": 412.8200073242188,
+      "SDScore": 0.0,
+      "P99Score": 412.8200073242188,
       "TotalPayout": 0.0
     },
     {
@@ -298,14 +298,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 89.6832,
-      "NetEV": -110.3168,
-      "ROI%": -55.15839999999999,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 457.5688038001709,
-      "SDScore": 37.73782515192824,
-      "P99Score": 545.3601131117429,
-      "TotalPayout": 22420800.0
+      "MeanScore": 431.8200073242188,
+      "SDScore": 0.0,
+      "P99Score": 431.8200073242188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -325,9 +325,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 400.88879509729,
-      "SDScore": 37.7378277741783,
-      "P99Score": 488.6801105091279,
+      "MeanScore": 375.1400146484375,
+      "SDScore": 0.0,
+      "P99Score": 375.1400146484375,
       "TotalPayout": 0.0
     },
     {
@@ -344,14 +344,14 @@
       "F6": "Keiichiro Nakamura",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 137.0972,
-      "NetEV": -62.90280000000001,
-      "ROI%": -31.451400000000007,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 477.3387762420654,
-      "SDScore": 37.73782545916377,
-      "P99Score": 565.1300862683742,
-      "TotalPayout": 34274300.0
+      "MeanScore": 451.5899658203125,
+      "SDScore": 0.0,
+      "P99Score": 451.5899658203125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -367,14 +367,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 25.234,
-      "NetEV": -174.766,
-      "ROI%": -87.383,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 456.1527870961914,
-      "SDScore": 50.71664234494181,
-      "P99Score": 574.1373401917651,
-      "TotalPayout": 6308500.0
+      "MeanScore": 423.1999816894531,
+      "SDScore": 0.0,
+      "P99Score": 423.1999816894531,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -390,14 +390,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 32.77272857142907,
-      "NetEV": -167.22727142857093,
-      "ROI%": -83.61363571428546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.7487707287598,
-      "SDScore": 37.73782531260571,
-      "P99Score": 540.5400804141234,
-      "TotalPayout": 8193182.1428572675
+      "MeanScore": 426.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 426.9999694824219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -413,14 +413,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 109.374,
-      "NetEV": -90.626,
-      "ROI%": -45.313,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 466.3587672071533,
-      "SDScore": 37.73782463176816,
-      "P99Score": 554.150075308652,
-      "TotalPayout": 27343500.0
+      "MeanScore": 440.6099853515625,
+      "SDScore": 0.0,
+      "P99Score": 440.6099853515625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -440,9 +440,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 449.053995715332,
-      "SDScore": 51.13059720512203,
-      "P99Score": 568.001551819818,
+      "MeanScore": 441.8500061035156,
+      "SDScore": 0.0,
+      "P99Score": 441.8500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -463,9 +463,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 432.48399191235353,
-      "SDScore": 51.13059562354959,
-      "P99Score": 551.4315443375518,
+      "MeanScore": 425.2799682617188,
+      "SDScore": 0.0,
+      "P99Score": 425.2799682617188,
       "TotalPayout": 0.0
     },
     {
@@ -486,9 +486,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 391.2640027532959,
-      "SDScore": 51.13060018827154,
-      "P99Score": 510.21156579762544,
+      "MeanScore": 384.05999755859375,
+      "SDScore": 0.0,
+      "P99Score": 384.05999755859375,
       "TotalPayout": 0.0
     },
     {
@@ -505,14 +505,14 @@
       "F6": "Sebastian Szalay",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 87.5952,
-      "NetEV": -112.4048,
-      "ROI%": -56.2024,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 478.2227877871094,
-      "SDScore": 50.716642986998046,
-      "P99Score": 596.2073423763293,
-      "TotalPayout": 21898800.0
+      "MeanScore": 445.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 445.2699890136719,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -528,14 +528,14 @@
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 273.9784,
-      "NetEV": 73.97840000000002,
-      "ROI%": 36.98920000000001,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 503.24399559155273,
-      "SDScore": 51.130600697838496,
-      "P99Score": 622.1915598213122,
-      "TotalPayout": 68494600.0
+      "MeanScore": 496.03997802734375,
+      "SDScore": 0.0,
+      "P99Score": 496.03997802734375,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -555,9 +555,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 348.4939878425293,
-      "SDScore": 51.13059435437898,
-      "P99Score": 467.4415373151952,
+      "MeanScore": 341.2900085449219,
+      "SDScore": 0.0,
+      "P99Score": 341.2900085449219,
       "TotalPayout": 0.0
     },
     {
@@ -574,14 +574,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 106.2276,
-      "NetEV": -93.7724,
-      "ROI%": -46.8862,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 466.1887935013428,
-      "SDScore": 37.73782732069859,
-      "P99Score": 553.9801078582291,
-      "TotalPayout": 26556900.0
+      "MeanScore": 440.4400024414063,
+      "SDScore": 0.0,
+      "P99Score": 440.4400024414063,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -597,14 +597,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 185.1288,
-      "NetEV": -14.871199999999988,
-      "ROI%": -7.435599999999994,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 481.253995842041,
-      "SDScore": 51.13060334027955,
-      "P99Score": 600.2015662190377,
-      "TotalPayout": 46282200.0
+      "MeanScore": 474.0499877929688,
+      "SDScore": 0.0,
+      "P99Score": 474.0499877929688,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -620,14 +620,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 557.6752,
-      "NetEV": 357.6752,
-      "ROI%": 178.8376,
+      "EV": 700.0,
+      "NetEV": 500.0,
+      "ROI%": 250.0,
       "WinPct": 0.0,
-      "MeanScore": 553.8987701495362,
-      "SDScore": 37.7378258374856,
-      "P99Score": 641.6900810559531,
-      "TotalPayout": 139418800.0
+      "MeanScore": 528.1499633789062,
+      "SDScore": 0.0,
+      "P99Score": 528.1499633789062,
+      "TotalPayout": 700.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -647,9 +647,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 344.40397792877195,
-      "SDScore": 51.13059214108279,
-      "P99Score": 463.351522252541,
+      "MeanScore": 337.199951171875,
+      "SDScore": 0.0,
+      "P99Score": 337.199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -666,14 +666,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 194.1908,
-      "NetEV": -5.809200000000004,
-      "ROI%": -2.904600000000002,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 481.6439927207031,
-      "SDScore": 51.13059834692631,
-      "P99Score": 600.591551481423,
-      "TotalPayout": 48547700.0
+      "MeanScore": 474.4399719238281,
+      "SDScore": 0.0,
+      "P99Score": 474.4399719238281,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -689,14 +689,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 228.9944,
-      "NetEV": 28.994400000000013,
-      "ROI%": 14.497200000000008,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 506.61876580847166,
-      "SDScore": 37.73782533549881,
-      "P99Score": 594.4100755470927,
-      "TotalPayout": 57248600.0
+      "MeanScore": 480.8699645996094,
+      "SDScore": 0.0,
+      "P99Score": 480.8699645996094,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -717,8 +717,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 426.2099914550781,
-      "SDScore": 0.0001605804998405,
-      "P99Score": 426.21036502118255,
+      "SDScore": 0.0,
+      "P99Score": 426.2099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -735,14 +735,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 382.8492,
-      "NetEV": 182.8492,
-      "ROI%": 91.4246,
+      "EV": 500.0,
+      "NetEV": 300.0,
+      "ROI%": 150.0,
       "WinPct": 0.0,
-      "MeanScore": 514.0440039124755,
-      "SDScore": 51.1306089127877,
-      "P99Score": 632.9915872530646,
-      "TotalPayout": 95712300.0
+      "MeanScore": 506.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 506.8399963378906,
+      "TotalPayout": 500.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -762,9 +762,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.40877534802246,
-      "SDScore": 37.73782373281888,
-      "P99Score": 453.2000813582524,
+      "MeanScore": 339.65997314453125,
+      "SDScore": 0.0,
+      "P99Score": 339.65997314453125,
       "TotalPayout": 0.0
     },
     {
@@ -785,9 +785,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 440.2139895924072,
-      "SDScore": 51.13059521737097,
-      "P99Score": 559.1615410726928,
+      "MeanScore": 433.0099792480469,
+      "SDScore": 0.0,
+      "P99Score": 433.0099792480469,
       "TotalPayout": 0.0
     },
     {
@@ -804,14 +804,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 239.8366,
-      "NetEV": 39.8366,
-      "ROI%": 19.9183,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 496.63398048071286,
-      "SDScore": 51.13059004538548,
-      "P99Score": 615.581519929161,
-      "TotalPayout": 59959150.0
+      "MeanScore": 489.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 489.4299926757813,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -831,9 +831,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 357.16398436486816,
-      "SDScore": 51.13059067394863,
-      "P99Score": 476.1115252755728,
+      "MeanScore": 349.9599609375,
+      "SDScore": 0.0,
+      "P99Score": 349.9599609375,
       "TotalPayout": 0.0
     },
     {
@@ -850,14 +850,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 188.8804,
-      "NetEV": -11.119599999999991,
-      "ROI%": -5.559799999999996,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 502.2087683358154,
-      "SDScore": 37.73782421121078,
-      "P99Score": 590.0000754589513,
-      "TotalPayout": 47220100.0
+      "MeanScore": 476.46002197265625,
+      "SDScore": 0.0,
+      "P99Score": 476.46002197265625,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -877,9 +877,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 374.91880372583006,
-      "SDScore": 37.73782591010274,
-      "P99Score": 462.7101148011797,
+      "MeanScore": 349.1700134277344,
+      "SDScore": 0.0,
+      "P99Score": 349.1700134277344,
       "TotalPayout": 0.0
     },
     {
@@ -900,9 +900,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 451.6687958282471,
-      "SDScore": 37.737825846180655,
-      "P99Score": 539.4601067548917,
+      "MeanScore": 425.91998291015625,
+      "SDScore": 0.0,
+      "P99Score": 425.91998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -923,9 +923,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 371.4387867617188,
-      "SDScore": 37.73782642847899,
-      "P99Score": 459.2300990429919,
+      "MeanScore": 345.69000244140625,
+      "SDScore": 0.0,
+      "P99Score": 345.69000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -942,14 +942,14 @@
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 117.6996,
-      "NetEV": -82.3004,
-      "ROI%": -41.1502,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 474.5987843905029,
-      "SDScore": 37.737826461656624,
-      "P99Score": 562.3900967489587,
-      "TotalPayout": 29424900.0
+      "MeanScore": 448.8499755859375,
+      "SDScore": 0.0,
+      "P99Score": 448.8499755859375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -965,14 +965,14 @@
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 400.4348,
-      "NetEV": 200.4348,
-      "ROI%": 100.21739999999998,
+      "EV": 500.0,
+      "NetEV": 300.0,
+      "ROI%": 150.0,
       "WinPct": 0.0,
-      "MeanScore": 514.1739887619628,
-      "SDScore": 51.13060159192196,
-      "P99Score": 633.1215550716715,
-      "TotalPayout": 100108700.0
+      "MeanScore": 506.969970703125,
+      "SDScore": 0.0,
+      "P99Score": 506.969970703125,
+      "TotalPayout": 500.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -992,9 +992,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 429.9039759572754,
-      "SDScore": 51.130593793874375,
-      "P99Score": 548.8515241260127,
+      "MeanScore": 422.7000122070313,
+      "SDScore": 0.0,
+      "P99Score": 422.7000122070313,
       "TotalPayout": 0.0
     },
     {
@@ -1015,9 +1015,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 402.1787745811768,
-      "SDScore": 37.737824729931,
-      "P99Score": 489.97008291103634,
+      "MeanScore": 376.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 376.4299926757813,
       "TotalPayout": 0.0
     },
     {
@@ -1038,9 +1038,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 434.6787762399902,
-      "SDScore": 37.737825191842816,
-      "P99Score": 522.4700856444174,
+      "MeanScore": 408.9299926757813,
+      "SDScore": 0.0,
+      "P99Score": 408.9299926757813,
       "TotalPayout": 0.0
     },
     {
@@ -1061,9 +1061,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 385.2188053474121,
-      "SDScore": 37.73782567864325,
-      "P99Score": 473.01011588430646,
+      "MeanScore": 359.4700012207031,
+      "SDScore": 0.0,
+      "P99Score": 359.4700012207031,
       "TotalPayout": 0.0
     },
     {
@@ -1084,9 +1084,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 398.8288018349609,
-      "SDScore": 37.73782497916893,
-      "P99Score": 486.6201107446346,
+      "MeanScore": 373.08001708984375,
+      "SDScore": 0.0,
+      "P99Score": 373.08001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -1108,8 +1108,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 371.1300048828125,
-      "SDScore": 0.0002745527679697,
-      "P99Score": 371.1306435880606,
+      "SDScore": 0.0,
+      "P99Score": 371.1300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -1130,9 +1130,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 361.08878365185546,
-      "SDScore": 37.73782410417723,
-      "P99Score": 448.8800905259941,
+      "MeanScore": 335.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 335.3399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -1149,14 +1149,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 228.9944,
-      "NetEV": 28.994400000000013,
-      "ROI%": 14.497200000000008,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 506.61876580847166,
-      "SDScore": 37.73782533549881,
-      "P99Score": 594.4100755470927,
-      "TotalPayout": 57248600.0
+      "MeanScore": 480.8699645996094,
+      "SDScore": 0.0,
+      "P99Score": 480.8699645996094,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1172,14 +1172,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 44.229,
-      "NetEV": -155.77100000000002,
-      "ROI%": -77.88550000000001,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 464.2939894709473,
-      "SDScore": 51.13059562355557,
-      "P99Score": 583.2415418961594,
-      "TotalPayout": 11057250.0
+      "MeanScore": 457.0899658203125,
+      "SDScore": 0.0,
+      "P99Score": 457.0899658203125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1199,9 +1199,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 346.5887975858154,
-      "SDScore": 37.7378253345267,
-      "P99Score": 434.3801073221749,
+      "MeanScore": 320.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 320.8399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -1218,14 +1218,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 114.402,
-      "NetEV": -85.598,
-      "ROI%": -42.799,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 469.3887640609131,
-      "SDScore": 37.73782552537098,
-      "P99Score": 557.1800742412428,
-      "TotalPayout": 28600500.0
+      "MeanScore": 443.6399536132813,
+      "SDScore": 0.0,
+      "P99Score": 443.6399536132813,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1240,15 +1240,15 @@
       "F5": "Lawrence Lui",
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
-      "AvgWinPayout": 7500.0,
-      "EV": 2928.2076,
-      "NetEV": 2728.2076,
-      "ROI%": 1364.1038,
-      "WinPct": 25.213600000000003,
-      "MeanScore": 567.6540003426513,
-      "SDScore": 51.13060339756692,
-      "P99Score": 686.6015708529183,
-      "TotalPayout": 732051900.0
+      "AvgWinPayout": 0.0,
+      "EV": 3000.0,
+      "NetEV": 2800.0,
+      "ROI%": 1400.0,
+      "WinPct": 0.0,
+      "MeanScore": 560.4500122070312,
+      "SDScore": 0.0,
+      "P99Score": 560.4500122070312,
+      "TotalPayout": 3000.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1264,14 +1264,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 93.7896,
-      "NetEV": -106.2104,
-      "ROI%": -53.10520000000001,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 458.798793458374,
-      "SDScore": 37.737825827368816,
-      "P99Score": 546.5901043412557,
-      "TotalPayout": 23447400.0
+      "MeanScore": 433.0499877929688,
+      "SDScore": 0.0,
+      "P99Score": 433.0499877929688,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1291,9 +1291,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 376.1439994033203,
-      "SDScore": 51.13059745555393,
-      "P99Score": 495.09155609039806,
+      "MeanScore": 368.9400024414063,
+      "SDScore": 0.0,
+      "P99Score": 368.9400024414063,
       "TotalPayout": 0.0
     },
     {
@@ -1314,9 +1314,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.348794180542,
-      "SDScore": 37.73782440183796,
-      "P99Score": 454.14010174714304,
+      "MeanScore": 340.6000061035156,
+      "SDScore": 0.0,
+      "P99Score": 340.6000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -1333,14 +1333,14 @@
       "F6": "Oban Elliott",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 76.6224,
-      "NetEV": -123.3776,
-      "ROI%": -61.6888,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.9687900180664,
-      "SDScore": 37.73782505544201,
-      "P99Score": 540.7600991051778,
-      "TotalPayout": 19155600.0
+      "MeanScore": 427.2200317382813,
+      "SDScore": 0.0,
+      "P99Score": 427.2200317382813,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1360,9 +1360,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 442.79399901416014,
-      "SDScore": 51.13059540288612,
-      "P99Score": 561.7415509260185,
+      "MeanScore": 435.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 435.5899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -1383,9 +1383,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 433.7487685421143,
-      "SDScore": 37.73782579016351,
-      "P99Score": 521.5400793384435,
+      "MeanScore": 407.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 407.9999694824219,
       "TotalPayout": 0.0
     },
     {
@@ -1406,9 +1406,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 377.5139851986084,
-      "SDScore": 51.13058910507701,
-      "P99Score": 496.4615224595718,
+      "MeanScore": 370.30999755859375,
+      "SDScore": 0.0,
+      "P99Score": 370.30999755859375,
       "TotalPayout": 0.0
     },
     {
@@ -1448,14 +1448,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 207.642,
-      "NetEV": 7.641999999999996,
-      "ROI%": 3.820999999999998,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 504.53878284472654,
-      "SDScore": 37.737826076861616,
-      "P99Score": 592.3300943080153,
-      "TotalPayout": 51910500.0
+      "MeanScore": 478.78997802734375,
+      "SDScore": 0.0,
+      "P99Score": 478.78997802734375,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1475,9 +1475,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 393.93398368530274,
-      "SDScore": 51.13059447498278,
-      "P99Score": 512.881533438535,
+      "MeanScore": 386.72998046875,
+      "SDScore": 0.0,
+      "P99Score": 386.72998046875,
       "TotalPayout": 0.0
     },
     {
@@ -1494,14 +1494,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 32.77272857142907,
-      "NetEV": -167.22727142857093,
-      "ROI%": -83.61363571428546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.7487707287598,
-      "SDScore": 37.73782531260571,
-      "P99Score": 540.5400804141234,
-      "TotalPayout": 8193182.1428572675
+      "MeanScore": 426.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 426.9999694824219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1517,14 +1517,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 568.7909,
-      "NetEV": 368.7909,
-      "ROI%": 184.39545,
+      "EV": 600.0,
+      "NetEV": 400.0,
+      "ROI%": 200.0,
       "WinPct": 0.0,
-      "MeanScore": 525.0539812016601,
-      "SDScore": 51.130592691494215,
-      "P99Score": 644.0015268058776,
-      "TotalPayout": 142197725.0
+      "MeanScore": 517.8499755859375,
+      "SDScore": 0.0,
+      "P99Score": 517.8499755859375,
+      "TotalPayout": 600.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1544,9 +1544,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 391.0887912449951,
-      "SDScore": 37.737825112712,
-      "P99Score": 478.88010046533645,
+      "MeanScore": 365.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 365.3399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -1567,9 +1567,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 451.6687958282471,
-      "SDScore": 37.737825846180655,
-      "P99Score": 539.4601067548917,
+      "MeanScore": 425.91998291015625,
+      "SDScore": 0.0,
+      "P99Score": 425.91998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -1590,9 +1590,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.6987946258545,
-      "SDScore": 37.737825911003526,
-      "P99Score": 498.49010570329966,
+      "MeanScore": 384.949951171875,
+      "SDScore": 0.0,
+      "P99Score": 384.949951171875,
       "TotalPayout": 0.0
     },
     {
@@ -1609,14 +1609,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 109.374,
-      "NetEV": -90.626,
-      "ROI%": -45.313,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 466.3587672071533,
-      "SDScore": 37.73782463176816,
-      "P99Score": 554.150075308652,
-      "TotalPayout": 27343500.0
+      "MeanScore": 440.6099853515625,
+      "SDScore": 0.0,
+      "P99Score": 440.6099853515625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1632,14 +1632,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 216.9068,
-      "NetEV": 16.906800000000004,
-      "ROI%": 8.453400000000002,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 486.3740035175781,
-      "SDScore": 51.13059816068116,
-      "P99Score": 605.3215618450271,
-      "TotalPayout": 54226700.0
+      "MeanScore": 479.16998291015625,
+      "SDScore": 0.0,
+      "P99Score": 479.16998291015625,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1659,9 +1659,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 438.13399586608887,
-      "SDScore": 51.13059904305264,
-      "P99Score": 557.0815562462408,
+      "MeanScore": 430.9299926757813,
+      "SDScore": 0.0,
+      "P99Score": 430.9299926757813,
       "TotalPayout": 0.0
     },
     {
@@ -1678,14 +1678,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1.1012,
-      "NetEV": -198.8988,
-      "ROI%": -99.4494,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 460.22398480151367,
-      "SDScore": 51.13059272743941,
-      "P99Score": 579.1715304893522,
-      "TotalPayout": 275300.0
+      "MeanScore": 453.02001953125,
+      "SDScore": 0.0,
+      "P99Score": 453.02001953125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1705,9 +1705,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 343.6839961536255,
-      "SDScore": 51.13059478462628,
-      "P99Score": 462.6315466271964,
+      "MeanScore": 336.47998046875,
+      "SDScore": 0.0,
+      "P99Score": 336.47998046875,
       "TotalPayout": 0.0
     },
     {
@@ -1724,14 +1724,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 239.8366,
-      "NetEV": 39.8366,
-      "ROI%": 19.9183,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 496.63398048071286,
-      "SDScore": 51.13059004538548,
-      "P99Score": 615.581519929161,
-      "TotalPayout": 59959150.0
+      "MeanScore": 489.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 489.4299926757813,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1747,14 +1747,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 179.964,
-      "NetEV": -20.036,
-      "ROI%": -10.018,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 480.9439973261719,
-      "SDScore": 51.13059730863991,
-      "P99Score": 599.8915536714765,
-      "TotalPayout": 44991000.0
+      "MeanScore": 473.739990234375,
+      "SDScore": 0.0,
+      "P99Score": 473.739990234375,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1770,14 +1770,14 @@
       "F6": "Keiichiro Nakamura",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 11.9508,
-      "NetEV": -188.0492,
-      "ROI%": -94.0246,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 462.89399560339353,
-      "SDScore": 51.13059816334477,
-      "P99Score": 581.841553937039,
-      "TotalPayout": 2987700.0
+      "MeanScore": 455.6899719238281,
+      "SDScore": 0.0,
+      "P99Score": 455.6899719238281,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1793,14 +1793,14 @@
       "F6": "Oban Elliott",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 336.092,
-      "NetEV": 136.09199999999998,
-      "ROI%": 68.04599999999999,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 511.2640002749024,
-      "SDScore": 51.1306075391874,
-      "P99Score": 630.2115804200193,
-      "TotalPayout": 84023000.0
+      "MeanScore": 504.05999755859375,
+      "SDScore": 0.0,
+      "P99Score": 504.05999755859375,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -1820,9 +1820,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 335.54879523962404,
-      "SDScore": 37.73782682970624,
-      "P99Score": 423.34010845429134,
+      "MeanScore": 309.79998779296875,
+      "SDScore": 0.0,
+      "P99Score": 309.79998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -1844,8 +1844,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 347.6300048828125,
-      "SDScore": 0.0002339754774911,
-      "P99Score": 347.6305491911671,
+      "SDScore": 0.0,
+      "P99Score": 347.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -1866,9 +1866,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 374.91880372583006,
-      "SDScore": 37.73782591010274,
-      "P99Score": 462.7101148011797,
+      "MeanScore": 349.1700134277344,
+      "SDScore": 0.0,
+      "P99Score": 349.1700134277344,
       "TotalPayout": 0.0
     },
     {
@@ -1889,9 +1889,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 441.8940049250488,
-      "SDScore": 51.13059879559599,
-      "P99Score": 560.8415647295305,
+      "MeanScore": 434.6900024414063,
+      "SDScore": 0.0,
+      "P99Score": 434.6900024414063,
       "TotalPayout": 0.0
     },
     {
@@ -1912,9 +1912,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 401.57399478869627,
-      "SDScore": 51.130598011627775,
-      "P99Score": 520.5215527693952,
+      "MeanScore": 394.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 394.3699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -1935,9 +1935,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 335.54879523962404,
-      "SDScore": 37.73782682970624,
-      "P99Score": 423.34010845429134,
+      "MeanScore": 309.79998779296875,
+      "SDScore": 0.0,
+      "P99Score": 309.79998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -1958,9 +1958,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 335.54879523962404,
-      "SDScore": 37.73782682970624,
-      "P99Score": 423.34010845429134,
+      "MeanScore": 309.79998779296875,
+      "SDScore": 0.0,
+      "P99Score": 309.79998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -1981,9 +1981,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 371.4387867617188,
-      "SDScore": 37.73782642847899,
-      "P99Score": 459.2300990429919,
+      "MeanScore": 345.69000244140625,
+      "SDScore": 0.0,
+      "P99Score": 345.69000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -2004,9 +2004,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 444.0787684387207,
-      "SDScore": 37.737824562669296,
-      "P99Score": 531.8700763794714,
+      "MeanScore": 418.3299865722656,
+      "SDScore": 0.0,
+      "P99Score": 418.3299865722656,
       "TotalPayout": 0.0
     },
     {
@@ -2023,14 +2023,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 5750.0,
-      "EV": 4421.3542,
-      "NetEV": 4221.3542,
-      "ROI%": 2110.6771,
-      "WinPct": 59.372800000000005,
-      "MeanScore": 621.4488075874024,
-      "SDScore": 37.73782547592573,
-      "P99Score": 709.2401176527053,
-      "TotalPayout": 1105338550.0
+      "EV": 5750.0,
+      "NetEV": 5550.0,
+      "ROI%": 2775.0,
+      "WinPct": 100.0,
+      "MeanScore": 595.7000122070312,
+      "SDScore": 0.0,
+      "P99Score": 595.7000122070312,
+      "TotalPayout": 5750.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2046,14 +2046,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1147.3548,
-      "NetEV": 947.3548,
-      "ROI%": 473.6774,
+      "EV": 1325.0,
+      "NetEV": 1125.0,
+      "ROI%": 562.5,
       "WinPct": 0.0,
-      "MeanScore": 578.5687778930665,
-      "SDScore": 37.73782367320633,
-      "P99Score": 666.3600837646169,
-      "TotalPayout": 286838700.0
+      "MeanScore": 552.8199462890625,
+      "SDScore": 0.0,
+      "P99Score": 552.8199462890625,
+      "TotalPayout": 1325.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2073,9 +2073,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 361.4939935980225,
-      "SDScore": 51.13059487054581,
-      "P99Score": 480.441544271472,
+      "MeanScore": 354.2899780273437,
+      "SDScore": 0.0,
+      "P99Score": 354.2899780273437,
       "TotalPayout": 0.0
     },
     {
@@ -2092,14 +2092,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 102.7344,
-      "NetEV": -97.2656,
-      "ROI%": -48.6328,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
       "MeanScore": 482.3800048828125,
-      "SDScore": 0.0001050256914506,
-      "P99Score": 482.3802492091065,
-      "TotalPayout": 25683600.0
+      "SDScore": 0.0,
+      "P99Score": 482.3800048828125,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2119,9 +2119,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.6487828400879,
-      "SDScore": 37.73782549247059,
-      "P99Score": 498.4400929438799,
+      "MeanScore": 384.8999938964844,
+      "SDScore": 0.0,
+      "P99Score": 384.8999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -2138,14 +2138,14 @@
       "F6": "Keiichiro Nakamura",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 430.4436,
-      "NetEV": 230.4436,
-      "ROI%": 115.2218,
+      "EV": 500.0,
+      "NetEV": 300.0,
+      "ROI%": 150.0,
       "WinPct": 0.0,
-      "MeanScore": 536.3387915582275,
-      "SDScore": 37.73782550549486,
-      "P99Score": 624.1301016923185,
-      "TotalPayout": 107610900.0
+      "MeanScore": 510.5900268554688,
+      "SDScore": 0.0,
+      "P99Score": 510.5900268554688,
+      "TotalPayout": 500.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2165,9 +2165,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 394.6287973746338,
-      "SDScore": 37.73782710718911,
-      "P99Score": 482.42011123482274,
+      "MeanScore": 368.8800048828125,
+      "SDScore": 0.0,
+      "P99Score": 368.8800048828125,
       "TotalPayout": 0.0
     },
     {
@@ -2184,14 +2184,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 147.58,
-      "NetEV": -52.41999999999999,
-      "ROI%": -26.209999999999997,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 477.9039931661377,
-      "SDScore": 51.130590070045855,
-      "P99Score": 596.8515326719544,
-      "TotalPayout": 36895000.0
+      "MeanScore": 470.6999816894531,
+      "SDScore": 0.0,
+      "P99Score": 470.6999816894531,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2211,9 +2211,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 426.3739822539063,
-      "SDScore": 51.13059258500448,
-      "P99Score": 545.3215276103916,
+      "MeanScore": 419.16998291015625,
+      "SDScore": 0.0,
+      "P99Score": 419.16998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -2234,9 +2234,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 369.0739994396973,
-      "SDScore": 51.1306009529191,
-      "P99Score": 488.021564262863,
+      "MeanScore": 361.8699951171875,
+      "SDScore": 0.0,
+      "P99Score": 361.8699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -2257,9 +2257,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 427.773997435791,
-      "SDScore": 51.13059815170816,
-      "P99Score": 546.7215557423656,
+      "MeanScore": 420.5699768066406,
+      "SDScore": 0.0,
+      "P99Score": 420.5699768066406,
       "TotalPayout": 0.0
     },
     {
@@ -2276,14 +2276,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 44.229,
-      "NetEV": -155.77100000000002,
-      "ROI%": -77.88550000000001,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 464.2939894709473,
-      "SDScore": 51.13059562355557,
-      "P99Score": 583.2415418961594,
-      "TotalPayout": 11057250.0
+      "MeanScore": 457.0899658203125,
+      "SDScore": 0.0,
+      "P99Score": 457.0899658203125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2303,9 +2303,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.504004357666,
-      "SDScore": 51.13060232275512,
-      "P99Score": 529.4515723675469,
+      "MeanScore": 403.2999877929688,
+      "SDScore": 0.0,
+      "P99Score": 403.2999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -2326,9 +2326,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 405.5739862927246,
-      "SDScore": 51.130596675711885,
-      "P99Score": 524.5215411656184,
+      "MeanScore": 398.3699645996094,
+      "SDScore": 0.0,
+      "P99Score": 398.3699645996094,
       "TotalPayout": 0.0
     },
     {
@@ -2349,9 +2349,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 444.9939976342773,
-      "SDScore": 51.13059978317104,
-      "P99Score": 563.9415597362022,
+      "MeanScore": 437.7900085449219,
+      "SDScore": 0.0,
+      "P99Score": 437.7900085449219,
       "TotalPayout": 0.0
     },
     {
@@ -2368,14 +2368,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 44.229,
-      "NetEV": -155.77100000000002,
-      "ROI%": -77.88550000000001,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 464.2939894709473,
-      "SDScore": 51.13059562355557,
-      "P99Score": 583.2415418961594,
-      "TotalPayout": 11057250.0
+      "MeanScore": 457.0899658203125,
+      "SDScore": 0.0,
+      "P99Score": 457.0899658203125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2395,9 +2395,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 427.773997435791,
-      "SDScore": 51.13059815170816,
-      "P99Score": 546.7215557423656,
+      "MeanScore": 420.5699768066406,
+      "SDScore": 0.0,
+      "P99Score": 420.5699768066406,
       "TotalPayout": 0.0
     },
     {
@@ -2418,9 +2418,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 420.868795953125,
-      "SDScore": 37.73782592197559,
-      "P99Score": 508.6601070560951,
+      "MeanScore": 395.1199951171875,
+      "SDScore": 0.0,
+      "P99Score": 395.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -2441,9 +2441,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 335.54879523962404,
-      "SDScore": 37.73782682970624,
-      "P99Score": 423.34010845429134,
+      "MeanScore": 309.79998779296875,
+      "SDScore": 0.0,
+      "P99Score": 309.79998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -2464,9 +2464,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 323.6787983319092,
-      "SDScore": 37.73782580260763,
-      "P99Score": 411.47010915718784,
+      "MeanScore": 297.92999267578125,
+      "SDScore": 0.0,
+      "P99Score": 297.92999267578125,
       "TotalPayout": 0.0
     },
     {
@@ -2487,9 +2487,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 337.7687885180664,
-      "SDScore": 37.73782612047301,
-      "P99Score": 425.5601000828104,
+      "MeanScore": 312.0199890136719,
+      "SDScore": 0.0,
+      "P99Score": 312.0199890136719,
       "TotalPayout": 0.0
     },
     {
@@ -2506,14 +2506,14 @@
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 124.738,
-      "NetEV": -75.262,
-      "ROI%": -37.631,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 474.6988093024903,
-      "SDScore": 37.73782606353619,
-      "P99Score": 562.4901207347795,
-      "TotalPayout": 31184500.0
+      "MeanScore": 448.9499816894531,
+      "SDScore": 0.0,
+      "P99Score": 448.9499816894531,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2529,14 +2529,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1147.3548,
-      "NetEV": 947.3548,
-      "ROI%": 473.6774,
+      "EV": 1325.0,
+      "NetEV": 1125.0,
+      "ROI%": 562.5,
       "WinPct": 0.0,
-      "MeanScore": 578.5687778930665,
-      "SDScore": 37.73782367320633,
-      "P99Score": 666.3600837646169,
-      "TotalPayout": 286838700.0
+      "MeanScore": 552.8199462890625,
+      "SDScore": 0.0,
+      "P99Score": 552.8199462890625,
+      "TotalPayout": 1325.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2556,9 +2556,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.0539859088135,
-      "SDScore": 51.13059552868594,
-      "P99Score": 529.001538113326,
+      "MeanScore": 402.8499755859375,
+      "SDScore": 0.0,
+      "P99Score": 402.8499755859375,
       "TotalPayout": 0.0
     },
     {
@@ -2575,14 +2575,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 94.7448,
-      "NetEV": -105.2552,
-      "ROI%": -52.6276,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 466.0539812076416,
-      "SDScore": 51.13059267372951,
-      "P99Score": 585.0015267705322,
-      "TotalPayout": 23686200.0
+      "MeanScore": 458.8499755859375,
+      "SDScore": 0.0,
+      "P99Score": 458.8499755859375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2598,14 +2598,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 23.1408,
-      "NetEV": -176.8592,
-      "ROI%": -88.4296,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 455.82278656079103,
-      "SDScore": 50.71664239986824,
-      "P99Score": 573.8073397841428,
-      "TotalPayout": 5785200.0
+      "MeanScore": 422.8699951171875,
+      "SDScore": 0.0,
+      "P99Score": 422.8699951171875,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2621,14 +2621,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 119.4744,
-      "NetEV": -80.5256,
-      "ROI%": -40.2628,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 468.91401059179685,
-      "SDScore": 51.130598716751,
-      "P99Score": 587.8615702128577,
-      "TotalPayout": 29868600.0
+      "MeanScore": 461.71002197265625,
+      "SDScore": 0.0,
+      "P99Score": 461.71002197265625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2644,14 +2644,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1021.004,
-      "NetEV": 821.004,
-      "ROI%": 410.502,
+      "EV": 600.0,
+      "NetEV": 400.0,
+      "ROI%": 200.0,
       "WinPct": 0.0,
-      "MeanScore": 559.762773769043,
-      "SDScore": 50.71663818239599,
-      "P99Score": 677.747317181087,
-      "TotalPayout": 255251000.0
+      "MeanScore": 526.8099365234375,
+      "SDScore": 0.0,
+      "P99Score": 526.8099365234375,
+      "TotalPayout": 600.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2667,14 +2667,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 71.0864,
-      "NetEV": -128.9136,
-      "ROI%": -64.4568,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 474.2627763577881,
-      "SDScore": 50.716639270882006,
-      "P99Score": 592.2473223020294,
-      "TotalPayout": 17771600.0
+      "MeanScore": 441.3099670410156,
+      "SDScore": 0.0,
+      "P99Score": 441.3099670410156,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2690,14 +2690,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 32.77272857142907,
-      "NetEV": -167.22727142857093,
-      "ROI%": -83.61363571428546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.7487707287598,
-      "SDScore": 37.73782531260571,
-      "P99Score": 540.5400804141234,
-      "TotalPayout": 8193182.1428572675
+      "MeanScore": 426.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 426.9999694824219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2713,14 +2713,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 160.09133333333332,
-      "NetEV": -39.90866666666668,
-      "ROI%": -19.954333333333334,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 478.9439780393066,
-      "SDScore": 51.13059004539374,
-      "P99Score": 597.8915174877739,
-      "TotalPayout": 40022833.33333333
+      "MeanScore": 471.739990234375,
+      "SDScore": 0.0,
+      "P99Score": 471.739990234375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2740,9 +2740,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 379.848799625,
-      "SDScore": 37.73782656883148,
-      "P99Score": 467.64011223278186,
+      "MeanScore": 354.1000061035156,
+      "SDScore": 0.0,
+      "P99Score": 354.1000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -2759,14 +2759,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 383.5252,
-      "NetEV": 183.5252,
-      "ROI%": 91.7626,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 523.1727977885743,
-      "SDScore": 50.71664568370907,
-      "P99Score": 641.1573586512822,
-      "TotalPayout": 95881300.0
+      "MeanScore": 490.219970703125,
+      "SDScore": 0.0,
+      "P99Score": 490.219970703125,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2782,14 +2782,14 @@
       "F6": "Sulangrangbo",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.0708,
-      "NetEV": -199.9292,
-      "ROI%": -99.9646,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 442.5799560546875,
-      "SDScore": 0.0002101206496411,
-      "P99Score": 442.5804448684141,
-      "TotalPayout": 17700.0
+      "SDScore": 0.0,
+      "P99Score": 442.5799560546875,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2805,14 +2805,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 160.09133333333332,
-      "NetEV": -39.90866666666668,
-      "ROI%": -19.954333333333334,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 478.9439780393066,
-      "SDScore": 51.13059004539374,
-      "P99Score": 597.8915174877739,
-      "TotalPayout": 40022833.33333333
+      "MeanScore": 471.739990234375,
+      "SDScore": 0.0,
+      "P99Score": 471.739990234375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2832,9 +2832,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 408.0987976125488,
-      "SDScore": 37.7378256904112,
-      "P99Score": 495.89010817681947,
+      "MeanScore": 382.3500061035156,
+      "SDScore": 0.0,
+      "P99Score": 382.3500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -2855,9 +2855,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 404.1639865720215,
-      "SDScore": 51.13059539321272,
-      "P99Score": 523.1115384613761,
+      "MeanScore": 396.9599914550781,
+      "SDScore": 0.0,
+      "P99Score": 396.9599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -2878,9 +2878,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 404.0039904885254,
-      "SDScore": 51.1305956745475,
-      "P99Score": 522.9515430323626,
+      "MeanScore": 396.7999877929688,
+      "SDScore": 0.0,
+      "P99Score": 396.7999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -2897,14 +2897,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1.1012,
-      "NetEV": -198.8988,
-      "ROI%": -99.4494,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 460.22398480151367,
-      "SDScore": 51.13059272743941,
-      "P99Score": 579.1715304893522,
-      "TotalPayout": 275300.0
+      "MeanScore": 453.02001953125,
+      "SDScore": 0.0,
+      "P99Score": 453.02001953125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2920,14 +2920,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 5750.0,
-      "EV": 4421.3542,
-      "NetEV": 4221.3542,
-      "ROI%": 2110.6771,
-      "WinPct": 59.372800000000005,
-      "MeanScore": 621.4488075874024,
-      "SDScore": 37.73782547592573,
-      "P99Score": 709.2401176527053,
-      "TotalPayout": 1105338550.0
+      "EV": 5750.0,
+      "NetEV": 5550.0,
+      "ROI%": 2775.0,
+      "WinPct": 100.0,
+      "MeanScore": 595.7000122070312,
+      "SDScore": 0.0,
+      "P99Score": 595.7000122070312,
+      "TotalPayout": 5750.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2943,14 +2943,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1221.1104,
-      "NetEV": 1021.1104,
-      "ROI%": 510.5552,
+      "EV": 700.0,
+      "NetEV": 500.0,
+      "ROI%": 250.0,
       "WinPct": 0.0,
-      "MeanScore": 548.263987687378,
-      "SDScore": 51.13059825501572,
-      "P99Score": 667.2115462342819,
-      "TotalPayout": 305277600.0
+      "MeanScore": 541.0599975585938,
+      "SDScore": 0.0,
+      "P99Score": 541.0599975585938,
+      "TotalPayout": 700.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2966,14 +2966,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1147.3548,
-      "NetEV": 947.3548,
-      "ROI%": 473.6774,
+      "EV": 1325.0,
+      "NetEV": 1125.0,
+      "ROI%": 562.5,
       "WinPct": 0.0,
-      "MeanScore": 578.5687778930665,
-      "SDScore": 37.73782367320633,
-      "P99Score": 666.3600837646169,
-      "TotalPayout": 286838700.0
+      "MeanScore": 552.8199462890625,
+      "SDScore": 0.0,
+      "P99Score": 552.8199462890625,
+      "TotalPayout": 1325.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -2993,9 +2993,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 435.2787951903076,
-      "SDScore": 37.73782505956145,
-      "P99Score": 523.0701042870023,
+      "MeanScore": 409.5299987792969,
+      "SDScore": 0.0,
+      "P99Score": 409.5299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -3016,9 +3016,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 332.54879523962404,
-      "SDScore": 37.737826829706826,
-      "P99Score": 420.3401084542927,
+      "MeanScore": 306.79998779296875,
+      "SDScore": 0.0,
+      "P99Score": 306.79998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -3035,14 +3035,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 207.642,
-      "NetEV": 7.641999999999996,
-      "ROI%": 3.820999999999998,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 504.53878284472654,
-      "SDScore": 37.737826076861616,
-      "P99Score": 592.3300943080153,
-      "TotalPayout": 51910500.0
+      "MeanScore": 478.78997802734375,
+      "SDScore": 0.0,
+      "P99Score": 478.78997802734375,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3062,9 +3062,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 426.09877409326174,
-      "SDScore": 37.73782488348708,
-      "P99Score": 513.8900827803462,
+      "MeanScore": 400.3499755859375,
+      "SDScore": 0.0,
+      "P99Score": 400.3499755859375,
       "TotalPayout": 0.0
     },
     {
@@ -3085,9 +3085,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 391.423986909668,
-      "SDScore": 51.13059893259184,
-      "P99Score": 510.37154703284966,
+      "MeanScore": 384.2200012207031,
+      "SDScore": 0.0,
+      "P99Score": 384.2200012207031,
       "TotalPayout": 0.0
     },
     {
@@ -3104,14 +3104,14 @@
       "F6": "Oban Elliott",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 98.5884,
-      "NetEV": -101.4116,
-      "ROI%": -50.7058,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 460.9287935135498,
-      "SDScore": 37.73782593034365,
-      "P99Score": 548.7201046359868,
-      "TotalPayout": 24647100.0
+      "MeanScore": 435.1799926757813,
+      "SDScore": 0.0,
+      "P99Score": 435.1799926757813,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3131,9 +3131,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 360.11879763793945,
-      "SDScore": 37.73782645204555,
-      "P99Score": 447.9101099740366,
+      "MeanScore": 334.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 334.3699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3150,14 +3150,14 @@
       "F6": "Sebastian Szalay",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 177.2248,
-      "NetEV": -22.77520000000001,
-      "ROI%": -11.387600000000006,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 499.8187854814453,
-      "SDScore": 37.73782667829956,
-      "P99Score": 587.610098343888,
-      "TotalPayout": 44306200.0
+      "MeanScore": 474.0700073242188,
+      "SDScore": 0.0,
+      "P99Score": 474.0700073242188,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3173,14 +3173,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 88.0908,
-      "NetEV": -111.9092,
-      "ROI%": -55.9546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 457.1688009212647,
-      "SDScore": 37.73782538594431,
-      "P99Score": 544.9601107772395,
-      "TotalPayout": 22022700.0
+      "MeanScore": 431.4200134277344,
+      "SDScore": 0.0,
+      "P99Score": 431.4200134277344,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3196,14 +3196,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 32.77272857142907,
-      "NetEV": -167.22727142857093,
-      "ROI%": -83.61363571428546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.7487707287598,
-      "SDScore": 37.73782531260571,
-      "P99Score": 540.5400804141234,
-      "TotalPayout": 8193182.1428572675
+      "MeanScore": 426.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 426.9999694824219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3223,9 +3223,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 335.79880261193847,
-      "SDScore": 37.73782599719635,
-      "P99Score": 423.5901138898981,
+      "MeanScore": 310.04998779296875,
+      "SDScore": 0.0,
+      "P99Score": 310.04998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -3246,9 +3246,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 451.3687972967529,
-      "SDScore": 37.7378236856437,
-      "P99Score": 539.160103197237,
+      "MeanScore": 425.6199951171875,
+      "SDScore": 0.0,
+      "P99Score": 425.6199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3269,9 +3269,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 378.0388062293701,
-      "SDScore": 37.73782727574953,
-      "P99Score": 465.8301204816892,
+      "MeanScore": 352.2900085449219,
+      "SDScore": 0.0,
+      "P99Score": 352.2900085449219,
       "TotalPayout": 0.0
     },
     {
@@ -3292,9 +3292,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 317.12879042730714,
-      "SDScore": 37.73782596293015,
-      "P99Score": 404.9201016255517,
+      "MeanScore": 291.3800048828125,
+      "SDScore": 0.0,
+      "P99Score": 291.3800048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3315,9 +3315,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 408.23878023583984,
-      "SDScore": 37.73782586358773,
-      "P99Score": 496.0300912029794,
+      "MeanScore": 382.489990234375,
+      "SDScore": 0.0,
+      "P99Score": 382.489990234375,
       "TotalPayout": 0.0
     },
     {
@@ -3334,14 +3334,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 408.0808,
-      "NetEV": 208.0808,
-      "ROI%": 104.0404,
+      "EV": 500.0,
+      "NetEV": 300.0,
+      "ROI%": 150.0,
       "WinPct": 0.0,
-      "MeanScore": 534.0887974466552,
-      "SDScore": 37.73782363730862,
-      "P99Score": 621.8801032346951,
-      "TotalPayout": 102020200.0
+      "MeanScore": 508.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 508.3399963378906,
+      "TotalPayout": 500.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3357,14 +3357,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 317.1076,
-      "NetEV": 117.1076,
-      "ROI%": 58.5538,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 510.5940106362305,
-      "SDScore": 51.13060288217528,
-      "P99Score": 629.5415799475172,
-      "TotalPayout": 79276900.0
+      "MeanScore": 503.3900146484375,
+      "SDScore": 0.0,
+      "P99Score": 503.3900146484375,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3384,9 +3384,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 420.398795131958,
-      "SDScore": 37.73782530210408,
-      "P99Score": 508.1901047928913,
+      "MeanScore": 394.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 394.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -3403,14 +3403,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 170.7956,
-      "NetEV": -29.204399999999996,
-      "ROI%": -14.602199999999996,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 497.0787685177002,
-      "SDScore": 37.73782463307344,
-      "P99Score": 584.8700766222354,
-      "TotalPayout": 42698900.0
+      "MeanScore": 471.33001708984375,
+      "SDScore": 0.0,
+      "P99Score": 471.33001708984375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3430,9 +3430,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.0639885756836,
-      "SDScore": 51.1305944921037,
-      "P99Score": 518.0115383687452,
+      "MeanScore": 391.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 391.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -3449,14 +3449,14 @@
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 265.5556,
-      "NetEV": 65.55560000000003,
-      "ROI%": 32.77780000000001,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 511.1187901472168,
-      "SDScore": 37.73782524600056,
-      "P99Score": 598.9100996776338,
-      "TotalPayout": 66388900.0
+      "MeanScore": 485.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 485.3699951171875,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3476,9 +3476,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 332.8139926669922,
-      "SDScore": 51.13059525690532,
-      "P99Score": 451.76154423924834,
+      "MeanScore": 325.6099853515625,
+      "SDScore": 0.0,
+      "P99Score": 325.6099853515625,
       "TotalPayout": 0.0
     },
     {
@@ -3495,14 +3495,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 505.5248,
-      "NetEV": 305.5248,
-      "ROI%": 152.7624,
+      "EV": 600.0,
+      "NetEV": 400.0,
+      "ROI%": 200.0,
       "WinPct": 0.0,
-      "MeanScore": 550.6387850690918,
-      "SDScore": 37.73782356402476,
-      "P99Score": 638.4300906866479,
-      "TotalPayout": 126381200.0
+      "MeanScore": 524.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 524.8900146484375,
+      "TotalPayout": 600.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3518,14 +3518,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1147.3548,
-      "NetEV": 947.3548,
-      "ROI%": 473.6774,
+      "EV": 1325.0,
+      "NetEV": 1125.0,
+      "ROI%": 562.5,
       "WinPct": 0.0,
-      "MeanScore": 578.5687778930665,
-      "SDScore": 37.73782367320633,
-      "P99Score": 666.3600837646169,
-      "TotalPayout": 286838700.0
+      "MeanScore": 552.8199462890625,
+      "SDScore": 0.0,
+      "P99Score": 552.8199462890625,
+      "TotalPayout": 1325.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3541,14 +3541,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 136.5444,
-      "NetEV": -63.4556,
-      "ROI%": -31.7278,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 473.8339866367188,
-      "SDScore": 51.13059526856355,
-      "P99Score": 592.781538236096,
-      "TotalPayout": 34136100.0
+      "MeanScore": 466.6299743652344,
+      "SDScore": 0.0,
+      "P99Score": 466.6299743652344,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3564,14 +3564,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 362.4284,
-      "NetEV": 162.4284,
-      "ROI%": 81.2142,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 513.3940178432617,
-      "SDScore": 51.130604178335815,
-      "P99Score": 632.3415901698688,
-      "TotalPayout": 90607100.0
+      "MeanScore": 506.1900024414063,
+      "SDScore": 0.0,
+      "P99Score": 506.1900024414063,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3591,9 +3591,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 426.0888087768554,
-      "SDScore": 37.7378247706006,
-      "P99Score": 513.8801172013267,
+      "MeanScore": 400.3400268554688,
+      "SDScore": 0.0,
+      "P99Score": 400.3400268554688,
       "TotalPayout": 0.0
     },
     {
@@ -3610,14 +3610,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 327.0572,
-      "NetEV": 127.05720000000002,
-      "ROI%": 63.52860000000001,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 524.9088006520996,
-      "SDScore": 37.73782607721059,
-      "P99Score": 612.7001121162002,
-      "TotalPayout": 81764300.0
+      "MeanScore": 499.1600036621094,
+      "SDScore": 0.0,
+      "P99Score": 499.1600036621094,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3633,14 +3633,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 161.836,
-      "NetEV": -38.16399999999999,
-      "ROI%": -19.081999999999997,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 493.268773741333,
-      "SDScore": 37.73782489110205,
-      "P99Score": 581.0600824461326,
-      "TotalPayout": 40459000.0
+      "MeanScore": 467.5199890136719,
+      "SDScore": 0.0,
+      "P99Score": 467.5199890136719,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3655,15 +3655,15 @@
       "F5": "Lawrence Lui",
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
-      "AvgWinPayout": 7500.0,
-      "EV": 2403.3688,
-      "NetEV": 2203.3688,
-      "ROI%": 1101.6844,
-      "WinPct": 15.4136,
-      "MeanScore": 582.9427769302979,
-      "SDScore": 50.71664229963088,
-      "P99Score": 700.9273299204626,
-      "TotalPayout": 600842200.0
+      "AvgWinPayout": 0.0,
+      "EV": 800.0,
+      "NetEV": 600.0,
+      "ROI%": 300.0,
+      "WinPct": 0.0,
+      "MeanScore": 549.989990234375,
+      "SDScore": 0.0,
+      "P99Score": 549.989990234375,
+      "TotalPayout": 800.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3683,9 +3683,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 355.5527896641235,
-      "SDScore": 50.71663675547968,
-      "P99Score": 473.5373297566639,
+      "MeanScore": 322.5999755859375,
+      "SDScore": 0.0,
+      "P99Score": 322.5999755859375,
       "TotalPayout": 0.0
     },
     {
@@ -3702,14 +3702,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.2148,
-      "NetEV": -199.7852,
-      "ROI%": -99.8926,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 443.989990234375,
       "SDScore": 0.0,
       "P99Score": 443.989990234375,
-      "TotalPayout": 53700.0
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3729,9 +3729,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 441.3339964812012,
-      "SDScore": 51.13060406232327,
-      "P99Score": 560.2815685379227,
+      "MeanScore": 434.1300048828125,
+      "SDScore": 0.0,
+      "P99Score": 434.1300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3752,9 +3752,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 402.0487848671875,
-      "SDScore": 37.737826022681126,
-      "P99Score": 489.8400962044336,
+      "MeanScore": 376.2999877929688,
+      "SDScore": 0.0,
+      "P99Score": 376.2999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -3775,9 +3775,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 376.97398538500977,
-      "SDScore": 51.130593692349855,
-      "P99Score": 495.92153331756566,
+      "MeanScore": 369.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 369.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -3794,14 +3794,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 8.8176,
-      "NetEV": -191.1824,
-      "ROI%": -95.5912,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 462.3639893826904,
-      "SDScore": 51.13059897266636,
-      "P99Score": 581.3115495990994,
-      "TotalPayout": 2204400.0
+      "MeanScore": 455.1599731445313,
+      "SDScore": 0.0,
+      "P99Score": 455.1599731445313,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3821,9 +3821,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 440.8187687348633,
-      "SDScore": 37.737825996934525,
-      "P99Score": 528.6100800122139,
+      "MeanScore": 415.0699768066406,
+      "SDScore": 0.0,
+      "P99Score": 415.0699768066406,
       "TotalPayout": 0.0
     },
     {
@@ -3840,14 +3840,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 355.4184,
-      "NetEV": 155.41840000000002,
-      "ROI%": 77.70920000000001,
+      "EV": 400.0,
+      "NetEV": 200.0,
+      "ROI%": 100.0,
       "WinPct": 0.0,
-      "MeanScore": 529.1487853072509,
-      "SDScore": 37.73782560500848,
-      "P99Score": 616.9400956728451,
-      "TotalPayout": 88854600.0
+      "MeanScore": 503.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 503.3999938964844,
+      "TotalPayout": 400.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3863,14 +3863,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.408,
-      "NetEV": -199.592,
-      "ROI%": -99.796,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 445.4099731445313,
-      "SDScore": 0.0001877361969962,
-      "P99Score": 445.410409884234,
-      "TotalPayout": 102000.0
+      "SDScore": 0.0,
+      "P99Score": 445.4099731445313,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3886,14 +3886,14 @@
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 171.596,
-      "NetEV": -28.404,
-      "ROI%": -14.201999999999998,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 480.51398712512207,
-      "SDScore": 51.130594515341336,
-      "P99Score": 599.4615369722425,
-      "TotalPayout": 42899000.0
+      "MeanScore": 473.30999755859375,
+      "SDScore": 0.0,
+      "P99Score": 473.30999755859375,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3914,8 +3914,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 400.08001708984375,
-      "SDScore": 0.0003267757351384,
-      "P99Score": 400.0807772838805,
+      "SDScore": 0.0,
+      "P99Score": 400.08001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -3932,14 +3932,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 32.77272857142907,
-      "NetEV": -167.22727142857093,
-      "ROI%": -83.61363571428546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.7487707287598,
-      "SDScore": 37.73782531260571,
-      "P99Score": 540.5400804141234,
-      "TotalPayout": 8193182.1428572675
+      "MeanScore": 426.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 426.9999694824219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3955,14 +3955,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 48.3368,
-      "NetEV": -151.66320000000002,
-      "ROI%": -75.83160000000001,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 467.34278820239257,
-      "SDScore": 50.71664006664192,
-      "P99Score": 585.3273359978482,
-      "TotalPayout": 12084200.0
+      "MeanScore": 434.3899841308594,
+      "SDScore": 0.0,
+      "P99Score": 434.3899841308594,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -3982,9 +3982,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.498788390625,
-      "SDScore": 37.73782328562876,
-      "P99Score": 505.2900933605352,
+      "MeanScore": 391.75,
+      "SDScore": 0.0,
+      "P99Score": 391.75,
       "TotalPayout": 0.0
     },
     {
@@ -4005,9 +4005,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 407.328791979248,
-      "SDScore": 37.73782314662086,
-      "P99Score": 495.1200966257775,
+      "MeanScore": 381.58001708984375,
+      "SDScore": 0.0,
+      "P99Score": 381.58001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -4029,8 +4029,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 328.6099853515625,
-      "SDScore": 0.0002400537748247,
-      "P99Score": 328.6105438001512,
+      "SDScore": 0.0,
+      "P99Score": 328.6099853515625,
       "TotalPayout": 0.0
     },
     {
@@ -4051,9 +4051,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 393.96398656347657,
-      "SDScore": 51.13059525689592,
-      "P99Score": 512.9115381357109,
+      "MeanScore": 386.7599792480469,
+      "SDScore": 0.0,
+      "P99Score": 386.7599792480469,
       "TotalPayout": 0.0
     },
     {
@@ -4074,9 +4074,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 403.2787963157959,
-      "SDScore": 37.73782701803829,
-      "P99Score": 491.070109968589,
+      "MeanScore": 377.5299987792969,
+      "SDScore": 0.0,
+      "P99Score": 377.5299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4097,9 +4097,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 426.6987812042236,
-      "SDScore": 37.73782618394586,
-      "P99Score": 514.4900929166276,
+      "MeanScore": 400.9499816894531,
+      "SDScore": 0.0,
+      "P99Score": 400.9499816894531,
       "TotalPayout": 0.0
     },
     {
@@ -4116,14 +4116,14 @@
       "F6": "Jacob Malkoun",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 172.178,
-      "NetEV": -27.822000000000003,
-      "ROI%": -13.911,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 497.1587950880127,
-      "SDScore": 37.73782559963428,
-      "P99Score": 584.9501054411047,
-      "TotalPayout": 43044500.0
+      "MeanScore": 471.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 471.4100036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4143,9 +4143,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 402.1787745811768,
-      "SDScore": 37.737824729931,
-      "P99Score": 489.97008291103634,
+      "MeanScore": 376.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 376.4299926757813,
       "TotalPayout": 0.0
     },
     {
@@ -4162,14 +4162,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 149.484,
-      "NetEV": -50.51599999999999,
-      "ROI%": -25.258,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 485.3087812224121,
-      "SDScore": 37.73782530284946,
-      "P99Score": 573.1000908850793,
-      "TotalPayout": 37371000.0
+      "MeanScore": 459.55999755859375,
+      "SDScore": 0.0,
+      "P99Score": 459.55999755859375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4185,14 +4185,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 44.229,
-      "NetEV": -155.77100000000002,
-      "ROI%": -77.88550000000001,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 464.2939894709473,
-      "SDScore": 51.13059562355557,
-      "P99Score": 583.2415418961594,
-      "TotalPayout": 11057250.0
+      "MeanScore": 457.0899658203125,
+      "SDScore": 0.0,
+      "P99Score": 457.0899658203125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4208,14 +4208,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 1.1012,
-      "NetEV": -198.8988,
-      "ROI%": -99.4494,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 460.22398480151367,
-      "SDScore": 51.13059272743941,
-      "P99Score": 579.1715304893522,
-      "TotalPayout": 275300.0
+      "MeanScore": 453.02001953125,
+      "SDScore": 0.0,
+      "P99Score": 453.02001953125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4231,14 +4231,14 @@
       "F6": "Torrez Finney",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 32.77272857142907,
-      "NetEV": -167.22727142857093,
-      "ROI%": -83.61363571428546,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.7487707287598,
-      "SDScore": 37.73782531260571,
-      "P99Score": 540.5400804141234,
-      "TotalPayout": 8193182.1428572675
+      "MeanScore": 426.9999694824219,
+      "SDScore": 0.0,
+      "P99Score": 426.9999694824219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4254,14 +4254,14 @@
       "F6": "Quillan Salkilld",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 211.0412,
-      "NetEV": 11.041200000000003,
-      "ROI%": 5.520600000000002,
+      "EV": 300.0,
+      "NetEV": 100.0,
+      "ROI%": 50.0,
       "WinPct": 0.0,
-      "MeanScore": 486.353987029541,
-      "SDScore": 51.13059562357491,
-      "P99Score": 605.3015394547982,
-      "TotalPayout": 52760300.0
+      "MeanScore": 479.1499633789063,
+      "SDScore": 0.0,
+      "P99Score": 479.1499633789063,
+      "TotalPayout": 300.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4277,14 +4277,14 @@
       "F6": "Keiichiro Nakamura",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 449.9756,
-      "NetEV": 249.9756,
-      "ROI%": 124.98779999999998,
+      "EV": 500.0,
+      "NetEV": 300.0,
+      "ROI%": 150.0,
       "WinPct": 0.0,
-      "MeanScore": 518.9240031591797,
-      "SDScore": 51.13059611643737,
-      "P99Score": 637.8715567310064,
-      "TotalPayout": 112493900.0
+      "MeanScore": 511.7200012207031,
+      "SDScore": 0.0,
+      "P99Score": 511.7200012207031,
+      "TotalPayout": 500.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4304,9 +4304,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 313.3487941668701,
-      "SDScore": 37.737824425194574,
-      "P99Score": 401.1401017878068,
+      "MeanScore": 287.6000061035156,
+      "SDScore": 0.0,
+      "P99Score": 287.6000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -4323,14 +4323,14 @@
       "F6": "Jonathan Micallef",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 580.0684,
-      "NetEV": 380.0684,
-      "ROI%": 190.0342,
+      "EV": 700.0,
+      "NetEV": 500.0,
+      "ROI%": 250.0,
       "WinPct": 0.0,
-      "MeanScore": 555.7587855255127,
-      "SDScore": 37.73782516261765,
-      "P99Score": 643.5500948619521,
-      "TotalPayout": 145017100.0
+      "MeanScore": 530.010009765625,
+      "SDScore": 0.0,
+      "P99Score": 530.010009765625,
+      "TotalPayout": 700.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4346,14 +4346,14 @@
       "F6": "Oban Elliott",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 75.2196,
-      "NetEV": -124.7804,
-      "ROI%": -62.39019999999999,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 465.1039950372314,
-      "SDScore": 51.13059995769421,
-      "P99Score": 584.051557545158,
-      "TotalPayout": 18804900.0
+      "MeanScore": 457.8999938964844,
+      "SDScore": 0.0,
+      "P99Score": 457.8999938964844,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4373,9 +4373,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 404.308774328125,
-      "SDScore": 37.73782442738444,
-      "P99Score": 492.10008195415605,
+      "MeanScore": 378.55999755859375,
+      "SDScore": 0.0,
+      "P99Score": 378.55999755859375,
       "TotalPayout": 0.0
     },
     {
@@ -4392,14 +4392,14 @@
       "F6": "Lawrence Lui",
       "EntryFee": 200.0,
       "AvgWinPayout": 0.0,
-      "EV": 151.3516,
-      "NetEV": -48.64840000000001,
-      "ROI%": -24.324200000000005,
+      "EV": 0.0,
+      "NetEV": -200.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 478.84397839868166,
-      "SDScore": 51.130593793892594,
-      "P99Score": 597.7915265674612,
-      "TotalPayout": 37837900.0
+      "MeanScore": 471.6400146484375,
+      "SDScore": 0.0,
+      "P99Score": 471.6400146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $35k Triangle",
@@ -4419,9 +4419,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 390.688800152832,
-      "SDScore": 37.73782718521246,
-      "P99Score": 478.4801141945304,
+      "MeanScore": 364.9400024414063,
+      "SDScore": 0.0,
+      "P99Score": 364.9400024414063,
       "TotalPayout": 0.0
     },
     {
@@ -4442,9 +4442,9 @@
       "NetEV": -200.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 432.9887758494873,
-      "SDScore": 37.737824377129805,
-      "P99Score": 520.7800833586086,
+      "MeanScore": 407.239990234375,
+      "SDScore": 0.0,
+      "P99Score": 407.239990234375,
       "TotalPayout": 0.0
     },
     {

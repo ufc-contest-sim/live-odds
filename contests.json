@@ -1,16 +1,16 @@
 {
   "contests": [
     {
-      "id": "ufc_250k_knockout_special",
-      "name": "UFC 250K Knockout Special",
-      "file": "UFC_250K_Knockout_Special.json",
+      "id": "ufc_150k_knockout",
+      "name": "UFC 150K Knockout",
+      "file": "UFC_150K_Knockout.json",
       "entryFee": 555.0
     },
     {
-      "id": "ufc_35k_triangle",
-      "name": "UFC 35k Triangle",
-      "file": "UFC_35k_Triangle.json",
-      "entryFee": 200.0
+      "id": "ufc_333k_throwdown",
+      "name": "UFC 333K Throwdown",
+      "file": "UFC_333K_Throwdown.json",
+      "entryFee": 15.0
     },
     {
       "id": "ufc_40k_arm_bar",
@@ -19,22 +19,10 @@
       "entryFee": 5.0
     },
     {
-      "id": "ufc_40k_hook",
-      "name": "UFC 40k Hook",
-      "file": "UFC_40k_Hook.json",
+      "id": "ufc_50k_hook",
+      "name": "UFC 50k Hook",
+      "file": "UFC_50k_Hook.json",
       "entryFee": 8.0
-    },
-    {
-      "id": "ufc_40k_thunderdome",
-      "name": "UFC 40k Thunderdome",
-      "file": "UFC_40k_Thunderdome.json",
-      "entryFee": 5300.0
-    },
-    {
-      "id": "ufc_600k_ufc_325_special",
-      "name": "UFC 600K UFC 325 Special",
-      "file": "UFC_600K_UFC_325_Special.json",
-      "entryFee": 25.0
     }
   ]
 }

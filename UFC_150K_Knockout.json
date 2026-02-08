@@ -1,11 +1,11 @@
 {
   "contest_name": "UFC 150K Knockout",
-  "last_updated": "2026-02-07T21:39:50.461140",
+  "last_updated": "2026-02-07T22:02:54.839066",
   "total_lineups": 291,
   "summary": {
-    "top_win_pct": 52.0,
-    "top_netev": 27018.35,
-    "top_roi": 4868.17
+    "top_win_pct": 100.0,
+    "top_netev": 49445.0,
+    "top_roi": 8909.01
   },
   "leaderboard": [
     {
@@ -26,9 +26,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.1522083392334,
-      "SDScore": 43.635436362004135,
-      "P99Score": 484.66341295104405,
+      "MeanScore": 322.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 322.3399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -45,14 +45,14 @@
       "F6": "Jailton Almeida",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 443.69,
-      "NetEV": -111.31,
-      "ROI%": -20.055855855855857,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 461.132211718628,
-      "SDScore": 43.635436441645176,
-      "P99Score": 562.6434165157114,
-      "TotalPayout": 110922500.0
+      "MeanScore": 400.3200073242188,
+      "SDScore": 0.0,
+      "P99Score": 400.3200073242188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -72,9 +72,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.52220508044434,
-      "SDScore": 43.63543626895248,
-      "P99Score": 497.0334094757844,
+      "MeanScore": 334.7099914550781,
+      "SDScore": 0.0,
+      "P99Score": 334.7099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -91,14 +91,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 591.472,
-      "NetEV": 36.47199999999998,
-      "ROI%": 6.571531531531528,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 466.9422092324219,
-      "SDScore": 43.635436317330175,
-      "P99Score": 568.4534137403053,
-      "TotalPayout": 147868000.0
+      "MeanScore": 406.1300048828125,
+      "SDScore": 0.0,
+      "P99Score": 406.1300048828125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -114,14 +114,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 711.6032,
-      "NetEV": 156.60320000000002,
-      "ROI%": 28.216792792792795,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 470.7422062116699,
-      "SDScore": 43.63543623614775,
-      "P99Score": 572.2534105306947,
-      "TotalPayout": 177900800.0
+      "MeanScore": 409.9299926757813,
+      "SDScore": 0.0,
+      "P99Score": 409.9299926757813,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -141,9 +141,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.65220996228027,
-      "SDScore": 43.63543626628489,
-      "P99Score": 491.1634143514146,
+      "MeanScore": 328.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 328.8399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -164,9 +164,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.4622058936768,
-      "SDScore": 43.63543634949827,
-      "P99Score": 490.9734104763944,
+      "MeanScore": 328.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 328.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -187,9 +187,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.1522083392334,
-      "SDScore": 43.635436362004135,
-      "P99Score": 484.66341295104405,
+      "MeanScore": 322.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 322.3399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -210,9 +210,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 387.3122135228272,
-      "SDScore": 43.63543621284915,
-      "P99Score": 488.8234177876514,
+      "MeanScore": 326.5,
+      "SDScore": 0.0,
+      "P99Score": 326.5,
       "TotalPayout": 0.0
     },
     {
@@ -233,9 +233,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 397.46220751501465,
-      "SDScore": 43.6354362491802,
-      "P99Score": 498.9734118643576,
+      "MeanScore": 336.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 336.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -256,9 +256,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 380.44221100964353,
-      "SDScore": 43.63543704341819,
-      "P99Score": 481.9534172066603,
+      "MeanScore": 319.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 319.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -275,14 +275,14 @@
       "F6": "Jailton Almeida",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 443.69,
-      "NetEV": -111.31,
-      "ROI%": -20.055855855855857,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 461.132211718628,
-      "SDScore": 43.635436441645176,
-      "P99Score": 562.6434165157114,
-      "TotalPayout": 110922500.0
+      "MeanScore": 400.3200073242188,
+      "SDScore": 0.0,
+      "P99Score": 400.3200073242188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -298,14 +298,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 533.84,
-      "NetEV": -21.159999999999968,
-      "ROI%": -3.812612612612607,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 443.0030576125488,
-      "SDScore": 47.02481408589631,
-      "P99Score": 552.3991338865189,
-      "TotalPayout": 133460000.0
+      "MeanScore": 472.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 472.510009765625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -325,9 +325,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 419.3322088166504,
-      "SDScore": 43.63543649434423,
-      "P99Score": 520.8434137363301,
+      "MeanScore": 358.5199890136719,
+      "SDScore": 0.0,
+      "P99Score": 358.5199890136719,
       "TotalPayout": 0.0
     },
     {
@@ -348,9 +348,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 405.3122195240479,
-      "SDScore": 43.63543630432307,
-      "P99Score": 506.82342400167227,
+      "MeanScore": 344.5,
+      "SDScore": 0.0,
+      "P99Score": 344.5,
       "TotalPayout": 0.0
     },
     {
@@ -371,9 +371,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.7630738862305,
-      "SDScore": 47.02481564570938,
-      "P99Score": 493.1591537888684,
+      "MeanScore": 413.27001953125,
+      "SDScore": 0.0,
+      "P99Score": 413.27001953125,
       "TotalPayout": 0.0
     },
     {
@@ -394,9 +394,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.4622058936768,
-      "SDScore": 43.63543634949827,
-      "P99Score": 490.9734104763944,
+      "MeanScore": 328.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 328.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -413,14 +413,14 @@
       "F6": "Alex Morono",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 47.588,
-      "NetEV": -507.412,
-      "ROI%": -91.42558558558558,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 406.0630625953369,
-      "SDScore": 47.02481370397087,
-      "P99Score": 515.4591379808156,
-      "TotalPayout": 11897000.0
+      "MeanScore": 435.5700073242188,
+      "SDScore": 0.0,
+      "P99Score": 435.5700073242188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -440,9 +440,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 371.9030591169434,
-      "SDScore": 47.024814164053645,
-      "P99Score": 481.29913557273466,
+      "MeanScore": 401.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 401.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -463,9 +463,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 403.4122079490967,
-      "SDScore": 43.63543519380899,
-      "P99Score": 504.923409843279,
+      "MeanScore": 342.6000061035156,
+      "SDScore": 0.0,
+      "P99Score": 342.6000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -482,14 +482,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 5.484,
-      "NetEV": -549.516,
-      "ROI%": -99.01189189189188,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.1330506640625,
-      "SDScore": 47.02481153828665,
-      "P99Score": 508.5291210114064,
-      "TotalPayout": 1371000.0
+      "MeanScore": 428.6400146484375,
+      "SDScore": 0.0,
+      "P99Score": 428.6400146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -509,9 +509,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 406.3222100825195,
-      "SDScore": 43.63543588042117,
-      "P99Score": 507.83341357400064,
+      "MeanScore": 345.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 345.510009765625,
       "TotalPayout": 0.0
     },
     {
@@ -528,14 +528,14 @@
       "F6": "Gianni Vazquez",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 366.634,
-      "NetEV": -188.366,
-      "ROI%": -33.93981981981982,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 418.6530514680176,
-      "SDScore": 47.02481412596708,
-      "P99Score": 528.0491278352063,
-      "TotalPayout": 91658500.0
+      "MeanScore": 448.1600036621094,
+      "SDScore": 0.0,
+      "P99Score": 448.1600036621094,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -574,14 +574,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1733.5940000000364,
-      "NetEV": 1178.5940000000364,
-      "ROI%": 212.35927927928583,
+      "EV": 3333.333333333333,
+      "NetEV": 2778.333333333333,
+      "ROI%": 500.6006006006007,
       "WinPct": 0.0,
-      "MeanScore": 499.65305271765135,
-      "SDScore": 47.02481380688383,
-      "P99Score": 609.0491283425414,
-      "TotalPayout": 433398500.0000091
+      "MeanScore": 529.1600341796875,
+      "SDScore": 0.0,
+      "P99Score": 529.1600341796875,
+      "TotalPayout": 3333.333333333333
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -601,9 +601,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.65220996228027,
-      "SDScore": 43.63543626628489,
-      "P99Score": 491.1634143514146,
+      "MeanScore": 328.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 328.8399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -624,9 +624,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 405.3122195240479,
-      "SDScore": 43.63543630432307,
-      "P99Score": 506.82342400167227,
+      "MeanScore": 344.5,
+      "SDScore": 0.0,
+      "P99Score": 344.5,
       "TotalPayout": 0.0
     },
     {
@@ -643,14 +643,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 137.208,
-      "NetEV": -417.792,
-      "ROI%": -75.27783783783785,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 413.56306137963867,
-      "SDScore": 47.02481496928551,
-      "P99Score": 522.9591397086793,
-      "TotalPayout": 34302000.0
+      "MeanScore": 443.0700073242188,
+      "SDScore": 0.0,
+      "P99Score": 443.0700073242188,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -665,15 +665,15 @@
       "F5": "Rizvan Kuniev",
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
-      "AvgWinPayout": 50000.0,
-      "EV": 6354.09,
-      "NetEV": 5799.09,
-      "ROI%": 1044.881081081081,
-      "WinPct": 8.4644,
-      "MeanScore": 518.3452646676026,
-      "SDScore": 52.49624391099504,
-      "P99Score": 640.4697900829314,
-      "TotalPayout": 1588522500.0
+      "AvgWinPayout": 0.0,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
+      "WinPct": 0.0,
+      "MeanScore": 487.0400085449219,
+      "SDScore": 0.0,
+      "P99Score": 487.0400085449219,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -689,14 +689,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.044,
-      "NetEV": -554.956,
-      "ROI%": -99.99207207207208,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 342.33526317504885,
-      "SDScore": 52.49624445953752,
-      "P99Score": 464.4597898664782,
-      "TotalPayout": 11000.0
+      "MeanScore": 311.0299987792969,
+      "SDScore": 0.0,
+      "P99Score": 311.0299987792969,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -711,15 +711,15 @@
       "F5": "Javid Basharat",
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
-      "AvgWinPayout": 50000.0,
-      "EV": 21429.2268,
-      "NetEV": 20874.2268,
-      "ROI%": 3761.121945945946,
-      "WinPct": 39.5324,
-      "MeanScore": 533.7721955891113,
-      "SDScore": 43.63543631115161,
-      "P99Score": 635.2834000826213,
-      "TotalPayout": 5357306700.0
+      "AvgWinPayout": 0.0,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
+      "WinPct": 0.0,
+      "MeanScore": 472.96002197265625,
+      "SDScore": 0.0,
+      "P99Score": 472.96002197265625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -735,14 +735,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 479.456,
-      "NetEV": -75.54399999999998,
-      "ROI%": -13.61153153153153,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 431.3730566019288,
-      "SDScore": 47.02481478589991,
-      "P99Score": 540.7691345043507,
-      "TotalPayout": 119864000.0
+      "MeanScore": 460.8800048828125,
+      "SDScore": 0.0,
+      "P99Score": 460.8800048828125,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -758,14 +758,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 239.576,
-      "NetEV": -315.424,
-      "ROI%": -56.83315315315315,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 435.44220922399904,
-      "SDScore": 43.63543631435945,
-      "P99Score": 536.9534137249716,
-      "TotalPayout": 59894000.0
+      "MeanScore": 374.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 374.6300048828125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -785,9 +785,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.1422153795166,
-      "SDScore": 43.635435286077616,
-      "P99Score": 500.6534174883478,
+      "MeanScore": 338.3300170898437,
+      "SDScore": 0.0,
+      "P99Score": 338.3300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -808,9 +808,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.90305812878415,
-      "SDScore": 47.02481565116473,
-      "P99Score": 476.29913804411314,
+      "MeanScore": 396.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 396.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -827,14 +827,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 649.3442,
-      "NetEV": 94.3442,
-      "ROI%": 16.998954954954957,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 464.4030570731201,
-      "SDScore": 47.024808574309546,
-      "P99Score": 573.7991205252221,
-      "TotalPayout": 162336050.0
+      "MeanScore": 493.9100036621094,
+      "SDScore": 0.0,
+      "P99Score": 493.9100036621094,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -850,14 +850,14 @@
       "F6": "Gianni Vazquez",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 681.7512,
-      "NetEV": 126.75120000000004,
-      "ROI%": 22.838054054054066,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 472.6330640899658,
-      "SDScore": 47.02481179748549,
-      "P99Score": 582.0291350402963,
-      "TotalPayout": 170437800.0
+      "MeanScore": 502.1400146484375,
+      "SDScore": 0.0,
+      "P99Score": 502.1400146484375,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -873,14 +873,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 446.564,
-      "NetEV": -108.43599999999998,
-      "ROI%": -19.53801801801801,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 426.7930656472168,
-      "SDScore": 47.02481316349126,
-      "P99Score": 536.1891397753519,
-      "TotalPayout": 111641000.0
+      "MeanScore": 456.3000183105469,
+      "SDScore": 0.0,
+      "P99Score": 456.3000183105469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -896,14 +896,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 820.618,
-      "NetEV": 265.61800000000005,
-      "ROI%": 47.85909909909911,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 486.5630640662842,
-      "SDScore": 47.02481369441496,
-      "P99Score": 595.9591394295326,
-      "TotalPayout": 205154500.0
+      "MeanScore": 516.0700073242188,
+      "SDScore": 0.0,
+      "P99Score": 516.0700073242188,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -919,14 +919,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 388.632,
-      "NetEV": -166.368,
-      "ROI%": -29.976216216216216,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 419.8730588161621,
-      "SDScore": 47.024814444782976,
-      "P99Score": 529.2691359250275,
-      "TotalPayout": 97158000.0
+      "MeanScore": 449.3800048828125,
+      "SDScore": 0.0,
+      "P99Score": 449.3800048828125,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -942,14 +942,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 463.536,
-      "NetEV": -91.464,
-      "ROI%": -16.48,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 462.6722176998291,
-      "SDScore": 43.63543516238858,
-      "P99Score": 564.1834195209167,
-      "TotalPayout": 115884000.0
+      "MeanScore": 401.8600158691406,
+      "SDScore": 0.0,
+      "P99Score": 401.8600158691406,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -965,14 +965,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 859.9408,
-      "NetEV": 304.9408,
-      "ROI%": 54.94428828828828,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 484.75221160876464,
-      "SDScore": 43.63543438242091,
-      "P99Score": 586.2634116153761,
-      "TotalPayout": 214985200.0
+      "MeanScore": 423.9400024414063,
+      "SDScore": 0.0,
+      "P99Score": 423.9400024414063,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -992,9 +992,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.52220508044434,
-      "SDScore": 43.63543626895248,
-      "P99Score": 497.0334094757844,
+      "MeanScore": 334.7099914550781,
+      "SDScore": 0.0,
+      "P99Score": 334.7099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -1015,9 +1015,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 394.45304803356936,
-      "SDScore": 47.02481269065128,
-      "P99Score": 503.8491210617142,
+      "MeanScore": 423.9599914550781,
+      "SDScore": 0.0,
+      "P99Score": 423.9599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -1034,14 +1034,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 99.832,
-      "NetEV": -455.168,
-      "ROI%": -82.01225225225225,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 409.9830573590088,
-      "SDScore": 47.02481644896135,
-      "P99Score": 519.3791391302902,
-      "TotalPayout": 24958000.0
+      "MeanScore": 439.489990234375,
+      "SDScore": 0.0,
+      "P99Score": 439.489990234375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1057,14 +1057,14 @@
       "F6": "Priscila Cachoeira",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 296.28,
-      "NetEV": -258.72,
-      "ROI%": -46.61621621621622,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 438.3522109188232,
-      "SDScore": 43.63543537310579,
-      "P99Score": 539.8634132301123,
-      "TotalPayout": 74070000.0
+      "MeanScore": 377.5400085449219,
+      "SDScore": 0.0,
+      "P99Score": 377.5400085449219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1080,14 +1080,14 @@
       "F6": "Gianni Vazquez",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 334.2,
-      "NetEV": -220.8,
-      "ROI%": -39.78378378378379,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 418.0530468510742,
-      "SDScore": 47.02481434188456,
-      "P99Score": 527.449123720562,
-      "TotalPayout": 83550000.0
+      "MeanScore": 447.55999755859375,
+      "SDScore": 0.0,
+      "P99Score": 447.55999755859375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1107,9 +1107,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 379.1721988723144,
-      "SDScore": 43.63543621467334,
-      "P99Score": 480.6834031413824,
+      "MeanScore": 318.3599853515625,
+      "SDScore": 0.0,
+      "P99Score": 318.3599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -1126,14 +1126,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 481.68,
-      "NetEV": -73.32,
-      "ROI%": -13.21081081081081,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 464.1522161967773,
-      "SDScore": 43.63543657414068,
-      "P99Score": 565.6634213020914,
-      "TotalPayout": 120420000.0
+      "MeanScore": 403.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 403.3399963378906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1149,14 +1149,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 988.4008,
-      "NetEV": 433.4008,
-      "ROI%": 78.09023423423423,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 491.9721927769775,
-      "SDScore": 43.63543648799459,
-      "P99Score": 593.4833976818858,
-      "TotalPayout": 247100200.0
+      "MeanScore": 431.1600036621094,
+      "SDScore": 0.0,
+      "P99Score": 431.1600036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1172,14 +1172,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 426.508,
-      "NetEV": -128.49200000000002,
-      "ROI%": -23.15171171171172,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 455.6522021152344,
-      "SDScore": 43.63543622453797,
-      "P99Score": 557.1634064072509,
-      "TotalPayout": 106627000.0
+      "MeanScore": 394.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 394.8399963378906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1199,9 +1199,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 380.32305488012696,
-      "SDScore": 47.02481152779867,
-      "P99Score": 489.7191252030721,
+      "MeanScore": 409.8299865722656,
+      "SDScore": 0.0,
+      "P99Score": 409.8299865722656,
       "TotalPayout": 0.0
     },
     {
@@ -1222,9 +1222,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 357.30307483483887,
-      "SDScore": 47.024815666460526,
-      "P99Score": 466.6991547857512,
+      "MeanScore": 386.8100280761719,
+      "SDScore": 0.0,
+      "P99Score": 386.8100280761719,
       "TotalPayout": 0.0
     },
     {
@@ -1245,9 +1245,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 387.4222049189453,
-      "SDScore": 43.63543634178132,
-      "P99Score": 488.93340948371065,
+      "MeanScore": 326.6100158691406,
+      "SDScore": 0.0,
+      "P99Score": 326.6100158691406,
       "TotalPayout": 0.0
     },
     {
@@ -1268,9 +1268,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 373.38305052612304,
-      "SDScore": 47.02481166396886,
-      "P99Score": 482.7791211658474,
+      "MeanScore": 402.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 402.8900146484375,
       "TotalPayout": 0.0
     },
     {
@@ -1291,9 +1291,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 391.5522022578125,
-      "SDScore": 43.63543639518037,
-      "P99Score": 493.06340694680256,
+      "MeanScore": 330.739990234375,
+      "SDScore": 0.0,
+      "P99Score": 330.739990234375,
       "TotalPayout": 0.0
     },
     {
@@ -1314,9 +1314,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 405.3122195240479,
-      "SDScore": 43.63543630432307,
-      "P99Score": 506.82342400167227,
+      "MeanScore": 344.5,
+      "SDScore": 0.0,
+      "P99Score": 344.5,
       "TotalPayout": 0.0
     },
     {
@@ -1337,9 +1337,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 419.3322088166504,
-      "SDScore": 43.63543649434423,
-      "P99Score": 520.8434137363301,
+      "MeanScore": 358.5199890136719,
+      "SDScore": 0.0,
+      "P99Score": 358.5199890136719,
       "TotalPayout": 0.0
     },
     {
@@ -1360,9 +1360,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.44221840600585,
-      "SDScore": 43.63543621390398,
-      "P99Score": 484.953422673284,
+      "MeanScore": 322.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 322.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -1383,9 +1383,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -1402,14 +1402,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 409.648,
-      "NetEV": -145.35199999999998,
-      "ROI%": -26.189549549549547,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 446.4322146295166,
-      "SDScore": 43.635436283196825,
-      "P99Score": 547.943419057994,
-      "TotalPayout": 102412000.0
+      "MeanScore": 385.6199951171875,
+      "SDScore": 0.0,
+      "P99Score": 385.6199951171875,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1425,14 +1425,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 118.688,
-      "NetEV": -436.312,
-      "ROI%": -78.61477477477477,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 428.0422229606934,
-      "SDScore": 43.635436307731005,
-      "P99Score": 529.5534274462458,
-      "TotalPayout": 29672000.0
+      "MeanScore": 367.2300109863281,
+      "SDScore": 0.0,
+      "P99Score": 367.2300109863281,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1476,8 +1476,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 358.8399963378906,
-      "SDScore": 0.0002417150664451,
-      "P99Score": 358.8405586512216,
+      "SDScore": 0.0,
+      "P99Score": 358.8399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -1494,14 +1494,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 422.804,
-      "NetEV": -132.19600000000003,
-      "ROI%": -23.819099099099105,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 453.8322136760254,
-      "SDScore": 43.63543441431488,
-      "P99Score": 555.3434137568332,
-      "TotalPayout": 105701000.0
+      "MeanScore": 393.0199890136719,
+      "SDScore": 0.0,
+      "P99Score": 393.0199890136719,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1521,9 +1521,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.5422245997314,
-      "SDScore": 43.6354362393159,
-      "P99Score": 512.0534289261266,
+      "MeanScore": 349.7300109863281,
+      "SDScore": 0.0,
+      "P99Score": 349.7300109863281,
       "TotalPayout": 0.0
     },
     {
@@ -1540,14 +1540,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 94.92,
-      "NetEV": -460.08,
-      "ROI%": -82.89729729729729,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 425.08001708984375,
-      "SDScore": 0.0003484143544765,
-      "P99Score": 425.0808276228366,
-      "TotalPayout": 23730000.0
+      "SDScore": 0.0,
+      "P99Score": 425.08001708984375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1567,9 +1567,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 376.62306797583005,
-      "SDScore": 47.02481398672001,
-      "P99Score": 486.0191440190816,
+      "MeanScore": 406.1300354003906,
+      "SDScore": 0.0,
+      "P99Score": 406.1300354003906,
       "TotalPayout": 0.0
     },
     {
@@ -1586,14 +1586,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 374.9426666666666,
-      "NetEV": -180.05733333333336,
-      "ROI%": -32.44276276276277,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 442.28220574536135,
-      "SDScore": 43.63543620923079,
-      "P99Score": 543.793410001768,
-      "TotalPayout": 93735666.66666666
+      "MeanScore": 381.4700012207031,
+      "SDScore": 0.0,
+      "P99Score": 381.4700012207031,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1609,14 +1609,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 430.14,
-      "NetEV": -124.86,
-      "ROI%": -22.4972972972973,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 456.7222172729492,
-      "SDScore": 43.63543625695851,
-      "P99Score": 558.2334216403872,
-      "TotalPayout": 107535000.0
+      "MeanScore": 395.9100036621094,
+      "SDScore": 0.0,
+      "P99Score": 395.9100036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1632,14 +1632,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 463.536,
-      "NetEV": -91.464,
-      "ROI%": -16.48,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 462.6722176998291,
-      "SDScore": 43.63543516238858,
-      "P99Score": 564.1834195209167,
-      "TotalPayout": 115884000.0
+      "MeanScore": 401.8600158691406,
+      "SDScore": 0.0,
+      "P99Score": 401.8600158691406,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1655,14 +1655,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 988.4008,
-      "NetEV": 433.4008,
-      "ROI%": 78.09023423423423,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 491.9721927769775,
-      "SDScore": 43.63543648799459,
-      "P99Score": 593.4833976818858,
-      "TotalPayout": 247100200.0
+      "MeanScore": 431.1600036621094,
+      "SDScore": 0.0,
+      "P99Score": 431.1600036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1678,14 +1678,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 60.6,
-      "NetEV": -494.4,
-      "ROI%": -89.08108108108108,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 407.5330590748291,
-      "SDScore": 47.02481155781685,
-      "P99Score": 516.929129467607,
-      "TotalPayout": 15150000.0
+      "MeanScore": 437.0400085449219,
+      "SDScore": 0.0,
+      "P99Score": 437.0400085449219,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1701,14 +1701,14 @@
       "F6": "Niko Price",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 399.608,
-      "NetEV": -155.392,
-      "ROI%": -27.99855855855856,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 444.682223864502,
-      "SDScore": 43.63543516060474,
-      "P99Score": 546.1934256814396,
-      "TotalPayout": 99902000.0
+      "MeanScore": 383.8700256347656,
+      "SDScore": 0.0,
+      "P99Score": 383.8700256347656,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1728,9 +1728,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 413.2722127548828,
-      "SDScore": 43.63543630712872,
-      "P99Score": 514.7834172390341,
+      "MeanScore": 352.46002197265625,
+      "SDScore": 0.0,
+      "P99Score": 352.46002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -1747,14 +1747,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1226.1374,
-      "NetEV": 671.1374000000001,
-      "ROI%": 120.92565765765768,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 517.1421907095947,
-      "SDScore": 43.63543631097686,
-      "P99Score": 618.6533952026981,
-      "TotalPayout": 306534350.0
+      "MeanScore": 456.33001708984375,
+      "SDScore": 0.0,
+      "P99Score": 456.33001708984375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1770,14 +1770,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 411.126,
-      "NetEV": -143.87400000000002,
-      "ROI%": -25.92324324324325,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 447.15220994836426,
-      "SDScore": 43.63543622986214,
-      "P99Score": 548.6634142527666,
-      "TotalPayout": 102781500.0
+      "MeanScore": 386.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 386.3399963378906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1793,14 +1793,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 574.668,
-      "NetEV": 19.668000000000006,
-      "ROI%": 3.543783783783785,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 456.1930594309082,
-      "SDScore": 47.024810923321965,
-      "P99Score": 565.5891283476302,
-      "TotalPayout": 143667000.0
+      "MeanScore": 485.7000122070313,
+      "SDScore": 0.0,
+      "P99Score": 485.7000122070313,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1816,14 +1816,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1100.0492,
-      "NetEV": 545.0491999999999,
-      "ROI%": 98.20706306306305,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 500.182214592041,
-      "SDScore": 43.6354362342752,
-      "P99Score": 601.6934189067097,
-      "TotalPayout": 275012300.0
+      "MeanScore": 439.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 439.3699951171875,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1839,14 +1839,14 @@
       "F6": "Javid Basharat",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 556.356,
-      "NetEV": 1.3559999999999943,
-      "ROI%": 0.2443243243243233,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 449.7330683077393,
-      "SDScore": 47.02481133214479,
-      "P99Score": 559.1291381755254,
-      "TotalPayout": 139089000.0
+      "MeanScore": 479.2400207519531,
+      "SDScore": 0.0,
+      "P99Score": 479.2400207519531,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1866,9 +1866,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 419.3322088166504,
-      "SDScore": 43.63543649434423,
-      "P99Score": 520.8434137363301,
+      "MeanScore": 358.5199890136719,
+      "SDScore": 0.0,
+      "P99Score": 358.5199890136719,
       "TotalPayout": 0.0
     },
     {
@@ -1885,14 +1885,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 533.84,
-      "NetEV": -21.159999999999968,
-      "ROI%": -3.812612612612607,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 443.0030576125488,
-      "SDScore": 47.02481408589631,
-      "P99Score": 552.3991338865189,
-      "TotalPayout": 133460000.0
+      "MeanScore": 472.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 472.510009765625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1912,9 +1912,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 406.4522266710205,
-      "SDScore": 43.63543639276224,
-      "P99Score": 507.9634313543852,
+      "MeanScore": 345.6400146484375,
+      "SDScore": 0.0,
+      "P99Score": 345.6400146484375,
       "TotalPayout": 0.0
     },
     {
@@ -1931,14 +1931,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 527.3693333333343,
-      "NetEV": -27.63066666666566,
-      "ROI%": -4.978498498498317,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 465.2222094675293,
-      "SDScore": 43.635436342301226,
-      "P99Score": 566.7334140335041,
-      "TotalPayout": 131842333.33333358
+      "MeanScore": 404.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 404.4100036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1958,9 +1958,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 393.0530527022705,
-      "SDScore": 47.024815572290095,
-      "P99Score": 502.4491324341097,
+      "MeanScore": 422.55999755859375,
+      "SDScore": 0.0,
+      "P99Score": 422.55999755859375,
       "TotalPayout": 0.0
     },
     {
@@ -1977,14 +1977,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 896.4456,
-      "NetEV": 341.4456,
-      "ROI%": 61.521729729729735,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 487.0922080432129,
-      "SDScore": 43.63543445070196,
-      "P99Score": 588.6034082086697,
-      "TotalPayout": 224111400.0
+      "MeanScore": 426.2799987792969,
+      "SDScore": 0.0,
+      "P99Score": 426.2799987792969,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2004,9 +2004,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 350.0330629078369,
-      "SDScore": 47.02481574984669,
-      "P99Score": 459.4291430527345,
+      "MeanScore": 379.5400085449219,
+      "SDScore": 0.0,
+      "P99Score": 379.5400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -2027,9 +2027,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 350.7722193397217,
-      "SDScore": 43.63543656230996,
-      "P99Score": 452.2834244175133,
+      "MeanScore": 289.96002197265625,
+      "SDScore": 0.0,
+      "P99Score": 289.96002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -2050,9 +2050,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 349.34221077856444,
-      "SDScore": 43.63543635574387,
-      "P99Score": 450.8534153758115,
+      "MeanScore": 288.5299987792969,
+      "SDScore": 0.0,
+      "P99Score": 288.5299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -2069,14 +2069,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 652.1496000000155,
-      "NetEV": 97.14960000001554,
-      "ROI%": 17.504432432435234,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 468.7022189937744,
-      "SDScore": 43.63543631314254,
-      "P99Score": 570.2134234919159,
-      "TotalPayout": 163037400.00000387
+      "MeanScore": 407.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 407.8900146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2096,9 +2096,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.44221840600585,
-      "SDScore": 43.63543621390398,
-      "P99Score": 484.953422673284,
+      "MeanScore": 322.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 322.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -2115,14 +2115,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 476.788,
-      "NetEV": -78.21199999999999,
-      "ROI%": -14.09225225225225,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 464.1522058306885,
-      "SDScore": 43.63543419509534,
-      "P99Score": 565.6634054015154,
-      "TotalPayout": 119197000.0
+      "MeanScore": 403.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 403.3399963378906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2165,9 +2165,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 369.93306327050783,
-      "SDScore": 47.02481504043434,
-      "P99Score": 479.3291417650655,
+      "MeanScore": 399.4400024414063,
+      "SDScore": 0.0,
+      "P99Score": 399.4400024414063,
       "TotalPayout": 0.0
     },
     {
@@ -2184,14 +2184,14 @@
       "F6": "Jailton Almeida",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1.296,
-      "NetEV": -553.704,
-      "ROI%": -99.76648648648649,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 396.7030689073486,
-      "SDScore": 47.024815762083534,
-      "P99Score": 506.09914908071335,
-      "TotalPayout": 324000.0
+      "MeanScore": 426.21002197265625,
+      "SDScore": 0.0,
+      "P99Score": 426.21002197265625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2211,9 +2211,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 382.0822026339112,
-      "SDScore": 43.635436253767686,
-      "P99Score": 483.5934069939261,
+      "MeanScore": 321.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 321.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -2234,9 +2234,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 377.01220957324216,
-      "SDScore": 43.63543655961119,
-      "P99Score": 478.5234146447555,
+      "MeanScore": 316.20001220703125,
+      "SDScore": 0.0,
+      "P99Score": 316.20001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -2257,9 +2257,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 387.7622104942627,
-      "SDScore": 43.635435279461184,
-      "P99Score": 489.2734125877018,
+      "MeanScore": 326.95001220703125,
+      "SDScore": 0.0,
+      "P99Score": 326.95001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -2281,8 +2281,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 341.5899963378906,
-      "SDScore": 0.0002054989705862,
-      "P99Score": 341.590474399984,
+      "SDScore": 0.0,
+      "P99Score": 341.5899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -2299,14 +2299,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 8548.8652,
-      "NetEV": 7993.8652,
-      "ROI%": 1440.336072072072,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 520.2722130323486,
-      "SDScore": 43.63543756641125,
-      "P99Score": 621.7834204460291,
-      "TotalPayout": 2137216300.0
+      "MeanScore": 459.46002197265625,
+      "SDScore": 0.0,
+      "P99Score": 459.46002197265625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2326,9 +2326,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 324.72306187609865,
-      "SDScore": 47.02481500003292,
-      "P99Score": 434.1191402766685,
+      "MeanScore": 354.2300109863281,
+      "SDScore": 0.0,
+      "P99Score": 354.2300109863281,
       "TotalPayout": 0.0
     },
     {
@@ -2349,9 +2349,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -2372,9 +2372,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 406.3222100825195,
-      "SDScore": 43.63543588042117,
-      "P99Score": 507.83341357400064,
+      "MeanScore": 345.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 345.510009765625,
       "TotalPayout": 0.0
     },
     {
@@ -2391,14 +2391,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 968.6884,
-      "NetEV": 413.6884,
-      "ROI%": 74.53845045045045,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 499.5030588465576,
-      "SDScore": 47.02481372983218,
-      "P99Score": 608.8991342921987,
-      "TotalPayout": 242172100.0
+      "MeanScore": 529.010009765625,
+      "SDScore": 0.0,
+      "P99Score": 529.010009765625,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2414,14 +2414,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 11170.006,
-      "NetEV": 10615.006,
-      "ROI%": 1912.6136936936937,
+      "EV": 20000.0,
+      "NetEV": 19445.0,
+      "ROI%": 3503.603603603604,
       "WinPct": 0.0,
-      "MeanScore": 528.9630530061036,
-      "SDScore": 47.02481472052516,
-      "P99Score": 638.3591307564411,
-      "TotalPayout": 2792501500.0
+      "MeanScore": 558.469970703125,
+      "SDScore": 0.0,
+      "P99Score": 558.469970703125,
+      "TotalPayout": 20000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2441,9 +2441,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.5722080477295,
-      "SDScore": 43.63543526448348,
-      "P99Score": 491.0834101063252,
+      "MeanScore": 328.760009765625,
+      "SDScore": 0.0,
+      "P99Score": 328.760009765625,
       "TotalPayout": 0.0
     },
     {
@@ -2464,9 +2464,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 364.482194887207,
-      "SDScore": 43.6354364325289,
-      "P99Score": 465.9933996630828,
+      "MeanScore": 303.66998291015625,
+      "SDScore": 0.0,
+      "P99Score": 303.66998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -2487,9 +2487,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 394.92220652368167,
-      "SDScore": 43.6354362840599,
-      "P99Score": 496.4334109541669,
+      "MeanScore": 334.1099853515625,
+      "SDScore": 0.0,
+      "P99Score": 334.1099853515625,
       "TotalPayout": 0.0
     },
     {
@@ -2506,14 +2506,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 471.968,
-      "NetEV": -83.03199999999998,
-      "ROI%": -14.96072072072072,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 430.3930593046875,
-      "SDScore": 47.0248131318209,
-      "P99Score": 539.7891333591463,
-      "TotalPayout": 117992000.0
+      "MeanScore": 459.9000244140625,
+      "SDScore": 0.0,
+      "P99Score": 459.9000244140625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2533,9 +2533,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 382.0822026339112,
-      "SDScore": 43.635436253767686,
-      "P99Score": 483.5934069939261,
+      "MeanScore": 321.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 321.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -2552,14 +2552,14 @@
       "F6": "Niko Price",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 7.972,
-      "NetEV": -547.028,
-      "ROI%": -98.5636036036036,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 403.5530542799072,
-      "SDScore": 47.02481367649856,
-      "P99Score": 512.9491296014758,
-      "TotalPayout": 1993000.0
+      "MeanScore": 433.05999755859375,
+      "SDScore": 0.0,
+      "P99Score": 433.05999755859375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2579,9 +2579,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.44221840600585,
-      "SDScore": 43.63543621390398,
-      "P99Score": 484.953422673284,
+      "MeanScore": 322.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 322.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -2602,9 +2602,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 397.46220751501465,
-      "SDScore": 43.6354362491802,
-      "P99Score": 498.9734118643576,
+      "MeanScore": 336.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 336.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -2625,9 +2625,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.52220508044434,
-      "SDScore": 43.63543626895248,
-      "P99Score": 497.0334094757844,
+      "MeanScore": 334.7099914550781,
+      "SDScore": 0.0,
+      "P99Score": 334.7099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -2671,9 +2671,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.1122089709473,
-      "SDScore": 43.635436423591706,
-      "P99Score": 518.623413726032,
+      "MeanScore": 356.29998779296875,
+      "SDScore": 0.0,
+      "P99Score": 356.29998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -2690,14 +2690,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 4.688,
-      "NetEV": -550.312,
-      "ROI%": -99.15531531531532,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 398.5830545056152,
-      "SDScore": 47.02481155228012,
-      "P99Score": 507.9791248855127,
-      "TotalPayout": 1172000.0
+      "MeanScore": 428.0899963378906,
+      "SDScore": 0.0,
+      "P99Score": 428.0899963378906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2713,14 +2713,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 406.48,
-      "NetEV": -148.51999999999998,
-      "ROI%": -26.76036036036036,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 421.4430659841309,
-      "SDScore": 47.02481446816154,
-      "P99Score": 530.8391431473829,
-      "TotalPayout": 101620000.0
+      "MeanScore": 450.9500122070313,
+      "SDScore": 0.0,
+      "P99Score": 450.9500122070313,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2740,9 +2740,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 354.7430554758301,
-      "SDScore": 47.024814168978274,
-      "P99Score": 464.1391319430778,
+      "MeanScore": 384.25,
+      "SDScore": 0.0,
+      "P99Score": 384.25,
       "TotalPayout": 0.0
     },
     {
@@ -2759,14 +2759,14 @@
       "F6": "Jailton Almeida",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 13.828,
-      "NetEV": -541.172,
-      "ROI%": -97.50846846846846,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 404.3530602956543,
-      "SDScore": 47.02481678340027,
-      "P99Score": 513.7491428449571,
-      "TotalPayout": 3457000.0
+      "MeanScore": 433.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 433.8599853515625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2782,14 +2782,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 567.464,
-      "NetEV": 12.464000000000055,
-      "ROI%": 2.245765765765776,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 454.4230535048828,
-      "SDScore": 47.024815040451045,
-      "P99Score": 563.8191319994794,
-      "TotalPayout": 141866000.0
+      "MeanScore": 483.9299926757813,
+      "SDScore": 0.0,
+      "P99Score": 483.9299926757813,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2805,14 +2805,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2.976,
-      "NetEV": -552.024,
-      "ROI%": -99.46378378378378,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 396.933049388794,
-      "SDScore": 47.02481350974234,
-      "P99Score": 506.3291243224296,
-      "TotalPayout": 744000.0
+      "MeanScore": 426.4400024414063,
+      "SDScore": 0.0,
+      "P99Score": 426.4400024414063,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2828,14 +2828,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 652.1496000000155,
-      "NetEV": 97.14960000001554,
-      "ROI%": 17.504432432435234,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 468.7022189937744,
-      "SDScore": 43.63543631314254,
-      "P99Score": 570.2134234919159,
-      "TotalPayout": 163037400.00000387
+      "MeanScore": 407.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 407.8900146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2851,14 +2851,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 5.484,
-      "NetEV": -549.516,
-      "ROI%": -99.01189189189188,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.1330506640625,
-      "SDScore": 47.02481153828665,
-      "P99Score": 508.5291210114064,
-      "TotalPayout": 1371000.0
+      "MeanScore": 428.6400146484375,
+      "SDScore": 0.0,
+      "P99Score": 428.6400146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2878,9 +2878,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 390.8722186997071,
-      "SDScore": 43.63543633460728,
-      "P99Score": 492.3834232477831,
+      "MeanScore": 330.0599975585937,
+      "SDScore": 0.0,
+      "P99Score": 330.0599975585937,
       "TotalPayout": 0.0
     },
     {
@@ -2901,9 +2901,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.0830517979736,
-      "SDScore": 47.024814171220726,
-      "P99Score": 445.479128270438,
+      "MeanScore": 365.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 365.5899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -2920,14 +2920,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 5700.9552,
-      "NetEV": 5145.9552,
-      "ROI%": 927.1991351351352,
+      "EV": 10000.0,
+      "NetEV": 9445.0,
+      "ROI%": 1701.801801801802,
       "WinPct": 0.0,
-      "MeanScore": 527.7030481246338,
-      "SDScore": 47.024813585105306,
-      "P99Score": 637.0991232335899,
-      "TotalPayout": 1425238800.0
+      "MeanScore": 557.2099609375,
+      "SDScore": 0.0,
+      "P99Score": 557.2099609375,
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2947,9 +2947,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 345.7030480036621,
-      "SDScore": 47.02481260866787,
-      "P99Score": 455.099120841085,
+      "MeanScore": 375.2099914550781,
+      "SDScore": 0.0,
+      "P99Score": 375.2099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -2966,14 +2966,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 723.1752,
-      "NetEV": 168.17520000000002,
-      "ROI%": 30.30183783783784,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 483.9430586535645,
-      "SDScore": 47.02481431534897,
-      "P99Score": 593.3391354613212,
-      "TotalPayout": 180793800.0
+      "MeanScore": 513.4500122070312,
+      "SDScore": 0.0,
+      "P99Score": 513.4500122070312,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2993,9 +2993,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.90305812878415,
-      "SDScore": 47.02481565116473,
-      "P99Score": 476.29913804411314,
+      "MeanScore": 396.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 396.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -3012,14 +3012,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1733.5940000000364,
-      "NetEV": 1178.5940000000364,
-      "ROI%": 212.35927927928583,
+      "EV": 3333.333333333333,
+      "NetEV": 2778.333333333333,
+      "ROI%": 500.6006006006007,
       "WinPct": 0.0,
-      "MeanScore": 499.65305271765135,
-      "SDScore": 47.02481380688383,
-      "P99Score": 609.0491283425414,
-      "TotalPayout": 433398500.0000091
+      "MeanScore": 529.1600341796875,
+      "SDScore": 0.0,
+      "P99Score": 529.1600341796875,
+      "TotalPayout": 3333.333333333333
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3039,9 +3039,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 394.45304803356936,
-      "SDScore": 47.02481269065128,
-      "P99Score": 503.8491210617142,
+      "MeanScore": 423.9599914550781,
+      "SDScore": 0.0,
+      "P99Score": 423.9599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -3062,9 +3062,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 393.0530527022705,
-      "SDScore": 47.024815572290095,
-      "P99Score": 502.4491324341097,
+      "MeanScore": 422.55999755859375,
+      "SDScore": 0.0,
+      "P99Score": 422.55999755859375,
       "TotalPayout": 0.0
     },
     {
@@ -3081,14 +3081,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1780.4469,
-      "NetEV": 1225.4469,
-      "ROI%": 220.8012432432432,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 517.7822053645019,
-      "SDScore": 43.6354363102005,
-      "P99Score": 619.2934098557993,
-      "TotalPayout": 445111725.0
+      "MeanScore": 456.9700012207031,
+      "SDScore": 0.0,
+      "P99Score": 456.9700012207031,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3108,9 +3108,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.0822088088379,
-      "SDScore": 43.63543647419944,
-      "P99Score": 500.5934136816538,
+      "MeanScore": 338.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 338.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -3127,14 +3127,14 @@
       "F6": "Rizvan Kuniev",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 333.868,
-      "NetEV": -221.132,
-      "ROI%": -39.8436036036036,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 441.052224996582,
-      "SDScore": 43.63543636080825,
-      "P99Score": 542.5634296056106,
-      "TotalPayout": 83467000.0
+      "MeanScore": 380.2400207519531,
+      "SDScore": 0.0,
+      "P99Score": 380.2400207519531,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3150,14 +3150,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 4562.8028,
-      "NetEV": 4007.8028,
-      "ROI%": 722.1266306306308,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 519.0422151242676,
-      "SDScore": 43.63543631099821,
-      "P99Score": 620.5534196174207,
-      "TotalPayout": 1140700700.0
+      "MeanScore": 458.2300109863281,
+      "SDScore": 0.0,
+      "P99Score": 458.2300109863281,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3177,9 +3177,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 415.5822330512696,
-      "SDScore": 43.63543620498646,
-      "P99Score": 517.0934372978024,
+      "MeanScore": 354.77001953125,
+      "SDScore": 0.0,
+      "P99Score": 354.77001953125,
       "TotalPayout": 0.0
     },
     {
@@ -3196,14 +3196,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 451.624,
-      "NetEV": -103.37599999999998,
-      "ROI%": -18.626306306306304,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 461.29221706274416,
-      "SDScore": 43.6354371333774,
-      "P99Score": 562.8034234690373,
-      "TotalPayout": 112906000.0
+      "MeanScore": 400.4800109863281,
+      "SDScore": 0.0,
+      "P99Score": 400.4800109863281,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3223,9 +3223,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 393.0730531228027,
-      "SDScore": 47.024811524213966,
-      "P99Score": 502.4691234374086,
+      "MeanScore": 422.58001708984375,
+      "SDScore": 0.0,
+      "P99Score": 422.58001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -3242,14 +3242,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 527.3693333333343,
-      "NetEV": -27.63066666666566,
-      "ROI%": -4.978498498498317,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 465.2222094675293,
-      "SDScore": 43.635436342301226,
-      "P99Score": 566.7334140335041,
-      "TotalPayout": 131842333.33333358
+      "MeanScore": 404.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 404.4100036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3265,14 +3265,14 @@
       "F6": "Gianni Vazquez",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 663.8144,
-      "NetEV": 108.81439999999998,
-      "ROI%": 19.606198198198197,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 466.3530523342285,
-      "SDScore": 47.02481300642494,
-      "P99Score": 575.7491260969728,
-      "TotalPayout": 165953600.0
+      "MeanScore": 495.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 495.8599853515625,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3288,14 +3288,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 652.1496000000155,
-      "NetEV": 97.14960000001554,
-      "ROI%": 17.504432432435234,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 468.7022189937744,
-      "SDScore": 43.63543631314254,
-      "P99Score": 570.2134234919159,
-      "TotalPayout": 163037400.00000387
+      "MeanScore": 407.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 407.8900146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3315,9 +3315,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 396.86220896960447,
-      "SDScore": 43.63543629552294,
-      "P99Score": 498.3734134267567,
+      "MeanScore": 336.04998779296875,
+      "SDScore": 0.0,
+      "P99Score": 336.04998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -3334,14 +3334,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 374.9426666666666,
-      "NetEV": -180.05733333333336,
-      "ROI%": -32.44276276276277,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 442.28220574536135,
-      "SDScore": 43.63543620923079,
-      "P99Score": 543.793410001768,
-      "TotalPayout": 93735666.66666666
+      "MeanScore": 381.4700012207031,
+      "SDScore": 0.0,
+      "P99Score": 381.4700012207031,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3361,9 +3361,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 380.44221100964353,
-      "SDScore": 43.63543704341819,
-      "P99Score": 481.9534172066603,
+      "MeanScore": 319.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 319.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3385,8 +3385,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 269.20001220703125,
-      "SDScore": 0.0001684528070431,
-      "P99Score": 269.2004040868608,
+      "SDScore": 0.0,
+      "P99Score": 269.20001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -3407,9 +3407,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 324.72306187609865,
-      "SDScore": 47.02481500003292,
-      "P99Score": 434.1191402766685,
+      "MeanScore": 354.2300109863281,
+      "SDScore": 0.0,
+      "P99Score": 354.2300109863281,
       "TotalPayout": 0.0
     },
     {
@@ -3431,8 +3431,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 338.5400085449219,
-      "SDScore": 0.0002179729186605,
-      "P99Score": 338.5405156257578,
+      "SDScore": 0.0,
+      "P99Score": 338.5400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -3449,14 +3449,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 910.2016,
-      "NetEV": 355.2016,
-      "ROI%": 64.00028828828829,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 487.182222262207,
-      "SDScore": 43.63543638159533,
-      "P99Score": 588.6934269195935,
-      "TotalPayout": 227550400.0
+      "MeanScore": 426.3700256347656,
+      "SDScore": 0.0,
+      "P99Score": 426.3700256347656,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3472,14 +3472,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 571.788,
-      "NetEV": 16.78800000000001,
-      "ROI%": 3.024864864864867,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 455.6130415637207,
-      "SDScore": 47.02481431530873,
-      "P99Score": 565.0091183713839,
-      "TotalPayout": 142947000.0
+      "MeanScore": 485.1199951171875,
+      "SDScore": 0.0,
+      "P99Score": 485.1199951171875,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3518,14 +3518,14 @@
       "F6": "Rizvan Kuniev",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 578.3044,
-      "NetEV": 23.304399999999987,
-      "ROI%": 4.198990990990989,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "MeanScore": 463.02001953125,
       "SDScore": 0.0,
       "P99Score": 463.02001953125,
-      "TotalPayout": 144576100.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3541,14 +3541,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 183.872,
-      "NetEV": -371.128,
-      "ROI%": -66.86990990990991,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 430.9022055213623,
-      "SDScore": 43.63543428146687,
-      "P99Score": 532.4134052931195,
-      "TotalPayout": 45968000.0
+      "MeanScore": 370.0899963378906,
+      "SDScore": 0.0,
+      "P99Score": 370.0899963378906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3564,14 +3564,14 @@
       "F6": "Gianni Vazquez",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 366.634,
-      "NetEV": -188.366,
-      "ROI%": -33.93981981981982,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 418.6530514680176,
-      "SDScore": 47.02481412596708,
-      "P99Score": 528.0491278352063,
-      "TotalPayout": 91658500.0
+      "MeanScore": 448.1600036621094,
+      "SDScore": 0.0,
+      "P99Score": 448.1600036621094,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3591,9 +3591,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.52220508044434,
-      "SDScore": 43.63543626895248,
-      "P99Score": 497.0334094757844,
+      "MeanScore": 334.7099914550781,
+      "SDScore": 0.0,
+      "P99Score": 334.7099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -3610,14 +3610,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 50000.0,
-      "EV": 27573.35,
-      "NetEV": 27018.35,
-      "ROI%": 4868.1711711711705,
-      "WinPct": 52.00320000000001,
-      "MeanScore": 532.8330454689941,
-      "SDScore": 47.0248137142964,
-      "P99Score": 642.2291208784936,
-      "TotalPayout": 6893337500.0
+      "EV": 50000.0,
+      "NetEV": 49445.0,
+      "ROI%": 8909.009009009009,
+      "WinPct": 100.0,
+      "MeanScore": 562.3399658203125,
+      "SDScore": 0.0,
+      "P99Score": 562.3399658203125,
+      "TotalPayout": 50000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3633,14 +3633,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 467.644,
-      "NetEV": -87.356,
-      "ROI%": -15.73981981981982,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 429.7130613535156,
-      "SDScore": 47.02481637993938,
-      "P99Score": 539.109142964228,
-      "TotalPayout": 116911000.0
+      "MeanScore": 459.2200317382813,
+      "SDScore": 0.0,
+      "P99Score": 459.2200317382813,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3656,14 +3656,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 23.024,
-      "NetEV": -531.976,
-      "ROI%": -95.85153153153152,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 404.9430481433105,
-      "SDScore": 47.02481160728912,
-      "P99Score": 514.3391186511781,
-      "TotalPayout": 5756000.0
+      "MeanScore": 434.4500122070313,
+      "SDScore": 0.0,
+      "P99Score": 434.4500122070313,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3683,9 +3683,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.1422153795166,
-      "SDScore": 43.635435286077616,
-      "P99Score": 500.6534174883478,
+      "MeanScore": 338.3300170898437,
+      "SDScore": 0.0,
+      "P99Score": 338.3300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -3702,14 +3702,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 129.0188,
-      "NetEV": -425.9812,
-      "ROI%": -76.75336936936937,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 421.0352698974609,
-      "SDScore": 52.49624453757743,
-      "P99Score": 543.1597967704383,
-      "TotalPayout": 32254700.0
+      "MeanScore": 389.7300109863281,
+      "SDScore": 0.0,
+      "P99Score": 389.7300109863281,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3729,9 +3729,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 358.75306412939455,
-      "SDScore": 47.02481575283785,
-      "P99Score": 468.1491442812506,
+      "MeanScore": 388.260009765625,
+      "SDScore": 0.0,
+      "P99Score": 388.260009765625,
       "TotalPayout": 0.0
     },
     {
@@ -3752,9 +3752,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 381.7922167966309,
-      "SDScore": 43.6354363097713,
-      "P99Score": 483.3034212869297,
+      "MeanScore": 320.9800109863281,
+      "SDScore": 0.0,
+      "P99Score": 320.9800109863281,
       "TotalPayout": 0.0
     },
     {
@@ -3771,14 +3771,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1226.1374,
-      "NetEV": 671.1374000000001,
-      "ROI%": 120.92565765765768,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 517.1421907095947,
-      "SDScore": 43.63543631097686,
-      "P99Score": 618.6533952026981,
-      "TotalPayout": 306534350.0
+      "MeanScore": 456.33001708984375,
+      "SDScore": 0.0,
+      "P99Score": 456.33001708984375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3798,9 +3798,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 392.37221870178223,
-      "SDScore": 43.635436340347646,
-      "P99Score": 493.8834232632123,
+      "MeanScore": 331.5599975585937,
+      "SDScore": 0.0,
+      "P99Score": 331.5599975585937,
       "TotalPayout": 0.0
     },
     {
@@ -3821,9 +3821,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 380.2922094722901,
-      "SDScore": 43.635437063850446,
-      "P99Score": 481.8034157168393,
+      "MeanScore": 319.4800109863281,
+      "SDScore": 0.0,
+      "P99Score": 319.4800109863281,
       "TotalPayout": 0.0
     },
     {
@@ -3867,9 +3867,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 360.3730603586426,
-      "SDScore": 47.02481416898292,
-      "P99Score": 469.7691368259011,
+      "MeanScore": 389.8800048828125,
+      "SDScore": 0.0,
+      "P99Score": 389.8800048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3886,14 +3886,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 737.0296,
-      "NetEV": 182.0296,
-      "ROI%": 32.79812612612612,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 472.8622226292725,
-      "SDScore": 43.6354365314293,
-      "P99Score": 574.373427635225,
-      "TotalPayout": 184257400.0
+      "MeanScore": 412.0500183105469,
+      "SDScore": 0.0,
+      "P99Score": 412.0500183105469,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3909,14 +3909,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 581.444,
-      "NetEV": 26.44399999999996,
-      "ROI%": 4.764684684684677,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 461.4730599764404,
-      "SDScore": 47.024813698930814,
-      "P99Score": 570.8691353501943,
-      "TotalPayout": 145361000.0
+      "MeanScore": 490.9800109863281,
+      "SDScore": 0.0,
+      "P99Score": 490.9800109863281,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3932,14 +3932,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1780.4469,
-      "NetEV": 1225.4469,
-      "ROI%": 220.8012432432432,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 517.7822053645019,
-      "SDScore": 43.6354363102005,
-      "P99Score": 619.2934098557993,
-      "TotalPayout": 445111725.0
+      "MeanScore": 456.9700012207031,
+      "SDScore": 0.0,
+      "P99Score": 456.9700012207031,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3959,9 +3959,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 371.9030591169434,
-      "SDScore": 47.024814164053645,
-      "P99Score": 481.29913557273466,
+      "MeanScore": 401.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 401.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -3982,9 +3982,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 351.9730616558838,
-      "SDScore": 47.024815381084,
-      "P99Score": 461.36914094291103,
+      "MeanScore": 381.4800109863281,
+      "SDScore": 0.0,
+      "P99Score": 381.4800109863281,
       "TotalPayout": 0.0
     },
     {
@@ -4001,14 +4001,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 742.4244,
-      "NetEV": 187.4244,
-      "ROI%": 33.77016216216216,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "MeanScore": 471.7000122070313,
       "SDScore": 0.0,
       "P99Score": 471.7000122070313,
-      "TotalPayout": 185606100.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4028,9 +4028,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 406.3222100825195,
-      "SDScore": 43.63543588042117,
-      "P99Score": 507.83341357400064,
+      "MeanScore": 345.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 345.510009765625,
       "TotalPayout": 0.0
     },
     {
@@ -4047,14 +4047,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 456.752,
-      "NetEV": -98.248,
-      "ROI%": -17.70234234234234,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 461.5721887351074,
-      "SDScore": 43.63543427301924,
-      "P99Score": 563.0833884872125,
-      "TotalPayout": 114188000.0
+      "MeanScore": 400.7599792480469,
+      "SDScore": 0.0,
+      "P99Score": 400.7599792480469,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4070,14 +4070,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 30.388,
-      "NetEV": -524.612,
-      "ROI%": -94.52468468468469,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 405.4430481243896,
-      "SDScore": 47.02481162627159,
-      "P99Score": 514.839118676417,
-      "TotalPayout": 7597000.0
+      "MeanScore": 434.9500122070313,
+      "SDScore": 0.0,
+      "P99Score": 434.9500122070313,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4097,9 +4097,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 404.21221369348143,
-      "SDScore": 43.63543647890332,
-      "P99Score": 505.7234185772402,
+      "MeanScore": 343.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 343.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4120,9 +4120,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 400.8322256538086,
-      "SDScore": 43.63543703203185,
-      "P99Score": 502.3434318243368,
+      "MeanScore": 340.02001953125,
+      "SDScore": 0.0,
+      "P99Score": 340.02001953125,
       "TotalPayout": 0.0
     },
     {
@@ -4139,14 +4139,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 72.932,
-      "NetEV": -482.068,
-      "ROI%": -86.8590990990991,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 426.0622135128174,
-      "SDScore": 43.63543618947018,
-      "P99Score": 527.573417723254,
-      "TotalPayout": 18233000.0
+      "MeanScore": 365.25,
+      "SDScore": 0.0,
+      "P99Score": 365.25,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4166,9 +4166,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.81220595336913,
-      "SDScore": 43.63543618953855,
-      "P99Score": 497.3234101639648,
+      "MeanScore": 335.0,
+      "SDScore": 0.0,
+      "P99Score": 335.0,
       "TotalPayout": 0.0
     },
     {
@@ -4189,9 +4189,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 403.09220827868654,
-      "SDScore": 43.63543426354146,
-      "P99Score": 504.603408008743,
+      "MeanScore": 342.2799987792969,
+      "SDScore": 0.0,
+      "P99Score": 342.2799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4212,9 +4212,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -4235,9 +4235,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 409.042217041626,
-      "SDScore": 43.63543711422509,
-      "P99Score": 510.5534234033642,
+      "MeanScore": 348.2300109863281,
+      "SDScore": 0.0,
+      "P99Score": 348.2300109863281,
       "TotalPayout": 0.0
     },
     {
@@ -4254,14 +4254,14 @@
       "F6": "Javid Basharat",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 504.656,
-      "NetEV": -50.344,
-      "ROI%": -9.07099099099099,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 464.8322009986573,
-      "SDScore": 43.63543634908874,
-      "P99Score": 566.3434055804222,
-      "TotalPayout": 126164000.0
+      "MeanScore": 404.02001953125,
+      "SDScore": 0.0,
+      "P99Score": 404.02001953125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4281,9 +4281,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 345.7030480036621,
-      "SDScore": 47.02481260866787,
-      "P99Score": 455.099120841085,
+      "MeanScore": 375.2099914550781,
+      "SDScore": 0.0,
+      "P99Score": 375.2099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -4300,14 +4300,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 921.9152,
-      "NetEV": 366.9152,
-      "ROI%": 66.11084684684685,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 491.9130556021729,
-      "SDScore": 47.024814922070085,
-      "P99Score": 601.3091338213741,
-      "TotalPayout": 230478800.0
+      "MeanScore": 521.4200439453125,
+      "SDScore": 0.0,
+      "P99Score": 521.4200439453125,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4327,9 +4327,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 382.0822026339112,
-      "SDScore": 43.635436253767686,
-      "P99Score": 483.5934069939261,
+      "MeanScore": 321.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 321.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -4350,9 +4350,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.5422245997314,
-      "SDScore": 43.6354362393159,
-      "P99Score": 512.0534289261266,
+      "MeanScore": 349.7300109863281,
+      "SDScore": 0.0,
+      "P99Score": 349.7300109863281,
       "TotalPayout": 0.0
     },
     {
@@ -4369,14 +4369,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 889.7368,
-      "NetEV": 334.7368,
-      "ROI%": 60.31293693693694,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 489.5230555600586,
-      "SDScore": 47.024813719029794,
-      "P99Score": 598.9191309805695,
-      "TotalPayout": 222434200.0
+      "MeanScore": 519.030029296875,
+      "SDScore": 0.0,
+      "P99Score": 519.030029296875,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4396,9 +4396,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.0822088088379,
-      "SDScore": 43.63543647419944,
-      "P99Score": 500.5934136816538,
+      "MeanScore": 338.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 338.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -4415,14 +4415,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 199.744,
-      "NetEV": -355.256,
-      "ROI%": -64.01009009009009,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 415.0530608616944,
-      "SDScore": 47.02481357773196,
-      "P99Score": 524.4491359534975,
-      "TotalPayout": 49936000.0
+      "MeanScore": 444.5600280761719,
+      "SDScore": 0.0,
+      "P99Score": 444.5600280761719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4438,14 +4438,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1733.5940000000364,
-      "NetEV": 1178.5940000000364,
-      "ROI%": 212.35927927928583,
+      "EV": 3333.333333333333,
+      "NetEV": 2778.333333333333,
+      "ROI%": 500.6006006006007,
       "WinPct": 0.0,
-      "MeanScore": 499.65305271765135,
-      "SDScore": 47.02481380688383,
-      "P99Score": 609.0491283425414,
-      "TotalPayout": 433398500.0000091
+      "MeanScore": 529.1600341796875,
+      "SDScore": 0.0,
+      "P99Score": 529.1600341796875,
+      "TotalPayout": 3333.333333333333
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4461,14 +4461,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 659.0024,
-      "NetEV": 104.00239999999997,
-      "ROI%": 18.739171171171165,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 464.6930570653077,
-      "SDScore": 47.0248161797641,
-      "P99Score": 574.0891382103426,
-      "TotalPayout": 164750600.0
+      "MeanScore": 494.2000122070313,
+      "SDScore": 0.0,
+      "P99Score": 494.2000122070313,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4484,14 +4484,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 549.728,
-      "NetEV": -5.272000000000048,
-      "ROI%": -0.9499099099099186,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 465.2922152513428,
-      "SDScore": 43.63543638603575,
-      "P99Score": 566.8034199190593,
-      "TotalPayout": 137432000.0
+      "MeanScore": 404.4800109863281,
+      "SDScore": 0.0,
+      "P99Score": 404.4800109863281,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4511,9 +4511,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 341.8922078740234,
-      "SDScore": 43.63543630821573,
-      "P99Score": 443.4034123607035,
+      "MeanScore": 281.0800170898437,
+      "SDScore": 0.0,
+      "P99Score": 281.0800170898437,
       "TotalPayout": 0.0
     },
     {
@@ -4534,9 +4534,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.0830517979736,
-      "SDScore": 47.024814171220726,
-      "P99Score": 445.479128270438,
+      "MeanScore": 365.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 365.5899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -4580,9 +4580,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 398.1122184450684,
-      "SDScore": 43.63543588768758,
-      "P99Score": 499.62342195345366,
+      "MeanScore": 337.3000183105469,
+      "SDScore": 0.0,
+      "P99Score": 337.3000183105469,
       "TotalPayout": 0.0
     },
     {
@@ -4603,9 +4603,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 387.8522143570557,
-      "SDScore": 43.63543519158061,
-      "P99Score": 489.3634162460541,
+      "MeanScore": 327.0400085449219,
+      "SDScore": 0.0,
+      "P99Score": 327.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -4622,14 +4622,14 @@
       "F6": "Javid Basharat",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 690.4944,
-      "NetEV": 135.49440000000004,
-      "ROI%": 24.413405405405413,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 474.7530572011719,
-      "SDScore": 47.024812719026585,
-      "P99Score": 584.1491302953275,
-      "TotalPayout": 172623600.0
+      "MeanScore": 504.260009765625,
+      "SDScore": 0.0,
+      "P99Score": 504.260009765625,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4649,9 +4649,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.4622058936768,
-      "SDScore": 43.63543634949827,
-      "P99Score": 490.9734104763944,
+      "MeanScore": 328.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 328.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4672,9 +4672,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 382.0822026339112,
-      "SDScore": 43.635436253767686,
-      "P99Score": 483.5934069939261,
+      "MeanScore": 321.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 321.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -4695,9 +4695,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 381.5822198568116,
-      "SDScore": 43.63543590356737,
-      "P99Score": 483.0934234021388,
+      "MeanScore": 320.77001953125,
+      "SDScore": 0.0,
+      "P99Score": 320.77001953125,
       "TotalPayout": 0.0
     },
     {
@@ -4718,9 +4718,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 341.8922078740234,
-      "SDScore": 43.63543630821573,
-      "P99Score": 443.4034123607035,
+      "MeanScore": 281.0800170898437,
+      "SDScore": 0.0,
+      "P99Score": 281.0800170898437,
       "TotalPayout": 0.0
     },
     {
@@ -4741,9 +4741,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4764,9 +4764,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4787,9 +4787,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4810,9 +4810,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4833,9 +4833,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4856,9 +4856,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4879,9 +4879,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4902,9 +4902,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4925,9 +4925,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.5922080015869,
-      "SDScore": 43.635434374486856,
-      "P99Score": 497.10340798974096,
+      "MeanScore": 334.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 334.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4944,14 +4944,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 300.936,
-      "NetEV": -254.064,
-      "ROI%": -45.7772972972973,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "MeanScore": 442.52001953125,
       "SDScore": 0.0,
       "P99Score": 442.52001953125,
-      "TotalPayout": 75234000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4971,9 +4971,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.44221840600585,
-      "SDScore": 43.63543621390398,
-      "P99Score": 484.953422673284,
+      "MeanScore": 322.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 322.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -4994,9 +4994,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 405.3122195240479,
-      "SDScore": 43.63543630432307,
-      "P99Score": 506.82342400167227,
+      "MeanScore": 344.5,
+      "SDScore": 0.0,
+      "P99Score": 344.5,
       "TotalPayout": 0.0
     },
     {
@@ -5013,14 +5013,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1100.0492,
-      "NetEV": 545.0491999999999,
-      "ROI%": 98.20706306306305,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 500.182214592041,
-      "SDScore": 43.6354362342752,
-      "P99Score": 601.6934189067097,
-      "TotalPayout": 275012300.0
+      "MeanScore": 439.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 439.3699951171875,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5040,9 +5040,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.65220996228027,
-      "SDScore": 43.63543626628489,
-      "P99Score": 491.1634143514146,
+      "MeanScore": 328.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 328.8399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -5059,14 +5059,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1780.4469,
-      "NetEV": 1225.4469,
-      "ROI%": 220.8012432432432,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 517.7822053645019,
-      "SDScore": 43.6354363102005,
-      "P99Score": 619.2934098557993,
-      "TotalPayout": 445111725.0
+      "MeanScore": 456.9700012207031,
+      "SDScore": 0.0,
+      "P99Score": 456.9700012207031,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5082,14 +5082,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 649.3442,
-      "NetEV": 94.3442,
-      "ROI%": 16.998954954954957,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 464.4030570731201,
-      "SDScore": 47.024808574309546,
-      "P99Score": 573.7991205252221,
-      "TotalPayout": 162336050.0
+      "MeanScore": 493.9100036621094,
+      "SDScore": 0.0,
+      "P99Score": 493.9100036621094,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5109,9 +5109,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.1422153795166,
-      "SDScore": 43.635435286077616,
-      "P99Score": 500.6534174883478,
+      "MeanScore": 338.3300170898437,
+      "SDScore": 0.0,
+      "P99Score": 338.3300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -5128,14 +5128,14 @@
       "F6": "Jailton Almeida",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 302.756,
-      "NetEV": -252.24400000000003,
-      "ROI%": -45.44936936936937,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 439.0722065506592,
-      "SDScore": 43.63543643481797,
-      "P99Score": 540.5834113318601,
-      "TotalPayout": 75689000.0
+      "MeanScore": 378.260009765625,
+      "SDScore": 0.0,
+      "P99Score": 378.260009765625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5155,9 +5155,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.1122089709473,
-      "SDScore": 43.635436423591706,
-      "P99Score": 518.623413726032,
+      "MeanScore": 356.29998779296875,
+      "SDScore": 0.0,
+      "P99Score": 356.29998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -5178,9 +5178,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -5197,14 +5197,14 @@
       "F6": "Rizvan Kuniev",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 600.9576,
-      "NetEV": 45.95759999999996,
-      "ROI%": 8.28064864864864,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 463.1630554383545,
-      "SDScore": 47.024814745506994,
-      "P99Score": 572.5591332468085,
-      "TotalPayout": 150239400.0
+      "MeanScore": 492.6700134277344,
+      "SDScore": 0.0,
+      "P99Score": 492.6700134277344,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5224,9 +5224,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 405.3122195240479,
-      "SDScore": 43.63543630432307,
-      "P99Score": 506.82342400167227,
+      "MeanScore": 344.5,
+      "SDScore": 0.0,
+      "P99Score": 344.5,
       "TotalPayout": 0.0
     },
     {
@@ -5243,14 +5243,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 374.9426666666666,
-      "NetEV": -180.05733333333336,
-      "ROI%": -32.44276276276277,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 442.28220574536135,
-      "SDScore": 43.63543620923079,
-      "P99Score": 543.793410001768,
-      "TotalPayout": 93735666.66666666
+      "MeanScore": 381.4700012207031,
+      "SDScore": 0.0,
+      "P99Score": 381.4700012207031,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5270,9 +5270,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 406.4522266710205,
-      "SDScore": 43.63543639276224,
-      "P99Score": 507.9634313543852,
+      "MeanScore": 345.6400146484375,
+      "SDScore": 0.0,
+      "P99Score": 345.6400146484375,
       "TotalPayout": 0.0
     },
     {
@@ -5293,9 +5293,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 275.6722152907715,
-      "SDScore": 43.6354351872284,
-      "P99Score": 377.18341716964505,
+      "MeanScore": 214.86001586914065,
+      "SDScore": 0.0,
+      "P99Score": 214.86001586914065,
       "TotalPayout": 0.0
     },
     {
@@ -5312,14 +5312,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 410.822,
-      "NetEV": -144.178,
-      "ROI%": -25.978018018018016,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 446.9922143930664,
-      "SDScore": 43.635437658706216,
-      "P99Score": 548.5034220214571,
-      "TotalPayout": 102705500.0
+      "MeanScore": 386.1799926757813,
+      "SDScore": 0.0,
+      "P99Score": 386.1799926757813,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5335,14 +5335,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 320.244,
-      "NetEV": -234.756,
-      "ROI%": -42.29837837837837,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 440.3422033657226,
-      "SDScore": 43.63543636912448,
-      "P99Score": 541.8534079940977,
-      "TotalPayout": 80061000.0
+      "MeanScore": 379.5299987792969,
+      "SDScore": 0.0,
+      "P99Score": 379.5299987792969,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5381,14 +5381,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 533.84,
-      "NetEV": -21.159999999999968,
-      "ROI%": -3.812612612612607,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 443.0030576125488,
-      "SDScore": 47.02481408589631,
-      "P99Score": 552.3991338865189,
-      "TotalPayout": 133460000.0
+      "MeanScore": 472.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 472.510009765625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5404,14 +5404,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 20.264,
-      "NetEV": -534.736,
-      "ROI%": -96.34882882882884,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 421.7322254320068,
-      "SDScore": 43.63543637756411,
-      "P99Score": 523.2434300800154,
-      "TotalPayout": 5066000.0
+      "MeanScore": 360.9200134277344,
+      "SDScore": 0.0,
+      "P99Score": 360.9200134277344,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5431,9 +5431,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.2322116774902,
-      "SDScore": 43.63543521185562,
-      "P99Score": 437.7434136136553,
+      "MeanScore": 275.4200134277344,
+      "SDScore": 0.0,
+      "P99Score": 275.4200134277344,
       "TotalPayout": 0.0
     },
     {
@@ -5454,9 +5454,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -5473,14 +5473,14 @@
       "F6": "Rizvan Kuniev",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 544.424,
-      "NetEV": -10.576000000000022,
-      "ROI%": -1.9055855855855897,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 445.6230513293457,
-      "SDScore": 47.02481431530224,
-      "P99Score": 555.0191281369938,
-      "TotalPayout": 136106000.0
+      "MeanScore": 475.1300048828125,
+      "SDScore": 0.0,
+      "P99Score": 475.1300048828125,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5496,14 +5496,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 649.3442,
-      "NetEV": 94.3442,
-      "ROI%": 16.998954954954957,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 464.4030570731201,
-      "SDScore": 47.024808574309546,
-      "P99Score": 573.7991205252221,
-      "TotalPayout": 162336050.0
+      "MeanScore": 493.9100036621094,
+      "SDScore": 0.0,
+      "P99Score": 493.9100036621094,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5523,9 +5523,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.4622058936768,
-      "SDScore": 43.63543634949827,
-      "P99Score": 490.9734104763944,
+      "MeanScore": 328.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 328.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -5546,9 +5546,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 372.7122136973877,
-      "SDScore": 43.63543649333943,
-      "P99Score": 474.2234186147299,
+      "MeanScore": 311.8999938964844,
+      "SDScore": 0.0,
+      "P99Score": 311.8999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -5569,9 +5569,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.52220508044434,
-      "SDScore": 43.63543626895248,
-      "P99Score": 497.0334094757844,
+      "MeanScore": 334.7099914550781,
+      "SDScore": 0.0,
+      "P99Score": 334.7099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -5588,14 +5588,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 415.384,
-      "NetEV": -139.616,
-      "ROI%": -25.156036036036035,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 450.6922016771241,
-      "SDScore": 43.635436447942126,
-      "P99Score": 552.2034064888563,
-      "TotalPayout": 103846000.0
+      "MeanScore": 389.8800354003906,
+      "SDScore": 0.0,
+      "P99Score": 389.8800354003906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5615,9 +5615,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 341.8922078740234,
-      "SDScore": 43.63543630821573,
-      "P99Score": 443.4034123607035,
+      "MeanScore": 281.0800170898437,
+      "SDScore": 0.0,
+      "P99Score": 281.0800170898437,
       "TotalPayout": 0.0
     },
     {
@@ -5634,14 +5634,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 406.26,
-      "NetEV": -148.74,
-      "ROI%": -26.8,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 445.9822192658692,
-      "SDScore": 43.635436382145926,
-      "P99Score": 547.4934239245366,
-      "TotalPayout": 101565000.0
+      "MeanScore": 385.1700134277344,
+      "SDScore": 0.0,
+      "P99Score": 385.1700134277344,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5657,14 +5657,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 318.796,
-      "NetEV": -236.204,
-      "ROI%": -42.55927927927928,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 417.9530544194336,
-      "SDScore": 47.024814169484856,
-      "P99Score": 527.3491308878598,
-      "TotalPayout": 79699000.0
+      "MeanScore": 447.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 447.4599914550781,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5684,9 +5684,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 364.3030531320801,
-      "SDScore": 47.0248141641143,
-      "P99Score": 473.6991295880125,
+      "MeanScore": 393.80999755859375,
+      "SDScore": 0.0,
+      "P99Score": 393.80999755859375,
       "TotalPayout": 0.0
     },
     {
@@ -5707,9 +5707,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 370.8722036838379,
-      "SDScore": 43.63543703847254,
-      "P99Score": 472.38340986934935,
+      "MeanScore": 310.0599975585937,
+      "SDScore": 0.0,
+      "P99Score": 310.0599975585937,
       "TotalPayout": 0.0
     },
     {
@@ -5730,9 +5730,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 380.44221100964353,
-      "SDScore": 43.63543704341819,
-      "P99Score": 481.9534172066603,
+      "MeanScore": 319.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 319.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -5753,9 +5753,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 371.2430631339111,
-      "SDScore": 47.02481410855695,
-      "P99Score": 480.6391394605978,
+      "MeanScore": 400.75,
+      "SDScore": 0.0,
+      "P99Score": 400.75,
       "TotalPayout": 0.0
     },
     {
@@ -5776,9 +5776,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 371.9030591169434,
-      "SDScore": 47.024814164053645,
-      "P99Score": 481.29913557273466,
+      "MeanScore": 401.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 401.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -5799,9 +5799,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 330.9330571980591,
-      "SDScore": 47.02481503682101,
-      "P99Score": 440.3291356842109,
+      "MeanScore": 360.4400024414063,
+      "SDScore": 0.0,
+      "P99Score": 360.4400024414063,
       "TotalPayout": 0.0
     },
     {
@@ -5822,9 +5822,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 406.3222100825195,
-      "SDScore": 43.63543588042117,
-      "P99Score": 507.83341357400064,
+      "MeanScore": 345.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 345.510009765625,
       "TotalPayout": 0.0
     },
     {
@@ -5841,14 +5841,14 @@
       "F6": "Dustin Jacoby",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 459.708,
-      "NetEV": -95.29199999999996,
-      "ROI%": -17.169729729729724,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 428.5730668543701,
-      "SDScore": 47.02481351580174,
-      "P99Score": 537.969141802102,
-      "TotalPayout": 114927000.0
+      "MeanScore": 458.08001708984375,
+      "SDScore": 0.0,
+      "P99Score": 458.08001708984375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5891,9 +5891,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 414.4122180892334,
-      "SDScore": 43.63543632437749,
-      "P99Score": 515.9234226135113,
+      "MeanScore": 353.6000061035156,
+      "SDScore": 0.0,
+      "P99Score": 353.6000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -5914,9 +5914,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 420.4722156690674,
-      "SDScore": 43.63543638314539,
-      "P99Score": 521.98342033006,
+      "MeanScore": 359.6600036621094,
+      "SDScore": 0.0,
+      "P99Score": 359.6600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -5937,9 +5937,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 382.1130724750977,
-      "SDScore": 47.02481548842707,
-      "P99Score": 491.5091520118423,
+      "MeanScore": 411.6200256347656,
+      "SDScore": 0.0,
+      "P99Score": 411.6200256347656,
       "TotalPayout": 0.0
     },
     {
@@ -5956,14 +5956,14 @@
       "F6": "Jailton Almeida",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 7.524,
-      "NetEV": -547.476,
-      "ROI%": -98.64432432432432,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 402.69306644250486,
-      "SDScore": 47.024815353385165,
-      "P99Score": 512.089145665095,
-      "TotalPayout": 1881000.0
+      "MeanScore": 432.2000122070313,
+      "SDScore": 0.0,
+      "P99Score": 432.2000122070313,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5979,14 +5979,14 @@
       "F6": "Jailton Almeida",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 546.664,
-      "NetEV": -8.336000000000013,
-      "ROI%": -1.5019819819819842,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 446.0030507993164,
-      "SDScore": 47.02481579743793,
-      "P99Score": 555.3991310549277,
-      "TotalPayout": 136666000.0
+      "MeanScore": 475.5099792480469,
+      "SDScore": 0.0,
+      "P99Score": 475.5099792480469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6002,14 +6002,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 350.872,
-      "NetEV": -204.128,
-      "ROI%": -36.77981981981981,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 441.2222009484863,
-      "SDScore": 43.63543667501668,
-      "P99Score": 542.733406288473,
-      "TotalPayout": 87718000.0
+      "MeanScore": 380.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 380.4100036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6025,14 +6025,14 @@
       "F6": "Niko Price",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.032,
-      "NetEV": -554.968,
-      "ROI%": -99.99423423423424,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 403.7999877929688,
       "SDScore": 0.0,
       "P99Score": 403.7999877929688,
-      "TotalPayout": 8000.0
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6048,14 +6048,14 @@
       "F6": "Niko Price",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 275.556,
-      "NetEV": -279.444,
-      "ROI%": -50.35027027027027,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 417.6230550909424,
-      "SDScore": 47.02481135447708,
-      "P99Score": 527.0191250106813,
-      "TotalPayout": 68889000.0
+      "MeanScore": 447.1300048828125,
+      "SDScore": 0.0,
+      "P99Score": 447.1300048828125,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6075,9 +6075,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 420.7522241606445,
-      "SDScore": 43.63543766939456,
-      "P99Score": 522.2634318139001,
+      "MeanScore": 359.94000244140625,
+      "SDScore": 0.0,
+      "P99Score": 359.94000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6098,9 +6098,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 387.63306574841306,
-      "SDScore": 47.02481498258952,
-      "P99Score": 497.0291441084036,
+      "MeanScore": 417.1400146484375,
+      "SDScore": 0.0,
+      "P99Score": 417.1400146484375,
       "TotalPayout": 0.0
     },
     {
@@ -6117,14 +6117,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 649.3442,
-      "NetEV": 94.3442,
-      "ROI%": 16.998954954954957,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 464.4030570731201,
-      "SDScore": 47.024808574309546,
-      "P99Score": 573.7991205252221,
-      "TotalPayout": 162336050.0
+      "MeanScore": 493.9100036621094,
+      "SDScore": 0.0,
+      "P99Score": 493.9100036621094,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6140,14 +6140,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 525.884,
-      "NetEV": -29.115999999999985,
-      "ROI%": -5.246126126126124,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 441.67305753344726,
-      "SDScore": 47.024813687260405,
-      "P99Score": 551.0691328800516,
-      "TotalPayout": 131471000.0
+      "MeanScore": 471.1799926757813,
+      "SDScore": 0.0,
+      "P99Score": 471.1799926757813,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6163,14 +6163,14 @@
       "F6": "Alex Morono",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 160.9,
-      "NetEV": -394.1,
-      "ROI%": -71.00900900900902,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 413.6330651455078,
-      "SDScore": 47.024814165849705,
-      "P99Score": 523.0291416054774,
-      "TotalPayout": 40225000.0
+      "MeanScore": 443.1400146484375,
+      "SDScore": 0.0,
+      "P99Score": 443.1400146484375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6186,14 +6186,14 @@
       "F6": "Julius Walker",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 411.126,
-      "NetEV": -143.87400000000002,
-      "ROI%": -25.92324324324325,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 447.15220994836426,
-      "SDScore": 43.63543622986214,
-      "P99Score": 548.6634142527666,
-      "TotalPayout": 102781500.0
+      "MeanScore": 386.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 386.3399963378906,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6213,9 +6213,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 373.1522176396484,
-      "SDScore": 43.63543630822057,
-      "P99Score": 474.66342212633975,
+      "MeanScore": 312.34002685546875,
+      "SDScore": 0.0,
+      "P99Score": 312.34002685546875,
       "TotalPayout": 0.0
     },
     {
@@ -6232,14 +6232,14 @@
       "F6": "Gianni Vazquez",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 7.132,
-      "NetEV": -547.868,
-      "ROI%": -98.71495495495496,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 402.2730444233399,
-      "SDScore": 47.02481544579527,
-      "P99Score": 511.669123860908,
-      "TotalPayout": 1783000.0
+      "MeanScore": 431.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 431.7799987792969,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6259,9 +6259,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 343.5122076606445,
-      "SDScore": 43.63543458037981,
-      "P99Score": 445.0234081277772,
+      "MeanScore": 282.70001220703125,
+      "SDScore": 0.0,
+      "P99Score": 282.70001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -6278,14 +6278,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 410.822,
-      "NetEV": -144.178,
-      "ROI%": -25.978018018018016,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 446.9922143930664,
-      "SDScore": 43.635437658706216,
-      "P99Score": 548.5034220214571,
-      "TotalPayout": 102705500.0
+      "MeanScore": 386.1799926757813,
+      "SDScore": 0.0,
+      "P99Score": 386.1799926757813,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6305,9 +6305,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -6329,8 +6329,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 327.2099914550781,
-      "SDScore": 0.0002161628707799,
-      "P99Score": 327.210494325113,
+      "SDScore": 0.0,
+      "P99Score": 327.2099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -6351,9 +6351,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -6370,14 +6370,14 @@
       "F6": "Javid Basharat",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 6.852,
-      "NetEV": -548.148,
-      "ROI%": -98.76540540540542,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 401.5630590632324,
-      "SDScore": 47.02481482117973,
-      "P99Score": 510.9591370477276,
-      "TotalPayout": 1713000.0
+      "MeanScore": 431.0700073242188,
+      "SDScore": 0.0,
+      "P99Score": 431.0700073242188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6397,9 +6397,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 357.88306903442384,
-      "SDScore": 47.02481573414581,
-      "P99Score": 467.2791491427957,
+      "MeanScore": 387.3900146484375,
+      "SDScore": 0.0,
+      "P99Score": 387.3900146484375,
       "TotalPayout": 0.0
     },
     {
@@ -6416,14 +6416,14 @@
       "F6": "Nikolay Veretennikov",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1780.4469,
-      "NetEV": 1225.4469,
-      "ROI%": 220.8012432432432,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 517.7822053645019,
-      "SDScore": 43.6354363102005,
-      "P99Score": 619.2934098557993,
-      "TotalPayout": 445111725.0
+      "MeanScore": 456.9700012207031,
+      "SDScore": 0.0,
+      "P99Score": 456.9700012207031,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6439,14 +6439,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 418.696,
-      "NetEV": -136.30399999999997,
-      "ROI%": -24.559279279279277,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.27221877722167,
-      "SDScore": 43.635436491544255,
-      "P99Score": 553.7834236903876,
-      "TotalPayout": 104674000.0
+      "MeanScore": 391.46002197265625,
+      "SDScore": 0.0,
+      "P99Score": 391.46002197265625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6466,9 +6466,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 378.833045302002,
-      "SDScore": 47.024813825503,
-      "P99Score": 488.2291209702067,
+      "MeanScore": 408.3399963378906,
+      "SDScore": 0.0,
+      "P99Score": 408.3399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -6489,9 +6489,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 345.7030480036621,
-      "SDScore": 47.02481260866787,
-      "P99Score": 455.099120841085,
+      "MeanScore": 375.2099914550781,
+      "SDScore": 0.0,
+      "P99Score": 375.2099914550781,
       "TotalPayout": 0.0
     },
     {
@@ -6535,9 +6535,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 296.4900207519531,
-      "SDScore": 0.0001702999796196,
-      "P99Score": 296.49041692894866,
+      "MeanScore": 296.489990234375,
+      "SDScore": 0.0,
+      "P99Score": 296.489990234375,
       "TotalPayout": 0.0
     },
     {
@@ -6558,9 +6558,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 341.8922078740234,
-      "SDScore": 43.63543630821573,
-      "P99Score": 443.4034123607035,
+      "MeanScore": 281.0800170898437,
+      "SDScore": 0.0,
+      "P99Score": 281.0800170898437,
       "TotalPayout": 0.0
     },
     {
@@ -6577,14 +6577,14 @@
       "F6": "Gianni Vazquez",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 567.408,
-      "NetEV": 12.408000000000015,
-      "ROI%": 2.2356756756756786,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 465.7922157097168,
-      "SDScore": 43.635436911640696,
-      "P99Score": 567.3034216001732,
-      "TotalPayout": 141852000.0
+      "MeanScore": 404.9800109863281,
+      "SDScore": 0.0,
+      "P99Score": 404.9800109863281,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6604,9 +6604,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.0822088088379,
-      "SDScore": 43.63543647419944,
-      "P99Score": 500.5934136816538,
+      "MeanScore": 338.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 338.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -6623,14 +6623,14 @@
       "F6": "Rizvan Kuniev",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 85.284,
-      "NetEV": -469.716,
-      "ROI%": -84.63351351351352,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 425.010009765625,
       "SDScore": 0.0,
       "P99Score": 425.010009765625,
-      "TotalPayout": 21321000.0
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6650,9 +6650,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 392.36305032580566,
-      "SDScore": 47.0248155396626,
-      "P99Score": 501.7591299817419,
+      "MeanScore": 421.8699951171875,
+      "SDScore": 0.0,
+      "P99Score": 421.8699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -6669,14 +6669,14 @@
       "F6": "Daniil Donchenko",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 527.3693333333343,
-      "NetEV": -27.63066666666566,
-      "ROI%": -4.978498498498317,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 465.2222094675293,
-      "SDScore": 43.635436342301226,
-      "P99Score": 566.7334140335041,
-      "TotalPayout": 131842333.33333358
+      "MeanScore": 404.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 404.4100036621094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6696,9 +6696,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.95304800610353,
-      "SDScore": 47.02481261681299,
-      "P99Score": 475.3491208624748,
+      "MeanScore": 395.4599914550781,
+      "SDScore": 0.0,
+      "P99Score": 395.4599914550781,
       "TotalPayout": 0.0
     }
   ]

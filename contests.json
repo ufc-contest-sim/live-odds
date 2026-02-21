@@ -1,12 +1,6 @@
 {
   "contests": [
     {
-      "id": "ufc_120k_mega_mini-max",
-      "name": "UFC 120k MEGA mini-MAX",
-      "file": "UFC_120k_MEGA_mini-MAX.json",
-      "entryFee": 3.0
-    },
-    {
       "id": "ufc_150k_knockout",
       "name": "UFC 150K Knockout",
       "file": "UFC_150K_Knockout.json",

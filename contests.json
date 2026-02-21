@@ -1,34 +1,34 @@
 {
   "contests": [
     {
-      "id": "ufc_333k_throwdown",
-      "name": "UFC $333K Throwdown",
-      "file": "UFC_333K_Throwdown.json",
-      "entryFee": 15.0
+      "id": "ufc_120k_mega_mini-max",
+      "name": "UFC 120k MEGA mini-MAX",
+      "file": "UFC_120k_MEGA_mini-MAX.json",
+      "entryFee": 3.0
     },
     {
       "id": "ufc_150k_knockout",
-      "name": "UFC $150K Knockout",
+      "name": "UFC 150K Knockout",
       "file": "UFC_150K_Knockout.json",
       "entryFee": 555.0
     },
     {
+      "id": "ufc_333k_throwdown",
+      "name": "UFC 333K Throwdown",
+      "file": "UFC_333K_Throwdown.json",
+      "entryFee": 15.0
+    },
+    {
       "id": "ufc_40k_arm_bar",
-      "name": "UFC $40K Arm Bar",
-      "file": "UFC_40K_Arm_Bar.json",
+      "name": "UFC 40k Arm Bar",
+      "file": "UFC_40k_Arm_Bar.json",
       "entryFee": 5.0
     },
     {
       "id": "ufc_40k_hook",
-      "name": "UFC $40K Hook",
-      "file": "UFC_40K_Hook.json",
+      "name": "UFC 40k Hook",
+      "file": "UFC_40k_Hook.json",
       "entryFee": 8.0
-    },
-    {
-      "id": "ufc_120k_mega_mini_max",
-      "name": "UFC $120K MEGA mini-MAX",
-      "file": "UFC_120K_MEGA_mini_MAX.json",
-      "entryFee": 3.0
     }
   ]
 }

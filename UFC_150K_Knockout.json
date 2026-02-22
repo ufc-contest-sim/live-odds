@@ -1,11 +1,11 @@
 {
   "contest_name": "UFC 150K Knockout",
-  "last_updated": "2026-02-21T21:37:42.925201",
+  "last_updated": "2026-02-21T22:21:09.064660",
   "total_lineups": 283,
   "summary": {
-    "top_win_pct": 74.98,
-    "top_netev": 26506.07,
-    "top_roi": 4775.87
+    "top_win_pct": 100.0,
+    "top_netev": 49445.0,
+    "top_roi": 8909.01
   },
   "leaderboard": [
     {
@@ -26,9 +26,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 356.29583852874754,
-      "SDScore": 47.26802780043801,
-      "P99Score": 466.25771451046944,
+      "MeanScore": 259.3899841308594,
+      "SDScore": 0.0,
+      "P99Score": 259.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -45,14 +45,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 401.13,
-      "NetEV": -153.87,
-      "ROI%": -27.72432432432432,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 451.80583520263673,
-      "SDScore": 47.26803093877631,
-      "P99Score": 561.7677184852253,
-      "TotalPayout": 40113000.0
+      "MeanScore": 354.8999938964844,
+      "SDScore": 0.0,
+      "P99Score": 354.8999938964844,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -72,9 +72,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 271.6158311068726,
-      "SDScore": 47.26802781643317,
-      "P99Score": 381.5777071258048,
+      "MeanScore": 174.70999145507812,
+      "SDScore": 0.0,
+      "P99Score": 174.70999145507812,
       "TotalPayout": 0.0
     },
     {
@@ -91,14 +91,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 810.01,
-      "NetEV": 255.01,
-      "ROI%": 45.94774774774775,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 480.16583353881833,
-      "SDScore": 47.26802758508623,
-      "P99Score": 590.1277090195571,
-      "TotalPayout": 81001000.0
+      "MeanScore": 383.2599792480469,
+      "SDScore": 0.0,
+      "P99Score": 383.2599792480469,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -118,9 +118,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 334.5158357887268,
-      "SDScore": 47.26803196771266,
-      "P99Score": 444.4777214649792,
+      "MeanScore": 237.6100006103516,
+      "SDScore": 0.0,
+      "P99Score": 237.6100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -141,9 +141,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 438.9458578567505,
-      "SDScore": 47.26802735715118,
-      "P99Score": 548.907732807233,
+      "MeanScore": 342.0400085449219,
+      "SDScore": 0.0,
+      "P99Score": 342.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -164,9 +164,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 396.4858251913452,
-      "SDScore": 47.26802871255624,
-      "P99Score": 506.4477032949714,
+      "MeanScore": 299.5800170898437,
+      "SDScore": 0.0,
+      "P99Score": 299.5800170898437,
       "TotalPayout": 0.0
     },
     {
@@ -187,9 +187,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 355.84584918426515,
-      "SDScore": 47.26803430998677,
-      "P99Score": 465.8077403094619,
+      "MeanScore": 258.94000244140625,
+      "SDScore": 0.0,
+      "P99Score": 258.94000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -210,9 +210,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 296.6958159185791,
-      "SDScore": 47.26802640098946,
-      "P99Score": 406.6576886446968,
+      "MeanScore": 199.7899932861328,
+      "SDScore": 0.0,
+      "P99Score": 199.7899932861328,
       "TotalPayout": 0.0
     },
     {
@@ -229,14 +229,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 196.351,
-      "NetEV": -358.649,
-      "ROI%": -64.62144144144145,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 402.0122583502197,
-      "SDScore": 40.41935189851653,
-      "P99Score": 496.04173170779154,
-      "TotalPayout": 19635100.0
+      "MeanScore": 440.1999816894531,
+      "SDScore": 0.0,
+      "P99Score": 440.1999816894531,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -256,9 +256,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 407.3858321487427,
-      "SDScore": 47.2680300972738,
-      "P99Score": 517.3477134737036,
+      "MeanScore": 310.47998046875,
+      "SDScore": 0.0,
+      "P99Score": 310.47998046875,
       "TotalPayout": 0.0
     },
     {
@@ -275,14 +275,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 996.69,
-      "NetEV": 441.69000000000005,
-      "ROI%": 79.58378378378379,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 526.1158259695435,
-      "SDScore": 47.26803157182717,
-      "P99Score": 636.0777107248285,
-      "TotalPayout": 99669000.0
+      "MeanScore": 429.2099914550781,
+      "SDScore": 0.0,
+      "P99Score": 429.2099914550781,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -298,14 +298,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 726.09,
-      "NetEV": 171.09000000000003,
-      "ROI%": 30.827027027027032,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 471.86582601135257,
-      "SDScore": 47.26803064132466,
-      "P99Score": 581.827708601965,
-      "TotalPayout": 72609000.0
+      "MeanScore": 374.96002197265625,
+      "SDScore": 0.0,
+      "P99Score": 374.96002197265625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -325,9 +325,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.4258263597107,
-      "SDScore": 47.26802904354662,
-      "P99Score": 446.3877052333356,
+      "MeanScore": 239.51998901367188,
+      "SDScore": 0.0,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -348,9 +348,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 349.51583546585084,
-      "SDScore": 47.26803100150209,
-      "P99Score": 459.4777188943613,
+      "MeanScore": 252.6100006103516,
+      "SDScore": 0.0,
+      "P99Score": 252.6100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -371,9 +371,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 305.0158227604676,
-      "SDScore": 47.26802912505387,
-      "P99Score": 414.9777018237067,
+      "MeanScore": 208.1100006103516,
+      "SDScore": 0.0,
+      "P99Score": 208.1100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -390,14 +390,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1148.036,
-      "NetEV": 593.0360000000001,
-      "ROI%": 106.85333333333334,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 533.9058242498779,
-      "SDScore": 47.26802803421198,
-      "P99Score": 643.8677007754394,
-      "TotalPayout": 114803600.0
+      "MeanScore": 437.0,
+      "SDScore": 0.0,
+      "P99Score": 437.0,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -417,9 +417,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -436,14 +436,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 11.27,
-      "NetEV": -543.73,
-      "ROI%": -97.96936936936936,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 364.5622576773071,
-      "SDScore": 40.41935142927669,
-      "P99Score": 458.5917299432638,
-      "TotalPayout": 1127000.0
+      "MeanScore": 402.75,
+      "SDScore": 0.0,
+      "P99Score": 402.75,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -463,9 +463,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 273.13226342422485,
-      "SDScore": 40.41935266126105,
-      "P99Score": 367.1617385562057,
+      "MeanScore": 311.32000732421875,
+      "SDScore": 0.0,
+      "P99Score": 311.32000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -486,9 +486,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 227.2558380432892,
-      "SDScore": 47.26803414209312,
-      "P99Score": 337.2177287779069,
+      "MeanScore": 130.35000610351562,
+      "SDScore": 0.0,
+      "P99Score": 130.35000610351562,
       "TotalPayout": 0.0
     },
     {
@@ -509,9 +509,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.2258414788818,
-      "SDScore": 47.26803177207765,
-      "P99Score": 527.1877267000191,
+      "MeanScore": 320.32000732421875,
+      "SDScore": 0.0,
+      "P99Score": 320.32000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -532,9 +532,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 387.1058332958984,
-      "SDScore": 47.2680296781496,
-      "P99Score": 497.0677136458306,
+      "MeanScore": 290.20001220703125,
+      "SDScore": 0.0,
+      "P99Score": 290.20001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -555,9 +555,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 407.3858321487427,
-      "SDScore": 47.2680300972738,
-      "P99Score": 517.3477134737036,
+      "MeanScore": 310.47998046875,
+      "SDScore": 0.0,
+      "P99Score": 310.47998046875,
       "TotalPayout": 0.0
     },
     {
@@ -578,9 +578,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 441.1858353424072,
-      "SDScore": 47.26802983781825,
-      "P99Score": 551.1477160637843,
+      "MeanScore": 344.2799987792969,
+      "SDScore": 0.0,
+      "P99Score": 344.2799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -601,9 +601,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 342.12583536071776,
-      "SDScore": 47.26803224018401,
-      "P99Score": 452.0877216708333,
+      "MeanScore": 245.22000122070312,
+      "SDScore": 0.0,
+      "P99Score": 245.22000122070312,
       "TotalPayout": 0.0
     },
     {
@@ -624,9 +624,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 400.9758280444336,
-      "SDScore": 47.26802961585636,
-      "P99Score": 510.93770824945005,
+      "MeanScore": 304.07000732421875,
+      "SDScore": 0.0,
+      "P99Score": 304.07000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -647,9 +647,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 421.7358261077881,
-      "SDScore": 47.26802716445747,
-      "P99Score": 531.697700609998,
+      "MeanScore": 324.8300170898437,
+      "SDScore": 0.0,
+      "P99Score": 324.8300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -670,9 +670,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 379.4358479095459,
-      "SDScore": 47.26803189569959,
-      "P99Score": 489.3977334182708,
+      "MeanScore": 282.5299987792969,
+      "SDScore": 0.0,
+      "P99Score": 282.5299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -693,9 +693,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 382.1158407901001,
-      "SDScore": 47.26803158045286,
-      "P99Score": 492.0777255654515,
+      "MeanScore": 285.21002197265625,
+      "SDScore": 0.0,
+      "P99Score": 285.21002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -712,14 +712,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1135.622,
-      "NetEV": 580.6220000000001,
-      "ROI%": 104.6165765765766,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 531.0158350057983,
-      "SDScore": 47.26803160742594,
-      "P99Score": 640.9777198438984,
-      "TotalPayout": 113562200.0
+      "MeanScore": 434.1099853515625,
+      "SDScore": 0.0,
+      "P99Score": 434.1099853515625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -735,14 +735,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 320.59,
-      "NetEV": -234.41000000000005,
-      "ROI%": -42.23603603603604,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 450.54583837677,
-      "SDScore": 47.26802855320838,
-      "P99Score": 560.5077161096976,
-      "TotalPayout": 32059000.0
+      "MeanScore": 353.6400146484375,
+      "SDScore": 0.0,
+      "P99Score": 353.6400146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -758,14 +758,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.27,
-      "NetEV": -554.73,
-      "ROI%": -99.95135135135136,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 369.3680904693604,
-      "SDScore": 54.71839192020863,
-      "P99Score": 496.6621051816365,
-      "TotalPayout": 27000.0
+      "MeanScore": 310.64996337890625,
+      "SDScore": 0.0,
+      "P99Score": 310.64996337890625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -785,9 +785,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 416.29582382751465,
-      "SDScore": 47.268027941290406,
-      "P99Score": 526.2577001369082,
+      "MeanScore": 319.3899841308594,
+      "SDScore": 0.0,
+      "P99Score": 319.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -804,14 +804,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 699.59,
-      "NetEV": 144.59000000000003,
-      "ROI%": 26.052252252252256,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 467.19582750915527,
-      "SDScore": 47.26803187358951,
-      "P99Score": 577.1577129664445,
-      "TotalPayout": 69959000.0
+      "MeanScore": 370.28997802734375,
+      "SDScore": 0.0,
+      "P99Score": 370.28997802734375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -827,14 +827,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 382.0996666666666,
-      "NetEV": -172.90033333333338,
-      "ROI%": -31.15321321321322,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 455.57808494842527,
-      "SDScore": 54.71838959353376,
-      "P99Score": 582.8720942480462,
-      "TotalPayout": 38209966.66666666
+      "MeanScore": 396.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 396.8599853515625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -849,15 +849,15 @@
       "F5": "Yadier del Valle",
       "F6": "Uros Medic",
       "EntryFee": 555.0,
-      "AvgWinPayout": 50000.0,
-      "EV": 467.302,
-      "NetEV": -87.69799999999998,
-      "ROI%": -15.80144144144144,
-      "WinPct": 0.015,
-      "MeanScore": 460.2680991235352,
-      "SDScore": 54.71839154826597,
-      "P99Score": 587.5621129705432,
-      "TotalPayout": 46730200.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "MeanScore": 401.5499877929688,
+      "SDScore": 0.0,
+      "P99Score": 401.5499877929688,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -877,9 +877,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 325.4180963798523,
-      "SDScore": 54.71838984940053,
-      "P99Score": 452.7121062747084,
+      "MeanScore": 266.6999816894531,
+      "SDScore": 0.0,
+      "P99Score": 266.6999816894531,
       "TotalPayout": 0.0
     },
     {
@@ -896,14 +896,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.57,
-      "NetEV": -554.43,
-      "ROI%": -99.89729729729729,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 374.8580941841125,
-      "SDScore": 54.71839099854278,
-      "P99Score": 502.15210675227326,
-      "TotalPayout": 57000.0
+      "MeanScore": 316.1400146484375,
+      "SDScore": 0.0,
+      "P99Score": 316.1400146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -923,9 +923,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 400.9758280444336,
-      "SDScore": 47.26802961585636,
-      "P99Score": 510.93770824945005,
+      "MeanScore": 304.07000732421875,
+      "SDScore": 0.0,
+      "P99Score": 304.07000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -946,9 +946,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.8858176248169,
-      "SDScore": 47.26802918917197,
-      "P99Score": 493.8476968372171,
+      "MeanScore": 286.97998046875,
+      "SDScore": 0.0,
+      "P99Score": 286.97998046875,
       "TotalPayout": 0.0
     },
     {
@@ -969,9 +969,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 312.0858229740906,
-      "SDScore": 47.26803054784094,
-      "P99Score": 422.0477053472274,
+      "MeanScore": 215.17999267578125,
+      "SDScore": 0.0,
+      "P99Score": 215.17999267578125,
       "TotalPayout": 0.0
     },
     {
@@ -988,14 +988,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 577.569,
-      "NetEV": 22.56899999999996,
-      "ROI%": 4.066486486486479,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 472.59227375946045,
-      "SDScore": 40.419352268896176,
-      "P99Score": 566.6217479786642,
-      "TotalPayout": 57756900.0
+      "MeanScore": 510.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 510.7799987792969,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1015,9 +1015,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 323.5822673980713,
-      "SDScore": 40.41935161506254,
-      "P99Score": 417.6117400962305,
+      "MeanScore": 361.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 361.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -1034,14 +1034,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 42.305,
-      "NetEV": -512.695,
-      "ROI%": -92.37747747747748,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 377.7622566201782,
-      "SDScore": 40.419352191342746,
-      "P99Score": 471.79173065896566,
-      "TotalPayout": 4230500.0
+      "MeanScore": 415.9500122070313,
+      "SDScore": 0.0,
+      "P99Score": 415.9500122070313,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1057,14 +1057,14 @@
       "F6": "Geoff Neal",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1.48,
-      "NetEV": -553.52,
-      "ROI%": -99.73333333333332,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 352.0022620513916,
-      "SDScore": 40.41935218764743,
-      "P99Score": 446.0317360815824,
-      "TotalPayout": 148000.0
+      "MeanScore": 390.1900024414063,
+      "SDScore": 0.0,
+      "P99Score": 390.1900024414063,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1080,14 +1080,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 196.351,
-      "NetEV": -358.649,
-      "ROI%": -64.62144144144145,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 402.0122583502197,
-      "SDScore": 40.41935189851653,
-      "P99Score": 496.04173170779154,
-      "TotalPayout": 19635100.0
+      "MeanScore": 440.1999816894531,
+      "SDScore": 0.0,
+      "P99Score": 440.1999816894531,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1107,9 +1107,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 335.0522670959473,
-      "SDScore": 40.41935207537047,
-      "P99Score": 429.0817408649429,
+      "MeanScore": 373.239990234375,
+      "SDScore": 0.0,
+      "P99Score": 373.239990234375,
       "TotalPayout": 0.0
     },
     {
@@ -1126,14 +1126,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2603.392,
-      "NetEV": 2048.392,
-      "ROI%": 369.0796396396396,
+      "EV": 10000.0,
+      "NetEV": 9445.0,
+      "ROI%": 1701.801801801802,
       "WinPct": 0.0,
-      "MeanScore": 492.0322612200928,
-      "SDScore": 40.419352514735614,
-      "P99Score": 586.0617360112045,
-      "TotalPayout": 260339200.0
+      "MeanScore": 530.219970703125,
+      "SDScore": 0.0,
+      "P99Score": 530.219970703125,
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1149,14 +1149,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 25.52,
-      "NetEV": -529.48,
-      "ROI%": -95.4018018018018,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 374.8922766998291,
-      "SDScore": 40.419352187648144,
-      "P99Score": 468.9217507300216,
-      "TotalPayout": 2552000.0
+      "MeanScore": 413.08001708984375,
+      "SDScore": 0.0,
+      "P99Score": 413.08001708984375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1172,14 +1172,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1.775,
-      "NetEV": -553.225,
-      "ROI%": -99.6801801801802,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 354.8222541870117,
-      "SDScore": 40.41935218161662,
-      "P99Score": 448.8517282031728,
-      "TotalPayout": 177500.0
+      "MeanScore": 393.0099792480469,
+      "SDScore": 0.0,
+      "P99Score": 393.0099792480469,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1199,9 +1199,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.6758257492065,
-      "SDScore": 47.2680294915525,
-      "P99Score": 520.637705665049,
+      "MeanScore": 313.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 313.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -1218,14 +1218,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.815,
-      "NetEV": -554.185,
-      "ROI%": -99.85315315315314,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 347.08226024566653,
-      "SDScore": 40.4193521016258,
-      "P99Score": 441.11173407574114,
-      "TotalPayout": 81500.0
+      "MeanScore": 385.27001953125,
+      "SDScore": 0.0,
+      "P99Score": 385.27001953125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1245,9 +1245,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 315.3222693818665,
-      "SDScore": 40.41935217833802,
-      "P99Score": 409.3517433904004,
+      "MeanScore": 353.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 353.510009765625,
       "TotalPayout": 0.0
     },
     {
@@ -1268,9 +1268,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 328.7422522857666,
-      "SDScore": 40.41935218763663,
-      "P99Score": 422.7717263159323,
+      "MeanScore": 366.9299926757813,
+      "SDScore": 0.0,
+      "P99Score": 366.9299926757813,
       "TotalPayout": 0.0
     },
     {
@@ -1291,9 +1291,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 395.3858323312378,
-      "SDScore": 47.26802979740758,
-      "P99Score": 505.3477129586056,
+      "MeanScore": 298.47998046875,
+      "SDScore": 0.0,
+      "P99Score": 298.47998046875,
       "TotalPayout": 0.0
     },
     {
@@ -1310,14 +1310,14 @@
       "F6": "Uros Medic",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 226.16,
-      "NetEV": -328.84000000000003,
-      "ROI%": -59.25045045045045,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 408.6622658795166,
-      "SDScore": 40.41935190155336,
-      "P99Score": 502.6917392441532,
-      "TotalPayout": 22616000.0
+      "MeanScore": 446.8499755859375,
+      "SDScore": 0.0,
+      "P99Score": 446.8499755859375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1337,9 +1337,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 304.63225346481323,
-      "SDScore": 40.41935189626492,
-      "P99Score": 398.661726817147,
+      "MeanScore": 342.8199768066406,
+      "SDScore": 0.0,
+      "P99Score": 342.8199768066406,
       "TotalPayout": 0.0
     },
     {
@@ -1360,9 +1360,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 379.1858207662964,
-      "SDScore": 47.268029201270046,
-      "P99Score": 489.14770000684086,
+      "MeanScore": 282.2799987792969,
+      "SDScore": 0.0,
+      "P99Score": 282.2799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -1383,9 +1383,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 274.0358322561645,
-      "SDScore": 47.2680303803849,
-      "P99Score": 383.9977142397404,
+      "MeanScore": 177.1300048828125,
+      "SDScore": 0.0,
+      "P99Score": 177.1300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -1406,9 +1406,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 260.7622571942139,
-      "SDScore": 40.41935213659937,
-      "P99Score": 354.7917311056492,
+      "MeanScore": 298.95001220703125,
+      "SDScore": 0.0,
+      "P99Score": 298.95001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -1429,9 +1429,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 426.7958238919068,
-      "SDScore": 47.2680278620715,
-      "P99Score": 536.7577000170096,
+      "MeanScore": 329.8899841308594,
+      "SDScore": 0.0,
+      "P99Score": 329.8899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -1448,14 +1448,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 154.86,
-      "NetEV": -400.14,
-      "ROI%": -72.09729729729729,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 394.0022464367676,
-      "SDScore": 40.419354603897,
-      "P99Score": 488.0317260879955,
-      "TotalPayout": 15486000.0
+      "MeanScore": 432.1900024414063,
+      "SDScore": 0.0,
+      "P99Score": 432.1900024414063,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1475,9 +1475,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.3258312753296,
-      "SDScore": 47.26803241732416,
-      "P99Score": 476.28771799753474,
+      "MeanScore": 269.41998291015625,
+      "SDScore": 0.0,
+      "P99Score": 269.41998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -1494,14 +1494,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 173.304,
-      "NetEV": -381.696,
-      "ROI%": -68.77405405405406,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 397.4822676538086,
-      "SDScore": 40.4193532286772,
-      "P99Score": 491.5117441057968,
-      "TotalPayout": 17330400.0
+      "MeanScore": 435.66998291015625,
+      "SDScore": 0.0,
+      "P99Score": 435.66998291015625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1517,14 +1517,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 81.41,
-      "NetEV": -473.59,
-      "ROI%": -85.33153153153154,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 443.2858340994263,
-      "SDScore": 47.26803125047553,
-      "P99Score": 553.2477181071356,
-      "TotalPayout": 8141000.0
+      "MeanScore": 346.3800048828125,
+      "SDScore": 0.0,
+      "P99Score": 346.3800048828125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1544,9 +1544,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 263.2758289160156,
-      "SDScore": 47.26803194711126,
-      "P99Score": 373.237714544342,
+      "MeanScore": 166.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 166.3699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -1567,9 +1567,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 349.51583546585084,
-      "SDScore": 47.26803100150209,
-      "P99Score": 459.4777188943613,
+      "MeanScore": 252.6100006103516,
+      "SDScore": 0.0,
+      "P99Score": 252.6100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -1590,9 +1590,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 356.4958247793579,
-      "SDScore": 47.26802804159822,
-      "P99Score": 466.4577013221023,
+      "MeanScore": 259.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 259.5899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -1609,14 +1609,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1408.006,
-      "NetEV": 853.0060000000001,
-      "ROI%": 153.6947747747748,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 542.265824815979,
-      "SDScore": 47.26802822094792,
-      "P99Score": 652.2277017759533,
-      "TotalPayout": 140800600.0
+      "MeanScore": 445.3599853515625,
+      "SDScore": 0.0,
+      "P99Score": 445.3599853515625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1636,9 +1636,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 412.345826862793,
-      "SDScore": 47.26802721124922,
-      "P99Score": 522.3077014738568,
+      "MeanScore": 315.44000244140625,
+      "SDScore": 0.0,
+      "P99Score": 315.44000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -1659,9 +1659,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 397.32583115478513,
-      "SDScore": 47.26803378141175,
-      "P99Score": 507.28772105033255,
+      "MeanScore": 300.41998291015625,
+      "SDScore": 0.0,
+      "P99Score": 300.41998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -1682,9 +1682,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 326.2558275056457,
-      "SDScore": 47.26802948056627,
-      "P99Score": 436.2177073959304,
+      "MeanScore": 229.3500061035156,
+      "SDScore": 0.0,
+      "P99Score": 229.3500061035156,
       "TotalPayout": 0.0
     },
     {
@@ -1701,14 +1701,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 839.25,
-      "NetEV": 284.25,
-      "ROI%": 51.21621621621622,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 484.6458120385742,
-      "SDScore": 47.26802990689401,
-      "P99Score": 594.6076929206455,
-      "TotalPayout": 83925000.0
+      "MeanScore": 387.739990234375,
+      "SDScore": 0.0,
+      "P99Score": 387.739990234375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1728,9 +1728,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 300.3058213566589,
-      "SDScore": 47.26803028819035,
-      "P99Score": 410.2677031257582,
+      "MeanScore": 203.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 203.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -1747,14 +1747,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 157.64,
-      "NetEV": -397.36,
-      "ROI%": -71.5963963963964,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 444.0258295068359,
-      "SDScore": 47.26803122801541,
-      "P99Score": 553.9877134622952,
-      "TotalPayout": 15764000.0
+      "MeanScore": 347.1199951171875,
+      "SDScore": 0.0,
+      "P99Score": 347.1199951171875,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1774,9 +1774,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 419.4758292526245,
-      "SDScore": 47.26802899414436,
-      "P99Score": 529.4377080113226,
+      "MeanScore": 322.57000732421875,
+      "SDScore": 0.0,
+      "P99Score": 322.57000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -1793,14 +1793,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 124.56,
-      "NetEV": -430.44,
-      "ROI%": -77.55675675675676,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 388.7322732687378,
-      "SDScore": 40.4193522992587,
-      "P99Score": 482.7617475585753,
-      "TotalPayout": 12456000.0
+      "MeanScore": 426.9200134277344,
+      "SDScore": 0.0,
+      "P99Score": 426.9200134277344,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1816,14 +1816,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 86.646,
-      "NetEV": -468.354,
-      "ROI%": -84.3881081081081,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 421.768100579834,
-      "SDScore": 54.71839213102557,
-      "P99Score": 549.0621157825436,
-      "TotalPayout": 8664600.0
+      "MeanScore": 363.0499877929688,
+      "SDScore": 0.0,
+      "P99Score": 363.0499877929688,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1843,9 +1843,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 323.65809382797244,
-      "SDScore": 54.71839130349933,
-      "P99Score": 450.9521071055682,
+      "MeanScore": 264.94000244140625,
+      "SDScore": 0.0,
+      "P99Score": 264.94000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -1866,9 +1866,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 354.54809934265137,
-      "SDScore": 54.71839228716258,
-      "P99Score": 481.84211490859,
+      "MeanScore": 295.8300170898437,
+      "SDScore": 0.0,
+      "P99Score": 295.8300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -1885,14 +1885,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 255.316,
-      "NetEV": -299.684,
-      "ROI%": -53.99711711711712,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 445.88809683746337,
-      "SDScore": 54.71839008860109,
-      "P99Score": 573.1821072887832,
-      "TotalPayout": 25531600.0
+      "MeanScore": 387.16998291015625,
+      "SDScore": 0.0,
+      "P99Score": 387.16998291015625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1908,14 +1908,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 264.227,
-      "NetEV": -290.773,
-      "ROI%": -52.391531531531534,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 423.0322457897949,
-      "SDScore": 40.41935227003962,
-      "P99Score": 517.0617200116586,
-      "TotalPayout": 26422700.0
+      "MeanScore": 461.219970703125,
+      "SDScore": 0.0,
+      "P99Score": 461.219970703125,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1931,14 +1931,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 204.961,
-      "NetEV": -350.039,
-      "ROI%": -63.07009009009009,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 442.54809700164793,
-      "SDScore": 54.71839140296633,
-      "P99Score": 569.8421105106386,
-      "TotalPayout": 20496100.0
+      "MeanScore": 383.83001708984375,
+      "SDScore": 0.0,
+      "P99Score": 383.83001708984375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1954,14 +1954,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 188.185,
-      "NetEV": -366.815,
-      "ROI%": -66.09279279279279,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 441.068099871521,
-      "SDScore": 54.71839247963373,
-      "P99Score": 568.3621158852145,
-      "TotalPayout": 18818500.0
+      "MeanScore": 382.3500061035156,
+      "SDScore": 0.0,
+      "P99Score": 382.3500061035156,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1977,14 +1977,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 213.822,
-      "NetEV": -341.178,
-      "ROI%": -61.47351351351351,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 442.58809140930174,
-      "SDScore": 54.71839281335484,
-      "P99Score": 569.8821081993467,
-      "TotalPayout": 21382200.0
+      "MeanScore": 383.8699645996094,
+      "SDScore": 0.0,
+      "P99Score": 383.8699645996094,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2004,9 +2004,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 349.87809183120726,
-      "SDScore": 54.71839123633901,
-      "P99Score": 477.1721049525647,
+      "MeanScore": 291.15997314453125,
+      "SDScore": 0.0,
+      "P99Score": 291.15997314453125,
       "TotalPayout": 0.0
     },
     {
@@ -2023,14 +2023,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 214.62,
-      "NetEV": -340.38,
-      "ROI%": -61.329729729729735,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 405.6522561853028,
-      "SDScore": 40.419352319447576,
-      "P99Score": 499.6817305221066,
-      "TotalPayout": 21462000.0
+      "MeanScore": 443.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 443.8399963378906,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2050,9 +2050,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 375.10583173431394,
-      "SDScore": 47.268031407004905,
-      "P99Score": 485.06771610616505,
+      "MeanScore": 278.20001220703125,
+      "SDScore": 0.0,
+      "P99Score": 278.20001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -2073,9 +2073,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 341.685820738678,
-      "SDScore": 47.26802911426175,
-      "P99Score": 451.6476997768109,
+      "MeanScore": 244.77999877929688,
+      "SDScore": 0.0,
+      "P99Score": 244.77999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -2096,9 +2096,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 335.235816337738,
-      "SDScore": 47.268029139366405,
-      "P99Score": 445.1976954342731,
+      "MeanScore": 238.3299865722656,
+      "SDScore": 0.0,
+      "P99Score": 238.3299865722656,
       "TotalPayout": 0.0
     },
     {
@@ -2115,14 +2115,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1151.0026666666647,
-      "NetEV": 596.0026666666647,
-      "ROI%": 107.38786786786751,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 534.415833928833,
-      "SDScore": 47.26802823447048,
-      "P99Score": 644.3777109202654,
-      "TotalPayout": 115100266.66666648
+      "MeanScore": 437.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 437.510009765625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2138,14 +2138,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 12.39,
-      "NetEV": -542.61,
-      "ROI%": -97.76756756756755,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 365.7822492947388,
-      "SDScore": 40.419351749998526,
-      "P99Score": 459.811722306806,
-      "TotalPayout": 1239000.0
+      "MeanScore": 403.969970703125,
+      "SDScore": 0.0,
+      "P99Score": 403.969970703125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2184,14 +2184,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1151.0026666666647,
-      "NetEV": 596.0026666666647,
-      "ROI%": 107.38786786786751,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 534.415833928833,
-      "SDScore": 47.26802823447048,
-      "P99Score": 644.3777109202654,
-      "TotalPayout": 115100266.66666648
+      "MeanScore": 437.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 437.510009765625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2211,9 +2211,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 351.715819546051,
-      "SDScore": 47.26802916464717,
-      "P99Score": 461.677698701398,
+      "MeanScore": 254.8099822998047,
+      "SDScore": 0.0,
+      "P99Score": 254.8099822998047,
       "TotalPayout": 0.0
     },
     {
@@ -2234,9 +2234,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 323.5822673980713,
-      "SDScore": 40.41935161506254,
-      "P99Score": 417.6117400962305,
+      "MeanScore": 361.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 361.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -2257,9 +2257,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 403.8558299084473,
-      "SDScore": 47.26803221352712,
-      "P99Score": 513.8177161565496,
+      "MeanScore": 306.9499816894531,
+      "SDScore": 0.0,
+      "P99Score": 306.9499816894531,
       "TotalPayout": 0.0
     },
     {
@@ -2276,14 +2276,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.815,
-      "NetEV": -554.185,
-      "ROI%": -99.85315315315314,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 347.08226024566653,
-      "SDScore": 40.4193521016258,
-      "P99Score": 441.11173407574114,
-      "TotalPayout": 81500.0
+      "MeanScore": 385.27001953125,
+      "SDScore": 0.0,
+      "P99Score": 385.27001953125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2303,9 +2303,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 433.94583044189454,
-      "SDScore": 47.26803020780604,
-      "P99Score": 543.9077120239918,
+      "MeanScore": 337.0400085449219,
+      "SDScore": 0.0,
+      "P99Score": 337.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -2322,14 +2322,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 850.42,
-      "NetEV": 295.42,
-      "ROI%": 53.22882882882882,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 485.4358078070068,
-      "SDScore": 47.26802794725125,
-      "P99Score": 595.3976841302674,
-      "TotalPayout": 85042000.0
+      "MeanScore": 388.5299682617188,
+      "SDScore": 0.0,
+      "P99Score": 388.5299682617188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2345,14 +2345,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 607.04,
-      "NetEV": 52.03999999999997,
-      "ROI%": 9.37657657657657,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 455.10581847503664,
-      "SDScore": 47.26802964994906,
-      "P99Score": 565.0676987593646,
-      "TotalPayout": 60704000.0
+      "MeanScore": 358.1999816894531,
+      "SDScore": 0.0,
+      "P99Score": 358.1999816894531,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2372,9 +2372,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 259.67582465835574,
-      "SDScore": 47.26802977493545,
-      "P99Score": 369.6377052334455,
+      "MeanScore": 162.76998901367188,
+      "SDScore": 0.0,
+      "P99Score": 162.76998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -2391,14 +2391,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 432.264,
-      "NetEV": -122.736,
-      "ROI%": -22.114594594594596,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "MeanScore": 449.2699890136719,
-      "SDScore": 0.0001651380084764,
-      "P99Score": 449.2703731821268,
-      "TotalPayout": 43226400.0
+      "SDScore": 0.0,
+      "P99Score": 449.2699890136719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2414,14 +2414,14 @@
       "F6": "Uros Medic",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1386.539,
-      "NetEV": 831.539,
-      "ROI%": 149.82684684684685,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 539.4258282052613,
-      "SDScore": 47.268027820565145,
-      "P99Score": 649.3877042338058,
-      "TotalPayout": 138653900.0
+      "MeanScore": 442.52001953125,
+      "SDScore": 0.0,
+      "P99Score": 442.52001953125,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2437,14 +2437,14 @@
       "F6": "Geoff Neal",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 19.19,
-      "NetEV": -535.81,
-      "ROI%": -96.54234234234234,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 399.3180878363037,
-      "SDScore": 54.718390970877095,
-      "P99Score": 526.6121003401045,
-      "TotalPayout": 1919000.0
+      "MeanScore": 340.6000061035156,
+      "SDScore": 0.0,
+      "P99Score": 340.6000061035156,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2460,14 +2460,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 927.92,
-      "NetEV": 372.92,
-      "ROI%": 67.19279279279279,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 500.1058212802124,
-      "SDScore": 47.26802764605012,
-      "P99Score": 610.0676969027743,
-      "TotalPayout": 92792000.0
+      "MeanScore": 403.1999816894531,
+      "SDScore": 0.0,
+      "P99Score": 403.1999816894531,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2487,9 +2487,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 367.7058374511719,
-      "SDScore": 47.26803159767963,
-      "P99Score": 477.66772226659873,
+      "MeanScore": 270.79998779296875,
+      "SDScore": 0.0,
+      "P99Score": 270.79998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -2506,14 +2506,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2.56,
-      "NetEV": -552.44,
-      "ROI%": -99.53873873873876,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 355.38226500152587,
-      "SDScore": 40.41935142928048,
-      "P99Score": 449.4117372674914,
-      "TotalPayout": 256000.0
+      "MeanScore": 393.5700073242188,
+      "SDScore": 0.0,
+      "P99Score": 393.5700073242188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2533,9 +2533,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 323.142271083374,
-      "SDScore": 40.41935291034001,
-      "P99Score": 417.1717467947992,
+      "MeanScore": 361.33001708984375,
+      "SDScore": 0.0,
+      "P99Score": 361.33001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -2556,9 +2556,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.4058238424682,
-      "SDScore": 47.26802856422617,
-      "P99Score": 499.3677016010271,
+      "MeanScore": 292.5,
+      "SDScore": 0.0,
+      "P99Score": 292.5,
       "TotalPayout": 0.0
     },
     {
@@ -2579,9 +2579,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -2602,9 +2602,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 412.2758298400879,
-      "SDScore": 47.26803109710421,
-      "P99Score": 522.2377134910022,
+      "MeanScore": 315.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 315.3699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -2625,9 +2625,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 410.3058305484009,
-      "SDScore": 47.26803019995123,
-      "P99Score": 520.2677121122252,
+      "MeanScore": 313.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 313.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -2643,15 +2643,15 @@
       "F5": "Jacobe Smith",
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
-      "AvgWinPayout": 35000.0,
-      "EV": 27061.073,
-      "NetEV": 26506.073,
-      "ROI%": 4775.8690090090095,
-      "WinPct": 74.977,
-      "MeanScore": 566.6958178189087,
-      "SDScore": 47.26802782375522,
-      "P99Score": 676.6576938548745,
-      "TotalPayout": 2706107300.0
+      "AvgWinPayout": 0.0,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
+      "WinPct": 0.0,
+      "MeanScore": 469.78997802734375,
+      "SDScore": 0.0,
+      "P99Score": 469.78997802734375,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2667,14 +2667,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 922.47,
-      "NetEV": 367.47,
-      "ROI%": 66.21081081081081,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 499.175840486145,
-      "SDScore": 47.268030727328245,
-      "P99Score": 609.1377232768318,
-      "TotalPayout": 92247000.0
+      "MeanScore": 402.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 402.2699890136719,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2694,9 +2694,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 364.4858238685608,
-      "SDScore": 47.26802912831676,
-      "P99Score": 474.4477029393905,
+      "MeanScore": 267.5799865722656,
+      "SDScore": 0.0,
+      "P99Score": 267.5799865722656,
       "TotalPayout": 0.0
     },
     {
@@ -2717,9 +2717,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 386.6758264624024,
-      "SDScore": 47.268029300749085,
-      "P99Score": 496.6377059343697,
+      "MeanScore": 289.77001953125,
+      "SDScore": 0.0,
+      "P99Score": 289.77001953125,
       "TotalPayout": 0.0
     },
     {
@@ -2740,9 +2740,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 440.5558360784912,
-      "SDScore": 47.26803131229774,
-      "P99Score": 550.5177202300205,
+      "MeanScore": 343.6499938964844,
+      "SDScore": 0.0,
+      "P99Score": 343.6499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -2759,14 +2759,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 985.339999999998,
-      "NetEV": 430.3399999999981,
-      "ROI%": 77.5387387387384,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 520.6758256448364,
-      "SDScore": 47.268030158772135,
-      "P99Score": 630.6377071128638,
-      "TotalPayout": 98533999.9999998
+      "MeanScore": 423.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 423.7699890136719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2782,14 +2782,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 50.43,
-      "NetEV": -504.57,
-      "ROI%": -90.91351351351352,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 379.2422558877564,
-      "SDScore": 40.419351596399096,
-      "P99Score": 473.2717285424979,
-      "TotalPayout": 5043000.0
+      "MeanScore": 417.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 417.4299926757813,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2805,14 +2805,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 996.69,
-      "NetEV": 441.69000000000005,
-      "ROI%": 79.58378378378379,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 526.1158259695435,
-      "SDScore": 47.26803157182717,
-      "P99Score": 636.0777107248285,
-      "TotalPayout": 99669000.0
+      "MeanScore": 429.2099914550781,
+      "SDScore": 0.0,
+      "P99Score": 429.2099914550781,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2832,9 +2832,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 305.0158227604676,
-      "SDScore": 47.26802912505387,
-      "P99Score": 414.9777018237067,
+      "MeanScore": 208.1100006103516,
+      "SDScore": 0.0,
+      "P99Score": 208.1100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -2855,9 +2855,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 329.67226038726807,
-      "SDScore": 40.41935228962059,
-      "P99Score": 423.701734654684,
+      "MeanScore": 367.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 367.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -2874,14 +2874,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 147.19,
-      "NetEV": -407.81,
-      "ROI%": -73.47927927927927,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 393.6122781515503,
-      "SDScore": 40.41935229930442,
-      "P99Score": 487.6417524414941,
-      "TotalPayout": 14719000.0
+      "MeanScore": 431.8000183105469,
+      "SDScore": 0.0,
+      "P99Score": 431.8000183105469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2901,9 +2901,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 389.6058213006592,
-      "SDScore": 47.26802839192499,
-      "P99Score": 499.5676986583855,
+      "MeanScore": 292.6999816894531,
+      "SDScore": 0.0,
+      "P99Score": 292.6999816894531,
       "TotalPayout": 0.0
     },
     {
@@ -2920,14 +2920,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 81.41,
-      "NetEV": -473.59,
-      "ROI%": -85.33153153153154,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 443.2858340994263,
-      "SDScore": 47.26803125047553,
-      "P99Score": 553.2477181071356,
-      "TotalPayout": 8141000.0
+      "MeanScore": 346.3800048828125,
+      "SDScore": 0.0,
+      "P99Score": 346.3800048828125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2947,9 +2947,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 310.2458331465149,
-      "SDScore": 47.26803018544043,
-      "P99Score": 420.2077146765821,
+      "MeanScore": 213.33999633789065,
+      "SDScore": 0.0,
+      "P99Score": 213.33999633789065,
       "TotalPayout": 0.0
     },
     {
@@ -2966,14 +2966,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1144.338,
-      "NetEV": 589.338,
-      "ROI%": 106.18702702702704,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 533.2758320462036,
-      "SDScore": 47.26802978229368,
-      "P99Score": 643.2377126384113,
-      "TotalPayout": 114433800.0
+      "MeanScore": 436.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 436.3699951171875,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -2989,14 +2989,14 @@
       "F6": "Uros Medic",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 276.52,
-      "NetEV": -278.48,
-      "ROI%": -50.17657657657658,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 450.5358301416016,
-      "SDScore": 47.26802702686842,
-      "P99Score": 560.4977043237315,
-      "TotalPayout": 27652000.0
+      "MeanScore": 353.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 353.6300048828125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3016,9 +3016,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 364.7258217553711,
-      "SDScore": 47.26802906171898,
-      "P99Score": 474.6877006712713,
+      "MeanScore": 267.82000732421875,
+      "SDScore": 0.0,
+      "P99Score": 267.82000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -3035,14 +3035,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 758.245,
-      "NetEV": 203.245,
-      "ROI%": 36.620720720720726,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 473.5258314437866,
-      "SDScore": 47.26803077702251,
-      "P99Score": 583.4877143500795,
-      "TotalPayout": 75824500.0
+      "MeanScore": 376.6199951171875,
+      "SDScore": 0.0,
+      "P99Score": 376.6199951171875,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3062,9 +3062,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 421.3058308099365,
-      "SDScore": 47.2680303255638,
-      "P99Score": 531.2677126659794,
+      "MeanScore": 324.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 324.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -3085,9 +3085,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 420.6658229681397,
-      "SDScore": 47.268028228544125,
-      "P99Score": 530.6276999457853,
+      "MeanScore": 323.760009765625,
+      "SDScore": 0.0,
+      "P99Score": 323.760009765625,
       "TotalPayout": 0.0
     },
     {
@@ -3104,14 +3104,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 71.495,
-      "NetEV": -483.505,
-      "ROI%": -87.11801801801802,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 379.8722558432007,
-      "SDScore": 40.41934984507365,
-      "P99Score": 473.90172442375,
-      "TotalPayout": 7149500.0
+      "MeanScore": 418.05999755859375,
+      "SDScore": 0.0,
+      "P99Score": 418.05999755859375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3131,9 +3131,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 407.3858321487427,
-      "SDScore": 47.2680300972738,
-      "P99Score": 517.3477134737036,
+      "MeanScore": 310.47998046875,
+      "SDScore": 0.0,
+      "P99Score": 310.47998046875,
       "TotalPayout": 0.0
     },
     {
@@ -3150,14 +3150,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 985.339999999998,
-      "NetEV": 430.3399999999981,
-      "ROI%": 77.5387387387384,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 520.6758256448364,
-      "SDScore": 47.268030158772135,
-      "P99Score": 630.6377071128638,
-      "TotalPayout": 98533999.9999998
+      "MeanScore": 423.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 423.7699890136719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3177,9 +3177,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -3196,14 +3196,14 @@
       "F6": "Uros Medic",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 993.91,
-      "NetEV": 438.91,
-      "ROI%": 79.08288288288287,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 522.9658221429444,
-      "SDScore": 47.26802748725394,
-      "P99Score": 632.9276973960912,
-      "TotalPayout": 99391000.0
+      "MeanScore": 426.05999755859375,
+      "SDScore": 0.0,
+      "P99Score": 426.05999755859375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3219,14 +3219,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 857.23,
-      "NetEV": 302.23,
-      "ROI%": 54.45585585585586,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 485.8658279019165,
-      "SDScore": 47.26802953867427,
-      "P99Score": 595.8277079273806,
-      "TotalPayout": 85723000.0
+      "MeanScore": 388.96002197265625,
+      "SDScore": 0.0,
+      "P99Score": 388.96002197265625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3246,9 +3246,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 429.5258294683838,
-      "SDScore": 47.26803184202405,
-      "P99Score": 539.4877148522407,
+      "MeanScore": 332.6199951171875,
+      "SDScore": 0.0,
+      "P99Score": 332.6199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3269,9 +3269,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 418.7758203744507,
-      "SDScore": 47.26802708574685,
-      "P99Score": 528.7376946935523,
+      "MeanScore": 321.8699951171875,
+      "SDScore": 0.0,
+      "P99Score": 321.8699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3292,9 +3292,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 263.0522658674621,
-      "SDScore": 40.419352241356265,
-      "P99Score": 357.0817400225984,
+      "MeanScore": 301.239990234375,
+      "SDScore": 0.0,
+      "P99Score": 301.239990234375,
       "TotalPayout": 0.0
     },
     {
@@ -3315,9 +3315,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 403.8558299084473,
-      "SDScore": 47.26803221352712,
-      "P99Score": 513.8177161565496,
+      "MeanScore": 306.9499816894531,
+      "SDScore": 0.0,
+      "P99Score": 306.9499816894531,
       "TotalPayout": 0.0
     },
     {
@@ -3338,9 +3338,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 265.09583285461423,
-      "SDScore": 47.26803048485301,
-      "P99Score": 375.0577150812192,
+      "MeanScore": 168.19000244140625,
+      "SDScore": 0.0,
+      "P99Score": 168.19000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -3357,14 +3357,14 @@
       "F6": "Yadier del Valle",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 257.962,
-      "NetEV": -297.038,
-      "ROI%": -53.52036036036037,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 421.3522683862305,
-      "SDScore": 40.419352299256175,
-      "P99Score": 515.3817426760621,
-      "TotalPayout": 25796200.0
+      "MeanScore": 459.5400085449219,
+      "SDScore": 0.0,
+      "P99Score": 459.5400085449219,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3380,14 +3380,14 @@
       "F6": "Uros Medic",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 57.21,
-      "NetEV": -497.79,
-      "ROI%": -89.6918918918919,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 379.6522698944092,
-      "SDScore": 40.41935114471669,
-      "P99Score": 473.6817414983804,
-      "TotalPayout": 5721000.0
+      "MeanScore": 417.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 417.8399963378906,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3403,14 +3403,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 486.12,
-      "NetEV": -68.88,
-      "ROI%": -12.41081081081081,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 453.10583387329103,
-      "SDScore": 47.2680300076439,
-      "P99Score": 563.0677149897416,
-      "TotalPayout": 48612000.0
+      "MeanScore": 356.20001220703125,
+      "SDScore": 0.0,
+      "P99Score": 356.20001220703125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3426,14 +3426,14 @@
       "F6": "Phil Rowe",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 676.12,
-      "NetEV": 121.12,
-      "ROI%": 21.823423423423424,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 463.47582879699706,
-      "SDScore": 47.26802932232072,
-      "P99Score": 573.4377083191475,
-      "TotalPayout": 67612000.0
+      "MeanScore": 366.5700073242188,
+      "SDScore": 0.0,
+      "P99Score": 366.5700073242188,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3453,9 +3453,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 430.94583338104246,
-      "SDScore": 47.26803032259323,
-      "P99Score": 540.9077152301747,
+      "MeanScore": 334.0400085449219,
+      "SDScore": 0.0,
+      "P99Score": 334.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -3476,9 +3476,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 349.8458512808227,
-      "SDScore": 47.26803285682978,
-      "P99Score": 459.8077390254708,
+      "MeanScore": 252.94000244140625,
+      "SDScore": 0.0,
+      "P99Score": 252.94000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -3499,9 +3499,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 412.345826862793,
-      "SDScore": 47.26802721124922,
-      "P99Score": 522.3077014738568,
+      "MeanScore": 315.44000244140625,
+      "SDScore": 0.0,
+      "P99Score": 315.44000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -3522,9 +3522,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -3545,9 +3545,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 320.4858361383057,
-      "SDScore": 47.26803195413592,
-      "P99Score": 430.4477217829738,
+      "MeanScore": 223.5799865722656,
+      "SDScore": 0.0,
+      "P99Score": 223.5799865722656,
       "TotalPayout": 0.0
     },
     {
@@ -3568,9 +3568,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.4258263597107,
-      "SDScore": 47.26802904354662,
-      "P99Score": 446.3877052333356,
+      "MeanScore": 239.51998901367188,
+      "SDScore": 0.0,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -3591,9 +3591,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 315.3222693818665,
-      "SDScore": 40.41935217833802,
-      "P99Score": 409.3517433904004,
+      "MeanScore": 353.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 353.510009765625,
       "TotalPayout": 0.0
     },
     {
@@ -3610,14 +3610,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1151.0026666666647,
-      "NetEV": 596.0026666666647,
-      "ROI%": 107.38786786786751,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 534.415833928833,
-      "SDScore": 47.26802823447048,
-      "P99Score": 644.3777109202654,
-      "TotalPayout": 115100266.66666648
+      "MeanScore": 437.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 437.510009765625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3637,9 +3637,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 400.9758280444336,
-      "SDScore": 47.26802961585636,
-      "P99Score": 510.93770824945005,
+      "MeanScore": 304.07000732421875,
+      "SDScore": 0.0,
+      "P99Score": 304.07000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -3660,9 +3660,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 342.2358362704468,
-      "SDScore": 47.26803105770519,
-      "P99Score": 452.1977198297052,
+      "MeanScore": 245.3299865722656,
+      "SDScore": 0.0,
+      "P99Score": 245.3299865722656,
       "TotalPayout": 0.0
     },
     {
@@ -3683,9 +3683,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 430.02583058898927,
-      "SDScore": 47.26803147309162,
-      "P99Score": 539.9877151145811,
+      "MeanScore": 333.1199951171875,
+      "SDScore": 0.0,
+      "P99Score": 333.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3702,14 +3702,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 42.305,
-      "NetEV": -512.695,
-      "ROI%": -92.37747747747748,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 377.7622566201782,
-      "SDScore": 40.419352191342746,
-      "P99Score": 471.79173065896566,
-      "TotalPayout": 4230500.0
+      "MeanScore": 415.9500122070313,
+      "SDScore": 0.0,
+      "P99Score": 415.9500122070313,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3725,14 +3725,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 92.49666666666666,
-      "NetEV": -462.5033333333333,
-      "ROI%": -83.33393393393393,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 382.32225422088624,
-      "SDScore": 40.41935228763414,
-      "P99Score": 476.351728483681,
-      "TotalPayout": 9249666.666666666
+      "MeanScore": 420.5099792480469,
+      "SDScore": 0.0,
+      "P99Score": 420.5099792480469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3775,9 +3775,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 255.79583235092164,
-      "SDScore": 47.26803268202215,
-      "P99Score": 365.7577196889064,
+      "MeanScore": 158.88999938964844,
+      "SDScore": 0.0,
+      "P99Score": 158.88999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -3794,14 +3794,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 998.5,
-      "NetEV": 443.5,
-      "ROI%": 79.90990990990991,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 529.5358290856933,
-      "SDScore": 47.26802814798201,
-      "P99Score": 639.4977058759234,
-      "TotalPayout": 99850000.0
+      "MeanScore": 432.6300048828125,
+      "SDScore": 0.0,
+      "P99Score": 432.6300048828125,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3817,14 +3817,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1148.036,
-      "NetEV": 593.0360000000001,
-      "ROI%": 106.85333333333334,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 533.9058242498779,
-      "SDScore": 47.26802803421198,
-      "P99Score": 643.8677007754394,
-      "TotalPayout": 114803600.0
+      "MeanScore": 437.0,
+      "SDScore": 0.0,
+      "P99Score": 437.0,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3844,9 +3844,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 421.7358261077881,
-      "SDScore": 47.26802716445747,
-      "P99Score": 531.697700609998,
+      "MeanScore": 324.8300170898437,
+      "SDScore": 0.0,
+      "P99Score": 324.8300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -3867,9 +3867,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 277.502266055603,
-      "SDScore": 40.41935261888226,
-      "P99Score": 371.5317410889961,
+      "MeanScore": 315.69000244140625,
+      "SDScore": 0.0,
+      "P99Score": 315.69000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -3886,14 +3886,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 92.49666666666666,
-      "NetEV": -462.5033333333333,
-      "ROI%": -83.33393393393393,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 382.32225422088624,
-      "SDScore": 40.41935228763414,
-      "P99Score": 476.351728483681,
-      "TotalPayout": 9249666.666666666
+      "MeanScore": 420.5099792480469,
+      "SDScore": 0.0,
+      "P99Score": 420.5099792480469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3909,14 +3909,14 @@
       "F6": "Geoff Neal",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2.29,
-      "NetEV": -552.71,
-      "ROI%": -99.5873873873874,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 395.0,
       "SDScore": 0.0,
       "P99Score": 395.0,
-      "TotalPayout": 229000.0
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3932,14 +3932,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 71.495,
-      "NetEV": -483.505,
-      "ROI%": -87.11801801801802,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 379.8722558432007,
-      "SDScore": 40.41934984507365,
-      "P99Score": 473.90172442375,
-      "TotalPayout": 7149500.0
+      "MeanScore": 418.05999755859375,
+      "SDScore": 0.0,
+      "P99Score": 418.05999755859375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -3959,9 +3959,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 266.6958238841248,
-      "SDScore": 47.2680221417893,
-      "P99Score": 376.6576867018612,
+      "MeanScore": 169.7899932861328,
+      "SDScore": 0.0,
+      "P99Score": 169.7899932861328,
       "TotalPayout": 0.0
     },
     {
@@ -3982,9 +3982,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4001,14 +4001,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 182.828,
-      "NetEV": -372.172,
-      "ROI%": -67.05801801801802,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 399.252262203064,
-      "SDScore": 40.41935258891559,
-      "P99Score": 493.28173716674416,
-      "TotalPayout": 18282800.0
+      "MeanScore": 437.4400024414063,
+      "SDScore": 0.0,
+      "P99Score": 437.4400024414063,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4028,9 +4028,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 356.4958247793579,
-      "SDScore": 47.26802804159822,
-      "P99Score": 466.4577013221023,
+      "MeanScore": 259.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 259.5899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -4051,9 +4051,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 400.9758280444336,
-      "SDScore": 47.26802961585636,
-      "P99Score": 510.93770824945005,
+      "MeanScore": 304.07000732421875,
+      "SDScore": 0.0,
+      "P99Score": 304.07000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -4070,14 +4070,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 39.76,
-      "NetEV": -515.24,
-      "ROI%": -92.83603603603603,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 407.9880894882202,
-      "SDScore": 54.71839060424241,
-      "P99Score": 535.2821011391011,
-      "TotalPayout": 3976000.0
+      "MeanScore": 349.2699890136719,
+      "SDScore": 0.0,
+      "P99Score": 349.2699890136719,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4097,9 +4097,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.4258263597107,
-      "SDScore": 47.26802904354662,
-      "P99Score": 446.3877052333356,
+      "MeanScore": 239.51998901367188,
+      "SDScore": 0.0,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -4116,14 +4116,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1085.669,
-      "NetEV": 530.6690000000001,
-      "ROI%": 95.61603603603604,
+      "EV": 3000.0,
+      "NetEV": 2445.0,
+      "ROI%": 440.5405405405405,
       "WinPct": 0.0,
-      "MeanScore": 488.3822534564209,
-      "SDScore": 40.41935185970669,
-      "P99Score": 582.4117267237075,
-      "TotalPayout": 108566900.0
+      "MeanScore": 526.5699462890625,
+      "SDScore": 0.0,
+      "P99Score": 526.5699462890625,
+      "TotalPayout": 3000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4139,14 +4139,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 792.13,
-      "NetEV": 237.13,
-      "ROI%": 42.726126126126125,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 476.3358270336914,
-      "SDScore": 47.26803187333644,
-      "P99Score": 586.2977124903919,
-      "TotalPayout": 79213000.0
+      "MeanScore": 379.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 379.4299926757813,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4166,9 +4166,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.4258263597107,
-      "SDScore": 47.26802904354662,
-      "P99Score": 446.3877052333356,
+      "MeanScore": 239.51998901367188,
+      "SDScore": 0.0,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -4189,9 +4189,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.8058158604431,
-      "SDScore": 47.26802915821514,
-      "P99Score": 476.7676950008269,
+      "MeanScore": 269.89996337890625,
+      "SDScore": 0.0,
+      "P99Score": 269.89996337890625,
       "TotalPayout": 0.0
     },
     {
@@ -4208,14 +4208,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 5225.263,
-      "NetEV": 4670.263,
-      "ROI%": 841.4888288288289,
+      "EV": 20000.0,
+      "NetEV": 19445.0,
+      "ROI%": 3503.603603603604,
       "WinPct": 0.0,
-      "MeanScore": 503.5622631338501,
-      "SDScore": 40.419351488216,
-      "P99Score": 597.5917355369202,
-      "TotalPayout": 522526300.0
+      "MeanScore": 541.75,
+      "SDScore": 0.0,
+      "P99Score": 541.75,
+      "TotalPayout": 20000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4235,9 +4235,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 356.4358383203125,
-      "SDScore": 47.26803084976476,
-      "P99Score": 466.39772139582914,
+      "MeanScore": 259.5299987792969,
+      "SDScore": 0.0,
+      "P99Score": 259.5299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4258,9 +4258,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 271.12227218231203,
-      "SDScore": 40.4193547130662,
-      "P99Score": 365.1517520875055,
+      "MeanScore": 309.3099975585937,
+      "SDScore": 0.0,
+      "P99Score": 309.3099975585937,
       "TotalPayout": 0.0
     },
     {
@@ -4281,9 +4281,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 362.56582562332153,
-      "SDScore": 47.26802915027999,
-      "P99Score": 472.5277047452454,
+      "MeanScore": 265.6600036621094,
+      "SDScore": 0.0,
+      "P99Score": 265.6600036621094,
       "TotalPayout": 0.0
     },
     {
@@ -4304,9 +4304,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 422.225828744812,
-      "SDScore": 47.26802927866456,
-      "P99Score": 532.187708165403,
+      "MeanScore": 325.32000732421875,
+      "SDScore": 0.0,
+      "P99Score": 325.32000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -4327,9 +4327,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 351.68582351531984,
-      "SDScore": 47.26803003390012,
-      "P99Score": 461.6477046928516,
+      "MeanScore": 254.77999877929688,
+      "SDScore": 0.0,
+      "P99Score": 254.77999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -4346,14 +4346,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 904.5,
-      "NetEV": 349.5,
-      "ROI%": 62.972972972972975,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 494.5458210986328,
-      "SDScore": 47.26803016366254,
-      "P99Score": 604.5077025780371,
-      "TotalPayout": 90450000.0
+      "MeanScore": 397.6399841308594,
+      "SDScore": 0.0,
+      "P99Score": 397.6399841308594,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4373,9 +4373,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 323.5822673980713,
-      "SDScore": 40.41935161506254,
-      "P99Score": 417.6117400962305,
+      "MeanScore": 361.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 361.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -4396,9 +4396,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 296.0958265461731,
-      "SDScore": 47.26802819689461,
-      "P99Score": 406.05770345019096,
+      "MeanScore": 199.19000244140625,
+      "SDScore": 0.0,
+      "P99Score": 199.19000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -4419,9 +4419,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 429.7358261828613,
-      "SDScore": 47.26802708597682,
-      "P99Score": 539.6977005024979,
+      "MeanScore": 332.8300170898437,
+      "SDScore": 0.0,
+      "P99Score": 332.8300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -4442,9 +4442,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 233.59225739318848,
-      "SDScore": 40.41935313780051,
-      "P99Score": 327.6217336337659,
+      "MeanScore": 271.7799987792969,
+      "SDScore": 0.0,
+      "P99Score": 271.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -4465,9 +4465,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 309.68225871536254,
-      "SDScore": 40.41935263284195,
-      "P99Score": 403.7117337812307,
+      "MeanScore": 347.8699951171875,
+      "SDScore": 0.0,
+      "P99Score": 347.8699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -4488,9 +4488,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 235.00226274398804,
-      "SDScore": 40.41935210628509,
-      "P99Score": 329.0317365849017,
+      "MeanScore": 273.19000244140625,
+      "SDScore": 0.0,
+      "P99Score": 273.19000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -4507,14 +4507,14 @@
       "F6": "Uros Medic",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 7882.804,
-      "NetEV": 7327.804,
-      "ROI%": 1320.325045045045,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 562.1558343408203,
-      "SDScore": 47.26803138978306,
-      "P99Score": 672.1177186726075,
-      "TotalPayout": 788280400.0
+      "MeanScore": 465.25,
+      "SDScore": 0.0,
+      "P99Score": 465.25,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4534,9 +4534,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 305.0158227604676,
-      "SDScore": 47.26802912505387,
-      "P99Score": 414.9777018237067,
+      "MeanScore": 208.1100006103516,
+      "SDScore": 0.0,
+      "P99Score": 208.1100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -4553,14 +4553,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 483.476,
-      "NetEV": -71.524,
-      "ROI%": -12.887207207207208,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 462.92226396484375,
-      "SDScore": 40.41935178206865,
-      "P99Score": 556.9517370515173,
-      "TotalPayout": 48347600.0
+      "MeanScore": 501.1099853515625,
+      "SDScore": 0.0,
+      "P99Score": 501.1099853515625,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4580,9 +4580,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4603,9 +4603,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 327.16225021942137,
-      "SDScore": 40.419354703565446,
-      "P99Score": 421.1917301025128,
+      "MeanScore": 365.3499755859375,
+      "SDScore": 0.0,
+      "P99Score": 365.3499755859375,
       "TotalPayout": 0.0
     },
     {
@@ -4626,9 +4626,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 319.9458286616516,
-      "SDScore": 47.26803086149879,
-      "P99Score": 429.9077117644657,
+      "MeanScore": 223.0399932861328,
+      "SDScore": 0.0,
+      "P99Score": 223.0399932861328,
       "TotalPayout": 0.0
     },
     {
@@ -4645,14 +4645,14 @@
       "F6": "Phil Rowe",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 462.91,
-      "NetEV": -92.08999999999996,
-      "ROI%": -16.59279279279279,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.4658363269043,
-      "SDScore": 47.26802857064634,
-      "P99Score": 562.4277141003987,
-      "TotalPayout": 46291000.0
+      "MeanScore": 355.5599975585937,
+      "SDScore": 0.0,
+      "P99Score": 355.5599975585937,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4668,14 +4668,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1157.549,
-      "NetEV": 602.549,
-      "ROI%": 108.56738738738738,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 538.495830670166,
-      "SDScore": 47.26803179523878,
-      "P99Score": 648.4577159451842,
-      "TotalPayout": 115754900.0
+      "MeanScore": 441.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 441.5899963378906,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4695,9 +4695,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 319.662281076355,
-      "SDScore": 40.4193522876309,
-      "P99Score": 413.69175533914216,
+      "MeanScore": 357.8499755859375,
+      "SDScore": 0.0,
+      "P99Score": 357.8499755859375,
       "TotalPayout": 0.0
     },
     {
@@ -4714,14 +4714,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 780.03,
-      "NetEV": 225.03,
-      "ROI%": 40.545945945945945,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 475.0558279492187,
-      "SDScore": 47.2680314277022,
-      "P99Score": 585.0177123692189,
-      "TotalPayout": 78003000.0
+      "MeanScore": 378.1499633789063,
+      "SDScore": 0.0,
+      "P99Score": 378.1499633789063,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4741,9 +4741,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -4764,9 +4764,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 430.02583058898927,
-      "SDScore": 47.26803147309162,
-      "P99Score": 539.9877151145811,
+      "MeanScore": 333.1199951171875,
+      "SDScore": 0.0,
+      "P99Score": 333.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -4787,9 +4787,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 357.9158317497253,
-      "SDScore": 47.26802916385457,
-      "P99Score": 467.8777109032284,
+      "MeanScore": 261.010009765625,
+      "SDScore": 0.0,
+      "P99Score": 261.010009765625,
       "TotalPayout": 0.0
     },
     {
@@ -4806,14 +4806,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 245.42,
-      "NetEV": -309.58000000000004,
-      "ROI%": -55.78018018018018,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 449.5858306594849,
-      "SDScore": 47.2680332666485,
-      "P99Score": 559.5477193575139,
-      "TotalPayout": 24542000.0
+      "MeanScore": 352.67999267578125,
+      "SDScore": 0.0,
+      "P99Score": 352.67999267578125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4829,14 +4829,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 4034.784,
-      "NetEV": 3479.784,
-      "ROI%": 626.9881081081081,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 552.8558310900879,
-      "SDScore": 47.2680315384838,
-      "P99Score": 662.8177157678047,
-      "TotalPayout": 403478400.0
+      "MeanScore": 455.9500122070313,
+      "SDScore": 0.0,
+      "P99Score": 455.9500122070313,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4852,14 +4852,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 561.76,
-      "NetEV": 6.759999999999991,
-      "ROI%": 1.2180180180180162,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 454.4658265164185,
-      "SDScore": 47.26802950352312,
-      "P99Score": 564.4277064601088,
-      "TotalPayout": 56176000.0
+      "MeanScore": 357.5599975585937,
+      "SDScore": 0.0,
+      "P99Score": 357.5599975585937,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4875,14 +4875,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 357.964,
-      "NetEV": -197.036,
-      "ROI%": -35.501981981981984,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 450.3522684933472,
-      "SDScore": 40.41935246681853,
-      "P99Score": 544.3817431729871,
-      "TotalPayout": 35796400.0
+      "MeanScore": 488.5400085449219,
+      "SDScore": 0.0,
+      "P99Score": 488.5400085449219,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4902,9 +4902,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 392.6058463745117,
-      "SDScore": 47.268031780170126,
-      "P99Score": 502.56773161447495,
+      "MeanScore": 295.70001220703125,
+      "SDScore": 0.0,
+      "P99Score": 295.70001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -4925,9 +4925,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 289.9558372024536,
-      "SDScore": 47.26803166588983,
-      "P99Score": 399.9177221765611,
+      "MeanScore": 193.05001831054688,
+      "SDScore": 0.0,
+      "P99Score": 193.05001831054688,
       "TotalPayout": 0.0
     },
     {
@@ -4948,9 +4948,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 275.9558274447632,
-      "SDScore": 47.26802781643363,
-      "P99Score": 385.91770346369645,
+      "MeanScore": 179.04998779296875,
+      "SDScore": 0.0,
+      "P99Score": 179.04998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -4967,14 +4967,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 53.28,
-      "NetEV": -501.72,
-      "ROI%": -90.4,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 379.5222699383545,
-      "SDScore": 40.41935164282243,
-      "P99Score": 473.5517427010929,
-      "TotalPayout": 5328000.0
+      "MeanScore": 417.71002197265625,
+      "SDScore": 0.0,
+      "P99Score": 417.71002197265625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -4994,9 +4994,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 350.7958385321045,
-      "SDScore": 47.26802781178398,
-      "P99Score": 460.757714540221,
+      "MeanScore": 253.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 253.8900146484375,
       "TotalPayout": 0.0
     },
     {
@@ -5013,14 +5013,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 536.06,
-      "NetEV": -18.94000000000005,
-      "ROI%": -3.4126126126126226,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 453.7358377832031,
-      "SDScore": 47.26802977192671,
-      "P99Score": 563.6977183512936,
-      "TotalPayout": 53606000.0
+      "MeanScore": 356.8300170898437,
+      "SDScore": 0.0,
+      "P99Score": 356.8300170898437,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5040,9 +5040,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 438.1558192675781,
-      "SDScore": 47.268031545983945,
-      "P99Score": 548.1177039627428,
+      "MeanScore": 341.25,
+      "SDScore": 0.0,
+      "P99Score": 341.25,
       "TotalPayout": 0.0
     },
     {
@@ -5059,14 +5059,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 443.27,
-      "NetEV": -111.73000000000002,
-      "ROI%": -20.131531531531536,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 452.255831519165,
-      "SDScore": 47.26803014958274,
-      "P99Score": 562.2177129658147,
-      "TotalPayout": 44327000.0
+      "MeanScore": 355.3500061035156,
+      "SDScore": 0.0,
+      "P99Score": 355.3500061035156,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5086,9 +5086,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 341.685820738678,
-      "SDScore": 47.26802911426175,
-      "P99Score": 451.6476997768109,
+      "MeanScore": 244.77999877929688,
+      "SDScore": 0.0,
+      "P99Score": 244.77999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -5109,9 +5109,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 300.3058213566589,
-      "SDScore": 47.26803028819035,
-      "P99Score": 410.2677031257582,
+      "MeanScore": 203.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 203.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -5132,9 +5132,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 355.7458310369873,
-      "SDScore": 47.2680312144396,
-      "P99Score": 465.7077149608645,
+      "MeanScore": 258.8399963378906,
+      "SDScore": 0.0,
+      "P99Score": 258.8399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -5155,9 +5155,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.8858176248169,
-      "SDScore": 47.26802918917197,
-      "P99Score": 493.8476968372171,
+      "MeanScore": 286.97998046875,
+      "SDScore": 0.0,
+      "P99Score": 286.97998046875,
       "TotalPayout": 0.0
     },
     {
@@ -5174,14 +5174,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 985.339999999998,
-      "NetEV": 430.3399999999981,
-      "ROI%": 77.5387387387384,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 520.6758256448364,
-      "SDScore": 47.268030158772135,
-      "P99Score": 630.6377071128638,
-      "TotalPayout": 98533999.9999998
+      "MeanScore": 423.7699890136719,
+      "SDScore": 0.0,
+      "P99Score": 423.7699890136719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5197,14 +5197,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 112.81,
-      "NetEV": -442.19,
-      "ROI%": -79.67387387387387,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 386.6222725933838,
-      "SDScore": 40.4193522867762,
-      "P99Score": 480.65174685418265,
-      "TotalPayout": 11281000.0
+      "MeanScore": 424.80999755859375,
+      "SDScore": 0.0,
+      "P99Score": 424.80999755859375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5224,9 +5224,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -5247,9 +5247,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 339.2422663583374,
-      "SDScore": 40.41935328962095,
-      "P99Score": 433.2717429521021,
+      "MeanScore": 377.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 377.4299926757813,
       "TotalPayout": 0.0
     },
     {
@@ -5266,14 +5266,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1154.202,
-      "NetEV": 599.202,
-      "ROI%": 107.96432432432432,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 536.0058258215332,
-      "SDScore": 47.26803052076442,
-      "P99Score": 645.9677081316806,
-      "TotalPayout": 115420200.0
+      "MeanScore": 439.0999755859375,
+      "SDScore": 0.0,
+      "P99Score": 439.0999755859375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5294,8 +5294,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 340.0899963378906,
-      "SDScore": 0.000201675506181,
-      "P99Score": 340.0904655052757,
+      "SDScore": 0.0,
+      "P99Score": 340.0899963378906,
       "TotalPayout": 0.0
     },
     {
@@ -5312,14 +5312,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 626.175,
-      "NetEV": 71.17499999999995,
-      "ROI%": 12.824324324324316,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 474.6922493408203,
-      "SDScore": 40.41935226459457,
-      "P99Score": 568.721723550017,
-      "TotalPayout": 62617500.0
+      "MeanScore": 512.8800048828125,
+      "SDScore": 0.0,
+      "P99Score": 512.8800048828125,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5339,9 +5339,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 300.0558306462097,
-      "SDScore": 47.26802966236379,
-      "P99Score": 410.01771095941865,
+      "MeanScore": 203.1499938964844,
+      "SDScore": 0.0,
+      "P99Score": 203.1499938964844,
       "TotalPayout": 0.0
     },
     {
@@ -5362,9 +5362,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 400.9758280444336,
-      "SDScore": 47.26802961585636,
-      "P99Score": 510.93770824945005,
+      "MeanScore": 304.07000732421875,
+      "SDScore": 0.0,
+      "P99Score": 304.07000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -5385,9 +5385,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 363.1458159698486,
-      "SDScore": 47.26802591288028,
-      "P99Score": 473.10768756045456,
+      "MeanScore": 266.239990234375,
+      "SDScore": 0.0,
+      "P99Score": 266.239990234375,
       "TotalPayout": 0.0
     },
     {
@@ -5404,14 +5404,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 2537.494,
-      "NetEV": 1982.494,
-      "ROI%": 357.2061261261261,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 552.3358268041992,
-      "SDScore": 47.26803192435021,
-      "P99Score": 662.2977123795754,
-      "TotalPayout": 253749400.0
+      "MeanScore": 455.4299926757813,
+      "SDScore": 0.0,
+      "P99Score": 455.4299926757813,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5427,14 +5427,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 770.956,
-      "NetEV": 215.956,
-      "ROI%": 38.910990990991,
+      "EV": 2000.0,
+      "NetEV": 1445.0,
+      "ROI%": 260.36036036036035,
       "WinPct": 0.0,
-      "MeanScore": 479.88226695648194,
-      "SDScore": 40.41935225287929,
-      "P99Score": 573.9117411384248,
-      "TotalPayout": 77095600.0
+      "MeanScore": 518.0700073242188,
+      "SDScore": 0.0,
+      "P99Score": 518.0700073242188,
+      "TotalPayout": 2000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5454,9 +5454,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 298.8058311683655,
-      "SDScore": 47.268029466638566,
-      "P99Score": 408.7677110262495,
+      "MeanScore": 201.90000915527344,
+      "SDScore": 0.0,
+      "P99Score": 201.90000915527344,
       "TotalPayout": 0.0
     },
     {
@@ -5477,9 +5477,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 433.765822817688,
-      "SDScore": 47.26802908284975,
-      "P99Score": 543.7277017827457,
+      "MeanScore": 336.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 336.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -5500,9 +5500,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 309.74226418869017,
-      "SDScore": 40.4193528468757,
-      "P99Score": 403.7717397524753,
+      "MeanScore": 347.92999267578125,
+      "SDScore": 0.0,
+      "P99Score": 347.92999267578125,
       "TotalPayout": 0.0
     },
     {
@@ -5524,8 +5524,8 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 251.63999938964844,
-      "SDScore": 0.0001413762902282,
-      "P99Score": 251.64032828008064,
+      "SDScore": 0.0,
+      "P99Score": 251.63999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -5542,14 +5542,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 726.09,
-      "NetEV": 171.09000000000003,
-      "ROI%": 30.827027027027032,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 471.86582601135257,
-      "SDScore": 47.26803064132466,
-      "P99Score": 581.827708601965,
-      "TotalPayout": 72609000.0
+      "MeanScore": 374.96002197265625,
+      "SDScore": 0.0,
+      "P99Score": 374.96002197265625,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5565,14 +5565,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 937.29,
-      "NetEV": 382.29,
-      "ROI%": 68.88108108108108,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 502.2058247610474,
-      "SDScore": 47.268029848803096,
-      "P99Score": 612.167705507979,
-      "TotalPayout": 93729000.0
+      "MeanScore": 405.2999877929688,
+      "SDScore": 0.0,
+      "P99Score": 405.2999877929688,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5588,14 +5588,14 @@
       "F6": "Carli Judice",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 872.76,
-      "NetEV": 317.76,
-      "ROI%": 57.25405405405405,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 488.1558366339111,
-      "SDScore": 47.26802981648922,
-      "P99Score": 598.1177173056694,
-      "TotalPayout": 87276000.0
+      "MeanScore": 391.25,
+      "SDScore": 0.0,
+      "P99Score": 391.25,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5615,9 +5615,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 336.4258263597107,
-      "SDScore": 47.26802904354662,
-      "P99Score": 446.3877052333356,
+      "MeanScore": 239.51998901367188,
+      "SDScore": 0.0,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -5656,15 +5656,15 @@
       "F5": "Jacobe Smith",
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
-      "AvgWinPayout": 35000.0,
-      "EV": 27061.073,
-      "NetEV": 26506.073,
-      "ROI%": 4775.8690090090095,
-      "WinPct": 74.977,
-      "MeanScore": 566.6958178189087,
-      "SDScore": 47.26802782375522,
-      "P99Score": 676.6576938548745,
-      "TotalPayout": 2706107300.0
+      "AvgWinPayout": 0.0,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
+      "WinPct": 0.0,
+      "MeanScore": 469.78997802734375,
+      "SDScore": 0.0,
+      "P99Score": 469.78997802734375,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5680,14 +5680,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 969.14,
-      "NetEV": 414.14,
-      "ROI%": 74.61981981981982,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 517.8958294595337,
-      "SDScore": 47.26802749228996,
-      "P99Score": 627.8577047243961,
-      "TotalPayout": 96914000.0
+      "MeanScore": 420.989990234375,
+      "SDScore": 0.0,
+      "P99Score": 420.989990234375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5703,14 +5703,14 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 886.82,
-      "NetEV": 331.82000000000005,
-      "ROI%": 59.78738738738739,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 490.54583378723146,
-      "SDScore": 47.26803175452887,
-      "P99Score": 600.5077189675442,
-      "TotalPayout": 88682000.0
+      "MeanScore": 393.6400146484375,
+      "SDScore": 0.0,
+      "P99Score": 393.6400146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5726,14 +5726,14 @@
       "F6": "Josiah Harrell",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 743.9,
-      "NetEV": 188.9,
-      "ROI%": 34.03603603603603,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 472.9958211807251,
-      "SDScore": 47.26804029030224,
-      "P99Score": 582.9577262182161,
-      "TotalPayout": 74390000.0
+      "MeanScore": 376.0899658203125,
+      "SDScore": 0.0,
+      "P99Score": 376.0899658203125,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5753,9 +5753,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 227.2558380432892,
-      "SDScore": 47.26803414209312,
-      "P99Score": 337.2177287779069,
+      "MeanScore": 130.35000610351562,
+      "SDScore": 0.0,
+      "P99Score": 130.35000610351562,
       "TotalPayout": 0.0
     },
     {
@@ -5772,14 +5772,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1157.549,
-      "NetEV": 602.549,
-      "ROI%": 108.56738738738738,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 538.495830670166,
-      "SDScore": 47.26803179523878,
-      "P99Score": 648.4577159451842,
-      "TotalPayout": 115754900.0
+      "MeanScore": 441.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 441.5899963378906,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5799,9 +5799,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 274.7658261885071,
-      "SDScore": 47.26802649146138,
-      "P99Score": 384.727699125094,
+      "MeanScore": 177.86000061035156,
+      "SDScore": 0.0,
+      "P99Score": 177.86000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -5818,14 +5818,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1547.529,
-      "NetEV": 992.529,
-      "ROI%": 178.83405405405406,
+      "EV": 5000.0,
+      "NetEV": 4445.0,
+      "ROI%": 800.900900900901,
       "WinPct": 0.0,
-      "MeanScore": 491.7222661608887,
-      "SDScore": 40.41935467734467,
-      "P99Score": 585.7517459829814,
-      "TotalPayout": 154752900.0
+      "MeanScore": 529.9099731445312,
+      "SDScore": 0.0,
+      "P99Score": 529.9099731445312,
+      "TotalPayout": 5000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5841,14 +5841,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 50000.0,
-      "EV": 13278.6,
-      "NetEV": 12723.6,
-      "ROI%": 2292.540540540541,
-      "WinPct": 25.008000000000003,
-      "MeanScore": 517.9422645590209,
-      "SDScore": 40.41935251010242,
-      "P99Score": 611.9717393393543,
-      "TotalPayout": 1327860000.0
+      "EV": 50000.0,
+      "NetEV": 49445.0,
+      "ROI%": 8909.009009009009,
+      "WinPct": 100.0,
+      "MeanScore": 556.1300048828125,
+      "SDScore": 0.0,
+      "P99Score": 556.1300048828125,
+      "TotalPayout": 50000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5864,14 +5864,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 593.052,
-      "NetEV": 38.05200000000002,
-      "ROI%": 6.85621621621622,
+      "EV": 1500.0,
+      "NetEV": 945.0,
+      "ROI%": 170.27027027027026,
       "WinPct": 0.0,
-      "MeanScore": 472.9722507180786,
-      "SDScore": 40.41935445839531,
-      "P99Score": 567.001730030819,
-      "TotalPayout": 59305200.0
+      "MeanScore": 511.1599731445313,
+      "SDScore": 0.0,
+      "P99Score": 511.1599731445313,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5891,9 +5891,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 324.07582393554685,
-      "SDScore": 47.26802630804496,
-      "P99Score": 434.0376964454433,
+      "MeanScore": 227.1699981689453,
+      "SDScore": 0.0,
+      "P99Score": 227.1699981689453,
       "TotalPayout": 0.0
     },
     {
@@ -5914,9 +5914,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 412.345826862793,
-      "SDScore": 47.26802721124922,
-      "P99Score": 522.3077014738568,
+      "MeanScore": 315.44000244140625,
+      "SDScore": 0.0,
+      "P99Score": 315.44000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -5933,14 +5933,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1781.816,
-      "NetEV": 1226.816,
-      "ROI%": 221.0479279279279,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 547.5958265621948,
-      "SDScore": 47.26802780081637,
-      "P99Score": 657.5577025447969,
-      "TotalPayout": 178181600.0
+      "MeanScore": 450.6900024414063,
+      "SDScore": 0.0,
+      "P99Score": 450.6900024414063,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5956,14 +5956,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 767.68,
-      "NetEV": 212.67999999999995,
-      "ROI%": 38.32072072072072,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 473.795823460083,
-      "SDScore": 47.2680274664495,
-      "P99Score": 583.7576986648314,
-      "TotalPayout": 76768000.0
+      "MeanScore": 376.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 376.8900146484375,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -5983,9 +5983,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 441.1858353424072,
-      "SDScore": 47.26802983781825,
-      "P99Score": 551.1477160637843,
+      "MeanScore": 344.2799987792969,
+      "SDScore": 0.0,
+      "P99Score": 344.2799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -6006,9 +6006,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 305.0158227604676,
-      "SDScore": 47.26802912505387,
-      "P99Score": 414.9777018237067,
+      "MeanScore": 208.1100006103516,
+      "SDScore": 0.0,
+      "P99Score": 208.1100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -6025,14 +6025,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 431.212,
-      "NetEV": -123.788,
-      "ROI%": -22.304144144144143,
+      "EV": 1200.0,
+      "NetEV": 645.0,
+      "ROI%": 116.2162162162162,
       "WinPct": 0.0,
-      "MeanScore": 461.40225496429446,
-      "SDScore": 40.419351701382986,
-      "P99Score": 555.431727863265,
-      "TotalPayout": 43121200.0
+      "MeanScore": 499.5899658203125,
+      "SDScore": 0.0,
+      "P99Score": 499.5899658203125,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6048,14 +6048,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 931.37,
-      "NetEV": 376.37,
-      "ROI%": 67.81441441441441,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 500.4858235317993,
-      "SDScore": 47.26802969552259,
-      "P99Score": 610.4477039221472,
-      "TotalPayout": 93137000.0
+      "MeanScore": 403.5799865722656,
+      "SDScore": 0.0,
+      "P99Score": 403.5799865722656,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6075,9 +6075,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 401.2858364755249,
-      "SDScore": 47.26803420479858,
-      "P99Score": 511.2477273560173,
+      "MeanScore": 304.3800048828125,
+      "SDScore": 0.0,
+      "P99Score": 304.3800048828125,
       "TotalPayout": 0.0
     },
     {
@@ -6098,9 +6098,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -6117,14 +6117,14 @@
       "F6": "Ramiz Brahimaj",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 828.16,
-      "NetEV": 273.16,
-      "ROI%": 49.218018018018014,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 482.9058491104126,
-      "SDScore": 47.26803193482584,
-      "P99Score": 592.8677347101589,
-      "TotalPayout": 82816000.0
+      "MeanScore": 386.0,
+      "SDScore": 0.0,
+      "P99Score": 386.0,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6144,9 +6144,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 305.0158227604676,
-      "SDScore": 47.26802912505387,
-      "P99Score": 414.9777018237067,
+      "MeanScore": 208.1100006103516,
+      "SDScore": 0.0,
+      "P99Score": 208.1100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -6167,9 +6167,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 433.765822817688,
-      "SDScore": 47.26802908284975,
-      "P99Score": 543.7277017827457,
+      "MeanScore": 336.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 336.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -6190,9 +6190,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 364.8458267752075,
-      "SDScore": 47.268027409596506,
-      "P99Score": 474.8077018476961,
+      "MeanScore": 267.94000244140625,
+      "SDScore": 0.0,
+      "P99Score": 267.94000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6232,14 +6232,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1372.691,
-      "NetEV": 817.691,
-      "ROI%": 147.3317117117117,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 539.3458368115234,
-      "SDScore": 47.26803239220165,
-      "P99Score": 649.3077234752849,
-      "TotalPayout": 137269100.0
+      "MeanScore": 442.4400024414063,
+      "SDScore": 0.0,
+      "P99Score": 442.4400024414063,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6255,14 +6255,14 @@
       "F6": "Uros Medic",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.4,
-      "NetEV": -554.6,
-      "ROI%": -99.92792792792793,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
       "MeanScore": 391.1900024414063,
       "SDScore": 0.0,
       "P99Score": 391.1900024414063,
-      "TotalPayout": 40000.0
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6282,9 +6282,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 296.6958159185791,
-      "SDScore": 47.26802640098946,
-      "P99Score": 406.6576886446968,
+      "MeanScore": 199.7899932861328,
+      "SDScore": 0.0,
+      "P99Score": 199.7899932861328,
       "TotalPayout": 0.0
     },
     {
@@ -6305,9 +6305,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 234.2122677896118,
-      "SDScore": 40.41935296982584,
-      "P99Score": 328.24174363942177,
+      "MeanScore": 272.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 272.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -6328,9 +6328,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 366.7558280534363,
-      "SDScore": 47.26802911326689,
-      "P99Score": 476.7177070892548,
+      "MeanScore": 269.8499755859375,
+      "SDScore": 0.0,
+      "P99Score": 269.8499755859375,
       "TotalPayout": 0.0
     },
     {
@@ -6351,9 +6351,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 288.3458362567139,
-      "SDScore": 47.26803243303594,
-      "P99Score": 398.30772301547006,
+      "MeanScore": 191.44000244140625,
+      "SDScore": 0.0,
+      "P99Score": 191.44000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6370,14 +6370,14 @@
       "F6": "Punahele Soriano",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1.775,
-      "NetEV": -553.225,
-      "ROI%": -99.6801801801802,
+      "EV": 0.0,
+      "NetEV": -555.0,
+      "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 354.8222541870117,
-      "SDScore": 40.41935218161662,
-      "P99Score": 448.8517282031728,
-      "TotalPayout": 177500.0
+      "MeanScore": 393.0099792480469,
+      "SDScore": 0.0,
+      "P99Score": 393.0099792480469,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -6397,9 +6397,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 417.3058185043335,
-      "SDScore": 47.26802712836119,
-      "P99Score": 527.2676929225709,
+      "MeanScore": 320.3999938964844,
+      "SDScore": 0.0,
+      "P99Score": 320.3999938964844,
       "TotalPayout": 0.0
     },
     {
@@ -6420,9 +6420,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 383.8858176248169,
-      "SDScore": 47.26802918917197,
-      "P99Score": 493.8476968372171,
+      "MeanScore": 286.97998046875,
+      "SDScore": 0.0,
+      "P99Score": 286.97998046875,
       "TotalPayout": 0.0
     },
     {
@@ -6443,9 +6443,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 382.3458366381836,
-      "SDScore": 47.2680312537752,
-      "P99Score": 492.30772065356905,
+      "MeanScore": 285.44000244140625,
+      "SDScore": 0.0,
+      "P99Score": 285.44000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6466,9 +6466,9 @@
       "NetEV": -555.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "MeanScore": 293.222264115448,
-      "SDScore": 40.41935231087713,
-      "P99Score": 387.251738432314,
+      "MeanScore": 331.4100036621094,
+      "SDScore": 0.0,
+      "P99Score": 331.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -6485,14 +6485,14 @@
       "F6": "Jacobe Smith",
       "EntryFee": 555.0,
       "AvgWinPayout": 0.0,
-      "EV": 1408.006,
-      "NetEV": 853.0060000000001,
-      "ROI%": 153.6947747747748,
+      "EV": 1000.0,
+      "NetEV": 445.0,
+      "ROI%": 80.18018018018019,
       "WinPct": 0.0,
-      "MeanScore": 542.265824815979,
-      "SDScore": 47.26802822094792,
-      "P99Score": 652.2277017759533,
-      "TotalPayout": 140800600.0
+      "MeanScore": 445.3599853515625,
+      "SDScore": 0.0,
+      "P99Score": 445.3599853515625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",

@@ -24,7 +24,7 @@ Backwards compatible fallback:
     ContestName='Main', LineupsSheet='Post Contest Sim', PayoutsSheet='Payouts',
     PrefixSheet='PayoutPrefix' (if present), EntryFee read from 'DraftKings Fighter Pool'!D2.
 """
-import os, sys, math, time, argparse, datetime, re, tempfile, uuid
+import os, sys, math, time, argparse, datetime, re, tempfile, uuid, json
 from pathlib import Path
 from typing import Optional
 import numpy as np
@@ -249,6 +249,7 @@ def read_fighter_map(xl: pd.ExcelFile):
     seen = {}
     fmap = {}
     fixed_scores = {}  # fighter_name -> fixed DK score (float)
+    fighter_order = []  # ordered list of (name, fid, slot) for fight card
     for _, row in df.iterrows():
         name = norm_name_fighter(row["Fighter"])
         if not name:
@@ -269,7 +270,8 @@ def read_fighter_map(xl: pd.ExcelFile):
         score_val = pd.to_numeric(row["Score"], errors="coerce")
         if not (score_val is None or (isinstance(score_val, float) and math.isnan(score_val))):
             fixed_scores[name] = float(score_val)
-    return fmap, fixed_scores
+        fighter_order.append({"name": name, "fight_id": fid, "slot": slot})
+    return fmap, fixed_scores, fighter_order
 def read_lineups_sheet(xl: pd.ExcelFile, sheet_name: str):
     # columns A:G => F1..F6 + Username
     df = pd.read_excel(xl, sheet_name=sheet_name, engine="openpyxl", usecols="A:G")
@@ -566,7 +568,23 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
     contests = read_contests(xl, wb_path)
-    fmap, fixed_scores = read_fighter_map(xl)
+    fmap, fixed_scores, fighter_order = read_fighter_map(xl)
+    # Build fight_card from fighter_order (preserves DK Fighter Pool sheet order)
+    fight_card_map = {}
+    fight_card_order = []
+    for f in fighter_order:
+        fid = f["fight_id"]
+        if fid not in fight_card_map:
+            fight_card_map[fid] = {"fight_id": fid, "fighter1": None, "fighter2": None,
+                                   "fighter1_score": None, "fighter2_score": None}
+            fight_card_order.append(fid)
+        if f["slot"] == 1:
+            fight_card_map[fid]["fighter1"] = f["name"]
+            fight_card_map[fid]["fighter1_score"] = fixed_scores.get(f["name"])
+        else:
+            fight_card_map[fid]["fighter2"] = f["name"]
+            fight_card_map[fid]["fighter2_score"] = fixed_scores.get(f["name"])
+    fight_card = [fight_card_map[fid] for fid in fight_card_order]
     fights = sorted(set(fid for (fid, _) in fmap.values()))
     id2idx = {fid: i for i, fid in enumerate(fights)}
     S1_list, S2_list, N_list = load_fight_sims(xl, fights)
@@ -613,7 +631,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         payouts_sheet = c["PayoutsSheet"]
         prefix_sheet = c.get("PrefixSheet", None)
         entry = float(c["EntryFee"])
-        _, prefix, last_paid = read_payouts_named(xl, payouts_sheet, prefix_sheet)
+        payouts_arr, prefix, last_paid = read_payouts_named(xl, payouts_sheet, prefix_sheet)
         prize_pool = float(prefix[last_paid])
         # Read lineups from CSV file or Excel sheet
         fighters, users = read_lineups(xl, lineups_ref, wb_path)
@@ -632,6 +650,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
             "copies": copies,
             "n": int(fighters.shape[0]),
             "last_paid": int(last_paid),
+            "payouts_array": payouts_arr.tolist(),
         })
         C1_blocks.append(C1)
         C2_blocks.append(C2)
@@ -670,7 +689,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         C1_concat=C1_concat,
         C2_concat=C2_concat,
     )
-    return str(npz_path), contest_meta
+    return str(npz_path), contest_meta, fight_card
 # -------------------- Main --------------------
 def ask_int(prompt: str, default: int, min_val: int = 1) -> int:
     while True:
@@ -733,7 +752,7 @@ def main():
     base_stem = Path(out_path).stem
     t0 = time.time()
     with tempfile.TemporaryDirectory() as td:
-        bundle, contest_meta = pack_npz_multi(wb, Path(td))
+        bundle, contest_meta, fight_card = pack_npz_multi(wb, Path(td))
         K = len(contest_meta)
         log(f"[info] contests={K} | workers={workers} | batch={batch}")
         for c in contest_meta:
@@ -819,6 +838,16 @@ def main():
             per_path = os.path.join(out_dir, f"{base_stem}_{cname}.csv")
             df_k.to_csv(per_path, index=False, encoding="utf-8")
             log(f"[done] wrote {per_path}")
+            # Write companion meta JSON with fight_card and payouts for What If feature
+            meta_json_path = os.path.join(out_dir, f"{base_stem}_{cname}_meta.json")
+            meta_json = {
+                "fight_card": fight_card,
+                "payouts": meta["payouts_array"],
+                "entry_fee": float(entry),
+            }
+            with open(meta_json_path, 'w', encoding='utf-8') as mf:
+                json.dump(meta_json, mf, indent=2)
+            log(f"[done] wrote {meta_json_path}")
             # sanity check per contest
             prize_pool = float(meta["PrizePool"])
             avg_ev = float(EV.mean()) if n else 0.0

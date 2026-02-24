@@ -1,11 +1,11 @@
 {
   "contest_name": "UFC 26k Double Champ",
-  "last_updated": "2026-02-24T12:02:42.001648",
+  "last_updated": "2026-02-24T17:32:55.051248",
   "total_lineups": 13,
   "summary": {
-    "top_win_pct": 13.49,
-    "top_netev": 449.59,
-    "top_roi": 21.21
+    "top_win_pct": 13.59,
+    "top_netev": 466.7,
+    "top_roi": 22.01
   },
   "leaderboard": [
     {
@@ -22,15 +22,15 @@
       "F6": "Uros Medic",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 1465.49,
-      "NetEV": -654.51,
-      "ROI%": -30.87311320754717,
-      "WinPct": 6.275,
-      "CashPct": 16.103,
-      "MeanScore": 425.065690541687,
-      "SDScore": 95.28648505881976,
-      "P99Score": 646.7352024792051,
-      "TotalPayout": 146549000.0
+      "EV": 1471.85,
+      "NetEV": -648.1500000000001,
+      "ROI%": -30.573113207547177,
+      "WinPct": 6.287,
+      "CashPct": 16.208,
+      "MeanScore": 424.1727654086304,
+      "SDScore": 95.74476689930802,
+      "P99Score": 646.9084003314612,
+      "TotalPayout": 147185000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -45,16 +45,16 @@
       "F5": "Punahele Soriano",
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 2120.0,
-      "AvgWinPayout": 13000.0,
-      "EV": 2275.81,
-      "NetEV": 155.80999999999997,
-      "ROI%": 7.3495283018867905,
-      "WinPct": 9.482,
-      "CashPct": 25.527,
-      "MeanScore": 473.0391163778687,
-      "SDScore": 107.67667712105512,
-      "P99Score": 723.5325252778197,
-      "TotalPayout": 227581000.0
+      "AvgWinPayout": 12999.734944868533,
+      "EV": 2279.535,
+      "NetEV": 159.53499999999983,
+      "ROI%": 7.525235849056597,
+      "WinPct": 9.432,
+      "CashPct": 25.682,
+      "MeanScore": 472.34455656150817,
+      "SDScore": 107.66369971035382,
+      "P99Score": 722.8077754896642,
+      "TotalPayout": 227953500.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -70,15 +70,15 @@
       "F6": "Jacobe Smith",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 2129.04,
-      "NetEV": 9.039999999999964,
-      "ROI%": 0.426415094339621,
-      "WinPct": 7.605,
-      "CashPct": 25.017,
-      "MeanScore": 477.1828564642334,
-      "SDScore": 101.17037472578704,
-      "P99Score": 712.5403426193513,
-      "TotalPayout": 212904000.0
+      "EV": 2119.14,
+      "NetEV": -0.8600000000001273,
+      "ROI%": -0.040566037735855,
+      "WinPct": 7.564,
+      "CashPct": 24.941,
+      "MeanScore": 476.2921655290222,
+      "SDScore": 101.16378051742088,
+      "P99Score": 711.6343112615269,
+      "TotalPayout": 211914000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -93,16 +93,16 @@
       "F5": "Carli Judice",
       "F6": "Ramiz Brahimaj",
       "EntryFee": 2120.0,
-      "AvgWinPayout": 13000.0,
-      "EV": 2459.72,
-      "NetEV": 339.7199999999998,
-      "ROI%": 16.024528301886782,
-      "WinPct": 10.037,
-      "CashPct": 27.827,
-      "MeanScore": 478.18750196311953,
-      "SDScore": 97.52424728895676,
-      "P99Score": 705.0628273072343,
-      "TotalPayout": 245972000.0
+      "AvgWinPayout": 12999.74851624585,
+      "EV": 2442.175,
+      "NetEV": 322.1750000000002,
+      "ROI%": 15.196933962264158,
+      "WinPct": 9.941,
+      "CashPct": 27.677000000000003,
+      "MeanScore": 477.181955227356,
+      "SDScore": 97.18152790178716,
+      "P99Score": 703.2599960537502,
+      "TotalPayout": 244217500.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -118,15 +118,15 @@
       "F6": "Punahele Soriano",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 2008.76,
-      "NetEV": -111.24,
-      "ROI%": -5.247169811320755,
-      "WinPct": 7.288,
-      "CashPct": 24.324,
-      "MeanScore": 480.8934695516968,
-      "SDScore": 101.09747825998382,
-      "P99Score": 716.0813731685714,
-      "TotalPayout": 200876000.0
+      "EV": 1988.55,
+      "NetEV": -131.45000000000005,
+      "ROI%": -6.200471698113209,
+      "WinPct": 7.303999999999999,
+      "CashPct": 23.983,
+      "MeanScore": 479.8926535431671,
+      "SDScore": 101.19947949962082,
+      "P99Score": 715.3178475270166,
+      "TotalPayout": 198855000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -142,15 +142,15 @@
       "F6": "Josiah Harrell",
       "EntryFee": 2120.0,
       "AvgWinPayout": 10500.0,
-      "EV": 1853.88,
-      "NetEV": -266.1199999999999,
-      "ROI%": -12.55283018867924,
-      "WinPct": 9.277,
-      "CashPct": 29.248,
-      "MeanScore": 482.1558476136017,
-      "SDScore": 91.84684505497508,
-      "P99Score": 695.8235603408503,
-      "TotalPayout": 185388000.0
+      "EV": 1841.84,
+      "NetEV": -278.1600000000001,
+      "ROI%": -13.120754716981136,
+      "WinPct": 9.164,
+      "CashPct": 29.2,
+      "MeanScore": 481.0633685040284,
+      "SDScore": 91.82187544668344,
+      "P99Score": 694.6729932361131,
+      "TotalPayout": 184184000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -166,15 +166,15 @@
       "F6": "Josiah Harrell",
       "EntryFee": 2120.0,
       "AvgWinPayout": 10500.0,
-      "EV": 1853.88,
-      "NetEV": -266.1199999999999,
-      "ROI%": -12.55283018867924,
-      "WinPct": 9.277,
-      "CashPct": 29.248,
-      "MeanScore": 482.1558476136017,
-      "SDScore": 91.84684505497508,
-      "P99Score": 695.8235603408503,
-      "TotalPayout": 185388000.0
+      "EV": 1841.84,
+      "NetEV": -278.1600000000001,
+      "ROI%": -13.120754716981136,
+      "WinPct": 9.164,
+      "CashPct": 29.2,
+      "MeanScore": 481.0633685040284,
+      "SDScore": 91.82187544668344,
+      "P99Score": 694.6729932361131,
+      "TotalPayout": 184184000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -190,15 +190,15 @@
       "F6": "Phil Rowe",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 1366.46,
-      "NetEV": -753.54,
-      "ROI%": -35.54433962264151,
-      "WinPct": 6.1690000000000005,
-      "CashPct": 14.946000000000002,
-      "MeanScore": 410.5821915955734,
-      "SDScore": 93.77241539380545,
-      "P99Score": 628.7294507867975,
-      "TotalPayout": 136646000.0
+      "EV": 1412.98,
+      "NetEV": -707.02,
+      "ROI%": -33.35,
+      "WinPct": 6.4030000000000005,
+      "CashPct": 15.364,
+      "MeanScore": 410.9706383628845,
+      "SDScore": 93.75286604628648,
+      "P99Score": 629.0724189710699,
+      "TotalPayout": 141298000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -214,15 +214,15 @@
       "F6": "Punahele Soriano",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 1647.08,
-      "NetEV": -472.9200000000001,
-      "ROI%": -22.30754716981132,
-      "WinPct": 4.833,
-      "CashPct": 20.674,
-      "MeanScore": 463.07631850463866,
-      "SDScore": 108.4889291380295,
-      "P99Score": 715.4593081574303,
-      "TotalPayout": 164708000.0
+      "EV": 1645.29,
+      "NetEV": -474.71,
+      "ROI%": -22.391981132075472,
+      "WinPct": 4.89,
+      "CashPct": 20.481,
+      "MeanScore": 462.12262966781617,
+      "SDScore": 108.83422992006484,
+      "P99Score": 715.3089090607862,
+      "TotalPayout": 164529000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -238,15 +238,15 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 1992.49,
-      "NetEV": -127.51,
-      "ROI%": -6.014622641509434,
-      "WinPct": 8.105,
-      "CashPct": 22.554,
-      "MeanScore": 460.1407214854431,
-      "SDScore": 107.04259439517536,
-      "P99Score": 709.1590333841036,
-      "TotalPayout": 199249000.0
+      "EV": 2012.66,
+      "NetEV": -107.33999999999992,
+      "ROI%": -5.063207547169808,
+      "WinPct": 8.195,
+      "CashPct": 22.76,
+      "MeanScore": 459.5303454624938,
+      "SDScore": 107.31816065980766,
+      "P99Score": 709.1897203550279,
+      "TotalPayout": 201266000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -262,15 +262,15 @@
       "F6": "Punahele Soriano",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 2220.75,
-      "NetEV": 100.75,
-      "ROI%": 4.752358490566038,
-      "WinPct": 8.422,
-      "CashPct": 25.328,
-      "MeanScore": 462.7973342021179,
-      "SDScore": 102.80800936326524,
-      "P99Score": 701.964528214522,
-      "TotalPayout": 222075000.0
+      "EV": 2205.08,
+      "NetEV": 85.07999999999993,
+      "ROI%": 4.013207547169808,
+      "WinPct": 8.187999999999999,
+      "CashPct": 25.311,
+      "MeanScore": 461.86813699920657,
+      "SDScore": 102.5700618272764,
+      "P99Score": 700.4817822671396,
+      "TotalPayout": 220508000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -286,15 +286,15 @@
       "F6": "Jean-Paul Lebosnoyani",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 2569.59,
-      "NetEV": 449.59000000000015,
-      "ROI%": 21.20707547169812,
-      "WinPct": 13.494,
-      "CashPct": 25.881,
-      "MeanScore": 446.0569877262116,
-      "SDScore": 102.54269232908511,
-      "P99Score": 684.6069620202148,
-      "TotalPayout": 256959000.0
+      "EV": 2586.7,
+      "NetEV": 466.6999999999998,
+      "ROI%": 22.014150943396217,
+      "WinPct": 13.585,
+      "CashPct": 26.041,
+      "MeanScore": 445.7554115114212,
+      "SDScore": 102.47830401475828,
+      "P99Score": 684.1555961872798,
+      "TotalPayout": 258670000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -310,15 +310,121 @@
       "F6": "Punahele Soriano",
       "EntryFee": 2120.0,
       "AvgWinPayout": 13000.0,
-      "EV": 2157.05,
-      "NetEV": 37.05000000000018,
-      "ROI%": 1.7476415094339708,
-      "WinPct": 9.013,
-      "CashPct": 23.781,
-      "MeanScore": 446.6748092208481,
-      "SDScore": 107.04541264711192,
-      "P99Score": 695.6996773539097,
-      "TotalPayout": 215705000.0
+      "EV": 2152.36,
+      "NetEV": 32.36000000000013,
+      "ROI%": 1.5264150943396286,
+      "WinPct": 9.048,
+      "CashPct": 23.72,
+      "MeanScore": 445.92681088367465,
+      "SDScore": 107.07942318619234,
+      "P99Score": 695.0307993620195,
+      "TotalPayout": 215236000.0
     }
+  ],
+  "fight_card": [
+    {
+      "fight_id": 1,
+      "fighter1": "Anthony Hernandez",
+      "fighter2": "Sean Strickland",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 2,
+      "fighter1": "Geoff Neal",
+      "fighter2": "Uros Medic",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 3,
+      "fighter1": "Melquizael Costa",
+      "fighter2": "Dan Ige",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 4,
+      "fighter1": "Ante Delija",
+      "fighter2": "Serghei Spivac",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 5,
+      "fighter1": "Jacobe Smith",
+      "fighter2": "Josiah Harrell",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 6,
+      "fighter1": "Michel Pereira",
+      "fighter2": "Zach Reese",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 7,
+      "fighter1": "Carlos Leal",
+      "fighter2": "Chidi Njokuani",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 8,
+      "fighter1": "Alibi Idiris",
+      "fighter2": "Ode Osbourne",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 9,
+      "fighter1": "Alden Coria",
+      "fighter2": "Luis Gurule",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 10,
+      "fighter1": "Joselyne Edwards",
+      "fighter2": "Nora Cornolle",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 11,
+      "fighter1": "Ramiz Brahimaj",
+      "fighter2": "Punahele Soriano",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 12,
+      "fighter1": "Jean-Paul Lebosnoyani",
+      "fighter2": "Phil Rowe",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 13,
+      "fighter1": "Yadier del Valle",
+      "fighter2": "Jordan Leavitt",
+      "fighter1_score": null,
+      "fighter2_score": null
+    },
+    {
+      "fight_id": 14,
+      "fighter1": "Carli Judice",
+      "fighter2": "Juliana Miller",
+      "fighter1_score": null,
+      "fighter2_score": null
+    }
+  ],
+  "payouts": [
+    0.0,
+    13000.0,
+    8000.0,
+    5000.0
   ]
 }

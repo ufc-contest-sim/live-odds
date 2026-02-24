@@ -7,12 +7,8 @@ echo.
 
 cd /d "%~dp0"
 
-:: Copy JSON files from the parent folder (your web folder)
-echo Copying JSON files...
-copy /Y "%~dp0..\*.json" . >nul 2>&1
-
 :: Stage, commit, and push
-git add *.json contests.json
+git add *.json
 git commit -m "Update contest files"
 if %errorlevel% neq 0 (
     echo.

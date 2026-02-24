@@ -135,89 +135,158 @@
             width: 100%;
         }
 
-        .top-lineups {
-            margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
+        /* Quick Search */
+        .quick-search-section {
+            margin-bottom: 40px;
         }
 
-        .top-lineup-row {
+        .quick-search-bar {
             display: flex;
+            gap: 12px;
             align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            background: var(--bg-dark);
-            border-radius: 8px;
+            background: var(--bg-card);
             border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 24px;
+            transition: border-color 0.2s;
         }
 
-        .top-lineup-rank {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
-            color: var(--accent-green);
-            min-width: 24px;
-            text-align: center;
+        .quick-search-bar:focus-within {
+            border-color: var(--accent-green);
         }
 
-        .top-lineup-fighters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+        .quick-search-bar input {
             flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: inherit;
+            outline: none;
         }
 
-        .top-lineup-fighters .fighter-chip {
-            font-size: 0.75rem;
-            padding: 4px 8px;
+        .quick-search-bar input::placeholder {
+            color: var(--text-secondary);
         }
 
-        .top-lineup-stats {
-            display: flex;
-            gap: 16px;
-            align-items: center;
+        .quick-search-icon {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
             flex-shrink: 0;
+        }
+
+        .quick-search-results {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .quick-search-results.visible {
+            display: block;
+        }
+
+        .search-results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .search-results-header h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+        }
+
+        .search-results-summary {
+            color: var(--text-secondary);
             font-size: 0.85rem;
         }
 
-        .top-lineup-stat {
-            text-align: center;
+        .search-result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 24px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .top-lineup-stat .stat-label {
+        .search-result-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.08);
+        }
+
+        .search-result-contest {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .search-result-entries {
             color: var(--text-secondary);
-            font-size: 0.65rem;
+            font-size: 0.85rem;
+        }
+
+        .search-result-stats {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .search-result-stat {
+            text-align: right;
+        }
+
+        .search-result-stat .sr-label {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .top-lineup-stat .stat-value {
+        .search-result-stat .sr-value {
             font-weight: 600;
-            color: var(--accent-green);
+            font-size: 1rem;
         }
 
-        .top-lineups-loading {
+        .search-loading {
             text-align: center;
-            padding: 15px;
+            padding: 20px;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+        }
+
+        .search-no-results {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
         }
 
         @media (max-width: 768px) {
-            .top-lineup-row {
+            .search-result-card {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 12px;
             }
 
-            .top-lineup-stats {
+            .search-result-stats {
                 width: 100%;
-                justify-content: flex-start;
+                justify-content: space-between;
             }
 
-            .top-lineup-fighters .fighter-chip {
-                font-size: 0.7rem;
-                padding: 3px 6px;
+            .search-result-stat {
+                text-align: left;
             }
         }
         
@@ -760,6 +829,13 @@
             <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
             <p>Email me suggestions - Danny_Hollis24@yahoo.com</p>
         </div>
+        <div class="quick-search-section">
+            <div class="quick-search-bar">
+                <span class="quick-search-icon">&#128269;</span>
+                <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
+            </div>
+            <div id="quick-search-results" class="quick-search-results"></div>
+        </div>
         <div id="contests-list" class="contest-grid"></div>
     </div>
 
@@ -1074,83 +1150,136 @@
                         </div>
                         <div class="contest-arrow">→</div>
                     </div>
-                    <div class="top-lineups" id="top-lineups-${idx}">
-                        <div class="top-lineups-loading">Loading top lineups...</div>
-                    </div>
                 </div>
             `).join('');
 
-            // Fetch top lineups for each contest
-            CONTESTS.forEach((contest, idx) => {
-                fetchTopLineups(contest, idx);
+            // Set up quick search
+            setupQuickSearch();
+        }
+        
+        // Quick Search functionality
+        let searchTimeout = null;
+        let contestDataCache = {};
+
+        function setupQuickSearch() {
+            const input = document.getElementById('quick-search-input');
+            input.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                const query = input.value.trim();
+                if (query.length < 2) {
+                    document.getElementById('quick-search-results').classList.remove('visible');
+                    return;
+                }
+                searchTimeout = setTimeout(() => searchAllContests(query), 300);
             });
         }
 
-        async function fetchTopLineups(contest, idx) {
-            const container = document.getElementById(`top-lineups-${idx}`);
-            try {
-                const response = await fetch(contest.file + '?v=' + Date.now());
-                if (!response.ok) throw new Error('Failed to load');
-                const data = await response.json();
+        async function fetchContestData(contest) {
+            if (contestDataCache[contest.file]) return contestDataCache[contest.file];
+            const response = await fetch(contest.file + '?v=' + Date.now());
+            if (!response.ok) throw new Error('Failed to load');
+            const data = await response.json();
+            contestDataCache[contest.file] = data;
+            return data;
+        }
 
-                // Group by unique lineup and get top 3 by WinPct
-                const lineupMap = new Map();
-                (data.leaderboard || []).forEach(row => {
-                    const key = row.LineupKey || '';
-                    if (!key) return;
-                    if (!lineupMap.has(key)) {
-                        const fighters = [];
-                        for (let i = 1; i <= 6; i++) {
-                            const f = row['F' + i];
-                            if (f && f !== '') fighters.push(f);
-                        }
-                        lineupMap.set(key, {
-                            fighters,
-                            WinPct: row.WinPct || 0,
-                            CashPct: row.CashPct != null ? row.CashPct : null,
-                            Copies: row.Copies || 1
+        async function searchAllContests(query) {
+            const resultsContainer = document.getElementById('quick-search-results');
+            resultsContainer.classList.add('visible');
+            resultsContainer.innerHTML = '<div class="search-loading">Searching contests...</div>';
+
+            const searchLower = query.toLowerCase();
+            const results = [];
+
+            const formatNetEV = (netEV) => {
+                const absNetEV = Math.abs(netEV);
+                const formatted = absNetEV.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+
+            const formatROI = (roi) => {
+                const absRoi = Math.abs(roi);
+                const formatted = absRoi.toLocaleString(undefined, {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                });
+                return roi < 0 ? `-${formatted}%` : `${formatted}%`;
+            };
+
+            for (let i = 0; i < CONTESTS.length; i++) {
+                const contest = CONTESTS[i];
+                try {
+                    const data = await fetchContestData(contest);
+                    const entries = (data.leaderboard || []).filter(row =>
+                        row.Username && row.Username.toLowerCase().includes(searchLower)
+                    );
+                    if (entries.length > 0) {
+                        const totalWinPct = entries.reduce((sum, r) => sum + (r.WinPct || 0), 0);
+                        const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
+                        const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
+                        const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
+                        results.push({
+                            contestIndex: i,
+                            name: contest.name,
+                            entries: entries.length,
+                            winPct: totalWinPct,
+                            netEV: totalNetEV,
+                            roi: roi
                         });
                     }
-                });
-
-                const top3 = Array.from(lineupMap.values())
-                    .sort((a, b) => b.WinPct - a.WinPct)
-                    .slice(0, 3);
-
-                if (top3.length === 0) {
-                    container.innerHTML = '<div class="top-lineups-loading">No lineup data</div>';
-                    return;
+                } catch (e) {
+                    // Skip contests that fail to load
                 }
+            }
 
-                container.innerHTML = top3.map((lineup, rank) => `
-                    <div class="top-lineup-row">
-                        <div class="top-lineup-rank">#${rank + 1}</div>
-                        <div class="top-lineup-fighters">
-                            ${lineup.fighters.map(f => `<div class="fighter-chip">${f}</div>`).join('')}
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div class="search-no-results">No entries found for "' + query.replace(/</g, '&lt;') + '"</div>';
+                return;
+            }
+
+            const totalEntries = results.reduce((sum, r) => sum + r.entries, 0);
+            const totalNetEV = results.reduce((sum, r) => sum + r.netEV, 0);
+
+            resultsContainer.innerHTML = `
+                <div class="search-results-header">
+                    <h3>Results for "${query.replace(/</g, '&lt;')}"</h3>
+                    <span class="search-results-summary">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''} &middot; Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>
+                </div>
+                ${results.map(r => `
+                    <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
+                        <div>
+                            <div class="search-result-contest">${r.name}</div>
+                            <div class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</div>
                         </div>
-                        <div class="top-lineup-stats">
-                            <div class="top-lineup-stat">
-                                <div class="stat-label">Win %</div>
-                                <div class="stat-value">${lineup.WinPct.toFixed(2)}%</div>
+                        <div class="search-result-stats">
+                            <div class="search-result-stat">
+                                <div class="sr-label">Win %</div>
+                                <div class="sr-value">${r.winPct.toFixed(2)}%</div>
                             </div>
-                            ${lineup.CashPct != null ? `
-                            <div class="top-lineup-stat">
-                                <div class="stat-label">Cash %</div>
-                                <div class="stat-value">${lineup.CashPct.toFixed(2)}%</div>
+                            <div class="search-result-stat">
+                                <div class="sr-label">Net EV</div>
+                                <div class="sr-value ${r.netEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(r.netEV)}</div>
                             </div>
-                            ` : ''}
-                            <div class="top-lineup-stat">
-                                <div class="stat-label">Copies</div>
-                                <div class="stat-value" style="color: var(--text-primary);">${lineup.Copies}</div>
+                            <div class="search-result-stat">
+                                <div class="sr-label">ROI</div>
+                                <div class="sr-value ${r.roi >= 0 ? 'positive' : 'negative'}">${formatROI(r.roi)}</div>
                             </div>
                         </div>
                     </div>
-                `).join('');
-            } catch (e) {
-                container.innerHTML = '<div class="top-lineups-loading">Could not load lineups</div>';
-            }
+                `).join('')}
+            `;
         }
-        
+
+        function loadContestWithUser(contestIndex, username) {
+            loadContest(contestIndex).then(() => {
+                document.getElementById('search-user').value = username;
+                filterAndRender();
+            });
+        }
+
         function showLanding() {
             document.getElementById('landing-page').style.display = 'block';
             document.getElementById('leaderboard-page').style.display = 'none';

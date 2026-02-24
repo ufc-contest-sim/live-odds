@@ -82,13 +82,14 @@ def safe_filename(s: str) -> str:
     return s if s else "Contest"
 # -------------------- DraftKings CSV helpers --------------------
 def strip_entry_number(username: str) -> str:
-    """Strip DraftKings entry number suffix like ' (2)' from username.
+    """Strip DraftKings entry number suffix like ' (2)' or ' (1/9)' from username.
 
     Examples:
-        'donnytsunami (2)' -> 'donnytsunami'
-        'molecul0'         -> 'molecul0'
+        'donnytsunami (2)'    -> 'donnytsunami'
+        'DHollis24 (1/9)'     -> 'DHollis24'
+        'molecul0'            -> 'molecul0'
     """
-    return re.sub(r'\s*\(\d+\)\s*$', '', safe_str(username).strip())
+    return re.sub(r'\s*\(\d+(?:/\d+)?\)\s*$', '', safe_str(username).strip())
 
 def parse_dk_lineup_string(s: str) -> list:
     """Parse a DraftKings lineup string into individual fighter names.
@@ -270,7 +271,7 @@ def read_lineups_sheet(xl: pd.ExcelFile, sheet_name: str):
         row = df.iloc[i]
         for c in range(6):
             fighters[i, c] = safe_str(row.iloc[c])
-        users.append(safe_str(row.iloc[6]))
+        users.append(strip_entry_number(safe_str(row.iloc[6])))
     # Keep rows if they have any fighter OR a username (blank lineup with username stays; scores 0)
     mask = np.array([(any(bool(fighters[i, c]) for c in range(6)) or bool(users[i]))
                      for i in range(len(df))])

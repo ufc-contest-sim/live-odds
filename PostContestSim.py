@@ -417,7 +417,7 @@ def build_mats(fighters, fmap, id2idx):
 # -------------------- Inner per-sim aggregation --------------------
 if NUMBA_AVAILABLE:
     @njit(cache=True, fastmath=True)
-    def _distribute_into_tmp_and_mark(sc, prefix, last_paid, tmp_payout, wins, win_total):
+    def _distribute_into_tmp_and_mark(sc, prefix, last_paid, tmp_payout, wins, win_total, cashes):
         n = sc.size
         order = np.argsort(sc)[::-1]
         # mark winners (top tie group)
@@ -445,12 +445,13 @@ if NUMBA_AVAILABLE:
                     for t in range(i, j):
                         idx = order[t]
                         tmp_payout[idx] += share
+                        cashes[idx] += 1.0
                         if pos == 1:
                             win_total[idx] += share
             pos = end_rank + 1
             i = j
 else:
-    def _distribute_into_tmp_and_mark(sc, prefix, last_paid, tmp_payout, wins, win_total):
+    def _distribute_into_tmp_and_mark(sc, prefix, last_paid, tmp_payout, wins, win_total, cashes):
         order = np.argsort(sc)[::-1]
         n = sc.shape[0]
         top = sc[order[0]]
@@ -475,6 +476,7 @@ else:
                     share = total_money / grp
                     sel = order[i:j]
                     tmp_payout[sel] += share
+                    cashes[sel] += 1.0
                     if pos == 1:
                         win_total[sel] += share
             pos = end_rank + 1
@@ -512,6 +514,7 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     total_payout = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     wins = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     win_total = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
+    cashes = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     done_total = 0
     while done_total < iters:
         B = min(batch, iters - done_total)
@@ -542,11 +545,11 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                     sum_scores[k] += sc
                     sumsq_scores[k] += sc * sc
                     tmp_payout.fill(0.0)
-                    _distribute_into_tmp_and_mark(sc, prefix, lp, tmp_payout, wins[k], win_total[k])
+                    _distribute_into_tmp_and_mark(sc, prefix, lp, tmp_payout, wins[k], win_total[k], cashes[k])
                     total_payout[k] += tmp_payout
             off += m
         done_total += B
-    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total)
+    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes)
 # -------------------- Pack workbook once --------------------
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
@@ -718,18 +721,20 @@ def main():
         total_payout = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
         wins         = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
         win_total    = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
+        cashes       = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
         done_iters = 0
         with ProcessPoolExecutor(max_workers=workers) as ex:
             futs = [ex.submit(worker_run, i, bundle, int(chunks[i]), int(batch), int(child_seeds[i]))
                     for i in range(len(chunks))]
             for fut in as_completed(futs):
-                (idx, its, s_list, ss_list, tp_list, w_list, wt_list) = fut.result()
+                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list) = fut.result()
                 for k in range(K):
                     sum_scores[k]   += s_list[k]
                     sumsq_scores[k] += ss_list[k]
                     total_payout[k] += tp_list[k]
                     wins[k]         += w_list[k]
                     win_total[k]    += wt_list[k]
+                    cashes[k]       += c_list[k]
                 done_iters += its
                 rate = done_iters / max(1e-9, (time.time() - t0))
                 log(f"[progress] {done_iters:,}/{iters:,} ({done_iters/iters:,.1%}) | {rate:,.0f} it/s")
@@ -748,6 +753,7 @@ def main():
             NetEV = EV - entry
             ROI   = np.where(entry > 0, NetEV / entry * 100.0, 0.0)
             WinPct = wins[k] / max(1, iters) * 100.0
+            CashPct = cashes[k] / max(1, iters) * 100.0
             AvgWinPayout = np.where(wins[k] > 0, win_total[k] / np.maximum(wins[k], 1.0), 0.0)
             fighters = meta["fighters"]
             users    = meta["users"]
@@ -762,6 +768,7 @@ def main():
                     safe_str(fighters[i,3]), safe_str(fighters[i,4]), safe_str(fighters[i,5]),
                     float(entry), float(AvgWinPayout[i]),
                     float(EV[i]), float(NetEV[i]), float(ROI[i]), float(WinPct[i]),
+                    float(CashPct[i]),
                     float(mean[i]), float(sd[i]), float(p99[i]),
                     float(total_payout[k][i])
                 ])
@@ -770,7 +777,7 @@ def main():
                 "Row","Username","LineupKey","Copies",
                 "F1","F2","F3","F4","F5","F6",
                 "EntryFee","AvgWinPayout",
-                "EV","NetEV","ROI%","WinPct",
+                "EV","NetEV","ROI%","WinPct","CashPct",
                 "MeanScore","SDScore","P99Score",
                 "TotalPayout"
             ]

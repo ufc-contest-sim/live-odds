@@ -7,9 +7,9 @@ echo.
 
 cd /d "%~dp0"
 
-:: Copy JSON files from your web folder
+:: Copy JSON files from the parent folder (your web folder)
 echo Copying JSON files...
-copy /Y "C:\Users\Danny\Documents\UFC Sims\Website\web\*.json" . >nul 2>&1
+copy /Y "%~dp0..\*.json" . >nul 2>&1
 
 :: Stage, commit, and push
 git add *.json contests.json

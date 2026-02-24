@@ -135,89 +135,158 @@
             width: 100%;
         }
 
-        .top-lineups {
-            margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
+        /* Quick Search */
+        .quick-search-section {
+            margin-bottom: 40px;
         }
 
-        .top-lineup-row {
+        .quick-search-bar {
             display: flex;
+            gap: 12px;
             align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            background: var(--bg-dark);
-            border-radius: 8px;
+            background: var(--bg-card);
             border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 24px;
+            transition: border-color 0.2s;
         }
 
-        .top-lineup-rank {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
-            color: var(--accent-green);
-            min-width: 24px;
-            text-align: center;
+        .quick-search-bar:focus-within {
+            border-color: var(--accent-green);
         }
 
-        .top-lineup-fighters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+        .quick-search-bar input {
             flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: inherit;
+            outline: none;
         }
 
-        .top-lineup-fighters .fighter-chip {
-            font-size: 0.75rem;
-            padding: 4px 8px;
+        .quick-search-bar input::placeholder {
+            color: var(--text-secondary);
         }
 
-        .top-lineup-stats {
-            display: flex;
-            gap: 16px;
-            align-items: center;
+        .quick-search-icon {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
             flex-shrink: 0;
+        }
+
+        .quick-search-results {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .quick-search-results.visible {
+            display: block;
+        }
+
+        .search-results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .search-results-header h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+        }
+
+        .search-results-summary {
+            color: var(--text-secondary);
             font-size: 0.85rem;
         }
 
-        .top-lineup-stat {
-            text-align: center;
+        .search-result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 24px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .top-lineup-stat .stat-label {
+        .search-result-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.08);
+        }
+
+        .search-result-contest {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .search-result-entries {
             color: var(--text-secondary);
-            font-size: 0.65rem;
+            font-size: 0.85rem;
+        }
+
+        .search-result-stats {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .search-result-stat {
+            text-align: right;
+        }
+
+        .search-result-stat .sr-label {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .top-lineup-stat .stat-value {
+        .search-result-stat .sr-value {
             font-weight: 600;
-            color: var(--accent-green);
+            font-size: 1rem;
         }
 
-        .top-lineups-loading {
+        .search-loading {
             text-align: center;
-            padding: 15px;
+            padding: 20px;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+        }
+
+        .search-no-results {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
         }
 
         @media (max-width: 768px) {
-            .top-lineup-row {
+            .search-result-card {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 12px;
             }
 
-            .top-lineup-stats {
+            .search-result-stats {
                 width: 100%;
-                justify-content: flex-start;
+                justify-content: space-between;
             }
 
-            .top-lineup-fighters .fighter-chip {
-                font-size: 0.7rem;
-                padding: 3px 6px;
+            .search-result-stat {
+                text-align: left;
             }
         }
         
@@ -719,34 +788,175 @@
             }
         }
         
+        /* What If Mode Styles */
+        .whatif-panel {
+            display: none;
+            margin-bottom: 25px;
+        }
+
+        .whatif-panel.active {
+            display: block;
+        }
+
+        .fight-card-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .fight-card-container h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: var(--accent-green);
+        }
+
+        .fight-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .fight-card-header h3 {
+            margin-bottom: 0;
+        }
+
+        .whatif-reset-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .whatif-reset-btn:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .fight-row {
+            display: grid;
+            grid-template-columns: 1fr 90px 40px 1fr 90px;
+            gap: 12px;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .fight-row:last-child {
+            border-bottom: none;
+        }
+
+        .fighter-name-label {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .fighter-name-label.slot1 {
+            text-align: right;
+        }
+
+        .fighter-name-label.slot2 {
+            text-align: left;
+        }
+
+        .fight-vs {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .fight-score-input {
+            width: 90px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .fight-score-input:focus {
+            border-color: var(--accent-green);
+            outline: none;
+        }
+
+        .fight-score-input.has-value {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .fight-score-input.prefilled {
+            background: rgba(0, 255, 136, 0.08);
+        }
+
+        .whatif-no-data {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-secondary);
+        }
+
+        .whatif-no-data p {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .fight-row {
+                grid-template-columns: 1fr 70px 30px 1fr 70px;
+                gap: 6px;
+            }
+
+            .fighter-name-label {
+                font-size: 0.8rem;
+            }
+
+            .fight-score-input {
+                width: 70px;
+                padding: 8px 6px;
+                font-size: 0.85rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .landing-header h1 {
                 font-size: 2.5rem;
             }
-            
+
             h1 {
                 font-size: 1.8rem;
             }
-            
+
             .filters {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
+
             .filter-group {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
+
             .clear-btn {
                 margin-left: 0;
             }
-            
+
             th, td {
                 padding: 10px 8px;
                 font-size: 0.8rem;
             }
-            
+
             .fighter-chip {
                 font-size: 0.75rem;
             }
@@ -759,6 +969,13 @@
             <h1>UFC <span>LIVE SWEAT</span></h1>
             <p>Real-time win probabilities for UFC DFS contests - by DHollis24</p>
             <p>Email me suggestions - Danny_Hollis24@yahoo.com</p>
+        </div>
+        <div class="quick-search-section">
+            <div class="quick-search-bar">
+                <span class="quick-search-icon">&#128269;</span>
+                <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
+            </div>
+            <div id="quick-search-results" class="quick-search-results"></div>
         </div>
         <div id="contests-list" class="contest-grid"></div>
     </div>
@@ -779,6 +996,7 @@
                 <button class="tab-btn active" onclick="switchView('username')">By Username</button>
                 <button class="tab-btn" onclick="switchView('lineup')">By Lineup</button>
                 <button class="tab-btn" onclick="switchView('portfolio')">By Portfolio</button>
+                <button class="tab-btn" onclick="switchView('whatif')">What If</button>
             </div>
             
             <div class="filters">
@@ -834,6 +1052,16 @@
                 </div>
             </div>
             
+            <div id="whatif-panel" class="whatif-panel">
+                <div class="fight-card-container">
+                    <div class="fight-card-header">
+                        <h3>Fight Card - Enter Scores</h3>
+                        <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+                    </div>
+                    <div id="fight-card-inputs"></div>
+                </div>
+            </div>
+
             <div class="table-header">
                 <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
                 <div style="color: var(--accent-green); font-size: 0.9rem;">
@@ -899,6 +1127,23 @@
                     </table>
                 </div>
             </div>
+            <div class="table-container" id="whatif-table" style="display: none;">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;"></th>
+                                <th style="width: 60px;">Rank</th>
+                                <th class="sortable" onclick="setSort('Username')">Username</th>
+                                <th class="sortable" onclick="setSort('WhatIfScore')">Score</th>
+                                <th class="sortable" onclick="setSort('WhatIfPayout')">Payout</th>
+                                <th style="width: 80px;">Copies</th>
+                            </tr>
+                        </thead>
+                        <tbody id="whatif-leaderboard"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -914,6 +1159,11 @@
         let currentView = 'username';
         let allFighters = [];
         let selectedFighters = [];
+        let contestFightCard = null;  // fight_card from JSON (if available)
+        let contestPayouts = null;    // payouts array from JSON (if available)
+        let whatIfScores = {};         // fighter name -> score (user input)
+        let whatIfResults = null;      // calculated What If leaderboard
+        let whatIfDebounceTimer = null;
         
         function extractAllFighters(data) {
             const fighterSet = new Set();
@@ -1011,19 +1261,42 @@
             document.getElementById('username-table').style.display = 'none';
             document.getElementById('lineup-table').style.display = 'none';
             document.getElementById('portfolio-table').style.display = 'none';
+            document.getElementById('whatif-table').style.display = 'none';
+
+            // Show/hide What If panel and normal stats
+            const whatifPanel = document.getElementById('whatif-panel');
+            const statsPanel = document.querySelector('.stats-and-fighters');
+            const filtersPanel = document.querySelector('.filters');
 
             if (view === 'username') {
                 document.getElementById('username-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
+                whatifPanel.classList.remove('active');
+                statsPanel.style.display = '';
+                filtersPanel.style.display = '';
             } else if (view === 'lineup') {
                 document.getElementById('lineup-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'none';
                 document.getElementById('fighter-filter').style.display = 'flex';
+                whatifPanel.classList.remove('active');
+                statsPanel.style.display = '';
+                filtersPanel.style.display = '';
             } else if (view === 'portfolio') {
                 document.getElementById('portfolio-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
+                whatifPanel.classList.remove('active');
+                statsPanel.style.display = '';
+                filtersPanel.style.display = '';
+            } else if (view === 'whatif') {
+                document.getElementById('whatif-table').style.display = 'block';
+                document.getElementById('username-filter').style.display = 'flex';
+                document.getElementById('fighter-filter').style.display = 'none';
+                whatifPanel.classList.add('active');
+                statsPanel.style.display = 'none';
+                filtersPanel.style.display = '';
+                initWhatIfPanel();
             }
 
             filterAndRender();
@@ -1074,88 +1347,145 @@
                         </div>
                         <div class="contest-arrow">→</div>
                     </div>
-                    <div class="top-lineups" id="top-lineups-${idx}">
-                        <div class="top-lineups-loading">Loading top lineups...</div>
-                    </div>
                 </div>
             `).join('');
 
-            // Fetch top lineups for each contest
-            CONTESTS.forEach((contest, idx) => {
-                fetchTopLineups(contest, idx);
+            // Set up quick search
+            setupQuickSearch();
+        }
+        
+        // Quick Search functionality
+        let searchTimeout = null;
+        let contestDataCache = {};
+
+        function setupQuickSearch() {
+            const input = document.getElementById('quick-search-input');
+            input.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                const query = input.value.trim();
+                if (query.length < 2) {
+                    document.getElementById('quick-search-results').classList.remove('visible');
+                    return;
+                }
+                searchTimeout = setTimeout(() => searchAllContests(query), 300);
             });
         }
 
-        async function fetchTopLineups(contest, idx) {
-            const container = document.getElementById(`top-lineups-${idx}`);
-            try {
-                const response = await fetch(contest.file + '?v=' + Date.now());
-                if (!response.ok) throw new Error('Failed to load');
-                const data = await response.json();
+        async function fetchContestData(contest) {
+            if (contestDataCache[contest.file]) return contestDataCache[contest.file];
+            const response = await fetch(contest.file + '?v=' + Date.now());
+            if (!response.ok) throw new Error('Failed to load');
+            const data = await response.json();
+            contestDataCache[contest.file] = data;
+            return data;
+        }
 
-                // Group by unique lineup and get top 3 by WinPct
-                const lineupMap = new Map();
-                (data.leaderboard || []).forEach(row => {
-                    const key = row.LineupKey || '';
-                    if (!key) return;
-                    if (!lineupMap.has(key)) {
-                        const fighters = [];
-                        for (let i = 1; i <= 6; i++) {
-                            const f = row['F' + i];
-                            if (f && f !== '') fighters.push(f);
-                        }
-                        lineupMap.set(key, {
-                            fighters,
-                            WinPct: row.WinPct || 0,
-                            CashPct: row.CashPct != null ? row.CashPct : null,
-                            Copies: row.Copies || 1
+        async function searchAllContests(query) {
+            const resultsContainer = document.getElementById('quick-search-results');
+            resultsContainer.classList.add('visible');
+            resultsContainer.innerHTML = '<div class="search-loading">Searching contests...</div>';
+
+            const searchLower = query.toLowerCase();
+            const results = [];
+
+            const formatNetEV = (netEV) => {
+                const absNetEV = Math.abs(netEV);
+                const formatted = absNetEV.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+
+            const formatROI = (roi) => {
+                const absRoi = Math.abs(roi);
+                const formatted = absRoi.toLocaleString(undefined, {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                });
+                return roi < 0 ? `-${formatted}%` : `${formatted}%`;
+            };
+
+            for (let i = 0; i < CONTESTS.length; i++) {
+                const contest = CONTESTS[i];
+                try {
+                    const data = await fetchContestData(contest);
+                    const entries = (data.leaderboard || []).filter(row =>
+                        row.Username && row.Username.toLowerCase().includes(searchLower)
+                    );
+                    if (entries.length > 0) {
+                        const totalWinPct = entries.reduce((sum, r) => sum + (r.WinPct || 0), 0);
+                        const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
+                        const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
+                        const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
+                        results.push({
+                            contestIndex: i,
+                            name: contest.name,
+                            entries: entries.length,
+                            winPct: totalWinPct,
+                            netEV: totalNetEV,
+                            roi: roi
                         });
                     }
-                });
-
-                const top3 = Array.from(lineupMap.values())
-                    .sort((a, b) => b.WinPct - a.WinPct)
-                    .slice(0, 3);
-
-                if (top3.length === 0) {
-                    container.innerHTML = '<div class="top-lineups-loading">No lineup data</div>';
-                    return;
+                } catch (e) {
+                    // Skip contests that fail to load
                 }
+            }
 
-                container.innerHTML = top3.map((lineup, rank) => `
-                    <div class="top-lineup-row">
-                        <div class="top-lineup-rank">#${rank + 1}</div>
-                        <div class="top-lineup-fighters">
-                            ${lineup.fighters.map(f => `<div class="fighter-chip">${f}</div>`).join('')}
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div class="search-no-results">No entries found for "' + query.replace(/</g, '&lt;') + '"</div>';
+                return;
+            }
+
+            const totalEntries = results.reduce((sum, r) => sum + r.entries, 0);
+            const totalNetEV = results.reduce((sum, r) => sum + r.netEV, 0);
+
+            resultsContainer.innerHTML = `
+                <div class="search-results-header">
+                    <h3>Results for "${query.replace(/</g, '&lt;')}"</h3>
+                    <span class="search-results-summary">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''} &middot; Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>
+                </div>
+                ${results.map(r => `
+                    <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
+                        <div>
+                            <div class="search-result-contest">${r.name}</div>
+                            <div class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</div>
                         </div>
-                        <div class="top-lineup-stats">
-                            <div class="top-lineup-stat">
-                                <div class="stat-label">Win %</div>
-                                <div class="stat-value">${lineup.WinPct.toFixed(2)}%</div>
+                        <div class="search-result-stats">
+                            <div class="search-result-stat">
+                                <div class="sr-label">Win %</div>
+                                <div class="sr-value">${r.winPct.toFixed(2)}%</div>
                             </div>
-                            ${lineup.CashPct != null ? `
-                            <div class="top-lineup-stat">
-                                <div class="stat-label">Cash %</div>
-                                <div class="stat-value">${lineup.CashPct.toFixed(2)}%</div>
+                            <div class="search-result-stat">
+                                <div class="sr-label">Net EV</div>
+                                <div class="sr-value ${r.netEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(r.netEV)}</div>
                             </div>
-                            ` : ''}
-                            <div class="top-lineup-stat">
-                                <div class="stat-label">Copies</div>
-                                <div class="stat-value" style="color: var(--text-primary);">${lineup.Copies}</div>
+                            <div class="search-result-stat">
+                                <div class="sr-label">ROI</div>
+                                <div class="sr-value ${r.roi >= 0 ? 'positive' : 'negative'}">${formatROI(r.roi)}</div>
                             </div>
                         </div>
                     </div>
-                `).join('');
-            } catch (e) {
-                container.innerHTML = '<div class="top-lineups-loading">Could not load lineups</div>';
-            }
+                `).join('')}
+            `;
         }
-        
+
+        function loadContestWithUser(contestIndex, username) {
+            loadContest(contestIndex).then(() => {
+                document.getElementById('search-user').value = username;
+                filterAndRender();
+            });
+        }
+
         function showLanding() {
             document.getElementById('landing-page').style.display = 'block';
             document.getElementById('leaderboard-page').style.display = 'none';
             currentContest = null;
             expandedRows.clear();
+            whatIfScores = {};
+            whatIfResults = null;
+            contestFightCard = null;
+            contestPayouts = null;
         }
         
         function showLeaderboard() {
@@ -1181,6 +1511,10 @@
                     'Last updated: ' + new Date(data.last_updated).toLocaleString();
                 
                 allData = data.leaderboard;
+                contestFightCard = data.fight_card || null;
+                contestPayouts = data.payouts || null;
+                whatIfScores = {};
+                whatIfResults = null;
                 expandedRows.clear();
                 extractAllFighters(data.leaderboard);
                 setupFighterDropdown();
@@ -1378,6 +1712,8 @@
                 renderLineupView(filteredData);
             } else if (currentView === 'portfolio') {
                 renderPortfolioView(filteredData);
+            } else if (currentView === 'whatif') {
+                calculateAndRenderWhatIf();
             }
         }
         
@@ -1641,6 +1977,267 @@
                         </td>
                         <td class="${portfolio['ROI%'] >= 0 ? 'positive' : 'negative'}">
                             ${formatROI(portfolio['ROI%'])}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==================== What If Mode ====================
+
+        function initWhatIfPanel() {
+            const container = document.getElementById('fight-card-inputs');
+
+            if (contestFightCard && contestFightCard.length > 0) {
+                // Render fight card from JSON data (proper fight pairings)
+                container.innerHTML = contestFightCard.map((fight, idx) => {
+                    const f1Name = fight.fighter1 || 'TBD';
+                    const f2Name = fight.fighter2 || 'TBD';
+                    const f1Score = whatIfScores[f1Name] !== undefined ? whatIfScores[f1Name] :
+                                    (fight.fighter1_score != null ? fight.fighter1_score : '');
+                    const f2Score = whatIfScores[f2Name] !== undefined ? whatIfScores[f2Name] :
+                                    (fight.fighter2_score != null ? fight.fighter2_score : '');
+                    const f1Prefilled = fight.fighter1_score != null && whatIfScores[f1Name] === undefined;
+                    const f2Prefilled = fight.fighter2_score != null && whatIfScores[f2Name] === undefined;
+
+                    // Initialize whatIfScores with prefilled values
+                    if (f1Score !== '' && whatIfScores[f1Name] === undefined) {
+                        whatIfScores[f1Name] = parseFloat(f1Score);
+                    }
+                    if (f2Score !== '' && whatIfScores[f2Name] === undefined) {
+                        whatIfScores[f2Name] = parseFloat(f2Score);
+                    }
+
+                    return `
+                        <div class="fight-row">
+                            <div class="fighter-name-label slot1">${f1Name}</div>
+                            <input type="number" step="any"
+                                class="fight-score-input ${f1Score !== '' ? 'has-value' : ''} ${f1Prefilled ? 'prefilled' : ''}"
+                                data-fighter="${f1Name.replace(/"/g, '&quot;')}"
+                                value="${f1Score}"
+                                placeholder="0"
+                                oninput="onWhatIfScoreChange(this)">
+                            <div class="fight-vs">vs</div>
+                            <div class="fighter-name-label slot2">${f2Name}</div>
+                            <input type="number" step="any"
+                                class="fight-score-input ${f2Score !== '' ? 'has-value' : ''} ${f2Prefilled ? 'prefilled' : ''}"
+                                data-fighter="${f2Name.replace(/"/g, '&quot;')}"
+                                value="${f2Score}"
+                                placeholder="0"
+                                oninput="onWhatIfScoreChange(this)">
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                // Fallback: show all fighters in a flat list (no fight pairings known)
+                const fighters = allFighters.slice().sort();
+                if (fighters.length === 0) {
+                    container.innerHTML = '<div class="whatif-no-data"><p>No fighter data available.</p></div>';
+                    return;
+                }
+                container.innerHTML = fighters.map(name => {
+                    const score = whatIfScores[name] !== undefined ? whatIfScores[name] : '';
+                    return `
+                        <div class="fight-row" style="grid-template-columns: 1fr 90px;">
+                            <div class="fighter-name-label">${name}</div>
+                            <input type="number" step="any"
+                                class="fight-score-input ${score !== '' ? 'has-value' : ''}"
+                                data-fighter="${name.replace(/"/g, '&quot;')}"
+                                value="${score}"
+                                placeholder="0"
+                                oninput="onWhatIfScoreChange(this)">
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Trigger initial calculation
+            calculateAndRenderWhatIf();
+        }
+
+        function onWhatIfScoreChange(input) {
+            const fighter = input.getAttribute('data-fighter');
+            const val = input.value.trim();
+            if (val === '') {
+                delete whatIfScores[fighter];
+                input.classList.remove('has-value');
+            } else {
+                whatIfScores[fighter] = parseFloat(val) || 0;
+                input.classList.add('has-value');
+            }
+
+            // Debounce recalculation
+            clearTimeout(whatIfDebounceTimer);
+            whatIfDebounceTimer = setTimeout(() => {
+                calculateAndRenderWhatIf();
+            }, 150);
+        }
+
+        function resetWhatIfScores() {
+            whatIfScores = {};
+            whatIfResults = null;
+            // Re-populate with prefilled scores from fight_card
+            initWhatIfPanel();
+        }
+
+        function calculateWhatIf() {
+            if (!allData || allData.length === 0) return [];
+
+            const hasPayouts = contestPayouts && contestPayouts.length > 1;
+
+            // Build prefix array from payouts
+            let prefix = [0];
+            let lastPaid = 0;
+            if (hasPayouts) {
+                for (let r = 1; r < contestPayouts.length; r++) {
+                    prefix[r] = prefix[r - 1] + (contestPayouts[r] || 0);
+                    if (contestPayouts[r] > 0) lastPaid = r;
+                }
+            }
+
+            // Score each lineup
+            const scored = allData.map((row, idx) => {
+                let score = 0;
+                let hasAnyScore = false;
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && whatIfScores[fighter] !== undefined) {
+                        score += whatIfScores[fighter];
+                        hasAnyScore = true;
+                    }
+                }
+                return {
+                    ...row,
+                    WhatIfScore: score,
+                    WhatIfPayout: 0,
+                    originalIdx: idx
+                };
+            });
+
+            // Sort by score descending, then by original index for tiebreak
+            scored.sort((a, b) => {
+                if (b.WhatIfScore !== a.WhatIfScore) return b.WhatIfScore - a.WhatIfScore;
+                return a.originalIdx - b.originalIdx;
+            });
+
+            // Apply payouts with tie-splitting (same logic as Python sim)
+            if (hasPayouts) {
+                let pos = 1;
+                let i = 0;
+                const n = scored.length;
+                while (i < n) {
+                    let j = i + 1;
+                    const s0 = scored[i].WhatIfScore;
+                    while (j < n && scored[j].WhatIfScore === s0) j++;
+                    const grp = j - i;
+                    const startRank = pos;
+                    const endRank = pos + grp - 1;
+                    if (startRank <= lastPaid) {
+                        const endPaid = Math.min(endRank, lastPaid);
+                        const totalMoney = prefix[endPaid] - prefix[startRank - 1];
+                        if (totalMoney > 0) {
+                            const share = totalMoney / grp;
+                            for (let t = i; t < j; t++) {
+                                scored[t].WhatIfPayout = share;
+                            }
+                        }
+                    }
+                    pos = endRank + 1;
+                    i = j;
+                }
+            }
+
+            return scored;
+        }
+
+        function calculateAndRenderWhatIf() {
+            const searchUser = document.getElementById('search-user').value.toLowerCase();
+            let results = calculateWhatIf();
+
+            // Apply username filter
+            if (searchUser) {
+                results = results.filter(row =>
+                    row.Username && row.Username.toLowerCase().includes(searchUser)
+                );
+            }
+
+            // Apply sort if user chose a different column
+            if (currentSort === 'WhatIfPayout') {
+                results.sort((a, b) => sortAscending ? a.WhatIfPayout - b.WhatIfPayout : b.WhatIfPayout - a.WhatIfPayout);
+            } else if (currentSort === 'Username') {
+                results.sort((a, b) => {
+                    const aVal = (a.Username || '').toLowerCase();
+                    const bVal = (b.Username || '').toLowerCase();
+                    return sortAscending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                });
+            }
+            // Default sort (WhatIfScore) is already applied by calculateWhatIf
+
+            whatIfResults = results;
+            renderWhatIfView(results);
+        }
+
+        function renderWhatIfView(data) {
+            const displayData = data.slice(0, 1000);
+            const hasPayouts = contestPayouts && contestPayouts.length > 1;
+
+            document.getElementById('row-count').textContent =
+                `Showing ${displayData.length.toLocaleString()} of ${data.length.toLocaleString()} lineups`;
+
+            const tbody = document.getElementById('whatif-leaderboard');
+
+            if (displayData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-results">No lineups match your filters</td></tr>';
+                return;
+            }
+
+            const formatPayout = (payout) => {
+                if (payout <= 0) return '--';
+                return '$' + payout.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            };
+
+            tbody.innerHTML = displayData.map((row, idx) => {
+                const rowId = `whatif-row-${idx}`;
+                const isExpanded = expandedRows.has(rowId);
+
+                // Build fighter chips with individual scores
+                const fighters = [];
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && fighter !== '') {
+                        const score = whatIfScores[fighter];
+                        fighters.push({
+                            slot: `F${i}`,
+                            name: fighter,
+                            score: score !== undefined ? score : null
+                        });
+                    }
+                }
+
+                return `
+                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
+                        <td><span class="expand-icon">${isExpanded ? '▼' : '▶'}</span></td>
+                        <td>${idx + 1}</td>
+                        <td class="username">${row.Username || ''}</td>
+                        <td>${row.WhatIfScore.toFixed(2)}</td>
+                        <td class="${row.WhatIfPayout > 0 ? 'positive' : ''}">${formatPayout(row.WhatIfPayout)}</td>
+                        <td>${row.Copies || 0}</td>
+                    </tr>
+                    <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
+                        <td colspan="6">
+                            <div class="lineup-container">
+                                ${fighters.map(f => `
+                                    <div class="fighter-chip">
+                                        <span class="slot">${f.slot}</span>
+                                        ${f.name}
+                                        ${f.score !== null ? `<span style="color: var(--accent-green); font-weight: 600; margin-left: 4px;">${f.score}</span>` : ''}
+                                    </div>
+                                `).join('')}
+                                ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
+                            </div>
                         </td>
                     </tr>
                 `;

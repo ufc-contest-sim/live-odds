@@ -19,6 +19,17 @@ if %errorlevel% neq 0 (
 )
 
 echo.
+echo Syncing with GitHub...
+git pull --rebase origin main
+if %errorlevel% neq 0 (
+    echo.
+    echo Pull failed. Check your internet connection or resolve conflicts.
+    echo.
+    pause
+    exit /b
+)
+
+echo.
 echo Pushing to GitHub...
 git push
 if %errorlevel% neq 0 (

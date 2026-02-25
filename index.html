@@ -912,6 +912,53 @@
             margin-bottom: 8px;
         }
 
+        /* What If Side-by-Side Layout */
+        .whatif-layout {
+            display: none;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .whatif-layout.active {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            align-items: start;
+        }
+
+        .whatif-left .fight-card-container {
+            padding: 20px;
+        }
+
+        .whatif-left .fight-row {
+            padding: 10px 0;
+        }
+
+        .whatif-left .fighter-name-label {
+            font-size: 0.88rem;
+        }
+
+        .whatif-right-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .whatif-table-scroll {
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
+        }
+
+        @media (max-width: 1200px) {
+            .whatif-layout.active {
+                grid-template-columns: 1fr;
+            }
+
+            .whatif-table-scroll {
+                max-height: 60vh;
+            }
+        }
+
         @media (max-width: 768px) {
             .fight-row {
                 grid-template-columns: 1fr 70px 30px 1fr 70px;
@@ -1052,13 +1099,38 @@
                 </div>
             </div>
             
-            <div id="whatif-panel" class="whatif-panel">
-                <div class="fight-card-container">
-                    <div class="fight-card-header">
-                        <h3>Fight Card - Enter Scores</h3>
-                        <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+            <div id="whatif-layout" class="whatif-layout">
+                <div class="whatif-left">
+                    <div class="fight-card-container">
+                        <div class="fight-card-header">
+                            <h3>Fight Card - Enter Scores</h3>
+                            <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+                        </div>
+                        <div id="fight-card-inputs"></div>
                     </div>
-                    <div id="fight-card-inputs"></div>
+                </div>
+                <div class="whatif-right">
+                    <div class="whatif-right-header">
+                        <div class="row-count" id="whatif-row-count">Showing 0 of 0 lineups</div>
+                        <div style="color: var(--accent-green); font-size: 0.85rem;">Click row to expand</div>
+                    </div>
+                    <div class="table-container whatif-table-scroll">
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30px;"></th>
+                                        <th style="width: 45px;">#</th>
+                                        <th class="sortable" onclick="setSort('Username')">Username</th>
+                                        <th class="sortable" onclick="setSort('WhatIfScore')">Score</th>
+                                        <th class="sortable" onclick="setSort('WhatIfPayout')">Payout</th>
+                                        <th style="width: 55px;">Copies</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="whatif-leaderboard"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1127,23 +1199,8 @@
                     </table>
                 </div>
             </div>
-            <div class="table-container" id="whatif-table" style="display: none;">
-                <div class="table-scroll">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width: 40px;"></th>
-                                <th style="width: 60px;">Rank</th>
-                                <th class="sortable" onclick="setSort('Username')">Username</th>
-                                <th class="sortable" onclick="setSort('WhatIfScore')">Score</th>
-                                <th class="sortable" onclick="setSort('WhatIfPayout')">Payout</th>
-                                <th style="width: 80px;">Copies</th>
-                            </tr>
-                        </thead>
-                        <tbody id="whatif-leaderboard"></tbody>
-                    </table>
-                </div>
-            </div>
+
+
         </div>
     </div>
 
@@ -1261,41 +1318,44 @@
             document.getElementById('username-table').style.display = 'none';
             document.getElementById('lineup-table').style.display = 'none';
             document.getElementById('portfolio-table').style.display = 'none';
-            document.getElementById('whatif-table').style.display = 'none';
 
-            // Show/hide What If panel and normal stats
-            const whatifPanel = document.getElementById('whatif-panel');
+            // Show/hide What If layout and normal stats
+            const whatifLayout = document.getElementById('whatif-layout');
             const statsPanel = document.querySelector('.stats-and-fighters');
             const filtersPanel = document.querySelector('.filters');
+            const tableHeader = document.querySelector('.table-header');
 
             if (view === 'username') {
                 document.getElementById('username-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
-                whatifPanel.classList.remove('active');
+                whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
+                tableHeader.style.display = '';
             } else if (view === 'lineup') {
                 document.getElementById('lineup-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'none';
                 document.getElementById('fighter-filter').style.display = 'flex';
-                whatifPanel.classList.remove('active');
+                whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
+                tableHeader.style.display = '';
             } else if (view === 'portfolio') {
                 document.getElementById('portfolio-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
-                whatifPanel.classList.remove('active');
+                whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
+                tableHeader.style.display = '';
             } else if (view === 'whatif') {
-                document.getElementById('whatif-table').style.display = 'block';
+                whatifLayout.classList.add('active');
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
-                whatifPanel.classList.add('active');
                 statsPanel.style.display = 'none';
                 filtersPanel.style.display = '';
+                tableHeader.style.display = 'none';
                 initWhatIfPanel();
             }
 
@@ -1515,9 +1575,31 @@
                 contestPayouts = data.payouts || null;
                 whatIfScores = {};
                 whatIfResults = null;
+
+                // Pre-populate whatIfScores from fight_card data so scores
+                // from completed fights are available immediately, regardless
+                // of which tab is active when the contest loads.
+                if (contestFightCard && contestFightCard.length > 0) {
+                    contestFightCard.forEach(fight => {
+                        if (fight.fighter1 && fight.fighter1_score != null) {
+                            whatIfScores[fight.fighter1] = parseFloat(fight.fighter1_score);
+                        }
+                        if (fight.fighter2 && fight.fighter2_score != null) {
+                            whatIfScores[fight.fighter2] = parseFloat(fight.fighter2_score);
+                        }
+                    });
+                }
+
                 expandedRows.clear();
                 extractAllFighters(data.leaderboard);
                 setupFighterDropdown();
+
+                // If user is already on the What If tab, re-render the
+                // fight card inputs for the new contest before filterAndRender runs.
+                if (currentView === 'whatif') {
+                    initWhatIfPanel();
+                }
+
                 clearFilters();
                 
             } catch (error) {
@@ -2181,7 +2263,7 @@
             const displayData = data.slice(0, 1000);
             const hasPayouts = contestPayouts && contestPayouts.length > 1;
 
-            document.getElementById('row-count').textContent =
+            document.getElementById('whatif-row-count').textContent =
                 `Showing ${displayData.length.toLocaleString()} of ${data.length.toLocaleString()} lineups`;
 
             const tbody = document.getElementById('whatif-leaderboard');

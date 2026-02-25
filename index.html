@@ -58,8 +58,8 @@
         
         .landing-header h1 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
-            letter-spacing: 4px;
+            font-size: 4.5rem;
+            letter-spacing: 6px;
             color: var(--text-primary);
             margin-bottom: 10px;
         }
@@ -93,7 +93,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             padding: 14px 20px;
-            text-align: left;
+            text-align: center;
             border-bottom: 1px solid var(--border);
             white-space: nowrap;
             user-select: none;
@@ -122,7 +122,8 @@
         .contest-table td {
             padding: 16px 20px;
             border-bottom: 1px solid var(--border);
-            font-size: 0.95rem;
+            font-size: 1rem;
+            text-align: center;
         }
 
         .contest-table tr:last-child td {
@@ -144,7 +145,7 @@
 
         .contest-table-name {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1rem;
             letter-spacing: 1.5px;
             transition: color 0.15s;
         }
@@ -152,7 +153,7 @@
         .contest-table .col-fee,
         .contest-table .col-prizes,
         .contest-table .col-entrants {
-            text-align: right;
+            text-align: center;
         }
 
         .contest-table td.col-fee {
@@ -169,16 +170,26 @@
         }
 
         @media (max-width: 600px) {
+            .landing-header h1 {
+                font-size: 3rem;
+                letter-spacing: 3px;
+            }
+            .contest-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .contest-table {
+                min-width: 100%;
+            }
             .contest-table th,
             .contest-table td {
-                padding: 12px 14px;
+                padding: 10px 8px;
+                font-size: 0.8rem;
+                white-space: nowrap;
             }
             .contest-table-name {
-                font-size: 1.1rem;
-            }
-            .contest-table td,
-            .contest-table th {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
+                letter-spacing: 1px;
             }
         }
 

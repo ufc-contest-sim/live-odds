@@ -594,14 +594,19 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
             fight_fighters[fid] = {}
         fight_fighters[fid][slot] = (name, fixed_scores.get(name))
     # Determine which fights are fully fixed (both fighters have scores)
+    log(f"[debug] fixed_scores dict has {len(fixed_scores)} entries: {fixed_scores}")
     fixed_fights = set()
     for fid in fights:
         ff = fight_fighters.get(fid, {})
         f1 = ff.get(1)
         f2 = ff.get(2)
+        log(f"[debug] fight {fid}: f1={f1}, f2={f2}")
         if f1 and f2 and f1[1] is not None and f2[1] is not None:
             fixed_fights.add(fid)
+    log(f"[debug] {len(fixed_fights)} fixed fights, {len(fights) - len(fixed_fights)} need sims")
     sim_fights = [fid for fid in fights if fid not in fixed_fights]
+    if sim_fights:
+        log(f"[debug] sim_fights needing sheets: {sim_fights}")
     # Only load sim sheets for fights that need them
     if sim_fights:
         sim_S1, sim_S2, sim_N = load_fight_sims(xl, sim_fights)

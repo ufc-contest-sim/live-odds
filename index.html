@@ -1575,9 +1575,31 @@
                 contestPayouts = data.payouts || null;
                 whatIfScores = {};
                 whatIfResults = null;
+
+                // Pre-populate whatIfScores from fight_card data so scores
+                // from completed fights are available immediately, regardless
+                // of which tab is active when the contest loads.
+                if (contestFightCard && contestFightCard.length > 0) {
+                    contestFightCard.forEach(fight => {
+                        if (fight.fighter1 && fight.fighter1_score != null) {
+                            whatIfScores[fight.fighter1] = parseFloat(fight.fighter1_score);
+                        }
+                        if (fight.fighter2 && fight.fighter2_score != null) {
+                            whatIfScores[fight.fighter2] = parseFloat(fight.fighter2_score);
+                        }
+                    });
+                }
+
                 expandedRows.clear();
                 extractAllFighters(data.leaderboard);
                 setupFighterDropdown();
+
+                // If user is already on the What If tab, re-render the
+                // fight card inputs for the new contest before filterAndRender runs.
+                if (currentView === 'whatif') {
+                    initWhatIfPanel();
+                }
+
                 clearFilters();
                 
             } catch (error) {

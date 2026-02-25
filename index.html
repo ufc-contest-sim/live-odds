@@ -73,67 +73,115 @@
             font-size: 1.1rem;
         }
         
-        .contest-grid {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .contest-card {
+        .contest-table-wrapper {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 25px 30px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .contest-card:hover {
-            border-color: var(--accent-green);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.1);
-        }
-        
-        .contest-info h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-        
-        .contest-meta {
-            display: flex;
-            gap: 20px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        .contest-meta span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .contest-arrow {
-            font-size: 2rem;
-            color: var(--accent-green);
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.2s ease;
-        }
-        
-        .contest-card:hover .contest-arrow {
-            opacity: 1;
-            transform: translateX(0);
+            overflow: hidden;
         }
 
-        .contest-card-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .contest-table {
             width: 100%;
+            border-collapse: collapse;
         }
+
+        .contest-table th {
+            background: var(--bg-hover);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .contest-table th.sortable {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .contest-table th.sortable:hover {
+            color: var(--accent-green);
+        }
+
+        .contest-table th .sort-arrow {
+            margin-left: 6px;
+            font-size: 0.7rem;
+            opacity: 0.3;
+        }
+
+        .contest-table th.sort-active .sort-arrow {
+            opacity: 1;
+            color: var(--accent-green);
+        }
+
+        .contest-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .contest-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .contest-table tbody tr {
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .contest-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .contest-table tbody tr:hover .contest-table-name {
+            color: var(--accent-green);
+        }
+
+        .contest-table-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 1.5px;
+            transition: color 0.15s;
+        }
+
+        .contest-table .col-fee,
+        .contest-table .col-prizes,
+        .contest-table .col-entrants {
+            text-align: right;
+        }
+
+        .contest-table td.col-fee {
+            font-weight: 600;
+        }
+
+        .contest-table td.col-prizes {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .contest-table td.col-entrants {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 600px) {
+            .contest-table th,
+            .contest-table td {
+                padding: 12px 14px;
+            }
+            .contest-table-name {
+                font-size: 1.1rem;
+            }
+            .contest-table td,
+            .contest-table th {
+                font-size: 0.85rem;
+            }
+        }
+
 
         /* Quick Search */
         .quick-search-section {
@@ -1024,7 +1072,7 @@
             </div>
             <div id="quick-search-results" class="quick-search-results"></div>
         </div>
-        <div id="contests-list" class="contest-grid"></div>
+        <div id="contests-list"></div>
     </div>
 
     <div id="leaderboard-page" class="leaderboard-page">
@@ -1377,15 +1425,83 @@
             }
         }
         
+        // Contest table sorting state
+        let contestSortKey = null;
+        let contestSortAsc = true;
+
+        function formatMoney(val) {
+            if (val >= 1000000) return '$' + (val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1) + 'M';
+            if (val >= 1000) return '$' + (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1) + 'K';
+            return '$' + val.toLocaleString();
+        }
+
+        function renderContestTable() {
+            const container = document.getElementById('contests-list');
+            let sorted = [...CONTESTS.map((c, i) => ({...c, _idx: i}))];
+
+            if (contestSortKey) {
+                sorted.sort((a, b) => {
+                    const av = a[contestSortKey] || 0;
+                    const bv = b[contestSortKey] || 0;
+                    return contestSortAsc ? av - bv : bv - av;
+                });
+            }
+
+            const arrow = (key) => {
+                if (contestSortKey !== key) return '<span class="sort-arrow">&#x25B4;&#x25BE;</span>';
+                return contestSortAsc
+                    ? '<span class="sort-arrow">&#x25B4;</span>'
+                    : '<span class="sort-arrow">&#x25BE;</span>';
+            };
+            const activeClass = (key) => contestSortKey === key ? 'sort-active' : '';
+
+            const rows = sorted.map(contest => `
+                <tr onclick="loadContest(${contest._idx})">
+                    <td><span class="contest-table-name">${contest.name}</span></td>
+                    <td class="col-fee">$${contest.entryFee.toLocaleString()}</td>
+                    <td class="col-prizes">${contest.totalPrizes ? formatMoney(contest.totalPrizes) : '—'}</td>
+                    <td class="col-entrants">${contest.entrants ? contest.entrants.toLocaleString() : '—'}</td>
+                </tr>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="contest-table-wrapper">
+                    <table class="contest-table">
+                        <thead>
+                            <tr>
+                                <th>Contest</th>
+                                <th class="col-fee sortable ${activeClass('entryFee')}" onclick="sortContests('entryFee')">Entry Fee ${arrow('entryFee')}</th>
+                                <th class="col-prizes sortable ${activeClass('totalPrizes')}" onclick="sortContests('totalPrizes')">Total Prizes ${arrow('totalPrizes')}</th>
+                                <th class="col-entrants sortable ${activeClass('entrants')}" onclick="sortContests('entrants')">Entrants ${arrow('entrants')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function sortContests(key) {
+            if (contestSortKey === key) {
+                contestSortAsc = !contestSortAsc;
+            } else {
+                contestSortKey = key;
+                contestSortAsc = false; // default to descending (highest first)
+            }
+            renderContestTable();
+        }
+
         // Initialize landing page
         async function initLanding() {
-            const grid = document.getElementById('contests-list');
-            
+            const container = document.getElementById('contests-list');
+
             // Load contest config
             const loaded = await loadContestConfig();
-            
+
             if (!loaded || CONTESTS.length === 0) {
-                grid.innerHTML = `
+                container.innerHTML = `
                     <div class="error-message">
                         <p>No contests found.</p>
                         <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">
@@ -1395,20 +1511,8 @@
                 `;
                 return;
             }
-            
-            grid.innerHTML = CONTESTS.map((contest, idx) => `
-                <div class="contest-card" onclick="loadContest(${idx})">
-                    <div class="contest-card-body">
-                        <div class="contest-info">
-                            <h2>${contest.name}</h2>
-                            <div class="contest-meta">
-                                <span>💰 $${contest.entryFee} Entry</span>
-                            </div>
-                        </div>
-                        <div class="contest-arrow">→</div>
-                    </div>
-                </div>
-            `).join('');
+
+            renderContestTable();
 
             // Set up quick search
             setupQuickSearch();

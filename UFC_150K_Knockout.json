@@ -1,6 +1,6 @@
 {
   "contest_name": "UFC 150K Knockout",
-  "last_updated": "2026-02-24T19:20:38.067817",
+  "last_updated": "2026-02-24T21:48:39.411010",
   "total_lineups": 283,
   "summary": {
     "top_win_pct": 100.0,
@@ -30,7 +30,7 @@
       "MeanScore": 556.1300048828125,
       "SDScore": 0.0,
       "P99Score": 556.1300048828125,
-      "TotalPayout": 5000000000.0
+      "TotalPayout": 50000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -54,7 +54,7 @@
       "MeanScore": 541.75,
       "SDScore": 0.0,
       "P99Score": 541.75,
-      "TotalPayout": 2000000000.0
+      "TotalPayout": 20000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -75,10 +75,10 @@
       "ROI%": 1701.801801801802,
       "WinPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 530.5700073242188,
+      "MeanScore": 530.5699462890625,
       "SDScore": 0.0,
-      "P99Score": 530.5700073242188,
-      "TotalPayout": 1000000000.0
+      "P99Score": 530.5699462890625,
+      "TotalPayout": 10000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -100,9 +100,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 530.219970703125,
-      "SDScore": 0.0003610906594067,
-      "P99Score": 530.2208107256129,
-      "TotalPayout": 500000000.0
+      "SDScore": 0.0,
+      "P99Score": 530.219970703125,
+      "TotalPayout": 5000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -124,9 +124,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 529.9099731445312,
-      "SDScore": 0.0003937112534562,
-      "P99Score": 529.9108890538687,
-      "TotalPayout": 300000000.0
+      "SDScore": 0.0,
+      "P99Score": 529.9099731445312,
+      "TotalPayout": 3000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -150,7 +150,7 @@
       "MeanScore": 518.0700073242188,
       "SDScore": 0.0,
       "P99Score": 518.0700073242188,
-      "TotalPayout": 200000000.0
+      "TotalPayout": 2000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -174,7 +174,7 @@
       "MeanScore": 516.8800048828125,
       "SDScore": 0.0,
       "P99Score": 516.8800048828125,
-      "TotalPayout": 150000000.0
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -196,9 +196,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 514.780029296875,
-      "SDScore": 0.0003360416513053,
-      "P99Score": 514.7808110466561,
-      "TotalPayout": 150000000.0
+      "SDScore": 0.0,
+      "P99Score": 514.780029296875,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -220,9 +220,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 511.1599731445313,
-      "SDScore": 0.0003653375168109,
-      "P99Score": 511.1608230466868,
-      "TotalPayout": 150000000.0
+      "SDScore": 0.0,
+      "P99Score": 511.1599731445313,
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -246,7 +246,7 @@
       "MeanScore": 501.1099853515625,
       "SDScore": 0.0,
       "P99Score": 501.1099853515625,
-      "TotalPayout": 150000000.0
+      "TotalPayout": 1500.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -270,7 +270,7 @@
       "MeanScore": 499.5899658203125,
       "SDScore": 0.0,
       "P99Score": 499.5899658203125,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -294,7 +294,7 @@
       "MeanScore": 492.5400085449219,
       "SDScore": 0.0,
       "P99Score": 492.5400085449219,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -316,9 +316,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 473.78997802734375,
-      "SDScore": 0.0003044134078017,
-      "P99Score": 473.7906861988278,
-      "TotalPayout": 120000000.0
+      "SDScore": 0.0,
+      "P99Score": 473.78997802734375,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -340,9 +340,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 473.78997802734375,
-      "SDScore": 0.0003044134078017,
-      "P99Score": 473.7906861988278,
-      "TotalPayout": 120000000.0
+      "SDScore": 0.0,
+      "P99Score": 473.78997802734375,
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -366,7 +366,7 @@
       "MeanScore": 469.25,
       "SDScore": 0.0,
       "P99Score": 469.25,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -390,7 +390,7 @@
       "MeanScore": 464.02001953125,
       "SDScore": 0.0,
       "P99Score": 464.02001953125,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -414,7 +414,7 @@
       "MeanScore": 463.5400085449219,
       "SDScore": 0.0,
       "P99Score": 463.5400085449219,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -438,7 +438,7 @@
       "MeanScore": 459.9500122070313,
       "SDScore": 0.0,
       "P99Score": 459.9500122070313,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -462,7 +462,7 @@
       "MeanScore": 459.4299926757813,
       "SDScore": 0.0,
       "P99Score": 459.4299926757813,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -486,7 +486,7 @@
       "MeanScore": 452.0700073242188,
       "SDScore": 0.0,
       "P99Score": 452.0700073242188,
-      "TotalPayout": 120000000.0
+      "TotalPayout": 1200.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -508,9 +508,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 450.6900024414063,
-      "SDScore": 0.0001706845793252,
-      "P99Score": 450.69039951311447,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 450.6900024414063,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -534,7 +534,7 @@
       "MeanScore": 449.6499938964844,
       "SDScore": 0.0,
       "P99Score": 449.6499938964844,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -556,9 +556,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 449.3599853515625,
-      "SDScore": 9.0594493554639e-05,
-      "P99Score": 449.36019610587,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 449.3599853515625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -580,9 +580,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 449.3599853515625,
-      "SDScore": 9.0594493554639e-05,
-      "P99Score": 449.36019610587,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 449.3599853515625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -606,7 +606,7 @@
       "MeanScore": 446.52001953125,
       "SDScore": 0.0,
       "P99Score": 446.52001953125,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -628,9 +628,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 445.5899963378906,
-      "SDScore": 0.0003369066248116,
-      "P99Score": 445.590780099901,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 445.5899963378906,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -652,9 +652,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 445.5899963378906,
-      "SDScore": 0.0003369066248116,
-      "P99Score": 445.590780099901,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 445.5899963378906,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -675,10 +675,10 @@
       "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 444.2000122070313,
+      "MeanScore": 444.1999816894531,
       "SDScore": 0.0,
-      "P99Score": 444.2000122070313,
-      "TotalPayout": 100000000.0
+      "P99Score": 444.1999816894531,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -699,10 +699,10 @@
       "ROI%": 80.18018018018019,
       "WinPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 444.2000122070313,
+      "MeanScore": 444.1999816894531,
       "SDScore": 0.0,
-      "P99Score": 444.2000122070313,
-      "TotalPayout": 100000000.0
+      "P99Score": 444.1999816894531,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -724,9 +724,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 443.8399963378906,
-      "SDScore": 0.0003356516860058,
-      "P99Score": 443.8407771804768,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 443.8399963378906,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -748,9 +748,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 442.4400024414063,
-      "SDScore": 0.000121113489071,
-      "P99Score": 442.44028419351406,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 442.4400024414063,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -772,9 +772,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 440.3699951171875,
-      "SDScore": 0.0002528095148713,
-      "P99Score": 440.37058324006495,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 440.3699951171875,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -798,7 +798,7 @@
       "MeanScore": 440.239990234375,
       "SDScore": 0.0,
       "P99Score": 440.239990234375,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -822,7 +822,7 @@
       "MeanScore": 439.0999755859375,
       "SDScore": 0.0,
       "P99Score": 439.0999755859375,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -844,9 +844,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 438.1099853515625,
-      "SDScore": 0.0001674134672077,
-      "P99Score": 438.110374813526,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 438.1099853515625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -870,7 +870,7 @@
       "MeanScore": 437.510009765625,
       "SDScore": 0.0,
       "P99Score": 437.510009765625,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -894,7 +894,7 @@
       "MeanScore": 437.510009765625,
       "SDScore": 0.0,
       "P99Score": 437.510009765625,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -918,7 +918,7 @@
       "MeanScore": 437.510009765625,
       "SDScore": 0.0,
       "P99Score": 437.510009765625,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -942,7 +942,7 @@
       "MeanScore": 437.0,
       "SDScore": 0.0,
       "P99Score": 437.0,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -966,7 +966,7 @@
       "MeanScore": 437.0,
       "SDScore": 0.0,
       "P99Score": 437.0,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -988,9 +988,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 436.6300048828125,
-      "SDScore": 0.0002633536054995,
-      "P99Score": 436.6306175349128,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 436.6300048828125,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1012,9 +1012,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 435.66998291015625,
-      "SDScore": 0.0003560992240465,
-      "P99Score": 435.67081132082905,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 435.66998291015625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1036,9 +1036,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 433.2099914550781,
-      "SDScore": 0.0001073556338213,
-      "P99Score": 433.2102412016286,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 433.2099914550781,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1060,9 +1060,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 433.2099914550781,
-      "SDScore": 0.0001073556338213,
-      "P99Score": 433.2102412016286,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 433.2099914550781,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1086,7 +1086,7 @@
       "MeanScore": 432.1900024414063,
       "SDScore": 0.0,
       "P99Score": 432.1900024414063,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1108,9 +1108,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 431.8000183105469,
-      "SDScore": 0.0001135479010091,
-      "P99Score": 431.80028246246496,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 431.8000183105469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1134,7 +1134,7 @@
       "MeanScore": 430.9200134277344,
       "SDScore": 0.0,
       "P99Score": 430.9200134277344,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1158,7 +1158,7 @@
       "MeanScore": 430.05999755859375,
       "SDScore": 0.0,
       "P99Score": 430.05999755859375,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1180,9 +1180,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 427.7699890136719,
-      "SDScore": 0.0001646968161079,
-      "P99Score": 427.7703721557599,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 427.7699890136719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1204,9 +1204,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 427.7699890136719,
-      "SDScore": 0.0001646968161079,
-      "P99Score": 427.7703721557599,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 427.7699890136719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1228,9 +1228,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 427.7699890136719,
-      "SDScore": 0.0001646968161079,
-      "P99Score": 427.7703721557599,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 427.7699890136719,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1252,9 +1252,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 427.6099853515625,
-      "SDScore": 0.000218939462197,
-      "P99Score": 427.6104946809149,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 427.6099853515625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1278,7 +1278,7 @@
       "MeanScore": 422.05999755859375,
       "SDScore": 0.0,
       "P99Score": 422.05999755859375,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1302,7 +1302,7 @@
       "MeanScore": 422.05999755859375,
       "SDScore": 0.0,
       "P99Score": 422.05999755859375,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1326,7 +1326,7 @@
       "MeanScore": 420.989990234375,
       "SDScore": 0.0,
       "P99Score": 420.989990234375,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1348,9 +1348,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 420.6400146484375,
-      "SDScore": 0.0002489230296078,
-      "P99Score": 420.6405937299982,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 420.6400146484375,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1372,9 +1372,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 420.5099792480469,
-      "SDScore": 0.0001945131305267,
-      "P99Score": 420.5104317532545,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 420.5099792480469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1396,9 +1396,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 420.5099792480469,
-      "SDScore": 0.0001945131305267,
-      "P99Score": 420.5104317532545,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 420.5099792480469,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1422,7 +1422,7 @@
       "MeanScore": 418.75,
       "SDScore": 0.0,
       "P99Score": 418.75,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1446,7 +1446,7 @@
       "MeanScore": 418.75,
       "SDScore": 0.0,
       "P99Score": 418.75,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1468,9 +1468,9 @@
       "WinPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 417.71002197265625,
-      "SDScore": 0.0002935101354875,
-      "P99Score": 417.7107047793359,
-      "TotalPayout": 100000000.0
+      "SDScore": 0.0,
+      "P99Score": 417.71002197265625,
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1494,7 +1494,7 @@
       "MeanScore": 417.4299926757813,
       "SDScore": 0.0,
       "P99Score": 417.4299926757813,
-      "TotalPayout": 100000000.0
+      "TotalPayout": 1000.0
     },
     {
       "Contest": "UFC $150K Knockout",
@@ -1516,8 +1516,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 417.08001708984375,
-      "SDScore": 0.0003420079886497,
-      "P99Score": 417.080812719401,
+      "SDScore": 0.0,
+      "P99Score": 417.08001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -1564,8 +1564,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 407.1999816894531,
-      "SDScore": 0.0002001908472,
-      "P99Score": 407.2004474030049,
+      "SDScore": 0.0,
+      "P99Score": 407.1999816894531,
       "TotalPayout": 0.0
     },
     {
@@ -1659,9 +1659,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 402.27001953125,
+      "MeanScore": 402.2699890136719,
       "SDScore": 0.0,
-      "P99Score": 402.27001953125,
+      "P99Score": 402.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -1732,8 +1732,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 397.6399841308594,
-      "SDScore": 0.0002042209737185,
-      "P99Score": 397.6404592198874,
+      "SDScore": 0.0,
+      "P99Score": 397.6399841308594,
       "TotalPayout": 0.0
     },
     {
@@ -1755,9 +1755,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 397.010009765625,
+      "MeanScore": 397.0099792480469,
       "SDScore": 0.0,
-      "P99Score": 397.010009765625,
+      "P99Score": 397.0099792480469,
       "TotalPayout": 0.0
     },
     {
@@ -1779,9 +1779,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 397.010009765625,
+      "MeanScore": 397.0099792480469,
       "SDScore": 0.0,
-      "P99Score": 397.010009765625,
+      "P99Score": 397.0099792480469,
       "TotalPayout": 0.0
     },
     {
@@ -1803,9 +1803,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 396.8600158691406,
-      "SDScore": 0.0002040070923817,
-      "P99Score": 396.8604904606063,
+      "MeanScore": 396.8599853515625,
+      "SDScore": 0.0,
+      "P99Score": 396.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -1900,8 +1900,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 393.6400146484375,
-      "SDScore": 0.0002679549733358,
-      "P99Score": 393.6406380049201,
+      "SDScore": 0.0,
+      "P99Score": 393.6400146484375,
       "TotalPayout": 0.0
     },
     {
@@ -1971,9 +1971,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 389.9700012207031,
+      "MeanScore": 389.9700317382813,
       "SDScore": 0.0,
-      "P99Score": 389.9700012207031,
+      "P99Score": 389.9700317382813,
       "TotalPayout": 0.0
     },
     {
@@ -1996,8 +1996,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 388.96002197265625,
-      "SDScore": 0.0002857729254552,
-      "P99Score": 388.9606867798938,
+      "SDScore": 0.0,
+      "P99Score": 388.96002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -2020,8 +2020,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 387.83001708984375,
-      "SDScore": 0.0003139676090197,
-      "P99Score": 387.8307474877235,
+      "SDScore": 0.0,
+      "P99Score": 387.83001708984375,
       "TotalPayout": 0.0
     },
     {
@@ -2068,8 +2068,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 386.66998291015625,
-      "SDScore": 0.0003126671458781,
-      "P99Score": 386.6707102827064,
+      "SDScore": 0.0,
+      "P99Score": 386.66998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -2139,9 +2139,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 385.2699890136719,
-      "SDScore": 0.0001634551422718,
-      "P99Score": 385.2703692671946,
+      "MeanScore": 385.27001953125,
+      "SDScore": 0.0,
+      "P99Score": 385.27001953125,
       "TotalPayout": 0.0
     },
     {
@@ -2163,9 +2163,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 385.2699890136719,
-      "SDScore": 0.0001634551422718,
-      "P99Score": 385.2703692671946,
+      "MeanScore": 385.27001953125,
+      "SDScore": 0.0,
+      "P99Score": 385.27001953125,
       "TotalPayout": 0.0
     },
     {
@@ -2211,9 +2211,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 383.260009765625,
+      "MeanScore": 383.2599792480469,
       "SDScore": 0.0,
-      "P99Score": 383.260009765625,
+      "P99Score": 383.2599792480469,
       "TotalPayout": 0.0
     },
     {
@@ -2283,9 +2283,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 378.1500244140625,
+      "MeanScore": 378.1499633789063,
       "SDScore": 0.0,
-      "P99Score": 378.1500244140625,
+      "P99Score": 378.1499633789063,
       "TotalPayout": 0.0
     },
     {
@@ -2380,8 +2380,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 376.6199951171875,
-      "SDScore": 0.0002823405546195,
-      "P99Score": 376.62065193953646,
+      "SDScore": 0.0,
+      "P99Score": 376.6199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -2403,9 +2403,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 376.0899963378906,
-      "SDScore": 0.0002692011562566,
-      "P99Score": 376.0906225934282,
+      "MeanScore": 376.0899658203125,
+      "SDScore": 0.0,
+      "P99Score": 376.0899658203125,
       "TotalPayout": 0.0
     },
     {
@@ -2428,8 +2428,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 374.28997802734375,
-      "SDScore": 0.0002810490806699,
-      "P99Score": 374.2906318452751,
+      "SDScore": 0.0,
+      "P99Score": 374.28997802734375,
       "TotalPayout": 0.0
     },
     {
@@ -2475,9 +2475,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 369.7300109863281,
-      "SDScore": 0.0001628307547259,
-      "P99Score": 369.7303897873082,
+      "MeanScore": 369.72998046875,
+      "SDScore": 0.0,
+      "P99Score": 369.72998046875,
       "TotalPayout": 0.0
     },
     {
@@ -2572,8 +2572,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 364.1300048828125,
-      "SDScore": 0.0002639607297801,
-      "P99Score": 364.13061894729503,
+      "SDScore": 0.0,
+      "P99Score": 364.1300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -2619,9 +2619,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 361.77001953125,
+      "MeanScore": 361.7699890136719,
       "SDScore": 0.0,
-      "P99Score": 361.77001953125,
+      "P99Score": 361.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -2643,9 +2643,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 361.77001953125,
+      "MeanScore": 361.7699890136719,
       "SDScore": 0.0,
-      "P99Score": 361.77001953125,
+      "P99Score": 361.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -2667,9 +2667,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 361.77001953125,
+      "MeanScore": 361.7699890136719,
       "SDScore": 0.0,
-      "P99Score": 361.77001953125,
+      "P99Score": 361.7699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -2716,8 +2716,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 358.3599853515625,
-      "SDScore": 0.0002550730554344,
-      "P99Score": 358.3605787402227,
+      "SDScore": 0.0,
+      "P99Score": 358.3599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -2740,8 +2740,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 358.1999816894531,
-      "SDScore": 0.0001133555011516,
-      "P99Score": 358.2002453937822,
+      "SDScore": 0.0,
+      "P99Score": 358.1999816894531,
       "TotalPayout": 0.0
     },
     {
@@ -2836,8 +2836,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 356.8300170898437,
-      "SDScore": 0.0002718637830679,
-      "P99Score": 356.8306495395775,
+      "SDScore": 0.0,
+      "P99Score": 356.8300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -3004,8 +3004,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 350.7300109863281,
-      "SDScore": 0.0001620244351668,
-      "P99Score": 350.7303879115284,
+      "SDScore": 0.0,
+      "P99Score": 350.7300109863281,
       "TotalPayout": 0.0
     },
     {
@@ -3028,8 +3028,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 350.66998291015625,
-      "SDScore": 0.0002611618439405,
-      "P99Score": 350.6705904634567,
+      "SDScore": 0.0,
+      "P99Score": 350.66998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -3051,9 +3051,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 349.27001953125,
+      "MeanScore": 349.2699890136719,
       "SDScore": 0.0,
-      "P99Score": 349.27001953125,
+      "P99Score": 349.2699890136719,
       "TotalPayout": 0.0
     },
     {
@@ -3100,8 +3100,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 347.1199951171875,
-      "SDScore": 0.0002328539850435,
-      "P99Score": 347.12053681656056,
+      "SDScore": 0.0,
+      "P99Score": 347.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3123,9 +3123,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 346.82000732421875,
+      "MeanScore": 346.8199768066406,
       "SDScore": 0.0,
-      "P99Score": 346.82000732421875,
+      "P99Score": 346.8199768066406,
       "TotalPayout": 0.0
     },
     {
@@ -3148,8 +3148,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 346.3800048828125,
-      "SDScore": 0.0002312863491718,
-      "P99Score": 346.3805429353192,
+      "SDScore": 0.0,
+      "P99Score": 346.3800048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3172,8 +3172,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 346.3800048828125,
-      "SDScore": 0.0002312863491718,
-      "P99Score": 346.3805429353192,
+      "SDScore": 0.0,
+      "P99Score": 346.3800048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3292,8 +3292,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 342.8900146484375,
-      "SDScore": 0.0002478685145034,
-      "P99Score": 342.89059127682924,
+      "SDScore": 0.0,
+      "P99Score": 342.8900146484375,
       "TotalPayout": 0.0
     },
     {
@@ -3315,9 +3315,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 342.0400390625,
+      "MeanScore": 342.0400085449219,
       "SDScore": 0.0,
-      "P99Score": 342.0400390625,
+      "P99Score": 342.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -3364,8 +3364,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 341.0400085449219,
-      "SDScore": 0.000218340447498,
-      "P99Score": 341.04051648075773,
+      "SDScore": 0.0,
+      "P99Score": 341.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -3388,8 +3388,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 340.8599853515625,
-      "SDScore": 0.0002468389725224,
-      "P99Score": 340.86055958488146,
+      "SDScore": 0.0,
+      "P99Score": 340.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -3412,8 +3412,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 340.8599853515625,
-      "SDScore": 0.0002468389725224,
-      "P99Score": 340.86055958488146,
+      "SDScore": 0.0,
+      "P99Score": 340.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -3436,8 +3436,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 338.0400085449219,
-      "SDScore": 0.0002179068016926,
-      "P99Score": 338.0405154719467,
+      "SDScore": 0.0,
+      "P99Score": 338.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -3460,8 +3460,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 337.1199951171875,
-      "SDScore": 0.0002098093986589,
-      "P99Score": 337.120483206836,
+      "SDScore": 0.0,
+      "P99Score": 337.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3484,8 +3484,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 337.1199951171875,
-      "SDScore": 0.0002098093986589,
-      "P99Score": 337.120483206836,
+      "SDScore": 0.0,
+      "P99Score": 337.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3508,8 +3508,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 336.6199951171875,
-      "SDScore": 0.0002085223189923,
-      "P99Score": 336.620480212641,
+      "SDScore": 0.0,
+      "P99Score": 336.6199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3532,8 +3532,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 335.6300048828125,
-      "SDScore": 0.0002059946823197,
-      "P99Score": 335.6304840981037,
+      "SDScore": 0.0,
+      "P99Score": 335.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3556,8 +3556,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 331.4100036621094,
-      "SDScore": 0.0001772098955935,
-      "P99Score": 331.4104159139732,
+      "SDScore": 0.0,
+      "P99Score": 331.4100036621094,
       "TotalPayout": 0.0
     },
     {
@@ -3579,9 +3579,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 329.8900146484375,
-      "SDScore": 0.0002408412633777,
-      "P99Score": 329.89057492899855,
+      "MeanScore": 329.8899841308594,
+      "SDScore": 0.0,
+      "P99Score": 329.8899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -3628,8 +3628,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 328.1199951171875,
-      "SDScore": 0.0001844919241914,
-      "P99Score": 328.1204243095831,
+      "SDScore": 0.0,
+      "P99Score": 328.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -3676,8 +3676,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 327.6300048828125,
-      "SDScore": 0.0001829473687229,
-      "P99Score": 327.6304304820348,
+      "SDScore": 0.0,
+      "P99Score": 327.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3700,8 +3700,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 327.6300048828125,
-      "SDScore": 0.0001829473687229,
-      "P99Score": 327.6304304820348,
+      "SDScore": 0.0,
+      "P99Score": 327.6300048828125,
       "TotalPayout": 0.0
     },
     {
@@ -3724,8 +3724,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 324.66998291015625,
-      "SDScore": 0.0002011336095289,
-      "P99Score": 324.6704508169012,
+      "SDScore": 0.0,
+      "P99Score": 324.66998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -4108,8 +4108,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 319.3899841308594,
-      "SDScore": 0.0001681939538033,
-      "P99Score": 319.3903754085062,
+      "SDScore": 0.0,
+      "P99Score": 319.3899841308594,
       "TotalPayout": 0.0
     },
     {
@@ -4180,8 +4180,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 316.1400146484375,
-      "SDScore": 0.0002321028411991,
-      "P99Score": 316.14055460038867,
+      "SDScore": 0.0,
+      "P99Score": 316.1400146484375,
       "TotalPayout": 0.0
     },
     {
@@ -4204,8 +4204,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 315.3699951171875,
-      "SDScore": 0.0001357310167507,
-      "P99Score": 315.37031087474975,
+      "SDScore": 0.0,
+      "P99Score": 315.3699951171875,
       "TotalPayout": 0.0
     },
     {
@@ -4300,8 +4300,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 314.1199951171875,
-      "SDScore": 0.0001295319498948,
-      "P99Score": 314.1202964535637,
+      "SDScore": 0.0,
+      "P99Score": 314.1199951171875,
       "TotalPayout": 0.0
     },
     {
@@ -4347,9 +4347,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 310.6500244140625,
-      "SDScore": 0.0001608526158061,
-      "P99Score": 310.6503986132033,
+      "MeanScore": 310.64996337890625,
+      "SDScore": 0.0,
+      "P99Score": 310.64996337890625,
       "TotalPayout": 0.0
     },
     {
@@ -4492,8 +4492,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 304.41998291015625,
-      "SDScore": 0.0001172676315433,
-      "P99Score": 304.4202557154616,
+      "SDScore": 0.0,
+      "P99Score": 304.41998291015625,
       "TotalPayout": 0.0
     },
     {
@@ -4636,8 +4636,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 304.0400085449219,
-      "SDScore": 0.0002117081649508,
-      "P99Score": 304.04050105176134,
+      "SDScore": 0.0,
+      "P99Score": 304.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -4684,8 +4684,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 299.5800170898437,
-      "SDScore": 8.092235375369685e-05,
-      "P99Score": 299.58020534338937,
+      "SDScore": 0.0,
+      "P99Score": 299.5800170898437,
       "TotalPayout": 0.0
     },
     {
@@ -4732,8 +4732,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 295.8300170898437,
-      "SDScore": 2.7242523711978143e-05,
-      "P99Score": 295.83008046543085,
+      "SDScore": 0.0,
+      "P99Score": 295.8300170898437,
       "TotalPayout": 0.0
     },
     {
@@ -4756,8 +4756,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 295.70001220703125,
-      "SDScore": 0.0001842551430146,
-      "P99Score": 295.7004408485915,
+      "SDScore": 0.0,
+      "P99Score": 295.70001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -4780,8 +4780,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 295.29998779296875,
-      "SDScore": 0.0001856713007287,
-      "P99Score": 295.3004197290045,
+      "SDScore": 0.0,
+      "P99Score": 295.29998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -4851,9 +4851,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 291.1600036621094,
+      "MeanScore": 291.15997314453125,
       "SDScore": 0.0,
-      "P99Score": 291.1600036621094,
+      "P99Score": 291.15997314453125,
       "TotalPayout": 0.0
     },
     {
@@ -4948,8 +4948,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 290.20001220703125,
-      "SDScore": 0.0001906595073709,
-      "P99Score": 290.2004557473709,
+      "SDScore": 0.0,
+      "P99Score": 290.20001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -4996,8 +4996,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 289.21002197265625,
-      "SDScore": 0.000233103828447,
-      "P99Score": 289.210564253252,
+      "SDScore": 0.0,
+      "P99Score": 289.21002197265625,
       "TotalPayout": 0.0
     },
     {
@@ -5020,8 +5020,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 286.2799987792969,
-      "SDScore": 0.0002093928342533,
-      "P99Score": 286.2804858998717,
+      "SDScore": 0.0,
+      "P99Score": 286.2799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -5044,8 +5044,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 282.5299987792969,
-      "SDScore": 0.0002055349905837,
-      "P99Score": 282.53047692518527,
+      "SDScore": 0.0,
+      "P99Score": 282.5299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -5068,8 +5068,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 278.20001220703125,
-      "SDScore": 0.000178885386734,
-      "P99Score": 278.2004283566704,
+      "SDScore": 0.0,
+      "P99Score": 278.20001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -5116,8 +5116,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 275.20001220703125,
-      "SDScore": 0.0001755598606354,
-      "P99Score": 275.2004206203398,
+      "SDScore": 0.0,
+      "P99Score": 275.20001220703125,
       "TotalPayout": 0.0
     },
     {
@@ -5163,9 +5163,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 273.8999938964844,
+      "MeanScore": 273.89996337890625,
       "SDScore": 0.0,
-      "P99Score": 273.8999938964844,
+      "P99Score": 273.89996337890625,
       "TotalPayout": 0.0
     },
     {
@@ -5187,9 +5187,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 273.8500061035156,
+      "MeanScore": 273.8499755859375,
       "SDScore": 0.0,
-      "P99Score": 273.8500061035156,
+      "P99Score": 273.8499755859375,
       "TotalPayout": 0.0
     },
     {
@@ -5211,9 +5211,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 272.2200012207031,
-      "SDScore": 0.0001937260041181,
-      "P99Score": 272.2204518947809,
+      "MeanScore": 272.219970703125,
+      "SDScore": 0.0,
+      "P99Score": 272.219970703125,
       "TotalPayout": 0.0
     },
     {
@@ -5260,8 +5260,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 271.7799987792969,
-      "SDScore": 0.0001931618071989,
-      "P99Score": 271.7804481408564,
+      "SDScore": 0.0,
+      "P99Score": 271.7799987792969,
       "TotalPayout": 0.0
     },
     {
@@ -5283,9 +5283,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 271.5800170898437,
+      "MeanScore": 271.5799865722656,
       "SDScore": 0.0,
-      "P99Score": 271.5800170898437,
+      "P99Score": 271.5799865722656,
       "TotalPayout": 0.0
     },
     {
@@ -5308,8 +5308,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 270.79998779296875,
-      "SDScore": 0.0001703859184152,
-      "P99Score": 270.8003841698878,
+      "SDScore": 0.0,
+      "P99Score": 270.79998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -5380,8 +5380,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 269.0400085449219,
-      "SDScore": 0.0002024676644056,
-      "P99Score": 269.0404795551425,
+      "SDScore": 0.0,
+      "P99Score": 269.0400085449219,
       "TotalPayout": 0.0
     },
     {
@@ -5451,9 +5451,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 262.84002685546875,
+      "MeanScore": 262.8399963378906,
       "SDScore": 0.0,
-      "P99Score": 262.84002685546875,
+      "P99Score": 262.8399963378906,
       "TotalPayout": 0.0
     },
     {
@@ -5500,8 +5500,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 261.7400207519531,
-      "SDScore": 0.0001278925966655,
-      "P99Score": 261.74031827462346,
+      "SDScore": 0.0,
+      "P99Score": 261.7400207519531,
       "TotalPayout": 0.0
     },
     {
@@ -5596,8 +5596,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 259.5299987792969,
-      "SDScore": 0.00017589110595,
-      "P99Score": 259.53040796319726,
+      "SDScore": 0.0,
+      "P99Score": 259.5299987792969,
       "TotalPayout": 0.0
     },
     {
@@ -5644,8 +5644,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 256.6099853515625,
-      "SDScore": 0.0001666293248772,
-      "P99Score": 256.6103729893382,
+      "SDScore": 0.0,
+      "P99Score": 256.6099853515625,
       "TotalPayout": 0.0
     },
     {
@@ -5668,8 +5668,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 256.6099853515625,
-      "SDScore": 0.0001666293248772,
-      "P99Score": 256.6103729893382,
+      "SDScore": 0.0,
+      "P99Score": 256.6099853515625,
       "TotalPayout": 0.0
     },
     {
@@ -5691,9 +5691,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 254.80999755859372,
+      "MeanScore": 254.8099822998047,
       "SDScore": 0.0,
-      "P99Score": 254.80999755859372,
+      "P99Score": 254.8099822998047,
       "TotalPayout": 0.0
     },
     {
@@ -5716,8 +5716,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 254.77999877929688,
-      "SDScore": 0.000167955856587,
-      "P99Score": 254.7803895030468,
+      "SDScore": 0.0,
+      "P99Score": 254.77999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -5740,8 +5740,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 254.4400177001953,
-      "SDScore": 0.0001529458651091,
-      "P99Score": 254.44037350548345,
+      "SDScore": 0.0,
+      "P99Score": 254.4400177001953,
       "TotalPayout": 0.0
     },
     {
@@ -5812,8 +5812,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 245.22000122070312,
-      "SDScore": 0.0001490914913536,
-      "P99Score": 245.22034805937707,
+      "SDScore": 0.0,
+      "P99Score": 245.22000122070312,
       "TotalPayout": 0.0
     },
     {
@@ -5836,8 +5836,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 244.77999877929688,
-      "SDScore": 0.0001480876617031,
-      "P99Score": 244.78034328271383,
+      "SDScore": 0.0,
+      "P99Score": 244.77999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -5860,8 +5860,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 244.77999877929688,
-      "SDScore": 0.0001480876617031,
-      "P99Score": 244.78034328271383,
+      "SDScore": 0.0,
+      "P99Score": 244.77999877929688,
       "TotalPayout": 0.0
     },
     {
@@ -5883,9 +5883,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 239.5200042724609,
+      "MeanScore": 239.51998901367188,
       "SDScore": 0.0,
-      "P99Score": 239.5200042724609,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -5907,9 +5907,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 239.5200042724609,
+      "MeanScore": 239.51998901367188,
       "SDScore": 0.0,
-      "P99Score": 239.5200042724609,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -5931,9 +5931,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 239.5200042724609,
+      "MeanScore": 239.51998901367188,
       "SDScore": 0.0,
-      "P99Score": 239.5200042724609,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -5955,9 +5955,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 239.5200042724609,
+      "MeanScore": 239.51998901367188,
       "SDScore": 0.0,
-      "P99Score": 239.5200042724609,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -5979,9 +5979,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 239.5200042724609,
+      "MeanScore": 239.51998901367188,
       "SDScore": 0.0,
-      "P99Score": 239.5200042724609,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     },
     {
@@ -6004,8 +6004,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 238.3299865722656,
-      "SDScore": 0.0001474968841017,
-      "P99Score": 238.3303297013284,
+      "SDScore": 0.0,
+      "P99Score": 238.3299865722656,
       "TotalPayout": 0.0
     },
     {
@@ -6028,8 +6028,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 237.6100006103516,
-      "SDScore": 0.0001097021159294,
-      "P99Score": 237.61025581563567,
+      "SDScore": 0.0,
+      "P99Score": 237.6100006103516,
       "TotalPayout": 0.0
     },
     {
@@ -6052,8 +6052,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 229.97000122070312,
-      "SDScore": 0.0001054063488687,
-      "P99Score": 229.97024643253872,
+      "SDScore": 0.0,
+      "P99Score": 229.97000122070312,
       "TotalPayout": 0.0
     },
     {
@@ -6099,9 +6099,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 227.58001708984372,
+      "MeanScore": 227.5799865722656,
       "SDScore": 0.0,
-      "P99Score": 227.58001708984372,
+      "P99Score": 227.5799865722656,
       "TotalPayout": 0.0
     },
     {
@@ -6148,8 +6148,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 219.17999267578125,
-      "SDScore": 8.30084379122951e-05,
-      "P99Score": 219.1801857822843,
+      "SDScore": 0.0,
+      "P99Score": 219.17999267578125,
       "TotalPayout": 0.0
     },
     {
@@ -6388,8 +6388,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 205.90000915527344,
-      "SDScore": 0.0001026080696236,
-      "P99Score": 205.9002478573381,
+      "SDScore": 0.0,
+      "P99Score": 205.90000915527344,
       "TotalPayout": 0.0
     },
     {
@@ -6460,8 +6460,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 199.19000244140625,
-      "SDScore": 0.000154106986027,
-      "P99Score": 199.1903609478656,
+      "SDScore": 0.0,
+      "P99Score": 199.19000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6508,8 +6508,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 191.44000244140625,
-      "SDScore": 0.0001452350235158,
-      "P99Score": 191.44034030859444,
+      "SDScore": 0.0,
+      "P99Score": 191.44000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6531,9 +6531,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 181.8500061035156,
+      "MeanScore": 181.84999084472656,
       "SDScore": 0.0,
-      "P99Score": 181.8500061035156,
+      "P99Score": 181.84999084472656,
       "TotalPayout": 0.0
     },
     {
@@ -6627,9 +6627,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 172.5900115966797,
+      "MeanScore": 172.58999633789062,
       "SDScore": 0.0,
-      "P99Score": 172.5900115966797,
+      "P99Score": 172.58999633789062,
       "TotalPayout": 0.0
     },
     {
@@ -6652,8 +6652,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 169.1699981689453,
-      "SDScore": 9.855709284440352e-05,
-      "P99Score": 169.1702274470287,
+      "SDScore": 0.0,
+      "P99Score": 169.1699981689453,
       "TotalPayout": 0.0
     },
     {
@@ -6676,8 +6676,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 168.19000244140625,
-      "SDScore": 0.0001039641434404,
-      "P99Score": 168.1902442981703,
+      "SDScore": 0.0,
+      "P99Score": 168.19000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6700,8 +6700,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 165.57000732421875,
-      "SDScore": 0.0001207675572563,
-      "P99Score": 165.5702882715688,
+      "SDScore": 0.0,
+      "P99Score": 165.57000732421875,
       "TotalPayout": 0.0
     },
     {
@@ -6724,8 +6724,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 161.69000244140625,
-      "SDScore": 8.433456996428694e-05,
-      "P99Score": 161.69019863295378,
+      "SDScore": 0.0,
+      "P99Score": 161.69000244140625,
       "TotalPayout": 0.0
     },
     {
@@ -6748,8 +6748,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 133.14999389648438,
-      "SDScore": 8.228211387330974e-05,
-      "P99Score": 133.15018531330506,
+      "SDScore": 0.0,
+      "P99Score": 133.14999389648438,
       "TotalPayout": 0.0
     },
     {
@@ -6772,8 +6772,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 133.14999389648438,
-      "SDScore": 8.228211387330974e-05,
-      "P99Score": 133.15018531330506,
+      "SDScore": 0.0,
+      "P99Score": 133.14999389648438,
       "TotalPayout": 0.0
     },
     {

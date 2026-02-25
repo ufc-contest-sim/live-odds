@@ -1,20 +1,20 @@
 {
   "contests": [
     {
-      "id": "ufc_120k_mega_mini-max",
-      "name": "UFC 120k MEGA mini-MAX",
-      "file": "UFC_120k_MEGA_mini-MAX.json",
-      "entryFee": 3.0,
-      "totalPrizes": 120000,
-      "entrants": 0
-    },
-    {
       "id": "ufc_150k_knockout",
       "name": "UFC 150K Knockout",
       "file": "UFC_150K_Knockout.json",
       "entryFee": 555.0,
       "totalPrizes": 150000,
       "entrants": 283
+    },
+    {
+      "id": "ufc_26k_double_champ",
+      "name": "UFC 26k Double Champ",
+      "file": "UFC_26k_Double_Champ.json",
+      "entryFee": 2120.0,
+      "totalPrizes": 26000,
+      "entrants": 13
     },
     {
       "id": "ufc_333k_throwdown",

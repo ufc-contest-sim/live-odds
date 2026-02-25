@@ -1,6 +1,6 @@
 {
   "contest_name": "UFC 26k Double Champ",
-  "last_updated": "2026-02-24T19:20:38.090091",
+  "last_updated": "2026-02-24T21:48:39.423961",
   "total_lineups": 13,
   "summary": {
     "top_win_pct": 100.0,
@@ -30,7 +30,7 @@
       "MeanScore": 425.0499877929688,
       "SDScore": 0.0,
       "P99Score": 425.0499877929688,
-      "TotalPayout": 1300000000.0
+      "TotalPayout": 13000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -54,7 +54,7 @@
       "MeanScore": 424.1700134277344,
       "SDScore": 0.0,
       "P99Score": 424.1700134277344,
-      "TotalPayout": 800000000.0
+      "TotalPayout": 8000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -78,7 +78,7 @@
       "MeanScore": 395.5299987792969,
       "SDScore": 0.0,
       "P99Score": 395.5299987792969,
-      "TotalPayout": 500000000.0
+      "TotalPayout": 5000.0
     },
     {
       "Contest": "UFC $26k Double Champ",
@@ -123,9 +123,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 359.96002197265625,
-      "SDScore": 0.0002756907929037,
-      "P99Score": 359.9606633253462,
+      "MeanScore": 359.9599914550781,
+      "SDScore": 0.0,
+      "P99Score": 359.9599914550781,
       "TotalPayout": 0.0
     },
     {
@@ -220,8 +220,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 340.8599853515625,
-      "SDScore": 0.0002468389725224,
-      "P99Score": 340.86055958488146,
+      "SDScore": 0.0,
+      "P99Score": 340.8599853515625,
       "TotalPayout": 0.0
     },
     {
@@ -268,8 +268,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 292.29998779296875,
-      "SDScore": 0.0001924825879576,
-      "P99Score": 292.30043557442804,
+      "SDScore": 0.0,
+      "P99Score": 292.29998779296875,
       "TotalPayout": 0.0
     },
     {
@@ -315,9 +315,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 239.5200042724609,
+      "MeanScore": 239.51998901367188,
       "SDScore": 0.0,
-      "P99Score": 239.5200042724609,
+      "P99Score": 239.51998901367188,
       "TotalPayout": 0.0
     }
   ],

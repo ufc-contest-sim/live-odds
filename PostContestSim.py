@@ -587,26 +587,42 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     fight_card = [fight_card_map[fid] for fid in fight_card_order]
     fights = sorted(set(fid for (fid, _) in fmap.values()))
     id2idx = {fid: i for i, fid in enumerate(fights)}
-    S1_list, S2_list, N_list = load_fight_sims(xl, fights)
-    # Apply fixed scores: if both fighters in a fight have scores in column C,
-    # replace their sim data with the fixed score (single element, no sampling variance)
+    # Build fight_fighters map FIRST to determine which fights have fixed scores
     fight_fighters = {}  # fid -> {slot: (name, score_or_None)}
     for name, (fid, slot) in fmap.items():
         if fid not in fight_fighters:
             fight_fighters[fid] = {}
         fight_fighters[fid][slot] = (name, fixed_scores.get(name))
-    fixed_count = 0
+    # Determine which fights are fully fixed (both fighters have scores)
+    fixed_fights = set()
     for fid in fights:
         ff = fight_fighters.get(fid, {})
         f1 = ff.get(1)
         f2 = ff.get(2)
         if f1 and f2 and f1[1] is not None and f2[1] is not None:
-            idx = id2idx[fid]
-            S1_list[idx] = np.array([f1[1]], dtype=np.float32)
-            S2_list[idx] = np.array([f2[1]], dtype=np.float32)
-            N_list[idx] = 1
-            fixed_count += 1
+            fixed_fights.add(fid)
+    sim_fights = [fid for fid in fights if fid not in fixed_fights]
+    # Only load sim sheets for fights that need them
+    if sim_fights:
+        sim_S1, sim_S2, sim_N = load_fight_sims(xl, sim_fights)
+        sim_map = {fid: i for i, fid in enumerate(sim_fights)}
+    # Build final S1/S2/N lists in fight order
+    S1_list, S2_list, N_list = [], [], []
+    for fid in fights:
+        if fid in fixed_fights:
+            ff = fight_fighters[fid]
+            f1 = ff[1]
+            f2 = ff[2]
+            S1_list.append(np.array([f1[1]], dtype=np.float32))
+            S2_list.append(np.array([f2[1]], dtype=np.float32))
+            N_list.append(1)
             log(f"[fixed] fight {fid}: {f1[0]}={f1[1]:.2f}, {f2[0]}={f2[1]:.2f}")
+        else:
+            si = sim_map[fid]
+            S1_list.append(sim_S1[si])
+            S2_list.append(sim_S2[si])
+            N_list.append(sim_N[si])
+    fixed_count = len(fixed_fights)
     if fixed_count:
         log(f"[info] {fixed_count} fight(s) locked with fixed scores, {len(fights) - fixed_count} fight(s) simulated")
     F = len(fights)

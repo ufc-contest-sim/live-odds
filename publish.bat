@@ -20,7 +20,7 @@ if %errorlevel% neq 0 (
 
 echo.
 echo Syncing with GitHub...
-git pull --rebase origin main
+git pull --no-rebase -X ours origin main
 if %errorlevel% neq 0 (
     echo.
     echo Pull failed. Check your internet connection or resolve conflicts.

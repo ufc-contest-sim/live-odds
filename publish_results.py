@@ -20,6 +20,16 @@ def extract_entry_fee(df):
     if 'EntryFee' in df.columns:
         return float(df['EntryFee'].iloc[0])
     return 0
+
+def extract_total_prizes(contest_name):
+    """Extract total prize pool from contest name like 'UFC 150K Knockout' -> 150000"""
+    match = re.search(r'(\d+(?:\.\d+)?)\s*[Kk]', contest_name)
+    if match:
+        return int(float(match.group(1)) * 1000)
+    match = re.search(r'(\d+(?:\.\d+)?)\s*[Mm]', contest_name)
+    if match:
+        return int(float(match.group(1)) * 1000000)
+    return 0
 def sanitize_filename(name):
     """Convert contest name to safe filename"""
     # Remove special characters, replace spaces with underscores
@@ -122,11 +132,14 @@ def publish_results():
             print(f"  Top ROI: {top_roi:.2f}%")
 
             # Add to contests config
+            total_prizes = extract_total_prizes(contest_name)
             contests_config.append({
                 "id": sanitize_filename(contest_name).lower(),
                 "name": contest_name,
                 "file": json_filename,
-                "entryFee": entry_fee
+                "entryFee": entry_fee,
+                "totalPrizes": total_prizes,
+                "entrants": len(results_df)
             })
 
         # Update contests.json

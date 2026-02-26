@@ -58,8 +58,8 @@
         
         .landing-header h1 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
-            letter-spacing: 4px;
+            font-size: 4.5rem;
+            letter-spacing: 6px;
             color: var(--text-primary);
             margin-bottom: 10px;
         }
@@ -88,15 +88,19 @@
         .contest-table th {
             background: var(--bg-hover);
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 14px 20px;
-            text-align: left;
+            padding: 16px 24px;
+            text-align: center;
             border-bottom: 1px solid var(--border);
             white-space: nowrap;
             user-select: none;
+        }
+
+        .contest-table th:first-child {
+            text-align: left;
         }
 
         .contest-table th.sortable {
@@ -108,21 +112,16 @@
             color: var(--accent-green);
         }
 
-        .contest-table th .sort-arrow {
-            margin-left: 6px;
-            font-size: 0.7rem;
-            opacity: 0.3;
-        }
-
-        .contest-table th.sort-active .sort-arrow {
-            opacity: 1;
-            color: var(--accent-green);
-        }
 
         .contest-table td {
-            padding: 16px 20px;
+            padding: 18px 24px;
             border-bottom: 1px solid var(--border);
-            font-size: 0.95rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .contest-table td:first-child {
+            text-align: left;
         }
 
         .contest-table tr:last-child td {
@@ -144,7 +143,7 @@
 
         .contest-table-name {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             letter-spacing: 1.5px;
             transition: color 0.15s;
         }
@@ -152,7 +151,7 @@
         .contest-table .col-fee,
         .contest-table .col-prizes,
         .contest-table .col-entrants {
-            text-align: right;
+            text-align: center;
         }
 
         .contest-table td.col-fee {
@@ -169,16 +168,26 @@
         }
 
         @media (max-width: 600px) {
+            .landing-header h1 {
+                font-size: 3rem;
+                letter-spacing: 3px;
+            }
+            .contest-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .contest-table {
+                min-width: 100%;
+            }
             .contest-table th,
             .contest-table td {
-                padding: 12px 14px;
+                padding: 12px 10px;
+                font-size: 0.85rem;
+                white-space: nowrap;
             }
             .contest-table-name {
-                font-size: 1.1rem;
-            }
-            .contest-table td,
-            .contest-table th {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
+                letter-spacing: 1px;
             }
         }
 
@@ -1426,8 +1435,8 @@
         }
         
         // Contest table sorting state
-        let contestSortKey = null;
-        let contestSortAsc = true;
+        let contestSortKey = 'entryFee';
+        let contestSortAsc = false;
 
         function formatMoney(val) {
             if (val >= 1000000) return '$' + (val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1) + 'M';
@@ -1447,14 +1456,6 @@
                 });
             }
 
-            const arrow = (key) => {
-                if (contestSortKey !== key) return '<span class="sort-arrow">&#x25B4;&#x25BE;</span>';
-                return contestSortAsc
-                    ? '<span class="sort-arrow">&#x25B4;</span>'
-                    : '<span class="sort-arrow">&#x25BE;</span>';
-            };
-            const activeClass = (key) => contestSortKey === key ? 'sort-active' : '';
-
             const rows = sorted.map(contest => `
                 <tr onclick="loadContest(${contest._idx})">
                     <td><span class="contest-table-name">${contest.name}</span></td>
@@ -1470,9 +1471,9 @@
                         <thead>
                             <tr>
                                 <th>Contest</th>
-                                <th class="col-fee sortable ${activeClass('entryFee')}" onclick="sortContests('entryFee')">Entry Fee ${arrow('entryFee')}</th>
-                                <th class="col-prizes sortable ${activeClass('totalPrizes')}" onclick="sortContests('totalPrizes')">Total Prizes ${arrow('totalPrizes')}</th>
-                                <th class="col-entrants sortable ${activeClass('entrants')}" onclick="sortContests('entrants')">Entrants ${arrow('entrants')}</th>
+                                <th class="col-fee sortable" onclick="sortContests('entryFee')">Entry Fee</th>
+                                <th class="col-prizes sortable" onclick="sortContests('totalPrizes')">Total Prizes</th>
+                                <th class="col-entrants sortable" onclick="sortContests('entrants')">Entrants</th>
                             </tr>
                         </thead>
                         <tbody>

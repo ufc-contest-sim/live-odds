@@ -1,32 +1,24 @@
 {
   "contests": [
     {
-      "id": "ufc_150k_knockout",
-      "name": "UFC 150K Knockout",
-      "file": "UFC_150K_Knockout.json",
-      "entryFee": 555.0,
-      "totalPrizes": 150000,
-      "entrants": 283
-    },
-    {
-      "id": "ufc_26k_double_champ",
-      "name": "UFC 26k Double Champ",
-      "file": "UFC_26k_Double_Champ.json",
-      "entryFee": 2120.0,
-      "totalPrizes": 26000,
-      "entrants": 13
-    },
-    {
-      "id": "ufc_333k_throwdown",
-      "name": "UFC 333K Throwdown",
-      "file": "UFC_333K_Throwdown.json",
+      "id": "ufc_400k_throwdown",
+      "name": "UFC $400K Throwdown",
+      "file": "UFC_400K_Throwdown.json",
       "entryFee": 15.0,
-      "totalPrizes": 333000,
-      "entrants": 27450
+      "totalPrizes": 400000,
+      "entrants": 26143
+    },
+    {
+      "id": "ufc_120k_mega_mini_max",
+      "name": "UFC $120K MEGA mini-MAX",
+      "file": "UFC_120K_MEGA_mini_MAX.json",
+      "entryFee": 3.0,
+      "totalPrizes": 120000,
+      "entrants": 47562
     },
     {
       "id": "ufc_40k_arm_bar",
-      "name": "UFC 40k Arm Bar",
+      "name": "UFC $40k Arm Bar",
       "file": "UFC_40k_Arm_Bar.json",
       "entryFee": 5.0,
       "totalPrizes": 40000,
@@ -34,11 +26,43 @@
     },
     {
       "id": "ufc_40k_hook",
-      "name": "UFC 40k Hook",
+      "name": "UFC $40k Hook",
       "file": "UFC_40k_Hook.json",
       "entryFee": 8.0,
       "totalPrizes": 40000,
       "entrants": 5882
+    },
+    {
+      "id": "ufc_100k_knockout",
+      "name": "UFC $100K Knockout",
+      "file": "UFC_100K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 100000,
+      "entrants": 200
+    },
+    {
+      "id": "ufc_30k_triangle",
+      "name": "UFC $30K Triangle",
+      "file": "UFC_30K_Triangle.json",
+      "entryFee": 200.0,
+      "totalPrizes": 30000,
+      "entrants": 167
+    },
+    {
+      "id": "ufc_20k_contender",
+      "name": "UFC $20K Contender",
+      "file": "UFC_20K_Contender.json",
+      "entryFee": 100.0,
+      "totalPrizes": 20000,
+      "entrants": 222
+    },
+    {
+      "id": "ufc_26k_double_champ",
+      "name": "UFC $26k Double Champ",
+      "file": "UFC_26k_Double_Champ.json",
+      "entryFee": 2120.0,
+      "totalPrizes": 26000,
+      "entrants": 13
     }
   ]
 }

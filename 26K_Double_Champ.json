@@ -1,11 +1,11 @@
 {
   "contest_name": "26K Double Champ",
-  "last_updated": "2026-02-28T21:50:49.263623",
+  "last_updated": "2026-02-28T22:07:30.091423",
   "total_lineups": 13,
   "summary": {
-    "top_win_pct": 68.3,
-    "top_netev": 9290.6,
-    "top_roi": 438.24
+    "top_win_pct": 68.08,
+    "top_netev": 9281.76,
+    "top_roi": 437.82
   },
   "leaderboard": [
     {
@@ -21,16 +21,16 @@
       "F5": "Francis Marshall",
       "F6": "Javier Reyes",
       "EntryFee": 2120.0,
-      "AvgWinPayout": 12999.211580308429,
-      "EV": 9585.2,
-      "NetEV": 7465.200000000001,
-      "ROI%": 352.13207547169816,
-      "WinPct": 31.709,
+      "AvgWinPayout": 12999.6867952894,
+      "EV": 9596.3,
+      "NetEV": 7476.299999999999,
+      "ROI%": 352.65566037735846,
+      "WinPct": 31.928,
       "CashPct": 100.0,
-      "MeanScore": 650.0866315820313,
-      "SDScore": 47.316493443453005,
-      "P99Score": 760.1612555093432,
-      "TotalPayout": 958520000.0
+      "MeanScore": 650.326581015625,
+      "SDScore": 47.40282085318576,
+      "P99Score": 760.6020325290366,
+      "TotalPayout": 479815000.0
     },
     {
       "Contest": "$26K Double Champ",
@@ -51,9 +51,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 483.9567922201538,
-      "SDScore": 40.32672679372258,
-      "P99Score": 577.7707873621092,
+      "MeanScore": 483.7793108343506,
+      "SDScore": 40.44350607143805,
+      "P99Score": 577.8649752007466,
       "TotalPayout": 0.0
     },
     {
@@ -76,8 +76,8 @@
       "WinPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 391.6500244140625,
-      "SDScore": 0.0001488228358147,
-      "P99Score": 391.6503706277502,
+      "SDScore": 0.0,
+      "P99Score": 391.6500244140625,
       "TotalPayout": 0.0
     },
     {
@@ -94,15 +94,15 @@
       "F6": "Regina Tarin",
       "EntryFee": 2120.0,
       "AvgWinPayout": 0.0,
-      "EV": 399.79,
-      "NetEV": -1720.21,
-      "ROI%": -81.14198113207547,
+      "EV": 499.74,
+      "NetEV": -1620.26,
+      "ROI%": -76.42735849056604,
       "WinPct": 0.0,
-      "CashPct": 7.985,
-      "MeanScore": 500.7666376928711,
-      "SDScore": 47.31649192581275,
-      "P99Score": 610.8412580896238,
-      "TotalPayout": 39979000.0
+      "CashPct": 9.984,
+      "MeanScore": 501.0065869030762,
+      "SDScore": 47.40281933465575,
+      "P99Score": 611.2820348838587,
+      "TotalPayout": 24987000.0
     },
     {
       "Contest": "$26K Double Champ",
@@ -123,9 +123,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 426.0267960601807,
-      "SDScore": 40.32672226589952,
-      "P99Score": 519.8407806688444,
+      "MeanScore": 425.8493146826172,
+      "SDScore": 40.44350155130483,
+      "P99Score": 519.9349685336109,
       "TotalPayout": 0.0
     },
     {
@@ -142,15 +142,15 @@
       "F6": "Brandon Moreno",
       "EntryFee": 2120.0,
       "AvgWinPayout": 0.0,
-      "EV": 3468.91,
-      "NetEV": 1348.91,
-      "ROI%": 63.62783018867923,
+      "EV": 3257.8,
+      "NetEV": 1137.8000000000002,
+      "ROI%": 53.669811320754725,
       "WinPct": 0.0,
-      "CashPct": 69.329,
-      "MeanScore": 548.4367848046875,
-      "SDScore": 40.32672262420304,
-      "P99Score": 642.2507702468899,
-      "TotalPayout": 346891000.0
+      "CashPct": 65.14999999999999,
+      "MeanScore": 541.0593062902832,
+      "SDScore": 40.44350178370079,
+      "P99Score": 635.1449606819108,
+      "TotalPayout": 162890000.0
     },
     {
       "Contest": "$26K Double Champ",
@@ -166,15 +166,15 @@
       "F6": "Regina Tarin",
       "EntryFee": 2120.0,
       "AvgWinPayout": 0.0,
-      "EV": 346.95,
-      "NetEV": -1773.05,
-      "ROI%": -83.63443396226415,
+      "EV": 351.8,
+      "NetEV": -1768.2,
+      "ROI%": -83.40566037735849,
       "WinPct": 0.0,
-      "CashPct": 6.938999999999999,
-      "MeanScore": 472.83984763946535,
-      "SDScore": 41.55172450909146,
-      "P99Score": 569.503613612224,
-      "TotalPayout": 34695000.0
+      "CashPct": 7.0360000000000005,
+      "MeanScore": 473.2572781768799,
+      "SDScore": 41.61466116796118,
+      "P99Score": 570.0674567121968,
+      "TotalPayout": 17590000.0
     },
     {
       "Contest": "$26K Double Champ",
@@ -190,15 +190,15 @@
       "F6": "Javier Reyes",
       "EntryFee": 2120.0,
       "AvgWinPayout": 0.0,
-      "EV": 0.6,
-      "NetEV": -2119.4,
-      "ROI%": -99.97169811320757,
+      "EV": 0.5,
+      "NetEV": -2119.5,
+      "ROI%": -99.9764150943396,
       "WinPct": 0.0,
-      "CashPct": 0.012,
-      "MeanScore": 540.9968111340332,
-      "SDScore": 40.32672475090637,
-      "P99Score": 634.8108015236875,
-      "TotalPayout": 60000.0
+      "CashPct": 0.01,
+      "MeanScore": 540.8193298510743,
+      "SDScore": 40.44350402950687,
+      "P99Score": 634.904989467228,
+      "TotalPayout": 25000.0
     },
     {
       "Contest": "$26K Double Champ",
@@ -219,9 +219,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 393.4298361141968,
-      "SDScore": 41.55172587794645,
-      "P99Score": 490.0936052713884,
+      "MeanScore": 397.24727719665526,
+      "SDScore": 41.614663611637205,
+      "P99Score": 494.0574614168127,
       "TotalPayout": 0.0
     },
     {
@@ -237,16 +237,16 @@
       "F5": "King Green",
       "F6": "Javier Reyes",
       "EntryFee": 2120.0,
-      "AvgWinPayout": 12999.63397314827,
-      "EV": 11410.6,
-      "NetEV": 9290.6,
-      "ROI%": 438.2358490566037,
-      "WinPct": 68.301,
-      "CashPct": 99.976,
+      "AvgWinPayout": 12999.85310535284,
+      "EV": 11401.76,
+      "NetEV": 9281.76,
+      "ROI%": 437.81886792452826,
+      "WinPct": 68.07600000000001,
+      "CashPct": 99.978,
       "MeanScore": 668.02001953125,
       "SDScore": 0.0,
       "P99Score": 668.02001953125,
-      "TotalPayout": 1141060000.0
+      "TotalPayout": 570088000.0
     },
     {
       "Contest": "$26K Double Champ",
@@ -267,9 +267,9 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 510.8767965130616,
-      "SDScore": 40.32672291693687,
-      "P99Score": 604.6907826362647,
+      "MeanScore": 510.69931508911134,
+      "SDScore": 40.44350225639317,
+      "P99Score": 604.7849705803858,
       "TotalPayout": 0.0
     },
     {
@@ -291,10 +291,10 @@
       "ROI%": -99.97169811320757,
       "WinPct": 0.0,
       "CashPct": 0.012,
-      "MeanScore": 495.486647399292,
-      "SDScore": 47.31649159673496,
-      "P99Score": 605.5612670304952,
-      "TotalPayout": 60000.0
+      "MeanScore": 495.7265968011475,
+      "SDScore": 47.40281909435509,
+      "P99Score": 606.002044222907,
+      "TotalPayout": 30000.0
     },
     {
       "Contest": "$26K Double Champ",
@@ -310,15 +310,15 @@
       "F6": "Regina Tarin",
       "EntryFee": 2120.0,
       "AvgWinPayout": 0.0,
-      "EV": 787.35,
-      "NetEV": -1332.65,
-      "ROI%": -62.860849056603776,
+      "EV": 891.5,
+      "NetEV": -1228.5,
+      "ROI%": -57.948113207547166,
       "WinPct": 0.0,
-      "CashPct": 15.747,
+      "CashPct": 17.83,
       "MeanScore": 517.5199584960938,
-      "SDScore": 0.0,
-      "P99Score": 517.5199584960938,
-      "TotalPayout": 78735000.0
+      "SDScore": 0.0001792519775334,
+      "P99Score": 517.5203754985506,
+      "TotalPayout": 44575000.0
     }
   ],
   "fight_card": [
@@ -333,8 +333,8 @@
       "fight_id": 2,
       "fighter1": "David Martinez",
       "fighter2": "Marlon Vera",
-      "fighter1_score": 71.09,
-      "fighter2_score": 26.12
+      "fighter1_score": 74.49,
+      "fighter2_score": 18.92
     },
     {
       "fight_id": 3,

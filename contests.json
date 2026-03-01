@@ -33,6 +33,14 @@
       "entrants": 13
     },
     {
+      "id": "30k_thunderdome",
+      "name": "30K Thunderdome",
+      "file": "30K_Thunderdome.json",
+      "entryFee": 5300.0,
+      "totalPrizes": 30000,
+      "entrants": 6
+    },
+    {
       "id": "30k_triangle",
       "name": "30K Triangle",
       "file": "30K_Triangle.json",

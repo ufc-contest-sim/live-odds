@@ -17,6 +17,14 @@
       "entrants": 47562
     },
     {
+      "id": "12k_title_fight",
+      "name": "12K Title Fight",
+      "file": "12K_Title_Fight.json",
+      "entryFee": 1060.0,
+      "totalPrizes": 12000,
+      "entrants": 12
+    },
+    {
       "id": "20k_contender",
       "name": "20K Contender",
       "file": "20K_Contender.json",

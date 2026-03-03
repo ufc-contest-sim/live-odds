@@ -1799,56 +1799,76 @@
         let usernameIndex = null; // Map: lowercase username -> { displayName, contestCount }
         let usernameIndexBuilding = false;
 
+        function rebuildUsernameIndexFromCache() {
+            // Build (or rebuild) the username index from whatever contest data is already cached
+            const index = new Map();
+            for (let i = 0; i < CONTESTS.length; i++) {
+                const cached = contestDataCache[CONTESTS[i].file];
+                if (!cached) continue;
+                const seen = new Set();
+                (cached.leaderboard || []).forEach(row => {
+                    if (!row.Username) return;
+                    const lower = row.Username.toLowerCase();
+                    if (seen.has(lower)) return;
+                    seen.add(lower);
+                    if (index.has(lower)) {
+                        index.get(lower).contestCount++;
+                    } else {
+                        index.set(lower, { displayName: row.Username, contestCount: 1 });
+                    }
+                });
+            }
+            if (index.size > 0) {
+                usernameIndex = index;
+            }
+        }
+
         async function buildUsernameIndex() {
             if (usernameIndex || usernameIndexBuilding) return;
             usernameIndexBuilding = true;
 
-            const index = new Map(); // lowercase -> { displayName, contestCount }
             for (let i = 0; i < CONTESTS.length; i++) {
                 try {
-                    const data = await fetchContestData(CONTESTS[i]);
-                    const seen = new Set();
-                    (data.leaderboard || []).forEach(row => {
-                        if (!row.Username) return;
-                        const lower = row.Username.toLowerCase();
-                        if (seen.has(lower)) return;
-                        seen.add(lower);
-                        if (index.has(lower)) {
-                            index.get(lower).contestCount++;
-                        } else {
-                            index.set(lower, { displayName: row.Username, contestCount: 1 });
-                        }
-                    });
+                    await fetchContestData(CONTESTS[i]);
                 } catch (e) {
                     // skip
                 }
             }
-            usernameIndex = index;
+            rebuildUsernameIndexFromCache();
             usernameIndexBuilding = false;
         }
 
         function showUsernameDropdown(query) {
             const dropdown = document.getElementById('username-dropdown');
-            if (!usernameIndex || query.length < 1) {
+            if (query.length < 1) {
                 dropdown.classList.remove('visible');
                 return;
             }
 
-            const searchLower = query.toLowerCase();
-            const matches = [];
-
-            // Prioritize: starts-with first, then contains
-            for (const [lower, info] of usernameIndex) {
-                if (lower.startsWith(searchLower)) {
-                    matches.push({ ...info, priority: 0 });
-                } else if (lower.includes(searchLower)) {
-                    matches.push({ ...info, priority: 1 });
-                }
-                if (matches.length >= 50) break; // collect enough to sort
+            // If the full index isn't ready yet, try building from whatever is cached so far
+            if (!usernameIndex) {
+                rebuildUsernameIndexFromCache();
+            }
+            if (!usernameIndex) {
+                // No data cached yet at all - nothing to show
+                return;
             }
 
-            matches.sort((a, b) => a.priority - b.priority || a.displayName.localeCompare(b.displayName));
-            const top = matches.slice(0, 10);
+            const searchLower = query.toLowerCase();
+            const startsWithMatches = [];
+            const containsMatches = [];
+
+            for (const [lower, info] of usernameIndex) {
+                if (lower.startsWith(searchLower)) {
+                    startsWithMatches.push(info);
+                } else if (lower.includes(searchLower)) {
+                    containsMatches.push(info);
+                }
+            }
+
+            startsWithMatches.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            containsMatches.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            const top = startsWithMatches.concat(containsMatches).slice(0, 10);
 
             if (top.length === 0) {
                 dropdown.classList.remove('visible');
@@ -1919,7 +1939,7 @@
             });
 
             // Hide dropdown when clicking outside
-            document.addEventListener('click', (e) => {
+            document.addEventListener('mousedown', (e) => {
                 const wrapper = document.querySelector('.quick-search-wrapper');
                 if (wrapper && !wrapper.contains(e.target)) {
                     document.getElementById('username-dropdown').classList.remove('visible');
@@ -1994,6 +2014,9 @@
                     // Skip contests that fail to load
                 }
             }
+
+            // All contest data is now cached - ensure username index is built
+            rebuildUsernameIndexFromCache();
 
             if (results.length === 0) {
                 resultsContainer.innerHTML = '<div class="search-no-results">No entries found for "' + query.replace(/</g, '&lt;') + '"</div>';

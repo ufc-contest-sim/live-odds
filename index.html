@@ -2231,7 +2231,7 @@
 
             // Calculate average dupes (copies)
             const totalCopies = data.reduce((sum, r) => sum + (r.Copies || 1), 0);
-            const avgDupes = totalLineups > 0 ? totalCopies / totalLineups : 0;
+            const avgDupes = totalLineups > 0 ? Math.max(0, (totalCopies / totalLineups) - 1) : 0;
 
             const isFiltered = document.getElementById('search-user').value;
 

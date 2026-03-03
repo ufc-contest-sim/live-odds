@@ -457,12 +457,16 @@
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.2rem;
             letter-spacing: 1px;
-            margin-bottom: 4px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
         }
 
         .search-result-entries {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            letter-spacing: 0;
         }
 
         .search-result-stats {
@@ -508,7 +512,12 @@
             .search-result-card {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 8px;
+                padding: 14px 18px;
+            }
+
+            .search-result-contest {
+                flex-wrap: wrap;
             }
 
             .search-result-stats {
@@ -1827,13 +1836,7 @@
             if (usernameIndex || usernameIndexBuilding) return;
             usernameIndexBuilding = true;
 
-            for (let i = 0; i < CONTESTS.length; i++) {
-                try {
-                    await fetchContestData(CONTESTS[i]);
-                } catch (e) {
-                    // skip
-                }
-            }
+            await Promise.allSettled(CONTESTS.map(c => fetchContestData(c)));
             rebuildUsernameIndexFromCache();
             usernameIndexBuilding = false;
         }
@@ -1954,13 +1957,31 @@
             });
         }
 
-        async function fetchContestData(contest) {
-            if (contestDataCache[contest.file]) return contestDataCache[contest.file];
-            const response = await fetch(contest.file + '?v=' + Date.now());
-            if (!response.ok) throw new Error('Failed to load');
-            const data = await response.json();
-            contestDataCache[contest.file] = data;
-            return data;
+        const contestFetchPromises = {};
+        function fetchContestData(contest) {
+            if (contestDataCache[contest.file]) return Promise.resolve(contestDataCache[contest.file]);
+            // Cache the in-flight promise so concurrent callers share one request
+            if (!contestFetchPromises[contest.file]) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                contestFetchPromises[contest.file] = fetch(contest.file + '?v=' + Date.now(), { signal: controller.signal })
+                    .then(response => {
+                        clearTimeout(timeoutId);
+                        if (!response.ok) throw new Error('Failed to load');
+                        return response.json();
+                    })
+                    .then(data => {
+                        contestDataCache[contest.file] = data;
+                        delete contestFetchPromises[contest.file];
+                        return data;
+                    })
+                    .catch(err => {
+                        clearTimeout(timeoutId);
+                        delete contestFetchPromises[contest.file];
+                        throw err;
+                    });
+            }
+            return contestFetchPromises[contest.file];
         }
 
         async function searchAllContests(query) {
@@ -1989,29 +2010,31 @@
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
 
-            for (let i = 0; i < CONTESTS.length; i++) {
+            // Fetch all contests in parallel instead of sequentially
+            const fetchResults = await Promise.allSettled(
+                CONTESTS.map(contest => fetchContestData(contest))
+            );
+
+            for (let i = 0; i < fetchResults.length; i++) {
+                if (fetchResults[i].status !== 'fulfilled') continue;
+                const data = fetchResults[i].value;
                 const contest = CONTESTS[i];
-                try {
-                    const data = await fetchContestData(contest);
-                    const entries = (data.leaderboard || []).filter(row =>
-                        row.Username && row.Username.toLowerCase().includes(searchLower)
-                    );
-                    if (entries.length > 0) {
-                        const totalWinPct = entries.reduce((sum, r) => sum + (r.WinPct || 0), 0);
-                        const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
-                        const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
-                        const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
-                        results.push({
-                            contestIndex: i,
-                            name: contest.name,
-                            entries: entries.length,
-                            winPct: totalWinPct,
-                            netEV: totalNetEV,
-                            roi: roi
-                        });
-                    }
-                } catch (e) {
-                    // Skip contests that fail to load
+                const entries = (data.leaderboard || []).filter(row =>
+                    row.Username && row.Username.toLowerCase().includes(searchLower)
+                );
+                if (entries.length > 0) {
+                    const totalWinPct = entries.reduce((sum, r) => sum + (r.WinPct || 0), 0);
+                    const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
+                    const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
+                    const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
+                    results.push({
+                        contestIndex: i,
+                        name: contest.name,
+                        entries: entries.length,
+                        winPct: totalWinPct,
+                        netEV: totalNetEV,
+                        roi: roi
+                    });
                 }
             }
 
@@ -2038,9 +2061,9 @@
                 </div>
                 ${results.map(r => `
                     <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
-                        <div>
-                            <div class="search-result-contest">${r.name}</div>
-                            <div class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</div>
+                        <div class="search-result-contest">
+                            ${r.name}
+                            <span class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span>
                         </div>
                         <div class="search-result-stats">
                             <div class="search-result-stat">

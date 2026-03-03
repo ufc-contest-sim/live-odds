@@ -192,6 +192,95 @@
         }
 
 
+        /* Favorites */
+        .favorites-section {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .favorites-section.visible {
+            display: block;
+        }
+
+        .favorites-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .favorites-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .favorites-tiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .favorite-tile {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .favorite-tile:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0, 255, 136, 0.08);
+        }
+
+        .favorite-tile .fav-name {
+            color: var(--text-primary);
+        }
+
+        .favorite-tile .fav-remove {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.2s;
+        }
+
+        .favorite-tile .fav-remove:hover {
+            color: var(--accent-red);
+            opacity: 1;
+        }
+
+        .save-favorite-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .save-favorite-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .save-favorite-btn.saved {
+            color: var(--accent-gold);
+        }
+
         /* Quick Search */
         .quick-search-section {
             margin-bottom: 40px;
@@ -1079,6 +1168,12 @@
                 <span class="quick-search-icon">&#128269;</span>
                 <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
             </div>
+            <div id="favorites-section" class="favorites-section">
+                <div class="favorites-header">
+                    <span class="favorites-label">Favorites</span>
+                </div>
+                <div id="favorites-tiles" class="favorites-tiles"></div>
+            </div>
             <div id="quick-search-results" class="quick-search-results"></div>
         </div>
         <div id="contests-list"></div>
@@ -1127,6 +1222,8 @@
                     <select id="sort-by">
                         <option value="NetEV">Net EV</option>
                         <option value="WinPct">Win %</option>
+                        <option value="SecondPct">2nd %</option>
+                        <option value="ThirdPct">3rd %</option>
                         <option value="CashPct">Cash %</option>
                         <option value="ROI%">ROI %</option>
                         <option value="MeanScore">Proj Score</option>
@@ -1207,6 +1304,8 @@
                                 <th style="width: 60px;">Rank</th>
                                 <th class="sortable" onclick="setSort('Username')">Username</th>
                                 <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                                <th class="sortable" onclick="setSort('SecondPct')">2nd %</th>
+                                <th class="sortable" onclick="setSort('ThirdPct')">3rd %</th>
                                 <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
@@ -1227,6 +1326,8 @@
                                 <th style="width: 60px;">Rank</th>
                                 <th>Lineup</th>
                                 <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                                <th class="sortable" onclick="setSort('SecondPct')">2nd %</th>
+                                <th class="sortable" onclick="setSort('ThirdPct')">3rd %</th>
                                 <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
@@ -1247,6 +1348,8 @@
                                 <th class="sortable" onclick="setSort('Username')">Username</th>
                                 <th style="width: 80px;">Entries</th>
                                 <th class="sortable" onclick="setSort('WinPct')">Win %</th>
+                                <th class="sortable" onclick="setSort('SecondPct')">2nd %</th>
+                                <th class="sortable" onclick="setSort('ThirdPct')">3rd %</th>
                                 <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
@@ -1278,6 +1381,86 @@
         let whatIfScores = {};         // fighter name -> score (user input)
         let whatIfResults = null;      // calculated What If leaderboard
         let whatIfDebounceTimer = null;
+
+        // ==================== Favorites ====================
+        function loadFavorites() {
+            try {
+                const stored = localStorage.getItem('ufcLiveSweat_favorites');
+                return stored ? JSON.parse(stored) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveFavorites(favorites) {
+            try {
+                localStorage.setItem('ufcLiveSweat_favorites', JSON.stringify(favorites));
+            } catch (e) {
+                // localStorage full or unavailable
+            }
+        }
+
+        function addFavoriteUser(username) {
+            const favorites = loadFavorites();
+            const normalized = username.trim();
+            if (!normalized) return;
+            if (!favorites.some(f => f.toLowerCase() === normalized.toLowerCase())) {
+                favorites.push(normalized);
+                saveFavorites(favorites);
+            }
+            renderFavorites();
+        }
+
+        function removeFavoriteUser(username) {
+            let favorites = loadFavorites();
+            favorites = favorites.filter(f => f.toLowerCase() !== username.toLowerCase());
+            saveFavorites(favorites);
+            renderFavorites();
+        }
+
+        function isFavorite(username) {
+            const favorites = loadFavorites();
+            return favorites.some(f => f.toLowerCase() === username.trim().toLowerCase());
+        }
+
+        function renderFavorites() {
+            const favorites = loadFavorites();
+            const section = document.getElementById('favorites-section');
+            const tilesContainer = document.getElementById('favorites-tiles');
+
+            if (favorites.length === 0) {
+                section.classList.remove('visible');
+                return;
+            }
+
+            section.classList.add('visible');
+            tilesContainer.innerHTML = favorites.map(name => `
+                <div class="favorite-tile" onclick="searchFavorite('${name.replace(/'/g, "\\'")}')">
+                    <span class="fav-name">${name}</span>
+                    <span class="fav-remove" onclick="event.stopPropagation(); removeFavoriteUser('${name.replace(/'/g, "\\'")}')">&times;</span>
+                </div>
+            `).join('');
+        }
+
+        function searchFavorite(username) {
+            const input = document.getElementById('quick-search-input');
+            input.value = username;
+            input.dispatchEvent(new Event('input'));
+        }
+
+        function toggleFavoriteFromSearch(username) {
+            if (isFavorite(username)) {
+                removeFavoriteUser(username);
+            } else {
+                addFavoriteUser(username);
+            }
+            // Re-trigger search to update the star button
+            const input = document.getElementById('quick-search-input');
+            const query = input.value.trim();
+            if (query.length >= 2) {
+                searchAllContests(query);
+            }
+        }
         
         function extractAllFighters(data) {
             const fighterSet = new Set();
@@ -1517,6 +1700,9 @@
 
             // Set up quick search
             setupQuickSearch();
+
+            // Render saved favorites
+            renderFavorites();
         }
         
         // Quick Search functionality
@@ -1605,9 +1791,14 @@
             const totalEntries = results.reduce((sum, r) => sum + r.entries, 0);
             const totalNetEV = results.reduce((sum, r) => sum + r.netEV, 0);
 
+            const alreadySaved = isFavorite(query);
             resultsContainer.innerHTML = `
                 <div class="search-results-header">
-                    <h3>Results for "${query.replace(/</g, '&lt;')}"</h3>
+                    <h3>Results for "${query.replace(/</g, '&lt;')}"
+                        <button class="save-favorite-btn ${alreadySaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleFavoriteFromSearch('${query.replace(/'/g, "\\'")}')" title="${alreadySaved ? 'Remove from favorites' : 'Save to favorites'}">
+                            ${alreadySaved ? '&#9733;' : '&#9734;'}
+                        </button>
+                    </h3>
                     <span class="search-results-summary">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''} &middot; Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>
                 </div>
                 ${results.map(r => `
@@ -1664,7 +1855,7 @@
             showLeaderboard();
             
             document.getElementById('leaderboard').innerHTML =
-                '<tr><td colspan="9" class="loading">Loading data...</td></tr>';
+                '<tr><td colspan="11" class="loading">Loading data...</td></tr>';
             
             try {
                 const response = await fetch(contest.file + '?v=' + Date.now());
@@ -1710,7 +1901,7 @@
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('leaderboard').innerHTML =
-                    `<tr><td colspan="9" class="error-message">
+                    `<tr><td colspan="11" class="error-message">
                         Error loading ${contest.file}. Make sure the file exists.
                     </td></tr>`;
             }
@@ -1761,17 +1952,21 @@
         
         function updateStats(data) {
             const totalLineups = data.length;
-            
+
             // Calculate portfolio totals (sum of all filtered lineups)
             const portfolioWinPct = data.reduce((sum, r) => sum + (r.WinPct || 0), 0);
             const portfolioNetEV = data.reduce((sum, r) => sum + (r.NetEV || 0), 0);
             const portfolioCost = data.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
             const portfolioROI = portfolioCost > 0 ? (portfolioNetEV / portfolioCost) * 100 : 0;
-            
+
+            // Calculate average dupes (copies)
+            const totalCopies = data.reduce((sum, r) => sum + (r.Copies || 1), 0);
+            const avgDupes = totalLineups > 0 ? totalCopies / totalLineups : 0;
+
             const isFiltered = document.getElementById('search-user').value;
-            
+
             const label = isFiltered ? 'Filtered' : 'Total';
-            
+
             // Format ROI with commas (for thousands) and 1 decimal place
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
@@ -1781,7 +1976,7 @@
                 });
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
-            
+
             // Format Net EV with commas and 2 decimal places
             const formatNetEV = (netEV) => {
                 const absNetEV = Math.abs(netEV);
@@ -1791,7 +1986,7 @@
                 });
                 return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
             };
-            
+
             document.getElementById('stats-vertical').innerHTML = `
                 <div class="stat-row">
                     <span class="label">${label} Lineups</span>
@@ -1808,6 +2003,10 @@
                 <div class="stat-row">
                     <span class="label">Portfolio ROI</span>
                     <span class="value ${portfolioROI >= 0 ? 'positive' : 'negative'}">${formatROI(portfolioROI)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">Avg Dupes</span>
+                    <span class="value neutral">${avgDupes.toFixed(2)}</span>
                 </div>
             `;
             
@@ -1914,7 +2113,7 @@
             const tbody = document.getElementById('leaderboard');
             
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" class="no-results">No lineups match your filters</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="11" class="no-results">No lineups match your filters</td></tr>';
                 return;
             }
             
@@ -1959,6 +2158,8 @@
                         <td>${idx + 1}</td>
                         <td class="username">${row.Username || ''}</td>
                         <td>${(row.WinPct || 0).toFixed(2)}%</td>
+                        <td>${row.SecondPct != null ? (row.SecondPct).toFixed(2) + '%' : '--'}</td>
+                        <td>${row.ThirdPct != null ? (row.ThirdPct).toFixed(2) + '%' : '--'}</td>
                         <td>${row.CashPct != null ? (row.CashPct).toFixed(2) + '%' : '--'}</td>
                         <td class="${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(row.NetEV || 0)}
@@ -1970,7 +2171,7 @@
                         <td>${row.Copies || 0}</td>
                     </tr>
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
-                        <td colspan="9">
+                        <td colspan="11">
                             <div class="lineup-container">
                                 ${fighters.map(f => `
                                     <div class="fighter-chip">
@@ -1999,6 +2200,8 @@
                         lineup: lineupKey,
                         fighters: [],
                         WinPct: row.WinPct || 0,
+                        SecondPct: row.SecondPct != null ? row.SecondPct : null,
+                        ThirdPct: row.ThirdPct != null ? row.ThirdPct : null,
                         CashPct: row.CashPct != null ? row.CashPct : null,
                         NetEV: row.NetEV || 0,
                         MeanScore: row.MeanScore || 0,
@@ -2031,7 +2234,7 @@
                 `Showing ${displayData.length.toLocaleString()} of ${uniqueLineups.length.toLocaleString()} unique lineups`;
             
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="no-results">No lineups found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="no-results">No lineups found</td></tr>';
                 return;
             }
             
@@ -2058,6 +2261,8 @@
                             </div>
                         </td>
                         <td>${(lineup.WinPct || 0).toFixed(2)}%</td>
+                        <td>${lineup.SecondPct != null ? lineup.SecondPct.toFixed(2) + '%' : '--'}</td>
+                        <td>${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(2) + '%' : '--'}</td>
                         <td>${lineup.CashPct != null ? lineup.CashPct.toFixed(2) + '%' : '--'}</td>
                         <td class="${(lineup.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(lineup.NetEV || 0)}
@@ -2081,6 +2286,10 @@
                         Username: username,
                         Entries: 0,
                         TotalWinPct: 0,
+                        TotalSecondPct: 0,
+                        hasSecondPct: false,
+                        TotalThirdPct: 0,
+                        hasThirdPct: false,
                         TotalCashPct: 0,
                         hasCashPct: false,
                         TotalNetEV: 0,
@@ -2091,6 +2300,14 @@
                 const portfolio = portfolioMap.get(username);
                 portfolio.Entries += 1;
                 portfolio.TotalWinPct += (row.WinPct || 0);
+                if (row.SecondPct != null) {
+                    portfolio.TotalSecondPct += row.SecondPct;
+                    portfolio.hasSecondPct = true;
+                }
+                if (row.ThirdPct != null) {
+                    portfolio.TotalThirdPct += row.ThirdPct;
+                    portfolio.hasThirdPct = true;
+                }
                 if (row.CashPct != null) {
                     portfolio.TotalCashPct += row.CashPct;
                     portfolio.hasCashPct = true;
@@ -2103,6 +2320,8 @@
             let portfolios = Array.from(portfolioMap.values()).map(p => ({
                 ...p,
                 WinPct: p.TotalWinPct,
+                SecondPct: p.hasSecondPct ? p.TotalSecondPct : null,
+                ThirdPct: p.hasThirdPct ? p.TotalThirdPct : null,
                 CashPct: p.hasCashPct ? p.TotalCashPct : null,
                 NetEV: p.TotalNetEV,
                 'ROI%': p.TotalCost > 0 ? (p.TotalNetEV / p.TotalCost) * 100 : 0
@@ -2129,7 +2348,7 @@
                 `Showing ${displayData.length.toLocaleString()} of ${portfolios.length.toLocaleString()} portfolios`;
 
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="no-results">No portfolios found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="no-results">No portfolios found</td></tr>';
                 return;
             }
 
@@ -2158,6 +2377,8 @@
                         <td class="username">${portfolio.Username}</td>
                         <td>${portfolio.Entries}</td>
                         <td>${portfolio.WinPct.toFixed(2)}%</td>
+                        <td>${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(2) + '%' : '--'}</td>
+                        <td>${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(2) + '%' : '--'}</td>
                         <td>${portfolio.CashPct != null ? portfolio.CashPct.toFixed(2) + '%' : '--'}</td>
                         <td class="${portfolio.NetEV >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(portfolio.NetEV)}

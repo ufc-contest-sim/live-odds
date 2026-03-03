@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theme Preview - UFC Live Sweat</title>
+    <title>Design Preview - UFC Live Sweat</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -25,333 +25,306 @@
         .page-sub {
             text-align: center;
             color: #888;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             font-size: 0.95rem;
         }
-        .themes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px;
-            max-width: 1500px;
-            margin: 0 auto;
+
+        .design-section {
+            max-width: 900px;
+            margin: 0 auto 60px;
         }
-        .theme-card {
-            border-radius: 16px;
-            overflow: hidden;
-            border: 2px solid #333;
-            transition: border-color 0.3s, transform 0.2s;
-        }
-        .theme-card:hover {
-            transform: translateY(-4px);
-        }
-        .theme-label {
-            padding: 16px 20px;
+        .design-label {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
-            letter-spacing: 3px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .theme-desc {
-            text-align: center;
-            padding: 0 20px 14px;
-            font-size: 0.8rem;
-            opacity: 0.6;
-        }
-        .mock {
-            padding: 20px;
-        }
-        /* Mock elements */
-        .mock-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             letter-spacing: 3px;
             margin-bottom: 4px;
         }
-        .mock-header p {
-            font-size: 0.75rem;
-            margin-bottom: 16px;
+        .design-desc {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
         }
-        .mock-tabs {
-            display: flex;
-            gap: 4px;
-            padding: 4px;
-            border-radius: 8px;
-            margin-bottom: 14px;
-        }
-        .mock-tab {
-            flex: 1;
-            padding: 8px 4px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-        .mock-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.75rem;
-        }
-        .mock-table th {
-            padding: 8px 6px;
-            text-align: left;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        .mock-table td {
-            padding: 10px 6px;
-        }
-        .mock-table tr + tr td {
-            border-top-width: 1px;
-            border-top-style: solid;
-        }
-        .mock-chip {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: 600;
-        }
-        .mock-payout { font-weight: 700; }
-
-        /* Current Theme Label */
-        .current-badge {
-            display: inline-block;
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 10px;
-            letter-spacing: 1px;
-            vertical-align: middle;
+        .design-frame {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #333;
         }
     </style>
 </head>
 <body>
-    <div class="page-title">PICK A THEME</div>
-    <div class="page-sub">Here's what each color scheme looks like on the site</div>
+    <div class="page-title">DESIGN CONCEPTS</div>
+    <div class="page-sub">4 totally different design directions — different layouts, typography, and UI patterns</div>
 
-    <div class="themes-grid">
+    <!-- ================================================================== -->
+    <!--  DESIGN A: GLASSMORPHISM                                           -->
+    <!-- ================================================================== -->
+    <div class="design-section">
+        <div class="design-label">A — GLASSMORPHISM</div>
+        <div class="design-desc">Frosted glass cards, gradient backgrounds, soft glows, modern SaaS feel</div>
+        <div class="design-frame" style="background: linear-gradient(135deg, #0f0c29, #1a1a4e, #24243e); padding: 0; position: relative; overflow: hidden;">
+            <!-- Gradient blobs -->
+            <div style="position: absolute; width: 300px; height: 300px; background: radial-gradient(circle, rgba(99,102,241,0.4), transparent 70%); top: -80px; right: -60px; border-radius: 50%;"></div>
+            <div style="position: absolute; width: 250px; height: 250px; background: radial-gradient(circle, rgba(16,185,129,0.3), transparent 70%); bottom: -50px; left: -40px; border-radius: 50%;"></div>
+            <div style="position: relative; z-index: 1; padding: 30px;">
+                <!-- Header -->
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.7rem; letter-spacing: 6px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 6px;">REAL-TIME DFS</div>
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.8rem; color: #fff;">UFC Live Sweat</div>
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 4px;">Win probabilities updated live</div>
+                </div>
 
-        <!-- ========== CURRENT: OG Green ========== -->
-        <div class="theme-card" style="border-color: #00ff88; background: #0a0e17;">
-            <div class="theme-label" style="background: #12182b; color: #e8edf5;">
-                OG GREEN <span class="current-badge" style="background: #00ff88; color: #0a0e17;">CURRENT</span>
-            </div>
-            <div class="theme-desc" style="background: #12182b; color: #7a8599;">Dark navy + neon green</div>
-            <div class="mock" style="background: #0a0e17;">
-                <div class="mock-header">
-                    <h2 style="color: #e8edf5;">UFC <span style="color: #00ff88;">LIVE SWEAT</span></h2>
-                    <p style="color: #7a8599;">Real-time win probabilities for UFC DFS contests</p>
+                <!-- Glass search bar -->
+                <div style="background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: rgba(255,255,255,0.3); font-size: 0.85rem;">&#128269;</span>
+                    <span style="color: rgba(255,255,255,0.3); font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 300;">Search username across all contests...</span>
                 </div>
-                <div class="mock-tabs" style="background: #12182b; border: 1px solid #2a3555;">
-                    <div class="mock-tab" style="background: #00ff88; color: #0a0e17;">By Username</div>
-                    <div class="mock-tab" style="color: #7a8599;">By Lineup</div>
-                    <div class="mock-tab" style="color: #7a8599;">Portfolio</div>
-                    <div class="mock-tab" style="color: #7a8599;">What If</div>
+
+                <!-- Pill tabs (floating) -->
+                <div style="display: flex; gap: 8px; margin-bottom: 20px; justify-content: center;">
+                    <div style="background: rgba(99,102,241,0.8); backdrop-filter: blur(10px); color: #fff; padding: 8px 20px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 600;">By Username</div>
+                    <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); padding: 8px 20px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500;">By Lineup</div>
+                    <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); padding: 8px 20px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500;">Portfolio</div>
+                    <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); padding: 8px 20px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500;">What If</div>
                 </div>
-                <div style="background: #12182b; border: 1px solid #2a3555; border-radius: 8px; overflow: hidden;">
-                    <table class="mock-table">
-                        <tr style="background: #1a2340;">
-                            <th style="color: #7a8599;">Rank</th>
-                            <th style="color: #7a8599;">User</th>
-                            <th style="color: #7a8599;">Score</th>
-                            <th style="color: #7a8599;">Payout</th>
+
+                <!-- Glass leaderboard card -->
+                <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
+                        <tr>
+                            <th style="padding: 14px 16px; text-align: left; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.35); font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.06);">Rank</th>
+                            <th style="padding: 14px 16px; text-align: left; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.35); font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.06);">User</th>
+                            <th style="padding: 14px 16px; text-align: right; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.35); font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.06);">Score</th>
+                            <th style="padding: 14px 16px; text-align: right; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.35); font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.06);">Payout</th>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 14px 16px; font-size: 0.8rem;"><span style="background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">#1</span></td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #fff;">SharkDFS</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.8); text-align: right;">142.50</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 700; color: #10b981; text-align: right;">$2,500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.5);">#2</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #fff;">DHollis24</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.8); text-align: right;">138.75</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 700; color: #10b981; text-align: right;">$1,200</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.5);">#3</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #fff;">MMAxKing</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.8); text-align: right;">135.20</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 700; color: #10b981; text-align: right;">$800</td>
                         </tr>
                         <tr>
-                            <td style="color: #ffd700;">1st</td>
-                            <td style="color: #e8edf5;">SharkDFS</td>
-                            <td style="color: #e8edf5;">142.50</td>
-                            <td class="mock-payout" style="color: #00ff88;">$2,500</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #e8edf5; border-color: #2a3555;">2nd</td>
-                            <td style="color: #e8edf5; border-color: #2a3555;">DHollis24</td>
-                            <td style="color: #e8edf5; border-color: #2a3555;">138.75</td>
-                            <td class="mock-payout" style="color: #00ff88; border-color: #2a3555;">$1,200</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #e8edf5; border-color: #2a3555;">3rd</td>
-                            <td style="color: #e8edf5; border-color: #2a3555;">MMAxKing</td>
-                            <td style="color: #e8edf5; border-color: #2a3555;">135.20</td>
-                            <td class="mock-payout" style="color: #00ff88; border-color: #2a3555;">$800</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #e8edf5; border-color: #2a3555;">4th</td>
-                            <td style="color: #e8edf5; border-color: #2a3555;">FightPicks</td>
-                            <td style="color: #e8edf5; border-color: #2a3555;">131.00</td>
-                            <td style="color: #7a8599; border-color: #2a3555;">—</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.5);">#4</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #fff;">FightPicks</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.8); text-align: right;">131.00</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: rgba(255,255,255,0.35); text-align: right;">—</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-
-        <!-- ========== OPTION 1: Crimson Fight Night ========== -->
-        <div class="theme-card" style="border-color: #ff3a3a; background: #0d0a0a;">
-            <div class="theme-label" style="background: #1a1214; color: #f0e8e8;">
-                CRIMSON FIGHT NIGHT
-            </div>
-            <div class="theme-desc" style="background: #1a1214; color: #8a7070;">Dark + red/gold UFC octagon vibes</div>
-            <div class="mock" style="background: #0d0a0a;">
-                <div class="mock-header">
-                    <h2 style="color: #f0e8e8;">UFC <span style="color: #ff3a3a;">LIVE SWEAT</span></h2>
-                    <p style="color: #8a7070;">Real-time win probabilities for UFC DFS contests</p>
-                </div>
-                <div class="mock-tabs" style="background: #1a1214; border: 1px solid #3d2530;">
-                    <div class="mock-tab" style="background: #ff3a3a; color: #0d0a0a;">By Username</div>
-                    <div class="mock-tab" style="color: #8a7070;">By Lineup</div>
-                    <div class="mock-tab" style="color: #8a7070;">Portfolio</div>
-                    <div class="mock-tab" style="color: #8a7070;">What If</div>
-                </div>
-                <div style="background: #1a1214; border: 1px solid #3d2530; border-radius: 8px; overflow: hidden;">
-                    <table class="mock-table">
-                        <tr style="background: #2a1a1e;">
-                            <th style="color: #8a7070;">Rank</th>
-                            <th style="color: #8a7070;">User</th>
-                            <th style="color: #8a7070;">Score</th>
-                            <th style="color: #8a7070;">Payout</th>
-                        </tr>
-                        <tr>
-                            <td style="color: #ffd700;">1st</td>
-                            <td style="color: #f0e8e8;">SharkDFS</td>
-                            <td style="color: #f0e8e8;">142.50</td>
-                            <td class="mock-payout" style="color: #ffd700;">$2,500</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">2nd</td>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">DHollis24</td>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">138.75</td>
-                            <td class="mock-payout" style="color: #ffd700; border-color: #3d2530;">$1,200</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">3rd</td>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">MMAxKing</td>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">135.20</td>
-                            <td class="mock-payout" style="color: #ffd700; border-color: #3d2530;">$800</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">4th</td>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">FightPicks</td>
-                            <td style="color: #f0e8e8; border-color: #3d2530;">131.00</td>
-                            <td style="color: #8a7070; border-color: #3d2530;">—</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ========== OPTION 2: Electric Purple ========== -->
-        <div class="theme-card" style="border-color: #00e5ff; background: #0c0a14;">
-            <div class="theme-label" style="background: #16122a; color: #e8e4f5;">
-                ELECTRIC PURPLE
-            </div>
-            <div class="theme-desc" style="background: #16122a; color: #7a6f99;">Purple/violet + cyan accents</div>
-            <div class="mock" style="background: #0c0a14;">
-                <div class="mock-header">
-                    <h2 style="color: #e8e4f5;">UFC <span style="color: #00e5ff;">LIVE SWEAT</span></h2>
-                    <p style="color: #7a6f99;">Real-time win probabilities for UFC DFS contests</p>
-                </div>
-                <div class="mock-tabs" style="background: #16122a; border: 1px solid #2e2555;">
-                    <div class="mock-tab" style="background: #00e5ff; color: #0c0a14;">By Username</div>
-                    <div class="mock-tab" style="color: #7a6f99;">By Lineup</div>
-                    <div class="mock-tab" style="color: #7a6f99;">Portfolio</div>
-                    <div class="mock-tab" style="color: #7a6f99;">What If</div>
-                </div>
-                <div style="background: #16122a; border: 1px solid #2e2555; border-radius: 8px; overflow: hidden;">
-                    <table class="mock-table">
-                        <tr style="background: #1e1840;">
-                            <th style="color: #7a6f99;">Rank</th>
-                            <th style="color: #7a6f99;">User</th>
-                            <th style="color: #7a6f99;">Score</th>
-                            <th style="color: #7a6f99;">Payout</th>
-                        </tr>
-                        <tr>
-                            <td style="color: #ffd700;">1st</td>
-                            <td style="color: #e8e4f5;">SharkDFS</td>
-                            <td style="color: #e8e4f5;">142.50</td>
-                            <td class="mock-payout" style="color: #00e5ff;">$2,500</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">2nd</td>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">DHollis24</td>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">138.75</td>
-                            <td class="mock-payout" style="color: #00e5ff; border-color: #2e2555;">$1,200</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">3rd</td>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">MMAxKing</td>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">135.20</td>
-                            <td class="mock-payout" style="color: #00e5ff; border-color: #2e2555;">$800</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">4th</td>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">FightPicks</td>
-                            <td style="color: #e8e4f5; border-color: #2e2555;">131.00</td>
-                            <td style="color: #7a6f99; border-color: #2e2555;">—</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ========== OPTION 3: Midnight Gold ========== -->
-        <div class="theme-card" style="border-color: #f5a623; background: #08080a;">
-            <div class="theme-label" style="background: #111114; color: #f0f0f0;">
-                MIDNIGHT GOLD
-            </div>
-            <div class="theme-desc" style="background: #111114; color: #707078;">True black + gold/amber luxury sportsbook</div>
-            <div class="mock" style="background: #08080a;">
-                <div class="mock-header">
-                    <h2 style="color: #f0f0f0;">UFC <span style="color: #f5a623;">LIVE SWEAT</span></h2>
-                    <p style="color: #707078;">Real-time win probabilities for UFC DFS contests</p>
-                </div>
-                <div class="mock-tabs" style="background: #111114; border: 1px solid #2a2a30;">
-                    <div class="mock-tab" style="background: #f5a623; color: #08080a;">By Username</div>
-                    <div class="mock-tab" style="color: #707078;">By Lineup</div>
-                    <div class="mock-tab" style="color: #707078;">Portfolio</div>
-                    <div class="mock-tab" style="color: #707078;">What If</div>
-                </div>
-                <div style="background: #111114; border: 1px solid #2a2a30; border-radius: 8px; overflow: hidden;">
-                    <table class="mock-table">
-                        <tr style="background: #1a1a1f;">
-                            <th style="color: #707078;">Rank</th>
-                            <th style="color: #707078;">User</th>
-                            <th style="color: #707078;">Score</th>
-                            <th style="color: #707078;">Payout</th>
-                        </tr>
-                        <tr>
-                            <td style="color: #ffd700;">1st</td>
-                            <td style="color: #f0f0f0;">SharkDFS</td>
-                            <td style="color: #f0f0f0;">142.50</td>
-                            <td class="mock-payout" style="color: #f5a623;">$2,500</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">2nd</td>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">DHollis24</td>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">138.75</td>
-                            <td class="mock-payout" style="color: #f5a623; border-color: #2a2a30;">$1,200</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">3rd</td>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">MMAxKing</td>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">135.20</td>
-                            <td class="mock-payout" style="color: #f5a623; border-color: #2a2a30;">$800</td>
-                        </tr>
-                        <tr>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">4th</td>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">FightPicks</td>
-                            <td style="color: #f0f0f0; border-color: #2a2a30;">131.00</td>
-                            <td style="color: #707078; border-color: #2a2a30;">—</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
     </div>
+
+    <!-- ================================================================== -->
+    <!--  DESIGN B: BRUTALIST / BOLD                                        -->
+    <!-- ================================================================== -->
+    <div class="design-section">
+        <div class="design-label">B — BRUTALIST BOLD</div>
+        <div class="design-desc">Thick borders, sharp edges, oversized type, high contrast, raw industrial energy</div>
+        <div class="design-frame" style="background: #000; border: 3px solid #fff; border-radius: 0; padding: 0;">
+            <div style="padding: 30px;">
+                <!-- Header — massive type -->
+                <div style="margin-bottom: 24px;">
+                    <div style="font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 2.8rem; color: #fff; line-height: 0.95; text-transform: uppercase; letter-spacing: -1px;">UFC LIVE<br><span style="color: #ff3333;">SWEAT</span></div>
+                    <div style="font-family: 'IBM Plex Sans', sans-serif; font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 3px; margin-top: 8px; border-top: 2px solid #333; padding-top: 8px;">Real-time DFS win probabilities</div>
+                </div>
+
+                <!-- Block tabs — no rounding -->
+                <div style="display: flex; gap: 0; margin-bottom: 20px; border: 2px solid #fff;">
+                    <div style="flex: 1; background: #fff; color: #000; padding: 10px 4px; text-align: center; font-family: 'Oswald', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Username</div>
+                    <div style="flex: 1; background: transparent; color: #666; padding: 10px 4px; text-align: center; font-family: 'Oswald', sans-serif; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; border-left: 2px solid #fff;">Lineup</div>
+                    <div style="flex: 1; background: transparent; color: #666; padding: 10px 4px; text-align: center; font-family: 'Oswald', sans-serif; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; border-left: 2px solid #fff;">Portfolio</div>
+                    <div style="flex: 1; background: transparent; color: #666; padding: 10px 4px; text-align: center; font-family: 'Oswald', sans-serif; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; border-left: 2px solid #fff;">What If</div>
+                </div>
+
+                <!-- Leaderboard — hard borders, no radius -->
+                <div style="border: 2px solid #fff;">
+                    <table style="width: 100%; border-collapse: collapse; font-family: 'IBM Plex Sans', sans-serif;">
+                        <tr style="border-bottom: 2px solid #fff;">
+                            <th style="padding: 10px 12px; text-align: left; font-family: 'Oswald', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #666; font-weight: 500;">RK</th>
+                            <th style="padding: 10px 12px; text-align: left; font-family: 'Oswald', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #666; font-weight: 500;">USER</th>
+                            <th style="padding: 10px 12px; text-align: right; font-family: 'Oswald', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #666; font-weight: 500;">PTS</th>
+                            <th style="padding: 10px 12px; text-align: right; font-family: 'Oswald', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #666; font-weight: 500;">PAY</th>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #333; background: rgba(255,51,51,0.08);">
+                            <td style="padding: 12px; font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; color: #ff3333;">01</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px;">SharkDFS</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 600; color: #fff; text-align: right; font-variant-numeric: tabular-nums;">142.50</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 700; color: #ff3333; text-align: right;">$2,500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #333;">
+                            <td style="padding: 12px; font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff;">02</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px;">DHollis24</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 600; color: #fff; text-align: right; font-variant-numeric: tabular-nums;">138.75</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 700; color: #ff3333; text-align: right;">$1,200</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #333;">
+                            <td style="padding: 12px; font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff;">03</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px;">MMAxKing</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 600; color: #fff; text-align: right; font-variant-numeric: tabular-nums;">135.20</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 700; color: #ff3333; text-align: right;">$800</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; color: #555;">04</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 1px;">FightPicks</td>
+                            <td style="padding: 12px; font-size: 0.85rem; font-weight: 600; color: #555; text-align: right; font-variant-numeric: tabular-nums;">131.00</td>
+                            <td style="padding: 12px; font-size: 0.85rem; color: #333; text-align: right;">—</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!--  DESIGN C: CLEAN MINIMAL                                           -->
+    <!-- ================================================================== -->
+    <div class="design-section">
+        <div class="design-label">C — CLEAN MINIMAL</div>
+        <div class="design-desc">Light mode, lots of whitespace, thin type, subtle shadows — fintech/dashboard feel</div>
+        <div class="design-frame" style="background: #f8f9fb; border-radius: 12px; padding: 0;">
+            <div style="padding: 30px;">
+                <!-- Header — clean and light -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <div>
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.2rem; color: #111;">UFC Live Sweat</div>
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.7rem; color: #999; margin-top: 2px;">Real-time DFS win probabilities</div>
+                    </div>
+                    <div style="font-family: 'Inter', sans-serif; font-size: 0.65rem; color: #3b82f6; background: #eff6ff; padding: 4px 12px; border-radius: 6px; font-weight: 500;">LIVE</div>
+                </div>
+
+                <!-- Search bar — clean white -->
+                <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 16px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                    <span style="color: #ccc; font-size: 0.8rem;">&#128269;</span>
+                    <span style="color: #bbb; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 400;">Search username...</span>
+                </div>
+
+                <!-- Underline tabs -->
+                <div style="display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb;">
+                    <div style="padding: 10px 18px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 600; color: #3b82f6; border-bottom: 2px solid #3b82f6; margin-bottom: -1px;">By Username</div>
+                    <div style="padding: 10px 18px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500; color: #999;">By Lineup</div>
+                    <div style="padding: 10px 18px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500; color: #999;">Portfolio</div>
+                    <div style="padding: 10px 18px; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500; color: #999;">What If</div>
+                </div>
+
+                <!-- Leaderboard — white card, subtle shadow -->
+                <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                    <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
+                        <tr>
+                            <th style="padding: 12px 16px; text-align: left; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: 500; background: #fafbfc; border-bottom: 1px solid #f0f0f0;">#</th>
+                            <th style="padding: 12px 16px; text-align: left; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: 500; background: #fafbfc; border-bottom: 1px solid #f0f0f0;">User</th>
+                            <th style="padding: 12px 16px; text-align: right; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: 500; background: #fafbfc; border-bottom: 1px solid #f0f0f0;">Score</th>
+                            <th style="padding: 12px 16px; text-align: right; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: 500; background: #fafbfc; border-bottom: 1px solid #f0f0f0;">Payout</th>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #f59e0b;">1</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #111;">SharkDFS</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: #444; text-align: right; font-variant-numeric: tabular-nums;">142.50</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #10b981; text-align: right;">$2,500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #666;">2</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #111;">DHollis24</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: #444; text-align: right; font-variant-numeric: tabular-nums;">138.75</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #10b981; text-align: right;">$1,200</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f5f5f5;">
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #666;">3</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #111;">MMAxKing</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: #444; text-align: right; font-variant-numeric: tabular-nums;">135.20</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #10b981; text-align: right;">$800</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #666;">4</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; font-weight: 600; color: #111;">FightPicks</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: #444; text-align: right; font-variant-numeric: tabular-nums;">131.00</td>
+                            <td style="padding: 14px 16px; font-size: 0.8rem; color: #ccc; text-align: right;">—</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!--  DESIGN D: RETRO SCOREBOARD                                        -->
+    <!-- ================================================================== -->
+    <div class="design-section">
+        <div class="design-label">D — RETRO SCOREBOARD</div>
+        <div class="design-desc">LED jumbotron / arena scoreboard feel, monospace fonts, scan-line texture, pixel vibes</div>
+        <div class="design-frame" style="background: #0a0a0a; border: 3px solid #222; border-radius: 4px; padding: 0; position: relative; overflow: hidden;">
+            <!-- Scanline overlay -->
+            <div style="position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 2;"></div>
+            <div style="position: relative; z-index: 1; padding: 30px;">
+                <!-- Header — LED scoreboard style -->
+                <div style="text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1a1a1a; padding-bottom: 16px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 0.55rem; color: #555; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 6px;">/// LIVE TRACKER ///</div>
+                    <div style="font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 2.2rem; color: #ff6600; text-transform: uppercase; letter-spacing: 4px; text-shadow: 0 0 20px rgba(255,102,0,0.4);">UFC LIVE SWEAT</div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 0.55rem; color: #444; margin-top: 6px; letter-spacing: 2px;">DFS CONTEST PROBABILITIES</div>
+                </div>
+
+                <!-- Ticker-style tabs -->
+                <div style="display: flex; gap: 2px; margin-bottom: 18px; font-family: 'Space Mono', monospace;">
+                    <div style="flex: 1; background: #ff6600; color: #000; padding: 8px 4px; text-align: center; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">USER</div>
+                    <div style="flex: 1; background: #141414; color: #555; padding: 8px 4px; text-align: center; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; border: 1px solid #222; letter-spacing: 1px;">LINEUP</div>
+                    <div style="flex: 1; background: #141414; color: #555; padding: 8px 4px; text-align: center; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; border: 1px solid #222; letter-spacing: 1px;">FOLIO</div>
+                    <div style="flex: 1; background: #141414; color: #555; padding: 8px 4px; text-align: center; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; border: 1px solid #222; letter-spacing: 1px;">W-IF</div>
+                </div>
+
+                <!-- Scoreboard leaderboard -->
+                <div style="border: 2px solid #222; background: #0d0d0d;">
+                    <table style="width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace;">
+                        <tr style="border-bottom: 2px solid #222;">
+                            <th style="padding: 8px 10px; text-align: left; font-size: 0.55rem; color: #555; letter-spacing: 2px; background: #111;">RK</th>
+                            <th style="padding: 8px 10px; text-align: left; font-size: 0.55rem; color: #555; letter-spacing: 2px; background: #111;">PLAYER</th>
+                            <th style="padding: 8px 10px; text-align: right; font-size: 0.55rem; color: #555; letter-spacing: 2px; background: #111;">PTS</th>
+                            <th style="padding: 8px 10px; text-align: right; font-size: 0.55rem; color: #555; letter-spacing: 2px; background: #111;">$$$</th>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #1a1a1a;">
+                            <td style="padding: 12px 10px; font-size: 0.85rem; font-weight: 700; color: #ff6600; text-shadow: 0 0 8px rgba(255,102,0,0.5);">01</td>
+                            <td style="padding: 12px 10px; font-size: 0.75rem; font-weight: 700; color: #e0e0e0; text-transform: uppercase;">SharkDFS</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; font-weight: 700; color: #00ff88; text-align: right; text-shadow: 0 0 6px rgba(0,255,136,0.3);">142.50</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; font-weight: 700; color: #ffd700; text-align: right; text-shadow: 0 0 6px rgba(255,215,0,0.3);">$2,500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #1a1a1a;">
+                            <td style="padding: 12px 10px; font-size: 0.85rem; font-weight: 700; color: #aaa;">02</td>
+                            <td style="padding: 12px 10px; font-size: 0.75rem; font-weight: 700; color: #e0e0e0; text-transform: uppercase;">DHollis24</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; font-weight: 700; color: #00ff88; text-align: right; text-shadow: 0 0 6px rgba(0,255,136,0.3);">138.75</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; font-weight: 700; color: #ffd700; text-align: right; text-shadow: 0 0 6px rgba(255,215,0,0.3);">$1,200</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #1a1a1a;">
+                            <td style="padding: 12px 10px; font-size: 0.85rem; font-weight: 700; color: #aaa;">03</td>
+                            <td style="padding: 12px 10px; font-size: 0.75rem; font-weight: 700; color: #e0e0e0; text-transform: uppercase;">MMAxKing</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; font-weight: 700; color: #00ff88; text-align: right; text-shadow: 0 0 6px rgba(0,255,136,0.3);">135.20</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; font-weight: 700; color: #ffd700; text-align: right; text-shadow: 0 0 6px rgba(255,215,0,0.3);">$800</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 10px; font-size: 0.85rem; font-weight: 700; color: #444;">04</td>
+                            <td style="padding: 12px 10px; font-size: 0.75rem; font-weight: 700; color: #555; text-transform: uppercase;">FightPicks</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; font-weight: 700; color: #555; text-align: right;">131.00</td>
+                            <td style="padding: 12px 10px; font-size: 0.8rem; color: #333; text-align: right;">—</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Bottom ticker -->
+                <div style="margin-top: 12px; font-family: 'Space Mono', monospace; font-size: 0.5rem; color: #333; text-align: center; letter-spacing: 3px;">[ UPDATED LIVE ] &#9608;&#9608; [ BY DHOLLIS24 ]</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; color: #555; font-size: 0.8rem; margin-top: 20px; padding-bottom: 40px;">Pick one and I'll redesign the whole site to match.</div>
+
 </body>
 </html>

@@ -1827,13 +1827,7 @@
             if (usernameIndex || usernameIndexBuilding) return;
             usernameIndexBuilding = true;
 
-            for (let i = 0; i < CONTESTS.length; i++) {
-                try {
-                    await fetchContestData(CONTESTS[i]);
-                } catch (e) {
-                    // skip
-                }
-            }
+            await Promise.allSettled(CONTESTS.map(c => fetchContestData(c)));
             rebuildUsernameIndexFromCache();
             usernameIndexBuilding = false;
         }
@@ -1954,13 +1948,31 @@
             });
         }
 
-        async function fetchContestData(contest) {
-            if (contestDataCache[contest.file]) return contestDataCache[contest.file];
-            const response = await fetch(contest.file + '?v=' + Date.now());
-            if (!response.ok) throw new Error('Failed to load');
-            const data = await response.json();
-            contestDataCache[contest.file] = data;
-            return data;
+        const contestFetchPromises = {};
+        function fetchContestData(contest) {
+            if (contestDataCache[contest.file]) return Promise.resolve(contestDataCache[contest.file]);
+            // Cache the in-flight promise so concurrent callers share one request
+            if (!contestFetchPromises[contest.file]) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                contestFetchPromises[contest.file] = fetch(contest.file + '?v=' + Date.now(), { signal: controller.signal })
+                    .then(response => {
+                        clearTimeout(timeoutId);
+                        if (!response.ok) throw new Error('Failed to load');
+                        return response.json();
+                    })
+                    .then(data => {
+                        contestDataCache[contest.file] = data;
+                        delete contestFetchPromises[contest.file];
+                        return data;
+                    })
+                    .catch(err => {
+                        clearTimeout(timeoutId);
+                        delete contestFetchPromises[contest.file];
+                        throw err;
+                    });
+            }
+            return contestFetchPromises[contest.file];
         }
 
         async function searchAllContests(query) {
@@ -1989,29 +2001,31 @@
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
 
-            for (let i = 0; i < CONTESTS.length; i++) {
+            // Fetch all contests in parallel instead of sequentially
+            const fetchResults = await Promise.allSettled(
+                CONTESTS.map(contest => fetchContestData(contest))
+            );
+
+            for (let i = 0; i < fetchResults.length; i++) {
+                if (fetchResults[i].status !== 'fulfilled') continue;
+                const data = fetchResults[i].value;
                 const contest = CONTESTS[i];
-                try {
-                    const data = await fetchContestData(contest);
-                    const entries = (data.leaderboard || []).filter(row =>
-                        row.Username && row.Username.toLowerCase().includes(searchLower)
-                    );
-                    if (entries.length > 0) {
-                        const totalWinPct = entries.reduce((sum, r) => sum + (r.WinPct || 0), 0);
-                        const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
-                        const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
-                        const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
-                        results.push({
-                            contestIndex: i,
-                            name: contest.name,
-                            entries: entries.length,
-                            winPct: totalWinPct,
-                            netEV: totalNetEV,
-                            roi: roi
-                        });
-                    }
-                } catch (e) {
-                    // Skip contests that fail to load
+                const entries = (data.leaderboard || []).filter(row =>
+                    row.Username && row.Username.toLowerCase().includes(searchLower)
+                );
+                if (entries.length > 0) {
+                    const totalWinPct = entries.reduce((sum, r) => sum + (r.WinPct || 0), 0);
+                    const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
+                    const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
+                    const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
+                    results.push({
+                        contestIndex: i,
+                        name: contest.name,
+                        entries: entries.length,
+                        winPct: totalWinPct,
+                        netEV: totalNetEV,
+                        roi: roi
+                    });
                 }
             }
 

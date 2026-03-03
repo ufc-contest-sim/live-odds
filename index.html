@@ -49,31 +49,6 @@
             position: relative;
         }
 
-        body::before,
-        body::after {
-            content: '';
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body::before {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 255, 136, 0.12), transparent 70%);
-            top: -150px;
-            right: -100px;
-        }
-
-        body::after {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent 70%);
-            bottom: -100px;
-            left: -80px;
-        }
-
         #landing-page,
         #leaderboard-page {
             position: relative;
@@ -709,7 +684,6 @@
             padding: 25px;
             border-radius: 14px;
             border: 1px solid var(--glass-border);
-            max-height: 400px;
             overflow-y: auto;
         }
 
@@ -723,21 +697,6 @@
 
         .fighter-draft-table {
             width: 100%;
-        }
-
-        .fighter-draft-table thead {
-            background: transparent;
-        }
-        
-        .fighter-draft-table th {
-            text-align: left;
-            padding: 10px 12px;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #0e1e30;
-            font-weight: 500;
         }
 
         .fighter-draft-table td {
@@ -1396,12 +1355,6 @@
                 <div class="fighter-draft-container">
                     <h3>Fighter Draft %</h3>
                     <table class="fighter-draft-table">
-                        <thead>
-                            <tr>
-                                <th>Fighter</th>
-                                <th>Draft %</th>
-                            </tr>
-                        </thead>
                         <tbody id="fighter-draft-tbody"></tbody>
                     </table>
                 </div>
@@ -1599,7 +1552,8 @@
         function searchFavorite(username) {
             const input = document.getElementById('quick-search-input');
             input.value = username;
-            input.dispatchEvent(new Event('input'));
+            document.getElementById('username-dropdown').classList.remove('visible');
+            searchAllContests(username);
         }
 
         function toggleFavoriteFromSearch(username) {

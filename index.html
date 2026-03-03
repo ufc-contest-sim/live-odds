@@ -457,12 +457,16 @@
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.2rem;
             letter-spacing: 1px;
-            margin-bottom: 4px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
         }
 
         .search-result-entries {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            letter-spacing: 0;
         }
 
         .search-result-stats {
@@ -508,7 +512,12 @@
             .search-result-card {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 8px;
+                padding: 14px 18px;
+            }
+
+            .search-result-contest {
+                flex-wrap: wrap;
             }
 
             .search-result-stats {
@@ -2052,9 +2061,9 @@
                 </div>
                 ${results.map(r => `
                     <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
-                        <div>
-                            <div class="search-result-contest">${r.name}</div>
-                            <div class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</div>
+                        <div class="search-result-contest">
+                            ${r.name}
+                            <span class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span>
                         </div>
                         <div class="search-result-stats">
                             <div class="search-result-stat">

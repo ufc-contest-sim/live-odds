@@ -281,6 +281,91 @@
             color: var(--accent-gold);
         }
 
+        /* Username Autocomplete Dropdown */
+        .quick-search-wrapper {
+            position: relative;
+        }
+
+        .username-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .username-dropdown.visible {
+            display: block;
+        }
+
+        .username-dropdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .username-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .username-dropdown-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .username-dropdown-name {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .username-dropdown-contests {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        .add-fav-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .add-fav-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.06);
+        }
+
+        .add-fav-btn.is-fav {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .add-fav-btn .star {
+            font-size: 1rem;
+        }
+
         /* Quick Search */
         .quick-search-section {
             margin-bottom: 40px;
@@ -1164,9 +1249,12 @@
             <p>Email me suggestions - Danny_Hollis24@yahoo.com</p>
         </div>
         <div class="quick-search-section">
-            <div class="quick-search-bar">
-                <span class="quick-search-icon">&#128269;</span>
-                <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
+            <div class="quick-search-wrapper">
+                <div class="quick-search-bar">
+                    <span class="quick-search-icon">&#128269;</span>
+                    <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
+                </div>
+                <div id="username-dropdown" class="username-dropdown"></div>
             </div>
             <div id="favorites-section" class="favorites-section">
                 <div class="favorites-header">
@@ -1708,17 +1796,161 @@
         // Quick Search functionality
         let searchTimeout = null;
         let contestDataCache = {};
+        let usernameIndex = null; // Map: lowercase username -> { displayName, contestCount }
+        let usernameIndexBuilding = false;
+
+        function rebuildUsernameIndexFromCache() {
+            // Build (or rebuild) the username index from whatever contest data is already cached
+            const index = new Map();
+            for (let i = 0; i < CONTESTS.length; i++) {
+                const cached = contestDataCache[CONTESTS[i].file];
+                if (!cached) continue;
+                const seen = new Set();
+                (cached.leaderboard || []).forEach(row => {
+                    if (!row.Username) return;
+                    const lower = row.Username.toLowerCase();
+                    if (seen.has(lower)) return;
+                    seen.add(lower);
+                    if (index.has(lower)) {
+                        index.get(lower).contestCount++;
+                    } else {
+                        index.set(lower, { displayName: row.Username, contestCount: 1 });
+                    }
+                });
+            }
+            if (index.size > 0) {
+                usernameIndex = index;
+            }
+        }
+
+        async function buildUsernameIndex() {
+            if (usernameIndex || usernameIndexBuilding) return;
+            usernameIndexBuilding = true;
+
+            for (let i = 0; i < CONTESTS.length; i++) {
+                try {
+                    await fetchContestData(CONTESTS[i]);
+                } catch (e) {
+                    // skip
+                }
+            }
+            rebuildUsernameIndexFromCache();
+            usernameIndexBuilding = false;
+        }
+
+        function showUsernameDropdown(query) {
+            const dropdown = document.getElementById('username-dropdown');
+            if (query.length < 1) {
+                dropdown.classList.remove('visible');
+                return;
+            }
+
+            // If the full index isn't ready yet, try building from whatever is cached so far
+            if (!usernameIndex) {
+                rebuildUsernameIndexFromCache();
+            }
+            if (!usernameIndex) {
+                // No data cached yet at all - nothing to show
+                return;
+            }
+
+            const searchLower = query.toLowerCase();
+            const startsWithMatches = [];
+            const containsMatches = [];
+
+            for (const [lower, info] of usernameIndex) {
+                if (lower.startsWith(searchLower)) {
+                    startsWithMatches.push(info);
+                } else if (lower.includes(searchLower)) {
+                    containsMatches.push(info);
+                }
+            }
+
+            startsWithMatches.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            containsMatches.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            const top = startsWithMatches.concat(containsMatches).slice(0, 10);
+
+            if (top.length === 0) {
+                dropdown.classList.remove('visible');
+                return;
+            }
+
+            dropdown.classList.add('visible');
+            dropdown.innerHTML = top.map(m => {
+                const saved = isFavorite(m.displayName);
+                const escapedName = m.displayName.replace(/'/g, "\\'");
+                return `
+                    <div class="username-dropdown-item" onclick="selectDropdownUser('${escapedName}')">
+                        <div>
+                            <div class="username-dropdown-name">${m.displayName}</div>
+                            <div class="username-dropdown-contests">${m.contestCount} contest${m.contestCount > 1 ? 's' : ''}</div>
+                        </div>
+                        <button class="add-fav-btn ${saved ? 'is-fav' : ''}" onclick="event.stopPropagation(); toggleFavFromDropdown('${escapedName}')" title="${saved ? 'Remove from favorites' : 'Add to favorites'}">
+                            <span class="star">${saved ? '&#9733;' : '&#9734;'}</span>
+                            ${saved ? 'Favorited' : 'Favorite'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectDropdownUser(username) {
+            const input = document.getElementById('quick-search-input');
+            input.value = username;
+            document.getElementById('username-dropdown').classList.remove('visible');
+            searchAllContests(username);
+        }
+
+        function toggleFavFromDropdown(username) {
+            if (isFavorite(username)) {
+                removeFavoriteUser(username);
+            } else {
+                addFavoriteUser(username);
+            }
+            // Re-render dropdown to update button state
+            const query = document.getElementById('quick-search-input').value.trim();
+            if (query.length >= 1) {
+                showUsernameDropdown(query);
+            }
+        }
 
         function setupQuickSearch() {
             const input = document.getElementById('quick-search-input');
+
+            // Start building the username index in the background
+            buildUsernameIndex();
+
             input.addEventListener('input', () => {
                 clearTimeout(searchTimeout);
                 const query = input.value.trim();
+
+                // Show autocomplete dropdown
+                if (query.length >= 1) {
+                    showUsernameDropdown(query);
+                } else {
+                    document.getElementById('username-dropdown').classList.remove('visible');
+                }
+
                 if (query.length < 2) {
                     document.getElementById('quick-search-results').classList.remove('visible');
                     return;
                 }
                 searchTimeout = setTimeout(() => searchAllContests(query), 300);
+            });
+
+            // Hide dropdown when clicking outside
+            document.addEventListener('mousedown', (e) => {
+                const wrapper = document.querySelector('.quick-search-wrapper');
+                if (wrapper && !wrapper.contains(e.target)) {
+                    document.getElementById('username-dropdown').classList.remove('visible');
+                }
+            });
+
+            // Hide dropdown on Enter key (let the full search run)
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('username-dropdown').classList.remove('visible');
+                }
             });
         }
 
@@ -1782,6 +2014,9 @@
                     // Skip contests that fail to load
                 }
             }
+
+            // All contest data is now cached - ensure username index is built
+            rebuildUsernameIndexFromCache();
 
             if (results.length === 0) {
                 resultsContainer.innerHTML = '<div class="search-no-results">No entries found for "' + query.replace(/</g, '&lt;') + '"</div>';

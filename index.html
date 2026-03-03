@@ -26,20 +26,19 @@
         
         :root {
             --bg-dark: #060a12;
-            --bg-card: rgba(0, 255, 136, 0.02);
-            --bg-card-solid: #07111e;
-            --bg-hover: rgba(0, 255, 136, 0.04);
-            --border: rgba(0, 255, 136, 0.03);
-            --border-accent: rgba(0, 255, 136, 0.04);
+            --bg-card: #0c1926;
+            --bg-card-solid: #0c1926;
+            --bg-hover: #111f34;
+            --border: #142a3e;
+            --border-accent: #163a4a;
             --text-primary: #e8edf5;
             --text-secondary: #7a8599;
             --accent-green: #00ff88;
             --accent-red: #ff4466;
             --accent-blue: #3b82f6;
             --accent-gold: #ffd700;
-            --glass-bg: rgba(0, 255, 136, 0.02);
-            --glass-border: rgba(0, 255, 136, 0.03);
-            --glass-blur: blur(20px);
+            --glass-bg: #0c1926;
+            --glass-border: #142a3e;
         }
 
         body {
@@ -112,8 +111,7 @@
         
         .contest-table-wrapper {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             overflow: hidden;
@@ -125,7 +123,7 @@
         }
 
         .contest-table th {
-            background: rgba(0, 255, 136, 0.015);
+            background: #0a1520;
             color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 500;
@@ -154,7 +152,7 @@
 
         .contest-table td {
             padding: 18px 24px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
+            border-bottom: 1px solid #0a1520;
             font-size: 1.1rem;
             text-align: center;
         }
@@ -173,7 +171,7 @@
         }
 
         .contest-table tbody tr:hover {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
         }
 
         .contest-table tbody tr:hover .contest-table-name {
@@ -264,8 +262,7 @@
 
         .favorite-tile {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 10px 16px;
@@ -279,9 +276,9 @@
         }
 
         .favorite-tile:hover {
-            border-color: rgba(0, 255, 136, 0.15);
+            border-color: #1a3a48;
             transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.06);
         }
 
         .favorite-tile .fav-name {
@@ -333,8 +330,7 @@
             left: 0;
             right: 0;
             background: var(--bg-card-solid);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-top: none;
             border-radius: 0 0 14px 14px;
@@ -353,7 +349,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 24px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.02);
+            border-bottom: 1px solid #0c1926;
             cursor: pointer;
             transition: background 0.15s;
         }
@@ -363,7 +359,7 @@
         }
 
         .username-dropdown-item:hover {
-            background: rgba(0, 255, 136, 0.03);
+            background: #0e1e30;
         }
 
         .username-dropdown-name {
@@ -382,7 +378,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text-secondary);
@@ -419,8 +415,7 @@
             gap: 12px;
             align-items: center;
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-radius: 14px;
             padding: 16px 24px;
@@ -428,7 +423,7 @@
         }
 
         .quick-search-bar:focus-within {
-            border-color: rgba(0, 255, 136, 0.15);
+            border-color: #1a3a48;
         }
 
         .quick-search-bar input {
@@ -481,8 +476,7 @@
 
         .search-result-card {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 18px 24px;
@@ -495,9 +489,9 @@
         }
 
         .search-result-card:hover {
-            border-color: rgba(0, 255, 136, 0.15);
+            border-color: #1a3a48;
             transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.06);
         }
 
         .search-result-contest {
@@ -551,8 +545,7 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-radius: 12px;
         }
@@ -601,8 +594,7 @@
         
         .back-btn {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 8px 16px;
@@ -643,8 +635,7 @@
         
         .stats-vertical {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             padding: 25px;
             border-radius: 14px;
             border: 1px solid var(--glass-border);
@@ -663,7 +654,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.02);
+            border-bottom: 1px solid #0c1926;
         }
         
         .stat-row:last-child {
@@ -697,8 +688,7 @@
         /* Fighter draft % table */
         .fighter-draft-container {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             padding: 25px;
             border-radius: 14px;
             border: 1px solid var(--glass-border);
@@ -729,18 +719,18 @@
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
+            border-bottom: 1px solid #0e1e30;
             font-weight: 500;
         }
 
         .fighter-draft-table td {
             padding: 10px 12px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
+            border-bottom: 1px solid #0a1520;
             font-size: 0.9rem;
         }
 
         .fighter-draft-table tr:hover {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
         }
         
         .fighter-draft-table .fighter-name {
@@ -754,8 +744,7 @@
         
         .filters {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             padding: 15px 20px;
             border-radius: 12px;
@@ -775,9 +764,7 @@
 
         .tab-btn {
             flex: 0 1 auto;
-            background: rgba(0, 255, 136, 0.02);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: #0c1926;
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 8px 20px;
@@ -792,7 +779,7 @@
 
         .tab-btn:hover {
             color: var(--text-primary);
-            background: rgba(0, 255, 136, 0.04);
+            background: #111f34;
         }
 
         .tab-btn.active {
@@ -808,8 +795,7 @@
             left: 0;
             right: 0;
             background: var(--bg-card-solid);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             max-height: 250px;
@@ -831,11 +817,11 @@
         }
         
         .fighter-option:hover {
-            background: rgba(0, 255, 136, 0.03);
+            background: #0e1e30;
         }
 
         .fighter-option.selected {
-            background: rgba(0, 255, 136, 0.03);
+            background: #0e1e30;
             color: var(--accent-green);
         }
         
@@ -872,7 +858,7 @@
         
         .filters input,
         .filters select {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
             border: 1px solid var(--glass-border);
             color: var(--text-primary);
             padding: 8px 12px;
@@ -904,7 +890,7 @@
         }
         
         .clear-btn {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 8px 16px;
@@ -934,8 +920,7 @@
         
         .table-container {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid var(--glass-border);
@@ -952,7 +937,7 @@
         }
         
         thead {
-            background: rgba(0, 255, 136, 0.015);
+            background: #0a1520;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -966,7 +951,7 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
+            border-bottom: 1px solid #0e1e30;
             cursor: pointer;
             transition: color 0.2s;
         }
@@ -982,17 +967,17 @@
         }
         
         .row-main {
-            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
+            border-bottom: 1px solid #0a1520;
             transition: background-color 0.2s;
             cursor: pointer;
         }
 
         .row-main:hover {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
         }
 
         .row-main.expanded {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
             border-bottom: none;
         }
         
@@ -1027,7 +1012,7 @@
         .lineup-row {
             display: none;
             background: rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
+            border-bottom: 1px solid #0a1520;
         }
         
         .lineup-row.expanded {
@@ -1042,7 +1027,7 @@
         }
         
         .fighter-chip {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             padding: 6px 12px;
@@ -1095,8 +1080,7 @@
 
         .fight-card-container {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+
             border: 1px solid var(--glass-border);
             border-radius: 14px;
             padding: 25px;
@@ -1122,7 +1106,7 @@
         }
 
         .whatif-reset-btn {
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 6px 14px;
@@ -1144,7 +1128,7 @@
             gap: 12px;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.02);
+            border-bottom: 1px solid #0c1926;
         }
 
         .fight-row:last-child {
@@ -1174,7 +1158,7 @@
 
         .fight-score-input {
             width: 90px;
-            background: rgba(0, 255, 136, 0.02);
+            background: #0c1926;
             border: 1px solid var(--glass-border);
             color: var(--text-primary);
             padding: 10px 12px;
@@ -1196,7 +1180,7 @@
         }
 
         .fight-score-input.prefilled {
-            background: rgba(0, 255, 136, 0.04);
+            background: #111f34;
         }
 
         .whatif-no-data {

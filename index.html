@@ -26,19 +26,19 @@
         
         :root {
             --bg-dark: #060a12;
-            --bg-card: rgba(0, 255, 136, 0.04);
+            --bg-card: rgba(0, 255, 136, 0.02);
             --bg-card-solid: #07111e;
-            --bg-hover: rgba(0, 255, 136, 0.08);
-            --border: rgba(0, 255, 136, 0.10);
-            --border-accent: rgba(0, 255, 136, 0.15);
+            --bg-hover: rgba(0, 255, 136, 0.04);
+            --border: rgba(0, 255, 136, 0.03);
+            --border-accent: rgba(0, 255, 136, 0.04);
             --text-primary: #e8edf5;
             --text-secondary: #7a8599;
             --accent-green: #00ff88;
             --accent-red: #ff4466;
             --accent-blue: #3b82f6;
             --accent-gold: #ffd700;
-            --glass-bg: rgba(0, 255, 136, 0.04);
-            --glass-border: rgba(0, 255, 136, 0.10);
+            --glass-bg: rgba(0, 255, 136, 0.02);
+            --glass-border: rgba(0, 255, 136, 0.03);
             --glass-blur: blur(20px);
         }
 
@@ -125,7 +125,7 @@
         }
 
         .contest-table th {
-            background: rgba(0, 255, 136, 0.03);
+            background: rgba(0, 255, 136, 0.015);
             color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 500;
@@ -154,7 +154,7 @@
 
         .contest-table td {
             padding: 18px 24px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
             font-size: 1.1rem;
             text-align: center;
         }
@@ -173,7 +173,7 @@
         }
 
         .contest-table tbody tr:hover {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
         }
 
         .contest-table tbody tr:hover .contest-table-name {
@@ -279,9 +279,9 @@
         }
 
         .favorite-tile:hover {
-            border-color: rgba(0, 255, 136, 0.3);
+            border-color: rgba(0, 255, 136, 0.15);
             transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.05);
         }
 
         .favorite-tile .fav-name {
@@ -353,7 +353,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 24px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.04);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.02);
             cursor: pointer;
             transition: background 0.15s;
         }
@@ -363,7 +363,7 @@
         }
 
         .username-dropdown-item:hover {
-            background: rgba(0, 255, 136, 0.06);
+            background: rgba(0, 255, 136, 0.03);
         }
 
         .username-dropdown-name {
@@ -382,7 +382,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text-secondary);
@@ -428,7 +428,7 @@
         }
 
         .quick-search-bar:focus-within {
-            border-color: rgba(0, 255, 136, 0.3);
+            border-color: rgba(0, 255, 136, 0.15);
         }
 
         .quick-search-bar input {
@@ -495,9 +495,9 @@
         }
 
         .search-result-card:hover {
-            border-color: rgba(0, 255, 136, 0.3);
+            border-color: rgba(0, 255, 136, 0.15);
             transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.05);
         }
 
         .search-result-contest {
@@ -663,7 +663,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.04);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.02);
         }
         
         .stat-row:last-child {
@@ -710,13 +710,8 @@
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.5rem;
             letter-spacing: 2px;
-            margin-bottom: 0;
+            margin-bottom: 20px;
             color: var(--accent-green);
-            position: sticky;
-            top: 0;
-            background: var(--bg-card-solid);
-            padding-bottom: 10px;
-            z-index: 11;
         }
 
         .fighter-draft-table {
@@ -724,10 +719,7 @@
         }
 
         .fighter-draft-table thead {
-            position: sticky;
-            top: 34px;
-            background: var(--bg-card-solid);
-            z-index: 10;
+            background: transparent;
         }
         
         .fighter-draft-table th {
@@ -737,18 +729,18 @@
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.06);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
             font-weight: 500;
         }
 
         .fighter-draft-table td {
             padding: 10px 12px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
             font-size: 0.9rem;
         }
 
         .fighter-draft-table tr:hover {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
         }
         
         .fighter-draft-table .fighter-name {
@@ -783,7 +775,7 @@
 
         .tab-btn {
             flex: 0 1 auto;
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
@@ -800,7 +792,7 @@
 
         .tab-btn:hover {
             color: var(--text-primary);
-            background: rgba(0, 255, 136, 0.08);
+            background: rgba(0, 255, 136, 0.04);
         }
 
         .tab-btn.active {
@@ -839,11 +831,11 @@
         }
         
         .fighter-option:hover {
-            background: rgba(0, 255, 136, 0.06);
+            background: rgba(0, 255, 136, 0.03);
         }
 
         .fighter-option.selected {
-            background: rgba(0, 255, 136, 0.06);
+            background: rgba(0, 255, 136, 0.03);
             color: var(--accent-green);
         }
         
@@ -880,7 +872,7 @@
         
         .filters input,
         .filters select {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             border: 1px solid var(--glass-border);
             color: var(--text-primary);
             padding: 8px 12px;
@@ -912,7 +904,7 @@
         }
         
         .clear-btn {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 8px 16px;
@@ -960,7 +952,7 @@
         }
         
         thead {
-            background: rgba(0, 255, 136, 0.03);
+            background: rgba(0, 255, 136, 0.015);
             position: sticky;
             top: 0;
             z-index: 10;
@@ -974,7 +966,7 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.06);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
             cursor: pointer;
             transition: color 0.2s;
         }
@@ -990,17 +982,17 @@
         }
         
         .row-main {
-            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
             transition: background-color 0.2s;
             cursor: pointer;
         }
 
         .row-main:hover {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
         }
 
         .row-main.expanded {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             border-bottom: none;
         }
         
@@ -1035,7 +1027,7 @@
         .lineup-row {
             display: none;
             background: rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(0, 255, 136, 0.03);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.015);
         }
         
         .lineup-row.expanded {
@@ -1050,7 +1042,7 @@
         }
         
         .fighter-chip {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             padding: 6px 12px;
@@ -1130,7 +1122,7 @@
         }
 
         .whatif-reset-btn {
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 6px 14px;
@@ -1152,7 +1144,7 @@
             gap: 12px;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.04);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.02);
         }
 
         .fight-row:last-child {
@@ -1182,7 +1174,7 @@
 
         .fight-score-input {
             width: 90px;
-            background: rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.02);
             border: 1px solid var(--glass-border);
             color: var(--text-primary);
             padding: 10px 12px;
@@ -1204,7 +1196,7 @@
         }
 
         .fight-score-input.prefilled {
-            background: rgba(0, 255, 136, 0.08);
+            background: rgba(0, 255, 136, 0.04);
         }
 
         .whatif-no-data {

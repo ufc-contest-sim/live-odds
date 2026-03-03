@@ -26,10 +26,10 @@
         
         :root {
             --bg-dark: #060a12;
-            --bg-card: #0c1926;
+            --bg-card: rgba(12, 25, 40, 0.65);
             --bg-card-solid: #0c1926;
             --bg-hover: #111f34;
-            --border: #142a3e;
+            --border: rgba(20, 42, 62, 0.8);
             --border-accent: #163a4a;
             --text-primary: #e8edf5;
             --text-secondary: #7a8599;
@@ -37,13 +37,13 @@
             --accent-red: #ff4466;
             --accent-blue: #3b82f6;
             --accent-gold: #ffd700;
-            --glass-bg: #0c1926;
-            --glass-border: #142a3e;
+            --glass-bg: rgba(12, 25, 40, 0.65);
+            --glass-border: rgba(20, 42, 62, 0.8);
         }
 
         body {
             font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #050810, #0a1422, #071018);
+            background: #060a12;
             color: var(--text-primary);
             min-height: 100vh;
             position: relative;
@@ -79,7 +79,24 @@
             position: relative;
             z-index: 1;
         }
-        
+
+        /* Glassmorphism blur on top-level card containers */
+        .contest-table-wrapper,
+        .favorite-tile,
+        .quick-search-bar,
+        .search-result-card,
+        .search-no-results,
+        .back-btn,
+        .stats-vertical,
+        .fighter-draft-container,
+        .filters,
+        .table-container,
+        .fight-card-container,
+        .tab-btn {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
         /* Landing Page Styles */
         .landing-page {
             padding: 40px 20px;

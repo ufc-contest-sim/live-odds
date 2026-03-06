@@ -31,13 +31,6 @@ import numpy as np
 import pandas as pd
 from openpyxl import load_workbook
 from concurrent.futures import ProcessPoolExecutor, as_completed
-# Optional Numba inner loop (safe fallback if unavailable)
-NUMBA_AVAILABLE = False
-try:
-    from numba import njit
-    NUMBA_AVAILABLE = True
-except Exception:
-    NUMBA_AVAILABLE = False
 Z99 = 2.326347874
 _money_re = re.compile(r'[^0-9.\-]')
 _nbsp = '\xa0'
@@ -428,91 +421,9 @@ def build_mats(fighters, fmap, id2idx):
             partial += 1
     log(f"[map] lineups mapped: 6/6={mapped6:,} | 1–5/6={partial:,} | 0/6={empty:,} (unmapped fighters score 0)")
     return C1, C2
-# -------------------- Inner per-sim aggregation --------------------
-if NUMBA_AVAILABLE:
-    @njit(cache=True, fastmath=True)
-    def _distribute_into_tmp_and_mark(sc, prefix, last_paid, tmp_payout, wins, win_total, cashes, seconds, thirds):
-        n = sc.size
-        order = np.argsort(sc)[::-1]
-        # mark winners (top tie group)
-        top_score = sc[order[0]]
-        u = 0
-        while u < n and sc[order[u]] == top_score:
-            wins[order[u]] += 1.0
-            u += 1
-        # tie-split payouts for paid ranks into tmp_payout
-        pos = 1
-        i = 0
-        group_index = 0  # 0=1st, 1=2nd, 2=3rd
-        while i < n:
-            j = i + 1
-            s0 = sc[order[i]]
-            while j < n and sc[order[j]] == s0:
-                j += 1
-            grp = j - i
-            start_rank = pos
-            end_rank = pos + grp - 1
-            # Track 2nd and 3rd place groups
-            if group_index == 1:
-                for t in range(i, j):
-                    seconds[order[t]] += 1.0
-            elif group_index == 2:
-                for t in range(i, j):
-                    thirds[order[t]] += 1.0
-            if start_rank <= last_paid:
-                end_paid = end_rank if end_rank <= last_paid else last_paid
-                total_money = prefix[end_paid] - prefix[start_rank - 1]
-                if total_money != 0.0:
-                    share = total_money / grp
-                    for t in range(i, j):
-                        idx = order[t]
-                        tmp_payout[idx] += share
-                        cashes[idx] += 1.0
-                        if pos == 1:
-                            win_total[idx] += share
-            pos = end_rank + 1
-            i = j
-            group_index += 1
-else:
-    def _distribute_into_tmp_and_mark(sc, prefix, last_paid, tmp_payout, wins, win_total, cashes, seconds, thirds):
-        order = np.argsort(sc)[::-1]
-        n = sc.shape[0]
-        top = sc[order[0]]
-        u = 0
-        while u < n and sc[order[u]] == top:
-            wins[order[u]] += 1.0
-            u += 1
-        pos = 1
-        i = 0
-        group_index = 0  # 0=1st, 1=2nd, 2=3rd
-        while i < n:
-            j = i + 1
-            s0 = sc[order[i]]
-            while j < n and sc[order[j]] == s0:
-                j += 1
-            grp = j - i
-            start_rank = pos
-            end_rank = pos + grp - 1
-            # Track 2nd and 3rd place groups
-            if group_index == 1:
-                sel2 = order[i:j]
-                seconds[sel2] += 1.0
-            elif group_index == 2:
-                sel3 = order[i:j]
-                thirds[sel3] += 1.0
-            if start_rank <= last_paid:
-                end_paid = min(end_rank, last_paid)
-                total_money = float(prefix[end_paid] - prefix[start_rank - 1])
-                if total_money != 0.0:
-                    share = total_money / grp
-                    sel = order[i:j]
-                    tmp_payout[sel] += share
-                    cashes[sel] += 1.0
-                    if pos == 1:
-                        win_total[sel] += share
-            pos = end_rank + 1
-            i = j
-            group_index += 1
+# -------------------- Vectorized per-sim aggregation --------------------
+# Uses np.sort + np.searchsorted instead of np.argsort + Python tie-walking.
+# All payout/tie logic is handled with vectorized NumPy operations.
 # -------------------- Worker --------------------
 def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                mem_budget_mb: int = 256):
@@ -534,12 +445,10 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     # per-contest transposed matrices
     C1T_list = []
     C2T_list = []
-    tmp_payout_list = []
     for k in range(K):
         a = int(offsets[k]); b = int(offsets[k+1])
         C1T_list.append(C1_concat[a:b].T.astype(np.float32, copy=False))  # (F x n_k)
         C2T_list.append(C2_concat[a:b].T.astype(np.float32, copy=False))
-        tmp_payout_list.append(np.zeros(int(n_list[k]), dtype=np.float64))
     # accumulators
     sum_scores = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     sumsq_scores = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
@@ -572,15 +481,44 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                 C2T = C2T_list[k]
                 prefix = prefix_mat[k]
                 lp = int(last_paid[k])
-                tmp_payout = tmp_payout_list[k]
-                scores = s1 @ C1T + s2 @ C2T  # (m x n_k)
+                n_k = int(n_list[k])
+                scores = s1 @ C1T + s2 @ C2T  # (m x n_k) — FAST matmul
+                scores_f64 = scores.astype(np.float64)
+                # Vectorized score accumulation across entire micro-batch
+                sum_scores[k] += scores_f64.sum(axis=0)
+                sumsq_scores[k] += np.einsum('ij,ij->j', scores_f64, scores_f64)
+                # Per-iteration payout distribution via sort + searchsorted
                 for i in range(m):
-                    sc = scores[i].astype(np.float64, copy=False)
-                    sum_scores[k] += sc
-                    sumsq_scores[k] += sc * sc
-                    tmp_payout.fill(0.0)
-                    _distribute_into_tmp_and_mark(sc, prefix, lp, tmp_payout, wins[k], win_total[k], cashes[k], seconds[k], thirds[k])
-                    total_payout[k] += tmp_payout
+                    sc = scores_f64[i]
+                    neg_sc = -sc
+                    neg_sorted = np.sort(neg_sc)  # ascending = highest scores first
+                    # Vectorized rank computation
+                    left = np.searchsorted(neg_sorted, neg_sc, side='left')
+                    right = np.searchsorted(neg_sorted, neg_sc, side='right')
+                    group_sizes = (right - left).astype(np.float64)
+                    # Tie-split payouts: prefix[end] - prefix[start] / group_size
+                    safe_left = np.minimum(left, lp)
+                    safe_right = np.minimum(right, lp)
+                    payout = (prefix[safe_right] - prefix[safe_left]) / np.maximum(group_sizes, 1.0)
+                    total_payout[k] += payout
+                    # Cashes
+                    is_cash = payout > 0.0
+                    cashes[k][is_cash] += 1.0
+                    # 1st place: entries matching top score
+                    val_1st = neg_sorted[0]
+                    is_win = neg_sc == val_1st
+                    wins[k][is_win] += 1.0
+                    win_total[k] += np.where(is_win, payout, 0.0)
+                    # 2nd place: next score group after 1st
+                    g1_end = np.searchsorted(neg_sorted, val_1st, side='right')
+                    if g1_end < n_k:
+                        val_2nd = neg_sorted[g1_end]
+                        seconds[k][neg_sc == val_2nd] += 1.0
+                        # 3rd place: next score group after 2nd
+                        g2_end = np.searchsorted(neg_sorted, val_2nd, side='right')
+                        if g2_end < n_k:
+                            val_3rd = neg_sorted[g2_end]
+                            thirds[k][neg_sc == val_3rd] += 1.0
             off += m
         done_total += B
     return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds)
@@ -793,7 +731,7 @@ def main():
         log(f"[info] contests={K} | workers={workers} | batch={batch}")
         for c in contest_meta:
             log(f"  - {c['Contest']}: lineups={c['n']:,} | entry=${c['EntryFee']:.2f} | prize_pool=${c['PrizePool']:.2f} | last_paid={c['last_paid']}")
-        log("[info] numba: enabled" if NUMBA_AVAILABLE else "[info] numba: not available (using NumPy loops)")
+        log("[info] using vectorized sort+searchsorted payout engine")
         # Build chunk plan
         chunks = []
         remaining = iters

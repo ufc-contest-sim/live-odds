@@ -1,11 +1,11 @@
 {
   "contest_name": "40K Thunderdome",
-  "last_updated": "2026-03-07T22:26:04.106423",
+  "last_updated": "2026-03-07T23:55:00.185039",
   "total_lineups": 8,
   "summary": {
-    "top_win_pct": 50.01,
-    "top_netev": 12304.83,
-    "top_roi": 232.17
+    "top_win_pct": 17.29,
+    "top_netev": 955.68,
+    "top_roi": 18.03
   },
   "leaderboard": [
     {
@@ -21,18 +21,18 @@
       "F5": "Drew Dober",
       "F6": "Donte Johnson",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.400107980564,
-      "EV": 16365.125,
-      "NetEV": 11065.125,
-      "ROI%": 208.7759433962264,
-      "WinPct": 50.009,
-      "SecondPct": 25.759,
-      "ThirdPct": 22.85,
-      "CashPct": 75.767,
-      "MeanScore": 510.2140014068604,
-      "SDScore": 36.33156875522678,
-      "P99Score": 594.733869139667,
-      "TotalPayout": 1636512500.0
+      "AvgWinPayout": 24999.292419453748,
+      "EV": 6255.68,
+      "NetEV": 955.6800000000004,
+      "ROI%": 18.031698113207558,
+      "WinPct": 16.9592,
+      "SecondPct": 13.4424,
+      "ThirdPct": 12.2416,
+      "CashPct": 30.4004,
+      "MeanScore": 429.60103717126464,
+      "SDScore": 89.8584867593165,
+      "P99Score": 638.6431368046577,
+      "TotalPayout": 1563920000.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -47,18 +47,18 @@
       "F5": "Rafael Tobias",
       "F6": "Donte Johnson",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 368.20403660400393,
-      "SDScore": 36.331567943471136,
-      "P99Score": 452.7239024483846,
-      "TotalPayout": 0.0
+      "AvgWinPayout": 24999.42161761984,
+      "EV": 6121.31,
+      "NetEV": 821.3100000000004,
+      "ROI%": 15.49641509433963,
+      "WinPct": 17.2896,
+      "SecondPct": 11.9952,
+      "ThirdPct": 10.1228,
+      "CashPct": 29.2844,
+      "MeanScore": 416.77883971685793,
+      "SDScore": 88.87743489480293,
+      "P99Score": 623.5386714309561,
+      "TotalPayout": 1530327500.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -73,18 +73,18 @@
       "F5": "Alberto Montes",
       "F6": "Donte Johnson",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 86.25,
-      "NetEV": -5213.75,
-      "ROI%": -98.37264150943396,
-      "WinPct": 0.0,
-      "SecondPct": 0.5760000000000001,
-      "ThirdPct": 45.091,
-      "CashPct": 0.575,
-      "MeanScore": 453.5118454788208,
-      "SDScore": 29.524415675781963,
-      "P99Score": 522.1959071172685,
-      "TotalPayout": 8625000.0
+      "AvgWinPayout": 24999.169262720665,
+      "EV": 4594.3,
+      "NetEV": -705.6999999999998,
+      "ROI%": -13.315094339622638,
+      "WinPct": 9.63,
+      "SecondPct": 14.582,
+      "ThirdPct": 15.210399999999998,
+      "CashPct": 24.2104,
+      "MeanScore": 428.6484241748047,
+      "SDScore": 72.67606878078927,
+      "P99Score": 597.7182422736715,
+      "TotalPayout": 1148575000.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -99,18 +99,18 @@
       "F5": "Raul Rosas Jr.",
       "F6": "Donte Johnson",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 367.7178266629029,
-      "SDScore": 39.138542414584165,
-      "P99Score": 458.76769160052953,
-      "TotalPayout": 0.0
+      "AvgWinPayout": 24999.27248917828,
+      "EV": 4451.13,
+      "NetEV": -848.8699999999999,
+      "ROI%": -16.01641509433962,
+      "WinPct": 10.9964,
+      "SecondPct": 11.3504,
+      "ThirdPct": 13.0936,
+      "CashPct": 22.3448,
+      "MeanScore": 419.7101726624603,
+      "SDScore": 85.95674389607665,
+      "P99Score": 619.6754610810607,
+      "TotalPayout": 1112782500.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -125,18 +125,18 @@
       "F5": "Raul Rosas Jr.",
       "F6": "Donte Johnson",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24998.89233495791,
-      "EV": 17604.825,
-      "NetEV": 12304.825,
-      "ROI%": 232.16650943396223,
-      "WinPct": 31.598,
-      "SecondPct": 64.70700000000001,
-      "ThirdPct": 3.695,
-      "CashPct": 96.305,
-      "MeanScore": 494.3118444647217,
-      "SDScore": 29.52441517362021,
-      "P99Score": 562.9959049349663,
-      "TotalPayout": 1760482500.0
+      "AvgWinPayout": 24999.16140213563,
+      "EV": 3612.34,
+      "NetEV": -1687.66,
+      "ROI%": -31.84264150943396,
+      "WinPct": 7.1548,
+      "SecondPct": 12.1596,
+      "ThirdPct": 15.3284,
+      "CashPct": 19.3136,
+      "MeanScore": 424.6456573903503,
+      "SDScore": 75.85446276059072,
+      "P99Score": 601.1095255668627,
+      "TotalPayout": 903085000.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -151,18 +151,18 @@
       "F5": "Cody Durden",
       "F6": "Diyar Nurgozhay",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.728260869564,
-      "EV": 5943.8,
-      "NetEV": 643.8000000000002,
-      "ROI%": 12.147169811320758,
-      "WinPct": 18.4,
-      "SecondPct": 8.965,
-      "ThirdPct": 28.369,
-      "CashPct": 27.36,
-      "MeanScore": 457.3678344039917,
-      "SDScore": 39.13853973178946,
-      "P99Score": 548.4176931005047,
-      "TotalPayout": 594380000.0
+      "AvgWinPayout": 24999.1757064196,
+      "EV": 4692.07,
+      "NetEV": -607.9300000000003,
+      "ROI%": -11.470377358490571,
+      "WinPct": 12.1316,
+      "SecondPct": 11.064,
+      "ThirdPct": 10.1744,
+      "CashPct": 23.1948,
+      "MeanScore": 409.7870389388275,
+      "SDScore": 96.0141945806745,
+      "P99Score": 633.149456375402,
+      "TotalPayout": 1173017500.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -177,18 +177,18 @@
       "F5": "Gregory Rodrigues",
       "F6": "Drew Dober",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 364.8918451953125,
-      "SDScore": 29.52441541059307,
-      "P99Score": 433.5759062168385,
-      "TotalPayout": 0.0
+      "AvgWinPayout": 24999.25798409118,
+      "EV": 5411.17,
+      "NetEV": 111.17000000000009,
+      "ROI%": 2.0975471698113224,
+      "WinPct": 13.4768,
+      "SecondPct": 13.6148,
+      "ThirdPct": 12.5996,
+      "CashPct": 27.0916,
+      "MeanScore": 424.5620182926636,
+      "SDScore": 81.61755572547659,
+      "P99Score": 614.4328455357027,
+      "TotalPayout": 1352792500.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -203,18 +203,18 @@
       "F5": "Diyar Nurgozhay",
       "F6": "Donte Johnson",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 336.6578417202759,
-      "SDScore": 39.13854509269594,
-      "P99Score": 427.7077128881222,
-      "TotalPayout": 0.0
+      "AvgWinPayout": 24999.02984833296,
+      "EV": 4862.0,
+      "NetEV": -438.0,
+      "ROI%": -8.264150943396228,
+      "WinPct": 12.3692,
+      "SecondPct": 11.8008,
+      "ThirdPct": 11.242,
+      "CashPct": 24.1692,
+      "MeanScore": 414.041183292984,
+      "SDScore": 88.24703949425172,
+      "P99Score": 619.3344960072305,
+      "TotalPayout": 1215500000.0
     }
   ],
   "fight_card": [
@@ -229,78 +229,78 @@
       "fight_id": 2,
       "fighter1": "Caio Borralho",
       "fighter2": "Reinier de Ridder",
-      "fighter1_score": 65.76,
-      "fighter2_score": 48.18
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 3,
       "fighter1": "Raul Rosas Jr.",
       "fighter2": "Rob Font",
-      "fighter1_score": 144.15,
-      "fighter2_score": 13.19
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 4,
       "fighter1": "Michael Johnson",
       "fighter2": "Drew Dober",
-      "fighter1_score": 10.8,
-      "fighter2_score": 88.8
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 5,
       "fighter1": "Gregory Rodrigues",
       "fighter2": "Brunno Ferreira",
-      "fighter1_score": 100.8,
-      "fighter2_score": 0.8
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 6,
       "fighter1": "Xiao Long",
       "fighter2": "Cody Garbrandt",
-      "fighter1_score": 32.21,
-      "fighter2_score": 42.79
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 7,
       "fighter1": "Donte Johnson",
       "fighter2": "Cody Brundage",
-      "fighter1_score": 67.16,
-      "fighter2_score": 30.86
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 8,
       "fighter1": "Alberto Montes",
       "fighter2": "Ricky Turcios",
-      "fighter1_score": 84.83,
-      "fighter2_score": 15.02
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 9,
       "fighter1": "Nyamjargal Tumendemberel",
       "fighter2": "Cody Durden",
-      "fighter1_score": 85.96,
-      "fighter2_score": 51.1
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 10,
       "fighter1": "Su Sumudaerji",
       "fighter2": "Jesus Aguilar",
-      "fighter1_score": 80.88,
-      "fighter2_score": 23.35
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 11,
       "fighter1": "Rafael Tobias",
       "fighter2": "Diyar Nurgozhay",
-      "fighter1_score": 32.73,
-      "fighter2_score": 76.44
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 12,
       "fighter1": "Luke Fernandez",
       "fighter2": "Rodolfo Bellato",
-      "fighter1_score": 9.06,
-      "fighter2_score": 112.73
+      "fighter1_score": null,
+      "fighter2_score": null
     }
   ],
   "payouts": [

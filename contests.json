@@ -1,36 +1,36 @@
 {
   "contests": [
     {
-      "id": "150k_mega_mini-max",
-      "name": "150K MEGA mini-MAX",
-      "file": "150K_MEGA_mini-MAX.json",
-      "entryFee": 3.0,
-      "totalPrizes": 150000,
-      "entrants": 59398
-    },
-    {
-      "id": "15k_title_fight",
-      "name": "15K Title Fight",
-      "file": "15K_Title_Fight.json",
-      "entryFee": 1060.0,
-      "totalPrizes": 15000,
-      "entrants": 15
-    },
-    {
-      "id": "200k_knockout",
-      "name": "200K Knockout",
-      "file": "200K_Knockout.json",
+      "id": "100k_knockout",
+      "name": "100K Knockout",
+      "file": "100K_Knockout.json",
       "entryFee": 555.0,
-      "totalPrizes": 200000,
-      "entrants": 375
+      "totalPrizes": 100000,
+      "entrants": 200
     },
     {
-      "id": "30k_double_champ",
-      "name": "30K Double Champ",
-      "file": "30K_Double_Champ.json",
+      "id": "12k_title_fight",
+      "name": "12K Title Fight",
+      "file": "12K_Title_Fight.json",
+      "entryFee": 1060.0,
+      "totalPrizes": 12000,
+      "entrants": 12
+    },
+    {
+      "id": "26k_double_champ",
+      "name": "26K Double Champ",
+      "file": "26K_Double_Champ.json",
       "entryFee": 2120.0,
-      "totalPrizes": 30000,
-      "entrants": 15
+      "totalPrizes": 26000,
+      "entrants": 12
+    },
+    {
+      "id": "350k_throwdown",
+      "name": "350K Throwdown",
+      "file": "350K_Throwdown.json",
+      "entryFee": 15.0,
+      "totalPrizes": 350000,
+      "entrants": 27450
     },
     {
       "id": "40k_arm_bar",
@@ -41,28 +41,20 @@
       "entrants": 9512
     },
     {
+      "id": "40k_hook",
+      "name": "40k Hook",
+      "file": "40k_Hook.json",
+      "entryFee": 8.0,
+      "totalPrizes": 40000,
+      "entrants": 5882
+    },
+    {
       "id": "40k_thunderdome",
       "name": "40K Thunderdome",
       "file": "40K_Thunderdome.json",
       "entryFee": 5300.0,
       "totalPrizes": 40000,
       "entrants": 8
-    },
-    {
-      "id": "50k_hook",
-      "name": "50k Hook",
-      "file": "50k_Hook.json",
-      "entryFee": 8.0,
-      "totalPrizes": 50000,
-      "entrants": 7352
-    },
-    {
-      "id": "600k_ufc_326_special",
-      "name": "600K UFC 326 Special",
-      "file": "600K_UFC_326_Special.json",
-      "entryFee": 25.0,
-      "totalPrizes": 600000,
-      "entrants": 28096
     }
   ]
 }

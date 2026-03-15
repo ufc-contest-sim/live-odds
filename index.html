@@ -507,7 +507,7 @@
         }
 
         .portfolio-bar-value {
-            font-size: 0.55rem;
+            font-size: 0.7rem;
             font-weight: 600;
             white-space: nowrap;
             margin-bottom: 2px;
@@ -1996,9 +1996,13 @@
 
             const maxPos = Math.max(...values.filter(v => v > 0), 1);
             const maxNeg = Math.max(...values.filter(v => v < 0).map(v => Math.abs(v)), 1);
-            const maxAbs = Math.max(maxPos, maxNeg);
-            const chartHeight = 180; // px for bars area (each direction from zero)
-            const totalHeight = chartHeight * 2; // full chart height
+
+            // Auto-size each half proportionally so no wasted space
+            const totalChartHeight = 300;
+            const labelReserve = 20; // space for value labels
+            const posHeight = Math.round((maxPos / (maxPos + maxNeg)) * (totalChartHeight - labelReserve * 2)) + labelReserve;
+            const negHeight = Math.round((maxNeg / (maxPos + maxNeg)) * (totalChartHeight - labelReserve * 2)) + labelReserve;
+            const totalHeight = posHeight + negHeight;
 
             const formatMoney = (v) => {
                 const abs = Math.abs(v);
@@ -2012,14 +2016,16 @@
             let breakevenIdx = values.findIndex(v => v >= 0);
             if (breakevenIdx < 0) breakevenIdx = values.length;
 
-            // Build vertical bars - each column has top half (positive space) and bottom half (negative space)
+            // Build vertical bars - top half sized to maxPos, bottom half sized to maxNeg
             const bars = values.map((val, i) => {
-                const barHeight = Math.max((Math.abs(val) / maxAbs) * chartHeight, 2);
                 const isPos = val >= 0;
+                const barMax = isPos ? posHeight - labelReserve : negHeight - labelReserve;
+                const refMax = isPos ? maxPos : maxNeg;
+                const barHeight = Math.max((Math.abs(val) / refMax) * barMax, 2);
                 const valClass = isPos ? 'positive' : 'negative';
                 const barClass = isPos ? 'positive-bar' : 'negative-bar';
-                const topPad = isPos ? (chartHeight - barHeight) : chartHeight;
-                const botPad = isPos ? chartHeight : (chartHeight - barHeight);
+                const topPad = isPos ? (posHeight - barHeight) : posHeight;
+                const botPad = isPos ? negHeight : (negHeight - barHeight);
 
                 return `<div class="portfolio-bar-col" style="height:${totalHeight}px;">
                     <div style="height:${topPad}px;display:flex;align-items:flex-end;justify-content:center;width:100%;">
@@ -2041,11 +2047,10 @@
             const worst = values[0];
             const best = values[values.length - 1];
 
-            // Zero line positioned at the midpoint
             panel.innerHTML = `
                 <div class="portfolio-bars-wrapper">
                     <div class="portfolio-bars" style="height:${totalHeight}px;">
-                        <div class="portfolio-zero-line" style="top:${chartHeight}px;"></div>
+                        <div class="portfolio-zero-line" style="top:${posHeight}px;"></div>
                         ${bars}
                     </div>
                     <div class="portfolio-bar-labels">${labels}</div>

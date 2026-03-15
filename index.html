@@ -2133,7 +2133,7 @@
                 renderPortfolioQuintiles(filtersEl._allPctData);
             } else {
                 // Sum per-contest percentiles for selected contests (approximate)
-                const pKeys = ['p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99'];
+                const pKeys = ['min','p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99','max'];
                 const combined = {};
                 for (const pk of pKeys) {
                     combined[pk] = 0;

@@ -1,11 +1,11 @@
 {
   "contest_name": "12K Title Fight",
-  "last_updated": "2026-03-14T21:09:31.939565",
+  "last_updated": "2026-03-14T21:14:29.953189",
   "total_lineups": 12,
   "summary": {
-    "top_win_pct": 51.11,
-    "top_netev": 3848.77,
-    "top_roi": 363.09
+    "top_win_pct": 49.75,
+    "top_netev": 3787.99,
+    "top_roi": 357.36
   },
   "leaderboard": [
     {
@@ -29,9 +29,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 357.8575788772583,
-      "SDScore": 35.047220192550704,
-      "P99Score": 439.3896050618085,
+      "MeanScore": 357.8736717643738,
+      "SDScore": 35.08632618710661,
+      "P99Score": 439.49667209621975,
       "TotalPayout": 0.0
     },
     {
@@ -55,9 +55,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 358.7294993371582,
-      "SDScore": 29.90026510688169,
-      "P99Score": 428.2879175005888,
+      "MeanScore": 358.7745646961975,
+      "SDScore": 29.885187096234382,
+      "P99Score": 428.2979061616146,
       "TotalPayout": 0.0
     },
     {
@@ -79,11 +79,11 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "SecondPct": 0.0,
-      "ThirdPct": 0.0005,
+      "ThirdPct": 0.0015,
       "CashPct": 0.0,
-      "MeanScore": 419.21002197265625,
-      "SDScore": 0.0002812554118669,
-      "P99Score": 419.2106762705857,
+      "MeanScore": 420.4400329589844,
+      "SDScore": 0.0,
+      "P99Score": 420.4400329589844,
       "TotalPayout": 0.0
     },
     {
@@ -107,9 +107,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 413.6000061035156,
-      "SDScore": 0.0,
-      "P99Score": 413.6000061035156,
+      "MeanScore": 414.83001708984375,
+      "SDScore": 0.0002932117750618,
+      "P99Score": 414.8306992024333,
       "TotalPayout": 0.0
     },
     {
@@ -126,17 +126,17 @@
       "F6": "Myktybek Orolbai",
       "EntryFee": 1060.0,
       "AvgWinPayout": 0.0,
-      "EV": 73.7025,
-      "NetEV": -986.2975,
-      "ROI%": -93.04693396226416,
+      "EV": 72.69,
+      "NetEV": -987.31,
+      "ROI%": -93.14245283018867,
       "WinPct": 0.0,
-      "SecondPct": 0.4004999999999999,
-      "ThirdPct": 3.112,
-      "CashPct": 3.487,
-      "MeanScore": 454.8495057476807,
-      "SDScore": 29.90026494297788,
-      "P99Score": 524.407923529814,
-      "TotalPayout": 14740500.0
+      "SecondPct": 0.3715,
+      "ThirdPct": 3.099,
+      "CashPct": 3.451,
+      "MeanScore": 454.8945710777282,
+      "SDScore": 29.88518694764849,
+      "P99Score": 524.4179121974829,
+      "TotalPayout": 14538000.0
     },
     {
       "Contest": "$12K Title Fight",
@@ -151,18 +151,18 @@
       "F5": "Eryk Anders",
       "F6": "Myktybek Orolbai",
       "EntryFee": 1060.0,
-      "AvgWinPayout": 6999.373942304871,
-      "EV": 4908.7725,
-      "NetEV": 3848.7725,
-      "ROI%": 363.0917452830189,
-      "WinPct": 51.1135,
-      "SecondPct": 40.739,
-      "ThirdPct": 5.4515,
-      "CashPct": 97.3025,
-      "MeanScore": 551.5475755108642,
-      "SDScore": 35.04721628893271,
-      "P99Score": 633.079592614241,
-      "TotalPayout": 981754500.0
+      "AvgWinPayout": 6999.658284588635,
+      "EV": 4847.995,
+      "NetEV": 3787.995,
+      "ROI%": 357.35801886792456,
+      "WinPct": 49.749,
+      "SecondPct": 41.501,
+      "ThirdPct": 6.039,
+      "CashPct": 97.2875,
+      "MeanScore": 551.5636685244751,
+      "SDScore": 35.08632224986615,
+      "P99Score": 633.1866596969302,
+      "TotalPayout": 969599000.0
     },
     {
       "Contest": "$12K Title Fight",
@@ -185,9 +185,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 356.7995030079651,
-      "SDScore": 29.900265225702245,
-      "P99Score": 426.3579214478136,
+      "MeanScore": 356.8445683564758,
+      "SDScore": 29.8851872339934,
+      "P99Score": 426.36791014236826,
       "TotalPayout": 0.0
     },
     {
@@ -211,9 +211,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 324.3699951171875,
+      "MeanScore": 325.6000061035156,
       "SDScore": 0.0,
-      "P99Score": 324.3699951171875,
+      "P99Score": 325.6000061035156,
       "TotalPayout": 0.0
     },
     {
@@ -237,9 +237,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 367.53997802734375,
-      "SDScore": 0.0002610775971569,
-      "P99Score": 367.5405853846568,
+      "MeanScore": 368.7699890136719,
+      "SDScore": 0.0001609426563071,
+      "P99Score": 368.7703634222782,
       "TotalPayout": 0.0
     },
     {
@@ -255,18 +255,18 @@
       "F5": "Eryk Anders",
       "F6": "Myktybek Orolbai",
       "EntryFee": 1060.0,
-      "AvgWinPayout": 6998.869486221864,
-      "EV": 3620.6325,
-      "NetEV": 2560.6325,
-      "ROI%": 241.5691037735849,
-      "WinPct": 24.7675,
-      "SecondPct": 38.5385,
-      "ThirdPct": 36.556,
-      "CashPct": 99.862,
-      "MeanScore": 541.0570648390197,
-      "SDScore": 46.12732480036691,
-      "P99Score": 648.3652688216607,
-      "TotalPayout": 724126500.0
+      "AvgWinPayout": 6999.495821132851,
+      "EV": 3668.775,
+      "NetEV": 2608.775,
+      "ROI%": 246.1108490566038,
+      "WinPct": 25.7845,
+      "SecondPct": 38.207,
+      "ThirdPct": 35.8935,
+      "CashPct": 99.885,
+      "MeanScore": 542.3482263768005,
+      "SDScore": 46.07351847501458,
+      "P99Score": 649.5312581288505,
+      "TotalPayout": 733755000.0
     },
     {
       "Contest": "$12K Title Fight",
@@ -282,17 +282,17 @@
       "F6": "Vitor Petrino",
       "EntryFee": 1060.0,
       "AvgWinPayout": 0.0,
-      "EV": 2.865,
-      "NetEV": -1057.135,
-      "ROI%": -99.72971698113209,
+      "EV": 2.395,
+      "NetEV": -1057.605,
+      "ROI%": -99.7740566037736,
       "WinPct": 0.0,
-      "SecondPct": 0.0055,
-      "ThirdPct": 0.1364999999999999,
-      "CashPct": 0.1405,
-      "MeanScore": 400.8238956126404,
-      "SDScore": 28.28481234463115,
-      "P99Score": 466.624208677062,
-      "TotalPayout": 573000.0
+      "SecondPct": 0.0045,
+      "ThirdPct": 0.1144999999999999,
+      "CashPct": 0.1175,
+      "MeanScore": 400.7876745405579,
+      "SDScore": 28.284952711188343,
+      "P99Score": 466.5883141464215,
+      "TotalPayout": 479000.0
     },
     {
       "Contest": "$12K Title Fight",
@@ -307,18 +307,18 @@
       "F5": "Jose Delgado",
       "F6": "Myktybek Orolbai",
       "EntryFee": 1060.0,
-      "AvgWinPayout": 6999.585689723033,
-      "EV": 3394.0275,
-      "NetEV": 2334.0275,
-      "ROI%": 220.1912735849057,
-      "WinPct": 24.1365,
-      "SecondPct": 20.328,
-      "ThirdPct": 54.7465,
-      "CashPct": 99.211,
-      "MeanScore": 531.6400146484375,
-      "SDScore": 0.0,
-      "P99Score": 531.6400146484375,
-      "TotalPayout": 678805500.0
+      "AvgWinPayout": 6999.591444855269,
+      "EV": 3408.145,
+      "NetEV": 2348.145,
+      "ROI%": 221.5231132075472,
+      "WinPct": 24.4765,
+      "SecondPct": 19.93,
+      "ThirdPct": 54.856,
+      "CashPct": 99.2625,
+      "MeanScore": 532.8699951171875,
+      "SDScore": 0.0001323653789248,
+      "P99Score": 532.8703030451054,
+      "TotalPayout": 681629000.0
     }
   ],
   "fight_card": [
@@ -340,8 +340,8 @@
       "fight_id": 3,
       "fighter1": "Jose Delgado",
       "fighter2": "Andre Fili",
-      "fighter1_score": 74.25,
-      "fighter2_score": 44.17
+      "fighter1_score": 75.48,
+      "fighter2_score": 53.17
     },
     {
       "fight_id": 4,

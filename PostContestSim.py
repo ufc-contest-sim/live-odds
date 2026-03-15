@@ -468,7 +468,7 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     seconds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     thirds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     # Portfolio outcome tracking: store per-user net profit for each iteration
-    user_outcomes = np.zeros((iters, num_users), dtype=np.float64)
+    user_outcomes = np.zeros((iters, num_users), dtype=np.float32)
     iter_cursor = 0  # tracks which iteration we're writing to in user_outcomes
     done_total = 0
     while done_total < iters:
@@ -516,7 +516,7 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                     payout = (prefix[safe_right] - prefix[safe_left]) / np.maximum(group_sizes, 1.0)
                     total_payout[k] += payout
                     # Portfolio: accumulate per-user payouts for this iteration
-                    np.add.at(user_payout_batch[i], user_map_list[k], payout)
+                    user_payout_batch[i] += np.bincount(user_map_list[k], weights=payout, minlength=num_users)
                     # Cashes
                     is_cash = payout > 0.0
                     cashes[k][is_cash] += 1.0
@@ -537,7 +537,7 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                             thirds[k][neg_sc == val_3rd] += 1.0
             # Store per-user net profit (payouts - entry fees) for this micro-batch
             user_payout_batch -= user_total_fees  # subtract fees to get net profit
-            user_outcomes[iter_cursor:iter_cursor + m] = user_payout_batch
+            user_outcomes[iter_cursor:iter_cursor + m] = user_payout_batch.astype(np.float32)
             iter_cursor += m
             off += m
         done_total += B

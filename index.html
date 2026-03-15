@@ -14,6 +14,7 @@
       gtag('config', 'G-CP85MXD2MT');
     </script>
     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -464,6 +465,29 @@
         .search-results-summary {
             color: var(--text-secondary);
             font-size: 0.85rem;
+        }
+
+        .portfolio-chart-container {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px 20px 12px 20px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .portfolio-chart-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .portfolio-chart-container canvas {
+            width: 100% !important;
+            max-height: 260px;
         }
 
         .search-result-card {
@@ -1819,6 +1843,173 @@
         // Quick Search functionality
         let searchTimeout = null;
         let contestDataCache = {};
+        let portfolioPercentilesCache = null;
+        let portfolioPercentilesFetching = false;
+
+        async function fetchPortfolioPercentiles() {
+            if (portfolioPercentilesCache) return portfolioPercentilesCache;
+            if (portfolioPercentilesFetching) return null;
+            portfolioPercentilesFetching = true;
+            try {
+                const resp = await fetch('portfolio_percentiles.json?v=' + Date.now());
+                if (!resp.ok) return null;
+                portfolioPercentilesCache = await resp.json();
+                return portfolioPercentilesCache;
+            } catch (e) {
+                return null;
+            } finally {
+                portfolioPercentilesFetching = false;
+            }
+        }
+
+        let portfolioChartInstance = null;
+
+        function renderPortfolioChart(percentileData) {
+            if (portfolioChartInstance) {
+                portfolioChartInstance.destroy();
+                portfolioChartInstance = null;
+            }
+            const canvas = document.getElementById('portfolio-chart');
+            if (!canvas || !percentileData) return;
+
+            const labels = [];
+            const values = [];
+            const pctKeys = ['p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99'];
+            const pctLabels = ['1%','5%','10%','15%','20%','25%','30%','35%','40%','45%','50%','55%','60%','65%','70%','75%','80%','85%','90%','95%','99%'];
+            for (let i = 0; i < pctKeys.length; i++) {
+                if (percentileData[pctKeys[i]] !== undefined) {
+                    labels.push(pctLabels[i]);
+                    values.push(percentileData[pctKeys[i]]);
+                }
+            }
+
+            const positiveValues = values.map(v => Math.max(v, 0));
+            const negativeValues = values.map(v => Math.min(v, 0));
+
+            portfolioChartInstance = new Chart(canvas.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Profit',
+                            data: positiveValues,
+                            borderColor: '#00ff88',
+                            backgroundColor: 'rgba(0, 255, 136, 0.15)',
+                            fill: 'origin',
+                            tension: 0.3,
+                            pointRadius: 0,
+                            pointHitRadius: 10,
+                            borderWidth: 0,
+                        },
+                        {
+                            label: 'Loss',
+                            data: negativeValues,
+                            borderColor: '#ff4466',
+                            backgroundColor: 'rgba(255, 68, 102, 0.15)',
+                            fill: 'origin',
+                            tension: 0.3,
+                            pointRadius: 0,
+                            pointHitRadius: 10,
+                            borderWidth: 0,
+                        },
+                        {
+                            label: 'Net Profit',
+                            data: values,
+                            borderColor: '#e8edf5',
+                            backgroundColor: 'transparent',
+                            fill: false,
+                            tension: 0.3,
+                            pointRadius: 3,
+                            pointBackgroundColor: values.map(v => v >= 0 ? '#00ff88' : '#ff4466'),
+                            pointBorderColor: 'transparent',
+                            pointHitRadius: 10,
+                            borderWidth: 2,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0c1926',
+                            borderColor: 'rgba(20, 42, 62, 0.8)',
+                            borderWidth: 1,
+                            titleColor: '#7a8599',
+                            bodyColor: '#e8edf5',
+                            titleFont: { size: 12 },
+                            bodyFont: { size: 13, weight: '600' },
+                            padding: 10,
+                            displayColors: false,
+                            filter: function(tooltipItem) {
+                                return tooltipItem.datasetIndex === 2;
+                            },
+                            callbacks: {
+                                title: function(items) {
+                                    return items[0].label + ' Percentile';
+                                },
+                                label: function(ctx) {
+                                    const val = ctx.parsed.y;
+                                    const abs = Math.abs(val).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                                    return val < 0 ? `-$${abs}` : `$${abs}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Percentile',
+                                color: '#7a8599',
+                                font: { size: 11 }
+                            },
+                            ticks: { color: '#7a8599', font: { size: 10 } },
+                            grid: { color: 'rgba(20, 42, 62, 0.4)' },
+                            border: { color: 'rgba(20, 42, 62, 0.6)' },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Net Profit / Loss',
+                                color: '#7a8599',
+                                font: { size: 11 }
+                            },
+                            ticks: {
+                                color: '#7a8599',
+                                font: { size: 10 },
+                                callback: function(value) {
+                                    const abs = Math.abs(value);
+                                    let formatted;
+                                    if (abs >= 1000) {
+                                        formatted = '$' + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + 'K';
+                                    } else {
+                                        formatted = '$' + abs.toLocaleString();
+                                    }
+                                    return value < 0 ? '-' + formatted : formatted;
+                                }
+                            },
+                            grid: {
+                                color: function(ctx) {
+                                    return ctx.tick.value === 0 ? 'rgba(255,255,255,0.3)' : 'rgba(20, 42, 62, 0.4)';
+                                },
+                                lineWidth: function(ctx) {
+                                    return ctx.tick.value === 0 ? 2 : 1;
+                                }
+                            },
+                            border: { color: 'rgba(20, 42, 62, 0.6)' },
+                        }
+                    }
+                }
+            });
+        }
+
         let usernameIndex = null; // Map: lowercase username -> { displayName, contestCount }
         let usernameIndexBuilding = false;
 
@@ -2073,6 +2264,10 @@
                     </h3>
                     <span class="search-results-summary">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''} &middot; Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>
                 </div>
+                <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
+                    <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>
+                    <div style="position:relative;height:260px;"><canvas id="portfolio-chart"></canvas></div>
+                </div>
                 ${results.map(r => `
                     <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
                         <div class="search-result-contest">
@@ -2096,6 +2291,27 @@
                     </div>
                 `).join('')}
             `;
+
+            // Fetch and render portfolio percentile chart
+            fetchPortfolioPercentiles().then(pctData => {
+                if (!pctData) return;
+                // Find the user's percentile data (try exact match first, then case-insensitive)
+                let userPct = pctData[query];
+                if (!userPct) {
+                    const queryLower = query.toLowerCase();
+                    for (const [key, val] of Object.entries(pctData)) {
+                        if (key.toLowerCase() === queryLower) {
+                            userPct = val;
+                            break;
+                        }
+                    }
+                }
+                if (userPct) {
+                    const wrapper = document.getElementById('portfolio-chart-wrapper');
+                    if (wrapper) wrapper.style.display = '';
+                    renderPortfolioChart(userPct);
+                }
+            });
         }
 
         function loadContestWithUser(contestIndex, username) {

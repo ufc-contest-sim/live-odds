@@ -507,18 +507,18 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 10px;
+            gap: 4px;
         }
 
         .quintile-row {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .quintile-label {
-            width: 75px;
-            font-size: 0.75rem;
+            width: 52px;
+            font-size: 0.7rem;
             color: var(--text-secondary);
             text-align: right;
             flex-shrink: 0;
@@ -527,7 +527,7 @@
 
         .quintile-bar-track {
             flex: 1;
-            height: 28px;
+            height: 20px;
             background: rgba(20, 42, 62, 0.4);
             border-radius: 6px;
             position: relative;
@@ -1965,18 +1965,18 @@
             const panel = document.getElementById('portfolio-quintiles');
             if (!panel || !percentileData) return;
 
-            // Compute quintile averages from percentile data
-            // Worst 20% = avg of p1, p5, p10, p15, p20
-            // 20-40% = avg of p25, p30, p35, p40
-            // 40-60% = avg of p45, p50, p55, p60
-            // 60-80% = avg of p65, p70, p75, p80
-            // Best 20% = avg of p85, p90, p95, p99
+            // Compute decile averages from percentile data
             const quintiles = [
-                { label: 'Worst 20%', keys: ['p1','p5','p10','p15','p20'] },
-                { label: '20-40%', keys: ['p25','p30','p35','p40'] },
-                { label: '40-60%', keys: ['p45','p50','p55','p60'] },
-                { label: '60-80%', keys: ['p65','p70','p75','p80'] },
-                { label: 'Best 20%', keys: ['p85','p90','p95','p99'] },
+                { label: '0-10%', keys: ['p1','p5','p10'] },
+                { label: '10-20%', keys: ['p10','p15','p20'] },
+                { label: '20-30%', keys: ['p20','p25','p30'] },
+                { label: '30-40%', keys: ['p30','p35','p40'] },
+                { label: '40-50%', keys: ['p40','p45','p50'] },
+                { label: '50-60%', keys: ['p50','p55','p60'] },
+                { label: '60-70%', keys: ['p60','p65','p70'] },
+                { label: '70-80%', keys: ['p70','p75','p80'] },
+                { label: '80-90%', keys: ['p80','p85','p90'] },
+                { label: '90-100%', keys: ['p90','p95','p99'] },
             ];
 
             const values = quintiles.map(q => {

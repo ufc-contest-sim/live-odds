@@ -541,7 +541,10 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
             iter_cursor += m
             off += m
         done_total += B
-    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, user_outcomes)
+    # Save user_outcomes to a temp file to avoid pipe size limits on Windows
+    outcomes_path = npz_path + f".user_outcomes_{idx}.npy"
+    np.save(outcomes_path, user_outcomes)
+    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, outcomes_path)
 # -------------------- Pack workbook once --------------------
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
@@ -804,7 +807,7 @@ def main():
             futs = [ex.submit(worker_run, i, bundle, int(chunks[i]), int(batch), int(child_seeds[i]))
                     for i in range(len(chunks))]
             for fut in as_completed(futs):
-                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, w_user_outcomes) = fut.result()
+                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, outcomes_path) = fut.result()
                 for k in range(K):
                     sum_scores[k]   += s_list[k]
                     sumsq_scores[k] += ss_list[k]
@@ -814,7 +817,8 @@ def main():
                     cashes[k]       += c_list[k]
                     seconds[k]      += sec_list[k]
                     thirds[k]       += thi_list[k]
-                all_user_outcomes.append(w_user_outcomes)
+                all_user_outcomes.append(np.load(outcomes_path))
+                os.remove(outcomes_path)
                 done_iters += its
                 rate = done_iters / max(1e-9, (time.time() - t0))
                 log(f"[progress] {done_iters:,}/{iters:,} ({done_iters/iters:,.1%}) | {rate:,.0f} it/s")

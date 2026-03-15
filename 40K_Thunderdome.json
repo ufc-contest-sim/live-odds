@@ -1,11 +1,11 @@
 {
   "contest_name": "40K Thunderdome",
-  "last_updated": "2026-03-15T00:51:43.243386",
+  "last_updated": "2026-03-15T01:23:22.417997",
   "total_lineups": 8,
   "summary": {
-    "top_win_pct": 23.31,
-    "top_netev": 3172.07,
-    "top_roi": 59.85
+    "top_win_pct": 98.26,
+    "top_netev": 19526.02,
+    "top_roi": 368.42
   },
   "leaderboard": [
     {
@@ -21,18 +21,18 @@
       "F5": "Jose Delgado",
       "F6": "Myktybek Orolbai",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.22793171485,
-      "EV": 8472.07,
-      "NetEV": 3172.07,
-      "ROI%": 59.85037735849056,
-      "WinPct": 23.314,
-      "SecondPct": 17.6264,
-      "ThirdPct": 15.0036,
-      "CashPct": 40.94,
-      "MeanScore": 440.8370682987671,
-      "SDScore": 82.77934485734615,
-      "P99Score": 633.4106212187671,
-      "TotalPayout": 2118017500.0
+      "AvgWinPayout": 0.0,
+      "EV": 1117.71,
+      "NetEV": -4182.29,
+      "ROI%": -78.9111320754717,
+      "WinPct": 0.0,
+      "SecondPct": 7.452,
+      "ThirdPct": 14.5248,
+      "CashPct": 7.452,
+      "MeanScore": 414.54438667736815,
+      "SDScore": 29.86587507589941,
+      "P99Score": 484.0228016653363,
+      "TotalPayout": 279427500.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -47,18 +47,18 @@
       "F5": "Steven Asplund",
       "F6": "Jose Delgado",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.435283487688,
-      "EV": 3999.66,
-      "NetEV": -1300.34,
-      "ROI%": -24.53471698113208,
-      "WinPct": 10.6248,
-      "SecondPct": 8.958,
-      "ThirdPct": 9.878,
-      "CashPct": 19.582,
-      "MeanScore": 395.2584802526397,
-      "SDScore": 79.86530947267039,
-      "P99Score": 581.0529731507386,
-      "TotalPayout": 999915000.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "SecondPct": 0.0052,
+      "ThirdPct": 13.211999999999998,
+      "CashPct": 0.0,
+      "MeanScore": 407.7262008834229,
+      "SDScore": 28.20915969198097,
+      "P99Score": 473.3505195601893,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -73,18 +73,18 @@
       "F5": "Eryk Anders",
       "F6": "Myktybek Orolbai",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.34165048224,
-      "EV": 5432.87,
-      "NetEV": 132.8699999999999,
-      "ROI%": 2.50698113207547,
-      "WinPct": 12.1516,
-      "SecondPct": 15.9684,
-      "ThirdPct": 15.9328,
-      "CashPct": 28.1196,
-      "MeanScore": 420.480017140625,
-      "SDScore": 83.5024117630776,
-      "P99Score": 614.7356752195332,
-      "TotalPayout": 1358217500.0
+      "AvgWinPayout": 24999.73540342836,
+      "EV": 24826.02,
+      "NetEV": 19526.02,
+      "ROI%": 368.4154716981132,
+      "WinPct": 98.2628,
+      "SecondPct": 1.7372,
+      "ThirdPct": 0.0,
+      "CashPct": 100.0,
+      "MeanScore": 561.8900146484375,
+      "SDScore": 0.0,
+      "P99Score": 561.8900146484375,
+      "TotalPayout": 6206505000.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -99,18 +99,18 @@
       "F5": "Luan Lacerda",
       "F6": "Jose Delgado",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.3380552062,
-      "EV": 4975.91,
-      "NetEV": -324.09000000000015,
-      "ROI%": -6.114905660377361,
-      "WinPct": 12.0856,
-      "SecondPct": 13.0328,
-      "ThirdPct": 11.9564,
-      "CashPct": 25.1172,
-      "MeanScore": 410.2173359230652,
-      "SDScore": 78.97563858154746,
-      "P99Score": 593.9421448350405,
-      "TotalPayout": 1243977500.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "SecondPct": 0.0,
+      "ThirdPct": 0.6851999999999999,
+      "CashPct": 0.0,
+      "MeanScore": 361.5643908441162,
+      "SDScore": 29.86587465442468,
+      "P99Score": 431.0428048515875,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -125,18 +125,18 @@
       "F5": "Bia Mesquita",
       "F6": "Piera Rodriguez",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24998.414409843343,
-      "EV": 3234.91,
-      "NetEV": -2065.09,
-      "ROI%": -38.96396226415095,
-      "WinPct": 6.3068,
-      "SecondPct": 11.0564,
-      "ThirdPct": 13.744,
-      "CashPct": 17.3628,
-      "MeanScore": 404.80490894708254,
-      "SDScore": 70.52227194818393,
-      "P99Score": 568.8642463633901,
-      "TotalPayout": 808727500.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "SecondPct": 0.0,
+      "ThirdPct": 0.0,
+      "CashPct": 0.0,
+      "MeanScore": 350.8905999415283,
+      "SDScore": 24.59692020504119,
+      "P99Score": 408.1115929674736,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -151,18 +151,18 @@
       "F5": "Jose Delgado",
       "F6": "Eryk Anders",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24998.90710382513,
-      "EV": 3361.04,
-      "NetEV": -1938.96,
-      "ROI%": -36.584150943396224,
-      "WinPct": 9.15,
-      "SecondPct": 7.158,
-      "ThirdPct": 7.703200000000001,
-      "CashPct": 16.308,
-      "MeanScore": 374.3112639691009,
-      "SDScore": 79.88650114042443,
-      "P99Score": 560.1550560584259,
-      "TotalPayout": 840260000.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "SecondPct": 0.0,
+      "ThirdPct": 65.1976,
+      "CashPct": 0.0,
+      "MeanScore": 431.8899841308594,
+      "SDScore": 7.257971055278698e-05,
+      "P99Score": 431.89015297651474,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -177,18 +177,18 @@
       "F5": "Vitor Petrino",
       "F6": "Eryk Anders",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.456029011784,
-      "EV": 4324.94,
-      "NetEV": -975.0600000000004,
-      "ROI%": -18.397358490566045,
-      "WinPct": 11.03,
-      "SecondPct": 10.4536,
-      "ThirdPct": 10.9584,
-      "CashPct": 21.4812,
-      "MeanScore": 398.3039410492401,
-      "SDScore": 84.3923121566473,
-      "P99Score": 594.6298170168009,
-      "TotalPayout": 1081235000.0
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -5300.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "SecondPct": 0.0,
+      "ThirdPct": 0.0,
+      "CashPct": 0.0,
+      "MeanScore": 317.7262111505737,
+      "SDScore": 28.209160705933964,
+      "P99Score": 383.3505321861475,
+      "TotalPayout": 0.0
     },
     {
       "Contest": "$40K Thunderdome",
@@ -203,18 +203,18 @@
       "F5": "Bolaji Oki",
       "F6": "Myktybek Orolbai",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 24999.34831343517,
-      "EV": 6198.6,
-      "NetEV": 898.6000000000004,
-      "ROI%": 16.95471698113208,
-      "WinPct": 15.3448,
-      "SecondPct": 15.7532,
-      "ThirdPct": 14.836,
-      "CashPct": 31.096,
-      "MeanScore": 424.478578013855,
-      "SDScore": 82.77124060271309,
-      "P99Score": 617.0332776183191,
-      "TotalPayout": 1549650000.0
+      "AvgWinPayout": 24985.078053259876,
+      "EV": 14056.27,
+      "NetEV": 8756.27,
+      "ROI%": 165.21264150943398,
+      "WinPct": 1.7424,
+      "SecondPct": 90.8068,
+      "ThirdPct": 6.386799999999999,
+      "CashPct": 92.5492,
+      "MeanScore": 516.9962099304199,
+      "SDScore": 28.209153819041617,
+      "P99Score": 582.6205149446864,
+      "TotalPayout": 3514067500.0
     }
   ],
   "fight_card": [
@@ -229,92 +229,92 @@
       "fight_id": 2,
       "fighter1": "Gillian Robertson",
       "fighter2": "Amanda Lemos",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 86.91,
+      "fighter2_score": 32.32
     },
     {
       "fight_id": 3,
       "fighter1": "Jose Delgado",
       "fighter2": "Andre Fili",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 75.48,
+      "fighter2_score": 53.17
     },
     {
       "fight_id": 4,
       "fighter1": "Marwan Rahiki",
       "fighter2": "Harry Hardwick",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 109.45,
+      "fighter2_score": 29.52
     },
     {
       "fight_id": 5,
       "fighter1": "Oumar Sy",
       "fighter2": "Ion Cutelaba",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 2.54,
+      "fighter2_score": 110.21
     },
     {
       "fight_id": 6,
       "fighter1": "Charles Johnson",
       "fighter2": "Bruno Silva",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 69.18,
+      "fighter2_score": 41.49
     },
     {
       "fight_id": 7,
       "fighter1": "Myktybek Orolbai",
       "fighter2": "Chris Curtis",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 168.19,
+      "fighter2_score": 13.98
     },
     {
       "fight_id": 8,
       "fighter1": "Vitor Petrino",
       "fighter2": "Steven Asplund",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 69.11,
+      "fighter2_score": 37.16
     },
     {
       "fight_id": 9,
       "fighter1": "Elijah Smith",
       "fighter2": "SuYoung You",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 94.65,
+      "fighter2_score": 29.66
     },
     {
       "fight_id": 10,
       "fighter1": "Manoel Sousa",
       "fighter2": "Bolaji Oki",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 98.47,
+      "fighter2_score": 49.49
     },
     {
       "fight_id": 11,
       "fighter1": "Brad Tavares",
       "fighter2": "Eryk Anders",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 31.47,
+      "fighter2_score": 87.4
     },
     {
       "fight_id": 12,
       "fighter1": "Bia Mesquita",
       "fighter2": "Montse Rendon",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 107.98,
+      "fighter2_score": 0.0
     },
     {
       "fight_id": 13,
       "fighter1": "Hecher Sosa",
       "fighter2": "Luan Lacerda",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 79.22,
+      "fighter2_score": 52.38
     },
     {
       "fight_id": 14,
       "fighter1": "Piera Rodriguez",
       "fighter2": "Sam Hughes",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 83.25,
+      "fighter2_score": 34.26
     }
   ],
   "payouts": [

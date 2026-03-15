@@ -485,9 +485,106 @@
             margin-bottom: 12px;
         }
 
-        .portfolio-chart-container canvas {
+        .portfolio-charts-row {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .portfolio-chart-area {
+            flex: 3;
+            position: relative;
+            min-height: 260px;
+        }
+
+        .portfolio-chart-area canvas {
             width: 100% !important;
-            max-height: 260px;
+            height: 100% !important;
+        }
+
+        .portfolio-quintile-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .quintile-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quintile-label {
+            width: 52px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: right;
+            flex-shrink: 0;
+            line-height: 1.2;
+        }
+
+        .quintile-bar-track {
+            flex: 1;
+            height: 20px;
+            background: rgba(20, 42, 62, 0.4);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quintile-bar-fill {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.6s ease;
+        }
+
+        .quintile-bar-fill.positive {
+            left: 50%;
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.25), rgba(0, 255, 136, 0.5));
+            border-right: 2px solid var(--accent-green);
+        }
+
+        .quintile-bar-fill.negative {
+            right: 50%;
+            background: linear-gradient(270deg, rgba(255, 68, 102, 0.25), rgba(255, 68, 102, 0.5));
+            border-left: 2px solid var(--accent-red);
+        }
+
+        .quintile-bar-center {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .quintile-value {
+            width: 80px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .quintile-value.positive {
+            color: var(--accent-green);
+        }
+
+        .quintile-value.negative {
+            color: var(--accent-red);
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-charts-row {
+                flex-direction: column;
+            }
+            .portfolio-chart-area {
+                min-height: 220px;
+            }
         }
 
         .search-result-card {
@@ -1864,6 +1961,53 @@
 
         let portfolioChartInstance = null;
 
+        function renderPortfolioQuintiles(percentileData) {
+            const panel = document.getElementById('portfolio-quintiles');
+            if (!panel || !percentileData) return;
+
+            // Compute decile averages from percentile data
+            const quintiles = [
+                { label: '0-10%', keys: ['p1','p5','p10'] },
+                { label: '10-20%', keys: ['p10','p15','p20'] },
+                { label: '20-30%', keys: ['p20','p25','p30'] },
+                { label: '30-40%', keys: ['p30','p35','p40'] },
+                { label: '40-50%', keys: ['p40','p45','p50'] },
+                { label: '50-60%', keys: ['p50','p55','p60'] },
+                { label: '60-70%', keys: ['p60','p65','p70'] },
+                { label: '70-80%', keys: ['p70','p75','p80'] },
+                { label: '80-90%', keys: ['p80','p85','p90'] },
+                { label: '90-100%', keys: ['p90','p95','p99'] },
+            ];
+
+            const values = quintiles.map(q => {
+                const vals = q.keys.filter(k => percentileData[k] !== undefined).map(k => percentileData[k]);
+                return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+            });
+
+            const maxAbs = Math.max(...values.map(v => Math.abs(v)), 1);
+
+            const formatMoney = (v) => {
+                const abs = Math.abs(v);
+                const formatted = abs.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                return v < 0 ? `-$${formatted}` : `$${formatted}`;
+            };
+
+            panel.innerHTML = values.map((val, i) => {
+                const pct = Math.abs(val) / maxAbs * 50; // max 50% of track width
+                const isPos = val >= 0;
+                return `
+                    <div class="quintile-row">
+                        <div class="quintile-label">${quintiles[i].label}</div>
+                        <div class="quintile-bar-track">
+                            <div class="quintile-bar-center"></div>
+                            <div class="quintile-bar-fill ${isPos ? 'positive' : 'negative'}" style="width:${pct}%"></div>
+                        </div>
+                        <div class="quintile-value ${isPos ? 'positive' : 'negative'}">${formatMoney(val)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         function renderPortfolioChart(percentileData) {
             if (portfolioChartInstance) {
                 portfolioChartInstance.destroy();
@@ -2266,7 +2410,10 @@
                 </div>
                 <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
                     <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>
-                    <div style="position:relative;height:260px;"><canvas id="portfolio-chart"></canvas></div>
+                    <div class="portfolio-charts-row">
+                        <div class="portfolio-chart-area"><canvas id="portfolio-chart"></canvas></div>
+                        <div class="portfolio-quintile-panel" id="portfolio-quintiles"></div>
+                    </div>
                 </div>
                 ${results.map(r => `
                     <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
@@ -2310,6 +2457,7 @@
                     const wrapper = document.getElementById('portfolio-chart-wrapper');
                     if (wrapper) wrapper.style.display = '';
                     renderPortfolioChart(userPct);
+                    renderPortfolioQuintiles(userPct);
                 }
             });
         }

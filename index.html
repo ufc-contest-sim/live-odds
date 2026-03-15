@@ -484,84 +484,92 @@
             margin-bottom: 12px;
         }
 
-        .portfolio-quintile-panel {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4px 20px;
-        }
-
-        .quintile-row {
+        .portfolio-heatmap {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            gap: 3px;
+            margin-bottom: 6px;
         }
 
-        .quintile-label {
-            width: 46px;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            text-align: right;
-            flex-shrink: 0;
-            line-height: 1.2;
-        }
-
-        .quintile-bar-track {
+        .portfolio-heatmap-cell {
             flex: 1;
-            height: 20px;
-            background: rgba(20, 42, 62, 0.4);
-            border-radius: 5px;
+            height: 36px;
+            border-radius: 4px;
             position: relative;
-            overflow: hidden;
+            cursor: default;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
 
-        .quintile-bar-fill {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.6s ease;
+        .portfolio-heatmap-cell:hover {
+            transform: scaleY(1.15);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+            z-index: 1;
         }
 
-        .quintile-bar-fill.positive {
-            left: 50%;
-            background: linear-gradient(90deg, rgba(0, 255, 136, 0.25), rgba(0, 255, 136, 0.5));
-            border-right: 2px solid var(--accent-green);
+        .portfolio-heatmap-labels {
+            display: flex;
+            gap: 3px;
         }
 
-        .quintile-bar-fill.negative {
-            right: 50%;
-            background: linear-gradient(270deg, rgba(255, 68, 102, 0.25), rgba(255, 68, 102, 0.5));
-            border-left: 2px solid var(--accent-red);
+        .portfolio-heatmap-labels span {
+            flex: 1;
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-align: center;
         }
 
-        .quintile-bar-center {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: rgba(255, 255, 255, 0.2);
+        .portfolio-heatmap-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding: 0 2px;
         }
 
-        .quintile-value {
-            width: 72px;
-            font-size: 0.8rem;
+        .portfolio-heatmap-marker {
+            font-size: 0.75rem;
             font-weight: 600;
-            flex-shrink: 0;
         }
 
-        .quintile-value.positive {
-            color: var(--accent-green);
-        }
-
-        .quintile-value.negative {
+        .portfolio-heatmap-marker.negative {
             color: var(--accent-red);
         }
 
-        @media (max-width: 600px) {
-            .portfolio-quintile-panel {
-                grid-template-columns: 1fr;
-            }
+        .portfolio-heatmap-marker.positive {
+            color: var(--accent-green);
+        }
+
+        .portfolio-heatmap-marker.neutral {
+            color: var(--text-secondary);
+        }
+
+        .portfolio-heatmap-tooltip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0c1926;
+            border: 1px solid rgba(20, 42, 62, 0.8);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 10;
+        }
+
+        .portfolio-heatmap-cell:hover .portfolio-heatmap-tooltip {
+            opacity: 1;
+        }
+
+        .portfolio-heatmap-tooltip .tt-label {
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+
+        .portfolio-heatmap-tooltip .tt-value {
+            font-weight: 600;
+            font-size: 0.85rem;
         }
 
         .search-result-card {
@@ -1940,8 +1948,7 @@
             const panel = document.getElementById('portfolio-quintiles');
             if (!panel || !percentileData) return;
 
-            // Compute 20 bucket (5% each) averages from percentile data
-            const quintiles = [
+            const buckets = [
                 { label: '0-5%', keys: ['p1','p5'] },
                 { label: '5-10%', keys: ['p5','p10'] },
                 { label: '10-15%', keys: ['p10','p15'] },
@@ -1964,8 +1971,8 @@
                 { label: '95-100%', keys: ['p95','p99'] },
             ];
 
-            const values = quintiles.map(q => {
-                const vals = q.keys.filter(k => percentileData[k] !== undefined).map(k => percentileData[k]);
+            const values = buckets.map(b => {
+                const vals = b.keys.filter(k => percentileData[k] !== undefined).map(k => percentileData[k]);
                 return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
             });
 
@@ -1973,24 +1980,66 @@
 
             const formatMoney = (v) => {
                 const abs = Math.abs(v);
-                const formatted = abs.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-                return v < 0 ? `-$${formatted}` : `$${formatted}`;
+                if (abs >= 1000) {
+                    return (v < 0 ? '-$' : '$') + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + 'K';
+                }
+                return (v < 0 ? '-$' : '$') + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
             };
 
-            panel.innerHTML = values.map((val, i) => {
-                const pct = Math.abs(val) / maxAbs * 50; // max 50% of track width
-                const isPos = val >= 0;
-                return `
-                    <div class="quintile-row">
-                        <div class="quintile-label">${quintiles[i].label}</div>
-                        <div class="quintile-bar-track">
-                            <div class="quintile-bar-center"></div>
-                            <div class="quintile-bar-fill ${isPos ? 'positive' : 'negative'}" style="width:${pct}%"></div>
-                        </div>
-                        <div class="quintile-value ${isPos ? 'positive' : 'negative'}">${formatMoney(val)}</div>
+            // Color interpolation: deep red -> light red -> light green -> deep green
+            const getColor = (val, maxAbs) => {
+                const ratio = val / maxAbs; // -1 to 1
+                if (ratio < 0) {
+                    const intensity = Math.abs(ratio);
+                    const r = 255;
+                    const g = Math.round(68 * (1 - intensity * 0.5));
+                    const b = Math.round(102 * (1 - intensity * 0.3));
+                    const alpha = 0.2 + intensity * 0.55;
+                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                } else {
+                    const intensity = ratio;
+                    const r = 0;
+                    const g = 255;
+                    const b = Math.round(136 * (1 - intensity * 0.3));
+                    const alpha = 0.15 + intensity * 0.55;
+                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                }
+            };
+
+            // Find breakeven index and key markers
+            let breakevenIdx = values.findIndex(v => v >= 0);
+            if (breakevenIdx < 0) breakevenIdx = values.length;
+
+            const cells = values.map((val, i) => {
+                const color = getColor(val, maxAbs);
+                const valClass = val >= 0 ? 'positive' : 'negative';
+                return `<div class="portfolio-heatmap-cell" style="background:${color}">
+                    <div class="portfolio-heatmap-tooltip">
+                        <div class="tt-label">${buckets[i].label} percentile</div>
+                        <div class="tt-value ${valClass}">${formatMoney(val)}</div>
                     </div>
-                `;
+                </div>`;
             }).join('');
+
+            // Show labels every 4th bucket + first and last
+            const labels = values.map((_, i) => {
+                const show = i === 0 || i === values.length - 1 || i % 4 === 0;
+                return `<span>${show ? buckets[i].label.split('-')[0] : ''}</span>`;
+            }).join('');
+
+            // Key markers: worst, breakeven, best
+            const worst = values[0];
+            const best = values[values.length - 1];
+
+            panel.innerHTML = `
+                <div class="portfolio-heatmap">${cells}</div>
+                <div class="portfolio-heatmap-labels">${labels}</div>
+                <div class="portfolio-heatmap-markers">
+                    <span class="portfolio-heatmap-marker negative">Worst: ${formatMoney(worst)}</span>
+                    <span class="portfolio-heatmap-marker neutral">~${breakevenIdx * 5}% breakeven</span>
+                    <span class="portfolio-heatmap-marker positive">Best: ${formatMoney(best)}</span>
+                </div>
+            `;
         }
 
         let usernameIndex = null; // Map: lowercase username -> { displayName, contestCount }

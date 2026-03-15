@@ -920,7 +920,7 @@ def main():
         contest_names = [meta["Contest"] for meta in contest_meta]
 
         def compute_pctiles(sorted_data):
-            pctiles = {}
+            pctiles = {"min": round(float(sorted_data[0]), 2), "max": round(float(sorted_data[-1]), 2)}
             for p in percentile_points:
                 idx_p = int(np.floor(p / 100.0 * len(sorted_data)))
                 idx_p = min(idx_p, len(sorted_data) - 1)

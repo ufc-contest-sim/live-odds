@@ -567,11 +567,44 @@
 
         .portfolio-bar-labels span {
             flex: 1;
-            font-size: 0.5rem;
+            font-size: 0.65rem;
             color: var(--text-secondary);
             text-align: center;
             min-width: 0;
             overflow: hidden;
+        }
+
+        .portfolio-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .portfolio-filter-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: background 0.15s, border-color 0.15s;
+            user-select: none;
+        }
+
+        .portfolio-filter-label:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .portfolio-filter-label input[type="checkbox"] {
+            accent-color: var(--accent-green);
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
         }
 
         .portfolio-bar-markers {
@@ -2063,6 +2096,56 @@
             `;
         }
 
+        function renderPortfolioFilters(contestNames, byContest, allPctData) {
+            const filtersEl = document.getElementById('portfolio-filters');
+            if (!filtersEl) return;
+            if (!contestNames || !byContest || Object.keys(byContest).length < 2) {
+                filtersEl.innerHTML = '';
+                return;
+            }
+            // Only show contests the user participates in
+            const userContests = contestNames.filter(c => byContest[c]);
+            if (userContests.length < 2) { filtersEl.innerHTML = ''; return; }
+            filtersEl.innerHTML = userContests.map(c =>
+                `<label class="portfolio-filter-label">
+                    <input type="checkbox" checked data-contest="${c.replace(/"/g, '&quot;')}">
+                    ${c}
+                </label>`
+            ).join('');
+            // Store data for recomputation
+            filtersEl._byContest = byContest;
+            filtersEl._allPctData = allPctData;
+            filtersEl._userContests = userContests;
+            filtersEl.addEventListener('change', onPortfolioFilterChange);
+        }
+
+        function onPortfolioFilterChange() {
+            const filtersEl = document.getElementById('portfolio-filters');
+            if (!filtersEl || !filtersEl._byContest) return;
+            const checkboxes = filtersEl.querySelectorAll('input[type="checkbox"]');
+            const selected = [];
+            checkboxes.forEach(cb => { if (cb.checked) selected.push(cb.dataset.contest); });
+            if (selected.length === 0) return; // don't render empty
+            if (selected.length === filtersEl._userContests.length) {
+                // All selected — use pre-computed accurate "all" data
+                renderPortfolioQuintiles(filtersEl._allPctData);
+            } else {
+                // Sum per-contest percentiles for selected contests (approximate)
+                const pKeys = ['p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99'];
+                const combined = {};
+                for (const pk of pKeys) {
+                    combined[pk] = 0;
+                    for (const cname of selected) {
+                        if (filtersEl._byContest[cname] && filtersEl._byContest[cname][pk] !== undefined) {
+                            combined[pk] += filtersEl._byContest[cname][pk];
+                        }
+                    }
+                    combined[pk] = Math.round(combined[pk] * 100) / 100;
+                }
+                renderPortfolioQuintiles(combined);
+            }
+        }
+
         let usernameIndex = null; // Map: lowercase username -> { displayName, contestCount }
         let usernameIndexBuilding = false;
 
@@ -2319,6 +2402,7 @@
                 </div>
                 <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
                     <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>
+                    <div class="portfolio-filters" id="portfolio-filters"></div>
                     <div class="portfolio-quintile-panel" id="portfolio-quintiles"></div>
                 </div>
                 ${results.map(r => `
@@ -2348,11 +2432,13 @@
             // Fetch and render portfolio percentile chart
             fetchPortfolioPercentiles().then(pctData => {
                 if (!pctData) return;
+                const isNewFormat = pctData.users && pctData.contests;
+                const usersObj = isNewFormat ? pctData.users : pctData;
                 // Find the user's percentile data (try exact match first, then case-insensitive)
-                let userPct = pctData[query];
+                let userPct = usersObj[query];
                 if (!userPct) {
                     const queryLower = query.toLowerCase();
-                    for (const [key, val] of Object.entries(pctData)) {
+                    for (const [key, val] of Object.entries(usersObj)) {
                         if (key.toLowerCase() === queryLower) {
                             userPct = val;
                             break;
@@ -2362,7 +2448,12 @@
                 if (userPct) {
                     const wrapper = document.getElementById('portfolio-chart-wrapper');
                     if (wrapper) wrapper.style.display = '';
-                    renderPortfolioQuintiles(userPct);
+                    // New format: {all: {...}, by_contest: {...}}; Old format: {p1: ..., p99: ...}
+                    const allPctData = isNewFormat ? userPct.all : userPct;
+                    const byContest = isNewFormat ? userPct.by_contest : null;
+                    const contestNames = isNewFormat ? pctData.contests : null;
+                    renderPortfolioQuintiles(allPctData);
+                    renderPortfolioFilters(contestNames, byContest, allPctData);
                 }
             });
         }

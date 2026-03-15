@@ -2023,8 +2023,10 @@
             ];
 
             const values = buckets.map(b => {
-                const vals = b.keys.filter(k => percentileData[k] !== undefined).map(k => percentileData[k]);
-                return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+                // Use upper boundary percentile to avoid averaging across discrete jumps
+                const upperKey = b.keys[b.keys.length - 1];
+                if (percentileData[upperKey] !== undefined) return percentileData[upperKey];
+                return percentileData[b.keys[0]] || 0;
             });
 
             const maxPos = Math.max(...values.filter(v => v > 0), 1);
@@ -2077,8 +2079,8 @@
                 return `<span>${show ? buckets[i].label : ''}</span>`;
             }).join('');
 
-            const worst = values[0];
-            const best = values[values.length - 1];
+            const worst = percentileData['min'] !== undefined ? percentileData['min'] : values[0];
+            const best = percentileData['max'] !== undefined ? percentileData['max'] : values[values.length - 1];
 
             panel.innerHTML = `
                 <div class="portfolio-bars-wrapper">

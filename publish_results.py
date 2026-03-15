@@ -147,6 +147,23 @@ def publish_results():
         with open(contests_json_path, 'w') as f:
             json.dump({"contests": contests_config}, f, indent=2)
 
+        # Copy portfolio percentiles file if it exists
+        pct_files = glob.glob("*_portfolio_percentiles.json")
+        if pct_files:
+            # Use the most recent one
+            pct_file = sorted(pct_files)[-1]
+            try:
+                with open(pct_file, 'r') as pf:
+                    pct_data = json.load(pf)
+                pct_out_path = web_folder / "portfolio_percentiles.json"
+                with open(pct_out_path, 'w') as pf:
+                    json.dump(pct_data, pf, indent=2)
+                print(f"\n✓ Portfolio percentiles: {pct_out_path} ({len(pct_data)} users)")
+            except Exception as e:
+                print(f"\n⚠ Warning: Could not process portfolio percentiles: {e}")
+        else:
+            print("\n⚠ No portfolio percentiles file found (run PostContestSim with latest version to generate)")
+
         print(f"\n{'='*50}")
         print(f"✓ ALL CONTESTS PUBLISHED!")
         print(f"{'='*50}")

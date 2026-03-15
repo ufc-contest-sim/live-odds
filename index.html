@@ -484,93 +484,111 @@
             margin-bottom: 12px;
         }
 
-        .portfolio-heatmap {
-            display: flex;
-            gap: 3px;
-            margin-bottom: 6px;
-        }
-
-        .portfolio-heatmap-cell {
-            flex: 1;
-            height: 36px;
-            border-radius: 4px;
+        .portfolio-bars-wrapper {
             position: relative;
-            cursor: default;
-            transition: transform 0.15s, box-shadow 0.15s;
+            overflow-x: auto;
         }
 
-        .portfolio-heatmap-cell:hover {
-            transform: scaleY(1.15);
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
-            z-index: 1;
-        }
-
-        .portfolio-heatmap-labels {
+        .portfolio-bars {
             display: flex;
+            align-items: flex-start;
+            justify-content: center;
             gap: 3px;
+            position: relative;
         }
 
-        .portfolio-heatmap-labels span {
+        .portfolio-bar-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             flex: 1;
-            font-size: 0.6rem;
-            color: var(--text-secondary);
+            min-width: 0;
+            position: relative;
+        }
+
+        .portfolio-bar-value {
+            font-size: 0.55rem;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-bottom: 2px;
             text-align: center;
         }
 
-        .portfolio-heatmap-markers {
+        .portfolio-bar-value.positive { color: var(--accent-green); }
+        .portfolio-bar-value.negative { color: var(--accent-red); }
+
+        .portfolio-bar-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .portfolio-bar {
+            width: 100%;
+            border-radius: 3px 3px 0 0;
+            min-height: 2px;
+            transition: opacity 0.15s;
+        }
+
+        .portfolio-bar.negative {
+            border-radius: 0 0 3px 3px;
+            align-self: flex-start;
+        }
+
+        .portfolio-bar.positive-bar {
+            background: linear-gradient(to top, rgba(0, 200, 120, 0.5), rgba(0, 255, 136, 0.8));
+        }
+
+        .portfolio-bar.negative-bar {
+            background: linear-gradient(to bottom, rgba(255, 68, 102, 0.5), rgba(255, 40, 80, 0.8));
+        }
+
+        .portfolio-bar-col:hover .portfolio-bar {
+            opacity: 0.8;
+        }
+
+        .portfolio-zero-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+
+        .portfolio-bar-labels {
+            display: flex;
+            gap: 3px;
+            margin-top: 4px;
+        }
+
+        .portfolio-bar-labels span {
+            flex: 1;
+            font-size: 0.5rem;
+            color: var(--text-secondary);
+            text-align: center;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .portfolio-bar-markers {
             display: flex;
             justify-content: space-between;
             margin-top: 8px;
             padding: 0 2px;
         }
 
-        .portfolio-heatmap-marker {
+        .portfolio-bar-marker {
             font-size: 0.75rem;
             font-weight: 600;
         }
 
-        .portfolio-heatmap-marker.negative {
-            color: var(--accent-red);
-        }
-
-        .portfolio-heatmap-marker.positive {
-            color: var(--accent-green);
-        }
-
-        .portfolio-heatmap-marker.neutral {
-            color: var(--text-secondary);
-        }
-
-        .portfolio-heatmap-tooltip {
-            position: absolute;
-            bottom: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%);
-            background: #0c1926;
-            border: 1px solid rgba(20, 42, 62, 0.8);
-            border-radius: 6px;
-            padding: 6px 10px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.15s;
-            z-index: 10;
-        }
-
-        .portfolio-heatmap-cell:hover .portfolio-heatmap-tooltip {
-            opacity: 1;
-        }
-
-        .portfolio-heatmap-tooltip .tt-label {
-            color: var(--text-secondary);
-            margin-bottom: 2px;
-        }
-
-        .portfolio-heatmap-tooltip .tt-value {
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
+        .portfolio-bar-marker.negative { color: var(--accent-red); }
+        .portfolio-bar-marker.positive { color: var(--accent-green); }
+        .portfolio-bar-marker.neutral { color: var(--text-secondary); }
 
         .search-result-card {
             background: var(--glass-bg);
@@ -1976,7 +1994,11 @@
                 return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
             });
 
-            const maxAbs = Math.max(...values.map(v => Math.abs(v)), 1);
+            const maxPos = Math.max(...values.filter(v => v > 0), 1);
+            const maxNeg = Math.max(...values.filter(v => v < 0).map(v => Math.abs(v)), 1);
+            const maxAbs = Math.max(maxPos, maxNeg);
+            const chartHeight = 180; // px for bars area (each direction from zero)
+            const totalHeight = chartHeight * 2; // full chart height
 
             const formatMoney = (v) => {
                 const abs = Math.abs(v);
@@ -1986,58 +2008,52 @@
                 return (v < 0 ? '-$' : '$') + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
             };
 
-            // Color interpolation: deep red -> light red -> light green -> deep green
-            const getColor = (val, maxAbs) => {
-                const ratio = val / maxAbs; // -1 to 1
-                if (ratio < 0) {
-                    const intensity = Math.abs(ratio);
-                    const r = 255;
-                    const g = Math.round(68 * (1 - intensity * 0.5));
-                    const b = Math.round(102 * (1 - intensity * 0.3));
-                    const alpha = 0.2 + intensity * 0.55;
-                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-                } else {
-                    const intensity = ratio;
-                    const r = 0;
-                    const g = 255;
-                    const b = Math.round(136 * (1 - intensity * 0.3));
-                    const alpha = 0.15 + intensity * 0.55;
-                    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-                }
-            };
-
-            // Find breakeven index and key markers
+            // Find breakeven index
             let breakevenIdx = values.findIndex(v => v >= 0);
             if (breakevenIdx < 0) breakevenIdx = values.length;
 
-            const cells = values.map((val, i) => {
-                const color = getColor(val, maxAbs);
-                const valClass = val >= 0 ? 'positive' : 'negative';
-                return `<div class="portfolio-heatmap-cell" style="background:${color}">
-                    <div class="portfolio-heatmap-tooltip">
-                        <div class="tt-label">${buckets[i].label} percentile</div>
-                        <div class="tt-value ${valClass}">${formatMoney(val)}</div>
+            // Build vertical bars - each column has top half (positive space) and bottom half (negative space)
+            const bars = values.map((val, i) => {
+                const barHeight = Math.max((Math.abs(val) / maxAbs) * chartHeight, 2);
+                const isPos = val >= 0;
+                const valClass = isPos ? 'positive' : 'negative';
+                const barClass = isPos ? 'positive-bar' : 'negative-bar';
+                const topPad = isPos ? (chartHeight - barHeight) : chartHeight;
+                const botPad = isPos ? chartHeight : (chartHeight - barHeight);
+
+                return `<div class="portfolio-bar-col" style="height:${totalHeight}px;">
+                    <div style="height:${topPad}px;display:flex;align-items:flex-end;justify-content:center;width:100%;">
+                        ${isPos ? `<div class="portfolio-bar-value ${valClass}">${formatMoney(val)}</div>` : ''}
+                    </div>
+                    <div class="portfolio-bar ${barClass}" style="height:${barHeight}px;"></div>
+                    <div style="height:${botPad}px;display:flex;align-items:flex-start;justify-content:center;width:100%;">
+                        ${!isPos ? `<div class="portfolio-bar-value ${valClass}">${formatMoney(val)}</div>` : ''}
                     </div>
                 </div>`;
             }).join('');
 
-            // Show labels every 4th bucket + first and last
+            // Labels - show every other bucket for readability
             const labels = values.map((_, i) => {
-                const show = i === 0 || i === values.length - 1 || i % 4 === 0;
-                return `<span>${show ? buckets[i].label.split('-')[0] : ''}</span>`;
+                const show = i % 2 === 0 || i === values.length - 1;
+                return `<span>${show ? buckets[i].label : ''}</span>`;
             }).join('');
 
-            // Key markers: worst, breakeven, best
             const worst = values[0];
             const best = values[values.length - 1];
 
+            // Zero line positioned at the midpoint
             panel.innerHTML = `
-                <div class="portfolio-heatmap">${cells}</div>
-                <div class="portfolio-heatmap-labels">${labels}</div>
-                <div class="portfolio-heatmap-markers">
-                    <span class="portfolio-heatmap-marker negative">Worst: ${formatMoney(worst)}</span>
-                    <span class="portfolio-heatmap-marker neutral">~${breakevenIdx * 5}% breakeven</span>
-                    <span class="portfolio-heatmap-marker positive">Best: ${formatMoney(best)}</span>
+                <div class="portfolio-bars-wrapper">
+                    <div class="portfolio-bars" style="height:${totalHeight}px;">
+                        <div class="portfolio-zero-line" style="top:${chartHeight}px;"></div>
+                        ${bars}
+                    </div>
+                    <div class="portfolio-bar-labels">${labels}</div>
+                </div>
+                <div class="portfolio-bar-markers">
+                    <span class="portfolio-bar-marker negative">Worst: ${formatMoney(worst)}</span>
+                    <span class="portfolio-bar-marker neutral">~${breakevenIdx * 5}% breakeven</span>
+                    <span class="portfolio-bar-marker positive">Best: ${formatMoney(best)}</span>
                 </div>
             `;
         }

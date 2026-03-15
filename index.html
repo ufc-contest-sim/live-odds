@@ -14,7 +14,6 @@
       gtag('config', 'G-CP85MXD2MT');
     </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -471,7 +470,7 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
-            padding: 20px 20px 12px 20px;
+            padding: 20px;
             margin-bottom: 16px;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -485,10 +484,144 @@
             margin-bottom: 12px;
         }
 
-        .portfolio-chart-container canvas {
-            width: 100% !important;
-            max-height: 260px;
+        .portfolio-bars-wrapper {
+            position: relative;
+            overflow-x: auto;
         }
+
+        .portfolio-bars {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 3px;
+            position: relative;
+        }
+
+        .portfolio-bar-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 0;
+            position: relative;
+        }
+
+        .portfolio-bar-value {
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+
+        .portfolio-bar-value.positive { color: var(--accent-green); }
+        .portfolio-bar-value.negative { color: var(--accent-red); }
+
+        .portfolio-bar-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .portfolio-bar {
+            width: 100%;
+            border-radius: 3px 3px 0 0;
+            min-height: 2px;
+            transition: opacity 0.15s;
+        }
+
+        .portfolio-bar.negative {
+            border-radius: 0 0 3px 3px;
+            align-self: flex-start;
+        }
+
+        .portfolio-bar.positive-bar {
+            background: linear-gradient(to top, rgba(0, 200, 120, 0.5), rgba(0, 255, 136, 0.8));
+        }
+
+        .portfolio-bar.negative-bar {
+            background: linear-gradient(to bottom, rgba(255, 68, 102, 0.5), rgba(255, 40, 80, 0.8));
+        }
+
+        .portfolio-bar-col:hover .portfolio-bar {
+            opacity: 0.8;
+        }
+
+        .portfolio-zero-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+
+        .portfolio-bar-labels {
+            display: flex;
+            gap: 3px;
+            margin-top: 4px;
+        }
+
+        .portfolio-bar-labels span {
+            flex: 1;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-align: center;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .portfolio-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .portfolio-filter-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: background 0.15s, border-color 0.15s;
+            user-select: none;
+        }
+
+        .portfolio-filter-label:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .portfolio-filter-label input[type="checkbox"] {
+            accent-color: var(--accent-green);
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+
+        .portfolio-bar-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding: 0 2px;
+        }
+
+        .portfolio-bar-marker {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .portfolio-bar-marker.negative { color: var(--accent-red); }
+        .portfolio-bar-marker.positive { color: var(--accent-green); }
+        .portfolio-bar-marker.neutral { color: var(--text-secondary); }
 
         .search-result-card {
             background: var(--glass-bg);
@@ -1862,152 +1995,155 @@
             }
         }
 
-        let portfolioChartInstance = null;
+        function renderPortfolioQuintiles(percentileData) {
+            const panel = document.getElementById('portfolio-quintiles');
+            if (!panel || !percentileData) return;
 
-        function renderPortfolioChart(percentileData) {
-            if (portfolioChartInstance) {
-                portfolioChartInstance.destroy();
-                portfolioChartInstance = null;
-            }
-            const canvas = document.getElementById('portfolio-chart');
-            if (!canvas || !percentileData) return;
+            const buckets = [
+                { label: '0-5%', keys: ['p1','p5'] },
+                { label: '5-10%', keys: ['p5','p10'] },
+                { label: '10-15%', keys: ['p10','p15'] },
+                { label: '15-20%', keys: ['p15','p20'] },
+                { label: '20-25%', keys: ['p20','p25'] },
+                { label: '25-30%', keys: ['p25','p30'] },
+                { label: '30-35%', keys: ['p30','p35'] },
+                { label: '35-40%', keys: ['p35','p40'] },
+                { label: '40-45%', keys: ['p40','p45'] },
+                { label: '45-50%', keys: ['p45','p50'] },
+                { label: '50-55%', keys: ['p50','p55'] },
+                { label: '55-60%', keys: ['p55','p60'] },
+                { label: '60-65%', keys: ['p60','p65'] },
+                { label: '65-70%', keys: ['p65','p70'] },
+                { label: '70-75%', keys: ['p70','p75'] },
+                { label: '75-80%', keys: ['p75','p80'] },
+                { label: '80-85%', keys: ['p80','p85'] },
+                { label: '85-90%', keys: ['p85','p90'] },
+                { label: '90-95%', keys: ['p90','p95'] },
+                { label: '95-100%', keys: ['p95','p99'] },
+            ];
 
-            const labels = [];
-            const values = [];
-            const pctKeys = ['p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99'];
-            const pctLabels = ['1%','5%','10%','15%','20%','25%','30%','35%','40%','45%','50%','55%','60%','65%','70%','75%','80%','85%','90%','95%','99%'];
-            for (let i = 0; i < pctKeys.length; i++) {
-                if (percentileData[pctKeys[i]] !== undefined) {
-                    labels.push(pctLabels[i]);
-                    values.push(percentileData[pctKeys[i]]);
+            const values = buckets.map(b => {
+                const vals = b.keys.filter(k => percentileData[k] !== undefined).map(k => percentileData[k]);
+                return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+            });
+
+            const maxPos = Math.max(...values.filter(v => v > 0), 1);
+            const maxNeg = Math.max(...values.filter(v => v < 0).map(v => Math.abs(v)), 1);
+
+            // Auto-size each half proportionally so no wasted space
+            const totalChartHeight = 300;
+            const labelReserve = 20; // space for value labels
+            const posHeight = Math.round((maxPos / (maxPos + maxNeg)) * (totalChartHeight - labelReserve * 2)) + labelReserve;
+            const negHeight = Math.round((maxNeg / (maxPos + maxNeg)) * (totalChartHeight - labelReserve * 2)) + labelReserve;
+            const totalHeight = posHeight + negHeight;
+
+            const formatMoney = (v) => {
+                const abs = Math.abs(v);
+                if (abs >= 1000) {
+                    return (v < 0 ? '-$' : '$') + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + 'K';
                 }
+                return (v < 0 ? '-$' : '$') + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            };
+
+            // Find breakeven index
+            let breakevenIdx = values.findIndex(v => v >= 0);
+            if (breakevenIdx < 0) breakevenIdx = values.length;
+
+            // Build vertical bars - top half sized to maxPos, bottom half sized to maxNeg
+            const bars = values.map((val, i) => {
+                const isPos = val >= 0;
+                const barMax = isPos ? posHeight - labelReserve : negHeight - labelReserve;
+                const refMax = isPos ? maxPos : maxNeg;
+                const barHeight = Math.max((Math.abs(val) / refMax) * barMax, 2);
+                const valClass = isPos ? 'positive' : 'negative';
+                const barClass = isPos ? 'positive-bar' : 'negative-bar';
+                const topPad = isPos ? (posHeight - barHeight) : posHeight;
+                const botPad = isPos ? negHeight : (negHeight - barHeight);
+
+                return `<div class="portfolio-bar-col" style="height:${totalHeight}px;">
+                    <div style="height:${topPad}px;display:flex;align-items:flex-end;justify-content:center;width:100%;">
+                        ${isPos ? `<div class="portfolio-bar-value ${valClass}">${formatMoney(val)}</div>` : ''}
+                    </div>
+                    <div class="portfolio-bar ${barClass}" style="height:${barHeight}px;"></div>
+                    <div style="height:${botPad}px;display:flex;align-items:flex-start;justify-content:center;width:100%;">
+                        ${!isPos ? `<div class="portfolio-bar-value ${valClass}">${formatMoney(val)}</div>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Labels - show every other bucket for readability
+            const labels = values.map((_, i) => {
+                const show = i % 2 === 0 || i === values.length - 1;
+                return `<span>${show ? buckets[i].label : ''}</span>`;
+            }).join('');
+
+            const worst = values[0];
+            const best = values[values.length - 1];
+
+            panel.innerHTML = `
+                <div class="portfolio-bars-wrapper">
+                    <div class="portfolio-bars" style="height:${totalHeight}px;">
+                        <div class="portfolio-zero-line" style="top:${posHeight}px;"></div>
+                        ${bars}
+                    </div>
+                    <div class="portfolio-bar-labels">${labels}</div>
+                </div>
+                <div class="portfolio-bar-markers">
+                    <span class="portfolio-bar-marker negative">Worst: ${formatMoney(worst)}</span>
+                    <span class="portfolio-bar-marker neutral">~${breakevenIdx * 5}% breakeven</span>
+                    <span class="portfolio-bar-marker positive">Best: ${formatMoney(best)}</span>
+                </div>
+            `;
+        }
+
+        function renderPortfolioFilters(contestNames, byContest, allPctData) {
+            const filtersEl = document.getElementById('portfolio-filters');
+            if (!filtersEl) return;
+            if (!contestNames || !byContest || Object.keys(byContest).length < 2) {
+                filtersEl.innerHTML = '';
+                return;
             }
+            // Only show contests the user participates in
+            const userContests = contestNames.filter(c => byContest[c]);
+            if (userContests.length < 2) { filtersEl.innerHTML = ''; return; }
+            filtersEl.innerHTML = userContests.map(c =>
+                `<label class="portfolio-filter-label">
+                    <input type="checkbox" checked data-contest="${c.replace(/"/g, '&quot;')}">
+                    ${c}
+                </label>`
+            ).join('');
+            // Store data for recomputation
+            filtersEl._byContest = byContest;
+            filtersEl._allPctData = allPctData;
+            filtersEl._userContests = userContests;
+            filtersEl.addEventListener('change', onPortfolioFilterChange);
+        }
 
-            const positiveValues = values.map(v => Math.max(v, 0));
-            const negativeValues = values.map(v => Math.min(v, 0));
-
-            portfolioChartInstance = new Chart(canvas.getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Profit',
-                            data: positiveValues,
-                            borderColor: '#00ff88',
-                            backgroundColor: 'rgba(0, 255, 136, 0.15)',
-                            fill: 'origin',
-                            tension: 0.3,
-                            pointRadius: 0,
-                            pointHitRadius: 10,
-                            borderWidth: 0,
-                        },
-                        {
-                            label: 'Loss',
-                            data: negativeValues,
-                            borderColor: '#ff4466',
-                            backgroundColor: 'rgba(255, 68, 102, 0.15)',
-                            fill: 'origin',
-                            tension: 0.3,
-                            pointRadius: 0,
-                            pointHitRadius: 10,
-                            borderWidth: 0,
-                        },
-                        {
-                            label: 'Net Profit',
-                            data: values,
-                            borderColor: '#e8edf5',
-                            backgroundColor: 'transparent',
-                            fill: false,
-                            tension: 0.3,
-                            pointRadius: 3,
-                            pointBackgroundColor: values.map(v => v >= 0 ? '#00ff88' : '#ff4466'),
-                            pointBorderColor: 'transparent',
-                            pointHitRadius: 10,
-                            borderWidth: 2,
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#0c1926',
-                            borderColor: 'rgba(20, 42, 62, 0.8)',
-                            borderWidth: 1,
-                            titleColor: '#7a8599',
-                            bodyColor: '#e8edf5',
-                            titleFont: { size: 12 },
-                            bodyFont: { size: 13, weight: '600' },
-                            padding: 10,
-                            displayColors: false,
-                            filter: function(tooltipItem) {
-                                return tooltipItem.datasetIndex === 2;
-                            },
-                            callbacks: {
-                                title: function(items) {
-                                    return items[0].label + ' Percentile';
-                                },
-                                label: function(ctx) {
-                                    const val = ctx.parsed.y;
-                                    const abs = Math.abs(val).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                                    return val < 0 ? `-$${abs}` : `$${abs}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Percentile',
-                                color: '#7a8599',
-                                font: { size: 11 }
-                            },
-                            ticks: { color: '#7a8599', font: { size: 10 } },
-                            grid: { color: 'rgba(20, 42, 62, 0.4)' },
-                            border: { color: 'rgba(20, 42, 62, 0.6)' },
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Net Profit / Loss',
-                                color: '#7a8599',
-                                font: { size: 11 }
-                            },
-                            ticks: {
-                                color: '#7a8599',
-                                font: { size: 10 },
-                                callback: function(value) {
-                                    const abs = Math.abs(value);
-                                    let formatted;
-                                    if (abs >= 1000) {
-                                        formatted = '$' + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + 'K';
-                                    } else {
-                                        formatted = '$' + abs.toLocaleString();
-                                    }
-                                    return value < 0 ? '-' + formatted : formatted;
-                                }
-                            },
-                            grid: {
-                                color: function(ctx) {
-                                    return ctx.tick.value === 0 ? 'rgba(255,255,255,0.3)' : 'rgba(20, 42, 62, 0.4)';
-                                },
-                                lineWidth: function(ctx) {
-                                    return ctx.tick.value === 0 ? 2 : 1;
-                                }
-                            },
-                            border: { color: 'rgba(20, 42, 62, 0.6)' },
+        function onPortfolioFilterChange() {
+            const filtersEl = document.getElementById('portfolio-filters');
+            if (!filtersEl || !filtersEl._byContest) return;
+            const checkboxes = filtersEl.querySelectorAll('input[type="checkbox"]');
+            const selected = [];
+            checkboxes.forEach(cb => { if (cb.checked) selected.push(cb.dataset.contest); });
+            if (selected.length === 0) return; // don't render empty
+            if (selected.length === filtersEl._userContests.length) {
+                // All selected — use pre-computed accurate "all" data
+                renderPortfolioQuintiles(filtersEl._allPctData);
+            } else {
+                // Sum per-contest percentiles for selected contests (approximate)
+                const pKeys = ['p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99'];
+                const combined = {};
+                for (const pk of pKeys) {
+                    combined[pk] = 0;
+                    for (const cname of selected) {
+                        if (filtersEl._byContest[cname] && filtersEl._byContest[cname][pk] !== undefined) {
+                            combined[pk] += filtersEl._byContest[cname][pk];
                         }
                     }
+                    combined[pk] = Math.round(combined[pk] * 100) / 100;
                 }
-            });
+                renderPortfolioQuintiles(combined);
+            }
         }
 
         let usernameIndex = null; // Map: lowercase username -> { displayName, contestCount }
@@ -2266,7 +2402,8 @@
                 </div>
                 <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
                     <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>
-                    <div style="position:relative;height:260px;"><canvas id="portfolio-chart"></canvas></div>
+                    <div class="portfolio-filters" id="portfolio-filters"></div>
+                    <div class="portfolio-quintile-panel" id="portfolio-quintiles"></div>
                 </div>
                 ${results.map(r => `
                     <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
@@ -2295,11 +2432,13 @@
             // Fetch and render portfolio percentile chart
             fetchPortfolioPercentiles().then(pctData => {
                 if (!pctData) return;
+                const isNewFormat = pctData.users && pctData.contests;
+                const usersObj = isNewFormat ? pctData.users : pctData;
                 // Find the user's percentile data (try exact match first, then case-insensitive)
-                let userPct = pctData[query];
+                let userPct = usersObj[query];
                 if (!userPct) {
                     const queryLower = query.toLowerCase();
-                    for (const [key, val] of Object.entries(pctData)) {
+                    for (const [key, val] of Object.entries(usersObj)) {
                         if (key.toLowerCase() === queryLower) {
                             userPct = val;
                             break;
@@ -2309,7 +2448,12 @@
                 if (userPct) {
                     const wrapper = document.getElementById('portfolio-chart-wrapper');
                     if (wrapper) wrapper.style.display = '';
-                    renderPortfolioChart(userPct);
+                    // New format: {all: {...}, by_contest: {...}}; Old format: {p1: ..., p99: ...}
+                    const allPctData = isNewFormat ? userPct.all : userPct;
+                    const byContest = isNewFormat ? userPct.by_contest : null;
+                    const contestNames = isNewFormat ? pctData.contests : null;
+                    renderPortfolioQuintiles(allPctData);
+                    renderPortfolioFilters(contestNames, byContest, allPctData);
                 }
             });
         }

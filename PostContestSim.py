@@ -446,6 +446,7 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     user_map_concat = data["user_map_concat"].astype(np.int64)
     num_users = int(data["num_users"])
     user_total_fees = data["user_total_fees"].astype(np.float64)
+    user_contest_fees = data["user_contest_fees"].astype(np.float64)  # (K, num_users)
     # per-contest user maps
     user_map_list = []
     for k in range(K):
@@ -468,7 +469,8 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     seconds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     thirds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     # Portfolio outcome tracking: store per-user net profit for each iteration
-    user_outcomes = np.zeros((iters, num_users), dtype=np.float64)
+    user_outcomes = np.zeros((iters, num_users), dtype=np.float32)
+    user_outcomes_per_contest = np.zeros((K, iters, num_users), dtype=np.float32)
     iter_cursor = 0  # tracks which iteration we're writing to in user_outcomes
     done_total = 0
     while done_total < iters:
@@ -489,6 +491,7 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                 s2[:, f] = S2_stack[f, idxs]
             # per-user payout accumulator for this micro-batch
             user_payout_batch = np.zeros((m, num_users), dtype=np.float64)
+            contest_user_payouts = np.zeros((K, m, num_users), dtype=np.float64)
             # evaluate each contest
             for k in range(K):
                 C1T = C1T_list[k]
@@ -516,7 +519,9 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                     payout = (prefix[safe_right] - prefix[safe_left]) / np.maximum(group_sizes, 1.0)
                     total_payout[k] += payout
                     # Portfolio: accumulate per-user payouts for this iteration
-                    np.add.at(user_payout_batch[i], user_map_list[k], payout)
+                    bc = np.bincount(user_map_list[k], weights=payout, minlength=num_users)
+                    user_payout_batch[i] += bc
+                    contest_user_payouts[k, i] = bc
                     # Cashes
                     is_cash = payout > 0.0
                     cashes[k][is_cash] += 1.0
@@ -537,14 +542,20 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                             thirds[k][neg_sc == val_3rd] += 1.0
             # Store per-user net profit (payouts - entry fees) for this micro-batch
             user_payout_batch -= user_total_fees  # subtract fees to get net profit
-            user_outcomes[iter_cursor:iter_cursor + m] = user_payout_batch
+            user_outcomes[iter_cursor:iter_cursor + m] = user_payout_batch.astype(np.float32)
+            # Per-contest net profit
+            for k in range(K):
+                contest_user_payouts[k] -= user_contest_fees[k]
+            user_outcomes_per_contest[:, iter_cursor:iter_cursor + m, :] = contest_user_payouts.astype(np.float32)
             iter_cursor += m
             off += m
         done_total += B
-    # Save user_outcomes to a temp file to avoid pipe size limits on Windows
+    # Save user_outcomes to temp files to avoid pipe size limits on Windows
     outcomes_path = npz_path + f".user_outcomes_{idx}.npy"
     np.save(outcomes_path, user_outcomes)
-    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, outcomes_path)
+    per_contest_path = npz_path + f".user_outcomes_per_contest_{idx}.npy"
+    np.save(per_contest_path, user_outcomes_per_contest)
+    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, outcomes_path, per_contest_path)
 # -------------------- Pack workbook once --------------------
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
@@ -671,12 +682,15 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     user_display_names = [""] * num_users
     for ukey, (uidx, dname) in all_users_set.items():
         user_display_names[uidx] = dname
-    # Per-user total entry fees across all contests
+    # Per-user total entry fees across all contests + per-contest fees
     user_total_fees = np.zeros(num_users, dtype=np.float64)
+    user_contest_fees = np.zeros((len(contest_meta), num_users), dtype=np.float64)
     for k_idx, meta in enumerate(contest_meta):
         entry_k = float(meta["EntryFee"])
         for i_lu in range(len(user_map_blocks[k_idx])):
-            user_total_fees[user_map_blocks[k_idx][i_lu]] += entry_k
+            uid = user_map_blocks[k_idx][i_lu]
+            user_total_fees[uid] += entry_k
+            user_contest_fees[k_idx, uid] += entry_k
     user_map_concat = np.concatenate(user_map_blocks).astype(np.int64)
     log(f"[info] portfolio tracking: {num_users:,} unique users across {len(contest_meta)} contests")
     # pack prefix into matrix with padding
@@ -713,6 +727,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         user_map_concat=user_map_concat,
         num_users=np.array(num_users, dtype=np.int64),
         user_total_fees=user_total_fees,
+        user_contest_fees=user_contest_fees,
     )
     return str(npz_path), contest_meta, fight_card, user_display_names
 # -------------------- Main --------------------
@@ -803,11 +818,12 @@ def main():
         thirds       = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
         done_iters = 0
         all_user_outcomes = []  # collect per-worker user outcome arrays
+        all_user_outcomes_per_contest = []  # collect per-worker per-contest outcome arrays
         with ProcessPoolExecutor(max_workers=workers) as ex:
             futs = [ex.submit(worker_run, i, bundle, int(chunks[i]), int(batch), int(child_seeds[i]))
                     for i in range(len(chunks))]
             for fut in as_completed(futs):
-                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, outcomes_path) = fut.result()
+                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, outcomes_path, per_contest_path) = fut.result()
                 for k in range(K):
                     sum_scores[k]   += s_list[k]
                     sumsq_scores[k] += ss_list[k]
@@ -819,6 +835,8 @@ def main():
                     thirds[k]       += thi_list[k]
                 all_user_outcomes.append(np.load(outcomes_path))
                 os.remove(outcomes_path)
+                all_user_outcomes_per_contest.append(np.load(per_contest_path))
+                os.remove(per_contest_path)
                 done_iters += its
                 rate = done_iters / max(1e-9, (time.time() - t0))
                 log(f"[progress] {done_iters:,}/{iters:,} ({done_iters/iters:,.1%}) | {rate:,.0f} it/s")
@@ -895,25 +913,41 @@ def main():
                 log(f"[warn:{meta['Contest']}] EV/payout conservation check failed; verify payout prefix/tie-split logic and inputs.")
         # Compute and write portfolio percentile distributions
         combined_outcomes = np.vstack(all_user_outcomes)  # (total_iters, num_users)
+        combined_per_contest = np.concatenate(all_user_outcomes_per_contest, axis=1)  # (K, total_iters, num_users)
+        del all_user_outcomes, all_user_outcomes_per_contest  # free memory
         num_users = combined_outcomes.shape[1]
         percentile_points = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 99]
-        portfolio_percentiles = {}
+        contest_names = [meta["Contest"] for meta in contest_meta]
+
+        def compute_pctiles(sorted_data):
+            pctiles = {}
+            for p in percentile_points:
+                idx_p = int(np.floor(p / 100.0 * len(sorted_data)))
+                idx_p = min(idx_p, len(sorted_data) - 1)
+                pctiles[f"p{p}"] = round(float(sorted_data[idx_p]), 2)
+            return pctiles
+
+        portfolio_percentiles = {"contests": contest_names, "users": {}}
         for u_idx in range(num_users):
             uname = user_display_names[u_idx]
             if not uname:
                 continue
             user_data = combined_outcomes[:, u_idx]
             sorted_data = np.sort(user_data)
-            pctiles = {}
-            for p in percentile_points:
-                idx_p = int(np.floor(p / 100.0 * len(sorted_data)))
-                idx_p = min(idx_p, len(sorted_data) - 1)
-                pctiles[f"p{p}"] = round(float(sorted_data[idx_p]), 2)
-            portfolio_percentiles[uname] = pctiles
+            user_entry = {"all": compute_pctiles(sorted_data), "by_contest": {}}
+            # Per-contest percentiles
+            for k_idx, cname in enumerate(contest_names):
+                contest_data = combined_per_contest[k_idx, :, u_idx]
+                # Only include if user has entries in this contest (fees > 0)
+                if np.any(contest_data != 0):
+                    sorted_contest = np.sort(contest_data)
+                    user_entry["by_contest"][cname] = compute_pctiles(sorted_contest)
+            portfolio_percentiles["users"][uname] = user_entry
+        del combined_outcomes, combined_per_contest  # free memory
         pct_path = os.path.join(out_dir, f"{base_stem}_portfolio_percentiles.json")
         with open(pct_path, 'w', encoding='utf-8') as pf:
             json.dump(portfolio_percentiles, pf, indent=2)
-        log(f"[done] wrote portfolio percentiles: {pct_path} ({num_users} users)")
+        log(f"[done] wrote portfolio percentiles: {pct_path} ({num_users} users, {K} contests)")
     try:
         input("Press Enter to close...")
     except Exception:

@@ -442,6 +442,15 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     offsets = data["offsets"].astype(np.int64)          # (K+1,)
     C1_concat = data["C1_concat"].astype(np.int8)       # (sum_n, F)
     C2_concat = data["C2_concat"].astype(np.int8)       # (sum_n, F)
+    # portfolio tracking
+    user_map_concat = data["user_map_concat"].astype(np.int64)
+    num_users = int(data["num_users"])
+    user_total_fees = data["user_total_fees"].astype(np.float64)
+    # per-contest user maps
+    user_map_list = []
+    for k in range(K):
+        a = int(offsets[k]); b = int(offsets[k+1])
+        user_map_list.append(user_map_concat[a:b])
     # per-contest transposed matrices
     C1T_list = []
     C2T_list = []
@@ -458,6 +467,9 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     cashes = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     seconds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     thirds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
+    # Portfolio outcome tracking: store per-user net profit for each iteration
+    user_outcomes = np.zeros((iters, num_users), dtype=np.float64)
+    iter_cursor = 0  # tracks which iteration we're writing to in user_outcomes
     done_total = 0
     while done_total < iters:
         B = min(batch, iters - done_total)
@@ -475,6 +487,8 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                 idxs = rng.integers(0, N[f], size=m, dtype=np.int64)
                 s1[:, f] = S1_stack[f, idxs]
                 s2[:, f] = S2_stack[f, idxs]
+            # per-user payout accumulator for this micro-batch
+            user_payout_batch = np.zeros((m, num_users), dtype=np.float64)
             # evaluate each contest
             for k in range(K):
                 C1T = C1T_list[k]
@@ -501,6 +515,8 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                     safe_right = np.minimum(right, lp)
                     payout = (prefix[safe_right] - prefix[safe_left]) / np.maximum(group_sizes, 1.0)
                     total_payout[k] += payout
+                    # Portfolio: accumulate per-user payouts for this iteration
+                    np.add.at(user_payout_batch[i], user_map_list[k], payout)
                     # Cashes
                     is_cash = payout > 0.0
                     cashes[k][is_cash] += 1.0
@@ -519,9 +535,16 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                         if g2_end < n_k:
                             val_3rd = neg_sorted[g2_end]
                             thirds[k][neg_sc == val_3rd] += 1.0
+            # Store per-user net profit (payouts - entry fees) for this micro-batch
+            user_payout_batch -= user_total_fees  # subtract fees to get net profit
+            user_outcomes[iter_cursor:iter_cursor + m] = user_payout_batch
+            iter_cursor += m
             off += m
         done_total += B
-    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds)
+    # Save user_outcomes to a temp file to avoid pipe size limits on Windows
+    outcomes_path = npz_path + f".user_outcomes_{idx}.npy"
+    np.save(outcomes_path, user_outcomes)
+    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, outcomes_path)
 # -------------------- Pack workbook once --------------------
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
@@ -599,6 +622,8 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     entry_fees = []
     last_paid_list = []
     prefix_list = []
+    user_map_blocks = []  # per-contest array mapping lineup_idx -> user_idx
+    all_users_set = {}    # username -> user_idx (case-preserved, keyed by casefold)
     for c in contests:
         name = c["ContestName"]
         lineups_ref = c["LineupsSheet"]
@@ -626,12 +651,34 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
             "last_paid": int(last_paid),
             "payouts_array": payouts_arr.tolist(),
         })
+        # Build per-lineup user index mapping for portfolio tracking
+        n_k = int(fighters.shape[0])
+        umap_k = np.zeros(n_k, dtype=np.int64)
+        for i_lu, u in enumerate(users):
+            ukey = u.casefold() if u else ""
+            if ukey not in all_users_set:
+                all_users_set[ukey] = (len(all_users_set), u)  # (idx, display_name)
+            umap_k[i_lu] = all_users_set[ukey][0]
+        user_map_blocks.append(umap_k)
         C1_blocks.append(C1)
         C2_blocks.append(C2)
-        n_list.append(int(fighters.shape[0]))
+        n_list.append(n_k)
         entry_fees.append(float(entry))
         last_paid_list.append(int(last_paid))
         prefix_list.append(prefix.astype(np.float64, copy=False))
+    # Build user arrays for portfolio tracking
+    num_users = len(all_users_set)
+    user_display_names = [""] * num_users
+    for ukey, (uidx, dname) in all_users_set.items():
+        user_display_names[uidx] = dname
+    # Per-user total entry fees across all contests
+    user_total_fees = np.zeros(num_users, dtype=np.float64)
+    for k_idx, meta in enumerate(contest_meta):
+        entry_k = float(meta["EntryFee"])
+        for i_lu in range(len(user_map_blocks[k_idx])):
+            user_total_fees[user_map_blocks[k_idx][i_lu]] += entry_k
+    user_map_concat = np.concatenate(user_map_blocks).astype(np.int64)
+    log(f"[info] portfolio tracking: {num_users:,} unique users across {len(contest_meta)} contests")
     # pack prefix into matrix with padding
     max_rank = max(len(p) for p in prefix_list) - 1
     prefix_mat = np.zeros((len(prefix_list), max_rank + 1), dtype=np.float64)
@@ -662,8 +709,12 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         offsets=offsets,
         C1_concat=C1_concat,
         C2_concat=C2_concat,
+        # portfolio tracking
+        user_map_concat=user_map_concat,
+        num_users=np.array(num_users, dtype=np.int64),
+        user_total_fees=user_total_fees,
     )
-    return str(npz_path), contest_meta, fight_card
+    return str(npz_path), contest_meta, fight_card, user_display_names
 # -------------------- Main --------------------
 def ask_int(prompt: str, default: int, min_val: int = 1) -> int:
     while True:
@@ -726,7 +777,7 @@ def main():
     base_stem = Path(out_path).stem
     t0 = time.time()
     with tempfile.TemporaryDirectory() as td:
-        bundle, contest_meta, fight_card = pack_npz_multi(wb, Path(td))
+        bundle, contest_meta, fight_card, user_display_names = pack_npz_multi(wb, Path(td))
         K = len(contest_meta)
         log(f"[info] contests={K} | workers={workers} | batch={batch}")
         for c in contest_meta:
@@ -751,11 +802,12 @@ def main():
         seconds      = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
         thirds       = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
         done_iters = 0
+        all_user_outcomes = []  # collect per-worker user outcome arrays
         with ProcessPoolExecutor(max_workers=workers) as ex:
             futs = [ex.submit(worker_run, i, bundle, int(chunks[i]), int(batch), int(child_seeds[i]))
                     for i in range(len(chunks))]
             for fut in as_completed(futs):
-                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list) = fut.result()
+                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, outcomes_path) = fut.result()
                 for k in range(K):
                     sum_scores[k]   += s_list[k]
                     sumsq_scores[k] += ss_list[k]
@@ -765,6 +817,8 @@ def main():
                     cashes[k]       += c_list[k]
                     seconds[k]      += sec_list[k]
                     thirds[k]       += thi_list[k]
+                all_user_outcomes.append(np.load(outcomes_path))
+                os.remove(outcomes_path)
                 done_iters += its
                 rate = done_iters / max(1e-9, (time.time() - t0))
                 log(f"[progress] {done_iters:,}/{iters:,} ({done_iters/iters:,.1%}) | {rate:,.0f} it/s")
@@ -839,6 +893,27 @@ def main():
                 f"avg total paid=${total_paid_per_contest:,.2f}")
             if abs(avg_ev - expected_ev) > 1e-4 or abs(total_paid_per_contest - prize_pool) > 1e-2:
                 log(f"[warn:{meta['Contest']}] EV/payout conservation check failed; verify payout prefix/tie-split logic and inputs.")
+        # Compute and write portfolio percentile distributions
+        combined_outcomes = np.vstack(all_user_outcomes)  # (total_iters, num_users)
+        num_users = combined_outcomes.shape[1]
+        percentile_points = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 99]
+        portfolio_percentiles = {}
+        for u_idx in range(num_users):
+            uname = user_display_names[u_idx]
+            if not uname:
+                continue
+            user_data = combined_outcomes[:, u_idx]
+            sorted_data = np.sort(user_data)
+            pctiles = {}
+            for p in percentile_points:
+                idx_p = int(np.floor(p / 100.0 * len(sorted_data)))
+                idx_p = min(idx_p, len(sorted_data) - 1)
+                pctiles[f"p{p}"] = round(float(sorted_data[idx_p]), 2)
+            portfolio_percentiles[uname] = pctiles
+        pct_path = os.path.join(out_dir, f"{base_stem}_portfolio_percentiles.json")
+        with open(pct_path, 'w', encoding='utf-8') as pf:
+            json.dump(portfolio_percentiles, pf, indent=2)
+        log(f"[done] wrote portfolio percentiles: {pct_path} ({num_users} users)")
     try:
         input("Press Enter to close...")
     except Exception:

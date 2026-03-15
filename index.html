@@ -2079,8 +2079,8 @@
                 return `<span>${show ? buckets[i].label : ''}</span>`;
             }).join('');
 
-            const worst = percentileData['p1'] !== undefined ? percentileData['p1'] : values[0];
-            const best = percentileData['p99'] !== undefined ? percentileData['p99'] : values[values.length - 1];
+            const worst = percentileData['min'] !== undefined ? percentileData['min'] : values[0];
+            const best = percentileData['max'] !== undefined ? percentileData['max'] : values[values.length - 1];
 
             panel.innerHTML = `
                 <div class="portfolio-bars-wrapper">

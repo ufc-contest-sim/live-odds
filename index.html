@@ -2023,35 +2023,31 @@
                 { lo: 95, hi: 100, keys: ['p95','p99'] },
             ];
 
-            // Compute median value per bucket (average of lower and upper boundary)
-            const rawMedians = rawBuckets.map(b => {
-                const lo = percentileData[b.keys[0]] || 0;
-                const hi = percentileData[b.keys[1]] !== undefined ? percentileData[b.keys[1]] : lo;
-                return (lo + hi) / 2;
+            // Use upper boundary percentile value per bucket (actual sim outcome, no averaging)
+            const rawValues = rawBuckets.map(b => {
+                const upperKey = b.keys[b.keys.length - 1];
+                if (percentileData[upperKey] !== undefined) return percentileData[upperKey];
+                return percentileData[b.keys[0]] || 0;
             });
 
-            // Merge adjacent buckets whose medians are within $100 of each other
+            // Merge adjacent buckets whose values are within $100 of each other
             const MERGE_THRESHOLD = 100;
-            const merged = []; // { lo, hi, median }
+            const merged = [];
             let i = 0;
             while (i < rawBuckets.length) {
                 let groupLo = rawBuckets[i].lo;
                 let groupHi = rawBuckets[i].hi;
-                let groupMedian = rawMedians[i];
                 let j = i + 1;
-                while (j < rawBuckets.length && Math.abs(rawMedians[j] - groupMedian) <= MERGE_THRESHOLD) {
+                while (j < rawBuckets.length && Math.abs(rawValues[j] - rawValues[j - 1]) <= MERGE_THRESHOLD) {
                     groupHi = rawBuckets[j].hi;
-                    // Update group median to running average so chain stays anchored
-                    groupMedian = (groupMedian * (j - i) + rawMedians[j]) / (j - i + 1);
                     j++;
                 }
-                // Representative value: median of the middle bucket in the group
-                const midIdx = Math.floor((i + j - 1) / 2);
+                // Representative value: upper-boundary percentile of the last bucket in the group
                 merged.push({
                     lo: groupLo,
                     hi: groupHi,
                     label: groupLo + '-' + groupHi + '%',
-                    value: rawMedians[midIdx],
+                    value: rawValues[j - 1],
                 });
                 i = j;
             }

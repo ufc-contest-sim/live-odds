@@ -1999,35 +1999,64 @@
             const panel = document.getElementById('portfolio-quintiles');
             if (!panel || !percentileData) return;
 
-            const buckets = [
-                { label: '0-5%', keys: ['p1','p5'] },
-                { label: '5-10%', keys: ['p5','p10'] },
-                { label: '10-15%', keys: ['p10','p15'] },
-                { label: '15-20%', keys: ['p15','p20'] },
-                { label: '20-25%', keys: ['p20','p25'] },
-                { label: '25-30%', keys: ['p25','p30'] },
-                { label: '30-35%', keys: ['p30','p35'] },
-                { label: '35-40%', keys: ['p35','p40'] },
-                { label: '40-45%', keys: ['p40','p45'] },
-                { label: '45-50%', keys: ['p45','p50'] },
-                { label: '50-55%', keys: ['p50','p55'] },
-                { label: '55-60%', keys: ['p55','p60'] },
-                { label: '60-65%', keys: ['p60','p65'] },
-                { label: '65-70%', keys: ['p65','p70'] },
-                { label: '70-75%', keys: ['p70','p75'] },
-                { label: '75-80%', keys: ['p75','p80'] },
-                { label: '80-85%', keys: ['p80','p85'] },
-                { label: '85-90%', keys: ['p85','p90'] },
-                { label: '90-95%', keys: ['p90','p95'] },
-                { label: '95-100%', keys: ['p95','p99'] },
+            // Raw 5% buckets with their median (midpoint of lower/upper boundary)
+            const rawBuckets = [
+                { lo: 0,  hi: 5,   keys: ['p1','p5'] },
+                { lo: 5,  hi: 10,  keys: ['p5','p10'] },
+                { lo: 10, hi: 15,  keys: ['p10','p15'] },
+                { lo: 15, hi: 20,  keys: ['p15','p20'] },
+                { lo: 20, hi: 25,  keys: ['p20','p25'] },
+                { lo: 25, hi: 30,  keys: ['p25','p30'] },
+                { lo: 30, hi: 35,  keys: ['p30','p35'] },
+                { lo: 35, hi: 40,  keys: ['p35','p40'] },
+                { lo: 40, hi: 45,  keys: ['p40','p45'] },
+                { lo: 45, hi: 50,  keys: ['p45','p50'] },
+                { lo: 50, hi: 55,  keys: ['p50','p55'] },
+                { lo: 55, hi: 60,  keys: ['p55','p60'] },
+                { lo: 60, hi: 65,  keys: ['p60','p65'] },
+                { lo: 65, hi: 70,  keys: ['p65','p70'] },
+                { lo: 70, hi: 75,  keys: ['p70','p75'] },
+                { lo: 75, hi: 80,  keys: ['p75','p80'] },
+                { lo: 80, hi: 85,  keys: ['p80','p85'] },
+                { lo: 85, hi: 90,  keys: ['p85','p90'] },
+                { lo: 90, hi: 95,  keys: ['p90','p95'] },
+                { lo: 95, hi: 100, keys: ['p95','p99'] },
             ];
 
-            const values = buckets.map(b => {
-                // Use upper boundary percentile to avoid averaging across discrete jumps
-                const upperKey = b.keys[b.keys.length - 1];
-                if (percentileData[upperKey] !== undefined) return percentileData[upperKey];
-                return percentileData[b.keys[0]] || 0;
+            // Compute median value per bucket (average of lower and upper boundary)
+            const rawMedians = rawBuckets.map(b => {
+                const lo = percentileData[b.keys[0]] || 0;
+                const hi = percentileData[b.keys[1]] !== undefined ? percentileData[b.keys[1]] : lo;
+                return (lo + hi) / 2;
             });
+
+            // Merge adjacent buckets whose medians are within $100 of each other
+            const MERGE_THRESHOLD = 100;
+            const merged = []; // { lo, hi, median }
+            let i = 0;
+            while (i < rawBuckets.length) {
+                let groupLo = rawBuckets[i].lo;
+                let groupHi = rawBuckets[i].hi;
+                let groupMedian = rawMedians[i];
+                let j = i + 1;
+                while (j < rawBuckets.length && Math.abs(rawMedians[j] - groupMedian) <= MERGE_THRESHOLD) {
+                    groupHi = rawBuckets[j].hi;
+                    // Update group median to running average so chain stays anchored
+                    groupMedian = (groupMedian * (j - i) + rawMedians[j]) / (j - i + 1);
+                    j++;
+                }
+                // Representative value: median of the middle bucket in the group
+                const midIdx = Math.floor((i + j - 1) / 2);
+                merged.push({
+                    lo: groupLo,
+                    hi: groupHi,
+                    label: groupLo + '-' + groupHi + '%',
+                    value: rawMedians[midIdx],
+                });
+                i = j;
+            }
+
+            const values = merged.map(b => b.value);
 
             const maxPos = Math.max(...values.filter(v => v > 0), 1);
             const maxNeg = Math.max(...values.filter(v => v < 0).map(v => Math.abs(v)), 1);
@@ -2047,12 +2076,21 @@
                 return (v < 0 ? '-$' : '$') + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
             };
 
-            // Find breakeven index
-            let breakevenIdx = values.findIndex(v => v >= 0);
-            if (breakevenIdx < 0) breakevenIdx = values.length;
+            // Find breakeven: first merged bucket whose value >= 0
+            let breakevenPct = 100;
+            for (let k = 0; k < merged.length; k++) {
+                if (merged[k].value >= 0) {
+                    breakevenPct = merged[k].lo;
+                    break;
+                }
+            }
 
-            // Build vertical bars - top half sized to maxPos, bottom half sized to maxNeg
-            const bars = values.map((val, i) => {
+            // Bar widths proportional to how many percentile-points each merged bucket spans
+            const totalSpan = 100;
+            const bars = merged.map((b, idx) => {
+                const span = b.hi - b.lo;
+                const widthPct = (span / totalSpan) * 100;
+                const val = b.value;
                 const isPos = val >= 0;
                 const barMax = isPos ? posHeight - labelReserve : negHeight - labelReserve;
                 const refMax = isPos ? maxPos : maxNeg;
@@ -2062,7 +2100,7 @@
                 const topPad = isPos ? (posHeight - barHeight) : posHeight;
                 const botPad = isPos ? negHeight : (negHeight - barHeight);
 
-                return `<div class="portfolio-bar-col" style="height:${totalHeight}px;">
+                return `<div class="portfolio-bar-col" style="height:${totalHeight}px;flex:${span};">
                     <div style="height:${topPad}px;display:flex;align-items:flex-end;justify-content:center;width:100%;">
                         ${isPos ? `<div class="portfolio-bar-value ${valClass}">${formatMoney(val)}</div>` : ''}
                     </div>
@@ -2073,11 +2111,8 @@
                 </div>`;
             }).join('');
 
-            // Labels - show every other bucket for readability
-            const labels = values.map((_, i) => {
-                const show = i % 2 === 0 || i === values.length - 1;
-                return `<span>${show ? buckets[i].label : ''}</span>`;
-            }).join('');
+            // Labels for each merged bucket
+            const labels = merged.map(b => `<span style="flex:${b.hi - b.lo};">${b.label}</span>`).join('');
 
             const worst = percentileData['min'] !== undefined ? percentileData['min'] : values[0];
             const best = percentileData['max'] !== undefined ? percentileData['max'] : values[values.length - 1];
@@ -2092,7 +2127,7 @@
                 </div>
                 <div class="portfolio-bar-markers">
                     <span class="portfolio-bar-marker negative">Worst: ${formatMoney(worst)}</span>
-                    <span class="portfolio-bar-marker neutral">~${breakevenIdx * 5}% breakeven</span>
+                    <span class="portfolio-bar-marker neutral">~${breakevenPct}% breakeven</span>
                     <span class="portfolio-bar-marker positive">Best: ${formatMoney(best)}</span>
                 </div>
             `;
@@ -2133,7 +2168,7 @@
                 renderPortfolioQuintiles(filtersEl._allPctData);
             } else {
                 // Sum per-contest percentiles for selected contests (approximate)
-                const pKeys = ['p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99'];
+                const pKeys = ['min','p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99','max'];
                 const combined = {};
                 for (const pk of pKeys) {
                     combined[pk] = 0;

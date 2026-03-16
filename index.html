@@ -2038,7 +2038,7 @@
                 let groupLo = rawBuckets[i].lo;
                 let groupHi = rawBuckets[i].hi;
                 let j = i + 1;
-                while (j < rawBuckets.length && Math.abs(rawValues[j] - rawValues[j - 1]) <= MERGE_THRESHOLD) {
+                while (j < rawBuckets.length && Math.abs(rawValues[j] - rawValues[i]) <= MERGE_THRESHOLD) {
                     groupHi = rawBuckets[j].hi;
                     j++;
                 }

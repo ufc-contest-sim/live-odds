@@ -227,21 +227,28 @@ def read_payouts_named(xl: pd.ExcelFile, payouts_sheet: str, prefix_sheet: Optio
             prefix[r] = prefix[r-1] + payouts[r]
     return np.array(payouts, dtype=np.float64), np.array(prefix, dtype=np.float64), int(last_paid)
 def read_fighter_map(xl: pd.ExcelFile):
-    # Columns: Fighter (A), FightID (B), optional Score (C)
+    # Columns: Fighter (A), FightID (B), optional Score (C), optional Salary (D)
     df = pd.read_excel(xl, sheet_name="DraftKings Fighter Pool", engine="openpyxl")
-    # Use first 3 columns if available, otherwise pad
-    if df.shape[1] >= 3:
+    # Use first 4 columns if available, otherwise pad
+    ncols = df.shape[1]
+    if ncols >= 4:
+        df = df.iloc[:, :4]
+        df.columns = ["Fighter", "FightID", "Score", "Salary"]
+    elif ncols >= 3:
         df = df.iloc[:, :3]
         df.columns = ["Fighter", "FightID", "Score"]
+        df["Salary"] = np.nan
     else:
         df = df.iloc[:, :2]
         df.columns = ["Fighter", "FightID"]
         df["Score"] = np.nan
+        df["Salary"] = np.nan
     keep = ~(df["Fighter"].isna() & df["FightID"].isna())
     df = df.loc[keep].reset_index(drop=True)
     seen = {}
     fmap = {}
     fixed_scores = {}  # fighter_name -> fixed DK score (float)
+    salary_map = {}    # fighter_name -> salary (float)
     fighter_order = []  # ordered list of (name, fid, slot) for fight card
     for _, row in df.iterrows():
         name = norm_name_fighter(row["Fighter"])
@@ -263,8 +270,12 @@ def read_fighter_map(xl: pd.ExcelFile):
         score_val = pd.to_numeric(row["Score"], errors="coerce")
         if not (score_val is None or (isinstance(score_val, float) and math.isnan(score_val))):
             fixed_scores[name] = float(score_val)
+        # Check for salary in column D
+        sal_val = pd.to_numeric(row["Salary"], errors="coerce")
+        if not (sal_val is None or (isinstance(sal_val, float) and math.isnan(sal_val))):
+            salary_map[name] = float(sal_val)
         fighter_order.append({"name": name, "fight_id": fid, "slot": slot})
-    return fmap, fixed_scores, fighter_order
+    return fmap, fixed_scores, fighter_order, salary_map
 def read_lineups_sheet(xl: pd.ExcelFile, sheet_name: str):
     # columns A:G => F1..F6 + Username
     df = pd.read_excel(xl, sheet_name=sheet_name, engine="openpyxl", usecols="A:G")
@@ -560,7 +571,7 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
     contests = read_contests(xl, wb_path)
-    fmap, fixed_scores, fighter_order = read_fighter_map(xl)
+    fmap, fixed_scores, fighter_order, salary_map = read_fighter_map(xl)
     # Build fight_card from fighter_order (preserves DK Fighter Pool sheet order)
     fight_card_map = {}
     fight_card_order = []
@@ -647,6 +658,16 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         fighters, users = read_lineups(xl, lineups_ref, wb_path)
         lineup_keys, copies = compute_copies_and_keys(fighters)
         C1, C2 = build_mats(fighters, fmap, id2idx)
+        # Compute per-lineup total salary from salary_map
+        n_k_tmp = fighters.shape[0]
+        lineup_salaries = np.zeros(n_k_tmp, dtype=np.float64)
+        for i_lu in range(n_k_tmp):
+            sal = 0.0
+            for c_slot in range(6):
+                fname = norm_name_fighter(fighters[i_lu, c_slot])
+                if fname and fname in salary_map:
+                    sal += salary_map[fname]
+            lineup_salaries[i_lu] = sal
         contest_meta.append({
             "Contest": name,
             "LineupsSheet": lineups_ref,
@@ -658,6 +679,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
             "users": users,
             "lineup_keys": lineup_keys,
             "copies": copies,
+            "lineup_salaries": lineup_salaries,
             "n": int(fighters.shape[0]),
             "last_paid": int(last_paid),
             "payouts_array": payouts_arr.tolist(),
@@ -729,7 +751,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         user_total_fees=user_total_fees,
         user_contest_fees=user_contest_fees,
     )
-    return str(npz_path), contest_meta, fight_card, user_display_names
+    return str(npz_path), contest_meta, fight_card, user_display_names, salary_map
 # -------------------- Main --------------------
 def ask_int(prompt: str, default: int, min_val: int = 1) -> int:
     while True:
@@ -792,7 +814,7 @@ def main():
     base_stem = Path(out_path).stem
     t0 = time.time()
     with tempfile.TemporaryDirectory() as td:
-        bundle, contest_meta, fight_card, user_display_names = pack_npz_multi(wb, Path(td))
+        bundle, contest_meta, fight_card, user_display_names, salary_map = pack_npz_multi(wb, Path(td))
         K = len(contest_meta)
         log(f"[info] contests={K} | workers={workers} | batch={batch}")
         for c in contest_meta:
@@ -863,6 +885,7 @@ def main():
             users    = meta["users"]
             keys     = meta["lineup_keys"]
             copies   = meta["copies"]
+            salaries = meta["lineup_salaries"]
             rows = []
             for i in range(n):
                 rows.append([
@@ -875,7 +898,8 @@ def main():
                     float(SecondPct[i]), float(ThirdPct[i]),
                     float(CashPct[i]),
                     float(mean[i]), float(sd[i]), float(p99[i]),
-                    float(total_payout[k][i])
+                    float(total_payout[k][i]),
+                    float(salaries[i])
                 ])
             cols = [
                 "Contest",
@@ -884,7 +908,7 @@ def main():
                 "EntryFee","AvgWinPayout",
                 "EV","NetEV","ROI%","WinPct","SecondPct","ThirdPct","CashPct",
                 "MeanScore","SDScore","P99Score",
-                "TotalPayout"
+                "TotalPayout","TotalSalary"
             ]
             df_k = pd.DataFrame(rows, columns=cols)
             cname = safe_filename(meta["Contest"])
@@ -897,6 +921,7 @@ def main():
                 "fight_card": fight_card,
                 "payouts": meta["payouts_array"],
                 "entry_fee": float(entry),
+                "salary_map": salary_map,
             }
             with open(meta_json_path, 'w', encoding='utf-8') as mf:
                 json.dump(meta_json, mf, indent=2)

@@ -1545,6 +1545,7 @@
                                         <th class="sortable" onclick="setSort('Username')">Username</th>
                                         <th class="sortable" onclick="setSort('WhatIfScore')">Score</th>
                                         <th class="sortable" onclick="setSort('WhatIfPayout')">Payout</th>
+                                        <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
                                         <th style="width: 55px;">Copies</th>
                                     </tr>
                                 </thead>
@@ -1577,6 +1578,7 @@
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
                                 <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
+                                <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
                                 <th style="width: 80px;">Copies</th>
                             </tr>
                         </thead>
@@ -1598,6 +1600,7 @@
                                 <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
+                                <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
                                 <th style="width: 80px;">Copies</th>
                             </tr>
                         </thead>
@@ -1620,6 +1623,7 @@
                                 <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
+                                <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
                             </tr>
                         </thead>
                         <tbody id="portfolio-leaderboard"></tbody>
@@ -2795,10 +2799,10 @@
             const tbody = document.getElementById('leaderboard');
             
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="11" class="no-results">No lineups match your filters</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="12" class="no-results">No lineups match your filters</td></tr>';
                 return;
             }
-            
+
             // Format functions for table cells
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
@@ -2850,10 +2854,11 @@
                             ${formatROI(row['ROI%'] || 0)}
                         </td>
                         <td>${projScore.toFixed(2)}</td>
+                        <td>${row.TotalSalary ? '$' + Number(row.TotalSalary).toLocaleString() : '--'}</td>
                         <td>${row.Copies || 0}</td>
                     </tr>
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
-                        <td colspan="11">
+                        <td colspan="12">
                             <div class="lineup-container">
                                 ${fighters.map(f => `
                                     <div class="fighter-chip">
@@ -2887,6 +2892,7 @@
                         CashPct: row.CashPct != null ? row.CashPct : null,
                         NetEV: row.NetEV || 0,
                         MeanScore: row.MeanScore || 0,
+                        TotalSalary: row.TotalSalary || 0,
                         Copies: row.Copies || 1
                     });
                     
@@ -2916,7 +2922,7 @@
                 `Showing ${displayData.length.toLocaleString()} of ${uniqueLineups.length.toLocaleString()} unique lineups`;
             
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" class="no-results">No lineups found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" class="no-results">No lineups found</td></tr>';
                 return;
             }
             
@@ -2950,6 +2956,7 @@
                             ${formatNetEV(lineup.NetEV || 0)}
                         </td>
                         <td>${(lineup.MeanScore || 0).toFixed(2)}</td>
+                        <td>${lineup.TotalSalary ? '$' + Number(lineup.TotalSalary).toLocaleString() : '--'}</td>
                         <td>${lineup.Copies || 0}</td>
                     </tr>
                 `;
@@ -2975,7 +2982,8 @@
                         TotalCashPct: 0,
                         hasCashPct: false,
                         TotalNetEV: 0,
-                        TotalCost: 0
+                        TotalCost: 0,
+                        TotalSalary: 0
                     });
                 }
 
@@ -2996,6 +3004,7 @@
                 }
                 portfolio.TotalNetEV += (row.NetEV || 0);
                 portfolio.TotalCost += (row.EntryFee || 0);
+                portfolio.TotalSalary += (row.TotalSalary || 0);
             });
 
             // Convert to array and calculate ROI
@@ -3006,7 +3015,8 @@
                 ThirdPct: p.hasThirdPct ? p.TotalThirdPct : null,
                 CashPct: p.hasCashPct ? p.TotalCashPct : null,
                 NetEV: p.TotalNetEV,
-                'ROI%': p.TotalCost > 0 ? (p.TotalNetEV / p.TotalCost) * 100 : 0
+                'ROI%': p.TotalCost > 0 ? (p.TotalNetEV / p.TotalCost) * 100 : 0,
+                TotalSalary: p.TotalSalary
             }));
 
             // Sort
@@ -3030,7 +3040,7 @@
                 `Showing ${displayData.length.toLocaleString()} of ${portfolios.length.toLocaleString()} portfolios`;
 
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" class="no-results">No portfolios found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" class="no-results">No portfolios found</td></tr>';
                 return;
             }
 
@@ -3068,6 +3078,7 @@
                         <td class="${portfolio['ROI%'] >= 0 ? 'positive' : 'negative'}">
                             ${formatROI(portfolio['ROI%'])}
                         </td>
+                        <td>${portfolio.TotalSalary ? '$' + Number(portfolio.TotalSalary).toLocaleString() : '--'}</td>
                     </tr>
                 `;
             }).join('');
@@ -3254,6 +3265,8 @@
             // Apply sort if user chose a different column
             if (currentSort === 'WhatIfPayout') {
                 results.sort((a, b) => sortAscending ? a.WhatIfPayout - b.WhatIfPayout : b.WhatIfPayout - a.WhatIfPayout);
+            } else if (currentSort === 'TotalSalary') {
+                results.sort((a, b) => sortAscending ? (a.TotalSalary || 0) - (b.TotalSalary || 0) : (b.TotalSalary || 0) - (a.TotalSalary || 0));
             } else if (currentSort === 'Username') {
                 results.sort((a, b) => {
                     const aVal = (a.Username || '').toLowerCase();
@@ -3277,7 +3290,7 @@
             const tbody = document.getElementById('whatif-leaderboard');
 
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="no-results">No lineups match your filters</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="no-results">No lineups match your filters</td></tr>';
                 return;
             }
 
@@ -3314,10 +3327,11 @@
                         <td class="username">${row.Username || ''}</td>
                         <td>${row.WhatIfScore.toFixed(2)}</td>
                         <td class="${row.WhatIfPayout > 0 ? 'positive' : ''}">${formatPayout(row.WhatIfPayout)}</td>
+                        <td>${row.TotalSalary ? '$' + Number(row.TotalSalary).toLocaleString() : '--'}</td>
                         <td>${row.Copies || 0}</td>
                     </tr>
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="lineup-container">
                                 ${fighters.map(f => `
                                     <div class="fighter-chip">

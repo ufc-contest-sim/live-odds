@@ -1,36 +1,44 @@
 {
   "contests": [
     {
-      "id": "100k_knockout",
-      "name": "100K Knockout",
-      "file": "100K_Knockout.json",
-      "entryFee": 555.0,
+      "id": "100k_mega_mini-max",
+      "name": "100K MEGA mini-MAX",
+      "file": "100K_MEGA_mini-MAX.json",
+      "entryFee": 3.0,
       "totalPrizes": 100000,
-      "entrants": 200
+      "entrants": 39635
     },
     {
-      "id": "12k_title_fight",
-      "name": "12K Title Fight",
-      "file": "12K_Title_Fight.json",
+      "id": "10k_title_fight",
+      "name": "10K Title Fight",
+      "file": "10K_Title_Fight.json",
       "entryFee": 1060.0,
-      "totalPrizes": 12000,
-      "entrants": 12
+      "totalPrizes": 10000,
+      "entrants": 9
     },
     {
-      "id": "26k_double_champ",
-      "name": "26K Double Champ",
-      "file": "26K_Double_Champ.json",
+      "id": "20k_double_champ",
+      "name": "20K Double Champ",
+      "file": "20K_Double_Champ.json",
       "entryFee": 2120.0,
-      "totalPrizes": 26000,
-      "entrants": 12
+      "totalPrizes": 20000,
+      "entrants": 10
     },
     {
-      "id": "350k_throwdown",
-      "name": "350K Throwdown",
-      "file": "350K_Throwdown.json",
-      "entryFee": 15.0,
-      "totalPrizes": 350000,
-      "entrants": 27450
+      "id": "300k_throwdown",
+      "name": "300K Throwdown",
+      "file": "300K_Throwdown.json",
+      "entryFee": 18.0,
+      "totalPrizes": 300000,
+      "entrants": 19607
+    },
+    {
+      "id": "30k_hook",
+      "name": "30k Hook",
+      "file": "30k_Hook.json",
+      "entryFee": 8.0,
+      "totalPrizes": 30000,
+      "entrants": 4411
     },
     {
       "id": "40k_arm_bar",
@@ -41,20 +49,20 @@
       "entrants": 9512
     },
     {
-      "id": "40k_hook",
-      "name": "40k Hook",
-      "file": "40k_Hook.json",
-      "entryFee": 8.0,
-      "totalPrizes": 40000,
-      "entrants": 5882
-    },
-    {
       "id": "40k_thunderdome",
       "name": "40K Thunderdome",
       "file": "40K_Thunderdome.json",
       "entryFee": 5300.0,
       "totalPrizes": 40000,
       "entrants": 8
+    },
+    {
+      "id": "85k_knockout",
+      "name": "85K Knockout",
+      "file": "85K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 85000,
+      "entrants": 170
     }
   ]
 }

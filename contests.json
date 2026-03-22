@@ -1,14 +1,6 @@
 {
   "contests": [
     {
-      "id": "100k_mega_mini-max",
-      "name": "100K MEGA mini-MAX",
-      "file": "100K_MEGA_mini-MAX.json",
-      "entryFee": 3.0,
-      "totalPrizes": 100000,
-      "entrants": 39635
-    },
-    {
       "id": "10k_title_fight",
       "name": "10K Title Fight",
       "file": "10K_Title_Fight.json",

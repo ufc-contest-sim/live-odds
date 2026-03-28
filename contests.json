@@ -1,12 +1,20 @@
 {
   "contests": [
     {
+      "id": "100k_knockout",
+      "name": "100K Knockout",
+      "file": "100K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 100000,
+      "entrants": 200
+    },
+    {
       "id": "10k_title_fight",
       "name": "10K Title Fight",
       "file": "10K_Title_Fight.json",
       "entryFee": 1060.0,
       "totalPrizes": 10000,
-      "entrants": 9
+      "entrants": 10
     },
     {
       "id": "20k_double_champ",
@@ -17,20 +25,20 @@
       "entrants": 10
     },
     {
-      "id": "300k_throwdown",
-      "name": "300K Throwdown",
-      "file": "300K_Throwdown.json",
-      "entryFee": 18.0,
-      "totalPrizes": 300000,
-      "entrants": 19607
-    },
-    {
       "id": "30k_hook",
       "name": "30k Hook",
       "file": "30k_Hook.json",
       "entryFee": 8.0,
       "totalPrizes": 30000,
       "entrants": 4411
+    },
+    {
+      "id": "333k_throwdown",
+      "name": "333K Throwdown",
+      "file": "333K_Throwdown.json",
+      "entryFee": 18.0,
+      "totalPrizes": 333000,
+      "entrants": 21764
     },
     {
       "id": "40k_arm_bar",
@@ -47,14 +55,6 @@
       "entryFee": 5300.0,
       "totalPrizes": 40000,
       "entrants": 8
-    },
-    {
-      "id": "85k_knockout",
-      "name": "85K Knockout",
-      "file": "85K_Knockout.json",
-      "entryFee": 555.0,
-      "totalPrizes": 85000,
-      "entrants": 170
     }
   ]
 }

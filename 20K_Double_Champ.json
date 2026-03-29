@@ -1,6 +1,6 @@
 {
   "contest_name": "20K Double Champ",
-  "last_updated": "2026-03-28T21:17:19.518450",
+  "last_updated": "2026-03-28T22:17:39.588899",
   "total_lineups": 10,
   "summary": {
     "top_win_pct": 100.0,
@@ -83,10 +83,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 100.0,
       "CashPct": 100.0,
-      "MeanScore": 491.690535767212,
-      "SDScore": 36.04441606039684,
-      "P99Score": 575.5423864388875,
-      "TotalPayout": 200000000.0,
+      "MeanScore": 525.3099975585938,
+      "SDScore": 0.0,
+      "P99Score": 525.3099975585938,
+      "TotalPayout": 2000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -137,9 +137,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 446.8905475415039,
-      "SDScore": 36.04441566721797,
-      "P99Score": 530.7423972985088,
+      "MeanScore": 480.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 480.510009765625,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -164,9 +164,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 401.05053588531496,
-      "SDScore": 36.04441556112206,
-      "P99Score": 484.90238539550376,
+      "MeanScore": 434.66998291015625,
+      "SDScore": 0.0,
+      "P99Score": 434.66998291015625,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -191,9 +191,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 420.4305407632446,
-      "SDScore": 36.04441554626697,
-      "P99Score": 504.28239023887534,
+      "MeanScore": 454.0499877929688,
+      "SDScore": 0.0,
+      "P99Score": 454.0499877929688,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -218,10 +218,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 630.5905444897461,
-      "SDScore": 36.04441577009296,
-      "P99Score": 714.4423944860739,
-      "TotalPayout": 1000000000.0,
+      "MeanScore": 664.2099609375,
+      "SDScore": 0.0,
+      "P99Score": 664.2099609375,
+      "TotalPayout": 10000.0,
       "TotalSalary": 49800.0
     },
     {
@@ -245,10 +245,10 @@
       "SecondPct": 100.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 494.8905514941407,
-      "SDScore": 36.04441661719932,
-      "P99Score": 578.7424034611325,
-      "TotalPayout": 600000000.0,
+      "MeanScore": 528.510009765625,
+      "SDScore": 0.0,
+      "P99Score": 528.510009765625,
+      "TotalPayout": 6000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -272,10 +272,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 100.0,
       "CashPct": 100.0,
-      "MeanScore": 491.690535767212,
-      "SDScore": 36.04441606039684,
-      "P99Score": 575.5423864388875,
-      "TotalPayout": 200000000.0,
+      "MeanScore": 525.3099975585938,
+      "SDScore": 0.0,
+      "P99Score": 525.3099975585938,
+      "TotalPayout": 2000.0,
       "TotalSalary": 50000.0
     }
   ],
@@ -284,8 +284,8 @@
       "fight_id": 1,
       "fighter1": "Israel Adesanya",
       "fighter2": "Joe Pyfer",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 20.0,
+      "fighter2_score": 102.52
     },
     {
       "fight_id": 2,

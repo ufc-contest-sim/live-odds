@@ -92,6 +92,39 @@
         }
         .back-link:hover { color: var(--accent-green); }
 
+        /* Contest Filter */
+        .contest-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .contest-filter-btn {
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        .contest-filter-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        .contest-filter-btn.active {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
         /* Summary Cards Row */
         .summary-row {
             display: grid;
@@ -430,13 +463,16 @@
     <div id="error" class="error" style="display:none;"></div>
 
     <div id="dashboard" style="display:none;">
+        <!-- Contest Filter -->
+        <div class="contest-filter" id="contest-filter"></div>
+
         <!-- Summary Cards -->
         <div class="summary-row" id="summary-row"></div>
 
         <!-- Main Chart -->
         <div class="chart-section">
             <div class="chart-header">
-                <h2>Bankroll Trajectories</h2>
+                <h2 id="chart-title">Bankroll Trajectories</h2>
                 <div class="chart-controls">
                     <div class="toggle-group" id="view-toggle">
                         <button class="toggle-btn active" data-view="envelope">Envelope</button>
@@ -461,7 +497,7 @@
                     <thead>
                         <tr>
                             <th>Drawdown Size</th>
-                            <th>Probability (over ${pathLen} events)</th>
+                            <th id="dd-prob-header">Probability</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -474,7 +510,7 @@
                     <thead>
                         <tr>
                             <th>Upswing Size</th>
-                            <th>Probability (over ${pathLen} events)</th>
+                            <th id="us-prob-header">Probability</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -484,13 +520,13 @@
 
         <!-- Single-Event Histogram -->
         <div class="histogram-section">
-            <h3>SINGLE EVENT OUTCOME DISTRIBUTION</h3>
+            <h3 id="histogram-title">SINGLE EVENT OUTCOME DISTRIBUTION</h3>
             <div class="histogram-canvas-wrapper">
                 <canvas id="histogram-chart"></canvas>
             </div>
         </div>
 
-        <!-- Contest Breakdown -->
+        <!-- Contest Breakdown (only shown in "All Contests" view) -->
         <div class="contest-breakdown" id="contest-section" style="display:none;">
             <h3>PER-CONTEST BREAKDOWN</h3>
             <table class="contest-breakdown-table" id="contest-table">
@@ -529,13 +565,26 @@ let bankrollChart = null;
 let histogramChart = null;
 let varianceData = null;
 let currentView = 'envelope';
+let currentContest = 'all'; // 'all' or a contest name
+
+// Get the active data block (all contests or a specific contest)
+function getActiveBlock() {
+    if (currentContest === 'all') {
+        return varianceData;
+    }
+    return varianceData.by_contest[currentContest];
+}
 
 async function loadData() {
     try {
         const resp = await fetch(DATA_URL + '?v=' + Date.now());
         if (!resp.ok) throw new Error('Failed to load variance_data.json');
         varianceData = await resp.json();
-        renderDashboard();
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('dashboard').style.display = '';
+        document.getElementById('username-badge').textContent = varianceData.user;
+        buildContestFilter();
+        renderAll();
     } catch (err) {
         document.getElementById('loading').style.display = 'none';
         const errorEl = document.getElementById('error');
@@ -549,23 +598,69 @@ async function loadData() {
     }
 }
 
-function renderDashboard() {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('dashboard').style.display = '';
-    document.getElementById('username-badge').textContent = varianceData.user;
+function buildContestFilter() {
+    const filterEl = document.getElementById('contest-filter');
+    const contests = varianceData.by_contest ? Object.keys(varianceData.by_contest) : [];
+    if (contests.length === 0) {
+        filterEl.style.display = 'none';
+        return;
+    }
 
-    const d = varianceData;
-    const ev = d.single_event;
+    let html = `<button class="contest-filter-btn active" data-contest="all">All Contests</button>`;
+    contests.forEach(name => {
+        html += `<button class="contest-filter-btn" data-contest="${name}">${name}</button>`;
+    });
+    filterEl.innerHTML = html;
 
-    // Summary cards
+    filterEl.querySelectorAll('.contest-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterEl.querySelectorAll('.contest-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentContest = btn.dataset.contest;
+            renderAll();
+        });
+    });
+}
+
+function renderAll() {
+    const block = getActiveBlock();
+    if (!block) return;
+
+    const isAll = currentContest === 'all';
+    const contestLabel = isAll ? 'All Contests' : currentContest;
+
+    renderSummaryCards(block);
+    renderBankrollChart(block, contestLabel);
+    renderDrawdownPanel(block);
+    renderUpswingPanel(block);
+    renderHistogram(block, contestLabel);
+
+    // Contest breakdown table only shows in "all" view
+    if (isAll && varianceData.by_contest && Object.keys(varianceData.by_contest).length > 0) {
+        renderContestBreakdown();
+        document.getElementById('contest-section').style.display = '';
+    } else {
+        document.getElementById('contest-section').style.display = 'none';
+    }
+
+    // Update probability headers
+    const pathLen = block.config.path_length;
+    document.getElementById('dd-prob-header').textContent = `Probability (over ${pathLen} events)`;
+    document.getElementById('us-prob-header').textContent = `Probability (over ${pathLen} events)`;
+
+    setupControls();
+}
+
+function renderSummaryCards(block) {
+    const ev = block.single_event;
     const summaryRow = document.getElementById('summary-row');
     const cards = [
         { label: 'Per-Event EV', value: formatMoneyFull(ev.mean), cls: ev.mean >= 0 ? 'positive' : 'negative' },
         { label: 'Per-Event Std Dev', value: formatMoneyFull(ev.std), cls: 'neutral' },
         { label: 'Best Single Event', value: formatMoneyFull(ev.max), cls: 'positive' },
         { label: 'Worst Single Event', value: formatMoneyFull(ev.min), cls: 'negative' },
-        { label: 'Avg Max Drawdown', value: formatMoneyFull(d.drawdown_stats.mean), cls: 'negative' },
-        { label: 'Avg Max Upswing', value: formatMoneyFull(d.upswing_stats.mean), cls: 'positive' },
+        { label: 'Avg Max Drawdown', value: formatMoneyFull(block.drawdown_stats.mean), cls: 'negative' },
+        { label: 'Avg Max Upswing', value: formatMoneyFull(block.upswing_stats.mean), cls: 'positive' },
     ];
     summaryRow.innerHTML = cards.map(c => `
         <div class="summary-card">
@@ -573,32 +668,21 @@ function renderDashboard() {
             <div class="value ${c.cls}">${c.value}</div>
         </div>
     `).join('');
-
-    renderBankrollChart();
-    renderDrawdownPanel();
-    renderUpswingPanel();
-    renderHistogram();
-    renderContestBreakdown();
-    setupControls();
-
-    // Fix table headers with actual path length
-    const pathLen = d.config.path_length;
-    document.querySelectorAll('#dd-table th:last-child, #us-table th:last-child').forEach(th => {
-        th.textContent = `Probability (over ${pathLen} events)`;
-    });
 }
 
-function renderBankrollChart() {
-    const d = varianceData;
-    const pathLen = d.config.path_length;
+function renderBankrollChart(block, contestLabel) {
+    // Destroy old chart
+    if (bankrollChart) { bankrollChart.destroy(); bankrollChart = null; }
+
+    const pathLen = block.config.path_length;
     const labels = Array.from({ length: pathLen }, (_, i) => i + 1);
 
-    const envelopeDatasets = buildEnvelopeDatasets(d.envelope, pathLen);
-    const pathDatasets = buildPathDatasets(d.paths, pathLen);
+    document.getElementById('chart-title').textContent =
+        `Bankroll Trajectories — ${contestLabel}`;
 
+    const envelopeDatasets = buildEnvelopeDatasets(block.envelope, pathLen);
+    const pathDatasets = buildPathDatasets(block.paths, pathLen);
     const allDatasets = [...envelopeDatasets, ...pathDatasets];
-
-    // Set initial visibility
     updateDatasetVisibility(allDatasets, currentView);
 
     const ctx = document.getElementById('bankroll-chart').getContext('2d');
@@ -609,10 +693,7 @@ function renderBankrollChart() {
             responsive: true,
             maintainAspectRatio: false,
             animation: false,
-            interaction: {
-                mode: 'index',
-                intersect: false,
-            },
+            interaction: { mode: 'index', intersect: false },
             plugins: {
                 legend: { display: false },
                 tooltip: {
@@ -628,17 +709,13 @@ function renderBankrollChart() {
                         title: (items) => `Event #${items[0].label}`,
                         label: (ctx) => {
                             if (ctx.dataset.isEnvelopeFill) return null;
-                            const name = ctx.dataset.label || '';
-                            return `${name}: ${formatMoneyFull(ctx.parsed.y)}`;
+                            return `${ctx.dataset.label}: ${formatMoneyFull(ctx.parsed.y)}`;
                         },
                     },
                     filter: (item) => !item.dataset.isEnvelopeFill,
                 },
                 zoom: {
-                    pan: {
-                        enabled: true,
-                        mode: 'xy',
-                    },
+                    pan: { enabled: true, mode: 'xy' },
                     zoom: {
                         wheel: { enabled: true, speed: 0.08 },
                         pinch: { enabled: true },
@@ -649,26 +726,13 @@ function renderBankrollChart() {
             },
             scales: {
                 x: {
-                    title: {
-                        display: true,
-                        text: 'Event #',
-                        color: '#7a8599',
-                        font: { size: 12 },
-                    },
+                    title: { display: true, text: 'Event #', color: '#7a8599', font: { size: 12 } },
                     ticks: { color: '#7a8599', maxTicksLimit: 20 },
                     grid: { color: 'rgba(20, 42, 62, 0.3)' },
                 },
                 y: {
-                    title: {
-                        display: true,
-                        text: 'Cumulative Profit / Loss ($)',
-                        color: '#7a8599',
-                        font: { size: 12 },
-                    },
-                    ticks: {
-                        color: '#7a8599',
-                        callback: (v) => formatMoney(v),
-                    },
+                    title: { display: true, text: 'Cumulative Profit / Loss ($)', color: '#7a8599', font: { size: 12 } },
+                    ticks: { color: '#7a8599', callback: (v) => formatMoney(v) },
                     grid: { color: 'rgba(20, 42, 62, 0.3)' },
                 },
             },
@@ -677,7 +741,6 @@ function renderBankrollChart() {
 }
 
 function buildEnvelopeDatasets(envelope, pathLen) {
-    // Build filled bands: p1-p99, p5-p95, p10-p90, p25-p75, and median line
     const bands = [
         { lo: 'p1', hi: 'p99', color: 'rgba(59, 130, 246, 0.06)', label: 'p1-p99' },
         { lo: 'p5', hi: 'p95', color: 'rgba(59, 130, 246, 0.10)', label: 'p5-p95' },
@@ -686,79 +749,54 @@ function buildEnvelopeDatasets(envelope, pathLen) {
     ];
 
     const datasets = [];
-
     bands.forEach(band => {
-        // Upper boundary line (hidden, used as fill target)
         datasets.push({
             label: band.label + ' upper',
             data: envelope[band.hi],
-            borderColor: 'transparent',
-            backgroundColor: 'transparent',
-            pointRadius: 0,
-            borderWidth: 0,
-            fill: false,
-            isEnvelope: true,
-            isEnvelopeFill: true,
+            borderColor: 'transparent', backgroundColor: 'transparent',
+            pointRadius: 0, borderWidth: 0, fill: false,
+            isEnvelope: true, isEnvelopeFill: true,
         });
-        // Lower boundary with fill to previous dataset
         datasets.push({
             label: band.label,
             data: envelope[band.lo],
-            borderColor: 'transparent',
-            backgroundColor: band.color,
-            pointRadius: 0,
-            borderWidth: 0,
-            fill: '-1',
-            isEnvelope: true,
-            isEnvelopeFill: true,
+            borderColor: 'transparent', backgroundColor: band.color,
+            pointRadius: 0, borderWidth: 0, fill: '-1',
+            isEnvelope: true, isEnvelopeFill: true,
         });
     });
 
-    // Median line
     datasets.push({
         label: 'Median (p50)',
         data: envelope['p50'],
-        borderColor: '#3b82f6',
-        backgroundColor: 'transparent',
-        borderWidth: 2.5,
-        pointRadius: 0,
-        fill: false,
+        borderColor: '#3b82f6', backgroundColor: 'transparent',
+        borderWidth: 2.5, pointRadius: 0, fill: false,
         isEnvelope: true,
     });
 
-    // Zero line
     datasets.push({
         label: 'Breakeven',
         data: Array(pathLen).fill(0),
         borderColor: 'rgba(255, 255, 255, 0.15)',
-        borderWidth: 1,
-        borderDash: [6, 4],
-        pointRadius: 0,
-        fill: false,
-        isEnvelope: true,
-        isEnvelopeFill: true,
+        borderWidth: 1, borderDash: [6, 4], pointRadius: 0, fill: false,
+        isEnvelope: true, isEnvelopeFill: true,
     });
 
     return datasets;
 }
 
 function buildPathDatasets(paths, pathLen) {
-    // Color paths based on final value
     return paths.map((path, i) => {
         const finalVal = path[path.length - 1];
         const alpha = 0.25;
         const color = finalVal >= 0
             ? `rgba(0, 255, 136, ${alpha})`
             : `rgba(255, 68, 102, ${alpha})`;
-
         return {
             label: `Path ${i + 1}`,
             data: path,
-            borderColor: color,
-            backgroundColor: 'transparent',
-            borderWidth: 0.8,
-            pointRadius: 0,
-            fill: false,
+            borderColor: color, backgroundColor: 'transparent',
+            borderWidth: 0.8, pointRadius: 0, fill: false,
             isPath: true,
         };
     });
@@ -766,22 +804,22 @@ function buildPathDatasets(paths, pathLen) {
 
 function updateDatasetVisibility(datasets, view) {
     datasets.forEach(ds => {
-        if (ds.isEnvelope || ds.isEnvelopeFill) {
-            ds.hidden = view === 'paths';
-        }
-        if (ds.isPath) {
-            ds.hidden = view === 'envelope';
-        }
+        if (ds.isEnvelope || ds.isEnvelopeFill) ds.hidden = view === 'paths';
+        if (ds.isPath) ds.hidden = view === 'envelope';
     });
 }
 
 function setupControls() {
-    // View toggle
+    // View toggle (re-wire since renderAll may run multiple times)
     document.querySelectorAll('#view-toggle .toggle-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+        if (newBtn.dataset.view === currentView) newBtn.classList.add('active');
+        else newBtn.classList.remove('active');
+        newBtn.addEventListener('click', () => {
             document.querySelectorAll('#view-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentView = btn.dataset.view;
+            newBtn.classList.add('active');
+            currentView = newBtn.dataset.view;
             if (bankrollChart) {
                 updateDatasetVisibility(bankrollChart.data.datasets, currentView);
                 bankrollChart.update();
@@ -789,31 +827,27 @@ function setupControls() {
         });
     });
 
-    // Reset zoom
-    document.getElementById('btn-reset-zoom').addEventListener('click', () => {
-        if (bankrollChart) bankrollChart.resetZoom();
-    });
+    const resetBtn = document.getElementById('btn-reset-zoom');
+    const newResetBtn = resetBtn.cloneNode(true);
+    resetBtn.parentNode.replaceChild(newResetBtn, resetBtn);
+    newResetBtn.addEventListener('click', () => { if (bankrollChart) bankrollChart.resetZoom(); });
 
-    // Double-click to reset
-    document.getElementById('bankroll-chart').addEventListener('dblclick', () => {
-        if (bankrollChart) bankrollChart.resetZoom();
-    });
+    const canvas = document.getElementById('bankroll-chart');
+    canvas.ondblclick = () => { if (bankrollChart) bankrollChart.resetZoom(); };
 }
 
-function renderDrawdownPanel() {
-    const dd = varianceData.drawdown_stats;
-    const summaryEl = document.getElementById('dd-summary');
-    summaryEl.innerHTML = `
+function renderDrawdownPanel(block) {
+    const dd = block.drawdown_stats;
+    document.getElementById('dd-summary').innerHTML = `
         <div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">${formatMoneyFull(dd.mean)}</div></div>
         <div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">${formatMoneyFull(dd.median)}</div></div>
         <div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">${formatMoneyFull(dd.p95)}</div></div>
         <div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">${formatMoneyFull(dd.p99)}</div></div>
     `;
 
-    const tbody = document.querySelector('#dd-table tbody');
     const probs = dd.probabilities;
     const maxProb = Math.max(...Object.values(probs), 1);
-    tbody.innerHTML = Object.entries(probs).map(([threshold, prob]) => `
+    document.querySelector('#dd-table tbody').innerHTML = Object.entries(probs).map(([threshold, prob]) => `
         <tr>
             <td>${formatMoneyFull(parseInt(threshold))}+</td>
             <td class="prob-bar-cell">
@@ -824,20 +858,18 @@ function renderDrawdownPanel() {
     `).join('');
 }
 
-function renderUpswingPanel() {
-    const us = varianceData.upswing_stats;
-    const summaryEl = document.getElementById('us-summary');
-    summaryEl.innerHTML = `
+function renderUpswingPanel(block) {
+    const us = block.upswing_stats;
+    document.getElementById('us-summary').innerHTML = `
         <div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">${formatMoneyFull(us.mean)}</div></div>
         <div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">${formatMoneyFull(us.median)}</div></div>
         <div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">${formatMoneyFull(us.p95)}</div></div>
         <div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">${formatMoneyFull(us.p99)}</div></div>
     `;
 
-    const tbody = document.querySelector('#us-table tbody');
     const probs = us.probabilities;
     const maxProb = Math.max(...Object.values(probs), 1);
-    tbody.innerHTML = Object.entries(probs).map(([threshold, prob]) => `
+    document.querySelector('#us-table tbody').innerHTML = Object.entries(probs).map(([threshold, prob]) => `
         <tr>
             <td>${formatMoneyFull(parseInt(threshold))}+</td>
             <td class="prob-bar-cell">
@@ -848,8 +880,13 @@ function renderUpswingPanel() {
     `).join('');
 }
 
-function renderHistogram() {
-    const hist = varianceData.single_event.histogram;
+function renderHistogram(block, contestLabel) {
+    if (histogramChart) { histogramChart.destroy(); histogramChart = null; }
+
+    document.getElementById('histogram-title').textContent =
+        `SINGLE EVENT OUTCOME DISTRIBUTION — ${contestLabel}`;
+
+    const hist = block.single_event.histogram;
     const edges = hist.bin_edges;
     const counts = hist.counts;
     const total = counts.reduce((a, b) => a + b, 0);
@@ -899,29 +936,14 @@ function renderHistogram() {
             },
             scales: {
                 x: {
-                    ticks: {
-                        color: '#7a8599',
-                        maxTicksLimit: 12,
-                        maxRotation: 45,
-                    },
+                    ticks: { color: '#7a8599', maxTicksLimit: 12, maxRotation: 45 },
                     grid: { display: false },
-                    title: {
-                        display: true,
-                        text: 'Net Profit / Loss',
-                        color: '#7a8599',
-                    },
+                    title: { display: true, text: 'Net Profit / Loss', color: '#7a8599' },
                 },
                 y: {
-                    ticks: {
-                        color: '#7a8599',
-                        callback: (v) => v.toFixed(0) + '%',
-                    },
+                    ticks: { color: '#7a8599', callback: (v) => v.toFixed(0) + '%' },
                     grid: { color: 'rgba(20, 42, 62, 0.3)' },
-                    title: {
-                        display: true,
-                        text: '% of Outcomes',
-                        color: '#7a8599',
-                    },
+                    title: { display: true, text: '% of Outcomes', color: '#7a8599' },
                 },
             },
         },
@@ -929,22 +951,23 @@ function renderHistogram() {
 }
 
 function renderContestBreakdown() {
-    const stats = varianceData.per_contest_stats;
-    if (!stats || Object.keys(stats).length === 0) return;
+    const byContest = varianceData.by_contest;
+    if (!byContest) return;
 
-    document.getElementById('contest-section').style.display = '';
     const tbody = document.querySelector('#contest-table tbody');
-    tbody.innerHTML = Object.entries(stats).map(([name, s]) => `
+    tbody.innerHTML = Object.entries(byContest).map(([name, block]) => {
+        const s = block.single_event;
+        return `
         <tr>
             <td>${name}</td>
-            <td class="${s.mean >= 0 ? 'positive' : 'negative'}" style="color:${s.mean >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};font-weight:600;font-family:'IBM Plex Sans',monospace;">
+            <td style="color:${s.mean >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};font-weight:600;font-family:'IBM Plex Sans',monospace;">
                 ${formatMoneyFull(s.mean)}
             </td>
             <td style="font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.std)}</td>
             <td style="color:var(--accent-red);font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.min)}</td>
             <td style="color:var(--accent-green);font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.max)}</td>
-        </tr>
-    `).join('');
+        </tr>`;
+    }).join('');
 }
 
 // Init

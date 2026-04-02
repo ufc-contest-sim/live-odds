@@ -955,7 +955,7 @@ def main():
                 outcomes_file=raw_outcomes_path,
                 target_user="DHollis24",
                 num_paths=500,
-                path_length=200,
+                path_length=100,
                 seed=42,
             )
             if variance_result:

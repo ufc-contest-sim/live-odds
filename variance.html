@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Variance Simulator — Bankroll Analysis</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
             --bg-dark: #060a12;
             --bg-card: rgba(12, 25, 40, 0.65);
@@ -31,446 +27,123 @@
             --glass-bg: rgba(12, 25, 40, 0.65);
             --glass-border: rgba(20, 42, 62, 0.8);
         }
-
         body {
             font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #060a12;
-            color: var(--text-primary);
-            min-height: 100vh;
+            background: #060a12; color: var(--text-primary); min-height: 100vh;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
-            letter-spacing: 4px;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; letter-spacing: 4px; color: var(--text-primary); margin-bottom: 6px; }
         .header h1 span { color: var(--accent-green); }
-
-        .header .subtitle {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: 400;
-        }
-
+        .header .subtitle { color: var(--text-secondary); font-size: 1rem; font-weight: 400; }
         .header .username-badge {
-            display: inline-block;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            color: var(--accent-green);
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 8px;
+            display: inline-block; background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--accent-green); padding: 4px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; margin-top: 8px;
         }
-
         .back-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
+            position: absolute; top: 20px; left: 20px; color: var(--text-secondary); text-decoration: none;
+            font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: color 0.2s;
         }
         .back-link:hover { color: var(--accent-green); }
-
-        /* Contest Filter */
-        .contest-filter {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 24px;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
+        .contest-filter { display: flex; justify-content: center; margin-bottom: 24px; gap: 8px; flex-wrap: wrap; }
         .contest-filter-btn {
-            background: var(--bg-card-solid);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-            font-weight: 500;
+            background: var(--bg-card-solid); border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; font-family: inherit; font-weight: 500;
         }
-
-        .contest-filter-btn:hover {
-            border-color: var(--accent-blue);
-            color: var(--text-primary);
-        }
-
-        .contest-filter-btn.active {
-            background: rgba(59, 130, 246, 0.15);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        /* Summary Cards Row */
-        .summary-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
+        .contest-filter-btn:hover { border-color: var(--accent-blue); color: var(--text-primary); }
+        .contest-filter-btn.active { background: rgba(59, 130, 246, 0.15); border-color: var(--accent-blue); color: var(--accent-blue); }
+        .contest-filter-btn.all-btn.active { background: rgba(0, 255, 136, 0.1); border-color: var(--accent-green); color: var(--accent-green); }
+        .filter-hint { text-align: center; font-size: 0.72rem; color: var(--text-secondary); margin-top: -16px; margin-bottom: 20px; }
+        .summary-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px; }
         .summary-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 16px 18px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;
+            padding: 16px 18px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
-
-        .summary-card .label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        .summary-card .value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            font-family: 'IBM Plex Sans', monospace;
-        }
-
+        .summary-card .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-secondary); margin-bottom: 6px; }
+        .summary-card .value { font-size: 1.4rem; font-weight: 700; font-family: 'IBM Plex Sans', monospace; }
         .summary-card .value.positive { color: var(--accent-green); }
         .summary-card .value.negative { color: var(--accent-red); }
         .summary-card .value.neutral { color: var(--text-primary); }
-
-        /* Chart Section */
         .chart-section {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 24px;
-            margin-bottom: 24px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px;
+            padding: 24px; margin-bottom: 24px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .chart-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
-            letter-spacing: 2px;
-        }
-
-        .chart-controls {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
+        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+        .chart-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; }
+        .chart-controls { display: flex; gap: 8px; flex-wrap: wrap; }
         .chart-controls button {
-            background: var(--bg-card-solid);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
+            background: var(--bg-card-solid); border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; font-family: inherit;
         }
-
-        .chart-controls button:hover {
-            border-color: var(--accent-blue);
-            color: var(--text-primary);
+        .chart-controls button:hover { border-color: var(--accent-blue); color: var(--text-primary); }
+        .chart-controls button.active { background: rgba(59, 130, 246, 0.15); border-color: var(--accent-blue); color: var(--accent-blue); }
+        .chart-hint { font-size: 0.72rem; color: var(--text-secondary); margin-top: 10px; text-align: center; }
+        .chart-canvas-wrapper { position: relative; width: 100%; height: 450px; }
+        .chart-canvas-wrapper canvas { width: 100% !important; height: 100% !important; }
+        .computing-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(6,10,18,0.85);
+            display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--accent-blue);
+            border-radius: 14px; z-index: 10;
         }
-
-        .chart-controls button.active {
-            background: rgba(59, 130, 246, 0.15);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .chart-hint {
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .chart-canvas-wrapper {
-            position: relative;
-            width: 100%;
-            height: 450px;
-        }
-
-        .chart-canvas-wrapper canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        /* Two-column layout for stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        @media (max-width: 800px) {
-            .stats-grid { grid-template-columns: 1fr; }
-        }
-
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        @media (max-width: 800px) { .stats-grid { grid-template-columns: 1fr; } }
         .stats-panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 22px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px;
+            padding: 22px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
-
-        .stats-panel h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-        }
-
+        .stats-panel h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 16px; }
         .stats-panel h3.red { color: var(--accent-red); }
         .stats-panel h3.green { color: var(--accent-green); }
-
-        .prob-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .prob-table th {
-            text-align: left;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--text-secondary);
-            padding: 6px 8px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .prob-table td {
-            padding: 8px;
-            font-size: 0.88rem;
-            border-bottom: 1px solid rgba(20, 42, 62, 0.4);
-        }
-
-        .prob-table td:first-child {
-            font-weight: 600;
-            font-family: 'IBM Plex Sans', monospace;
-        }
-
-        .prob-bar-cell {
-            position: relative;
-        }
-
-        .prob-bar-bg {
-            position: absolute;
-            left: 0;
-            top: 2px;
-            bottom: 2px;
-            border-radius: 3px;
-            opacity: 0.2;
-        }
-
+        .prob-table { width: 100%; border-collapse: collapse; }
+        .prob-table th { text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); padding: 6px 8px; border-bottom: 1px solid var(--border); }
+        .prob-table td { padding: 8px; font-size: 0.88rem; border-bottom: 1px solid rgba(20, 42, 62, 0.4); }
+        .prob-table td:first-child { font-weight: 600; font-family: 'IBM Plex Sans', monospace; }
+        .prob-bar-cell { position: relative; }
+        .prob-bar-bg { position: absolute; left: 0; top: 2px; bottom: 2px; border-radius: 3px; opacity: 0.2; }
         .prob-bar-bg.red { background: var(--accent-red); }
         .prob-bar-bg.green { background: var(--accent-green); }
-
-        .prob-value {
-            position: relative;
-            z-index: 1;
-            font-weight: 600;
-            font-family: 'IBM Plex Sans', monospace;
-        }
-
-        /* Summary stats row in panels */
-        .panel-stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 16px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .panel-stat .ps-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-        }
-
-        .panel-stat .ps-value {
-            font-size: 1.05rem;
-            font-weight: 700;
-            font-family: 'IBM Plex Sans', monospace;
-        }
-
-        /* Event Outcome Histogram */
+        .prob-value { position: relative; z-index: 1; font-weight: 600; font-family: 'IBM Plex Sans', monospace; }
+        .panel-stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+        .panel-stat .ps-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); }
+        .panel-stat .ps-value { font-size: 1.05rem; font-weight: 700; font-family: 'IBM Plex Sans', monospace; }
         .histogram-section {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 24px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px;
+            padding: 22px; margin-bottom: 24px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
-
-        .histogram-section h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-        }
-
-        .histogram-canvas-wrapper {
-            position: relative;
-            width: 100%;
-            height: 280px;
-        }
-
-        /* Contest Breakdown */
+        .histogram-section h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 16px; }
+        .histogram-canvas-wrapper { position: relative; width: 100%; height: 280px; }
         .contest-breakdown {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 24px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px;
+            padding: 22px; margin-bottom: 24px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
-
-        .contest-breakdown h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-        }
-
-        .contest-breakdown-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .contest-breakdown-table th {
-            text-align: left;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--text-secondary);
-            padding: 8px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .contest-breakdown-table td {
-            padding: 10px 8px;
-            font-size: 0.88rem;
-            border-bottom: 1px solid rgba(20, 42, 62, 0.4);
-        }
-
-        /* Loading / Error */
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-
-        .error {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--accent-red);
-        }
-
-        /* Toggle for showing/hiding paths */
-        .toggle-group {
-            display: flex;
-            gap: 4px;
-            background: var(--bg-card-solid);
-            border-radius: 8px;
-            padding: 3px;
-            border: 1px solid var(--border);
-        }
-
-        .toggle-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .toggle-btn.active {
-            background: rgba(59, 130, 246, 0.2);
-            color: var(--accent-blue);
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .header h1 { font-size: 2.5rem; }
-            .summary-row { grid-template-columns: repeat(2, 1fr); }
-            .chart-canvas-wrapper { height: 320px; }
-        }
+        .contest-breakdown h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 16px; }
+        .contest-breakdown-table { width: 100%; border-collapse: collapse; }
+        .contest-breakdown-table th { text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); padding: 8px; border-bottom: 1px solid var(--border); }
+        .contest-breakdown-table td { padding: 10px 8px; font-size: 0.88rem; border-bottom: 1px solid rgba(20, 42, 62, 0.4); }
+        .loading { text-align: center; padding: 60px 20px; color: var(--text-secondary); font-size: 1.1rem; }
+        .error { text-align: center; padding: 60px 20px; color: var(--accent-red); }
+        .toggle-group { display: flex; gap: 4px; background: var(--bg-card-solid); border-radius: 8px; padding: 3px; border: 1px solid var(--border); }
+        .toggle-btn { background: transparent; border: none; color: var(--text-secondary); padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .toggle-btn.active { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+        @media (max-width: 600px) { .header h1 { font-size: 2.5rem; } .summary-row { grid-template-columns: repeat(2, 1fr); } .chart-canvas-wrapper { height: 320px; } }
     </style>
 </head>
 <body>
-
 <a href="index.html" class="back-link">&#8592; Back to Contest Results</a>
-
 <div class="container">
     <div class="header">
         <h1>VARIANCE <span>SIMULATOR</span></h1>
         <p class="subtitle">Monte Carlo Bankroll Trajectory Analysis</p>
         <div class="username-badge" id="username-badge">Loading...</div>
     </div>
-
     <div id="loading" class="loading">Loading variance data...</div>
     <div id="error" class="error" style="display:none;"></div>
-
     <div id="dashboard" style="display:none;">
-        <!-- Contest Filter -->
         <div class="contest-filter" id="contest-filter"></div>
-
-        <!-- Summary Cards -->
+        <div class="filter-hint" id="filter-hint">Click contests to toggle. Combine multiple to see combined variance.</div>
         <div class="summary-row" id="summary-row"></div>
-
-        <!-- Main Chart -->
-        <div class="chart-section">
+        <div class="chart-section" style="position:relative;">
+            <div class="computing-overlay" id="computing-overlay" style="display:none;">Computing paths...</div>
             <div class="chart-header">
                 <h2 id="chart-title">Bankroll Trajectories</h2>
                 <div class="chart-controls">
@@ -487,58 +160,26 @@
             </div>
             <div class="chart-hint">Scroll to zoom in/out. Click and drag to pan. Double-click to reset.</div>
         </div>
-
-        <!-- Drawdown / Upswing Stats -->
         <div class="stats-grid">
-            <div class="stats-panel" id="drawdown-panel">
+            <div class="stats-panel">
                 <h3 class="red">DRAWDOWN RISK</h3>
                 <div class="panel-stats-row" id="dd-summary"></div>
-                <table class="prob-table" id="dd-table">
-                    <thead>
-                        <tr>
-                            <th>Drawdown Size</th>
-                            <th id="dd-prob-header">Probability</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <table class="prob-table" id="dd-table"><thead><tr><th>Drawdown Size</th><th id="dd-prob-header">Probability</th></tr></thead><tbody></tbody></table>
             </div>
-            <div class="stats-panel" id="upswing-panel">
+            <div class="stats-panel">
                 <h3 class="green">UPSWING POTENTIAL</h3>
                 <div class="panel-stats-row" id="us-summary"></div>
-                <table class="prob-table" id="us-table">
-                    <thead>
-                        <tr>
-                            <th>Upswing Size</th>
-                            <th id="us-prob-header">Probability</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <table class="prob-table" id="us-table"><thead><tr><th>Upswing Size</th><th id="us-prob-header">Probability</th></tr></thead><tbody></tbody></table>
             </div>
         </div>
-
-        <!-- Single-Event Histogram -->
         <div class="histogram-section">
             <h3 id="histogram-title">SINGLE EVENT OUTCOME DISTRIBUTION</h3>
-            <div class="histogram-canvas-wrapper">
-                <canvas id="histogram-chart"></canvas>
-            </div>
+            <div class="histogram-canvas-wrapper"><canvas id="histogram-chart"></canvas></div>
         </div>
-
-        <!-- Contest Breakdown (only shown in "All Contests" view) -->
         <div class="contest-breakdown" id="contest-section" style="display:none;">
             <h3>PER-CONTEST BREAKDOWN</h3>
             <table class="contest-breakdown-table" id="contest-table">
-                <thead>
-                    <tr>
-                        <th>Contest</th>
-                        <th>Avg Net</th>
-                        <th>Std Dev</th>
-                        <th>Worst</th>
-                        <th>Best</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Contest</th><th>Avg Net</th><th>Std Dev</th><th>Worst</th><th>Best</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
@@ -547,15 +188,12 @@
 
 <script>
 const DATA_URL = 'variance_data.json';
-
 const formatMoney = (v) => {
-    const abs = Math.abs(v);
-    const sign = v < 0 ? '-' : '';
+    const abs = Math.abs(v); const sign = v < 0 ? '-' : '';
     if (abs >= 1000000) return sign + '$' + (abs / 1000000).toFixed(1) + 'M';
     if (abs >= 1000) return sign + '$' + (abs / 1000).toFixed(abs >= 100000 ? 0 : 1) + 'K';
     return sign + '$' + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
 };
-
 const formatMoneyFull = (v) => {
     const sign = v < 0 ? '-$' : '$';
     return sign + Math.abs(v).toLocaleString(undefined, { maximumFractionDigits: 0 });
@@ -565,14 +203,143 @@ let bankrollChart = null;
 let histogramChart = null;
 let varianceData = null;
 let currentView = 'envelope';
-let currentContest = 'all'; // 'all' or a contest name
+let selectedContests = new Set(); // empty = all
 
-// Get the active data block (all contests or a specific contest)
-function getActiveBlock() {
-    if (currentContest === 'all') {
-        return varianceData;
+// Seeded RNG for reproducible client-side paths
+function mulberry32(a) {
+    return function() {
+        a |= 0; a = a + 0x6D2B79F5 | 0;
+        var t = Math.imul(a ^ a >>> 15, 1 | a);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
+// Combine selected contest samples into one outcomes array
+function getCombinedOutcomes() {
+    const samples = varianceData.contest_samples;
+    const contests = selectedContests.size > 0 ? [...selectedContests] : varianceData.contests;
+    const n = varianceData.sample_size;
+    const combined = new Float64Array(n);
+    for (const cname of contests) {
+        if (!samples[cname]) continue;
+        const s = samples[cname];
+        for (let i = 0; i < n; i++) combined[i] += s[i];
     }
-    return varianceData.by_contest[currentContest];
+    return combined;
+}
+
+// Client-side variance computation (mirrors Python compute_variance_block)
+function computeVarianceBlock(outcomes) {
+    const n = outcomes.length;
+    const numPaths = varianceData.num_paths || 500;
+    const pathLength = varianceData.path_length || 100;
+    const rng = mulberry32(42);
+
+    // Single-event stats
+    let sum = 0, min = Infinity, max = -Infinity;
+    for (let i = 0; i < n; i++) { sum += outcomes[i]; if (outcomes[i] < min) min = outcomes[i]; if (outcomes[i] > max) max = outcomes[i]; }
+    const mean = sum / n;
+    let sumSq = 0;
+    for (let i = 0; i < n; i++) sumSq += (outcomes[i] - mean) ** 2;
+    const std = Math.sqrt(sumSq / n);
+    // Median
+    const sorted = Float64Array.from(outcomes).sort();
+    const median = sorted[Math.floor(n / 2)];
+
+    // Histogram
+    const histBins = 50;
+    const binEdges = [];
+    for (let i = 0; i <= histBins; i++) binEdges.push(min + (max - min) * i / histBins);
+    const counts = new Array(histBins).fill(0);
+    for (let i = 0; i < n; i++) {
+        let b = Math.floor((outcomes[i] - min) / ((max - min) || 1) * histBins);
+        if (b >= histBins) b = histBins - 1;
+        if (b < 0) b = 0;
+        counts[b]++;
+    }
+
+    // Generate paths
+    const paths = [];
+    for (let p = 0; p < numPaths; p++) {
+        const path = new Float64Array(pathLength);
+        let cumSum = 0;
+        for (let s = 0; s < pathLength; s++) {
+            const idx = Math.floor(rng() * n);
+            cumSum += outcomes[idx];
+            path[s] = cumSum;
+        }
+        paths.push(path);
+    }
+
+    // Envelope percentiles
+    const pcts = [1, 5, 10, 25, 50, 75, 90, 95, 99];
+    const envelope = {};
+    for (const pct of pcts) envelope['p' + pct] = [];
+    for (let s = 0; s < pathLength; s++) {
+        const col = new Float64Array(numPaths);
+        for (let p = 0; p < numPaths; p++) col[p] = paths[p][s];
+        col.sort();
+        for (const pct of pcts) {
+            const idx = Math.min(Math.floor(pct / 100 * numPaths), numPaths - 1);
+            envelope['p' + pct].push(Math.round(col[idx] * 100) / 100);
+        }
+    }
+
+    // Drawdown / upswing
+    const maxDrawdowns = new Float64Array(numPaths);
+    const maxUpswings = new Float64Array(numPaths);
+    for (let p = 0; p < numPaths; p++) {
+        let runMax = 0, runMin = 0, maxDD = 0, maxUS = 0;
+        for (let s = 0; s < pathLength; s++) {
+            const v = paths[p][s];
+            if (v > runMax) runMax = v;
+            if (v < runMin) runMin = v;
+            const dd = runMax - v;
+            const us = v - runMin;
+            if (dd > maxDD) maxDD = dd;
+            if (us > maxUS) maxUS = us;
+        }
+        maxDrawdowns[p] = maxDD;
+        maxUpswings[p] = maxUS;
+    }
+
+    // Probabilities
+    const thresholds = [5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000, 75000, 100000, 150000, 200000];
+    const ddProbs = {}, usProbs = {};
+    for (const t of thresholds) {
+        let ddCount = 0, usCount = 0;
+        for (let p = 0; p < numPaths; p++) { if (maxDrawdowns[p] >= t) ddCount++; if (maxUpswings[p] >= t) usCount++; }
+        const ddPct = (ddCount / numPaths) * 100, usPct = (usCount / numPaths) * 100;
+        if (ddPct > 0.01 || t <= 50000) ddProbs[t] = Math.round(ddPct * 100) / 100;
+        if (usPct > 0.01 || t <= 50000) usProbs[t] = Math.round(usPct * 100) / 100;
+    }
+
+    // Sort drawdowns for percentiles
+    maxDrawdowns.sort(); maxUpswings.sort();
+    const p95i = Math.min(Math.floor(0.95 * numPaths), numPaths - 1);
+    const p99i = Math.min(Math.floor(0.99 * numPaths), numPaths - 1);
+
+    // Display paths (100 evenly spaced by final value)
+    const finalVals = paths.map(p => p[pathLength - 1]);
+    const sortedIdx = finalVals.map((v, i) => i).sort((a, b) => finalVals[a] - finalVals[b]);
+    const displayCount = Math.min(100, numPaths);
+    const displayPaths = [];
+    for (let i = 0; i < displayCount; i++) {
+        const idx = sortedIdx[Math.floor(i * numPaths / displayCount)];
+        displayPaths.push(Array.from(paths[idx]).map(v => Math.round(v * 100) / 100));
+    }
+
+    let ddSum = 0, usSum = 0;
+    for (let i = 0; i < numPaths; i++) { ddSum += maxDrawdowns[i]; usSum += maxUpswings[i]; }
+
+    return {
+        single_event: { mean: Math.round(mean * 100) / 100, std: Math.round(std * 100) / 100, min: Math.round(min * 100) / 100, max: Math.round(max * 100) / 100, median: Math.round(median * 100) / 100, histogram: { counts, bin_edges: binEdges.map(v => Math.round(v * 100) / 100) } },
+        envelope, paths: displayPaths,
+        config: { num_paths: numPaths, path_length: pathLength, display_paths: displayCount },
+        drawdown_stats: { mean: Math.round(ddSum / numPaths * 100) / 100, median: Math.round(maxDrawdowns[Math.floor(numPaths / 2)] * 100) / 100, p95: Math.round(maxDrawdowns[p95i] * 100) / 100, p99: Math.round(maxDrawdowns[p99i] * 100) / 100, max: Math.round(maxDrawdowns[numPaths - 1] * 100) / 100, probabilities: ddProbs },
+        upswing_stats: { mean: Math.round(usSum / numPaths * 100) / 100, median: Math.round(maxUpswings[Math.floor(numPaths / 2)] * 100) / 100, p95: Math.round(maxUpswings[p95i] * 100) / 100, p99: Math.round(maxUpswings[p99i] * 100) / 100, max: Math.round(maxUpswings[numPaths - 1] * 100) / 100, probabilities: usProbs },
+    };
 }
 
 async function loadData() {
@@ -589,45 +356,68 @@ async function loadData() {
         document.getElementById('loading').style.display = 'none';
         const errorEl = document.getElementById('error');
         errorEl.style.display = 'block';
-        errorEl.innerHTML = `
-            <p style="font-size:1.2rem;margin-bottom:10px;">Could not load variance data</p>
-            <p style="color:var(--text-secondary);font-size:0.9rem;">
-                Run <code>PublishVariance.py</code> first to generate <code>variance_data.json</code>.
-            </p>
-        `;
+        errorEl.innerHTML = '<p style="font-size:1.2rem;margin-bottom:10px;">Could not load variance data</p><p style="color:var(--text-secondary);font-size:0.9rem;">Run <code>PublishVariance.py</code> first to generate <code>variance_data.json</code>.</p>';
     }
 }
 
 function buildContestFilter() {
     const filterEl = document.getElementById('contest-filter');
-    const contests = varianceData.by_contest ? Object.keys(varianceData.by_contest) : [];
-    if (contests.length === 0) {
-        filterEl.style.display = 'none';
-        return;
-    }
-
-    let html = `<button class="contest-filter-btn active" data-contest="all">All Contests</button>`;
-    contests.forEach(name => {
-        html += `<button class="contest-filter-btn" data-contest="${name}">${name}</button>`;
-    });
+    const contests = varianceData.contests || [];
+    if (contests.length === 0) { filterEl.style.display = 'none'; document.getElementById('filter-hint').style.display = 'none'; return; }
+    let html = '<button class="contest-filter-btn all-btn active" data-contest="__all__">All Contests</button>';
+    contests.forEach(name => { html += '<button class="contest-filter-btn" data-contest="' + name + '">' + name + '</button>'; });
     filterEl.innerHTML = html;
 
     filterEl.querySelectorAll('.contest-filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            filterEl.querySelectorAll('.contest-filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentContest = btn.dataset.contest;
+            const contest = btn.dataset.contest;
+            if (contest === '__all__') {
+                // All button: clear selection (= show all)
+                selectedContests.clear();
+                filterEl.querySelectorAll('.contest-filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            } else {
+                // Toggle this contest
+                filterEl.querySelector('[data-contest="__all__"]').classList.remove('active');
+                if (selectedContests.has(contest)) {
+                    selectedContests.delete(contest);
+                    btn.classList.remove('active');
+                } else {
+                    selectedContests.add(contest);
+                    btn.classList.add('active');
+                }
+                // If none selected, revert to all
+                if (selectedContests.size === 0) {
+                    filterEl.querySelector('[data-contest="__all__"]').classList.add('active');
+                }
+                // If all individually selected, same as "All"
+                if (selectedContests.size === contests.length) {
+                    selectedContests.clear();
+                    filterEl.querySelectorAll('.contest-filter-btn').forEach(b => b.classList.remove('active'));
+                    filterEl.querySelector('[data-contest="__all__"]').classList.add('active');
+                }
+            }
             renderAll();
         });
     });
 }
 
 function renderAll() {
-    const block = getActiveBlock();
-    if (!block) return;
+    const isAll = selectedContests.size === 0;
+    let block, contestLabel;
 
-    const isAll = currentContest === 'all';
-    const contestLabel = isAll ? 'All Contests' : currentContest;
+    if (isAll) {
+        // Use pre-computed "all contests" data from Python
+        block = varianceData;
+        contestLabel = 'All Contests';
+    } else {
+        // Compute on-the-fly from raw samples
+        document.getElementById('computing-overlay').style.display = 'flex';
+        const outcomes = getCombinedOutcomes();
+        block = computeVarianceBlock(outcomes);
+        contestLabel = [...selectedContests].join(' + ');
+        document.getElementById('computing-overlay').style.display = 'none';
+    }
 
     renderSummaryCards(block);
     renderBankrollChart(block, contestLabel);
@@ -635,25 +425,22 @@ function renderAll() {
     renderUpswingPanel(block);
     renderHistogram(block, contestLabel);
 
-    // Contest breakdown table only shows in "all" view
-    if (isAll && varianceData.by_contest && Object.keys(varianceData.by_contest).length > 0) {
+    // Contest breakdown only in "all" view
+    if (isAll && varianceData.contest_samples && Object.keys(varianceData.contest_samples).length > 1) {
         renderContestBreakdown();
         document.getElementById('contest-section').style.display = '';
     } else {
         document.getElementById('contest-section').style.display = 'none';
     }
 
-    // Update probability headers
     const pathLen = block.config.path_length;
-    document.getElementById('dd-prob-header').textContent = `Probability (over ${pathLen} events)`;
-    document.getElementById('us-prob-header').textContent = `Probability (over ${pathLen} events)`;
-
+    document.getElementById('dd-prob-header').textContent = 'Probability (over ' + pathLen + ' events)';
+    document.getElementById('us-prob-header').textContent = 'Probability (over ' + pathLen + ' events)';
     setupControls();
 }
 
 function renderSummaryCards(block) {
     const ev = block.single_event;
-    const summaryRow = document.getElementById('summary-row');
     const cards = [
         { label: 'Per-Event EV', value: formatMoneyFull(ev.mean), cls: ev.mean >= 0 ? 'positive' : 'negative' },
         { label: 'Per-Event Std Dev', value: formatMoneyFull(ev.std), cls: 'neutral' },
@@ -662,79 +449,42 @@ function renderSummaryCards(block) {
         { label: 'Avg Max Drawdown', value: formatMoneyFull(block.drawdown_stats.mean), cls: 'negative' },
         { label: 'Avg Max Upswing', value: formatMoneyFull(block.upswing_stats.mean), cls: 'positive' },
     ];
-    summaryRow.innerHTML = cards.map(c => `
-        <div class="summary-card">
-            <div class="label">${c.label}</div>
-            <div class="value ${c.cls}">${c.value}</div>
-        </div>
-    `).join('');
+    document.getElementById('summary-row').innerHTML = cards.map(c => '<div class="summary-card"><div class="label">' + c.label + '</div><div class="value ' + c.cls + '">' + c.value + '</div></div>').join('');
 }
 
 function renderBankrollChart(block, contestLabel) {
-    // Destroy old chart
     if (bankrollChart) { bankrollChart.destroy(); bankrollChart = null; }
-
     const pathLen = block.config.path_length;
     const labels = Array.from({ length: pathLen }, (_, i) => i + 1);
+    document.getElementById('chart-title').textContent = 'Bankroll Trajectories \u2014 ' + contestLabel;
 
-    document.getElementById('chart-title').textContent =
-        `Bankroll Trajectories — ${contestLabel}`;
-
-    const envelopeDatasets = buildEnvelopeDatasets(block.envelope, pathLen);
-    const pathDatasets = buildPathDatasets(block.paths, pathLen);
-    const allDatasets = [...envelopeDatasets, ...pathDatasets];
-    updateDatasetVisibility(allDatasets, currentView);
+    const envelopeDS = buildEnvelopeDatasets(block.envelope, pathLen);
+    const pathDS = buildPathDatasets(block.paths);
+    const allDS = [...envelopeDS, ...pathDS];
+    updateVis(allDS, currentView);
 
     const ctx = document.getElementById('bankroll-chart').getContext('2d');
     bankrollChart = new Chart(ctx, {
-        type: 'line',
-        data: { labels, datasets: allDatasets },
+        type: 'line', data: { labels, datasets: allDS },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
+            responsive: true, maintainAspectRatio: false, animation: false,
             interaction: { mode: 'index', intersect: false },
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    enabled: true,
-                    backgroundColor: 'rgba(12, 25, 40, 0.95)',
-                    titleColor: '#e8edf5',
-                    bodyColor: '#7a8599',
-                    borderColor: 'rgba(20, 42, 62, 0.8)',
-                    borderWidth: 1,
-                    padding: 12,
-                    displayColors: false,
+                    enabled: true, backgroundColor: 'rgba(12,25,40,0.95)', titleColor: '#e8edf5', bodyColor: '#7a8599',
+                    borderColor: 'rgba(20,42,62,0.8)', borderWidth: 1, padding: 12, displayColors: false,
                     callbacks: {
-                        title: (items) => `Event #${items[0].label}`,
-                        label: (ctx) => {
-                            if (ctx.dataset.isEnvelopeFill) return null;
-                            return `${ctx.dataset.label}: ${formatMoneyFull(ctx.parsed.y)}`;
-                        },
+                        title: (items) => 'Event #' + items[0].label,
+                        label: (ctx) => ctx.dataset._isFill ? null : ctx.dataset.label + ': ' + formatMoneyFull(ctx.parsed.y),
                     },
-                    filter: (item) => !item.dataset.isEnvelopeFill,
+                    filter: (item) => !item.dataset._isFill,
                 },
-                zoom: {
-                    pan: { enabled: true, mode: 'xy' },
-                    zoom: {
-                        wheel: { enabled: true, speed: 0.08 },
-                        pinch: { enabled: true },
-                        drag: { enabled: false },
-                        mode: 'xy',
-                    },
-                },
+                zoom: { pan: { enabled: true, mode: 'xy' }, zoom: { wheel: { enabled: true, speed: 0.08 }, pinch: { enabled: true }, drag: { enabled: false }, mode: 'xy' } },
             },
             scales: {
-                x: {
-                    title: { display: true, text: 'Event #', color: '#7a8599', font: { size: 12 } },
-                    ticks: { color: '#7a8599', maxTicksLimit: 20 },
-                    grid: { color: 'rgba(20, 42, 62, 0.3)' },
-                },
-                y: {
-                    title: { display: true, text: 'Cumulative Profit / Loss ($)', color: '#7a8599', font: { size: 12 } },
-                    ticks: { color: '#7a8599', callback: (v) => formatMoney(v) },
-                    grid: { color: 'rgba(20, 42, 62, 0.3)' },
-                },
+                x: { title: { display: true, text: 'Event #', color: '#7a8599', font: { size: 12 } }, ticks: { color: '#7a8599', maxTicksLimit: 20 }, grid: { color: 'rgba(20,42,62,0.3)' } },
+                y: { title: { display: true, text: 'Cumulative Profit / Loss ($)', color: '#7a8599', font: { size: 12 } }, ticks: { color: '#7a8599', callback: (v) => formatMoney(v) }, grid: { color: 'rgba(20,42,62,0.3)' } },
             },
         },
     });
@@ -742,237 +492,107 @@ function renderBankrollChart(block, contestLabel) {
 
 function buildEnvelopeDatasets(envelope, pathLen) {
     const bands = [
-        { lo: 'p1', hi: 'p99', color: 'rgba(59, 130, 246, 0.06)', label: 'p1-p99' },
-        { lo: 'p5', hi: 'p95', color: 'rgba(59, 130, 246, 0.10)', label: 'p5-p95' },
-        { lo: 'p10', hi: 'p90', color: 'rgba(59, 130, 246, 0.14)', label: 'p10-p90' },
-        { lo: 'p25', hi: 'p75', color: 'rgba(59, 130, 246, 0.20)', label: 'p25-p75' },
+        { lo: 'p1', hi: 'p99', color: 'rgba(59,130,246,0.06)' },
+        { lo: 'p5', hi: 'p95', color: 'rgba(59,130,246,0.10)' },
+        { lo: 'p10', hi: 'p90', color: 'rgba(59,130,246,0.14)' },
+        { lo: 'p25', hi: 'p75', color: 'rgba(59,130,246,0.20)' },
     ];
-
-    const datasets = [];
-    bands.forEach(band => {
-        datasets.push({
-            label: band.label + ' upper',
-            data: envelope[band.hi],
-            borderColor: 'transparent', backgroundColor: 'transparent',
-            pointRadius: 0, borderWidth: 0, fill: false,
-            isEnvelope: true, isEnvelopeFill: true,
-        });
-        datasets.push({
-            label: band.label,
-            data: envelope[band.lo],
-            borderColor: 'transparent', backgroundColor: band.color,
-            pointRadius: 0, borderWidth: 0, fill: '-1',
-            isEnvelope: true, isEnvelopeFill: true,
-        });
+    const ds = [];
+    bands.forEach(b => {
+        ds.push({ label: b.lo+'-'+b.hi+' hi', data: envelope[b.hi], borderColor: 'transparent', backgroundColor: 'transparent', pointRadius: 0, borderWidth: 0, fill: false, _isEnv: true, _isFill: true });
+        ds.push({ label: b.lo+'-'+b.hi, data: envelope[b.lo], borderColor: 'transparent', backgroundColor: b.color, pointRadius: 0, borderWidth: 0, fill: '-1', _isEnv: true, _isFill: true });
     });
-
-    datasets.push({
-        label: 'Median (p50)',
-        data: envelope['p50'],
-        borderColor: '#3b82f6', backgroundColor: 'transparent',
-        borderWidth: 2.5, pointRadius: 0, fill: false,
-        isEnvelope: true,
-    });
-
-    datasets.push({
-        label: 'Breakeven',
-        data: Array(pathLen).fill(0),
-        borderColor: 'rgba(255, 255, 255, 0.15)',
-        borderWidth: 1, borderDash: [6, 4], pointRadius: 0, fill: false,
-        isEnvelope: true, isEnvelopeFill: true,
-    });
-
-    return datasets;
+    ds.push({ label: 'Median (p50)', data: envelope['p50'], borderColor: '#3b82f6', backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 0, fill: false, _isEnv: true });
+    ds.push({ label: 'Breakeven', data: Array(pathLen).fill(0), borderColor: 'rgba(255,255,255,0.15)', borderWidth: 1, borderDash: [6,4], pointRadius: 0, fill: false, _isEnv: true, _isFill: true });
+    return ds;
 }
 
-function buildPathDatasets(paths, pathLen) {
+function buildPathDatasets(paths) {
     return paths.map((path, i) => {
-        const finalVal = path[path.length - 1];
-        const alpha = 0.25;
-        const color = finalVal >= 0
-            ? `rgba(0, 255, 136, ${alpha})`
-            : `rgba(255, 68, 102, ${alpha})`;
-        return {
-            label: `Path ${i + 1}`,
-            data: path,
-            borderColor: color, backgroundColor: 'transparent',
-            borderWidth: 0.8, pointRadius: 0, fill: false,
-            isPath: true,
-        };
+        const fv = path[path.length - 1];
+        const color = fv >= 0 ? 'rgba(0,255,136,0.25)' : 'rgba(255,68,102,0.25)';
+        return { label: 'Path ' + (i+1), data: path, borderColor: color, backgroundColor: 'transparent', borderWidth: 0.8, pointRadius: 0, fill: false, _isPath: true };
     });
 }
 
-function updateDatasetVisibility(datasets, view) {
+function updateVis(datasets, view) {
     datasets.forEach(ds => {
-        if (ds.isEnvelope || ds.isEnvelopeFill) ds.hidden = view === 'paths';
-        if (ds.isPath) ds.hidden = view === 'envelope';
+        if (ds._isEnv || ds._isFill) ds.hidden = view === 'paths';
+        if (ds._isPath) ds.hidden = view === 'envelope';
     });
 }
 
 function setupControls() {
-    // View toggle (re-wire since renderAll may run multiple times)
     document.querySelectorAll('#view-toggle .toggle-btn').forEach(btn => {
-        const newBtn = btn.cloneNode(true);
-        btn.parentNode.replaceChild(newBtn, btn);
-        if (newBtn.dataset.view === currentView) newBtn.classList.add('active');
-        else newBtn.classList.remove('active');
-        newBtn.addEventListener('click', () => {
+        const nb = btn.cloneNode(true);
+        btn.parentNode.replaceChild(nb, btn);
+        if (nb.dataset.view === currentView) nb.classList.add('active'); else nb.classList.remove('active');
+        nb.addEventListener('click', () => {
             document.querySelectorAll('#view-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
-            newBtn.classList.add('active');
-            currentView = newBtn.dataset.view;
-            if (bankrollChart) {
-                updateDatasetVisibility(bankrollChart.data.datasets, currentView);
-                bankrollChart.update();
-            }
+            nb.classList.add('active'); currentView = nb.dataset.view;
+            if (bankrollChart) { updateVis(bankrollChart.data.datasets, currentView); bankrollChart.update(); }
         });
     });
-
-    const resetBtn = document.getElementById('btn-reset-zoom');
-    const newResetBtn = resetBtn.cloneNode(true);
-    resetBtn.parentNode.replaceChild(newResetBtn, resetBtn);
-    newResetBtn.addEventListener('click', () => { if (bankrollChart) bankrollChart.resetZoom(); });
-
-    const canvas = document.getElementById('bankroll-chart');
-    canvas.ondblclick = () => { if (bankrollChart) bankrollChart.resetZoom(); };
+    const rb = document.getElementById('btn-reset-zoom');
+    const nrb = rb.cloneNode(true); rb.parentNode.replaceChild(nrb, rb);
+    nrb.addEventListener('click', () => { if (bankrollChart) bankrollChart.resetZoom(); });
+    document.getElementById('bankroll-chart').ondblclick = () => { if (bankrollChart) bankrollChart.resetZoom(); };
 }
 
 function renderDrawdownPanel(block) {
     const dd = block.drawdown_stats;
-    document.getElementById('dd-summary').innerHTML = `
-        <div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">${formatMoneyFull(dd.mean)}</div></div>
-        <div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">${formatMoneyFull(dd.median)}</div></div>
-        <div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">${formatMoneyFull(dd.p95)}</div></div>
-        <div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">${formatMoneyFull(dd.p99)}</div></div>
-    `;
-
-    const probs = dd.probabilities;
-    const maxProb = Math.max(...Object.values(probs), 1);
-    document.querySelector('#dd-table tbody').innerHTML = Object.entries(probs).map(([threshold, prob]) => `
-        <tr>
-            <td>${formatMoneyFull(parseInt(threshold))}+</td>
-            <td class="prob-bar-cell">
-                <div class="prob-bar-bg red" style="width:${(prob / maxProb) * 100}%"></div>
-                <span class="prob-value">${prob.toFixed(1)}%</span>
-            </td>
-        </tr>
-    `).join('');
+    document.getElementById('dd-summary').innerHTML = '<div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">' + formatMoneyFull(dd.mean) + '</div></div><div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">' + formatMoneyFull(dd.median) + '</div></div><div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">' + formatMoneyFull(dd.p95) + '</div></div><div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">' + formatMoneyFull(dd.p99) + '</div></div>';
+    const probs = dd.probabilities; const maxP = Math.max(...Object.values(probs), 1);
+    document.querySelector('#dd-table tbody').innerHTML = Object.entries(probs).map(([t, p]) => '<tr><td>' + formatMoneyFull(parseInt(t)) + '+</td><td class="prob-bar-cell"><div class="prob-bar-bg red" style="width:' + (p/maxP*100) + '%"></div><span class="prob-value">' + p.toFixed(1) + '%</span></td></tr>').join('');
 }
 
 function renderUpswingPanel(block) {
     const us = block.upswing_stats;
-    document.getElementById('us-summary').innerHTML = `
-        <div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">${formatMoneyFull(us.mean)}</div></div>
-        <div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">${formatMoneyFull(us.median)}</div></div>
-        <div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">${formatMoneyFull(us.p95)}</div></div>
-        <div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">${formatMoneyFull(us.p99)}</div></div>
-    `;
-
-    const probs = us.probabilities;
-    const maxProb = Math.max(...Object.values(probs), 1);
-    document.querySelector('#us-table tbody').innerHTML = Object.entries(probs).map(([threshold, prob]) => `
-        <tr>
-            <td>${formatMoneyFull(parseInt(threshold))}+</td>
-            <td class="prob-bar-cell">
-                <div class="prob-bar-bg green" style="width:${(prob / maxProb) * 100}%"></div>
-                <span class="prob-value">${prob.toFixed(1)}%</span>
-            </td>
-        </tr>
-    `).join('');
+    document.getElementById('us-summary').innerHTML = '<div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">' + formatMoneyFull(us.mean) + '</div></div><div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">' + formatMoneyFull(us.median) + '</div></div><div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">' + formatMoneyFull(us.p95) + '</div></div><div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">' + formatMoneyFull(us.p99) + '</div></div>';
+    const probs = us.probabilities; const maxP = Math.max(...Object.values(probs), 1);
+    document.querySelector('#us-table tbody').innerHTML = Object.entries(probs).map(([t, p]) => '<tr><td>' + formatMoneyFull(parseInt(t)) + '+</td><td class="prob-bar-cell"><div class="prob-bar-bg green" style="width:' + (p/maxP*100) + '%"></div><span class="prob-value">' + p.toFixed(1) + '%</span></td></tr>').join('');
 }
 
 function renderHistogram(block, contestLabel) {
     if (histogramChart) { histogramChart.destroy(); histogramChart = null; }
-
-    document.getElementById('histogram-title').textContent =
-        `SINGLE EVENT OUTCOME DISTRIBUTION — ${contestLabel}`;
-
-    const hist = block.single_event.histogram;
-    const edges = hist.bin_edges;
-    const counts = hist.counts;
+    document.getElementById('histogram-title').textContent = 'SINGLE EVENT OUTCOME DISTRIBUTION \u2014 ' + contestLabel;
+    const hist = block.single_event.histogram; const edges = hist.bin_edges; const counts = hist.counts;
     const total = counts.reduce((a, b) => a + b, 0);
-
-    const labels = [];
-    const data = [];
-    const colors = [];
+    const labels = [], data = [], colors = [];
     for (let i = 0; i < counts.length; i++) {
         const mid = (edges[i] + edges[i + 1]) / 2;
-        labels.push(formatMoney(mid));
-        data.push(((counts[i] / total) * 100));
-        colors.push(mid >= 0 ? 'rgba(0, 255, 136, 0.5)' : 'rgba(255, 68, 102, 0.5)');
+        labels.push(formatMoney(mid)); data.push((counts[i] / total) * 100);
+        colors.push(mid >= 0 ? 'rgba(0,255,136,0.5)' : 'rgba(255,68,102,0.5)');
     }
-
     const ctx = document.getElementById('histogram-chart').getContext('2d');
     histogramChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                data,
-                backgroundColor: colors,
-                borderColor: colors.map(c => c.replace('0.5', '0.8')),
-                borderWidth: 1,
-            }],
-        },
+        type: 'bar', data: { labels, datasets: [{ data, backgroundColor: colors, borderColor: colors.map(c => c.replace('0.5','0.8')), borderWidth: 1 }] },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: 'rgba(12, 25, 40, 0.95)',
-                    titleColor: '#e8edf5',
-                    bodyColor: '#7a8599',
-                    borderColor: 'rgba(20, 42, 62, 0.8)',
-                    borderWidth: 1,
-                    callbacks: {
-                        title: (items) => {
-                            const idx = items[0].dataIndex;
-                            return `${formatMoney(edges[idx])} to ${formatMoney(edges[idx + 1])}`;
-                        },
-                        label: (ctx) => `${ctx.parsed.y.toFixed(1)}% of outcomes`,
-                    },
-                },
-            },
+            responsive: true, maintainAspectRatio: false, animation: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(12,25,40,0.95)', titleColor: '#e8edf5', bodyColor: '#7a8599', borderColor: 'rgba(20,42,62,0.8)', borderWidth: 1, callbacks: { title: (items) => formatMoney(edges[items[0].dataIndex]) + ' to ' + formatMoney(edges[items[0].dataIndex + 1]), label: (ctx) => ctx.parsed.y.toFixed(1) + '% of outcomes' } } },
             scales: {
-                x: {
-                    ticks: { color: '#7a8599', maxTicksLimit: 12, maxRotation: 45 },
-                    grid: { display: false },
-                    title: { display: true, text: 'Net Profit / Loss', color: '#7a8599' },
-                },
-                y: {
-                    ticks: { color: '#7a8599', callback: (v) => v.toFixed(0) + '%' },
-                    grid: { color: 'rgba(20, 42, 62, 0.3)' },
-                    title: { display: true, text: '% of Outcomes', color: '#7a8599' },
-                },
+                x: { ticks: { color: '#7a8599', maxTicksLimit: 12, maxRotation: 45 }, grid: { display: false }, title: { display: true, text: 'Net Profit / Loss', color: '#7a8599' } },
+                y: { ticks: { color: '#7a8599', callback: (v) => v.toFixed(0) + '%' }, grid: { color: 'rgba(20,42,62,0.3)' }, title: { display: true, text: '% of Outcomes', color: '#7a8599' } },
             },
         },
     });
 }
 
 function renderContestBreakdown() {
-    const byContest = varianceData.by_contest;
-    if (!byContest) return;
-
+    const samples = varianceData.contest_samples;
+    if (!samples) return;
     const tbody = document.querySelector('#contest-table tbody');
-    tbody.innerHTML = Object.entries(byContest).map(([name, block]) => {
-        const s = block.single_event;
-        return `
-        <tr>
-            <td>${name}</td>
-            <td style="color:${s.mean >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};font-weight:600;font-family:'IBM Plex Sans',monospace;">
-                ${formatMoneyFull(s.mean)}
-            </td>
-            <td style="font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.std)}</td>
-            <td style="color:var(--accent-red);font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.min)}</td>
-            <td style="color:var(--accent-green);font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.max)}</td>
-        </tr>`;
+    tbody.innerHTML = Object.entries(samples).map(([name, arr]) => {
+        let sum = 0, min = Infinity, max = -Infinity;
+        for (let i = 0; i < arr.length; i++) { sum += arr[i]; if (arr[i] < min) min = arr[i]; if (arr[i] > max) max = arr[i]; }
+        const mean = sum / arr.length;
+        let sumSq = 0; for (let i = 0; i < arr.length; i++) sumSq += (arr[i] - mean) ** 2;
+        const std = Math.sqrt(sumSq / arr.length);
+        return '<tr><td>' + name + '</td><td style="color:' + (mean >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';font-weight:600;font-family:IBM Plex Sans,monospace;">' + formatMoneyFull(mean) + '</td><td style="font-family:IBM Plex Sans,monospace;">' + formatMoneyFull(std) + '</td><td style="color:var(--accent-red);font-family:IBM Plex Sans,monospace;">' + formatMoneyFull(min) + '</td><td style="color:var(--accent-green);font-family:IBM Plex Sans,monospace;">' + formatMoneyFull(max) + '</td></tr>';
     }).join('');
 }
 
-// Init
 loadData();
 </script>
-
 </body>
 </html>

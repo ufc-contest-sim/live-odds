@@ -7,11 +7,9 @@ Reads the raw per-user outcomes saved by PostContestSim.py (_user_outcomes.npz)
 and produces a JSON file consumable by variance.html.
 
 Output includes:
-  - Multiple simulated bankroll paths (cumulative P&L over N events)
-  - Percentile envelope bands at each event step
-  - Drawdown / upswing probability statistics
-  - Per-event outcome distribution summary
-  - All of the above broken out per individual contest
+  - Downsampled per-contest iteration outcomes (for client-side combo generation)
+  - Pre-computed "all contests" variance block as a default view
+  - The HTML does the heavy lifting for arbitrary contest combinations
 """
 import os
 import sys
@@ -145,6 +143,7 @@ def generate_variance_data(
     num_paths: int = 500,
     path_length: int = 100,
     seed: int = 42,
+    sample_size: int = 10000,
 ):
     """Generate variance simulation data for a target user.
 
@@ -154,6 +153,8 @@ def generate_variance_data(
         num_paths: Number of simulated bankroll paths to generate
         path_length: Number of events per path
         seed: Random seed for reproducibility
+        sample_size: Number of per-contest iteration samples to export for
+                     client-side combo generation
 
     Returns:
         dict: Variance data ready for JSON serialization
@@ -197,23 +198,34 @@ def generate_variance_data(
     log(f"Generating ALL CONTESTS: {num_paths} paths x {path_length} events...")
     all_block = compute_variance_block(user_outcomes, num_paths, path_length, rng)
 
-    # Generate per-contest blocks
-    by_contest = {}
+    # Export downsampled per-contest iteration outcomes for client-side combos.
+    # We sample the SAME iteration indices across all contests so they stay
+    # correlated (same fight outcomes per row).
+    actual_sample = min(sample_size, total_iters)
+    sample_idx = rng.choice(total_iters, size=actual_sample, replace=False)
+    sample_idx.sort()
+
+    raw_contest_samples = {}  # contest_name -> list of floats (length = actual_sample)
+    active_contests = []
     for k, cname in enumerate(contest_names):
         contest_data = per_contest[k, :, user_idx].astype(np.float64)
-        # Only include if user has entries in this contest
         if np.any(contest_data != 0):
-            log(f"Generating {cname}: {num_paths} paths x {path_length} events...")
-            by_contest[cname] = compute_variance_block(contest_data, num_paths, path_length, rng)
+            active_contests.append(cname)
+            raw_contest_samples[cname] = np.round(contest_data[sample_idx], 2).tolist()
+            log(f"  {cname}: mean=${contest_data.mean():.2f}, exported {actual_sample:,} samples")
 
     result = {
         "user": matched_name,
         "total_iterations": int(total_iters),
-        "contests": contest_names,
-        # "all" is the combined view
+        "contests": active_contests,
+        # "all" is the combined pre-computed view
         **all_block,
-        # per-contest breakdowns with full variance data
-        "by_contest": by_contest,
+        # Raw per-contest samples for client-side combination
+        "contest_samples": raw_contest_samples,
+        "sample_size": actual_sample,
+        # Config for client-side generation
+        "num_paths": num_paths,
+        "path_length": path_length,
     }
 
     return result
@@ -226,6 +238,7 @@ def main():
     ap.add_argument("--paths", type=int, default=500, help="Number of simulated paths (default: 500)")
     ap.add_argument("--length", type=int, default=100, help="Events per path (default: 100)")
     ap.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    ap.add_argument("--samples", type=int, default=10000, help="Per-contest samples for combo mode (default: 10000)")
     ap.add_argument("--output", default=None, help="Output JSON path (default: variance_data.json)")
     args = ap.parse_args()
 
@@ -246,6 +259,7 @@ def main():
         num_paths=args.paths,
         path_length=args.length,
         seed=args.seed,
+        sample_size=args.samples,
     )
 
     if result is None:
@@ -258,13 +272,16 @@ def main():
     out_path = args.output or "variance_data.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(result, f)
-    log(f"\n[done] Wrote variance data: {out_path}")
+
+    file_size = os.path.getsize(out_path) / 1024
+    log(f"\n[done] Wrote variance data: {out_path} ({file_size:.0f} KB)")
     log(f"  User: {result['user']}")
-    log(f"  Paths: {result['config']['num_paths']} x {result['config']['path_length']} events")
+    log(f"  Paths: {result['num_paths']} x {result['path_length']} events")
     log(f"  Single-event EV: ${result['single_event']['mean']:.2f}")
     log(f"  Avg max drawdown: ${result['drawdown_stats']['mean']:,.2f}")
     log(f"  Avg max upswing: ${result['upswing_stats']['mean']:,.2f}")
-    log(f"  Per-contest breakdowns: {len(result['by_contest'])}")
+    log(f"  Contest samples exported: {result['sample_size']:,} per contest")
+    log(f"  Contests: {result['contests']}")
 
     try:
         input("\nPress Enter to close...")

@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variance Simulator — Bankroll Analysis</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-dark: #060a12;
+            --bg-card: rgba(12, 25, 40, 0.65);
+            --bg-card-solid: #0c1926;
+            --bg-hover: #111f34;
+            --border: rgba(20, 42, 62, 0.8);
+            --border-accent: #163a4a;
+            --text-primary: #e8edf5;
+            --text-secondary: #7a8599;
+            --accent-green: #00ff88;
+            --accent-red: #ff4466;
+            --accent-blue: #3b82f6;
+            --accent-gold: #ffd700;
+            --glass-bg: rgba(12, 25, 40, 0.65);
+            --glass-border: rgba(20, 42, 62, 0.8);
+        }
+
+        body {
+            font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #060a12;
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .header h1 span { color: var(--accent-green); }
+
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .header .username-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--accent-green);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-green); }
+
+        /* Summary Cards Row */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px 18px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .summary-card .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .summary-card .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: 'IBM Plex Sans', monospace;
+        }
+
+        .summary-card .value.positive { color: var(--accent-green); }
+        .summary-card .value.negative { color: var(--accent-red); }
+        .summary-card .value.neutral { color: var(--text-primary); }
+
+        /* Chart Section */
+        .chart-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .chart-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chart-controls button {
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .chart-controls button:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        .chart-controls button.active {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .chart-hint {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .chart-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 450px;
+        }
+
+        .chart-canvas-wrapper canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Two-column layout for stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 800px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        .stats-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 22px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .stats-panel h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .stats-panel h3.red { color: var(--accent-red); }
+        .stats-panel h3.green { color: var(--accent-green); }
+
+        .prob-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .prob-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-secondary);
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prob-table td {
+            padding: 8px;
+            font-size: 0.88rem;
+            border-bottom: 1px solid rgba(20, 42, 62, 0.4);
+        }
+
+        .prob-table td:first-child {
+            font-weight: 600;
+            font-family: 'IBM Plex Sans', monospace;
+        }
+
+        .prob-bar-cell {
+            position: relative;
+        }
+
+        .prob-bar-bg {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            bottom: 2px;
+            border-radius: 3px;
+            opacity: 0.2;
+        }
+
+        .prob-bar-bg.red { background: var(--accent-red); }
+        .prob-bar-bg.green { background: var(--accent-green); }
+
+        .prob-value {
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            font-family: 'IBM Plex Sans', monospace;
+        }
+
+        /* Summary stats row in panels */
+        .panel-stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-stat .ps-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .panel-stat .ps-value {
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: 'IBM Plex Sans', monospace;
+        }
+
+        /* Event Outcome Histogram */
+        .histogram-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .histogram-section h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .histogram-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: 280px;
+        }
+
+        /* Contest Breakdown */
+        .contest-breakdown {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .contest-breakdown h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .contest-breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .contest-breakdown-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-secondary);
+            padding: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .contest-breakdown-table td {
+            padding: 10px 8px;
+            font-size: 0.88rem;
+            border-bottom: 1px solid rgba(20, 42, 62, 0.4);
+        }
+
+        /* Loading / Error */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--accent-red);
+        }
+
+        /* Toggle for showing/hiding paths */
+        .toggle-group {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-card-solid);
+            border-radius: 8px;
+            padding: 3px;
+            border: 1px solid var(--border);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .toggle-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 2.5rem; }
+            .summary-row { grid-template-columns: repeat(2, 1fr); }
+            .chart-canvas-wrapper { height: 320px; }
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">&#8592; Back to Contest Results</a>
+
+<div class="container">
+    <div class="header">
+        <h1>VARIANCE <span>SIMULATOR</span></h1>
+        <p class="subtitle">Monte Carlo Bankroll Trajectory Analysis</p>
+        <div class="username-badge" id="username-badge">Loading...</div>
+    </div>
+
+    <div id="loading" class="loading">Loading variance data...</div>
+    <div id="error" class="error" style="display:none;"></div>
+
+    <div id="dashboard" style="display:none;">
+        <!-- Summary Cards -->
+        <div class="summary-row" id="summary-row"></div>
+
+        <!-- Main Chart -->
+        <div class="chart-section">
+            <div class="chart-header">
+                <h2>Bankroll Trajectories</h2>
+                <div class="chart-controls">
+                    <div class="toggle-group" id="view-toggle">
+                        <button class="toggle-btn active" data-view="envelope">Envelope</button>
+                        <button class="toggle-btn" data-view="paths">Paths</button>
+                        <button class="toggle-btn" data-view="both">Both</button>
+                    </div>
+                    <button id="btn-reset-zoom" title="Reset zoom">Reset Zoom</button>
+                </div>
+            </div>
+            <div class="chart-canvas-wrapper">
+                <canvas id="bankroll-chart"></canvas>
+            </div>
+            <div class="chart-hint">Scroll to zoom in/out. Click and drag to pan. Double-click to reset.</div>
+        </div>
+
+        <!-- Drawdown / Upswing Stats -->
+        <div class="stats-grid">
+            <div class="stats-panel" id="drawdown-panel">
+                <h3 class="red">DRAWDOWN RISK</h3>
+                <div class="panel-stats-row" id="dd-summary"></div>
+                <table class="prob-table" id="dd-table">
+                    <thead>
+                        <tr>
+                            <th>Drawdown Size</th>
+                            <th>Probability (over ${pathLen} events)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="stats-panel" id="upswing-panel">
+                <h3 class="green">UPSWING POTENTIAL</h3>
+                <div class="panel-stats-row" id="us-summary"></div>
+                <table class="prob-table" id="us-table">
+                    <thead>
+                        <tr>
+                            <th>Upswing Size</th>
+                            <th>Probability (over ${pathLen} events)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Single-Event Histogram -->
+        <div class="histogram-section">
+            <h3>SINGLE EVENT OUTCOME DISTRIBUTION</h3>
+            <div class="histogram-canvas-wrapper">
+                <canvas id="histogram-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Contest Breakdown -->
+        <div class="contest-breakdown" id="contest-section" style="display:none;">
+            <h3>PER-CONTEST BREAKDOWN</h3>
+            <table class="contest-breakdown-table" id="contest-table">
+                <thead>
+                    <tr>
+                        <th>Contest</th>
+                        <th>Avg Net</th>
+                        <th>Std Dev</th>
+                        <th>Worst</th>
+                        <th>Best</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+const DATA_URL = 'variance_data.json';
+
+const formatMoney = (v) => {
+    const abs = Math.abs(v);
+    const sign = v < 0 ? '-' : '';
+    if (abs >= 1000000) return sign + '$' + (abs / 1000000).toFixed(1) + 'M';
+    if (abs >= 1000) return sign + '$' + (abs / 1000).toFixed(abs >= 100000 ? 0 : 1) + 'K';
+    return sign + '$' + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
+};
+
+const formatMoneyFull = (v) => {
+    const sign = v < 0 ? '-$' : '$';
+    return sign + Math.abs(v).toLocaleString(undefined, { maximumFractionDigits: 0 });
+};
+
+let bankrollChart = null;
+let histogramChart = null;
+let varianceData = null;
+let currentView = 'envelope';
+
+async function loadData() {
+    try {
+        const resp = await fetch(DATA_URL + '?v=' + Date.now());
+        if (!resp.ok) throw new Error('Failed to load variance_data.json');
+        varianceData = await resp.json();
+        renderDashboard();
+    } catch (err) {
+        document.getElementById('loading').style.display = 'none';
+        const errorEl = document.getElementById('error');
+        errorEl.style.display = 'block';
+        errorEl.innerHTML = `
+            <p style="font-size:1.2rem;margin-bottom:10px;">Could not load variance data</p>
+            <p style="color:var(--text-secondary);font-size:0.9rem;">
+                Run <code>PublishVariance.py</code> first to generate <code>variance_data.json</code>.
+            </p>
+        `;
+    }
+}
+
+function renderDashboard() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dashboard').style.display = '';
+    document.getElementById('username-badge').textContent = varianceData.user;
+
+    const d = varianceData;
+    const ev = d.single_event;
+
+    // Summary cards
+    const summaryRow = document.getElementById('summary-row');
+    const cards = [
+        { label: 'Per-Event EV', value: formatMoneyFull(ev.mean), cls: ev.mean >= 0 ? 'positive' : 'negative' },
+        { label: 'Per-Event Std Dev', value: formatMoneyFull(ev.std), cls: 'neutral' },
+        { label: 'Best Single Event', value: formatMoneyFull(ev.max), cls: 'positive' },
+        { label: 'Worst Single Event', value: formatMoneyFull(ev.min), cls: 'negative' },
+        { label: 'Avg Max Drawdown', value: formatMoneyFull(d.drawdown_stats.mean), cls: 'negative' },
+        { label: 'Avg Max Upswing', value: formatMoneyFull(d.upswing_stats.mean), cls: 'positive' },
+    ];
+    summaryRow.innerHTML = cards.map(c => `
+        <div class="summary-card">
+            <div class="label">${c.label}</div>
+            <div class="value ${c.cls}">${c.value}</div>
+        </div>
+    `).join('');
+
+    renderBankrollChart();
+    renderDrawdownPanel();
+    renderUpswingPanel();
+    renderHistogram();
+    renderContestBreakdown();
+    setupControls();
+
+    // Fix table headers with actual path length
+    const pathLen = d.config.path_length;
+    document.querySelectorAll('#dd-table th:last-child, #us-table th:last-child').forEach(th => {
+        th.textContent = `Probability (over ${pathLen} events)`;
+    });
+}
+
+function renderBankrollChart() {
+    const d = varianceData;
+    const pathLen = d.config.path_length;
+    const labels = Array.from({ length: pathLen }, (_, i) => i + 1);
+
+    const envelopeDatasets = buildEnvelopeDatasets(d.envelope, pathLen);
+    const pathDatasets = buildPathDatasets(d.paths, pathLen);
+
+    const allDatasets = [...envelopeDatasets, ...pathDatasets];
+
+    // Set initial visibility
+    updateDatasetVisibility(allDatasets, currentView);
+
+    const ctx = document.getElementById('bankroll-chart').getContext('2d');
+    bankrollChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: allDatasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(12, 25, 40, 0.95)',
+                    titleColor: '#e8edf5',
+                    bodyColor: '#7a8599',
+                    borderColor: 'rgba(20, 42, 62, 0.8)',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: false,
+                    callbacks: {
+                        title: (items) => `Event #${items[0].label}`,
+                        label: (ctx) => {
+                            if (ctx.dataset.isEnvelopeFill) return null;
+                            const name = ctx.dataset.label || '';
+                            return `${name}: ${formatMoneyFull(ctx.parsed.y)}`;
+                        },
+                    },
+                    filter: (item) => !item.dataset.isEnvelopeFill,
+                },
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'xy',
+                    },
+                    zoom: {
+                        wheel: { enabled: true, speed: 0.08 },
+                        pinch: { enabled: true },
+                        drag: { enabled: false },
+                        mode: 'xy',
+                    },
+                },
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Event #',
+                        color: '#7a8599',
+                        font: { size: 12 },
+                    },
+                    ticks: { color: '#7a8599', maxTicksLimit: 20 },
+                    grid: { color: 'rgba(20, 42, 62, 0.3)' },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Cumulative Profit / Loss ($)',
+                        color: '#7a8599',
+                        font: { size: 12 },
+                    },
+                    ticks: {
+                        color: '#7a8599',
+                        callback: (v) => formatMoney(v),
+                    },
+                    grid: { color: 'rgba(20, 42, 62, 0.3)' },
+                },
+            },
+        },
+    });
+}
+
+function buildEnvelopeDatasets(envelope, pathLen) {
+    // Build filled bands: p1-p99, p5-p95, p10-p90, p25-p75, and median line
+    const bands = [
+        { lo: 'p1', hi: 'p99', color: 'rgba(59, 130, 246, 0.06)', label: 'p1-p99' },
+        { lo: 'p5', hi: 'p95', color: 'rgba(59, 130, 246, 0.10)', label: 'p5-p95' },
+        { lo: 'p10', hi: 'p90', color: 'rgba(59, 130, 246, 0.14)', label: 'p10-p90' },
+        { lo: 'p25', hi: 'p75', color: 'rgba(59, 130, 246, 0.20)', label: 'p25-p75' },
+    ];
+
+    const datasets = [];
+
+    bands.forEach(band => {
+        // Upper boundary line (hidden, used as fill target)
+        datasets.push({
+            label: band.label + ' upper',
+            data: envelope[band.hi],
+            borderColor: 'transparent',
+            backgroundColor: 'transparent',
+            pointRadius: 0,
+            borderWidth: 0,
+            fill: false,
+            isEnvelope: true,
+            isEnvelopeFill: true,
+        });
+        // Lower boundary with fill to previous dataset
+        datasets.push({
+            label: band.label,
+            data: envelope[band.lo],
+            borderColor: 'transparent',
+            backgroundColor: band.color,
+            pointRadius: 0,
+            borderWidth: 0,
+            fill: '-1',
+            isEnvelope: true,
+            isEnvelopeFill: true,
+        });
+    });
+
+    // Median line
+    datasets.push({
+        label: 'Median (p50)',
+        data: envelope['p50'],
+        borderColor: '#3b82f6',
+        backgroundColor: 'transparent',
+        borderWidth: 2.5,
+        pointRadius: 0,
+        fill: false,
+        isEnvelope: true,
+    });
+
+    // Zero line
+    datasets.push({
+        label: 'Breakeven',
+        data: Array(pathLen).fill(0),
+        borderColor: 'rgba(255, 255, 255, 0.15)',
+        borderWidth: 1,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        fill: false,
+        isEnvelope: true,
+        isEnvelopeFill: true,
+    });
+
+    return datasets;
+}
+
+function buildPathDatasets(paths, pathLen) {
+    // Color paths based on final value
+    return paths.map((path, i) => {
+        const finalVal = path[path.length - 1];
+        const alpha = 0.25;
+        const color = finalVal >= 0
+            ? `rgba(0, 255, 136, ${alpha})`
+            : `rgba(255, 68, 102, ${alpha})`;
+
+        return {
+            label: `Path ${i + 1}`,
+            data: path,
+            borderColor: color,
+            backgroundColor: 'transparent',
+            borderWidth: 0.8,
+            pointRadius: 0,
+            fill: false,
+            isPath: true,
+        };
+    });
+}
+
+function updateDatasetVisibility(datasets, view) {
+    datasets.forEach(ds => {
+        if (ds.isEnvelope || ds.isEnvelopeFill) {
+            ds.hidden = view === 'paths';
+        }
+        if (ds.isPath) {
+            ds.hidden = view === 'envelope';
+        }
+    });
+}
+
+function setupControls() {
+    // View toggle
+    document.querySelectorAll('#view-toggle .toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#view-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentView = btn.dataset.view;
+            if (bankrollChart) {
+                updateDatasetVisibility(bankrollChart.data.datasets, currentView);
+                bankrollChart.update();
+            }
+        });
+    });
+
+    // Reset zoom
+    document.getElementById('btn-reset-zoom').addEventListener('click', () => {
+        if (bankrollChart) bankrollChart.resetZoom();
+    });
+
+    // Double-click to reset
+    document.getElementById('bankroll-chart').addEventListener('dblclick', () => {
+        if (bankrollChart) bankrollChart.resetZoom();
+    });
+}
+
+function renderDrawdownPanel() {
+    const dd = varianceData.drawdown_stats;
+    const summaryEl = document.getElementById('dd-summary');
+    summaryEl.innerHTML = `
+        <div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">${formatMoneyFull(dd.mean)}</div></div>
+        <div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">${formatMoneyFull(dd.median)}</div></div>
+        <div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">${formatMoneyFull(dd.p95)}</div></div>
+        <div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">${formatMoneyFull(dd.p99)}</div></div>
+    `;
+
+    const tbody = document.querySelector('#dd-table tbody');
+    const probs = dd.probabilities;
+    const maxProb = Math.max(...Object.values(probs), 1);
+    tbody.innerHTML = Object.entries(probs).map(([threshold, prob]) => `
+        <tr>
+            <td>${formatMoneyFull(parseInt(threshold))}+</td>
+            <td class="prob-bar-cell">
+                <div class="prob-bar-bg red" style="width:${(prob / maxProb) * 100}%"></div>
+                <span class="prob-value">${prob.toFixed(1)}%</span>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function renderUpswingPanel() {
+    const us = varianceData.upswing_stats;
+    const summaryEl = document.getElementById('us-summary');
+    summaryEl.innerHTML = `
+        <div class="panel-stat"><div class="ps-label">Average</div><div class="ps-value">${formatMoneyFull(us.mean)}</div></div>
+        <div class="panel-stat"><div class="ps-label">Median</div><div class="ps-value">${formatMoneyFull(us.median)}</div></div>
+        <div class="panel-stat"><div class="ps-label">95th Pct</div><div class="ps-value">${formatMoneyFull(us.p95)}</div></div>
+        <div class="panel-stat"><div class="ps-label">99th Pct</div><div class="ps-value">${formatMoneyFull(us.p99)}</div></div>
+    `;
+
+    const tbody = document.querySelector('#us-table tbody');
+    const probs = us.probabilities;
+    const maxProb = Math.max(...Object.values(probs), 1);
+    tbody.innerHTML = Object.entries(probs).map(([threshold, prob]) => `
+        <tr>
+            <td>${formatMoneyFull(parseInt(threshold))}+</td>
+            <td class="prob-bar-cell">
+                <div class="prob-bar-bg green" style="width:${(prob / maxProb) * 100}%"></div>
+                <span class="prob-value">${prob.toFixed(1)}%</span>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function renderHistogram() {
+    const hist = varianceData.single_event.histogram;
+    const edges = hist.bin_edges;
+    const counts = hist.counts;
+    const total = counts.reduce((a, b) => a + b, 0);
+
+    const labels = [];
+    const data = [];
+    const colors = [];
+    for (let i = 0; i < counts.length; i++) {
+        const mid = (edges[i] + edges[i + 1]) / 2;
+        labels.push(formatMoney(mid));
+        data.push(((counts[i] / total) * 100));
+        colors.push(mid >= 0 ? 'rgba(0, 255, 136, 0.5)' : 'rgba(255, 68, 102, 0.5)');
+    }
+
+    const ctx = document.getElementById('histogram-chart').getContext('2d');
+    histogramChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                data,
+                backgroundColor: colors,
+                borderColor: colors.map(c => c.replace('0.5', '0.8')),
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(12, 25, 40, 0.95)',
+                    titleColor: '#e8edf5',
+                    bodyColor: '#7a8599',
+                    borderColor: 'rgba(20, 42, 62, 0.8)',
+                    borderWidth: 1,
+                    callbacks: {
+                        title: (items) => {
+                            const idx = items[0].dataIndex;
+                            return `${formatMoney(edges[idx])} to ${formatMoney(edges[idx + 1])}`;
+                        },
+                        label: (ctx) => `${ctx.parsed.y.toFixed(1)}% of outcomes`,
+                    },
+                },
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a8599',
+                        maxTicksLimit: 12,
+                        maxRotation: 45,
+                    },
+                    grid: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Net Profit / Loss',
+                        color: '#7a8599',
+                    },
+                },
+                y: {
+                    ticks: {
+                        color: '#7a8599',
+                        callback: (v) => v.toFixed(0) + '%',
+                    },
+                    grid: { color: 'rgba(20, 42, 62, 0.3)' },
+                    title: {
+                        display: true,
+                        text: '% of Outcomes',
+                        color: '#7a8599',
+                    },
+                },
+            },
+        },
+    });
+}
+
+function renderContestBreakdown() {
+    const stats = varianceData.per_contest_stats;
+    if (!stats || Object.keys(stats).length === 0) return;
+
+    document.getElementById('contest-section').style.display = '';
+    const tbody = document.querySelector('#contest-table tbody');
+    tbody.innerHTML = Object.entries(stats).map(([name, s]) => `
+        <tr>
+            <td>${name}</td>
+            <td class="${s.mean >= 0 ? 'positive' : 'negative'}" style="color:${s.mean >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};font-weight:600;font-family:'IBM Plex Sans',monospace;">
+                ${formatMoneyFull(s.mean)}
+            </td>
+            <td style="font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.std)}</td>
+            <td style="color:var(--accent-red);font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.min)}</td>
+            <td style="color:var(--accent-green);font-family:'IBM Plex Sans',monospace;">${formatMoneyFull(s.max)}</td>
+        </tr>
+    `).join('');
+}
+
+// Init
+loadData();
+</script>
+
+</body>
+</html>

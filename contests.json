@@ -25,6 +25,14 @@
       "entrants": 10
     },
     {
+      "id": "30k_arm_bar",
+      "name": "30k Arm Bar",
+      "file": "30k_Arm_Bar.json",
+      "entryFee": 5.0,
+      "totalPrizes": 30000,
+      "entrants": 7134
+    },
+    {
       "id": "30k_hook",
       "name": "30k Hook",
       "file": "30k_Hook.json",
@@ -39,14 +47,6 @@
       "entryFee": 18.0,
       "totalPrizes": 333000,
       "entrants": 21764
-    },
-    {
-      "id": "40k_arm_bar",
-      "name": "40k Arm Bar",
-      "file": "40k_Arm_Bar.json",
-      "entryFee": 5.0,
-      "totalPrizes": 40000,
-      "entrants": 9512
     },
     {
       "id": "40k_thunderdome",

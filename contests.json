@@ -6,15 +6,15 @@
       "file": "100K_Knockout.json",
       "entryFee": 555.0,
       "totalPrizes": 100000,
-      "entrants": 200
+      "entrants": 179
     },
     {
-      "id": "10k_title_fight",
-      "name": "10K Title Fight",
-      "file": "10K_Title_Fight.json",
+      "id": "12k_title_fight",
+      "name": "12K Title Fight",
+      "file": "12K_Title_Fight.json",
       "entryFee": 1060.0,
-      "totalPrizes": 10000,
-      "entrants": 10
+      "totalPrizes": 12000,
+      "entrants": 12
     },
     {
       "id": "20k_double_champ",

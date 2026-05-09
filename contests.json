@@ -1,14 +1,6 @@
 {
   "contests": [
     {
-      "id": "100k_knockout",
-      "name": "100K Knockout",
-      "file": "100K_Knockout.json",
-      "entryFee": 555.0,
-      "totalPrizes": 100000,
-      "entrants": 179
-    },
-    {
       "id": "12k_title_fight",
       "name": "12K Title Fight",
       "file": "12K_Title_Fight.json",
@@ -17,36 +9,28 @@
       "entrants": 12
     },
     {
+      "id": "150k_knockout",
+      "name": "150K Knockout",
+      "file": "150K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 150000,
+      "entrants": 300
+    },
+    {
       "id": "20k_double_champ",
       "name": "20K Double Champ",
       "file": "20K_Double_Champ.json",
       "entryFee": 2120.0,
       "totalPrizes": 20000,
-      "entrants": 10
+      "entrants": 15
     },
     {
-      "id": "300k_throwdown",
-      "name": "300K Throwdown",
-      "file": "300K_Throwdown.json",
-      "entryFee": 18.0,
-      "totalPrizes": 300000,
-      "entrants": 19607
-    },
-    {
-      "id": "30k_arm_bar",
-      "name": "30k Arm Bar",
-      "file": "30k_Arm_Bar.json",
+      "id": "40k_arm_bar",
+      "name": "40k Arm Bar",
+      "file": "40k_Arm_Bar.json",
       "entryFee": 5.0,
-      "totalPrizes": 30000,
-      "entrants": 7134
-    },
-    {
-      "id": "30k_hook",
-      "name": "30k Hook",
-      "file": "30k_Hook.json",
-      "entryFee": 8.0,
-      "totalPrizes": 30000,
-      "entrants": 4411
+      "totalPrizes": 40000,
+      "entrants": 9512
     },
     {
       "id": "40k_thunderdome",
@@ -55,6 +39,22 @@
       "entryFee": 5300.0,
       "totalPrizes": 40000,
       "entrants": 8
+    },
+    {
+      "id": "50k_hook",
+      "name": "50k Hook",
+      "file": "50k_Hook.json",
+      "entryFee": 8.0,
+      "totalPrizes": 50000,
+      "entrants": 7352
+    },
+    {
+      "id": "600k_ufc_328_special",
+      "name": "600K UFC 328 Special",
+      "file": "600K_UFC_328_Special.json",
+      "entryFee": 25.0,
+      "totalPrizes": 600000,
+      "entrants": 28235
     }
   ]
 }

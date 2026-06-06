@@ -1,20 +1,20 @@
 {
   "contests": [
     {
-      "id": "100k_knockout",
-      "name": "100K Knockout",
-      "file": "100K_Knockout.json",
-      "entryFee": 555.0,
-      "totalPrizes": 100000,
-      "entrants": 172
+      "id": "12k_title_fight",
+      "name": "12K Title Fight",
+      "file": "12K_Title_Fight.json",
+      "entryFee": 1060.0,
+      "totalPrizes": 12000,
+      "entrants": 12
     },
     {
-      "id": "10k_title_fight",
-      "name": "10K Title Fight",
-      "file": "10K_Title_Fight.json",
-      "entryFee": 1060.0,
-      "totalPrizes": 10000,
-      "entrants": 10
+      "id": "150k_knockout",
+      "name": "150K Knockout",
+      "file": "150K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 150000,
+      "entrants": 291
     },
     {
       "id": "26k_double_champ",
@@ -30,7 +30,7 @@
       "file": "300K_Throwdown.json",
       "entryFee": 18.0,
       "totalPrizes": 300000,
-      "entrants": 17415
+      "entrants": 22380
     },
     {
       "id": "30k_arm_bar",
@@ -38,15 +38,23 @@
       "file": "30K_Arm_Bar.json",
       "entryFee": 5.0,
       "totalPrizes": 30000,
-      "entrants": 6063
+      "entrants": 7134
     },
     {
-      "id": "30k_hook",
-      "name": "30K Hook",
-      "file": "30K_Hook.json",
+      "id": "40k_hook",
+      "name": "40K Hook",
+      "file": "40K_Hook.json",
       "entryFee": 8.0,
-      "totalPrizes": 30000,
-      "entrants": 4323
+      "totalPrizes": 40000,
+      "entrants": 5882
+    },
+    {
+      "id": "40k_thunderdome",
+      "name": "40k Thunderdome",
+      "file": "40k_Thunderdome.json",
+      "entryFee": 5300.0,
+      "totalPrizes": 40000,
+      "entrants": 8
     }
   ]
 }

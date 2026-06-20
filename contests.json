@@ -6,7 +6,7 @@
       "file": "12K_Title_Fight.json",
       "entryFee": 1060.0,
       "totalPrizes": 12000,
-      "entrants": 12
+      "entrants": 10
     },
     {
       "id": "150k_knockout",
@@ -14,7 +14,7 @@
       "file": "150K_Knockout.json",
       "entryFee": 555.0,
       "totalPrizes": 150000,
-      "entrants": 291
+      "entrants": 277
     },
     {
       "id": "26k_double_champ",
@@ -22,15 +22,7 @@
       "file": "26K_Double_Champ.json",
       "entryFee": 2120.0,
       "totalPrizes": 26000,
-      "entrants": 13
-    },
-    {
-      "id": "300k_throwdown",
-      "name": "300K Throwdown",
-      "file": "300K_Throwdown.json",
-      "entryFee": 18.0,
-      "totalPrizes": 300000,
-      "entrants": 22380
+      "entrants": 12
     },
     {
       "id": "30k_arm_bar",
@@ -41,20 +33,20 @@
       "entrants": 7134
     },
     {
+      "id": "333k_throwdown",
+      "name": "333K Throwdown",
+      "file": "333K_Throwdown.json",
+      "entryFee": 18.0,
+      "totalPrizes": 333000,
+      "entrants": 18966
+    },
+    {
       "id": "40k_hook",
       "name": "40K Hook",
       "file": "40K_Hook.json",
       "entryFee": 8.0,
       "totalPrizes": 40000,
       "entrants": 5882
-    },
-    {
-      "id": "40k_thunderdome",
-      "name": "40k Thunderdome",
-      "file": "40k_Thunderdome.json",
-      "entryFee": 5300.0,
-      "totalPrizes": 40000,
-      "entrants": 8
     }
   ]
 }

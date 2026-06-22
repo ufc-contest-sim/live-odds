@@ -1200,17 +1200,6 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-
-        .username-chip {
-            background: rgba(0, 255, 136, 0.12);
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
         
         .loading,
         .error-message,
@@ -1877,7 +1866,7 @@
                 tableHeader.style.display = '';
             } else if (view === 'lineup') {
                 document.getElementById('lineup-table').style.display = 'block';
-                document.getElementById('username-filter').style.display = 'none';
+                document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'flex';
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
@@ -2947,6 +2936,15 @@
             
             // Convert to array and sort
             let uniqueLineups = Array.from(lineupMap.values());
+
+            // Username filter: keep lineups that include the searched username,
+            // but still show ALL usernames for those lineups (so you can see who duped you).
+            const userQuery = (document.getElementById('search-user').value || '').trim().toLowerCase();
+            if (userQuery) {
+                uniqueLineups = uniqueLineups.filter(l =>
+                    l.usernames.some(u => u.toLowerCase().includes(userQuery)));
+            }
+
             uniqueLineups.sort((a, b) => {
                 let aVal = a[currentSort] || 0;
                 let bVal = b[currentSort] || 0;
@@ -3007,7 +3005,7 @@
                                 <div class="username-tiles-label">${sortedUsers.length} ${sortedUsers.length === 1 ? 'entry' : 'entries'} with this lineup</div>
                                 <div class="username-tiles-container">
                                     ${sortedUsers.length
-                                        ? sortedUsers.map(u => `<div class="username-chip">${u}</div>`).join('')
+                                        ? sortedUsers.map(u => `<div class="fighter-chip">${u}</div>`).join('')
                                         : '<span style="color: var(--text-secondary);">No usernames available</span>'}
                                 </div>
                             </div>

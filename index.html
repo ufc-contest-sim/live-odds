@@ -2793,9 +2793,18 @@
                 return sortAscending ? aVal - bVal : bVal - aVal;
             });
             
-            // Update stats based on filtered data
-            updateStats(filteredData);
-            
+            // Update stats based on filtered data.
+            // On the lineup view we keep filteredData un-username-filtered so the
+            // expanded dupe tiles still list everyone — but the stats panel should
+            // reflect just the searched user's entries when a username is active.
+            let statsData = filteredData;
+            if (currentView === 'lineup' && searchUser.trim()) {
+                const q = searchUser.trim();
+                statsData = filteredData.filter(row =>
+                    row.Username && row.Username.toLowerCase().includes(q));
+            }
+            updateStats(statsData);
+
             // Render based on current view
             if (currentView === 'username') {
                 renderUsernameView(filteredData);

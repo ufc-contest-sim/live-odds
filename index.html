@@ -1181,6 +1181,36 @@
             font-weight: 700;
             font-size: 0.7rem;
         }
+
+        /* Username tiles (expanded "By Lineup" row) */
+        .username-tiles {
+            padding: 16px 20px;
+        }
+
+        .username-tiles-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .username-tiles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .username-chip {
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
         
         .loading,
         .error-message,
@@ -2877,15 +2907,18 @@
         function renderLineupView(data) {
             // Group by unique lineup
             const lineupMap = new Map();
-            
+            let lineupSeq = 0;
+
             data.forEach(row => {
                 const lineupKey = row.LineupKey || '';
                 if (!lineupKey) return;
-                
+
                 if (!lineupMap.has(lineupKey)) {
                     lineupMap.set(lineupKey, {
                         lineup: lineupKey,
+                        stableId: lineupSeq++,   // insertion-order id, stable across sorts
                         fighters: [],
+                        usernames: [],
                         WinPct: row.WinPct || 0,
                         SecondPct: row.SecondPct != null ? row.SecondPct : null,
                         ThirdPct: row.ThirdPct != null ? row.ThirdPct : null,
@@ -2895,7 +2928,7 @@
                         TotalSalary: row.TotalSalary || 0,
                         Copies: row.Copies || 1
                     });
-                    
+
                     // Get fighters
                     for (let i = 1; i <= 6; i++) {
                         const fighter = row[`F${i}`];
@@ -2903,6 +2936,11 @@
                             lineupMap.get(lineupKey).fighters.push(fighter);
                         }
                     }
+                }
+                // Collect every username that submitted this lineup (one row per entry)
+                const uname = (row.Username || '').trim();
+                if (uname) {
+                    lineupMap.get(lineupKey).usernames.push(uname);
                 }
                 // Don't add to copies - just use the Copies value from the first occurrence
             });
@@ -2936,9 +2974,13 @@
             };
             
             tbody.innerHTML = displayData.map((lineup, idx) => {
+                const rowId = `lineup-${lineup.stableId}`;
+                const isExpanded = expandedRows.has(rowId);
+                const sortedUsers = [...lineup.usernames].sort((a, b) =>
+                    a.localeCompare(b, undefined, { sensitivity: 'base' }));
                 return `
-                    <tr class="row-main">
-                        <td>${idx + 1}</td>
+                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
+                        <td><span class="expand-icon">${isExpanded ? '▼' : '▶'}</span> ${idx + 1}</td>
                         <td>
                             <div class="lineup-container" style="padding: 8px 0;">
                                 ${lineup.fighters.map(f => `
@@ -2958,6 +3000,18 @@
                         <td>${(lineup.MeanScore || 0).toFixed(2)}</td>
                         <td>${lineup.TotalSalary ? '$' + Number(lineup.TotalSalary).toLocaleString() : '--'}</td>
                         <td>${lineup.Copies || 0}</td>
+                    </tr>
+                    <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
+                        <td colspan="10">
+                            <div class="username-tiles">
+                                <div class="username-tiles-label">${sortedUsers.length} ${sortedUsers.length === 1 ? 'entry' : 'entries'} with this lineup</div>
+                                <div class="username-tiles-container">
+                                    ${sortedUsers.length
+                                        ? sortedUsers.map(u => `<div class="username-chip">${u}</div>`).join('')
+                                        : '<span style="color: var(--text-secondary);">No usernames available</span>'}
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 `;
             }).join('');

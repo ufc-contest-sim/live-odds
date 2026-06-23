@@ -907,8 +907,30 @@
         .fighter-draft-table .draft-pct {
             color: var(--accent-green);
             font-weight: 600;
+            text-align: right;
         }
-        
+
+        .fighter-draft-table .win-pct {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .fighter-draft-table th {
+            padding: 8px 12px;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: default;
+        }
+
+        .fighter-draft-table th.num {
+            text-align: right;
+        }
+
         .filters {
             background: var(--glass-bg);
 
@@ -1597,8 +1619,15 @@
                 </div>
 
                 <div class="fighter-draft-container">
-                    <h3>Fighter Draft %</h3>
+                    <h3>Fighter Exposure</h3>
                     <table class="fighter-draft-table">
+                        <thead>
+                            <tr>
+                                <th>Fighter</th>
+                                <th class="num">Draft %</th>
+                                <th class="num">Win Lineup %</th>
+                            </tr>
+                        </thead>
                         <tbody id="fighter-draft-tbody"></tbody>
                     </table>
                 </div>
@@ -2701,19 +2730,51 @@
         
         function updateFighterDraftTable(data) {
             const fighterStats = calculateFighterDraftPct(data);
+            const winMap = calculateWinningLineupPct();
             const tbody = document.getElementById('fighter-draft-tbody');
-            
+
             if (fighterStats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
                 return;
             }
-            
+
             tbody.innerHTML = fighterStats.map(f => `
                 <tr>
                     <td class="fighter-name">${f.fighter}</td>
                     <td class="draft-pct">${f.pct.toFixed(2)}%</td>
+                    <td class="win-pct">${(winMap[f.fighter] || 0).toFixed(2)}%</td>
                 </tr>
             `).join('');
+        }
+
+        // % of winning lineups that contain each fighter (field-level).
+        // Sum each fighter's WinPct across every field lineup they appear in, then
+        // normalize by the total win mass. Normalization matters: with heavy
+        // duplication many tied lineups each count as winners, so raw WinPct sums
+        // well past 100% — dividing by the total gives a clean "share of winning
+        // lineups containing this fighter." Computed over the full field (allData),
+        // not the filtered view, since WinPct is a field-level probability.
+        function calculateWinningLineupPct() {
+            const mass = {};
+            let total = 0;
+            (allData || []).forEach(row => {
+                const w = row.WinPct || 0;
+                if (!w) return;
+                total += w;
+                const seen = new Set();
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && fighter !== '' && !seen.has(fighter)) {
+                        seen.add(fighter);
+                        mass[fighter] = (mass[fighter] || 0) + w;
+                    }
+                }
+            });
+            const winPct = {};
+            if (total > 0) {
+                for (const f in mass) winPct[f] = (mass[f] / total) * 100;
+            }
+            return winPct;
         }
         
         function updateStats(data) {

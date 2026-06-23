@@ -1831,22 +1831,6 @@
                     </div>
                     <svg id="chart-leverage" viewBox="0 0 860 560" width="100%"></svg>
                 </div>
-
-                <div class="chart-card">
-                    <h3>ROI by Duplication</h3>
-                    <div class="chart-sub">Average ROI% of unique lineups grouped by how many entries share them. Heavily-duplicated lineups split their prizes — watch where the chalk turns negative.</div>
-                    <div class="chart-legend">
-                        <span><span class="cdot" style="background:var(--accent-green)"></span>+ROI</span>
-                        <span><span class="cdot" style="background:var(--accent-red)"></span>-ROI</span>
-                    </div>
-                    <svg id="chart-roidupes" viewBox="0 0 860 420" width="100%"></svg>
-                </div>
-
-                <div class="chart-card">
-                    <h3>Field Duplication</h3>
-                    <div class="chart-sub">How duplicated the field is — share of entries by how many lineups they share. The more 1x, the more unique (and higher-variance) the field.</div>
-                    <svg id="chart-dupes" viewBox="0 0 860 380" width="100%"></svg>
-                </div>
             </div>
 
         </div>
@@ -3100,8 +3084,6 @@
 
         function renderInsights() {
             renderLeverageChart();
-            renderRoiByDupesChart();
-            renderDupesChart();
         }
 
         // Chart 1: Win Lineup % vs Draft % (fighter leverage)
@@ -3141,95 +3123,6 @@
                     const t = svgEl('text', { x: x(p.draft) + 9, y: y(p.win) + 4, fill: '#c4d0dd', 'font-size': 10.5 }); t.textContent = p.name; svg.appendChild(t);
                 }
             });
-        }
-
-        // Chart 2: Avg ROI% of unique lineups by duplication bucket
-        function renderRoiByDupesChart() {
-            const svg = document.getElementById('chart-roidupes');
-            if (!svg) return;
-            svg.innerHTML = '';
-            const C = chartColors();
-            const order = ['1x', '2x', '3x', '4x', '5+'];
-            const sums = {}, counts = {};
-            order.forEach(k => { sums[k] = 0; counts[k] = 0; });
-            const seen = new Set();
-            (allData || []).forEach(r => {
-                const k = r.LineupKey || '';
-                if (!k || seen.has(k)) return;
-                seen.add(k);
-                const c = r.Copies || 1;
-                const key = c >= 5 ? '5+' : c + 'x';
-                sums[key] += (r['ROI%'] || 0);
-                counts[key] += 1;
-            });
-            const bars = order.map(k => ({ k, roi: counts[k] ? sums[k] / counts[k] : 0, n: counts[k] }));
-            if (!bars.some(b => b.n)) return;
-            const W = 860, H = 420, M = { l: 64, r: 30, t: 24, b: 50 };
-            const pw = W - M.l - M.r, ph = H - M.t - M.b;
-            const vals = bars.map(b => b.roi);
-            const yMax = Math.max(5, Math.ceil(Math.max(...vals, 0) / 5) * 5);
-            const yMin = Math.min(0, Math.floor(Math.min(...vals, 0) / 5) * 5);
-            const y = v => M.t + ph - ((v - yMin) / (yMax - yMin)) * ph;
-            const step = Math.max(5, Math.round((yMax - yMin) / 6 / 5) * 5);
-            for (let v = yMin; v <= yMax; v += step) {
-                svg.appendChild(svgEl('line', { x1: M.l, y1: y(v), x2: M.l + pw, y2: y(v), stroke: '#13202f', 'stroke-width': 1 }));
-                let t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = (v > 0 ? '+' : '') + v + '%'; svg.appendChild(t);
-            }
-            svg.appendChild(svgEl('line', { x1: M.l, y1: y(0), x2: M.l + pw, y2: y(0), stroke: '#3a4a5c', 'stroke-width': 1.5 }));
-            const gap = pw / bars.length, bw = gap * 0.55;
-            bars.forEach((b, i) => {
-                const cx = M.l + gap * i + (gap - bw) / 2;
-                const top = b.roi >= 0 ? y(b.roi) : y(0);
-                const h = Math.abs(y(b.roi) - y(0));
-                const rect = svgEl('rect', { x: cx, y: top, width: bw, height: Math.max(1, h), fill: b.roi >= 0 ? C.green : C.red, 'fill-opacity': 0.8, rx: 4 });
-                rect.style.cursor = 'pointer';
-                bindTip(rect, `<b>${b.k} lineups</b><br>Avg ROI ${b.roi >= 0 ? '+' : ''}${b.roi.toFixed(1)}% · ${b.n.toLocaleString()} unique`);
-                svg.appendChild(rect);
-                let lab = svgEl('text', { x: cx + bw / 2, y: M.t + ph + 22, fill: C.txt, 'font-size': 12, 'text-anchor': 'middle' }); lab.textContent = b.k; svg.appendChild(lab);
-                const vy = b.roi >= 0 ? top - 8 : top + h + 16;
-                let val = svgEl('text', { x: cx + bw / 2, y: vy, fill: C.txt, 'font-size': 11, 'text-anchor': 'middle' }); val.textContent = (b.roi > 0 ? '+' : '') + b.roi.toFixed(1) + '%'; svg.appendChild(val);
-            });
-            let xl = svgEl('text', { x: M.l + pw / 2, y: H - 8, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' }); xl.textContent = 'Lineup duplication (entries sharing the same lineup)'; svg.appendChild(xl);
-        }
-
-        // Chart 3: Field duplication histogram
-        function renderDupesChart() {
-            const svg = document.getElementById('chart-dupes');
-            if (!svg) return;
-            svg.innerHTML = '';
-            const C = chartColors();
-            // bucket ENTRIES by how duplicated their lineup is
-            const buckets = { '1x': 0, '2x': 0, '3x': 0, '4x': 0, '5+': 0 };
-            let totalEntries = 0;
-            (allData || []).forEach(r => {
-                const c = r.Copies || 1;
-                totalEntries += 1;
-                if (c >= 5) buckets['5+'] += 1;
-                else buckets[c + 'x'] += 1;
-            });
-            if (!totalEntries) return;
-            const keys = Object.keys(buckets);
-            const W = 860, H = 380, M = { l: 64, r: 30, t: 20, b: 50 };
-            const pw = W - M.l - M.r, ph = H - M.t - M.b;
-            const maxPct = Math.max(...keys.map(k => buckets[k] / totalEntries * 100));
-            const yMax = niceMax(maxPct);
-            const y = v => M.t + ph - (v / yMax) * ph;
-            const bw = pw / keys.length * 0.6, gap = pw / keys.length;
-            for (let v = 0; v <= yMax; v += Math.max(10, Math.round(yMax / 5 / 10) * 10)) {
-                svg.appendChild(svgEl('line', { x1: M.l, y1: y(v), x2: M.l + pw, y2: y(v), stroke: '#13202f', 'stroke-width': 1 }));
-                let t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = v + '%'; svg.appendChild(t);
-            }
-            keys.forEach((k, i) => {
-                const pct = buckets[k] / totalEntries * 100;
-                const cx = M.l + gap * i + (gap - bw) / 2;
-                const rect = svgEl('rect', { x: cx, y: y(pct), width: bw, height: (M.t + ph) - y(pct), fill: i === 0 ? C.green : C.grey, 'fill-opacity': 0.8, rx: 4 });
-                rect.style.cursor = 'pointer';
-                bindTip(rect, `<b>${k}</b> entered · ${buckets[k].toLocaleString()} entries (${pct.toFixed(1)}%)`);
-                svg.appendChild(rect);
-                let lab = svgEl('text', { x: cx + bw / 2, y: M.t + ph + 22, fill: C.txt, 'font-size': 12, 'text-anchor': 'middle' }); lab.textContent = k; svg.appendChild(lab);
-                let val = svgEl('text', { x: cx + bw / 2, y: y(pct) - 8, fill: C.txt, 'font-size': 11, 'text-anchor': 'middle' }); val.textContent = pct.toFixed(1) + '%'; svg.appendChild(val);
-            });
-            let xl = svgEl('text', { x: M.l + pw / 2, y: H - 8, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' }); xl.textContent = 'Lineup duplication (entries sharing the same lineup)'; svg.appendChild(xl);
         }
 
         function renderUsernameView(data) {

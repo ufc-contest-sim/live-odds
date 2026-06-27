@@ -1,11 +1,11 @@
 {
   "contest_name": "30K Thunderdome",
-  "last_updated": "2026-06-27T14:05:15.515373",
+  "last_updated": "2026-06-27T15:53:06.618762",
   "total_lineups": 6,
   "summary": {
-    "top_win_pct": 100.0,
-    "top_netev": 14700.0,
-    "top_roi": 277.36
+    "top_win_pct": 21.95,
+    "top_netev": 1058.2,
+    "top_roi": 19.97
   },
   "leaderboard": [
     {
@@ -21,18 +21,18 @@
       "F5": "Javier Reyes",
       "F6": "Jefferson Nascimento",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 405.5700073242188,
-      "SDScore": 0.0,
-      "P99Score": 405.5700073242188,
-      "TotalPayout": 0.0,
+      "AvgWinPayout": 20000.0,
+      "EV": 4731.95,
+      "NetEV": -568.0500000000002,
+      "ROI%": -10.717924528301891,
+      "WinPct": 15.323999999999998,
+      "SecondPct": 16.673,
+      "ThirdPct": 13.823,
+      "CashPct": 31.997,
+      "MeanScore": 394.4973963026428,
+      "SDScore": 91.1151998163134,
+      "P99Score": 606.4630476844087,
+      "TotalPayout": 473195000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -48,18 +48,18 @@
       "F5": "Asu Almabayev",
       "F6": "Jefferson Nascimento",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 100.0,
-      "CashPct": 0.0,
-      "MeanScore": 444.8400268554688,
-      "SDScore": 0.0,
-      "P99Score": 444.8400268554688,
-      "TotalPayout": 0.0,
+      "AvgWinPayout": 19998.86191198786,
+      "EV": 4893.85,
+      "NetEV": -406.1499999999997,
+      "ROI%": -7.663207547169805,
+      "WinPct": 13.18,
+      "SecondPct": 22.582,
+      "ThirdPct": 25.088,
+      "CashPct": 35.762,
+      "MeanScore": 416.4398157012176,
+      "SDScore": 90.03767214189054,
+      "P99Score": 625.8987628684138,
+      "TotalPayout": 489385000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -75,18 +75,18 @@
       "F5": "Asu Almabayev",
       "F6": "Daniil Donchenko",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 20000.0,
-      "EV": 20000.0,
-      "NetEV": 14700.0,
-      "ROI%": 277.35849056603774,
-      "WinPct": 100.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 100.0,
-      "MeanScore": 505.6400146484375,
-      "SDScore": 0.0,
-      "P99Score": 505.6400146484375,
-      "TotalPayout": 20000.0,
+      "AvgWinPayout": 19998.93745129985,
+      "EV": 4600.55,
+      "NetEV": -699.4499999999998,
+      "ROI%": -13.197169811320752,
+      "WinPct": 14.117,
+      "SecondPct": 17.776,
+      "ThirdPct": 19.765,
+      "CashPct": 31.892,
+      "MeanScore": 406.3947617072296,
+      "SDScore": 86.83368605050423,
+      "P99Score": 608.4001226424036,
+      "TotalPayout": 460055000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -102,18 +102,18 @@
       "F5": "Kaan Ofli",
       "F6": "Daniil Donchenko",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 319.260009765625,
-      "SDScore": 0.0,
-      "P99Score": 319.260009765625,
-      "TotalPayout": 0.0,
+      "AvgWinPayout": 19999.276253890137,
+      "EV": 3652.9,
+      "NetEV": -1647.1,
+      "ROI%": -31.07735849056604,
+      "WinPct": 13.816999999999998,
+      "SecondPct": 8.895999999999999,
+      "ThirdPct": 9.857,
+      "CashPct": 22.713,
+      "MeanScore": 352.7152886348343,
+      "SDScore": 90.86013915069888,
+      "P99Score": 564.0875801794068,
+      "TotalPayout": 365290000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -129,18 +129,18 @@
       "F5": "Eric Nolan",
       "F6": "Javier Reyes",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 10000.0,
-      "NetEV": 4700.0,
-      "ROI%": 88.67924528301887,
-      "WinPct": 0.0,
-      "SecondPct": 100.0,
-      "ThirdPct": 0.0,
-      "CashPct": 100.0,
-      "MeanScore": 456.5,
-      "SDScore": 0.0,
-      "P99Score": 456.5,
-      "TotalPayout": 10000.0,
+      "AvgWinPayout": 19999.77225107042,
+      "EV": 6358.2,
+      "NetEV": 1058.1999999999998,
+      "ROI%": 19.966037735849053,
+      "WinPct": 21.954,
+      "SecondPct": 19.678,
+      "ThirdPct": 17.52,
+      "CashPct": 41.63,
+      "MeanScore": 420.0739577007675,
+      "SDScore": 92.40005138281296,
+      "P99Score": 635.0286207926652,
+      "TotalPayout": 635820000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -156,18 +156,18 @@
       "F5": "Javier Reyes",
       "F6": "Jefferson Nascimento",
       "EntryFee": 5300.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -5300.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 213.19000244140625,
-      "SDScore": 0.0,
-      "P99Score": 213.19000244140625,
-      "TotalPayout": 0.0,
+      "AvgWinPayout": 19999.76865775228,
+      "EV": 5762.55,
+      "NetEV": 462.5500000000002,
+      "ROI%": 8.727358490566042,
+      "WinPct": 21.613,
+      "SecondPct": 14.403,
+      "ThirdPct": 13.96,
+      "CashPct": 36.014,
+      "MeanScore": 403.1351359328461,
+      "SDScore": 94.7561409447639,
+      "P99Score": 623.570882968142,
+      "TotalPayout": 576255000.0,
       "TotalSalary": 49800.0
     }
   ],
@@ -176,92 +176,92 @@
       "fight_id": 1,
       "fighter1": "Rafael Fiziev",
       "fighter2": "Manuel Torres",
-      "fighter1_score": 101.86,
-      "fighter2_score": 9.78
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 2,
       "fighter1": "Shara Magomedov",
       "fighter2": "Michel Pereira",
-      "fighter1_score": 69.39,
-      "fighter2_score": 36.52
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 3,
       "fighter1": "Nazim Sadykhov",
       "fighter2": "Matheus Camilo",
-      "fighter1_score": 0.0,
-      "fighter2_score": 101.69
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 4,
       "fighter1": "Asu Almabayev",
       "fighter2": "Charles Johnson",
-      "fighter1_score": 111.04,
-      "fighter2_score": 10.6
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 5,
       "fighter1": "Ikram Aliskerov",
       "fighter2": "Brunno Ferreira",
-      "fighter1_score": 103.19,
-      "fighter2_score": 8.61
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 6,
       "fighter1": "Abus Magomedov",
       "fighter2": "Michal Oleksiejczuk",
-      "fighter1_score": 105.08,
-      "fighter2_score": 2.09
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 7,
       "fighter1": "Farman Hasanov",
       "fighter2": "Eric Nolan",
-      "fighter1_score": 149.96,
-      "fighter2_score": 8.89
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 8,
       "fighter1": "Abdul Rakhman Yakhyaev",
       "fighter2": "Julius Walker",
-      "fighter1_score": 127.0,
-      "fighter2_score": 0.0
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 9,
       "fighter1": "Nursulton Ruziboev",
       "fighter2": "Andrey Pulyaev",
-      "fighter1_score": 107.24,
-      "fighter2_score": 3.4
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 10,
       "fighter1": "Javier Reyes",
       "fighter2": "Kaan Ofli",
-      "fighter1_score": 2.8,
-      "fighter2_score": 112.76
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 11,
       "fighter1": "Daniil Donchenko",
       "fighter2": "Theodor Berggren",
-      "fighter1_score": 119.61,
-      "fighter2_score": 10.91
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 12,
       "fighter1": "Jean Matsumoto",
       "fighter2": "Bekzat Almakhan",
-      "fighter1_score": 76.54,
-      "fighter2_score": 37.86
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 13,
       "fighter1": "Tahir Abdullayev",
       "fighter2": "Jefferson Nascimento",
-      "fighter1_score": 80.16,
-      "fighter2_score": 18.79
+      "fighter1_score": null,
+      "fighter2_score": null
     }
   ],
   "payouts": [

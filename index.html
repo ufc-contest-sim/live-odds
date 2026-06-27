@@ -782,6 +782,10 @@
             margin-bottom: 25px;
             align-items: start;
         }
+
+        .stats-and-fighters.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
         
         .stats-vertical {
             background: var(--glass-bg);
@@ -870,12 +874,131 @@
         .fighter-draft-table .fighter-name {
             font-weight: 500;
         }
+
+        /* Dupes by User table (Portfolio view) */
+        .dupes-container {
+            background: var(--glass-bg);
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+            overflow-y: auto;
+        }
+
+        .dupes-container h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: var(--accent-green);
+        }
+
+        .dupes-empty {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .dupes-count {
+            font-weight: 600;
+            color: var(--accent-green);
+            text-align: right;
+        }
         
         .fighter-draft-table .draft-pct {
             color: var(--accent-green);
             font-weight: 600;
+            text-align: right;
         }
-        
+
+        .fighter-draft-table .win-pct {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .fighter-draft-table th {
+            padding: 8px 12px;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: default;
+        }
+
+        .fighter-draft-table th.num {
+            text-align: right;
+        }
+
+        /* Insights / charts */
+        #insights-view {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .chart-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin: 0 0 4px;
+            color: var(--accent-green);
+        }
+
+        .chart-sub {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            margin-bottom: 12px;
+            max-width: 760px;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 18px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chart-legend .cdot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .chart-card svg text {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chart-tip {
+            position: fixed;
+            pointer-events: none;
+            background: var(--bg-card-solid);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            opacity: 0;
+            transition: opacity 0.1s;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .chart-tip b { color: var(--accent-green); }
+
         .filters {
             background: var(--glass-bg);
 
@@ -1181,6 +1304,57 @@
             font-weight: 700;
             font-size: 0.7rem;
         }
+
+        /* Username tiles (expanded "By Lineup" row) */
+        .username-tiles {
+            padding: 16px 20px;
+        }
+
+        .username-tiles-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .username-tiles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* Expanded portfolio lineups (Portfolio view) */
+        .portfolio-lineups {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .portfolio-lineup-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #0a1520;
+        }
+
+        .portfolio-lineup-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .portfolio-lineup-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
         
         .loading,
         .error-message,
@@ -1469,6 +1643,7 @@
                 <button class="tab-btn" onclick="switchView('lineup')">By Lineup</button>
                 <button class="tab-btn" onclick="switchView('portfolio')">By Portfolio</button>
                 <button class="tab-btn" onclick="switchView('whatif')">What If</button>
+                <button class="tab-btn" onclick="switchView('insights')">Insights</button>
             </div>
             
             <div class="filters">
@@ -1511,11 +1686,25 @@
                     <h3>Portfolio Stats</h3>
                     <div id="stats-vertical"></div>
                 </div>
-                
+
                 <div class="fighter-draft-container">
-                    <h3>Fighter Draft %</h3>
+                    <h3>Fighter Exposure</h3>
                     <table class="fighter-draft-table">
+                        <thead>
+                            <tr>
+                                <th>Fighter</th>
+                                <th class="num">Draft %</th>
+                                <th class="num">Win Lineup %</th>
+                            </tr>
+                        </thead>
                         <tbody id="fighter-draft-tbody"></tbody>
+                    </table>
+                </div>
+
+                <div class="dupes-container" id="dupes-container" style="display: none;">
+                    <h3>Dupes by User</h3>
+                    <table class="fighter-draft-table">
+                        <tbody id="dupes-tbody"></tbody>
                     </table>
                 </div>
             </div>
@@ -1631,9 +1820,22 @@
                 </div>
             </div>
 
+            <div id="insights-view" style="display: none;">
+                <div class="chart-card">
+                    <h3>Leverage — Win Lineup % vs Draft %</h3>
+                    <div class="chart-sub">Above the dashed line = on more winning lineups than the field rosters them (leverage). Below = over-owned chalk. Hover a dot for details.</div>
+                    <div class="chart-legend">
+                        <span><span class="cdot" style="background:var(--accent-green)"></span>Leverage</span>
+                        <span><span class="cdot" style="background:var(--accent-red)"></span>Over-owned</span>
+                        <span><span class="cdot" style="background:var(--text-secondary)"></span>Neutral</span>
+                    </div>
+                    <svg id="chart-leverage" viewBox="0 0 860 560" width="100%"></svg>
+                </div>
+            </div>
 
         </div>
     </div>
+    <div class="chart-tip" id="chart-tip"></div>
 
     <script>
         // Dynamic contest loading - no more hardcoding!
@@ -1837,6 +2039,13 @@
             const filtersPanel = document.querySelector('.filters');
             const tableHeader = document.querySelector('.table-header');
 
+            // Dupes-by-User panel is only used on the Portfolio view
+            document.getElementById('dupes-container').style.display = 'none';
+            statsPanel.classList.remove('three-col');
+
+            // Insights (charts) view
+            document.getElementById('insights-view').style.display = 'none';
+
             if (view === 'username') {
                 document.getElementById('username-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
@@ -1847,7 +2056,7 @@
                 tableHeader.style.display = '';
             } else if (view === 'lineup') {
                 document.getElementById('lineup-table').style.display = 'block';
-                document.getElementById('username-filter').style.display = 'none';
+                document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'flex';
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
@@ -1857,6 +2066,8 @@
                 document.getElementById('portfolio-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
+                document.getElementById('dupes-container').style.display = 'block';
+                statsPanel.classList.add('three-col');
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
@@ -1869,6 +2080,12 @@
                 filtersPanel.style.display = '';
                 tableHeader.style.display = 'none';
                 initWhatIfPanel();
+            } else if (view === 'insights') {
+                document.getElementById('insights-view').style.display = 'flex';
+                whatifLayout.classList.remove('active');
+                statsPanel.style.display = 'none';
+                filtersPanel.style.display = 'none';
+                tableHeader.style.display = 'none';
             }
 
             filterAndRender();
@@ -2604,19 +2821,51 @@
         
         function updateFighterDraftTable(data) {
             const fighterStats = calculateFighterDraftPct(data);
+            const winMap = calculateWinningLineupPct();
             const tbody = document.getElementById('fighter-draft-tbody');
-            
+
             if (fighterStats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
                 return;
             }
-            
+
             tbody.innerHTML = fighterStats.map(f => `
                 <tr>
                     <td class="fighter-name">${f.fighter}</td>
                     <td class="draft-pct">${f.pct.toFixed(2)}%</td>
+                    <td class="win-pct">${(winMap[f.fighter] || 0).toFixed(2)}%</td>
                 </tr>
             `).join('');
+        }
+
+        // % of winning lineups that contain each fighter (field-level).
+        // Sum each fighter's WinPct across every field lineup they appear in, then
+        // normalize by the total win mass. Normalization matters: with heavy
+        // duplication many tied lineups each count as winners, so raw WinPct sums
+        // well past 100% — dividing by the total gives a clean "share of winning
+        // lineups containing this fighter." Computed over the full field (allData),
+        // not the filtered view, since WinPct is a field-level probability.
+        function calculateWinningLineupPct() {
+            const mass = {};
+            let total = 0;
+            (allData || []).forEach(row => {
+                const w = row.WinPct || 0;
+                if (!w) return;
+                total += w;
+                const seen = new Set();
+                for (let i = 1; i <= 6; i++) {
+                    const fighter = row[`F${i}`];
+                    if (fighter && fighter !== '' && !seen.has(fighter)) {
+                        seen.add(fighter);
+                        mass[fighter] = (mass[fighter] || 0) + w;
+                    }
+                }
+            });
+            const winPct = {};
+            if (total > 0) {
+                for (const f in mass) winPct[f] = (mass[f] / total) * 100;
+            }
+            return winPct;
         }
         
         function updateStats(data) {
@@ -2694,8 +2943,12 @@
         function syncDraftHeight() {
             const statsEl = document.querySelector('.stats-vertical');
             const draftEl = document.querySelector('.fighter-draft-container');
+            const dupesEl = document.querySelector('.dupes-container');
             if (statsEl && draftEl) {
                 draftEl.style.maxHeight = statsEl.offsetHeight + 'px';
+            }
+            if (statsEl && dupesEl) {
+                dupesEl.style.maxHeight = statsEl.offsetHeight + 'px';
             }
         }
         window.addEventListener('resize', syncDraftHeight);
@@ -2774,9 +3027,18 @@
                 return sortAscending ? aVal - bVal : bVal - aVal;
             });
             
-            // Update stats based on filtered data
-            updateStats(filteredData);
-            
+            // Update stats based on filtered data.
+            // On the lineup view we keep filteredData un-username-filtered so the
+            // expanded dupe tiles still list everyone — but the stats panel should
+            // reflect just the searched user's entries when a username is active.
+            let statsData = filteredData;
+            if (currentView === 'lineup' && searchUser.trim()) {
+                const q = searchUser.trim();
+                statsData = filteredData.filter(row =>
+                    row.Username && row.Username.toLowerCase().includes(q));
+            }
+            updateStats(statsData);
+
             // Render based on current view
             if (currentView === 'username') {
                 renderUsernameView(filteredData);
@@ -2786,9 +3048,83 @@
                 renderPortfolioView(filteredData);
             } else if (currentView === 'whatif') {
                 calculateAndRenderWhatIf();
+            } else if (currentView === 'insights') {
+                renderInsights();
             }
         }
-        
+
+        // ==================== Insights (charts) ====================
+        const SVGNS = 'http://www.w3.org/2000/svg';
+        function svgEl(tag, attrs) {
+            const e = document.createElementNS(SVGNS, tag);
+            for (const k in attrs) e.setAttribute(k, attrs[k]);
+            return e;
+        }
+        function chartColors() {
+            const cs = getComputedStyle(document.documentElement);
+            return {
+                green: cs.getPropertyValue('--accent-green').trim() || '#00ff88',
+                red: cs.getPropertyValue('--accent-red').trim() || '#ff4466',
+                grey: cs.getPropertyValue('--text-secondary').trim() || '#7a8599',
+                txt: cs.getPropertyValue('--text-primary').trim() || '#e8edf5',
+                bg: cs.getPropertyValue('--bg-dark').trim() || '#060a12',
+            };
+        }
+        function bindTip(node, html) {
+            const tip = document.getElementById('chart-tip');
+            node.addEventListener('mousemove', e => {
+                tip.style.opacity = 1;
+                tip.style.left = (e.clientX + 14) + 'px';
+                tip.style.top = (e.clientY + 14) + 'px';
+                tip.innerHTML = html;
+            });
+            node.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
+        }
+        function niceMax(v) { return Math.max(10, Math.ceil(v / 10) * 10); }
+
+        function renderInsights() {
+            renderLeverageChart();
+        }
+
+        // Chart 1: Win Lineup % vs Draft % (fighter leverage)
+        function renderLeverageChart() {
+            const svg = document.getElementById('chart-leverage');
+            if (!svg) return;
+            svg.innerHTML = '';
+            const C = chartColors();
+            const draftStats = calculateFighterDraftPct(allData || []);
+            const winMap = calculateWinningLineupPct();
+            const pts = draftStats.map(f => ({
+                name: f.fighter, draft: f.pct, win: winMap[f.fighter] || 0,
+            }));
+            if (!pts.length) return;
+            const W = 860, H = 560, M = { l: 64, r: 30, t: 20, b: 58 };
+            const pw = W - M.l - M.r, ph = H - M.t - M.b;
+            const maxV = niceMax(Math.max(...pts.map(p => Math.max(p.draft, p.win))));
+            const x = v => M.l + (v / maxV) * pw;
+            const y = v => M.t + ph - (v / maxV) * ph;
+            for (let v = 0; v <= maxV; v += 10) {
+                svg.appendChild(svgEl('line', { x1: x(v), y1: M.t, x2: x(v), y2: M.t + ph, stroke: '#13202f', 'stroke-width': 1 }));
+                svg.appendChild(svgEl('line', { x1: M.l, y1: y(v), x2: M.l + pw, y2: y(v), stroke: '#13202f', 'stroke-width': 1 }));
+                let t = svgEl('text', { x: x(v), y: M.t + ph + 20, fill: C.grey, 'font-size': 11, 'text-anchor': 'middle' }); t.textContent = v + '%'; svg.appendChild(t);
+                t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = v + '%'; svg.appendChild(t);
+            }
+            svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#3a4a5c', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
+            let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' }); xl.textContent = 'Draft % (field ownership)'; svg.appendChild(xl);
+            let yl = svgEl('text', { x: 18, y: M.t + ph / 2, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle', transform: `rotate(-90 18 ${M.t + ph / 2})` }); yl.textContent = 'Win Lineup %'; svg.appendChild(yl);
+            pts.forEach(p => {
+                const lev = p.win - p.draft;
+                const color = lev > 3 ? C.green : (lev < -3 ? C.red : C.grey);
+                const c = svgEl('circle', { cx: x(p.draft), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
+                c.style.cursor = 'pointer';
+                bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Win Lineup: ${p.win.toFixed(1)}%<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
+                svg.appendChild(c);
+                if (p.draft >= maxV * 0.35 || Math.abs(lev) >= 6) {
+                    const t = svgEl('text', { x: x(p.draft) + 9, y: y(p.win) + 4, fill: '#c4d0dd', 'font-size': 10.5 }); t.textContent = p.name; svg.appendChild(t);
+                }
+            });
+        }
+
         function renderUsernameView(data) {
             // Render (show top 1000 for performance)
             const displayData = data.slice(0, 1000);
@@ -2877,15 +3213,18 @@
         function renderLineupView(data) {
             // Group by unique lineup
             const lineupMap = new Map();
-            
+            let lineupSeq = 0;
+
             data.forEach(row => {
                 const lineupKey = row.LineupKey || '';
                 if (!lineupKey) return;
-                
+
                 if (!lineupMap.has(lineupKey)) {
                     lineupMap.set(lineupKey, {
                         lineup: lineupKey,
+                        stableId: lineupSeq++,   // insertion-order id, stable across sorts
                         fighters: [],
+                        usernames: [],
                         WinPct: row.WinPct || 0,
                         SecondPct: row.SecondPct != null ? row.SecondPct : null,
                         ThirdPct: row.ThirdPct != null ? row.ThirdPct : null,
@@ -2895,7 +3234,7 @@
                         TotalSalary: row.TotalSalary || 0,
                         Copies: row.Copies || 1
                     });
-                    
+
                     // Get fighters
                     for (let i = 1; i <= 6; i++) {
                         const fighter = row[`F${i}`];
@@ -2904,11 +3243,25 @@
                         }
                     }
                 }
+                // Collect every username that submitted this lineup (one row per entry)
+                const uname = (row.Username || '').trim();
+                if (uname) {
+                    lineupMap.get(lineupKey).usernames.push(uname);
+                }
                 // Don't add to copies - just use the Copies value from the first occurrence
             });
             
             // Convert to array and sort
             let uniqueLineups = Array.from(lineupMap.values());
+
+            // Username filter: keep lineups that include the searched username,
+            // but still show ALL usernames for those lineups (so you can see who duped you).
+            const userQuery = (document.getElementById('search-user').value || '').trim().toLowerCase();
+            if (userQuery) {
+                uniqueLineups = uniqueLineups.filter(l =>
+                    l.usernames.some(u => u.toLowerCase().includes(userQuery)));
+            }
+
             uniqueLineups.sort((a, b) => {
                 let aVal = a[currentSort] || 0;
                 let bVal = b[currentSort] || 0;
@@ -2936,9 +3289,13 @@
             };
             
             tbody.innerHTML = displayData.map((lineup, idx) => {
+                const rowId = `lineup-${lineup.stableId}`;
+                const isExpanded = expandedRows.has(rowId);
+                const sortedUsers = [...lineup.usernames].sort((a, b) =>
+                    a.localeCompare(b, undefined, { sensitivity: 'base' }));
                 return `
-                    <tr class="row-main">
-                        <td>${idx + 1}</td>
+                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
+                        <td><span class="expand-icon">${isExpanded ? '▼' : '▶'}</span> ${idx + 1}</td>
                         <td>
                             <div class="lineup-container" style="padding: 8px 0;">
                                 ${lineup.fighters.map(f => `
@@ -2959,11 +3316,71 @@
                         <td>${lineup.TotalSalary ? '$' + Number(lineup.TotalSalary).toLocaleString() : '--'}</td>
                         <td>${lineup.Copies || 0}</td>
                     </tr>
+                    <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
+                        <td colspan="10">
+                            <div class="username-tiles">
+                                <div class="username-tiles-label">${sortedUsers.length} ${sortedUsers.length === 1 ? 'entry' : 'entries'} with this lineup</div>
+                                <div class="username-tiles-container">
+                                    ${sortedUsers.length
+                                        ? sortedUsers.map(u => `<div class="fighter-chip">${u}</div>`).join('')
+                                        : '<span style="color: var(--text-secondary);">No usernames available</span>'}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 `;
             }).join('');
         }
 
+        // Populate the "Dupes by User" panel: who shares the most lineups with
+        // the searched user. Blank until a username is entered.
+        function updateDupesByUser() {
+            const tbody = document.getElementById('dupes-tbody');
+            const q = (document.getElementById('search-user').value || '').trim().toLowerCase();
+            if (!q) {
+                tbody.innerHTML = '<tr><td class="dupes-empty">Search a username to see who you share the most lineups with.</td></tr>';
+                return;
+            }
+            // LineupKey -> set of usernames (across the whole field)
+            const keyUsers = new Map();
+            const myKeys = new Set();
+            allData.forEach(row => {
+                const key = row.LineupKey || '';
+                const uname = (row.Username || '').trim();
+                if (!key || !uname) return;
+                if (!keyUsers.has(key)) keyUsers.set(key, new Set());
+                keyUsers.get(key).add(uname);
+                if (uname.toLowerCase().includes(q)) myKeys.add(key);
+            });
+            if (myKeys.size === 0) {
+                tbody.innerHTML = '<tr><td class="dupes-empty">No lineups found for that username.</td></tr>';
+                return;
+            }
+            // Count distinct shared lineups per other user
+            const counts = new Map();
+            myKeys.forEach(key => {
+                keyUsers.get(key).forEach(u => {
+                    if (u.toLowerCase().includes(q)) return; // skip the searched user
+                    counts.set(u, (counts.get(u) || 0) + 1);
+                });
+            });
+            const ranked = Array.from(counts.entries())
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 100);
+            if (ranked.length === 0) {
+                tbody.innerHTML = '<tr><td class="dupes-empty">Nobody else entered these lineups — fully unique!</td></tr>';
+                return;
+            }
+            tbody.innerHTML = ranked.map(([u, c]) => `
+                <tr>
+                    <td class="fighter-name">${u}</td>
+                    <td class="dupes-count">${c}</td>
+                </tr>
+            `).join('');
+        }
+
         function renderPortfolioView(data) {
+            updateDupesByUser();
             // Group by username and aggregate stats
             const portfolioMap = new Map();
 
@@ -2973,6 +3390,7 @@
                 if (!portfolioMap.has(username)) {
                     portfolioMap.set(username, {
                         Username: username,
+                        stableId: portfolioMap.size,
                         Entries: 0,
                         TotalWinPct: 0,
                         TotalSecondPct: 0,
@@ -2983,12 +3401,25 @@
                         hasCashPct: false,
                         TotalNetEV: 0,
                         TotalCost: 0,
-                        TotalSalary: 0
+                        TotalSalary: 0,
+                        lineups: []
                     });
                 }
 
                 const portfolio = portfolioMap.get(username);
                 portfolio.Entries += 1;
+                // Capture this entry's lineup for the expandable row
+                const lineupFighters = [];
+                for (let i = 1; i <= 6; i++) {
+                    const f = row[`F${i}`];
+                    if (f && f !== '') lineupFighters.push(f);
+                }
+                portfolio.lineups.push({
+                    fighters: lineupFighters,
+                    WinPct: row.WinPct || 0,
+                    NetEV: row.NetEV || 0,
+                    Copies: row.Copies || 1
+                });
                 portfolio.TotalWinPct += (row.WinPct || 0);
                 if (row.SecondPct != null) {
                     portfolio.TotalSecondPct += row.SecondPct;
@@ -3063,9 +3494,12 @@
             };
 
             tbody.innerHTML = displayData.map((portfolio, idx) => {
+                const rowId = `pf-${portfolio.stableId}`;
+                const isExpanded = expandedRows.has(rowId);
+                const lineups = portfolio.lineups || [];
                 return `
-                    <tr class="row-main">
-                        <td>${idx + 1}</td>
+                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
+                        <td><span class="expand-icon">${isExpanded ? '▼' : '▶'}</span> ${idx + 1}</td>
                         <td class="username">${portfolio.Username}</td>
                         <td>${portfolio.Entries}</td>
                         <td>${portfolio.WinPct.toFixed(2)}%</td>
@@ -3079,6 +3513,25 @@
                             ${formatROI(portfolio['ROI%'])}
                         </td>
                         <td>${portfolio.TotalSalary ? '$' + Number(portfolio.TotalSalary).toLocaleString() : '--'}</td>
+                    </tr>
+                    <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
+                        <td colspan="10">
+                            <div class="portfolio-lineups">
+                                ${lineups.map(lu => `
+                                    <div class="portfolio-lineup-row">
+                                        <div class="lineup-container" style="padding: 0;">
+                                            ${lu.fighters.map(f => `<div class="fighter-chip">${f}</div>`).join('')}
+                                        </div>
+                                        <div class="portfolio-lineup-meta">
+                                            <span>${lu.WinPct.toFixed(2)}% win</span>
+                                            <span class="${lu.NetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(lu.NetEV)}</span>
+                                            <span class="dupes-count">${lu.Copies}x</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                ${lineups.length === 0 ? '<span style="color: var(--text-secondary);">No lineups</span>' : ''}
+                            </div>
+                        </td>
                     </tr>
                 `;
             }).join('');

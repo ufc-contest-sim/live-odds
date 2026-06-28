@@ -43,8 +43,8 @@
   <div class="panel">
     <div class="controls">
       <div>
-        <label for="initials">Initials (1–4 characters)</label>
-        <input id="initials" type="text" maxlength="4" value="DH" autocomplete="off" placeholder="e.g. JS">
+        <label for="initials">Initials (up to 8 — wraps to two rows)</label>
+        <input id="initials" type="text" maxlength="8" value="DH" autocomplete="off" placeholder="e.g. JS">
       </div>
       <div>
         <label>Text color</label>
@@ -94,20 +94,27 @@ function draw() {
   // 1) the badge frame image, untouched
   if (frameOk) ctx.drawImage(frame, 0, 0, SIZE, SIZE);
 
-  // 2) the initials, on top, centered inside the octagon
-  const txt = (document.getElementById('initials').value || '').toUpperCase().trim();
-  if (!txt) return;
+  // 2) the initials, on top, centered inside the octagon.
+  //    Up to 4 chars = one row; 5–8 chars = two rows of 4.
+  const raw = (document.getElementById('initials').value || '').toUpperCase().trim();
+  if (!raw) return;
+  const lines = raw.length <= 4 ? [raw] : [raw.slice(0, 4), raw.slice(4, 8)];
   ctx.fillStyle = ink;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  let fontSize = SIZE * 0.30;
   const maxW = SIZE * 0.46;
+  let fontSize = lines.length === 1 ? SIZE * 0.30 : SIZE * 0.22;
   do {
     ctx.font = `900 ${fontSize}px Arial, sans-serif`;
-    if (ctx.measureText(txt).width <= maxW) break;
-    fontSize -= 6;
-  } while (fontSize > 20);
-  ctx.fillText(txt, SIZE / 2, SIZE / 2 + SIZE * 0.05);
+    const widest = Math.max(...lines.map(l => ctx.measureText(l).width));
+    if (widest <= maxW) break;
+    fontSize -= 5;
+  } while (fontSize > 16);
+  ctx.font = `900 ${fontSize}px Arial, sans-serif`;
+  const lineH = fontSize * 1.02;
+  const cx = SIZE / 2, cy = SIZE / 2 + SIZE * 0.05;
+  let y = cy - (lineH * (lines.length - 1)) / 2;
+  lines.forEach(l => { ctx.fillText(l, cx, y); y += lineH; });
 }
 
 document.getElementById('initials').addEventListener('input', draw);

@@ -933,9 +933,14 @@
 
         /* Insights / charts */
         #insights-view {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
+            align-items: stretch;
+        }
+
+        @media (max-width: 900px) {
+            #insights-view { grid-template-columns: 1fr; }
         }
 
         .chart-card {
@@ -943,6 +948,9 @@
             border: 1px solid var(--glass-border);
             border-radius: 14px;
             padding: 24px;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
         }
 
         .chart-card h3 {
@@ -1000,8 +1008,24 @@
         .chart-tip b { color: var(--accent-green); }
 
         /* Lineup Uniqueness by User table */
+        .dupe-search {
+            width: 100%;
+            background: var(--bg-card-solid);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            padding: 9px 12px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        .dupe-search:focus { border-color: var(--accent-green); }
+
         .dupe-table-scroll {
-            max-height: 460px;
+            flex: 1;
+            min-height: 0;
+            max-height: 70vh;
             overflow-y: auto;
             border: 1px solid var(--glass-border);
             border-radius: 10px;
@@ -1865,7 +1889,6 @@
             <div id="insights-view" style="display: none;">
                 <div class="chart-card">
                     <h3>Leverage — Win Lineup % vs Draft %</h3>
-                    <div class="chart-sub">Above the dashed line = on more winning lineups than the field rosters them (leverage). Below = over-owned chalk. Hover a dot for details.</div>
                     <div class="chart-legend">
                         <span><span class="cdot" style="background:var(--accent-green)"></span>Leverage</span>
                         <span><span class="cdot" style="background:var(--accent-red)"></span>Over-owned</span>
@@ -1876,7 +1899,7 @@
 
                 <div class="chart-card">
                     <h3>Lineup Uniqueness by User</h3>
-                    <div class="chart-sub">Each user's distinct lineups, split by how duplicated they were across the field: unique (1x), lightly duped (2–4x), and heavily duped (5+). Click a header to sort; scroll for the full field.</div>
+                    <input type="text" id="dupe-search" class="dupe-search" placeholder="Search username..." autocomplete="off" oninput="renderDupeTable()">
                     <div class="dupe-table-scroll">
                         <table class="dupe-table">
                             <thead>
@@ -2142,7 +2165,7 @@
                 tableHeader.style.display = 'none';
                 initWhatIfPanel();
             } else if (view === 'insights') {
-                document.getElementById('insights-view').style.display = 'flex';
+                document.getElementById('insights-view').style.display = 'grid';
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = 'none';
                 filtersPanel.style.display = 'none';
@@ -3171,6 +3194,8 @@
                 user: r.user, unique: r.unique, low: r.low, high: r.high,
                 total: r.unique + r.low + r.high
             }));
+            const q = (document.getElementById('dupe-search')?.value || '').trim().toLowerCase();
+            if (q) rows = rows.filter(r => r.user.toLowerCase().includes(q));
             const { key, asc } = dupeSort;
             rows.sort((a, b) => key === 'user'
                 ? (asc ? a.user.localeCompare(b.user) : b.user.localeCompare(a.user))

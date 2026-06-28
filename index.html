@@ -936,7 +936,7 @@
             display: grid;
             grid-template-columns: 3fr 2fr;
             gap: 20px;
-            align-items: start;
+            align-items: stretch;
         }
 
         .insights-leverage { grid-column: 1; grid-row: 1; }
@@ -3286,19 +3286,12 @@
             requestAnimationFrame(syncInsightsHeight);
         }
 
-        // Match each right-column table to the height of the chart beside it.
+        // Heights are handled by CSS grid (align-items: stretch); clear any stale
+        // inline heights so each row's two cards stay equal.
         function syncInsightsHeight() {
             const view = document.getElementById('insights-view');
-            if (!view || view.style.display === 'none') return;
-            const lev = view.querySelector('.insights-leverage');
-            const pair = view.querySelector('.insights-pairing');
-            const fcard = view.querySelector('.insights-fighters');
-            const tbl = view.querySelector('.insights-table');
-            if (fcard) fcard.style.height = '';
-            if (tbl) tbl.style.height = '';
-            if (window.innerWidth <= 900) return; // stacked: let CSS handle it
-            if (lev && fcard && lev.offsetHeight > 0) fcard.style.height = lev.offsetHeight + 'px';
-            if (pair && tbl && pair.offsetHeight > 0) tbl.style.height = pair.offsetHeight + 'px';
+            if (!view) return;
+            view.querySelectorAll('.chart-card').forEach(c => { c.style.height = ''; });
         }
         window.addEventListener('resize', syncInsightsHeight);
 
@@ -3458,7 +3451,7 @@
         }
 
         // Per-user lineup uniqueness table (distinct lineups bucketed by field dupe count)
-        let dupeSort = { key: 'total', asc: false };
+        let dupeSort = { key: 'user', asc: true };
         function renderDupeTable() {
             const tbody = document.getElementById('dupe-table-body');
             if (!tbody) return;

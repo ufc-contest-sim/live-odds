@@ -941,7 +941,8 @@
 
         .insights-leverage { grid-column: 1; grid-row: 1; }
         .insights-pairing  { grid-column: 1; grid-row: 2; }
-        .insights-table    { grid-column: 2; grid-row: 1 / span 2; align-self: stretch; }
+        .insights-fighters { grid-column: 2; grid-row: 1; }
+        .insights-table    { grid-column: 2; grid-row: 2; }
 
         .pair-controls {
             display: flex;
@@ -1962,6 +1963,25 @@
                     <svg id="chart-pairing" viewBox="0 0 860 560" width="100%"></svg>
                 </div>
 
+                <div class="chart-card insights-fighters">
+                    <h3>Fighters</h3>
+                    <div class="dupe-table-scroll">
+                        <table class="dupe-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" onclick="sortInsightsFighters('fighter')">Fighter</th>
+                                    <th class="sortable num" onclick="sortInsightsFighters('salary')">Salary</th>
+                                    <th class="sortable num" onclick="sortInsightsFighters('draft')">Draft %</th>
+                                    <th class="sortable num" onclick="sortInsightsFighters('win')">Win Lineup %</th>
+                                    <th class="sortable num" onclick="sortInsightsFighters('optimal')">Optimal %</th>
+                                    <th class="sortable num" onclick="sortInsightsFighters('score')">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="insights-fighter-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="chart-card insights-table">
                     <h3>Lineup Uniqueness by User</h3>
                     <input type="text" id="dupe-search" class="dupe-search" placeholder="Search username..." autocomplete="off" oninput="renderDupeTable()">
@@ -2001,6 +2021,7 @@
         let contestFightCard = null;  // fight_card from JSON (if available)
         let contestPayouts = null;    // payouts array from JSON (if available)
         let contestOptimalMap = null; // fighter -> optimal% from JSON (if available)
+        let contestSalaryMap = null;  // fighter -> salary from JSON (if available)
         let whatIfScores = {};         // fighter name -> score (user input)
         let whatIfResults = null;      // calculated What If leaderboard
         let whatIfDebounceTimer = null;
@@ -2879,6 +2900,7 @@
             contestFightCard = null;
             contestPayouts = null;
             contestOptimalMap = null;
+            contestSalaryMap = null;
         }
         
         function showLeaderboard() {
@@ -2907,6 +2929,7 @@
                 contestFightCard = data.fight_card || null;
                 contestPayouts = data.payouts || null;
                 contestOptimalMap = data.optimal_map || null;
+                contestSalaryMap = data.salary_map || null;
                 whatIfScores = {};
                 whatIfResults = null;
 
@@ -3256,28 +3279,76 @@
 
         function renderInsights() {
             renderLeverageChart();
+            renderInsightsFighterTable();
             buildPairingControls();
             renderPairingChart();
             renderDupeTable();
             requestAnimationFrame(syncInsightsHeight);
         }
 
-        // Stretch the uniqueness table to the full height of the stacked left column
-        // (leverage + gap + pairing) so there's no blank space.
+        // Match each right-column table to the height of the chart beside it.
         function syncInsightsHeight() {
             const view = document.getElementById('insights-view');
             if (!view || view.style.display === 'none') return;
             const lev = view.querySelector('.insights-leverage');
             const pair = view.querySelector('.insights-pairing');
+            const fcard = view.querySelector('.insights-fighters');
             const tbl = view.querySelector('.insights-table');
-            if (!lev || !tbl) return;
-            tbl.style.height = '';
+            if (fcard) fcard.style.height = '';
+            if (tbl) tbl.style.height = '';
             if (window.innerWidth <= 900) return; // stacked: let CSS handle it
-            let h = lev.offsetHeight;
-            if (pair) h += 20 + pair.offsetHeight; // 20 = grid gap
-            if (h > 0) tbl.style.height = h + 'px';
+            if (lev && fcard && lev.offsetHeight > 0) fcard.style.height = lev.offsetHeight + 'px';
+            if (pair && tbl && pair.offsetHeight > 0) tbl.style.height = pair.offsetHeight + 'px';
         }
         window.addEventListener('resize', syncInsightsHeight);
+
+        // Slate-level fighter table: Fighter / Salary / Draft% / Win Lineup% / Optimal% / Score
+        let insightsFighterSort = { key: 'optimal', asc: false };
+        function sortInsightsFighters(key) {
+            if (insightsFighterSort.key === key) insightsFighterSort.asc = !insightsFighterSort.asc;
+            else insightsFighterSort = { key, asc: key === 'fighter' };
+            renderInsightsFighterTable();
+        }
+        function renderInsightsFighterTable() {
+            const tbody = document.getElementById('insights-fighter-tbody');
+            if (!tbody) return;
+            const draftStats = calculateFighterDraftPct(allData || []);
+            const winMap = calculateWinningLineupPct();
+            const optMap = contestOptimalMap || {};
+            const salMap = contestSalaryMap || {};
+            const scoreMap = {};
+            (contestFightCard || []).forEach(f => {
+                if (f.fighter1 && f.fighter1_score != null) scoreMap[f.fighter1] = f.fighter1_score;
+                if (f.fighter2 && f.fighter2_score != null) scoreMap[f.fighter2] = f.fighter2_score;
+            });
+            if (draftStats.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-secondary);">No fighters found</td></tr>';
+                return;
+            }
+            let rows = draftStats.map(f => ({
+                fighter: f.fighter,
+                salary: salMap[f.fighter] != null ? salMap[f.fighter] : null,
+                draft: f.pct,
+                win: winMap[f.fighter] || 0,
+                optimal: optMap[f.fighter] != null ? optMap[f.fighter] : null,
+                score: scoreMap[f.fighter] != null ? scoreMap[f.fighter] : null,
+            }));
+            const { key, asc } = insightsFighterSort;
+            rows.sort((a, b) => {
+                if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
+                const av = a[key] == null ? -Infinity : a[key], bv = b[key] == null ? -Infinity : b[key];
+                return asc ? av - bv : bv - av;
+            });
+            tbody.innerHTML = rows.map(r => `
+                <tr>
+                    <td class="fighter-name">${r.fighter}</td>
+                    <td>${r.salary != null ? '$' + Number(r.salary).toLocaleString() : '--'}</td>
+                    <td class="draft-pct">${r.draft.toFixed(2)}%</td>
+                    <td class="win-pct">${r.win.toFixed(2)}%</td>
+                    <td class="win-pct">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td>${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
+                </tr>`).join('');
+        }
 
         function heatColor(t) {
             t = Math.max(0, Math.min(1, t));

@@ -934,13 +934,51 @@
         /* Insights / charts */
         #insights-view {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 3fr 2fr;
             gap: 20px;
-            align-items: stretch;
+            align-items: start;
+        }
+
+        .insights-leverage { grid-column: 1; grid-row: 1; }
+        .insights-pairing  { grid-column: 1; grid-row: 2; }
+        .insights-table    { grid-column: 2; grid-row: 1 / span 2; align-self: stretch; }
+
+        .pair-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .pair-controls select {
+            background: var(--bg-card-solid);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .pair-toggle {
+            cursor: pointer;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 6px 10px;
+        }
+
+        .pair-toggle.active {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            font-weight: 600;
         }
 
         @media (max-width: 900px) {
             #insights-view { grid-template-columns: 1fr; }
+            .insights-leverage, .insights-pairing, .insights-table { grid-column: 1; grid-row: auto; }
         }
 
         .chart-card {
@@ -1761,6 +1799,7 @@
                                 <th>Fighter</th>
                                 <th class="num">Draft %</th>
                                 <th class="num">Win Lineup %</th>
+                                <th class="num">Optimal %</th>
                             </tr>
                         </thead>
                         <tbody id="fighter-draft-tbody"></tbody>
@@ -1887,7 +1926,7 @@
             </div>
 
             <div id="insights-view" style="display: none;">
-                <div class="chart-card">
+                <div class="chart-card insights-leverage">
                     <h3>Leverage — Win Lineup % vs Draft %</h3>
                     <div class="chart-legend">
                         <span><span class="cdot" style="background:var(--accent-green)"></span>Leverage</span>
@@ -1897,7 +1936,17 @@
                     <svg id="chart-leverage" viewBox="0 0 860 560" width="100%"></svg>
                 </div>
 
-                <div class="chart-card">
+                <div class="chart-card insights-pairing">
+                    <h3>Fighter Pairing</h3>
+                    <div class="pair-controls">
+                        <select id="pair-fsel" onchange="renderPairingChart()"></select>
+                        <span class="pair-toggle active" id="pair-t-pct" onclick="setPairMetric('pct')">% of lineups</span>
+                        <span class="pair-toggle" id="pair-t-cnt" onclick="setPairMetric('count')">Count</span>
+                    </div>
+                    <svg id="chart-pairing" viewBox="0 0 860 560" width="100%"></svg>
+                </div>
+
+                <div class="chart-card insights-table">
                     <h3>Lineup Uniqueness by User</h3>
                     <input type="text" id="dupe-search" class="dupe-search" placeholder="Search username..." autocomplete="off" oninput="renderDupeTable()">
                     <div class="dupe-table-scroll">
@@ -1935,6 +1984,7 @@
         let selectedFighters = [];
         let contestFightCard = null;  // fight_card from JSON (if available)
         let contestPayouts = null;    // payouts array from JSON (if available)
+        let contestOptimalMap = null; // fighter -> optimal% from JSON (if available)
         let whatIfScores = {};         // fighter name -> score (user input)
         let whatIfResults = null;      // calculated What If leaderboard
         let whatIfDebounceTimer = null;
@@ -2812,6 +2862,7 @@
             whatIfResults = null;
             contestFightCard = null;
             contestPayouts = null;
+            contestOptimalMap = null;
         }
         
         function showLeaderboard() {
@@ -2839,6 +2890,7 @@
                 allData = data.leaderboard;
                 contestFightCard = data.fight_card || null;
                 contestPayouts = data.payouts || null;
+                contestOptimalMap = data.optimal_map || null;
                 whatIfScores = {};
                 whatIfResults = null;
 
@@ -2909,15 +2961,17 @@
             const tbody = document.getElementById('fighter-draft-tbody');
 
             if (fighterStats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
                 return;
             }
 
+            const optMap = contestOptimalMap || {};
             tbody.innerHTML = fighterStats.map(f => `
                 <tr>
                     <td class="fighter-name">${f.fighter}</td>
                     <td class="draft-pct">${f.pct.toFixed(2)}%</td>
                     <td class="win-pct">${(winMap[f.fighter] || 0).toFixed(2)}%</td>
+                    <td class="win-pct">${optMap[f.fighter] != null ? optMap[f.fighter].toFixed(2) + '%' : '--'}</td>
                 </tr>
             `).join('');
         }
@@ -3168,7 +3222,102 @@
 
         function renderInsights() {
             renderLeverageChart();
+            buildPairingControls();
+            renderPairingChart();
             renderDupeTable();
+            requestAnimationFrame(syncInsightsHeight);
+        }
+
+        // Stretch the uniqueness table to the full height of the stacked left column
+        // (leverage + gap + pairing) so there's no blank space.
+        function syncInsightsHeight() {
+            const view = document.getElementById('insights-view');
+            if (!view || view.style.display === 'none') return;
+            const lev = view.querySelector('.insights-leverage');
+            const pair = view.querySelector('.insights-pairing');
+            const tbl = view.querySelector('.insights-table');
+            if (!lev || !tbl) return;
+            tbl.style.height = '';
+            if (window.innerWidth <= 900) return; // stacked: let CSS handle it
+            let h = lev.offsetHeight;
+            if (pair) h += 20 + pair.offsetHeight; // 20 = grid gap
+            if (h > 0) tbl.style.height = h + 'px';
+        }
+        window.addEventListener('resize', syncInsightsHeight);
+
+        function heatColor(t) {
+            t = Math.max(0, Math.min(1, t));
+            const a = [22, 49, 74], b = [0, 255, 136];
+            const r = Math.round(a[0] + (b[0] - a[0]) * t);
+            const g = Math.round(a[1] + (b[1] - a[1]) * t);
+            const bl = Math.round(a[2] + (b[2] - a[2]) * t);
+            return `rgb(${r},${g},${bl})`;
+        }
+
+        let pairMetric = 'pct';
+        function setPairMetric(m) {
+            pairMetric = m;
+            document.getElementById('pair-t-pct').classList.toggle('active', m === 'pct');
+            document.getElementById('pair-t-cnt').classList.toggle('active', m === 'count');
+            renderPairingChart();
+        }
+
+        // Populate the fighter dropdown (sorted by field ownership), preserving selection.
+        function buildPairingControls() {
+            const selEl = document.getElementById('pair-fsel');
+            if (!selEl) return;
+            const stats = calculateFighterDraftPct(allData || []);
+            const prev = selEl.value;
+            selEl.innerHTML = stats.map(f => `<option value="${f.fighter}">${f.fighter}</option>`).join('');
+            if (prev && stats.some(f => f.fighter === prev)) selEl.value = prev;
+        }
+
+        // For the selected fighter, rank every other fighter by how often they were paired.
+        function renderPairingChart() {
+            const svg = document.getElementById('chart-pairing');
+            if (!svg) return;
+            svg.innerHTML = '';
+            const C = chartColors();
+            const X = document.getElementById('pair-fsel') ? document.getElementById('pair-fsel').value : '';
+            if (!X) return;
+            let xCount = 0;
+            const coc = {};
+            (allData || []).forEach(r => {
+                const fs = [];
+                for (let i = 1; i <= 6; i++) { const f = r[`F${i}`]; if (f && f !== '') fs.push(f); }
+                const u = Array.from(new Set(fs));
+                if (!u.includes(X)) return;
+                xCount++;
+                u.forEach(f => { if (f !== X) coc[f] = (coc[f] || 0) + 1; });
+            });
+            let rows = Object.keys(coc).map(f => ({
+                name: f, c: coc[f],
+                v: pairMetric === 'pct' ? (xCount ? coc[f] / xCount * 100 : 0) : coc[f]
+            })).sort((a, b) => b.v - a.v);
+            if (!rows.length) {
+                const t = svgEl('text', { x: 430, y: 280, fill: C.grey, 'font-size': 14, 'text-anchor': 'middle' });
+                t.textContent = 'No pairings found'; svg.appendChild(t); return;
+            }
+            const maxV = Math.max(...rows.map(r => r.v), 1e-9);
+            const W = 860, H = 560, M = { l: 175, r: 60, t: 10, b: 10 };
+            const pw = W - M.l - M.r, ph = H - M.t - M.b;
+            const rowH = ph / rows.length;
+            const barH = Math.min(rowH * 0.72, 24);
+            const fontN = Math.min(12, rowH * 0.62);
+            rows.forEach((o, i) => {
+                const cy = M.t + rowH * i + rowH / 2;
+                const t = o.v / maxV;
+                const nm = svgEl('text', { x: M.l - 10, y: cy + fontN * 0.35, fill: '#c4d0dd', 'font-size': fontN, 'text-anchor': 'end' });
+                nm.textContent = o.name; svg.appendChild(nm);
+                svg.appendChild(svgEl('rect', { x: M.l, y: cy - barH / 2, width: pw, height: barH, fill: '#0a1520', rx: 4 }));
+                const rect = svgEl('rect', { x: M.l, y: cy - barH / 2, width: Math.max(2, pw * t), height: barH, fill: heatColor(t), rx: 4 });
+                rect.style.cursor = 'pointer';
+                bindTip(rect, `<b>${X}</b> + <b>${o.name}</b><br>${pairMetric === 'pct' ? o.v.toFixed(1) + "% of " + X + "'s lineups" : o.c + ' lineups'} (${o.c.toLocaleString()})`);
+                svg.appendChild(rect);
+                const vt = svgEl('text', { x: M.l + pw * t + 6, y: cy + fontN * 0.35, fill: C.txt, 'font-size': Math.min(11, rowH * 0.58) });
+                vt.textContent = pairMetric === 'pct' ? o.v.toFixed(1) + '%' : o.c.toLocaleString();
+                svg.appendChild(vt);
+            });
         }
 
         // Per-user lineup uniqueness table (distinct lineups bucketed by field dupe count)

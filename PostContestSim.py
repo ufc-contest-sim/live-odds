@@ -31,7 +31,11 @@ import numpy as np
 import pandas as pd
 from openpyxl import load_workbook
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import itertools
 Z99 = 2.326347874
+# Optimal-lineup (DraftKings classic MMA): 6 fighters, $50,000 cap, no pairing rule.
+OPT_ROSTER = 6
+OPT_CAP = 50000
 _money_re = re.compile(r'[^0-9.\-]')
 _nbsp = '\xa0'
 import atexit
@@ -227,21 +231,28 @@ def read_payouts_named(xl: pd.ExcelFile, payouts_sheet: str, prefix_sheet: Optio
             prefix[r] = prefix[r-1] + payouts[r]
     return np.array(payouts, dtype=np.float64), np.array(prefix, dtype=np.float64), int(last_paid)
 def read_fighter_map(xl: pd.ExcelFile):
-    # Columns: Fighter (A), FightID (B), optional Score (C)
+    # Columns: Fighter (A), FightID (B), optional Score (C), optional Salary (D)
     df = pd.read_excel(xl, sheet_name="DraftKings Fighter Pool", engine="openpyxl")
-    # Use first 3 columns if available, otherwise pad
-    if df.shape[1] >= 3:
+    # Use first 4 columns if available, otherwise pad
+    ncols = df.shape[1]
+    if ncols >= 4:
+        df = df.iloc[:, :4]
+        df.columns = ["Fighter", "FightID", "Score", "Salary"]
+    elif ncols >= 3:
         df = df.iloc[:, :3]
         df.columns = ["Fighter", "FightID", "Score"]
+        df["Salary"] = np.nan
     else:
         df = df.iloc[:, :2]
         df.columns = ["Fighter", "FightID"]
         df["Score"] = np.nan
+        df["Salary"] = np.nan
     keep = ~(df["Fighter"].isna() & df["FightID"].isna())
     df = df.loc[keep].reset_index(drop=True)
     seen = {}
     fmap = {}
     fixed_scores = {}  # fighter_name -> fixed DK score (float)
+    salary_map = {}    # fighter_name -> salary (float)
     fighter_order = []  # ordered list of (name, fid, slot) for fight card
     for _, row in df.iterrows():
         name = norm_name_fighter(row["Fighter"])
@@ -263,8 +274,12 @@ def read_fighter_map(xl: pd.ExcelFile):
         score_val = pd.to_numeric(row["Score"], errors="coerce")
         if not (score_val is None or (isinstance(score_val, float) and math.isnan(score_val))):
             fixed_scores[name] = float(score_val)
+        # Check for salary in column D
+        sal_val = pd.to_numeric(row["Salary"], errors="coerce")
+        if not (sal_val is None or (isinstance(sal_val, float) and math.isnan(sal_val))):
+            salary_map[name] = float(sal_val)
         fighter_order.append({"name": name, "fight_id": fid, "slot": slot})
-    return fmap, fixed_scores, fighter_order
+    return fmap, fixed_scores, fighter_order, salary_map
 def read_lineups_sheet(xl: pd.ExcelFile, sheet_name: str):
     # columns A:G => F1..F6 + Username
     df = pd.read_excel(xl, sheet_name=sheet_name, engine="openpyxl", usecols="A:G")
@@ -434,6 +449,19 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     S2_stack = data["S2_stack"]
     N = data["N"].astype(np.int64)
     F = int(data["F"])
+    # optimal-lineup setup
+    opt_fidx = data["opt_fidx"].astype(np.int64)
+    opt_slot1 = (data["opt_slot"].astype(np.int64) == 1)
+    opt_combos = data["opt_combos"].astype(np.int64)
+    nf_opt = int(data["nf_opt"])
+    opt_counts = np.zeros(nf_opt, dtype=np.int64)
+    # membership matrix M (nf_opt x C): combo_scores = fs @ M
+    if opt_combos.shape[0] and nf_opt:
+        M_opt = np.zeros((nf_opt, opt_combos.shape[0]), dtype=np.float32)
+        for ci in range(OPT_ROSTER):
+            M_opt[opt_combos[:, ci], np.arange(opt_combos.shape[0])] = 1.0
+    else:
+        M_opt = None
     # contests packed
     K = int(data["K"])
     last_paid = data["last_paid"].astype(np.int64)      # (K,)
@@ -489,6 +517,15 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                 idxs = rng.integers(0, N[f], size=m, dtype=np.int64)
                 s1[:, f] = S1_stack[f, idxs]
                 s2[:, f] = S2_stack[f, idxs]
+            # ----- optimal-lineup tally (slate-level; brute force over feasible combos) -----
+            if M_opt is not None:
+                fs = np.where(opt_slot1[None, :], s1[:, opt_fidx], s2[:, opt_fidx]).astype(np.float32)
+                sub = 128
+                for o0 in range(0, m, sub):
+                    block = fs[o0:o0+sub]                 # (sm, nf_opt)
+                    combo_scores = block @ M_opt           # (sm, C)
+                    best = opt_combos[combo_scores.argmax(axis=1)]   # (sm, OPT_ROSTER)
+                    np.add.at(opt_counts, best.ravel(), 1)
             # per-user payout accumulator for this micro-batch
             user_payout_batch = np.zeros((m, num_users), dtype=np.float64)
             contest_user_payouts = np.zeros((K, m, num_users), dtype=np.float64)
@@ -555,12 +592,12 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     np.save(outcomes_path, user_outcomes)
     per_contest_path = npz_path + f".user_outcomes_per_contest_{idx}.npy"
     np.save(per_contest_path, user_outcomes_per_contest)
-    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, outcomes_path, per_contest_path)
+    return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, outcomes_path, per_contest_path, opt_counts)
 # -------------------- Pack workbook once --------------------
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
     contests = read_contests(xl, wb_path)
-    fmap, fixed_scores, fighter_order = read_fighter_map(xl)
+    fmap, fixed_scores, fighter_order, salary_map = read_fighter_map(xl)
     # Build fight_card from fighter_order (preserves DK Fighter Pool sheet order)
     fight_card_map = {}
     fight_card_order = []
@@ -647,6 +684,16 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         fighters, users = read_lineups(xl, lineups_ref, wb_path)
         lineup_keys, copies = compute_copies_and_keys(fighters)
         C1, C2 = build_mats(fighters, fmap, id2idx)
+        # Compute per-lineup total salary from salary_map
+        n_k_tmp = fighters.shape[0]
+        lineup_salaries = np.zeros(n_k_tmp, dtype=np.float64)
+        for i_lu in range(n_k_tmp):
+            sal = 0.0
+            for c_slot in range(6):
+                fname = norm_name_fighter(fighters[i_lu, c_slot])
+                if fname and fname in salary_map:
+                    sal += salary_map[fname]
+            lineup_salaries[i_lu] = sal
         contest_meta.append({
             "Contest": name,
             "LineupsSheet": lineups_ref,
@@ -658,6 +705,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
             "users": users,
             "lineup_keys": lineup_keys,
             "copies": copies,
+            "lineup_salaries": lineup_salaries,
             "n": int(fighters.shape[0]),
             "last_paid": int(last_paid),
             "payouts_array": payouts_arr.tolist(),
@@ -708,12 +756,29 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     offsets = np.array(offsets, dtype=np.int64)
     C1_concat = np.vstack(C1_blocks).astype(np.int8, copy=False)
     C2_concat = np.vstack(C2_blocks).astype(np.int8, copy=False)
+    # -------- Optimal-lineup setup (slate-level) --------
+    # Salaried fighters that map into the fight structure; per-fighter (fight idx, slot).
+    opt_names = [n for n in salary_map.keys() if n in fmap]
+    opt_fidx = np.array([id2idx[fmap[n][0]] for n in opt_names], dtype=np.int64)
+    opt_slot = np.array([fmap[n][1] for n in opt_names], dtype=np.int64)
+    opt_sal = np.array([salary_map[n] for n in opt_names], dtype=np.float64)
+    nf_opt = len(opt_names)
+    if nf_opt >= OPT_ROSTER:
+        all_combos = np.array(list(itertools.combinations(range(nf_opt), OPT_ROSTER)), dtype=np.int16)
+        feasible = opt_sal[all_combos].sum(axis=1) <= OPT_CAP
+        opt_combos = all_combos[feasible]
+    else:
+        opt_combos = np.zeros((0, OPT_ROSTER), dtype=np.int16)
+    log(f"[opt] {nf_opt} salaried fighters | {opt_combos.shape[0]:,} cap-feasible lineups")
     npz_path = temp_dir / f"post_bundle_multi_{uuid.uuid4().hex}.npz"
     np.savez_compressed(
         npz_path,
         # shared fights
         S1_stack=S1_stack, S2_stack=S2_stack, N=N,
         F=np.array(F, dtype=np.int64),
+        # optimal-lineup
+        opt_fidx=opt_fidx, opt_slot=opt_slot, opt_combos=opt_combos,
+        nf_opt=np.array(nf_opt, dtype=np.int64),
         # contests
         K=np.array(len(contest_meta), dtype=np.int64),
         entry_fees=np.array(entry_fees, dtype=np.float64),
@@ -729,7 +794,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         user_total_fees=user_total_fees,
         user_contest_fees=user_contest_fees,
     )
-    return str(npz_path), contest_meta, fight_card, user_display_names
+    return str(npz_path), contest_meta, fight_card, user_display_names, salary_map, opt_names
 # -------------------- Main --------------------
 def ask_int(prompt: str, default: int, min_val: int = 1) -> int:
     while True:
@@ -792,7 +857,8 @@ def main():
     base_stem = Path(out_path).stem
     t0 = time.time()
     with tempfile.TemporaryDirectory() as td:
-        bundle, contest_meta, fight_card, user_display_names = pack_npz_multi(wb, Path(td))
+        bundle, contest_meta, fight_card, user_display_names, salary_map, opt_names = pack_npz_multi(wb, Path(td))
+        opt_counts_total = np.zeros(len(opt_names), dtype=np.int64)
         K = len(contest_meta)
         log(f"[info] contests={K} | workers={workers} | batch={batch}")
         for c in contest_meta:
@@ -823,7 +889,9 @@ def main():
             futs = [ex.submit(worker_run, i, bundle, int(chunks[i]), int(batch), int(child_seeds[i]))
                     for i in range(len(chunks))]
             for fut in as_completed(futs):
-                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, outcomes_path, per_contest_path) = fut.result()
+                (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, outcomes_path, per_contest_path, opt_c) = fut.result()
+                if opt_c is not None and len(opt_c) == len(opt_counts_total):
+                    opt_counts_total += opt_c
                 for k in range(K):
                     sum_scores[k]   += s_list[k]
                     sumsq_scores[k] += ss_list[k]
@@ -842,6 +910,11 @@ def main():
                 log(f"[progress] {done_iters:,}/{iters:,} ({done_iters/iters:,.1%}) | {rate:,.0f} it/s")
         elapsed = time.time() - t0
         log(f"[timing] total wall: {elapsed:,.2f}s | iters/sec: {iters/elapsed:,.0f}")
+        # Optimal% per fighter (slate-level): fraction of iterations a fighter is in the optimal lineup
+        optimal_map = {opt_names[i]: round(float(opt_counts_total[i]) / max(1, iters) * 100.0, 2)
+                       for i in range(len(opt_names))}
+        log("[opt] top optimal%: " + ", ".join(
+            f"{n}={optimal_map[n]:.1f}%" for n in sorted(optimal_map, key=optimal_map.get, reverse=True)[:5]))
         # Write output per contest (one CSV each)
         for k, meta in enumerate(contest_meta):
             entry = float(meta["EntryFee"])
@@ -863,6 +936,7 @@ def main():
             users    = meta["users"]
             keys     = meta["lineup_keys"]
             copies   = meta["copies"]
+            salaries = meta["lineup_salaries"]
             rows = []
             for i in range(n):
                 rows.append([
@@ -875,7 +949,8 @@ def main():
                     float(SecondPct[i]), float(ThirdPct[i]),
                     float(CashPct[i]),
                     float(mean[i]), float(sd[i]), float(p99[i]),
-                    float(total_payout[k][i])
+                    float(total_payout[k][i]),
+                    float(salaries[i])
                 ])
             cols = [
                 "Contest",
@@ -884,7 +959,7 @@ def main():
                 "EntryFee","AvgWinPayout",
                 "EV","NetEV","ROI%","WinPct","SecondPct","ThirdPct","CashPct",
                 "MeanScore","SDScore","P99Score",
-                "TotalPayout"
+                "TotalPayout","TotalSalary"
             ]
             df_k = pd.DataFrame(rows, columns=cols)
             cname = safe_filename(meta["Contest"])
@@ -897,6 +972,8 @@ def main():
                 "fight_card": fight_card,
                 "payouts": meta["payouts_array"],
                 "entry_fee": float(entry),
+                "salary_map": salary_map,
+                "optimal_map": optimal_map,
             }
             with open(meta_json_path, 'w', encoding='utf-8') as mf:
                 json.dump(meta_json, mf, indent=2)

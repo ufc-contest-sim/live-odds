@@ -934,9 +934,9 @@
         /* Insights / charts */
         #insights-view {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 3fr 2fr;
             gap: 20px;
-            align-items: stretch;
+            align-items: start;
         }
 
         @media (max-width: 900px) {
@@ -3169,7 +3169,21 @@
         function renderInsights() {
             renderLeverageChart();
             renderDupeTable();
+            requestAnimationFrame(syncInsightsHeight);
         }
+
+        // Make the uniqueness table exactly as tall as the leverage chart card.
+        function syncInsightsHeight() {
+            const view = document.getElementById('insights-view');
+            if (!view || view.style.display === 'none') return;
+            const cards = view.querySelectorAll('.chart-card');
+            if (cards.length < 2) return;
+            const chartCard = cards[0], tableCard = cards[1];
+            tableCard.style.height = '';
+            const h = chartCard.offsetHeight;
+            if (h > 0) tableCard.style.height = h + 'px';
+        }
+        window.addEventListener('resize', syncInsightsHeight);
 
         // Per-user lineup uniqueness table (distinct lineups bucketed by field dupe count)
         let dupeSort = { key: 'total', asc: false };

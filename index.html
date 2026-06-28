@@ -109,6 +109,16 @@
             overflow: hidden;
         }
 
+        #landing-fighters { margin-top: 30px; }
+
+        .landing-fighters-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            color: var(--accent-green);
+            margin: 0 0 14px;
+        }
+
         .contest-table {
             width: 100%;
             border-collapse: collapse;
@@ -1153,6 +1163,7 @@
         
         .view-tabs {
             display: flex;
+            flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 20px;
             justify-content: center;
@@ -1761,6 +1772,7 @@
             <div id="quick-search-results" class="quick-search-results"></div>
         </div>
         <div id="contests-list"></div>
+        <div id="landing-fighters"></div>
     </div>
 
     <div id="leaderboard-page" class="leaderboard-page">
@@ -2384,6 +2396,77 @@
 
             // Render saved favorites
             renderFavorites();
+
+            // Slate-level fighter table (salary / optimal% / score)
+            loadLandingFighters();
+        }
+
+        // ---- Landing-page slate fighter table ----
+        let landingFighterRows = null;
+        let landingFighterSort = { key: 'optimal', asc: false };
+        async function loadLandingFighters() {
+            const el = document.getElementById('landing-fighters');
+            if (!el || !CONTESTS.length) return;
+            // Slate data (salary/optimal/scores) is identical across contests; fetch the smallest file.
+            const pick = [...CONTESTS].sort((a, b) => (a.entrants || 0) - (b.entrants || 0))[0];
+            let data;
+            try {
+                const resp = await fetch(pick.file + '?v=' + Date.now());
+                data = await resp.json();
+            } catch (e) { el.innerHTML = ''; return; }
+            const salMap = data.salary_map || {};
+            const optMap = data.optimal_map || {};
+            const scoreMap = {};
+            (data.fight_card || []).forEach(f => {
+                if (f.fighter1 && f.fighter1_score != null) scoreMap[f.fighter1] = f.fighter1_score;
+                if (f.fighter2 && f.fighter2_score != null) scoreMap[f.fighter2] = f.fighter2_score;
+            });
+            const names = new Set(Object.keys(salMap));
+            (data.fight_card || []).forEach(f => { if (f.fighter1) names.add(f.fighter1); if (f.fighter2) names.add(f.fighter2); });
+            landingFighterRows = [...names].map(n => ({
+                fighter: n,
+                salary: salMap[n] != null ? salMap[n] : null,
+                optimal: optMap[n] != null ? optMap[n] : null,
+                score: scoreMap[n] != null ? scoreMap[n] : null,
+            }));
+            drawLandingFighters();
+        }
+        function drawLandingFighters() {
+            const el = document.getElementById('landing-fighters');
+            if (!el || !landingFighterRows || !landingFighterRows.length) { if (el) el.innerHTML = ''; return; }
+            const { key, asc } = landingFighterSort;
+            const rows = [...landingFighterRows].sort((a, b) => {
+                if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
+                const av = a[key] == null ? -Infinity : a[key], bv = b[key] == null ? -Infinity : b[key];
+                return asc ? av - bv : bv - av;
+            });
+            const body = rows.map(r => `
+                <tr>
+                    <td><span class="contest-table-name">${r.fighter}</span></td>
+                    <td class="col-fee">${r.salary != null ? '$' + Number(r.salary).toLocaleString() : '—'}</td>
+                    <td class="col-prizes">${r.optimal != null ? r.optimal.toFixed(1) + '%' : '—'}</td>
+                    <td class="col-entrants">${r.score != null ? Number(r.score).toFixed(2) : '—'}</td>
+                </tr>`).join('');
+            el.innerHTML = `
+                <h2 class="landing-fighters-title">Fighter Scores</h2>
+                <div class="contest-table-wrapper">
+                    <table class="contest-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" onclick="sortLandingFighters('fighter')">Fighter</th>
+                                <th class="col-fee sortable" onclick="sortLandingFighters('salary')">Salary</th>
+                                <th class="col-prizes sortable" onclick="sortLandingFighters('optimal')">Optimal %</th>
+                                <th class="col-entrants sortable" onclick="sortLandingFighters('score')">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>${body}</tbody>
+                    </table>
+                </div>`;
+        }
+        function sortLandingFighters(key) {
+            if (landingFighterSort.key === key) landingFighterSort.asc = !landingFighterSort.asc;
+            else landingFighterSort = { key, asc: key === 'fighter' };
+            drawLandingFighters();
         }
         
         // Quick Search functionality

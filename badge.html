@@ -79,8 +79,7 @@ let bg = '#ffffff', ink = '#0c1926';
 const frame = new Image();
 let frameOk = false;
 frame.onload = () => { frameOk = true; draw(); };
-frame.onerror = () => { frameOk = false; document.getElementById('warn').style.display='block';
-  document.getElementById('warn').textContent = 'badge-frame.png not found — showing a placeholder octagon. Add the real frame to finish the look.'; draw(); };
+frame.onerror = () => { frameOk = false; draw(); };
 frame.src = 'badge-frame.png';
 
 function makeSwatches(elId, colors, getCur, setCur) {
@@ -98,11 +97,11 @@ function makeSwatches(elId, colors, getCur, setCur) {
 makeSwatches('swatches', bgColors, () => bg, v => bg = v);
 makeSwatches('ink-swatches', inkColors, () => ink, v => ink = v);
 
-function drawPlaceholderOctagon() {
-  // simple rounded octagon outline so the tool works before badge-frame.png exists
+function drawDefaultFrame() {
+  // Octagon outline + crown drawn in code, so no logo asset is required.
   const c = SIZE / 2, R = SIZE * 0.42, n = 8;
   ctx.save();
-  ctx.strokeStyle = '#0c1926'; ctx.lineWidth = SIZE * 0.05; ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#0c1926'; ctx.lineWidth = SIZE * 0.055; ctx.lineJoin = 'round';
   ctx.beginPath();
   for (let i = 0; i < n; i++) {
     const a = Math.PI / n + i * 2 * Math.PI / n;
@@ -110,6 +109,31 @@ function drawPlaceholderOctagon() {
     i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
   }
   ctx.closePath(); ctx.stroke();
+  ctx.restore();
+
+  // Crown: sits on the upper-left, tilted, overlapping the octagon edge.
+  ctx.save();
+  ctx.translate(SIZE * 0.17, SIZE * 0.15);
+  ctx.rotate(-0.40);
+  const W = SIZE * 0.36, H = SIZE * 0.26, baseY = H * 0.64;
+  ctx.fillStyle = '#f1751f';
+  // base band
+  ctx.fillRect(0, baseY, W, H - baseY);
+  // three spikes (zigzag) sitting on the band
+  ctx.beginPath();
+  ctx.moveTo(0, baseY);
+  ctx.lineTo(W * 0.17, 0);
+  ctx.lineTo(W * 0.34, baseY);
+  ctx.lineTo(W * 0.50, -H * 0.16);
+  ctx.lineTo(W * 0.66, baseY);
+  ctx.lineTo(W * 0.83, 0);
+  ctx.lineTo(W, baseY);
+  ctx.closePath();
+  ctx.fill();
+  // balls on the spike tips
+  [[W * 0.17, 0], [W * 0.50, -H * 0.16], [W * 0.83, 0]].forEach(([x, y]) => {
+    ctx.beginPath(); ctx.arc(x, y, W * 0.07, 0, 2 * Math.PI); ctx.fill();
+  });
   ctx.restore();
 }
 
@@ -142,11 +166,11 @@ function draw() {
     if (ctx.measureText(txt).width <= maxW) break;
     fontSize -= 6;
   } while (fontSize > 20);
-  ctx.fillText(txt, SIZE / 2, SIZE / 2 + SIZE * 0.04);
+  ctx.fillText(txt, SIZE / 2, SIZE / 2 + SIZE * 0.06);
 
   // 3) frame (octagon + crown) on top
   if (frameOk) ctx.drawImage(frame, 0, 0, SIZE, SIZE);
-  else drawPlaceholderOctagon();
+  else drawDefaultFrame();
 }
 
 document.getElementById('initials').addEventListener('input', draw);

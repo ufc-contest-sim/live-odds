@@ -936,7 +936,7 @@
             display: grid;
             grid-template-columns: 3fr 2fr;
             gap: 20px;
-            align-items: stretch;
+            align-items: start;
         }
 
         .insights-leverage { grid-column: 1; grid-row: 1; }
@@ -951,6 +951,24 @@
             flex-wrap: wrap;
             margin-bottom: 12px;
         }
+
+        .pair-search-wrap {
+            position: relative;
+            min-width: 220px;
+        }
+
+        .pair-search-input {
+            width: 100%;
+            background: var(--bg-card-solid);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .pair-search-input:focus { border-color: var(--accent-green); }
 
         .pair-controls select {
             background: var(--bg-card-solid);
@@ -1948,19 +1966,22 @@
                         <span><span class="cdot" style="background:var(--accent-red)"></span>Over-owned</span>
                         <span><span class="cdot" style="background:var(--text-secondary)"></span>Neutral</span>
                     </div>
-                    <svg id="chart-leverage" viewBox="0 0 860 560" width="100%"></svg>
+                    <svg id="chart-leverage" viewBox="0 0 860 470" width="100%"></svg>
                 </div>
 
                 <div class="chart-card insights-pairing">
                     <h3>Fighter Pairing</h3>
                     <div class="pair-controls">
-                        <select id="pair-fsel" onchange="addPairFighter()"></select>
+                        <div id="pair-search-wrap" class="pair-search-wrap">
+                            <input type="text" id="pair-fsel-input" class="pair-search-input" placeholder="Search fighter to add…" autocomplete="off" oninput="renderPairList(this.value)" onfocus="renderPairList(this.value)">
+                            <div id="pair-fsel-list" class="fighter-dropdown-list"></div>
+                        </div>
                         <span class="pair-toggle active" id="pair-t-pct" onclick="setPairMetric('pct')">% of lineups</span>
                         <span class="pair-toggle" id="pair-t-cnt" onclick="setPairMetric('count')">Count</span>
                         <span id="pair-count" class="pair-count"></span>
                     </div>
                     <div id="pair-selected" class="pair-selected"></div>
-                    <svg id="chart-pairing" viewBox="0 0 860 560" width="100%"></svg>
+                    <svg id="chart-pairing" viewBox="0 0 860 470" width="100%"></svg>
                 </div>
 
                 <div class="chart-card insights-fighters">
@@ -3283,15 +3304,37 @@
             buildPairingControls();
             renderPairingChart();
             renderDupeTable();
+            setupInsightsResizeObserver();
             requestAnimationFrame(syncInsightsHeight);
         }
 
-        // Heights are handled by CSS grid (align-items: stretch); clear any stale
-        // inline heights so each row's two cards stay equal.
+        // Match each right-column table to the height of the chart card beside it,
+        // so the charts size to their (shorter) content and there's no dead space.
         function syncInsightsHeight() {
             const view = document.getElementById('insights-view');
             if (!view) return;
-            view.querySelectorAll('.chart-card').forEach(c => { c.style.height = ''; });
+            const lev = view.querySelector('.insights-leverage');
+            const pair = view.querySelector('.insights-pairing');
+            const fcard = view.querySelector('.insights-fighters');
+            const tbl = view.querySelector('.insights-table');
+            if (window.innerWidth <= 900) {
+                if (fcard) fcard.style.height = '';
+                if (tbl) tbl.style.height = '';
+                return;
+            }
+            if (lev && fcard && lev.offsetHeight > 0) fcard.style.height = lev.offsetHeight + 'px';
+            if (pair && tbl && pair.offsetHeight > 0) tbl.style.height = pair.offsetHeight + 'px';
+        }
+        let insightsRO = null;
+        function setupInsightsResizeObserver() {
+            if (insightsRO || typeof ResizeObserver === 'undefined') return;
+            const view = document.getElementById('insights-view');
+            if (!view) return;
+            insightsRO = new ResizeObserver(() => syncInsightsHeight());
+            const lev = view.querySelector('.insights-leverage');
+            const pair = view.querySelector('.insights-pairing');
+            if (lev) insightsRO.observe(lev);
+            if (pair) insightsRO.observe(pair);
         }
         window.addEventListener('resize', syncInsightsHeight);
 
@@ -3362,15 +3405,13 @@
 
         // Multi-fighter pairing selection.
         let selectedPairFighters = [];
+        let pairAllFighters = [];   // all fighters, alphabetical (for the search list)
         function buildPairingControls() {
-            const selEl = document.getElementById('pair-fsel');
-            if (!selEl) return;
             const stats = calculateFighterDraftPct(allData || []);
             const names = stats.map(f => f.fighter);
-            selEl.innerHTML = '<option value="">+ Add fighter…</option>' +
-                names.map(n => `<option value="${n}">${n}</option>`).join('');
+            pairAllFighters = [...names].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
             selectedPairFighters = selectedPairFighters.filter(n => names.includes(n));
-            if (!selectedPairFighters.length && names.length) selectedPairFighters = [names[0]];
+            if (!selectedPairFighters.length && names.length) selectedPairFighters = [names[0]]; // default: most-owned
             renderPairChips();
         }
         function renderPairChips() {
@@ -3380,11 +3421,24 @@
                 `<div class="fighter-chip-selected">${n}<span class="remove-fighter" onclick="removePairFighter('${n.replace(/'/g, "\\'")}')">&times;</span></div>`
             ).join('');
         }
-        function addPairFighter() {
-            const selEl = document.getElementById('pair-fsel');
-            const v = selEl.value;
-            if (v && !selectedPairFighters.includes(v)) selectedPairFighters.push(v);
-            selEl.value = '';
+        // Searchable, alphabetical fighter picker for the pairing chart.
+        function renderPairList(query) {
+            const list = document.getElementById('pair-fsel-list');
+            if (!list) return;
+            const q = (query || '').trim().toLowerCase();
+            const opts = pairAllFighters.filter(n =>
+                !selectedPairFighters.includes(n) && (!q || n.toLowerCase().includes(q)));
+            if (!opts.length) { list.classList.remove('show'); list.innerHTML = ''; return; }
+            list.innerHTML = opts.map(n =>
+                `<div class="fighter-option" onclick="addPairFighter('${n.replace(/'/g, "\\'")}')">${n}</div>`).join('');
+            list.classList.add('show');
+        }
+        function addPairFighter(name) {
+            if (name && !selectedPairFighters.includes(name)) selectedPairFighters.push(name);
+            const input = document.getElementById('pair-fsel-input');
+            if (input) input.value = '';
+            const list = document.getElementById('pair-fsel-list');
+            if (list) { list.classList.remove('show'); list.innerHTML = ''; }
             renderPairChips();
             renderPairingChart();
         }
@@ -3393,6 +3447,11 @@
             renderPairChips();
             renderPairingChart();
         }
+        document.addEventListener('mousedown', e => {
+            const wrap = document.getElementById('pair-search-wrap');
+            const list = document.getElementById('pair-fsel-list');
+            if (wrap && list && !wrap.contains(e.target)) list.classList.remove('show');
+        });
 
         // For the selected fighter(s), rank every other fighter by how often they
         // appeared alongside ALL of them (lineups containing the whole selection).
@@ -3405,7 +3464,7 @@
             const sel = selectedPairFighters;
             if (!sel.length) {
                 if (countEl) countEl.textContent = '';
-                const t = svgEl('text', { x: 430, y: 280, fill: C.grey, 'font-size': 14, 'text-anchor': 'middle' });
+                const t = svgEl('text', { x: 430, y: 235, fill: C.grey, 'font-size': 14, 'text-anchor': 'middle' });
                 t.textContent = 'Select fighter(s)'; svg.appendChild(t); return;
             }
             let baseCount = 0;
@@ -3425,11 +3484,11 @@
                 v: pairMetric === 'pct' ? (baseCount ? coc[f] / baseCount * 100 : 0) : coc[f]
             })).sort((a, b) => b.v - a.v);
             if (!rows.length) {
-                const t = svgEl('text', { x: 430, y: 280, fill: C.grey, 'font-size': 14, 'text-anchor': 'middle' });
+                const t = svgEl('text', { x: 430, y: 235, fill: C.grey, 'font-size': 14, 'text-anchor': 'middle' });
                 t.textContent = baseCount ? 'No other fighters paired' : 'No lineups with that combination'; svg.appendChild(t); return;
             }
             const maxV = Math.max(...rows.map(r => r.v), 1e-9);
-            const W = 860, H = 560, M = { l: 175, r: 60, t: 10, b: 10 };
+            const W = 860, H = 470, M = { l: 175, r: 60, t: 10, b: 10 };
             const pw = W - M.l - M.r, ph = H - M.t - M.b;
             const rowH = ph / rows.length;
             const barH = Math.min(rowH * 0.72, 24);
@@ -3506,7 +3565,7 @@
                 name: f.fighter, draft: f.pct, win: optMap[f.fighter] || 0,
             }));
             if (!pts.length) return;
-            const W = 860, H = 560, M = { l: 64, r: 30, t: 20, b: 58 };
+            const W = 860, H = 470, M = { l: 64, r: 30, t: 20, b: 58 };
             const pw = W - M.l - M.r, ph = H - M.t - M.b;
             const maxV = niceMax(Math.max(...pts.map(p => Math.max(p.draft, p.win))));
             const x = v => M.l + (v / maxV) * pw;

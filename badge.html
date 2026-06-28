@@ -6,9 +6,8 @@
 <title>Make Your Badge — DH24</title>
 <style>
   :root{
-    --bg-dark:#060a12; --glass-bg:rgba(12,25,40,.65); --glass-border:rgba(20,42,62,.8);
-    --text-primary:#e8edf5; --text-secondary:#7a8599; --accent-green:#00ff88; --bg-card-solid:#0c1926;
-    --crown:#f1751f;
+    --bg-dark:#060a12; --glass-border:rgba(20,42,62,.8); --text-primary:#e8edf5;
+    --text-secondary:#7a8599; --accent-green:#00ff88; --bg-card-solid:#0c1926;
   }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg-dark);color:var(--text-primary);font-family:Inter,system-ui,Arial,sans-serif;padding:32px 20px;}
@@ -31,7 +30,6 @@
   .hint{color:var(--text-secondary);font-size:.78rem;text-align:center;max-width:240px;}
   .btn{background:var(--accent-green);color:#04110a;border:none;border-radius:10px;padding:12px 18px;font-weight:700;font-size:.95rem;cursor:pointer;}
   .btn:hover{filter:brightness(1.08);}
-  .warn{color:#ffb454;font-size:.8rem;margin-top:8px;}
   a.back{color:var(--text-secondary);font-size:.85rem;text-decoration:none;}
   a.back:hover{color:var(--text-primary);}
 </style>
@@ -49,15 +47,10 @@
         <input id="initials" type="text" maxlength="4" value="DH" autocomplete="off" placeholder="e.g. JS">
       </div>
       <div>
-        <label>Center background</label>
-        <div class="swatches" id="swatches"></div>
-      </div>
-      <div>
-        <label>Initials color</label>
+        <label>Text color</label>
         <div class="swatches" id="ink-swatches"></div>
       </div>
       <button class="btn" id="download">Download PNG</button>
-      <div class="warn" id="warn" style="display:none;"></div>
     </div>
 
     <div class="preview-col">
@@ -71,112 +64,56 @@
 const SIZE = 600;
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-const bgColors = ['#ffffff', '#0c1926', '#f1751f', '#00ff88', '#1b2a3a'];
 const inkColors = ['#0c1926', '#ffffff', '#f1751f', '#00ff88'];
-let bg = '#ffffff', ink = '#0c1926';
+let ink = '#0c1926';
 
-// Load the frame (octagon + crown, transparent center). Falls back to a drawn octagon.
+// The badge frame image — used exactly as uploaded.
 const frame = new Image();
 let frameOk = false;
 frame.onload = () => { frameOk = true; draw(); };
 frame.onerror = () => { frameOk = false; draw(); };
 frame.src = 'badge-frame.png';
 
-function makeSwatches(elId, colors, getCur, setCur) {
-  const el = document.getElementById(elId);
+function makeSwatches() {
+  const el = document.getElementById('ink-swatches');
   el.innerHTML = '';
-  colors.forEach(c => {
+  inkColors.forEach(c => {
     const s = document.createElement('div');
-    s.className = 'swatch' + (c === getCur() ? ' active' : '');
+    s.className = 'swatch' + (c === ink ? ' active' : '');
     s.style.background = c;
     if (c === '#ffffff') s.style.boxShadow = 'inset 0 0 0 1px #888';
-    s.onclick = () => { setCur(c); makeSwatches(elId, colors, getCur, setCur); draw(); };
+    s.onclick = () => { ink = c; makeSwatches(); draw(); };
     el.appendChild(s);
   });
 }
-makeSwatches('swatches', bgColors, () => bg, v => bg = v);
-makeSwatches('ink-swatches', inkColors, () => ink, v => ink = v);
-
-function drawDefaultFrame() {
-  // Octagon outline + crown drawn in code, so no logo asset is required.
-  const c = SIZE / 2, R = SIZE * 0.42, n = 8;
-  ctx.save();
-  ctx.strokeStyle = '#0c1926'; ctx.lineWidth = SIZE * 0.055; ctx.lineJoin = 'round';
-  ctx.beginPath();
-  for (let i = 0; i < n; i++) {
-    const a = Math.PI / n + i * 2 * Math.PI / n;
-    const x = c + R * Math.cos(a), y = c + R * Math.sin(a);
-    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-  }
-  ctx.closePath(); ctx.stroke();
-  ctx.restore();
-
-  // Crown: sits on the upper-left, tilted, overlapping the octagon edge.
-  ctx.save();
-  ctx.translate(SIZE * 0.17, SIZE * 0.15);
-  ctx.rotate(-0.40);
-  const W = SIZE * 0.36, H = SIZE * 0.26, baseY = H * 0.64;
-  ctx.fillStyle = '#f1751f';
-  // base band
-  ctx.fillRect(0, baseY, W, H - baseY);
-  // three spikes (zigzag) sitting on the band
-  ctx.beginPath();
-  ctx.moveTo(0, baseY);
-  ctx.lineTo(W * 0.17, 0);
-  ctx.lineTo(W * 0.34, baseY);
-  ctx.lineTo(W * 0.50, -H * 0.16);
-  ctx.lineTo(W * 0.66, baseY);
-  ctx.lineTo(W * 0.83, 0);
-  ctx.lineTo(W, baseY);
-  ctx.closePath();
-  ctx.fill();
-  // balls on the spike tips
-  [[W * 0.17, 0], [W * 0.50, -H * 0.16], [W * 0.83, 0]].forEach(([x, y]) => {
-    ctx.beginPath(); ctx.arc(x, y, W * 0.07, 0, 2 * Math.PI); ctx.fill();
-  });
-  ctx.restore();
-}
+makeSwatches();
 
 function draw() {
   ctx.clearRect(0, 0, SIZE, SIZE);
 
-  // 1) center background, clipped to an octagon so corners stay transparent
-  const c = SIZE / 2, R = SIZE * 0.40, n = 8;
-  ctx.save();
-  ctx.beginPath();
-  for (let i = 0; i < n; i++) {
-    const a = Math.PI / n + i * 2 * Math.PI / n;
-    const x = c + R * Math.cos(a), y = c + R * Math.sin(a);
-    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-  }
-  ctx.closePath(); ctx.clip();
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, SIZE, SIZE);
-  ctx.restore();
+  // 1) the badge frame image, untouched
+  if (frameOk) ctx.drawImage(frame, 0, 0, SIZE, SIZE);
 
-  // 2) initials, auto-sized to fit
-  const txt = (document.getElementById('initials').value || '').toUpperCase().trim() || ' ';
+  // 2) the initials, on top, centered inside the octagon
+  const txt = (document.getElementById('initials').value || '').toUpperCase().trim();
+  if (!txt) return;
   ctx.fillStyle = ink;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  let fontSize = SIZE * 0.34;
-  const maxW = SIZE * 0.52;
+  let fontSize = SIZE * 0.30;
+  const maxW = SIZE * 0.46;
   do {
     ctx.font = `900 ${fontSize}px Arial, sans-serif`;
     if (ctx.measureText(txt).width <= maxW) break;
     fontSize -= 6;
   } while (fontSize > 20);
-  ctx.fillText(txt, SIZE / 2, SIZE / 2 + SIZE * 0.06);
-
-  // 3) frame (octagon + crown) on top
-  if (frameOk) ctx.drawImage(frame, 0, 0, SIZE, SIZE);
-  else drawDefaultFrame();
+  ctx.fillText(txt, SIZE / 2, SIZE / 2 + SIZE * 0.05);
 }
 
 document.getElementById('initials').addEventListener('input', draw);
 document.getElementById('download').addEventListener('click', () => {
   const a = document.createElement('a');
-  a.download = 'dh24-badge.png';
+  a.download = 'badge.png';
   a.href = canvas.toDataURL('image/png');
   a.click();
 });

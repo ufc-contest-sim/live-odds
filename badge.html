@@ -24,6 +24,8 @@
   .swatches{display:flex;gap:10px;flex-wrap:wrap;}
   .swatch{width:34px;height:34px;border-radius:8px;border:2px solid transparent;cursor:pointer;}
   .swatch.active{border-color:var(--accent-green);}
+  .rowbtn{cursor:pointer;font-size:.82rem;color:var(--text-secondary);border:1px solid var(--glass-border);border-radius:8px;padding:8px 14px;}
+  .rowbtn.active{border-color:var(--accent-green);color:var(--accent-green);font-weight:600;}
   .preview-col{display:flex;flex-direction:column;align-items:center;gap:14px;}
   .preview-circle{width:240px;height:240px;border-radius:50%;overflow:hidden;border:1px solid var(--glass-border);background:#000;}
   .preview-circle canvas{width:100%;height:100%;display:block;}
@@ -43,8 +45,19 @@
   <div class="panel">
     <div class="controls">
       <div>
-        <label for="initials">Initials (up to 8 — wraps to two rows)</label>
-        <input id="initials" type="text" maxlength="8" value="DH" autocomplete="off" placeholder="e.g. JS">
+        <label>Rows</label>
+        <div class="swatches" id="row-toggle">
+          <span class="rowbtn active" onclick="setRows(1)">1 Row</span>
+          <span class="rowbtn" onclick="setRows(2)">2 Rows</span>
+        </div>
+      </div>
+      <div id="line1-wrap">
+        <label for="line1" id="line1-label">Text</label>
+        <input id="line1" type="text" maxlength="6" value="DH" autocomplete="off" placeholder="e.g. JS">
+      </div>
+      <div id="line2-wrap" style="display:none;">
+        <label for="line2">Bottom row</label>
+        <input id="line2" type="text" maxlength="6" value="" autocomplete="off" placeholder="e.g. 24">
       </div>
       <div>
         <label>Text color</label>
@@ -69,10 +82,20 @@ let ink = '#0c1926';
 
 // The badge frame image — used exactly as uploaded.
 const frame = new Image();
+frame.crossOrigin = 'anonymous';
 let frameOk = false;
+let rows = 1;
 frame.onload = () => { frameOk = true; draw(); };
 frame.onerror = () => { frameOk = false; draw(); };
 frame.src = 'badge-frame.png';
+
+function setRows(n) {
+  rows = n;
+  document.querySelectorAll('#row-toggle .rowbtn').forEach((b, i) => b.classList.toggle('active', i === (n - 1)));
+  document.getElementById('line2-wrap').style.display = n === 2 ? '' : 'none';
+  document.getElementById('line1-label').textContent = n === 2 ? 'Top row' : 'Text';
+  draw();
+}
 
 function makeSwatches() {
   const el = document.getElementById('ink-swatches');
@@ -95,10 +118,10 @@ function draw() {
   if (frameOk) ctx.drawImage(frame, 0, 0, SIZE, SIZE);
 
   // 2) the initials, on top, centered inside the octagon.
-  //    Up to 4 chars = one row; 5–8 chars = two rows of 4.
-  const raw = (document.getElementById('initials').value || '').toUpperCase().trim();
-  if (!raw) return;
-  const lines = raw.length <= 4 ? [raw] : [raw.slice(0, 4), raw.slice(4, 8)];
+  const l1 = (document.getElementById('line1').value || '').toUpperCase().trim();
+  const l2 = (document.getElementById('line2').value || '').toUpperCase().trim();
+  const lines = (rows === 2 ? [l1, l2] : [l1]).filter(Boolean);
+  if (!lines.length) return;
   ctx.fillStyle = ink;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -117,12 +140,30 @@ function draw() {
   lines.forEach(l => { ctx.fillText(l, cx, y); y += lineH; });
 }
 
-document.getElementById('initials').addEventListener('input', draw);
+document.getElementById('line1').addEventListener('input', draw);
+document.getElementById('line2').addEventListener('input', draw);
 document.getElementById('download').addEventListener('click', () => {
-  const a = document.createElement('a');
-  a.download = 'badge.png';
-  a.href = canvas.toDataURL('image/png');
-  a.click();
+  const finish = (url, revoke) => {
+    const a = document.createElement('a');
+    a.download = 'badge.png';
+    a.href = url;
+    document.body.appendChild(a);   // some browsers require the link in the DOM
+    a.click();
+    document.body.removeChild(a);
+    if (revoke) setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  try {
+    if (canvas.toBlob) {
+      canvas.toBlob(blob => {
+        if (blob) finish(URL.createObjectURL(blob), true);
+        else finish(canvas.toDataURL('image/png'), false);
+      }, 'image/png');
+    } else {
+      finish(canvas.toDataURL('image/png'), false);
+    }
+  } catch (e) {
+    alert('Could not export the image: ' + e.message);
+  }
 });
 
 draw();

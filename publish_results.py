@@ -88,6 +88,7 @@ def publish_results():
             fight_card = None
             payouts = None
             salary_map = None
+            optimal_map = None
             if meta_json_path_candidate.exists():
                 try:
                     with open(meta_json_path_candidate, 'r') as mf:
@@ -95,6 +96,7 @@ def publish_results():
                     fight_card = meta_data.get("fight_card")
                     payouts = meta_data.get("payouts")
                     salary_map = meta_data.get("salary_map")
+                    optimal_map = meta_data.get("optimal_map")
                     print(f"  Found companion meta: {meta_json_path_candidate}")
                     if fight_card:
                         print(f"  Fight card: {len(fight_card)} fights")
@@ -121,6 +123,8 @@ def publish_results():
                 output["payouts"] = payouts
             if salary_map is not None:
                 output["salary_map"] = salary_map
+            if optimal_map is not None:
+                output["optimal_map"] = optimal_map
 
             # Create safe filename for JSON
             json_filename = f"{sanitize_filename(contest_name)}.json"

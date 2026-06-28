@@ -1799,6 +1799,7 @@
                                 <th>Fighter</th>
                                 <th class="num">Draft %</th>
                                 <th class="num">Win Lineup %</th>
+                                <th class="num">Optimal %</th>
                             </tr>
                         </thead>
                         <tbody id="fighter-draft-tbody"></tbody>
@@ -1983,6 +1984,7 @@
         let selectedFighters = [];
         let contestFightCard = null;  // fight_card from JSON (if available)
         let contestPayouts = null;    // payouts array from JSON (if available)
+        let contestOptimalMap = null; // fighter -> optimal% from JSON (if available)
         let whatIfScores = {};         // fighter name -> score (user input)
         let whatIfResults = null;      // calculated What If leaderboard
         let whatIfDebounceTimer = null;
@@ -2860,6 +2862,7 @@
             whatIfResults = null;
             contestFightCard = null;
             contestPayouts = null;
+            contestOptimalMap = null;
         }
         
         function showLeaderboard() {
@@ -2887,6 +2890,7 @@
                 allData = data.leaderboard;
                 contestFightCard = data.fight_card || null;
                 contestPayouts = data.payouts || null;
+                contestOptimalMap = data.optimal_map || null;
                 whatIfScores = {};
                 whatIfResults = null;
 
@@ -2957,15 +2961,17 @@
             const tbody = document.getElementById('fighter-draft-tbody');
 
             if (fighterStats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
                 return;
             }
 
+            const optMap = contestOptimalMap || {};
             tbody.innerHTML = fighterStats.map(f => `
                 <tr>
                     <td class="fighter-name">${f.fighter}</td>
                     <td class="draft-pct">${f.pct.toFixed(2)}%</td>
                     <td class="win-pct">${(winMap[f.fighter] || 0).toFixed(2)}%</td>
+                    <td class="win-pct">${optMap[f.fighter] != null ? optMap[f.fighter].toFixed(2) + '%' : '--'}</td>
                 </tr>
             `).join('');
         }

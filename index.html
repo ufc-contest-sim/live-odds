@@ -83,7 +83,7 @@
             text-align: center;
             margin-bottom: 50px;
         }
-        
+
         .landing-header h1 {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 4.5rem;
@@ -999,6 +999,48 @@
 
         .chart-tip b { color: var(--accent-green); }
 
+        /* Lineup Uniqueness by User table */
+        .dupe-table-scroll {
+            max-height: 460px;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+        }
+
+        .dupe-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .dupe-table th {
+            position: sticky;
+            top: 0;
+            background: var(--bg-card-solid);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .dupe-table th.num { text-align: right; }
+
+        .dupe-table th:hover { color: var(--text-primary); }
+
+        .dupe-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #0a1520;
+            font-size: 0.88rem;
+        }
+
+        .dupe-table td:nth-child(n+2) { text-align: right; }
+
+        .dupe-table tr:hover td { background: #0c1926; }
+
         .filters {
             background: var(--glass-bg);
 
@@ -1830,6 +1872,25 @@
                         <span><span class="cdot" style="background:var(--text-secondary)"></span>Neutral</span>
                     </div>
                     <svg id="chart-leverage" viewBox="0 0 860 560" width="100%"></svg>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Lineup Uniqueness by User</h3>
+                    <div class="chart-sub">Each user's distinct lineups, split by how duplicated they were across the field: unique (1x), lightly duped (2–4x), and heavily duped (5+). Click a header to sort; scroll for the full field.</div>
+                    <div class="dupe-table-scroll">
+                        <table class="dupe-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" onclick="sortDupeTable('user')">Username</th>
+                                    <th class="sortable num" onclick="sortDupeTable('unique')">Unique (1x)</th>
+                                    <th class="sortable num" onclick="sortDupeTable('low')">Duped &lt;5</th>
+                                    <th class="sortable num" onclick="sortDupeTable('high')">Duped 5+</th>
+                                    <th class="sortable num" onclick="sortDupeTable('total')">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dupe-table-body"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -3084,6 +3145,49 @@
 
         function renderInsights() {
             renderLeverageChart();
+            renderDupeTable();
+        }
+
+        // Per-user lineup uniqueness table (distinct lineups bucketed by field dupe count)
+        let dupeSort = { key: 'total', asc: false };
+        function renderDupeTable() {
+            const tbody = document.getElementById('dupe-table-body');
+            if (!tbody) return;
+            const users = {};
+            (allData || []).forEach(r => {
+                const u = (r.Username || '').trim();
+                const key = r.LineupKey || '';
+                if (!u || !key) return;
+                if (!users[u]) users[u] = { user: u, seen: new Set(), unique: 0, low: 0, high: 0 };
+                const rec = users[u];
+                if (rec.seen.has(key)) return; // count distinct lineups only
+                rec.seen.add(key);
+                const c = r.Copies || 1;
+                if (c <= 1) rec.unique++;
+                else if (c < 5) rec.low++;
+                else rec.high++;
+            });
+            let rows = Object.values(users).map(r => ({
+                user: r.user, unique: r.unique, low: r.low, high: r.high,
+                total: r.unique + r.low + r.high
+            }));
+            const { key, asc } = dupeSort;
+            rows.sort((a, b) => key === 'user'
+                ? (asc ? a.user.localeCompare(b.user) : b.user.localeCompare(a.user))
+                : (asc ? a[key] - b[key] : b[key] - a[key]));
+            tbody.innerHTML = rows.map(r => `
+                <tr>
+                    <td class="username">${r.user}</td>
+                    <td>${r.unique}</td>
+                    <td>${r.low}</td>
+                    <td>${r.high}</td>
+                    <td>${r.total}</td>
+                </tr>`).join('');
+        }
+        function sortDupeTable(key) {
+            if (dupeSort.key === key) dupeSort.asc = !dupeSort.asc;
+            else dupeSort = { key, asc: key === 'user' };
+            renderDupeTable();
         }
 
         // Chart 1: Win Lineup % vs Draft % (fighter leverage)

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Make Your Badge — DH24</title>
+<style>
+  :root{
+    --bg-dark:#060a12; --glass-bg:rgba(12,25,40,.65); --glass-border:rgba(20,42,62,.8);
+    --text-primary:#e8edf5; --text-secondary:#7a8599; --accent-green:#00ff88; --bg-card-solid:#0c1926;
+    --crown:#f1751f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg-dark);color:var(--text-primary);font-family:Inter,system-ui,Arial,sans-serif;padding:32px 20px;}
+  .wrap{max-width:760px;margin:0 auto;}
+  h1{font-family:'Bebas Neue',Arial,sans-serif;letter-spacing:2px;font-size:2.4rem;margin:0 0 4px;}
+  h1 span{color:var(--accent-green);}
+  .sub{color:var(--text-secondary);font-size:.95rem;margin-bottom:26px;}
+  .panel{display:flex;gap:30px;flex-wrap:wrap;align-items:flex-start;}
+  .controls{flex:1;min-width:260px;display:flex;flex-direction:column;gap:18px;}
+  label{display:block;font-size:.8rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;}
+  input[type=text]{width:100%;background:var(--bg-card-solid);border:1px solid var(--glass-border);color:var(--text-primary);
+    border-radius:10px;padding:12px 14px;font-size:1rem;outline:none;}
+  input[type=text]:focus{border-color:var(--accent-green);}
+  .swatches{display:flex;gap:10px;flex-wrap:wrap;}
+  .swatch{width:34px;height:34px;border-radius:8px;border:2px solid transparent;cursor:pointer;}
+  .swatch.active{border-color:var(--accent-green);}
+  .preview-col{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .preview-circle{width:240px;height:240px;border-radius:50%;overflow:hidden;border:1px solid var(--glass-border);background:#000;}
+  .preview-circle canvas{width:100%;height:100%;display:block;}
+  .hint{color:var(--text-secondary);font-size:.78rem;text-align:center;max-width:240px;}
+  .btn{background:var(--accent-green);color:#04110a;border:none;border-radius:10px;padding:12px 18px;font-weight:700;font-size:.95rem;cursor:pointer;}
+  .btn:hover{filter:brightness(1.08);}
+  .warn{color:#ffb454;font-size:.8rem;margin-top:8px;}
+  a.back{color:var(--text-secondary);font-size:.85rem;text-decoration:none;}
+  a.back:hover{color:var(--text-primary);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Back</a>
+  <h1>MAKE YOUR <span>BADGE</span></h1>
+  <div class="sub">Put your own initials inside the crown. Download it and set it as your DraftKings profile pic — same crew, your mark.</div>
+
+  <div class="panel">
+    <div class="controls">
+      <div>
+        <label for="initials">Initials (1–4 characters)</label>
+        <input id="initials" type="text" maxlength="4" value="DH" autocomplete="off" placeholder="e.g. JS">
+      </div>
+      <div>
+        <label>Center background</label>
+        <div class="swatches" id="swatches"></div>
+      </div>
+      <div>
+        <label>Initials color</label>
+        <div class="swatches" id="ink-swatches"></div>
+      </div>
+      <button class="btn" id="download">Download PNG</button>
+      <div class="warn" id="warn" style="display:none;"></div>
+    </div>
+
+    <div class="preview-col">
+      <div class="preview-circle"><canvas id="canvas" width="600" height="600"></canvas></div>
+      <div class="hint">Circular preview = how it looks as a DK avatar.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SIZE = 600;
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const bgColors = ['#ffffff', '#0c1926', '#f1751f', '#00ff88', '#1b2a3a'];
+const inkColors = ['#0c1926', '#ffffff', '#f1751f', '#00ff88'];
+let bg = '#ffffff', ink = '#0c1926';
+
+// Load the frame (octagon + crown, transparent center). Falls back to a drawn octagon.
+const frame = new Image();
+let frameOk = false;
+frame.onload = () => { frameOk = true; draw(); };
+frame.onerror = () => { frameOk = false; document.getElementById('warn').style.display='block';
+  document.getElementById('warn').textContent = 'badge-frame.png not found — showing a placeholder octagon. Add the real frame to finish the look.'; draw(); };
+frame.src = 'badge-frame.png';
+
+function makeSwatches(elId, colors, getCur, setCur) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  colors.forEach(c => {
+    const s = document.createElement('div');
+    s.className = 'swatch' + (c === getCur() ? ' active' : '');
+    s.style.background = c;
+    if (c === '#ffffff') s.style.boxShadow = 'inset 0 0 0 1px #888';
+    s.onclick = () => { setCur(c); makeSwatches(elId, colors, getCur, setCur); draw(); };
+    el.appendChild(s);
+  });
+}
+makeSwatches('swatches', bgColors, () => bg, v => bg = v);
+makeSwatches('ink-swatches', inkColors, () => ink, v => ink = v);
+
+function drawPlaceholderOctagon() {
+  // simple rounded octagon outline so the tool works before badge-frame.png exists
+  const c = SIZE / 2, R = SIZE * 0.42, n = 8;
+  ctx.save();
+  ctx.strokeStyle = '#0c1926'; ctx.lineWidth = SIZE * 0.05; ctx.lineJoin = 'round';
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI / n + i * 2 * Math.PI / n;
+    const x = c + R * Math.cos(a), y = c + R * Math.sin(a);
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  }
+  ctx.closePath(); ctx.stroke();
+  ctx.restore();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, SIZE, SIZE);
+
+  // 1) center background, clipped to an octagon so corners stay transparent
+  const c = SIZE / 2, R = SIZE * 0.40, n = 8;
+  ctx.save();
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI / n + i * 2 * Math.PI / n;
+    const x = c + R * Math.cos(a), y = c + R * Math.sin(a);
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  }
+  ctx.closePath(); ctx.clip();
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, SIZE, SIZE);
+  ctx.restore();
+
+  // 2) initials, auto-sized to fit
+  const txt = (document.getElementById('initials').value || '').toUpperCase().trim() || ' ';
+  ctx.fillStyle = ink;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  let fontSize = SIZE * 0.34;
+  const maxW = SIZE * 0.52;
+  do {
+    ctx.font = `900 ${fontSize}px Arial, sans-serif`;
+    if (ctx.measureText(txt).width <= maxW) break;
+    fontSize -= 6;
+  } while (fontSize > 20);
+  ctx.fillText(txt, SIZE / 2, SIZE / 2 + SIZE * 0.04);
+
+  // 3) frame (octagon + crown) on top
+  if (frameOk) ctx.drawImage(frame, 0, 0, SIZE, SIZE);
+  else drawPlaceholderOctagon();
+}
+
+document.getElementById('initials').addEventListener('input', draw);
+document.getElementById('download').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.download = 'dh24-badge.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+});
+
+draw();
+</script>
+</body>
+</html>

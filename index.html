@@ -1011,7 +1011,11 @@
 
         @media (max-width: 900px) {
             #insights-view { grid-template-columns: 1fr; }
-            .insights-leverage, .insights-pairing, .insights-table { grid-column: 1; grid-row: auto; }
+            .insights-leverage, .insights-pairing, .insights-fighters, .insights-table {
+                grid-column: 1;
+                grid-row: auto;
+                height: auto !important;
+            }
         }
 
         .chart-card {

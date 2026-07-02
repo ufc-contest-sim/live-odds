@@ -166,9 +166,9 @@
 
 
         .contest-table td {
-            padding: 18px 24px;
+            padding: 11px 24px;
             border-bottom: 1px solid #ece6dd;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             text-align: center;
         }
 
@@ -1774,8 +1774,8 @@
         .live-ticker {
             position: relative;
             z-index: 5;
-            border-bottom: 1px solid var(--border);
-            background: rgba(10, 10, 13, 0.9);
+            border-bottom: 3px solid var(--accent);   /* orange trim below the banner */
+            background: rgba(10, 10, 13, 0.92);
             overflow: hidden;
             white-space: nowrap;
             font-family: 'Chakra Petch', monospace;
@@ -1788,10 +1788,10 @@
             padding: 8px 0;
             animation: lts-tick 40s linear infinite;
         }
-        .live-ticker-track span { margin: 0 26px; color: var(--text-secondary); }
-        .live-ticker-track b { color: var(--text-primary); font-weight: 600; }
-        .live-ticker-track b.am { color: var(--accent-hi); }
-        .live-ticker-track .tbd { color: var(--text-secondary); font-style: normal; }
+        .live-ticker-track span { margin: 0 26px; color: #cfc9bf; }
+        .live-ticker-track b { color: #ffffff; font-weight: 600; }   /* names white */
+        .live-ticker-track b.am { color: #ffffff; }                  /* locked scores white */
+        .live-ticker-track .tbd { color: var(--accent); font-style: normal; font-weight: 600; }  /* TBD orange */
         @keyframes lts-tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
         /* --- landing hero --- */
@@ -2072,7 +2072,8 @@
         #lineup-table thead,
         #portfolio-table thead,
         .whatif-table-scroll thead {
-            background: linear-gradient(105deg, var(--accent-hi), var(--accent));
+            /* richer, deeper orange sampled from the MMA LiveSim logo — no pale amber */
+            background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
         }
         .contest-table th,
         #username-table thead th,
@@ -2115,7 +2116,7 @@
         }
         .tab-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
         .tab-btn.active {
-            background: linear-gradient(105deg, var(--accent-hi), var(--accent));
+            background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
             color: #ffffff;
             border-color: transparent;
             box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);

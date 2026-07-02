@@ -94,7 +94,7 @@
         /* Landing Page Styles */
         .landing-page {
             /* generous top padding so the octagon watermark clears the ticker */
-            padding: 130px 20px 40px;
+            padding: 100px 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -1795,7 +1795,8 @@
         .landing-header { position: relative; padding: 26px 0 6px; }
         .oct-mark {
             position: absolute;
-            left: 50%; top: 42%;
+            /* +30px offsets the reduced page padding so the octagon stays put */
+            left: 50%; top: calc(42% + 30px);
             transform: translate(-50%, -50%);
             width: 430px; height: 430px;
             opacity: 0.5;
@@ -2020,8 +2021,8 @@
         .fighter-draft-table .draft-pct { color: var(--accent-hi); }
 
         @media (max-width: 600px) {
-            .landing-page { padding-top: 90px; }
-            .oct-mark { width: 300px; height: 300px; }
+            .landing-page { padding-top: 70px; }
+            .oct-mark { width: 300px; height: 300px; top: calc(42% + 20px); }
             .landing-kicker { letter-spacing: 3px; }
             .landing-kicker::before, .landing-kicker::after { margin: 0 6px; }
         }

@@ -1787,6 +1787,7 @@
         .live-ticker-track span { margin: 0 26px; color: var(--text-secondary); }
         .live-ticker-track b { color: var(--text-primary); font-weight: 600; }
         .live-ticker-track b.am { color: var(--accent-hi); }
+        .live-ticker-track .tbd { color: var(--text-secondary); font-style: normal; }
         @keyframes lts-tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
         /* --- landing hero --- */
@@ -2648,18 +2649,44 @@
             renderLiveTicker();
         }
 
-        // Broadcast ticker along the top, built from real contest data
-        function renderLiveTicker() {
+        // Broadcast ticker along the top — fighters in fight-card order,
+        // with their locked score or TBD if they haven't fought yet
+        let tickerLoaded = false;
+        async function renderLiveTicker() {
+            if (tickerLoaded) return;
             const ticker = document.getElementById('live-ticker');
             const track = document.getElementById('live-ticker-track');
             if (!ticker || !track || CONTESTS.length === 0) return;
+            tickerLoaded = true;
 
-            const items = CONTESTS.map(c => {
-                const bits = [`<b>${c.name}</b>`];
-                if (c.totalPrizes) bits.push(`<b class="am">${formatMoney(c.totalPrizes)}</b> PRIZES`);
-                if (c.entrants) bits.push(`${c.entrants.toLocaleString()} ENTRIES`);
-                return `<span>${bits.join(' &middot; ')}</span>`;
-            }).join('');
+            let items = '';
+            try {
+                const resp = await fetch(CONTESTS[0].file);
+                const data = await resp.json();
+                const fights = (data.fight_card || []).slice()
+                    .sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0));
+                const fighters = fights.flatMap(f => [
+                    [f.fighter1, f.fighter1_score],
+                    [f.fighter2, f.fighter2_score]
+                ]).filter(([name]) => name);
+                items = fighters.map(([name, score]) =>
+                    `<span><b>${name}</b>: ${score == null ? '<i class="tbd">TBD</i>' : `<b class="am">${Number(score).toFixed(2)}</b>`}</span>`
+                ).join('');
+                // keep the scroll speed steady regardless of card size
+                track.style.animationDuration = Math.max(30, fighters.length * 3.5) + 's';
+            } catch (e) {
+                // fall through to the contest summary below
+            }
+
+            // fallback if the fight card isn't available
+            if (!items) {
+                items = CONTESTS.map(c => {
+                    const bits = [`<b>${c.name}</b>`];
+                    if (c.totalPrizes) bits.push(`<b class="am">${formatMoney(c.totalPrizes)}</b> PRIZES`);
+                    if (c.entrants) bits.push(`${c.entrants.toLocaleString()} ENTRIES`);
+                    return `<span>${bits.join(' &middot; ')}</span>`;
+                }).join('');
+            }
 
             // duplicate for a seamless loop
             track.innerHTML = items + items;

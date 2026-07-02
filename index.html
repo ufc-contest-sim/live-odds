@@ -2067,24 +2067,29 @@
         .search-results-summary { color: var(--text-on-dark-mute); }
 
         /* --- table header rows go orange (the "orange headers") --- */
-        .contest-table th,
+        /* richer, deeper orange sampled from the MMA LiveSim logo — no pale amber.
+           background sits on the THEAD so it's one continuous bar (no per-cell
+           seams like the landing table used to have) */
+        .contest-table thead,
         #username-table thead,
         #lineup-table thead,
         #portfolio-table thead,
         .whatif-table-scroll thead {
-            /* richer, deeper orange sampled from the MMA LiveSim logo — no pale amber */
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
         }
+        .contest-table th { background: transparent; }
+        /* orange headers always get BLACK text (matches the logo's black "MMA") */
         .contest-table th,
         #username-table thead th,
         #lineup-table thead th,
         #portfolio-table thead th,
         .whatif-table-scroll thead th {
-            color: #ffffff;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.14);
+            color: #100f0d;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.20);
         }
         .contest-table th.sortable:hover,
-        thead th:hover { color: #fff2e6; }
+        thead th:hover { color: rgba(0, 0, 0, 0.62); }
+        thead th.sortable::after { opacity: 0.5; }
         .contest-table td.col-prizes { color: var(--accent-lo); }
         .contest-table tbody tr:hover .contest-table-name { color: var(--accent-lo); }
         th.sortable::after { opacity: 0.55; }
@@ -2117,7 +2122,7 @@
         .tab-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
         .tab-btn.active {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
-            color: #ffffff;
+            color: #100f0d;
             border-color: transparent;
             box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);
         }
@@ -2164,7 +2169,7 @@
             <h1>MMA <span>LiveSim</span></h1>
             <p>Real-time win probabilities for UFC DFS contests — by DHollis24</p>
             <div class="hero-badges">
-                <div class="pill live"><span class="dot"></span><i>Fight-night live updates</i></div>
+                <div class="pill live"><span class="dot"></span><i id="sim-mode-label">Post Contest Sim Mode</i></div>
                 <div class="pill" id="hero-contest-pill" style="display: none;"><i id="hero-contest-count"></i></div>
             </div>
         </div>
@@ -2642,7 +2647,9 @@
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            // currentTarget is always the button, even when the click lands on
+            // the inner <span> — target alone made the highlight fire only sometimes
+            if (event && event.currentTarget) event.currentTarget.classList.add('active');
 
             // Show/hide appropriate tables and filters
             document.getElementById('username-table').style.display = 'none';
@@ -2799,6 +2806,11 @@
                 ).join('');
                 // keep the scroll speed steady regardless of card size
                 track.style.animationDuration = Math.max(30, fighters.length * 3.5) + 's';
+
+                // Mode label: once any fighter score is locked in, we're live
+                const anyLocked = fights.some(f => f.fighter1_score != null || f.fighter2_score != null);
+                const modeLabel = document.getElementById('sim-mode-label');
+                if (modeLabel) modeLabel.textContent = anyLocked ? 'Live Sim Mode' : 'Post Contest Sim Mode';
             } catch (e) {
                 // fall through to the contest summary below
             }

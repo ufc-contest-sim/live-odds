@@ -93,7 +93,8 @@
 
         /* Landing Page Styles */
         .landing-page {
-            padding: 40px 20px;
+            /* generous top padding so the octagon watermark clears the ticker */
+            padding: 130px 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -2019,6 +2020,7 @@
         .fighter-draft-table .draft-pct { color: var(--accent-hi); }
 
         @media (max-width: 600px) {
+            .landing-page { padding-top: 90px; }
             .oct-mark { width: 300px; height: 300px; }
             .landing-kicker { letter-spacing: 3px; }
             .landing-kicker::before, .landing-kicker::after { margin: 0 6px; }
@@ -2037,7 +2039,7 @@
             </svg>
             <div class="landing-kicker">Every fight &middot; every lineup &middot; simulated live</div>
             <h1>MMA <span>LiveSim</span></h1>
-            <p>Real-time win probabilities for UFC DFS contests — by DHollis24 — Email me suggestions: Danny_Hollis24@yahoo.com</p>
+            <p>Real-time win probabilities for UFC DFS contests — by DHollis24</p>
             <div class="hero-badges">
                 <div class="pill live"><span class="dot"></span><i>Fight-night live updates</i></div>
                 <div class="pill" id="hero-contest-pill" style="display: none;"><i id="hero-contest-count"></i></div>

@@ -25,24 +25,27 @@
         }
         
         :root {
-            --bg-dark: #07070a;
-            --bg-card: rgba(18, 18, 26, 0.65);
-            --bg-card-solid: #12121a;
-            --bg-hover: #1a1a21;
-            --border: rgba(255, 255, 255, 0.07);
-            --border-accent: rgba(255, 92, 26, 0.45);
-            --text-primary: #f4f2ee;
-            --text-secondary: #8b8b95;
-            --accent: #ff5c1a;
-            --accent-hi: #ffb02e;
-            --accent-lo: #d63a00;
-            --a-rgb: 255, 92, 26;
-            --accent-green: #00e58f;
-            --accent-red: #ff3b5c;
-            --accent-blue: #ffb02e;
-            --accent-gold: #ffb02e;
-            --glass-bg: rgba(18, 18, 26, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.07);
+            --bg-dark: #07070a;              /* page stays dark */
+            /* Orange Trim theme: white content boxes on a dark page */
+            --bg-card: #ffffff;
+            --bg-card-solid: #ffffff;
+            --bg-hover: #f4efe8;
+            --border: rgba(13, 12, 11, 0.12);
+            --border-accent: rgba(255, 106, 18, 0.55);
+            --text-primary: #16130f;         /* dark — reads on white cards */
+            --text-secondary: #6f6a63;
+            --text-on-dark: #f4f2ee;         /* light — for text on the dark page */
+            --text-on-dark-mute: #a49c8f;
+            --accent: #ff6a12;
+            --accent-hi: #ff8a2b;
+            --accent-lo: #e2470a;
+            --a-rgb: 255, 106, 18;
+            --accent-green: #0a9a56;
+            --accent-red: #e0243a;
+            --accent-blue: #ff8a2b;
+            --accent-gold: #e2470a;
+            --glass-bg: #ffffff;
+            --glass-border: rgba(13, 12, 11, 0.12);
             --chamfer: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
             --chamfer-sm: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
         }
@@ -135,7 +138,7 @@
         }
 
         .contest-table th {
-            background: #101016;
+            background: #ece6dd;
             color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 500;
@@ -164,7 +167,7 @@
 
         .contest-table td {
             padding: 18px 24px;
-            border-bottom: 1px solid #101016;
+            border-bottom: 1px solid #ece6dd;
             font-size: 1.1rem;
             text-align: center;
         }
@@ -183,7 +186,7 @@
         }
 
         .contest-table tbody tr:hover {
-            background: #14141b;
+            background: #efe9e0;
         }
 
         .contest-table tbody tr:hover .contest-table-name {
@@ -361,7 +364,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 24px;
-            border-bottom: 1px solid #14141b;
+            border-bottom: 1px solid #efe9e0;
             cursor: pointer;
             transition: background 0.15s;
         }
@@ -371,7 +374,7 @@
         }
 
         .username-dropdown-item:hover {
-            background: #191920;
+            background: #efe9e0;
         }
 
         .username-dropdown-name {
@@ -390,7 +393,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            background: #14141b;
+            background: #efe9e0;
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text-secondary);
@@ -828,7 +831,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid #14141b;
+            border-bottom: 1px solid #efe9e0;
         }
         
         .stat-row:last-child {
@@ -883,12 +886,12 @@
 
         .fighter-draft-table td {
             padding: 10px 12px;
-            border-bottom: 1px solid #101016;
+            border-bottom: 1px solid #ece6dd;
             font-size: 0.9rem;
         }
 
         .fighter-draft-table tr:hover {
-            background: #14141b;
+            background: #efe9e0;
         }
         
         .fighter-draft-table .fighter-name {
@@ -1152,13 +1155,13 @@
 
         .dupe-table td {
             padding: 10px 14px;
-            border-bottom: 1px solid #101016;
+            border-bottom: 1px solid #ece6dd;
             font-size: 0.88rem;
         }
 
         .dupe-table td:nth-child(n+2) { text-align: right; }
 
-        .dupe-table tr:hover td { background: #14141b; }
+        .dupe-table tr:hover td { background: #efe9e0; }
 
         .filters {
             background: var(--glass-bg);
@@ -1185,7 +1188,7 @@
 
         .tab-btn {
             flex: 0 1 auto;
-            background: #14141b;
+            background: #efe9e0;
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 8px 20px;
@@ -1200,7 +1203,7 @@
 
         .tab-btn:hover {
             color: var(--text-primary);
-            background: #1c1c24;
+            background: #e7e0d6;
         }
 
         .tab-btn.active {
@@ -1238,11 +1241,11 @@
         }
         
         .fighter-option:hover {
-            background: #191920;
+            background: #efe9e0;
         }
 
         .fighter-option.selected {
-            background: #191920;
+            background: #efe9e0;
             color: var(--accent-green);
         }
         
@@ -1279,7 +1282,7 @@
         
         .filters input,
         .filters select {
-            background: #14141b;
+            background: #efe9e0;
             border: 1px solid var(--glass-border);
             color: var(--text-primary);
             padding: 8px 12px;
@@ -1311,7 +1314,7 @@
         }
         
         .clear-btn {
-            background: #14141b;
+            background: #efe9e0;
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 8px 16px;
@@ -1358,7 +1361,7 @@
         }
         
         thead {
-            background: #101016;
+            background: #ece6dd;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -1372,7 +1375,7 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            border-bottom: 1px solid #191920;
+            border-bottom: 1px solid #efe9e0;
             cursor: pointer;
             transition: color 0.2s;
         }
@@ -1388,17 +1391,17 @@
         }
         
         .row-main {
-            border-bottom: 1px solid #101016;
+            border-bottom: 1px solid #ece6dd;
             transition: background-color 0.2s;
             cursor: pointer;
         }
 
         .row-main:hover {
-            background: #14141b;
+            background: #efe9e0;
         }
 
         .row-main.expanded {
-            background: #14141b;
+            background: #efe9e0;
             border-bottom: none;
         }
         
@@ -1433,7 +1436,7 @@
         .lineup-row {
             display: none;
             background: rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid #101016;
+            border-bottom: 1px solid #ece6dd;
         }
         
         .lineup-row.expanded {
@@ -1448,7 +1451,7 @@
         }
         
         .fighter-chip {
-            background: #14141b;
+            background: #efe9e0;
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             padding: 6px 12px;
@@ -1501,7 +1504,7 @@
             gap: 16px;
             flex-wrap: wrap;
             padding-bottom: 10px;
-            border-bottom: 1px solid #101016;
+            border-bottom: 1px solid #ece6dd;
         }
 
         .portfolio-lineup-row:last-child {
@@ -1579,7 +1582,7 @@
         }
 
         .whatif-reset-btn {
-            background: #14141b;
+            background: #efe9e0;
             border: 1px solid var(--glass-border);
             color: var(--text-secondary);
             padding: 6px 14px;
@@ -1601,7 +1604,7 @@
             gap: 12px;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid #14141b;
+            border-bottom: 1px solid #efe9e0;
         }
 
         .fight-row:last-child {
@@ -1631,7 +1634,7 @@
 
         .fight-score-input {
             width: 90px;
-            background: #14141b;
+            background: #efe9e0;
             border: 1px solid var(--glass-border);
             color: var(--text-primary);
             padding: 10px 12px;
@@ -1653,7 +1656,7 @@
         }
 
         .fight-score-input.prefilled {
-            background: #1c1c24;
+            background: #e7e0d6;
         }
 
         .whatif-no-data {
@@ -2026,6 +2029,124 @@
             .landing-kicker { letter-spacing: 3px; }
             .landing-kicker::before, .landing-kicker::after { margin: 0 6px; }
         }
+
+        /* ═══════════════════════════════════════════════════
+           ORANGE TRIM — dark page, white content boxes,
+           orange headers + rails. (appended: overrides above)
+           ═══════════════════════════════════════════════════ */
+
+        /* white cards get a soft shadow + orange top trim */
+        .contest-table-wrapper,
+        .table-container,
+        .stats-vertical,
+        .fighter-draft-container,
+        .dupes-container,
+        .chart-card,
+        .fight-card-container,
+        .filters,
+        .portfolio-chart-container {
+            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+            border-top: 3px solid var(--accent);
+        }
+        .quick-search-bar {
+            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+            border-left: 4px solid var(--accent);
+        }
+        .search-result-card { box-shadow: 0 8px 26px rgba(0, 0, 0, 0.4); }
+
+        /* --- text that sits directly on the DARK page stays light --- */
+        .landing-header h1 { color: var(--text-on-dark); }
+        .landing-header p,
+        .brand-sub { color: var(--text-on-dark-mute); }
+        .hero-badges .pill { color: var(--text-on-dark-mute); border-color: rgba(255, 255, 255, 0.16); }
+        .favorites-label { color: var(--text-on-dark-mute); }
+        #contest-name { color: var(--text-on-dark); }
+        .updated { color: var(--text-on-dark-mute); }
+        .row-count { color: var(--text-on-dark-mute); }
+        .search-results-header h3 { color: var(--text-on-dark); }
+        .search-results-summary { color: var(--text-on-dark-mute); }
+
+        /* --- table header rows go orange (the "orange headers") --- */
+        .contest-table th,
+        #username-table thead,
+        #lineup-table thead,
+        #portfolio-table thead,
+        .whatif-table-scroll thead {
+            background: linear-gradient(105deg, var(--accent-hi), var(--accent));
+        }
+        .contest-table th,
+        #username-table thead th,
+        #lineup-table thead th,
+        #portfolio-table thead th,
+        .whatif-table-scroll thead th {
+            color: #ffffff;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.14);
+        }
+        .contest-table th.sortable:hover,
+        thead th:hover { color: #fff2e6; }
+        .contest-table td.col-prizes { color: var(--accent-lo); }
+        .contest-table tbody tr:hover .contest-table-name { color: var(--accent-lo); }
+        th.sortable::after { opacity: 0.55; }
+
+        /* --- panel titles go orange --- */
+        .stats-vertical h3,
+        .fighter-draft-container h3,
+        .dupes-container h3,
+        .chart-card h3,
+        .fight-card-container h3 {
+            color: var(--accent-lo);
+        }
+
+        /* --- sub-table column headers: light, not orange (avoid overload) --- */
+        .fighter-draft-table th,
+        .dupe-table th {
+            background: #faf6f0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .dupe-table th { position: sticky; top: 0; }
+
+        /* --- view tabs: white boxes, orange when active --- */
+        .tab-btn {
+            background: #ffffff;
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+        .tab-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .tab-btn.active {
+            background: linear-gradient(105deg, var(--accent-hi), var(--accent));
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);
+        }
+
+        /* --- inputs / selects / small controls on white cards --- */
+        .filters input,
+        .filters select,
+        .pair-search-input,
+        .pair-controls select,
+        .dupe-search,
+        .fight-score-input,
+        .fighter-dropdown-list,
+        .username-dropdown {
+            background: #faf6f0;
+            color: var(--text-primary);
+            border-color: var(--glass-border);
+        }
+        .fight-score-input.prefilled { background: #f0e7db; }
+        .add-fav-btn { background: #faf6f0; color: var(--text-secondary); }
+        .back-btn { background: #ffffff; color: var(--text-secondary); box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+        .back-btn:hover { color: var(--text-primary); border-color: var(--accent); }
+        .clear-btn { background: #faf6f0; }
+
+        /* rows / hovers inside white cards */
+        .row-main:hover, .row-main.expanded { background: var(--bg-hover); }
+        .lineup-row { background: #faf6f0; }
+        .fighter-chip { background: #faf6f0; }
+
+        /* keep the leaderboard-page divider subtle on the dark header */
+        header { border-bottom-color: rgba(255, 255, 255, 0.10); }
     </style>
 </head>
 <body>
@@ -3638,7 +3759,7 @@
                 red: cs.getPropertyValue('--accent-red').trim() || '#ff4466',
                 grey: cs.getPropertyValue('--text-secondary').trim() || '#7a8599',
                 txt: cs.getPropertyValue('--text-primary').trim() || '#e8edf5',
-                bg: cs.getPropertyValue('--bg-dark').trim() || '#07070a',
+                bg: '#ffffff',
             };
         }
         function bindTip(node, html) {
@@ -3851,9 +3972,9 @@
             rows.forEach((o, i) => {
                 const cy = M.t + rowH * i + rowH / 2;
                 const t = o.v / maxV;
-                const nm = svgEl('text', { x: M.l - 10, y: cy + fontN * 0.35, fill: '#c9c6bf', 'font-size': fontN, 'text-anchor': 'end' });
+                const nm = svgEl('text', { x: M.l - 10, y: cy + fontN * 0.35, fill: '#4a453d', 'font-size': fontN, 'text-anchor': 'end' });
                 nm.textContent = o.name; svg.appendChild(nm);
-                svg.appendChild(svgEl('rect', { x: M.l, y: cy - barH / 2, width: pw, height: barH, fill: '#101016', rx: 4 }));
+                svg.appendChild(svgEl('rect', { x: M.l, y: cy - barH / 2, width: pw, height: barH, fill: '#ece6dd', rx: 4 }));
                 const rect = svgEl('rect', { x: M.l, y: cy - barH / 2, width: Math.max(2, pw * t), height: barH, fill: heatColor(t), rx: 4 });
                 rect.style.cursor = 'pointer';
                 bindTip(rect, `<b>${label}</b> + <b>${o.name}</b><br>${pairMetric === 'pct' ? o.v.toFixed(1) + "% of those lineups" : o.c + ' lineups'} (${o.c.toLocaleString()})`);
@@ -3926,12 +4047,12 @@
             const x = v => M.l + (v / maxV) * pw;
             const y = v => M.t + ph - (v / maxV) * ph;
             for (let v = 0; v <= maxV; v += 10) {
-                svg.appendChild(svgEl('line', { x1: x(v), y1: M.t, x2: x(v), y2: M.t + ph, stroke: '#1d1d26', 'stroke-width': 1 }));
-                svg.appendChild(svgEl('line', { x1: M.l, y1: y(v), x2: M.l + pw, y2: y(v), stroke: '#1d1d26', 'stroke-width': 1 }));
+                svg.appendChild(svgEl('line', { x1: x(v), y1: M.t, x2: x(v), y2: M.t + ph, stroke: '#e7e1d8', 'stroke-width': 1 }));
+                svg.appendChild(svgEl('line', { x1: M.l, y1: y(v), x2: M.l + pw, y2: y(v), stroke: '#e7e1d8', 'stroke-width': 1 }));
                 let t = svgEl('text', { x: x(v), y: M.t + ph + 20, fill: C.grey, 'font-size': 11, 'text-anchor': 'middle' }); t.textContent = v + '%'; svg.appendChild(t);
                 t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = v + '%'; svg.appendChild(t);
             }
-            svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#4a4a58', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
+            svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#b8b1a6', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
             let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' }); xl.textContent = 'Draft % (field ownership)'; svg.appendChild(xl);
             let yl = svgEl('text', { x: 18, y: M.t + ph / 2, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle', transform: `rotate(-90 18 ${M.t + ph / 2})` }); yl.textContent = 'Optimal %'; svg.appendChild(yl);
             pts.forEach(p => {
@@ -3942,7 +4063,7 @@
                 bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
                 svg.appendChild(c);
                 if (p.draft >= maxV * 0.35 || Math.abs(lev) >= 6) {
-                    const t = svgEl('text', { x: x(p.draft) + 9, y: y(p.win) + 4, fill: '#c9c6bf', 'font-size': 10.5 }); t.textContent = p.name; svg.appendChild(t);
+                    const t = svgEl('text', { x: x(p.draft) + 9, y: y(p.win) + 4, fill: '#4a453d', 'font-size': 10.5 }); t.textContent = p.name; svg.appendChild(t);
                 }
             });
         }

@@ -3172,11 +3172,35 @@
 
             // The honest headline: how often you actually profit, and the typical result.
             const median = percentileData['p50'] !== undefined ? percentileData['p50'] : valAt(50);
-            let firstPos = null;
-            for (const d of items) { if (d.val > 0) { firstPos = d.pct; break; } }
-            const profitPct = firstPos === null
-                ? 0
-                : Math.max(0, Math.min(100, Math.round(100 - (firstPos - 2.5))));
+
+            // Profit frequency: interpolate the exact percentile where the outcome
+            // curve crosses $0, instead of snapping to a 5%-wide bucket. Snapping made
+            // the number look "stuck" (e.g. always 28%) when nearby portfolios cross
+            // break-even in the same bucket; interpolation makes it respond to filters.
+            const gridP = [1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,99];
+            const pts = [];
+            if (percentileData['min'] !== undefined) pts.push([0, percentileData['min']]);
+            for (const gp of gridP) {
+                if (percentileData['p' + gp] !== undefined) pts.push([gp, percentileData['p' + gp]]);
+            }
+            if (percentileData['max'] !== undefined) pts.push([100, percentileData['max']]);
+            let profitPct;
+            if (!pts.length || pts[pts.length - 1][1] <= 0) {
+                profitPct = 0;                       // never profits
+            } else if (pts[0][1] > 0) {
+                profitPct = 100;                     // always profits
+            } else {
+                profitPct = 0;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const a = pts[i], b = pts[i + 1];
+                    if (a[1] <= 0 && b[1] > 0) {      // curve crosses zero on this segment
+                        const t = (b[1] === a[1]) ? 0 : (0 - a[1]) / (b[1] - a[1]);
+                        const cross = a[0] + t * (b[0] - a[0]);
+                        profitPct = Math.round(100 - cross);
+                        break;
+                    }
+                }
+            }
 
             const bars = items.map(d => {
                 const isPos = d.val >= 0;

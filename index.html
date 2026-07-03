@@ -2155,6 +2155,97 @@
 
         /* keep the leaderboard-page divider subtle on the dark header */
         header { border-bottom-color: rgba(255, 255, 255, 0.10); }
+
+        /* ═══════════════════════════════════════════════════
+           Visitor gate — one-time DK username on first arrival
+           ═══════════════════════════════════════════════════ */
+        #visitor-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(7, 7, 10, 0.94);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #visitor-gate .vg-card {
+            background: #ffffff;
+            color: #16130f;
+            width: 100%;
+            max-width: 450px;
+            clip-path: var(--chamfer);
+            border-top: 4px solid var(--accent);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+            padding: 36px 32px 30px;
+            text-align: center;
+        }
+        #visitor-gate .vg-kick {
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        #visitor-gate h2 {
+            font-family: 'Saira Condensed', sans-serif;
+            font-style: italic;
+            font-weight: 900;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            line-height: 1.05;
+            margin-bottom: 10px;
+        }
+        #visitor-gate p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.45;
+            margin-bottom: 18px;
+        }
+        #visitor-gate .vg-err {
+            color: var(--accent-red);
+            font-size: 0.82rem;
+            min-height: 1.1em;
+            text-align: left;
+            margin-bottom: 6px;
+        }
+        #visitor-gate input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1.05rem;
+            font-family: inherit;
+            border: 1px solid var(--glass-border);
+            background: #faf6f0;
+            color: #16130f;
+            outline: none;
+            margin-bottom: 14px;
+        }
+        #visitor-gate input:focus { border-color: var(--accent); }
+        #visitor-gate button {
+            width: 100%;
+            padding: 14px;
+            font-family: 'Saira Condensed', sans-serif;
+            font-style: italic;
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #100f0d;
+            background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
+            border: none;
+            cursor: pointer;
+            clip-path: var(--chamfer-sm);
+            transition: filter 0.15s;
+        }
+        #visitor-gate button:hover { filter: brightness(1.08); }
+        #visitor-gate .vg-fine {
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            margin-top: 14px;
+        }
     </style>
 </head>
 <body>
@@ -2479,6 +2570,85 @@
         let whatIfDebounceTimer = null;
 
         // ==================== Favorites ====================
+        // ==================== Visitor tracking (Google Sheet) ====================
+        // Paste your Google Apps Script Web App URL between the quotes to turn on
+        // logging. Until then, the gate still works but nothing is recorded.
+        const SHEET_ENDPOINT = '';
+        const VISITOR_KEY = 'mmaLiveSim_visitor';
+
+        function getVisitor() {
+            try { return localStorage.getItem(VISITOR_KEY) || ''; } catch (e) { return ''; }
+        }
+
+        // Best-effort fire-and-forget POST to the sheet. no-cors + text/plain
+        // avoids a CORS preflight (Apps Script reads e.postData.contents).
+        function logEvent(event, query) {
+            if (!SHEET_ENDPOINT) return;
+            try {
+                fetch(SHEET_ENDPOINT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        event: event,
+                        visitor: getVisitor(),
+                        query: query || '',
+                        ua: navigator.userAgent,
+                        ref: document.referrer || ''
+                    })
+                });
+            } catch (e) { /* never let logging break the page */ }
+        }
+
+        // Forced one-time gate: collect the visitor's DK username on first arrival.
+        function initVisitorGate() {
+            if (getVisitor()) return;   // already known on this device
+            const gate = document.createElement('div');
+            gate.id = 'visitor-gate';
+            gate.innerHTML =
+                '<div class="vg-card">' +
+                '<div class="vg-kick">/// Welcome to MMA LiveSim ///</div>' +
+                '<h2>Enter your DraftKings username</h2>' +
+                "<p>So DHollis knows who's sweating. It's just your handle — no account, no password.</p>" +
+                '<div class="vg-err" id="vg-err"></div>' +
+                '<input id="vg-input" type="text" placeholder="Your DraftKings username" autocomplete="off" maxlength="40">' +
+                '<button id="vg-go">Enter &rarr;</button>' +
+                "<div class=\"vg-fine\">Saved on this device — you'll only be asked once.</div>" +
+                '</div>';
+            document.body.appendChild(gate);
+            const input = gate.querySelector('#vg-input');
+            const err = gate.querySelector('#vg-err');
+            const submit = () => {
+                const v = input.value.trim();
+                if (v.length < 2) { err.textContent = 'Please enter your DraftKings username.'; input.focus(); return; }
+                try { localStorage.setItem(VISITOR_KEY, v); } catch (e) {}
+                logEvent('arrived', '');
+                gate.remove();
+            };
+            gate.querySelector('#vg-go').addEventListener('click', submit);
+            input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+            setTimeout(() => input.focus(), 50);
+        }
+
+        // Log which names a visitor searches — debounced so we capture the settled
+        // query, not every keystroke, and deduped so each name logs once per visit.
+        const _loggedQueries = new Set();
+        let _searchLogTimer = null;
+        function logSearchQuery(query, immediate) {
+            const q = (query || '').trim();
+            if (q.length < 3) return;
+            clearTimeout(_searchLogTimer);
+            const fire = () => {
+                const key = q.toLowerCase();
+                if (_loggedQueries.has(key)) return;
+                _loggedQueries.add(key);
+                logEvent('searched', q);
+            };
+            if (immediate) fire(); else _searchLogTimer = setTimeout(fire, 1200);
+        }
+
+        initVisitorGate();
+
         function loadFavorites() {
             try {
                 const stored = localStorage.getItem('ufcLiveSweat_favorites');
@@ -3179,6 +3349,7 @@
             const input = document.getElementById('quick-search-input');
             input.value = username;
             document.getElementById('username-dropdown').classList.remove('visible');
+            logSearchQuery(username, true);   // definitive pick — log immediately
             searchAllContests(username);
         }
 
@@ -3216,6 +3387,7 @@
                     document.getElementById('quick-search-results').classList.remove('visible');
                     return;
                 }
+                logSearchQuery(query);
                 searchTimeout = setTimeout(() => searchAllContests(query), 300);
             });
 

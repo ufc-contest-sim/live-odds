@@ -2315,6 +2315,113 @@
             font-size: 0.72rem;
             margin-top: 14px;
         }
+
+        /* ═══════════════════════════════════════════════════
+           Landing nav (Contests / Scoring Database) + DB board
+           ═══════════════════════════════════════════════════ */
+        .landing-nav { display: flex; gap: 8px; margin: 0 0 18px; flex-wrap: wrap; }
+        .lnav-tab {
+            transform: skewX(-12deg);
+            border: 1px solid var(--glass-border);
+            background: #ffffff;
+            color: var(--text-secondary);
+            padding: 11px 26px;
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.85rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+        .lnav-tab > span { display: inline-block; transform: skewX(12deg); }
+        .lnav-tab:hover { color: var(--text-primary); }
+        .lnav-tab.active {
+            background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
+            color: #100f0d; border-color: transparent;
+            box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);
+        }
+
+        .sdb-card {
+            background: #ffffff;
+            clip-path: var(--chamfer);
+            border: 1px solid var(--glass-border);
+            border-top: 3px solid var(--accent);
+            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+            padding: 22px 24px 20px;
+            color: var(--text-primary);
+        }
+        .sdb-title {
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 3px;
+            text-transform: uppercase; color: var(--accent-lo);
+            margin-bottom: 16px;
+        }
+        .sdb-filters {
+            display: flex; flex-wrap: wrap; gap: 14px 18px;
+            align-items: flex-end; margin-bottom: 16px;
+        }
+        .sdb-fg { display: flex; flex-direction: column; gap: 4px; }
+        .sdb-fg label {
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .sdb-fg input, .sdb-fg select {
+            background: #faf6f0; border: 1px solid var(--glass-border);
+            color: var(--text-primary); padding: 8px 11px; font-size: 0.9rem;
+            font-family: inherit; outline: none; min-width: 130px;
+        }
+        .sdb-fg input:focus, .sdb-fg select:focus { border-color: var(--accent); }
+        .sdb-check {
+            display: flex; align-items: center; gap: 7px;
+            font-size: 0.82rem; color: var(--text-secondary); cursor: pointer;
+        }
+        .sdb-check input { accent-color: var(--accent); width: 15px; height: 15px; }
+        .sdb-count {
+            margin-left: auto; font-family: 'Chakra Petch', monospace;
+            font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap;
+        }
+        .sdb-loading { text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.95rem; }
+        .sdb-scroll { overflow-x: auto; max-height: 68vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .sdb-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+        .sdb-table thead { position: sticky; top: 0; z-index: 1; }
+        .sdb-table thead th {
+            background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
+            color: #100f0d; font-weight: 700;
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase;
+            padding: 11px 12px; text-align: center; white-space: nowrap;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+        }
+        .sdb-table thead th.l { text-align: left; }
+        .sdb-table thead th.sortable { cursor: pointer; }
+        .sdb-table thead th.sorted { background: linear-gradient(100deg, #ff8a2b, #e04d0a); }
+        .sdb-table td {
+            padding: 9px 12px; text-align: center; white-space: nowrap;
+            border-bottom: 1px solid #efe9e0;
+        }
+        .sdb-table td.l { text-align: left; }
+        .sdb-table tbody tr:hover { background: #faf6f0; }
+        .sdb-table td.rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.78rem; }
+        .sdb-table td.pts { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); }
+        .sdb-table td.dktot { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); font-size: 0.95rem; }
+        .sdb-table .flink { color: var(--text-primary); font-weight: 600; cursor: pointer; border-bottom: 1px dotted var(--accent); }
+        .sdb-table .flink:hover { color: var(--accent-lo); }
+        .sdb-table .res-w { color: var(--accent-green); font-weight: 700; }
+        .sdb-table .res-l { color: var(--accent-red); font-weight: 700; }
+        .sdb-table .res-d, .sdb-table .res-nc { color: var(--text-secondary); font-weight: 700; }
+        .sdb-legend {
+            margin-top: 16px; font-size: 0.8rem; color: var(--text-secondary);
+        }
+        .sdb-legend summary {
+            cursor: pointer; font-family: 'Chakra Petch', monospace;
+            font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo);
+        }
+        .sdb-legend-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px 26px; margin-top: 12px; max-width: 620px;
+        }
+        .sdb-legend-grid span { display: flex; justify-content: space-between; border-bottom: 1px solid #efe9e0; padding: 3px 0; }
+        .sdb-legend-grid b { color: var(--accent-lo); font-family: 'Chakra Petch', monospace; }
     </style>
 </head>
 <body>
@@ -2335,23 +2442,64 @@
                 <div class="pill" id="hero-contest-pill" style="display: none;"><i id="hero-contest-count"></i></div>
             </div>
         </div>
-        <div class="quick-search-section">
-            <div class="quick-search-wrapper">
-                <div class="quick-search-bar">
-                    <span class="quick-search-icon">&#128269;</span>
-                    <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
-                </div>
-                <div id="username-dropdown" class="username-dropdown"></div>
-            </div>
-            <div id="favorites-section" class="favorites-section">
-                <div class="favorites-header">
-                    <span class="favorites-label">Favorites</span>
-                </div>
-                <div id="favorites-tiles" class="favorites-tiles"></div>
-            </div>
-            <div id="quick-search-results" class="quick-search-results"></div>
+
+        <div class="landing-nav">
+            <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
+            <button class="lnav-tab" data-view="scoringdb"><span>Scoring Database</span></button>
         </div>
-        <div id="contests-list"></div>
+
+        <div id="contests-view">
+            <div class="quick-search-section">
+                <div class="quick-search-wrapper">
+                    <div class="quick-search-bar">
+                        <span class="quick-search-icon">&#128269;</span>
+                        <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
+                    </div>
+                    <div id="username-dropdown" class="username-dropdown"></div>
+                </div>
+                <div id="favorites-section" class="favorites-section">
+                    <div class="favorites-header">
+                        <span class="favorites-label">Favorites</span>
+                    </div>
+                    <div id="favorites-tiles" class="favorites-tiles"></div>
+                </div>
+                <div id="quick-search-results" class="quick-search-results"></div>
+            </div>
+            <div id="contests-list"></div>
+        </div>
+
+        <div id="scoringdb-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">DK Score Database — highest single-fight fantasy scores</div>
+                <div class="sdb-filters">
+                    <div class="sdb-fg"><label>Fighter</label><input id="sdbName" type="text" placeholder="any name…" autocomplete="off"></div>
+                    <div class="sdb-fg"><label>Finish type</label><select id="sdbMethod"></select></div>
+                    <div class="sdb-fg"><label>Round</label><select id="sdbRound"><option value="">Any</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+                    <div class="sdb-fg"><label>Result</label><select id="sdbResult"><option value="W">Wins only</option><option value="L">Losses only</option><option value="">All</option></select></div>
+                    <div class="sdb-fg"><label>Weight class</label><select id="sdbWeight"></select></div>
+                    <label class="sdb-check"><input type="checkbox" id="sdbQuick"> Quick wins only (R1 &le;60s)</label>
+                    <div class="sdb-count" id="sdbCount"></div>
+                </div>
+                <div id="sdbLoading" class="sdb-loading">Loading fight database…</div>
+                <div class="sdb-scroll" style="display:none;">
+                    <table class="sdb-table">
+                        <thead><tr id="sdbHead"></tr></thead>
+                        <tbody id="sdbBody"></tbody>
+                    </table>
+                </div>
+                <details class="sdb-legend">
+                    <summary>DraftKings scoring used</summary>
+                    <div class="sdb-legend-grid">
+                        <span>Strike (any) <b>+0.2</b></span><span>1st Round Win <b>+90</b></span>
+                        <span>Significant Strike <b>+0.2</b></span><span>2nd Round Win <b>+70</b></span>
+                        <span>Control Time <b>+0.03/sec</b></span><span>3rd Round Win <b>+45</b></span>
+                        <span>Takedown <b>+5</b></span><span>4th / 5th Round Win <b>+40</b></span>
+                        <span>Reversal / Sweep <b>+5</b></span><span>Decision Win <b>+30</b></span>
+                        <span>Knockdown <b>+10</b></span><span>Quick Win (R1 &le;60s) <b>+25</b></span>
+                    </div>
+                </details>
+            </div>
+        </div>
     </div>
 
     <div id="leaderboard-page" class="leaderboard-page">
@@ -4984,6 +5132,193 @@
         
         // Start
         initLanding();
+
+        // ==================== Scoring Database (lazy-loaded fight stats) ====================
+        // Fully self-contained: the CSV (~1.5MB gzipped) only downloads the first time
+        // someone opens the Scoring Database tab, so the landing page stays fast.
+        (function () {
+            const WIN_FINISH = { 1: 90, 2: 70, 3: 45, 4: 40, 5: 40 };
+            const WEIGHTS = ["Strawweight","Flyweight","Bantamweight","Featherweight","Lightweight","Welterweight","Middleweight","Light Heavyweight","Heavyweight","Catch Weight","Open Weight"];
+            const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            const num = v => { const x = parseFloat(v); return isNaN(x) ? 0 : x; };
+            const timeToSec = t => { if (!t || t.indexOf(':') < 0) return null; const [m, s] = t.split(':'); const v = parseInt(m, 10) * 60 + parseInt(s, 10); return isNaN(v) ? null : v; };
+            const p1 = x => x.toFixed(1), p0 = x => Math.round(x).toString();
+            const esc = s => (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+            const fmtDate = s => { if (!s || s.length < 10) return s || ''; const m = parseInt(s.slice(5, 7), 10), d = parseInt(s.slice(8, 10), 10); return `${MONTHS[m - 1]} ${d}, ${s.slice(2, 4)}`; };
+            const resClass = r => r === 'W' ? 'res-w' : r === 'L' ? 'res-l' : r === 'D' ? 'res-d' : 'res-nc';
+            const shortMethod = m => { if (!m) return ''; if (m.startsWith('Decision')) return 'Decision'; if (m.startsWith('TKO')) return 'TKO'; return m; };
+
+            function dkPoints(r) {
+                const sig = num(r.sig_str_landed), tot = num(r.total_str_landed);
+                const str = 0.2 * tot + 0.2 * sig, kd = 10 * num(r.kd), td = 5 * num(r.td_landed), rev = 5 * num(r.rev), ctrl = 0.03 * num(r.ctrl_sec);
+                let win = 0, quick = 0; const rnd = Math.round(num(r.round));
+                if (r.result === 'W') {
+                    if ((r.method || '').startsWith('Decision')) win = 30;
+                    else { win = WIN_FINISH[rnd] || 0; const secs = timeToSec(r.time); if (rnd === 1 && secs !== null && secs <= 60) quick = 25; }
+                }
+                return { str, kd, td, rev, ctrl, win, quick, total: str + kd + td + rev + ctrl + win + quick };
+            }
+            function weightOf(b) { b = b || ''; const ord = [...WEIGHTS].sort((a, c) => c.length - a.length); for (const w of ord) { if (b.indexOf(w) >= 0) return (b.indexOf('Women') >= 0 ? "Women's " : '') + w; } return 'Other'; }
+            function methodGroup(m) { if (!m) return 'Other'; if (m.startsWith('Decision')) return 'Decision'; if (m === 'KO/TKO' || m.startsWith('TKO')) return 'KO/TKO'; if (m === 'Submission') return 'Submission'; return 'Other'; }
+
+            function parseCSV(text) {
+                const rows = []; let i = 0, field = '', row = [], inQ = false;
+                const pushF = () => { row.push(field); field = ''; };
+                const pushR = () => { rows.push(row); row = []; };
+                while (i < text.length) {
+                    const c = text[i];
+                    if (inQ) { if (c === '"') { if (text[i + 1] === '"') { field += '"'; i += 2; continue; } inQ = false; i++; continue; } field += c; i++; continue; }
+                    if (c === '"') { inQ = true; i++; continue; }
+                    if (c === ',') { pushF(); i++; continue; }
+                    if (c === '\r') { i++; continue; }
+                    if (c === '\n') { pushF(); pushR(); i++; continue; }
+                    field += c; i++;
+                }
+                if (field.length || row.length) { pushF(); pushR(); }
+                const header = rows.shift(); const out = [];
+                for (const r of rows) { if (r.length === 1 && r[0] === '') continue; const o = {}; for (let j = 0; j < header.length; j++) o[header[j]] = r[j]; out.push(o); }
+                return out;
+            }
+
+            const LEAD_COLS = [
+                { key: 'rank', label: '#', l: false, sortable: false },
+                { key: 'fighter', label: 'Fighter', l: true, sortable: true },
+                { key: 'opponent', label: 'Opponent', l: true, sortable: true },
+                { key: 'result', label: 'Res', l: false, sortable: true },
+                { key: 'method', label: 'Method', l: true, sortable: true },
+                { key: 'round', label: 'Rd', l: false, sortable: true },
+                { key: 'date', label: 'Date', l: false, sortable: true },
+                { key: 'str', label: 'Str', l: false, sortable: true },
+                { key: 'kd', label: 'KD', l: false, sortable: true },
+                { key: 'td', label: 'TD', l: false, sortable: true },
+                { key: 'ctrl', label: 'Ctrl', l: false, sortable: true },
+                { key: 'win', label: 'Win', l: false, sortable: true },
+                { key: 'dk', label: 'DK Total', l: false, sortable: true },
+            ];
+            const LIMIT = 300;
+            let SCORED = [], loaded = false, loading = false, sortKey = 'dk', sortDir = -1;
+
+            function leadValue(s, key) {
+                switch (key) {
+                    case 'fighter': return s.r.fighter;
+                    case 'opponent': return s.r.opponent;
+                    case 'result': return s.r.result;
+                    case 'method': return s.r.method;
+                    case 'round': return s.round;
+                    case 'date': return s.r.event_date;
+                    case 'str': return s.pts.str;
+                    case 'kd': return s.pts.kd;
+                    case 'td': return s.pts.td;
+                    case 'ctrl': return s.pts.ctrl;
+                    case 'win': return s.pts.win + s.pts.quick;
+                    case 'dk': return s.dk;
+                }
+                return '';
+            }
+
+            function populateFilters() {
+                document.getElementById('sdbMethod').innerHTML = '<option value="">Any</option>' + ['KO/TKO', 'Submission', 'Decision', 'Other'].map(m => `<option>${m}</option>`).join('');
+                const present = new Set(SCORED.map(s => s.weight));
+                const order = [...WEIGHTS, 'Other']; const opts = [];
+                for (const w of order) { for (const variant of (w === 'Other' ? ['Other'] : [w, "Women's " + w])) if (present.has(variant)) opts.push(variant); }
+                document.getElementById('sdbWeight').innerHTML = '<option value="">Any</option>' + opts.map(w => `<option>${esc(w)}</option>`).join('');
+            }
+
+            function renderBoard() {
+                if (!loaded) return;
+                const name = document.getElementById('sdbName').value.trim().toLowerCase();
+                const method = document.getElementById('sdbMethod').value;
+                const round = document.getElementById('sdbRound').value;
+                const result = document.getElementById('sdbResult').value;
+                const weight = document.getElementById('sdbWeight').value;
+                const quick = document.getElementById('sdbQuick').checked;
+                let rows = SCORED.filter(s => {
+                    if (name && s.r.fighter.toLowerCase().indexOf(name) < 0) return false;
+                    if (method && s.mgroup !== method) return false;
+                    if (round && s.round !== parseInt(round, 10)) return false;
+                    if (result && s.r.result !== result) return false;
+                    if (weight && s.weight !== weight) return false;
+                    if (quick && s.pts.quick <= 0) return false;
+                    return true;
+                });
+                rows.sort((a, b) => { let av = leadValue(a, sortKey), bv = leadValue(b, sortKey); if (typeof av === 'string') { av = av.toLowerCase(); bv = (bv || '').toLowerCase(); return av < bv ? -sortDir : av > bv ? sortDir : 0; } return (av - bv) * sortDir; });
+                const total = rows.length; rows = rows.slice(0, LIMIT);
+                document.getElementById('sdbHead').innerHTML = LEAD_COLS.map(c => {
+                    const cls = [c.l ? 'l' : '', c.sortable ? 'sortable' : '', c.key === sortKey ? 'sorted' : ''].filter(Boolean).join(' ');
+                    const arrow = c.key === sortKey ? (sortDir < 0 ? ' ▾' : ' ▴') : '';
+                    return `<th class="${cls}" data-key="${c.key}">${c.label}${arrow}</th>`;
+                }).join('');
+                document.getElementById('sdbBody').innerHTML = rows.map((s, i) => {
+                    const r = s.r, p = s.pts;
+                    return `<tr>
+                        <td class="rank">${i + 1}</td>
+                        <td class="l"><span class="flink" data-fighter="${esc(r.fighter)}">${esc(r.fighter)}</span></td>
+                        <td class="l">${esc(r.opponent)}</td>
+                        <td><span class="${resClass(r.result)}">${r.result || ''}</span></td>
+                        <td class="l" title="${esc(r.method)}">${esc(shortMethod(r.method))}${p.quick > 0 ? ' ⚡' : ''}</td>
+                        <td>${s.round}</td>
+                        <td>${fmtDate(r.event_date)}</td>
+                        <td class="pts">${p1(p.str)}</td>
+                        <td class="pts">${p0(p.kd)}</td>
+                        <td class="pts">${p0(p.td)}</td>
+                        <td class="pts">${p1(p.ctrl)}</td>
+                        <td class="pts">${p0(p.win + p.quick)}</td>
+                        <td class="dktot">${p1(s.dk)}</td>
+                    </tr>`;
+                }).join('');
+                document.getElementById('sdbCount').textContent = total > LIMIT ? `Showing top ${LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} result${total === 1 ? '' : 's'}`;
+                document.querySelectorAll('#sdbHead th.sortable').forEach(th => th.addEventListener('click', () => {
+                    const k = th.dataset.key;
+                    if (k === sortKey) sortDir = -sortDir;
+                    else { sortKey = k; sortDir = (k === 'fighter' || k === 'opponent' || k === 'method' || k === 'date' || k === 'result') ? 1 : -1; }
+                    renderBoard();
+                }));
+                document.querySelectorAll('#sdbBody .flink').forEach(el => el.addEventListener('click', () => {
+                    document.getElementById('sdbName').value = el.dataset.fighter; renderBoard();
+                }));
+            }
+
+            let filtersWired = false;
+            function wireFilters() {
+                if (filtersWired) return; filtersWired = true;
+                ['sdbName', 'sdbMethod', 'sdbRound', 'sdbResult', 'sdbWeight'].forEach(id => {
+                    const el = document.getElementById(id);
+                    el.addEventListener('input', renderBoard);
+                    el.addEventListener('change', renderBoard);
+                });
+                document.getElementById('sdbQuick').addEventListener('change', renderBoard);
+            }
+
+            async function loadOnce() {
+                if (loaded || loading) return; loading = true;
+                try {
+                    const resp = await fetch('ufc_fight_stats.csv?v=' + Date.now());
+                    const buf = await resp.arrayBuffer();
+                    // the CSV is single-byte (windows-1252) — decode so accented names render right
+                    const text = new TextDecoder('windows-1252').decode(buf);
+                    const rows = parseCSV(text);
+                    SCORED = rows.map(r => { const pts = dkPoints(r); return { r, pts, dk: pts.total, weight: weightOf(r.weight_class), mgroup: methodGroup(r.method), round: Math.round(num(r.round)) }; });
+                    SCORED.sort((a, b) => b.dk - a.dk);
+                    populateFilters();
+                    wireFilters();
+                    loaded = true;
+                    document.getElementById('sdbLoading').style.display = 'none';
+                    document.querySelector('#scoringdb-view .sdb-scroll').style.display = '';
+                    renderBoard();
+                } catch (e) {
+                    document.getElementById('sdbLoading').textContent = 'Could not load the fight database. Try refreshing.';
+                } finally { loading = false; }
+            }
+
+            function showLandingView(view) {
+                document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view');
+                if (cv) cv.style.display = view === 'contests' ? '' : 'none';
+                if (sv) sv.style.display = view === 'scoringdb' ? '' : 'none';
+                if (view === 'scoringdb') loadOnce();
+            }
+            document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
+        })();
     </script>
 </body>
 </html>

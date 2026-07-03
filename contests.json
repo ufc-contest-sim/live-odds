@@ -25,6 +25,14 @@
       "entrants": 10
     },
     {
+      "id": "2k_sprawl",
+      "name": "2K Sprawl",
+      "file": "2K_Sprawl.json",
+      "entryFee": 4.0,
+      "totalPrizes": 2000,
+      "entrants": 594
+    },
+    {
       "id": "300k_throwdown",
       "name": "300K Throwdown",
       "file": "300K_Throwdown.json",
@@ -55,6 +63,22 @@
       "entryFee": 5300.0,
       "totalPrizes": 30000,
       "entrants": 6
+    },
+    {
+      "id": "5k_clinch",
+      "name": "5K Clinch",
+      "file": "5K_Clinch.json",
+      "entryFee": 5.0,
+      "totalPrizes": 5000,
+      "entrants": 1189
+    },
+    {
+      "id": "5k_sprawl",
+      "name": "5K Sprawl",
+      "file": "5K_Sprawl.json",
+      "entryFee": 12.0,
+      "totalPrizes": 5000,
+      "entrants": 490
     }
   ]
 }

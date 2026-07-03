@@ -680,6 +680,41 @@
         .portfolio-bar-marker.positive { color: var(--accent-green); }
         .portfolio-bar-marker.neutral { color: var(--text-secondary); }
 
+        /* Honest 20-percentile outcome distribution */
+        .pq-stats {
+            display: flex;
+            gap: 26px;
+            margin-bottom: 14px;
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+        .pq-stat b { font-family: 'Chakra Petch', monospace; font-weight: 700; }
+        .pq-stat b.positive { color: var(--accent-green); }
+        .pq-stat b.negative { color: var(--accent-red); }
+        .pq-bars { position: relative; }
+        .pq-col { display: flex; flex-direction: column; flex: 1; min-width: 0; align-items: center; }
+        .pq-top { display: flex; align-items: flex-end; justify-content: center; width: 100%; }
+        .pq-bot { display: flex; align-items: flex-start; justify-content: center; width: 100%; }
+        .pq-val {
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.6rem; font-weight: 700; white-space: nowrap; line-height: 1.4;
+        }
+        .pq-val.positive { color: var(--accent-green); }
+        .pq-val.negative { color: var(--accent-red); }
+        .pq-bars .portfolio-bar.negative-bar { border-radius: 0 0 3px 3px; }
+        .pq-axis { display: flex; margin-top: 6px; }
+        .pq-axis span {
+            flex: 1; text-align: center; min-width: 0;
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.56rem; color: var(--text-secondary);
+        }
+        .pq-axis-title {
+            text-align: center; font-size: 0.66rem; letter-spacing: 1px;
+            text-transform: uppercase; color: var(--text-secondary); margin-top: 2px;
+            font-family: 'Chakra Petch', monospace;
+        }
+
         .search-result-card {
             background: var(--glass-bg);
 
@@ -3105,132 +3140,87 @@
             const panel = document.getElementById('portfolio-quintiles');
             if (!panel || !percentileData) return;
 
-            // Raw 5% buckets with their median (midpoint of lower/upper boundary)
-            const rawBuckets = [
-                { lo: 0,  hi: 5,   keys: ['p1','p5'] },
-                { lo: 5,  hi: 10,  keys: ['p5','p10'] },
-                { lo: 10, hi: 15,  keys: ['p10','p15'] },
-                { lo: 15, hi: 20,  keys: ['p15','p20'] },
-                { lo: 20, hi: 25,  keys: ['p20','p25'] },
-                { lo: 25, hi: 30,  keys: ['p25','p30'] },
-                { lo: 30, hi: 35,  keys: ['p30','p35'] },
-                { lo: 35, hi: 40,  keys: ['p35','p40'] },
-                { lo: 40, hi: 45,  keys: ['p40','p45'] },
-                { lo: 45, hi: 50,  keys: ['p45','p50'] },
-                { lo: 50, hi: 55,  keys: ['p50','p55'] },
-                { lo: 55, hi: 60,  keys: ['p55','p60'] },
-                { lo: 60, hi: 65,  keys: ['p60','p65'] },
-                { lo: 65, hi: 70,  keys: ['p65','p70'] },
-                { lo: 70, hi: 75,  keys: ['p70','p75'] },
-                { lo: 75, hi: 80,  keys: ['p75','p80'] },
-                { lo: 80, hi: 85,  keys: ['p80','p85'] },
-                { lo: 85, hi: 90,  keys: ['p85','p90'] },
-                { lo: 90, hi: 95,  keys: ['p90','p95'] },
-                { lo: 95, hi: 100, keys: ['p95','p99'] },
-            ];
-
-            // Use upper boundary percentile value per bucket (actual sim outcome, no averaging)
-            const rawValues = rawBuckets.map(b => {
-                const upperKey = b.keys[b.keys.length - 1];
-                if (percentileData[upperKey] !== undefined) return percentileData[upperKey];
-                return percentileData[b.keys[0]] || 0;
-            });
-
-            // Merge adjacent buckets whose values are within $100 of each other
-            const MERGE_THRESHOLD = 100;
-            const merged = [];
-            let i = 0;
-            while (i < rawBuckets.length) {
-                let groupLo = rawBuckets[i].lo;
-                let groupHi = rawBuckets[i].hi;
-                let j = i + 1;
-                while (j < rawBuckets.length && Math.abs(rawValues[j] - rawValues[i]) <= MERGE_THRESHOLD) {
-                    groupHi = rawBuckets[j].hi;
-                    j++;
-                }
-                // Representative value: upper-boundary percentile of the last bucket in the group
-                merged.push({
-                    lo: groupLo,
-                    hi: groupHi,
-                    label: groupLo + '-' + groupHi + '%',
-                    value: rawValues[j - 1],
-                });
-                i = j;
-            }
-
-            const values = merged.map(b => b.value);
-
-            const maxPos = Math.max(...values.filter(v => v > 0), 1);
-            const maxNeg = Math.max(...values.filter(v => v < 0).map(v => Math.abs(v)), 1);
-
-            // Auto-size each half proportionally so no wasted space
-            const totalChartHeight = 300;
-            const labelReserve = 20; // space for value labels
-            const posHeight = Math.round((maxPos / (maxPos + maxNeg)) * (totalChartHeight - labelReserve * 2)) + labelReserve;
-            const negHeight = Math.round((maxNeg / (maxPos + maxNeg)) * (totalChartHeight - labelReserve * 2)) + labelReserve;
-            const totalHeight = posHeight + negHeight;
-
-            const formatMoney = (v) => {
+            const fmt = (v) => {
                 const abs = Math.abs(v);
-                if (abs >= 1000) {
-                    return (v < 0 ? '-$' : '$') + (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + 'K';
-                }
-                return (v < 0 ? '-$' : '$') + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                const s = abs >= 1000
+                    ? (abs / 1000).toFixed(abs >= 10000 ? 0 : 1) + 'K'
+                    : abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                return (v < 0 ? '-$' : '$') + s;
             };
 
-            // Find breakeven: first merged bucket whose value >= 0
-            let breakevenPct = 100;
-            for (let k = 0; k < merged.length; k++) {
-                if (merged[k].value >= 0) {
-                    breakevenPct = merged[k].lo;
-                    break;
-                }
-            }
+            // 20 fixed percentile buckets. Each bar IS that percentile's simulated
+            // outcome — no merging, no averaging, no optimistic upper-boundary trick.
+            const pcts = [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+            const valAt = (p) => {
+                if (p === 100) return percentileData['max'] !== undefined ? percentileData['max'] : 0;
+                const k = 'p' + p;
+                return percentileData[k] !== undefined ? percentileData[k] : 0;
+            };
+            const items = pcts.map(p => ({ pct: p, val: valAt(p) }));
 
-            // Bar widths proportional to how many percentile-points each merged bucket spans
-            const totalSpan = 100;
-            const bars = merged.map((b, idx) => {
-                const span = b.hi - b.lo;
-                const widthPct = (span / totalSpan) * 100;
-                const val = b.value;
-                const isPos = val >= 0;
-                const barMax = isPos ? posHeight - labelReserve : negHeight - labelReserve;
-                const refMax = isPos ? maxPos : maxNeg;
-                const barHeight = Math.max((Math.abs(val) / refMax) * barMax, 2);
-                const valClass = isPos ? 'positive' : 'negative';
+            // Scale the loss and profit halves independently so the (usually small)
+            // downside stays visible even when the upside is enormous. The extreme
+            // 100th-percentile bar is excluded from the positive reference so the
+            // mid-range profit bars aren't crushed; it just clamps to full height.
+            const negRef = Math.max(...items.filter(d => d.val < 0).map(d => -d.val), 1);
+            const posRef = Math.max(...items.filter(d => d.val > 0 && d.pct < 100).map(d => d.val), 1);
+
+            const H = 300, pad = 18;
+            const posH = Math.round((posRef / (posRef + negRef)) * (H - pad * 2)) + pad;
+            const negH = Math.round((negRef / (posRef + negRef)) * (H - pad * 2)) + pad;
+            const totalH = posH + negH;
+
+            // The honest headline: how often you actually profit, and the typical result.
+            const median = percentileData['p50'] !== undefined ? percentileData['p50'] : valAt(50);
+            let firstPos = null;
+            for (const d of items) { if (d.val > 0) { firstPos = d.pct; break; } }
+            const profitPct = firstPos === null
+                ? 0
+                : Math.max(0, Math.min(100, Math.round(100 - (firstPos - 2.5))));
+
+            const bars = items.map(d => {
+                const isPos = d.val >= 0;
+                const ref = isPos ? posRef : negRef;
+                const barMax = (isPos ? posH : negH) - pad;
+                const clamped = Math.abs(d.val) > ref;
+                const barHeight = d.val === 0 ? 0
+                    : Math.max(Math.min(Math.abs(d.val) / ref, 1) * barMax, 2);
                 const barClass = isPos ? 'positive-bar' : 'negative-bar';
-                const topPad = isPos ? (posHeight - barHeight) : posHeight;
-                const botPad = isPos ? negHeight : (negHeight - barHeight);
-
-                return `<div class="portfolio-bar-col" style="height:${totalHeight}px;flex:${span};">
-                    <div style="height:${topPad}px;display:flex;align-items:flex-end;justify-content:center;width:100%;">
-                        ${isPos ? `<div class="portfolio-bar-value ${valClass}">${formatMoney(val)}</div>` : ''}
-                    </div>
+                const topPad = isPos ? (posH - barHeight) : posH;
+                const botPad = isPos ? negH : (negH - barHeight);
+                // Only label the moonshot (clamped) bars and the median — 20 labels is noise.
+                const showVal = clamped || d.pct === 50;
+                const label = showVal
+                    ? `<div class="pq-val ${isPos ? 'positive' : 'negative'}">${fmt(d.val)}</div>`
+                    : '';
+                return `<div class="pq-col" title="${d.pct}th percentile: ${fmt(d.val)}">
+                    <div class="pq-top" style="height:${topPad}px;">${isPos ? label : ''}</div>
                     <div class="portfolio-bar ${barClass}" style="height:${barHeight}px;"></div>
-                    <div style="height:${botPad}px;display:flex;align-items:flex-start;justify-content:center;width:100%;">
-                        ${!isPos ? `<div class="portfolio-bar-value ${valClass}">${formatMoney(val)}</div>` : ''}
-                    </div>
+                    <div class="pq-bot" style="height:${botPad}px;">${!isPos ? label : ''}</div>
                 </div>`;
             }).join('');
 
-            // Labels for each merged bucket
-            const labels = merged.map(b => `<span style="flex:${b.hi - b.lo};">${b.label}</span>`).join('');
+            const axis = items.map(d => `<span>${d.pct}</span>`).join('');
 
-            const worst = percentileData['min'] !== undefined ? percentileData['min'] : values[0];
-            const best = percentileData['max'] !== undefined ? percentileData['max'] : values[values.length - 1];
+            const worst = percentileData['min'] !== undefined ? percentileData['min'] : items[0].val;
+            const best = percentileData['max'] !== undefined ? percentileData['max'] : items[items.length - 1].val;
 
             panel.innerHTML = `
+                <div class="pq-stats">
+                    <span class="pq-stat"><b class="${profitPct > 0 ? 'positive' : 'negative'}">${profitPct}%</b> of simulations profit</span>
+                    <span class="pq-stat">Median result: <b class="${median >= 0 ? 'positive' : 'negative'}">${fmt(median)}</b></span>
+                </div>
                 <div class="portfolio-bars-wrapper">
-                    <div class="portfolio-bars" style="height:${totalHeight}px;">
-                        <div class="portfolio-zero-line" style="top:${posHeight}px;"></div>
+                    <div class="portfolio-bars pq-bars" style="height:${totalH}px;">
+                        <div class="portfolio-zero-line" style="top:${posH}px;"></div>
                         ${bars}
                     </div>
-                    <div class="portfolio-bar-labels">${labels}</div>
+                    <div class="pq-axis">${axis}</div>
+                    <div class="pq-axis-title">Percentile of outcomes (worst &rarr; best)</div>
                 </div>
                 <div class="portfolio-bar-markers">
-                    <span class="portfolio-bar-marker negative">Worst: ${formatMoney(worst)}</span>
-                    <span class="portfolio-bar-marker neutral">~${breakevenPct}% breakeven</span>
-                    <span class="portfolio-bar-marker positive">Best: ${formatMoney(best)}</span>
+                    <span class="portfolio-bar-marker negative">Worst: ${fmt(worst)}</span>
+                    <span class="portfolio-bar-marker positive">Best: ${fmt(best)}</span>
                 </div>
             `;
         }

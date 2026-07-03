@@ -596,11 +596,11 @@
         }
 
         .portfolio-bar.positive-bar {
-            background: linear-gradient(to top, rgba(0, 190, 118, 0.5), rgba(0, 229, 143, 0.8));
+            background: linear-gradient(to top, #0a7a46, #12a55e);
         }
 
         .portfolio-bar.negative-bar {
-            background: linear-gradient(to bottom, rgba(255, 59, 92, 0.5), rgba(255, 40, 80, 0.8));
+            background: linear-gradient(to bottom, #cf2038, #a3142a);
         }
 
         .portfolio-bar-col:hover .portfolio-bar {
@@ -700,8 +700,8 @@
             font-family: 'Chakra Petch', monospace;
             font-size: 0.6rem; font-weight: 700; white-space: nowrap; line-height: 1.4;
         }
-        .pq-val.positive { color: var(--accent-green); }
-        .pq-val.negative { color: var(--accent-red); }
+        .pq-val.positive { color: #0a7a46; }
+        .pq-val.negative { color: #b31329; }
         .pq-bars .portfolio-bar.negative-bar { border-radius: 0 0 3px 3px; }
         .pq-axis { display: flex; margin-top: 6px; }
         .pq-axis span {
@@ -3188,11 +3188,8 @@
                 const barClass = isPos ? 'positive-bar' : 'negative-bar';
                 const topPad = isPos ? (posH - barHeight) : posH;
                 const botPad = isPos ? negH : (negH - barHeight);
-                // Only label the moonshot (clamped) bars and the median — 20 labels is noise.
-                const showVal = clamped || d.pct === 50;
-                const label = showVal
-                    ? `<div class="pq-val ${isPos ? 'positive' : 'negative'}">${fmt(d.val)}</div>`
-                    : '';
+                // Amount at the end of every bar (above for profit, below for loss)
+                const label = `<div class="pq-val ${isPos ? 'positive' : 'negative'}">${fmt(d.val)}</div>`;
                 return `<div class="pq-col" title="${d.pct}th percentile: ${fmt(d.val)}">
                     <div class="pq-top" style="height:${topPad}px;">${isPos ? label : ''}</div>
                     <div class="portfolio-bar ${barClass}" style="height:${barHeight}px;"></div>

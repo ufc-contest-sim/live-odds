@@ -2629,8 +2629,9 @@
         .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; padding: 4px 9px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); }
         .flc-chip:hover { border-color: var(--accent); }
         .flc-chip.pinned { background: #fff; outline: 2px solid rgba(var(--a-rgb), 0.4); outline-offset: -2px; }
-        .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-        .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.05rem; margin: 0 0 6px; }
+        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .cmp-cell { max-width: 900px; margin: 0 auto; width: 100%; }
+        .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; margin: 0 0 6px; }
         .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
         .flc-svg { width: 100%; display: block; overflow: visible; }
         .flc-line { fill: none; stroke-width: 1.5; opacity: 0.72; transition: opacity 0.1s; }
@@ -2638,7 +2639,6 @@
         .cmp-grid.flc-dim .flc-line { opacity: 0.07; }
         .cmp-grid.flc-dim .flc-line.flc-hi { opacity: 1; stroke-width: 2.8; }
         .cmp-grid.flc-dim .flc-label.flc-hi { display: block; }
-        @media (max-width: 760px) { .cmp-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -2664,8 +2664,7 @@
             <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
             <button class="lnav-tab" data-view="scoringdb"><span>Scoring Database</span></button>
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
-            <button class="lnav-tab" data-view="lookup"><span>Fighter Lookup</span></button>
-            <button class="lnav-tab" data-view="compare"><span>Slate Compare</span></button>
+            <button class="lnav-tab" data-view="lookup"><span>Fighter Stats</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
         </div>
 
@@ -2750,9 +2749,7 @@
                 <div id="fluLoading" class="sdb-loading">Loading fight database…</div>
                 <div id="fluBody" style="display:none;"></div>
             </div>
-        </div>
 
-        <div id="compare-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Slate Compare</div>
                 <p class="cmp-intro">Every fighter on this week's DraftKings slate, cumulative career totals over octagon time. Hover a name to spotlight one; click to pin.</p>
@@ -5974,7 +5971,7 @@
             ];
             const lastName = n => { const p = (n || '').trim().split(/\s+/); return p.length > 1 ? p.slice(1).join(' ') : n; };
             function svgMulti(metric, xMax) {
-                const W = 480, H = 250, pl = 40, pr = 52, pt = 12, pb = 26;
+                const W = 900, H = 340, pl = 44, pr = 64, pt = 16, pb = 30;
                 const yMax = niceMax(Math.max(...cmpFighters.map(f => metric.y(f.series[f.series.length - 1])), 0));
                 const dec = yMax <= 8 ? 1 : 0;
                 const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
@@ -6035,17 +6032,15 @@
 
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), cp = document.getElementById('compare-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sv) sv.style.display = view === 'scoringdb' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
-                if (cp) cp.style.display = view === 'compare' ? '' : 'none';
                 if (view === 'scoringdb') { logTabOpen('opened_database'); openBoard(); }
                 if (view === 'insights') { logTabOpen('opened_insights'); openInsights(); }
-                if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
-                if (view === 'compare') { logTabOpen('opened_compare'); openCompare(); }
+                if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); openCompare(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));

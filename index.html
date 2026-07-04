@@ -2476,6 +2476,55 @@
         #sdbInsightAll .sdb-tile { border: 2px solid var(--accent); border-left-width: 4px; box-shadow: 0 8px 22px rgba(var(--a-rgb), 0.14); }
         #sdbInsightAll .sdb-tile .tlabel { color: var(--accent-lo); font-size: 0.95rem; }
         @media (max-width: 1050px) { .sdb-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+        /* Lineup Optimizer */
+        .opt-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 18px; max-width: 900px; }
+        .opt-btn {
+            display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+            background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary);
+            font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 10px 15px; clip-path: var(--chamfer-sm); transition: border-color 0.12s, background 0.12s;
+        }
+        .opt-btn:hover { border-color: var(--accent); }
+        .opt-btn-primary {
+            background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
+            color: #100f0d; font-weight: 700; border-color: transparent;
+        }
+        .opt-btn-primary:hover { filter: brightness(1.06); }
+        .opt-upload { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 22px; border: 1px dashed var(--glass-border); background: #faf6f0; }
+        .opt-upload-hint { color: var(--text-secondary); font-size: 0.8rem; }
+        .opt-err { color: var(--accent-red); font-size: 0.82rem; font-weight: 600; width: 100%; }
+        .opt-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; margin-bottom: 12px; }
+        .opt-cap { display: flex; flex-direction: column; gap: 4px; }
+        .opt-cap label { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .opt-cap input { background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary); padding: 8px 11px; font-size: 0.9rem; font-family: inherit; outline: none; width: 120px; }
+        .opt-cap input:focus { border-color: var(--accent); }
+        .opt-note { color: var(--text-secondary); font-size: 0.78rem; font-family: 'Chakra Petch', monospace; margin-bottom: 10px; }
+        .opt-grid-scroll { max-height: 52vh; }
+        .opt-grid col { }
+        .opt-grid td.proj-cell input, .opt-grid td.own-cell input {
+            width: 74px; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary);
+            padding: 5px 7px; font-size: 0.82rem; font-family: 'Chakra Petch', monospace; text-align: center; outline: none;
+        }
+        .opt-grid td.proj-cell input:focus, .opt-grid td.own-cell input:focus { border-color: var(--accent); }
+        .opt-grid td { white-space: nowrap; }
+        .opt-grid input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+        .opt-grid tr.excluded td { opacity: 0.4; }
+        .opt-grid tr.locked { background: rgba(var(--a-rgb), 0.08); }
+        .opt-grid td.sal { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); }
+        .opt-toggle { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        .opt-toggle input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+        .opt-results-table tr.lu-stacked { background: rgba(var(--a-rgb), 0.07); box-shadow: inset 3px 0 0 var(--accent); }
+        .opt-results-table tr.lu-stacked:hover { background: rgba(var(--a-rgb), 0.12); }
+        .lu-stack-tag { display: inline-block; margin-left: 5px; font-size: 0.5rem; font-family: 'Chakra Petch', monospace; letter-spacing: 0.5px; text-transform: uppercase; color: var(--accent-lo); border: 1px solid var(--accent); padding: 0 3px; vertical-align: middle; }
+        .opt-results-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 22px 0 4px; }
+        .opt-results-scroll { max-height: 62vh; }
+        .opt-results-table td.lu-fighter { text-align: left; white-space: normal; }
+        .opt-results-table td.lu-num { font-family: 'Chakra Petch', monospace; }
+        .opt-results-table td.lu-proj { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); }
+        .opt-results-table td.lu-rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.78rem; }
+        .opt-results-table td.lu-over { color: var(--accent-red); font-weight: 700; }
+        @media (max-width: 720px) { .opt-toolbar { flex-direction: column; align-items: stretch; } }
     </style>
 </head>
 <body>
@@ -2501,6 +2550,7 @@
             <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
             <button class="lnav-tab" data-view="scoringdb"><span>Scoring Database</span></button>
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
+            <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
         </div>
 
         <div id="contests-view">
@@ -2570,6 +2620,61 @@
                     <div class="sdb-insight-note">Click a tile to focus the scoring ladder above on that outcome. Win/loss averages and fight counts are shown on each tile.</div>
                     <div id="sdbInsightAll"></div>
                     <div id="sdbInsightTiles" class="sdb-tiles"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="optimizer-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Lineup Optimizer</div>
+                <p class="opt-intro">Upload the DraftKings salary file for this slate, enter your own projected points and projected ownership for each fighter, then build the top 500 lineups. Type directly in the grid, or download the template, fill it in a spreadsheet, and re-upload.</p>
+
+                <div class="opt-upload" id="optUpload">
+                    <label class="opt-btn opt-btn-primary">
+                        <input type="file" id="optSalaryFile" accept=".csv" hidden> Upload DraftKings salary CSV
+                    </label>
+                    <span class="opt-upload-hint">The standard DKSalaries.csv you download from the contest lobby.</span>
+                    <div class="opt-err" id="optErr"></div>
+                </div>
+
+                <div id="optWorkspace" style="display:none;">
+                    <div class="opt-toolbar">
+                        <label class="opt-btn"><input type="file" id="optProjFile" accept=".csv" hidden> Upload filled projections</label>
+                        <button class="opt-btn" id="optTemplateBtn">Download projection template</button>
+                        <div class="opt-cap">
+                            <label>Max total ownership %</label>
+                            <input type="number" id="optOwnCap" placeholder="no cap" min="0" step="1">
+                        </div>
+                        <label class="opt-toggle"><input type="checkbox" id="optStack"> Allow fight stacking</label>
+                        <button class="opt-btn opt-btn-primary" id="optRunBtn">Build top 500 lineups</button>
+                    </div>
+                    <div class="opt-note" id="optSalaryNote"></div>
+
+                    <div class="sdb-scroll opt-grid-scroll">
+                        <table class="sdb-table opt-grid">
+                            <thead>
+                                <tr>
+                                    <th class="l">Fighter</th><th class="l">Matchup</th><th>Salary</th>
+                                    <th>Projection</th><th>Own %</th><th>Lock</th><th>Excl</th>
+                                </tr>
+                            </thead>
+                            <tbody id="optGridBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="optResults" style="display:none;">
+                        <div class="opt-results-head">
+                            <div class="sdb-ladder-title" id="optResultsTitle">Top lineups</div>
+                            <button class="opt-btn" id="optExportBtn">Export CSV</button>
+                        </div>
+                        <div class="opt-note" id="optResultsNote"></div>
+                        <div class="sdb-scroll opt-results-scroll">
+                            <table class="sdb-table opt-results-table">
+                                <thead><tr id="optResultsHead"></tr></thead>
+                                <tbody id="optResultsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -5516,14 +5621,347 @@
 
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sv) sv.style.display = view === 'scoringdb' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' ? '' : 'none';
+                if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (view === 'scoringdb') { logTabOpen('opened_database'); openBoard(); }
                 if (view === 'insights') { logTabOpen('opened_insights'); openInsights(); }
+                if (view === 'optimizer') { logTabOpen('opened_optimizer'); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
+        })();
+
+        // ==================== Lineup Optimizer ====================
+        (function () {
+            const SALARY_CAP = 50000, ROSTER = 6, MAX_RESULTS = 500;
+            let FIGHTERS = [];   // { name, salary, gameInfo, matchup, proj, own, lock, exclude }
+            let lastLineups = [];
+
+            const oNum = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g, '')); return isNaN(n) ? 0 : n; };
+            const oEsc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+            // Minimal CSV parser that respects quoted fields.
+            function parseCSVRows(text) {
+                const rows = []; let row = [], field = '', inQ = false;
+                for (let i = 0; i < text.length; i++) {
+                    const c = text[i];
+                    if (inQ) {
+                        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+                        else field += c;
+                    } else if (c === '"') inQ = true;
+                    else if (c === ',') { row.push(field); field = ''; }
+                    else if (c === '\n' || c === '\r') {
+                        if (c === '\r' && text[i + 1] === '\n') i++;
+                        row.push(field); field = '';
+                        if (row.some(x => x !== '')) rows.push(row);
+                        row = [];
+                    } else field += c;
+                }
+                if (field !== '' || row.length) { row.push(field); if (row.some(x => x !== '')) rows.push(row); }
+                return rows;
+            }
+
+            function colIndex(header, ...names) {
+                const h = header.map(x => x.trim().toLowerCase());
+                for (const n of names) { const i = h.indexOf(n.toLowerCase()); if (i >= 0) return i; }
+                // fuzzy contains
+                for (const n of names) { const i = h.findIndex(x => x.includes(n.toLowerCase())); if (i >= 0) return i; }
+                return -1;
+            }
+
+            function matchupOf(gameInfo) {
+                const base = String(gameInfo || '').split(/\s+\d{1,2}\/\d{1,2}\/\d{2,4}/)[0].trim();
+                return base.replace('@', ' vs ') || '—';
+            }
+
+            function normName(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
+
+            function loadSalaryCSV(text) {
+                const rows = parseCSVRows(text);
+                if (!rows.length) throw new Error('empty file');
+                const header = rows[0];
+                const iName = colIndex(header, 'name'), iSal = colIndex(header, 'salary'), iGame = colIndex(header, 'game info', 'game');
+                const iId = colIndex(header, 'id'), iNameId = colIndex(header, 'name + id');
+                if (iName < 0 || iSal < 0) throw new Error('Could not find Name and Salary columns. Is this the DraftKings salary CSV?');
+                const out = [];
+                for (let r = 1; r < rows.length; r++) {
+                    const row = rows[r];
+                    const name = (row[iName] || '').trim();
+                    if (!name) continue;
+                    const salary = oNum(row[iSal]);
+                    const gameInfo = iGame >= 0 ? (row[iGame] || '').trim() : '';
+                    // DK player ID — used for lineup export. Prefer the ID column, else pull it
+                    // out of the "Name + ID" field, e.g. "Max Holloway (43476469)".
+                    let id = iId >= 0 ? (row[iId] || '').trim() : '';
+                    if (!id && iNameId >= 0) { const m = String(row[iNameId] || '').match(/\((\d+)\)/); if (m) id = m[1]; }
+                    out.push({ name, id, salary, gameInfo, matchup: matchupOf(gameInfo), proj: 0, own: 0, lock: false, exclude: false });
+                }
+                if (!out.length) throw new Error('No fighters found in file.');
+                return out;
+            }
+
+            function renderGrid() {
+                const body = document.getElementById('optGridBody');
+                body.innerHTML = FIGHTERS.map((f, i) => `
+                    <tr class="${f.exclude ? 'excluded' : ''}${f.lock ? ' locked' : ''}" data-i="${i}">
+                        <td class="l" style="font-weight:600">${oEsc(f.name)}</td>
+                        <td class="l" style="color:var(--text-secondary)">${oEsc(f.matchup)}</td>
+                        <td class="sal">$${f.salary.toLocaleString()}</td>
+                        <td class="proj-cell"><input type="number" step="0.1" data-k="proj" value="${f.proj || ''}" placeholder="0"></td>
+                        <td class="own-cell"><input type="number" step="0.1" data-k="own" value="${f.own || ''}" placeholder="0"></td>
+                        <td><input type="checkbox" data-k="lock" ${f.lock ? 'checked' : ''}></td>
+                        <td><input type="checkbox" data-k="exclude" ${f.exclude ? 'checked' : ''}></td>
+                    </tr>`).join('');
+            }
+
+            // Delegated input handling on the grid body (survives re-renders).
+            function wireGrid() {
+                const body = document.getElementById('optGridBody');
+                body.addEventListener('input', e => {
+                    const inp = e.target; const tr = inp.closest('tr'); if (!tr) return;
+                    const f = FIGHTERS[+tr.dataset.i]; const k = inp.dataset.k;
+                    if (k === 'proj') f.proj = oNum(inp.value);
+                    else if (k === 'own') f.own = oNum(inp.value);
+                });
+                body.addEventListener('change', e => {
+                    const inp = e.target; if (inp.type !== 'checkbox') return;
+                    const tr = inp.closest('tr'); const f = FIGHTERS[+tr.dataset.i]; const k = inp.dataset.k;
+                    if (k === 'lock') { f.lock = inp.checked; if (f.lock) { f.exclude = false; } }
+                    else if (k === 'exclude') { f.exclude = inp.checked; if (f.exclude) { f.lock = false; } }
+                    // reflect mutual-exclusion + row styling without losing typed proj/own
+                    tr.classList.toggle('excluded', f.exclude);
+                    tr.classList.toggle('locked', f.lock);
+                    const lockBox = tr.querySelector('[data-k="lock"]'), exBox = tr.querySelector('[data-k="exclude"]');
+                    if (lockBox) lockBox.checked = f.lock; if (exBox) exBox.checked = f.exclude;
+                });
+            }
+
+            function applyProjectionCSV(text) {
+                const rows = parseCSVRows(text);
+                if (!rows.length) throw new Error('empty file');
+                const header = rows[0];
+                const iName = colIndex(header, 'name'), iProj = colIndex(header, 'projection', 'proj', 'points', 'fpts');
+                const iOwn = colIndex(header, 'ownership', 'own', 'proj own', 'projected ownership');
+                if (iName < 0 || (iProj < 0 && iOwn < 0)) throw new Error('Need a Name column plus Projection and/or Ownership columns.');
+                const byName = {};
+                FIGHTERS.forEach(f => { byName[normName(f.name)] = f; });
+                let matched = 0;
+                for (let r = 1; r < rows.length; r++) {
+                    const row = rows[r]; const f = byName[normName(row[iName])];
+                    if (!f) continue;
+                    if (iProj >= 0 && row[iProj] !== '' && row[iProj] != null) f.proj = oNum(row[iProj]);
+                    if (iOwn >= 0 && row[iOwn] !== '' && row[iOwn] != null) f.own = oNum(row[iOwn]);
+                    matched++;
+                }
+                renderGrid();
+                return matched;
+            }
+
+            function downloadCSV(filename, text) {
+                const blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = filename;
+                document.body.appendChild(a); a.click();
+                document.body.removeChild(a); URL.revokeObjectURL(url);
+            }
+
+            function templateCSV() {
+                let out = 'Name,Salary,Projection,Ownership\n';
+                FIGHTERS.forEach(f => { out += `${/[",]/.test(f.name) ? '"' + f.name.replace(/"/g, '""') + '"' : f.name},${f.salary},,\n`; });
+                return out;
+            }
+
+            // Enumerate every legal lineup, keep the top 500 by projection.
+            function optimize(ownCap, stackAllowed) {
+                // group eligible fighters by fight
+                const fightsMap = {};
+                for (const f of FIGHTERS) {
+                    if (f.exclude) continue;
+                    (fightsMap[f.gameInfo || f.matchup + f.name] = fightsMap[f.gameInfo || f.matchup + f.name] || []).push(f);
+                }
+                const fights = Object.values(fightsMap).map(list => {
+                    const locked = list.find(f => f.lock);
+                    return { list, locked: locked || null };
+                });
+                // validation
+                const totalLocked = fights.filter(ft => ft.locked).length;
+                const lockedBothSameFight = Object.values(fightsMap).some(list => list.filter(f => f.lock).length > 1);
+                if (lockedBothSameFight) return { error: 'You locked two fighters from the same fight — they can\'t be in a lineup together.' };
+                if (totalLocked > ROSTER) return { error: `You locked ${totalLocked} fighters, but a lineup only has ${ROSTER}.` };
+
+                // suffix count of forced (locked) fights, for pruning
+                const forcedSuffix = new Array(fights.length + 1).fill(0);
+                for (let i = fights.length - 1; i >= 0; i--) forcedSuffix[i] = forcedSuffix[i + 1] + (fights[i].locked ? 1 : 0);
+
+                const results = [];
+                const chosen = [];
+                const hasCap = ownCap != null && !isNaN(ownCap);
+                const maxPer = stackAllowed ? 2 : 1;   // most fighters one fight can contribute
+
+                (function recurse(idx, count, salary, own, proj, stacks) {
+                    if (salary > SALARY_CAP) return;
+                    if (hasCap && own > ownCap) return;
+                    if (count > ROSTER) return;
+                    const remaining = fights.length - idx;
+                    if (count + maxPer * remaining < ROSTER) return;     // can't reach 6
+                    if (count + forcedSuffix[idx] > ROSTER) return;      // too many forced left
+                    if (idx === fights.length) {
+                        if (count === ROSTER) results.push({ players: chosen.slice(), salary, own, proj, stacked: stacks > 0 });
+                        return;
+                    }
+                    const ft = fights[idx];
+                    if (ft.locked) {
+                        const f = ft.locked;
+                        // just the locked fighter
+                        chosen.push(f); recurse(idx + 1, count + 1, salary + f.salary, own + f.own, proj + f.proj, stacks); chosen.pop();
+                        // stack: the locked fighter plus the opponent
+                        if (stackAllowed && ft.list.length === 2) {
+                            const o = ft.list[0] === f ? ft.list[1] : ft.list[0];
+                            chosen.push(f); chosen.push(o);
+                            recurse(idx + 1, count + 2, salary + f.salary + o.salary, own + f.own + o.own, proj + f.proj + o.proj, stacks + 1);
+                            chosen.pop(); chosen.pop();
+                        }
+                        return;
+                    }
+                    // option: skip this fight
+                    recurse(idx + 1, count, salary, own, proj, stacks);
+                    // option: take one fighter from this fight
+                    for (const f of ft.list) {
+                        chosen.push(f); recurse(idx + 1, count + 1, salary + f.salary, own + f.own, proj + f.proj, stacks); chosen.pop();
+                    }
+                    // option: stack both fighters from this fight
+                    if (stackAllowed && ft.list.length === 2) {
+                        const a = ft.list[0], b = ft.list[1];
+                        chosen.push(a); chosen.push(b);
+                        recurse(idx + 1, count + 2, salary + a.salary + b.salary, own + a.own + b.own, proj + a.proj + b.proj, stacks + 1);
+                        chosen.pop(); chosen.pop();
+                    }
+                })(0, 0, 0, 0, 0, 0);
+
+                results.sort((a, b) => b.proj - a.proj || a.salary - b.salary);
+                return { lineups: results.slice(0, MAX_RESULTS), total: results.length, stackAllowed: !!stackAllowed };
+            }
+
+            function renderResults(res, ownCap) {
+                const wrap = document.getElementById('optResults');
+                if (res.error) {
+                    document.getElementById('optErr').textContent = res.error;
+                    wrap.style.display = 'none';
+                    return;
+                }
+                document.getElementById('optErr').textContent = '';
+                lastLineups = res.lineups;
+                if (!res.total) {
+                    document.getElementById('optResultsNote').textContent = 'No valid lineups — check that projections are entered and your locks/cap aren\'t too restrictive.';
+                    document.getElementById('optResultsBody').innerHTML = '';
+                    document.getElementById('optResultsHead').innerHTML = '';
+                    wrap.style.display = '';
+                    return;
+                }
+                const head = ['#', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'Proj', 'Salary', 'Own %'];
+                document.getElementById('optResultsHead').innerHTML = head.map((h, i) => `<th class="${i === 0 || i > 6 ? '' : 'l'}">${h}</th>`).join('');
+                const hasCap = ownCap != null && !isNaN(ownCap);
+                document.getElementById('optResultsBody').innerHTML = res.lineups.map((lu, i) => {
+                    const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
+                    const cells = players.map(p => `<td class="lu-fighter">${oEsc(p.name)}</td>`).join('');
+                    const ownCls = hasCap && lu.own > ownCap ? 'lu-over' : 'lu-num';
+                    const tag = lu.stacked ? '<span class="lu-stack-tag">stack</span>' : '';
+                    return `<tr class="${lu.stacked ? 'lu-stacked' : ''}">
+                        <td class="lu-rank">${i + 1}${tag}</td>
+                        ${cells}
+                        <td class="lu-proj">${lu.proj.toFixed(1)}</td>
+                        <td class="lu-num">$${lu.salary.toLocaleString()}</td>
+                        <td class="${ownCls}">${lu.own.toFixed(1)}%</td>
+                    </tr>`;
+                }).join('');
+                document.getElementById('optResultsTitle').textContent = `Top ${res.lineups.length} lineups`;
+                const stackedCount = res.lineups.filter(l => l.stacked).length;
+                document.getElementById('optResultsNote').innerHTML =
+                    `${res.total.toLocaleString()} lineup${res.total === 1 ? '' : 's'}${res.total > MAX_RESULTS ? ` — showing the top ${MAX_RESULTS} by projection` : ''}.` +
+                    (res.stackAllowed ? ` Highlighted rows <span class="lu-stack-tag">stack</span> both fighters from a fight (${stackedCount} shown).` : '');
+                wrap.style.display = '';
+            }
+
+            function exportResultsCSV() {
+                if (!lastLineups.length) return;
+                let out = 'Rank,F1,F2,F3,F4,F5,F6,Projection,Salary,Ownership,Stacked\n';
+                lastLineups.forEach((lu, i) => {
+                    const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
+                    // Export DraftKings player IDs so the file can be uploaded straight to a contest.
+                    const ids = players.map(p => p.id || '');
+                    while (ids.length < ROSTER) ids.push('');
+                    out += `${i + 1},${ids.join(',')},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                });
+                downloadCSV('mmalivesim_top_lineups.csv', out);
+            }
+
+            function initOptimizer() {
+                const salaryInput = document.getElementById('optSalaryFile');
+                if (!salaryInput) return;
+                wireGrid();
+                salaryInput.addEventListener('change', e => {
+                    const file = e.target.files[0]; if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        try {
+                            FIGHTERS = loadSalaryCSV(reader.result);
+                            document.getElementById('optErr').textContent = '';
+                            renderGrid();
+                            document.getElementById('optWorkspace').style.display = '';
+                            document.getElementById('optResults').style.display = 'none';
+                            const fightCount = new Set(FIGHTERS.map(f => f.gameInfo)).size;
+                            document.getElementById('optSalaryNote').textContent =
+                                `${FIGHTERS.length} fighters across ${fightCount} fights loaded. Enter your projections & ownership, then build.`;
+                        } catch (err) {
+                            document.getElementById('optErr').textContent = err.message || 'Could not read that file.';
+                        }
+                        salaryInput.value = '';
+                    };
+                    reader.readAsText(file);
+                });
+
+                document.getElementById('optProjFile').addEventListener('change', e => {
+                    const file = e.target.files[0]; if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        try {
+                            const matched = applyProjectionCSV(reader.result);
+                            document.getElementById('optErr').textContent = matched ? '' : 'No fighter names in that file matched the slate.';
+                            if (matched) document.getElementById('optSalaryNote').textContent = `Applied projections to ${matched} fighter${matched === 1 ? '' : 's'}.`;
+                        } catch (err) {
+                            document.getElementById('optErr').textContent = err.message || 'Could not read that projection file.';
+                        }
+                        e.target.value = '';
+                    };
+                    reader.readAsText(file);
+                });
+
+                document.getElementById('optTemplateBtn').addEventListener('click', () => {
+                    if (!FIGHTERS.length) return;
+                    downloadCSV('mmalivesim_projection_template.csv', templateCSV());
+                });
+
+                document.getElementById('optRunBtn').addEventListener('click', () => {
+                    if (!FIGHTERS.length) return;
+                    const capRaw = document.getElementById('optOwnCap').value.trim();
+                    const ownCap = capRaw === '' ? null : oNum(capRaw);
+                    if (!FIGHTERS.some(f => !f.exclude && f.proj > 0)) {
+                        document.getElementById('optErr').textContent = 'Enter at least one projection first.';
+                        return;
+                    }
+                    const stackAllowed = document.getElementById('optStack').checked;
+                    const res = optimize(ownCap, stackAllowed);
+                    renderResults(res, ownCap);
+                    if (!res.error) logTabOpen('built_lineups');
+                    if (!res.error) document.getElementById('optResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                });
+
+                document.getElementById('optExportBtn').addEventListener('click', exportResultsCSV);
+            }
+            initOptimizer();
         })();
     </script>
 </body>

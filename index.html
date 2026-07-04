@@ -2621,6 +2621,24 @@
         .flu-rc-fn { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); margin-top: 12px; }
         .flu-empty { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); padding: 34px 0; text-align: center; }
         @media (max-width: 760px) { .flu-smalls { grid-template-columns: repeat(2, 1fr); } .flu-dna, .flu-rounds { grid-template-columns: 1fr; } }
+
+        /* Slate Compare */
+        .cmp-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 4px; max-width: 900px; }
+        .cmp-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin: 0 0 4px; }
+        .cmp-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 14px; }
+        .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; padding: 4px 9px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); }
+        .flc-chip:hover { border-color: var(--accent); }
+        .flc-chip.pinned { background: #fff; outline: 2px solid rgba(var(--a-rgb), 0.4); outline-offset: -2px; }
+        .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+        .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.05rem; margin: 0 0 6px; }
+        .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
+        .flc-svg { width: 100%; display: block; overflow: visible; }
+        .flc-line { fill: none; stroke-width: 1.5; opacity: 0.72; transition: opacity 0.1s; }
+        .flc-label { font-family: 'Chakra Petch', monospace; font-size: 9px; display: none; }
+        .cmp-grid.flc-dim .flc-line { opacity: 0.07; }
+        .cmp-grid.flc-dim .flc-line.flc-hi { opacity: 1; stroke-width: 2.8; }
+        .cmp-grid.flc-dim .flc-label.flc-hi { display: block; }
+        @media (max-width: 760px) { .cmp-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -2647,6 +2665,7 @@
             <button class="lnav-tab" data-view="scoringdb"><span>Scoring Database</span></button>
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
             <button class="lnav-tab" data-view="lookup"><span>Fighter Lookup</span></button>
+            <button class="lnav-tab" data-view="compare"><span>Slate Compare</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
         </div>
 
@@ -2730,6 +2749,19 @@
                 </div>
                 <div id="fluLoading" class="sdb-loading">Loading fight database…</div>
                 <div id="fluBody" style="display:none;"></div>
+            </div>
+        </div>
+
+        <div id="compare-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Slate Compare</div>
+                <p class="cmp-intro">Every fighter on this week's DraftKings slate, cumulative career totals over octagon time. Hover a name to spotlight one; click to pin.</p>
+                <div id="cmpLoading" class="sdb-loading">Loading slate…</div>
+                <div id="cmpBody" style="display:none;">
+                    <div id="cmpChips" class="cmp-chips"></div>
+                    <div id="cmpNote" class="cmp-note"></div>
+                    <div id="cmpGrid" class="cmp-grid"></div>
+                </div>
             </div>
         </div>
 
@@ -5930,17 +5962,90 @@
                 }
             }
 
+            // ---------- SLATE COMPARE ----------
+            // Overlay every current-slate fighter's cumulative career totals on shared
+            // octagon-minute axes. Slate names come from DKSalaries.csv; histories from ROWS.
+            let cmpFighters = null, cmpPinned = new Set();
+            const CMP_METRICS = [
+                { key: 'sig', t: 'Cumulative significant strikes', y: p => p.sig },
+                { key: 'td', t: 'Cumulative takedowns', y: p => p.tdl },
+                { key: 'ctrl', t: 'Cumulative control (min)', y: p => p.ctrl / 60 },
+                { key: 'kd', t: 'Cumulative knockdowns', y: p => p.kd },
+            ];
+            const lastName = n => { const p = (n || '').trim().split(/\s+/); return p.length > 1 ? p.slice(1).join(' ') : n; };
+            function svgMulti(metric, xMax) {
+                const W = 480, H = 250, pl = 40, pr = 52, pt = 12, pb = 26;
+                const yMax = niceMax(Math.max(...cmpFighters.map(f => metric.y(f.series[f.series.length - 1])), 0));
+                const dec = yMax <= 8 ? 1 : 0;
+                const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
+                let g = '';
+                for (let i = 0; i <= 3; i++) { const v = yMax * i / 3, y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 5}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${v.toFixed(dec)}</text>`; }
+                const xstep = niceStep(xMax, 4);
+                for (let v = xstep; v < xMax * 0.98; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 7}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${v}m</text>`;
+                cmpFighters.forEach((f, i) => {
+                    let pts = '';
+                    for (const p of f.series) pts += `${X(p.x).toFixed(1)},${Y(metric.y(p)).toFixed(1)} `;
+                    g += `<polyline class="flc-line" data-fi="${i}" stroke="${f.color}" points="${pts.trim()}"/>`;
+                    const last = f.series[f.series.length - 1];
+                    g += `<text class="flc-label" data-fi="${i}" x="${(X(last.x) + 4).toFixed(1)}" y="${(Y(metric.y(last)) + 3).toFixed(1)}" fill="${f.color}">${esc(lastName(f.name))}</text>`;
+                });
+                return `<svg class="flc-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}</svg>`;
+            }
+            function cmpApplyHi(hoverFi) {
+                const grid = document.getElementById('cmpGrid');
+                const active = new Set(cmpPinned); if (hoverFi != null) active.add(hoverFi);
+                grid.classList.toggle('flc-dim', active.size > 0);
+                grid.querySelectorAll('.flc-line, .flc-label').forEach(el => el.classList.toggle('flc-hi', active.has(+el.dataset.fi)));
+                document.querySelectorAll('#cmpChips .flc-chip').forEach(c => c.classList.toggle('pinned', cmpPinned.has(+c.dataset.fi)));
+            }
+            function renderCompare() {
+                const xMax = Math.max(...cmpFighters.map(f => f.series[f.series.length - 1].x), 1);
+                document.getElementById('cmpChips').innerHTML = cmpFighters.map((f, i) => `<span class="flc-chip" data-fi="${i}" style="--fc:${f.color}">${esc(f.name)}</span>`).join('');
+                document.getElementById('cmpGrid').innerHTML = CMP_METRICS.map(m =>
+                    `<div class="cmp-cell"><h5>${m.t}</h5>${svgMulti(m, xMax)}<div class="flc-axl">cumulative octagon minutes &rarr;</div></div>`).join('');
+                cmpApplyHi(null);
+            }
+            let cmpWired = false;
+            function wireCompare() {
+                const chips = document.getElementById('cmpChips'), grid = document.getElementById('cmpGrid');
+                chips.addEventListener('mouseover', e => { const c = e.target.closest('.flc-chip'); if (c) cmpApplyHi(+c.dataset.fi); });
+                chips.addEventListener('mouseout', e => { const c = e.target.closest('.flc-chip'); if (c) cmpApplyHi(null); });
+                chips.addEventListener('click', e => { const c = e.target.closest('.flc-chip'); if (!c) return; const fi = +c.dataset.fi; cmpPinned.has(fi) ? cmpPinned.delete(fi) : cmpPinned.add(fi); cmpApplyHi(null); });
+                grid.addEventListener('mouseover', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(+l.dataset.fi); });
+                grid.addEventListener('mouseout', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(null); });
+            }
+            async function openCompare() {
+                if (!cmpWired) { cmpWired = true; wireCompare(); }
+                try { await ensureData(); }
+                catch (e) { document.getElementById('cmpLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
+                if (!cmpFighters) {
+                    let names = [];
+                    try { const resp = await fetch('DKSalaries.csv?v=' + Date.now()); names = [...new Set(parseCSV(await resp.text()).map(r => r.Name).filter(Boolean))]; }
+                    catch (e) { document.getElementById('cmpLoading').textContent = 'Could not load this week\'s slate.'; return; }
+                    cmpFighters = [];
+                    let skipped = 0;
+                    names.forEach(nm => { const f = fighterFights(nm); if (f.length) cmpFighters.push({ name: nm, series: buildSeries(f).cumulative }); else skipped++; });
+                    cmpFighters.forEach((f, i) => f.color = `hsl(${Math.round((i * 137.508) % 360)}, 70%, 45%)`);
+                    document.getElementById('cmpNote').textContent = `${cmpFighters.length} fighters with UFC history` + (skipped ? ` · ${skipped} debut${skipped === 1 ? '' : 's'} omitted (no data yet)` : '');
+                    renderCompare();
+                }
+                document.getElementById('cmpLoading').style.display = 'none';
+                document.getElementById('cmpBody').style.display = '';
+            }
+
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), cp = document.getElementById('compare-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sv) sv.style.display = view === 'scoringdb' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
+                if (cp) cp.style.display = view === 'compare' ? '' : 'none';
                 if (view === 'scoringdb') { logTabOpen('opened_database'); openBoard(); }
                 if (view === 'insights') { logTabOpen('opened_insights'); openInsights(); }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
+                if (view === 'compare') { logTabOpen('opened_compare'); openCompare(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));

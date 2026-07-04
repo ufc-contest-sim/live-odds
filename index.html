@@ -2382,24 +2382,35 @@
         }
         .sdb-loading { text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.95rem; }
         .sdb-scroll { overflow-x: auto; max-height: 68vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-        .sdb-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+        .sdb-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; table-layout: fixed; }
         .sdb-table thead { position: sticky; top: 0; z-index: 1; }
         .sdb-table thead th {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
             color: #100f0d; font-weight: 700;
             font-family: 'Chakra Petch', monospace;
-            font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase;
-            padding: 11px 12px; text-align: center; white-space: nowrap;
+            font-size: 0.6rem; letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 9px 5px; text-align: center; white-space: nowrap;
             border-bottom: 2px solid rgba(0, 0, 0, 0.2);
         }
         .sdb-table thead th.l { text-align: left; }
         .sdb-table thead th.sortable { cursor: pointer; }
         .sdb-table thead th.sorted { background: linear-gradient(100deg, #ff8a2b, #e04d0a); }
         .sdb-table td {
-            padding: 9px 12px; text-align: center; white-space: nowrap;
+            padding: 8px 5px; text-align: center; white-space: nowrap;
             border-bottom: 1px solid #efe9e0;
+            overflow: hidden; text-overflow: ellipsis;
         }
-        .sdb-table td.l { text-align: left; }
+        .sdb-table td.l { text-align: left; white-space: normal; word-break: break-word; }
+        /* Fixed layout: give the roomy text columns their share, keep numerics tight.
+           Order: rank, fighter, opponent, res, method, rd, date, str, kd, td, ctrl, win, dk */
+        .sdb-table col.c-rank { width: 3.2%; }
+        .sdb-table col.c-fighter { width: 13%; }
+        .sdb-table col.c-opponent { width: 13%; }
+        .sdb-table col.c-res { width: 4.5%; }
+        .sdb-table col.c-method { width: 12%; }
+        .sdb-table col.c-rd { width: 4%; }
+        .sdb-table col.c-date { width: 8%; }
+        .sdb-table col.c-num { width: 6.4%; }
         .sdb-table tbody tr:hover { background: #faf6f0; }
         .sdb-table td.rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.78rem; }
         .sdb-table td.pts { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); }
@@ -2422,6 +2433,47 @@
         }
         .sdb-legend-grid span { display: flex; justify-content: space-between; border-bottom: 1px solid #efe9e0; padding: 3px 0; }
         .sdb-legend-grid b { color: var(--accent-lo); font-family: 'Chakra Petch', monospace; }
+        .sdb-table td.fcell { cursor: pointer; color: var(--text-primary); font-weight: 600; }
+        .sdb-table td.fcell:hover { color: var(--accent-lo); text-decoration: underline; }
+
+        /* Scoring Insights */
+        .sdb-insight-note { color: var(--text-secondary); font-size: 0.82rem; margin: 12px 0 4px; }
+        .sdb-ladder-title { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .sdb-ladder-sub { color: var(--text-secondary); font-size: 0.78rem; margin-bottom: 10px; }
+        .sdb-ladder-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .sdb-ladder { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+        .sdb-ladder th {
+            background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
+            color: #100f0d; font-weight: 700; font-family: 'Chakra Petch', monospace;
+            font-size: 0.62rem; letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 8px 6px; text-align: center; white-space: nowrap;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+        }
+        .sdb-ladder th.l { text-align: left; }
+        .sdb-ladder td { padding: 8px 6px; text-align: center; white-space: nowrap; border-bottom: 1px solid #efe9e0; }
+        .sdb-ladder td.l { text-align: left; }
+        .sdb-ladder .cellsub { font-size: 0.6rem; color: var(--text-secondary); margin-top: 2px; }
+        .sdb-ladder .dktot { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); }
+
+        .sdb-tiles { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+        .sdb-tile {
+            background: #ffffff; border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--text-secondary);
+            clip-path: var(--chamfer-sm); padding: 12px 13px; cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); transition: transform 0.12s;
+        }
+        .sdb-tile:hover { transform: translateY(-2px); }
+        .sdb-tile.win { border-left-color: var(--accent-green); }
+        .sdb-tile.loss { border-left-color: var(--accent-red); }
+        .sdb-tile.sel { outline: 2px solid var(--accent); outline-offset: -1px; }
+        .sdb-tile .tlabel { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.8rem; line-height: 1.2; }
+        .sdb-tile.win .tlabel { color: var(--accent-green); }
+        .sdb-tile.loss .tlabel { color: var(--accent-red); }
+        .sdb-tile .tmeta { color: var(--text-secondary); font-size: 0.74rem; font-family: 'Chakra Petch', monospace; margin-top: 6px; }
+        #sdbInsightAll { margin-top: 14px; }
+        #sdbInsightAll .sdb-tile { border: 2px solid var(--accent); border-left-width: 4px; box-shadow: 0 8px 22px rgba(var(--a-rgb), 0.14); }
+        #sdbInsightAll .sdb-tile .tlabel { color: var(--accent-lo); font-size: 0.95rem; }
+        @media (max-width: 1050px) { .sdb-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     </style>
 </head>
 <body>
@@ -2446,6 +2498,7 @@
         <div class="landing-nav">
             <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
             <button class="lnav-tab" data-view="scoringdb"><span>Scoring Database</span></button>
+            <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
         </div>
 
         <div id="contests-view">
@@ -2470,7 +2523,7 @@
 
         <div id="scoringdb-view" style="display:none;">
             <div class="sdb-card">
-                <div class="sdb-title">DK Score Database — highest single-fight fantasy scores</div>
+                <div class="sdb-title">DK Score Database</div>
                 <div class="sdb-filters">
                     <div class="sdb-fg"><label>Fighter</label><input id="sdbName" type="text" placeholder="any name…" autocomplete="off"></div>
                     <div class="sdb-fg"><label>Finish type</label><select id="sdbMethod"></select></div>
@@ -2483,6 +2536,11 @@
                 <div id="sdbLoading" class="sdb-loading">Loading fight database…</div>
                 <div class="sdb-scroll" style="display:none;">
                     <table class="sdb-table">
+                        <colgroup>
+                            <col class="c-rank"><col class="c-fighter"><col class="c-opponent"><col class="c-res">
+                            <col class="c-method"><col class="c-rd"><col class="c-date"><col class="c-num">
+                            <col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num">
+                        </colgroup>
                         <thead><tr id="sdbHead"></tr></thead>
                         <tbody id="sdbBody"></tbody>
                     </table>
@@ -2498,6 +2556,19 @@
                         <span>Knockdown <b>+10</b></span><span>Quick Win (R1 &le;60s) <b>+25</b></span>
                     </div>
                 </details>
+            </div>
+        </div>
+
+        <div id="scoring-insights-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Scoring Insights</div>
+                <div id="sdbInsightLoading" class="sdb-loading">Loading fight database…</div>
+                <div id="sdbInsightBody" style="display:none;">
+                    <div id="sdbInsightThresh"></div>
+                    <div class="sdb-insight-note">Click a tile to focus the scoring ladder above on that outcome. Win/loss averages and fight counts are shown on each tile.</div>
+                    <div id="sdbInsightAll"></div>
+                    <div id="sdbInsightTiles" class="sdb-tiles"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -2792,15 +2863,24 @@
         // logging. Until then, the gate still works but nothing is recorded.
         const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxLCj-MK2jWuzQw2H5NDZacRI1_ZV_Fjv-mUVWQ8-O4pHg2r3JfXaSBWBGqrb-YryDyOA/exec';
         const VISITOR_KEY = 'mmaLiveSim_visitor';
+        // The site owner's own DK username(s). Anything typed at the gate that matches
+        // one of these is never logged, so your own heavy usage doesn't clutter the sheet.
+        const OWNER_USERNAMES = ['DH24', 'DHollis24', 'Dhollis'];
 
         function getVisitor() {
             try { return localStorage.getItem(VISITOR_KEY) || ''; } catch (e) { return ''; }
+        }
+
+        function isOwner() {
+            const v = getVisitor().trim().toLowerCase();
+            return !!v && OWNER_USERNAMES.some(o => o.toLowerCase() === v);
         }
 
         // Best-effort fire-and-forget POST to the sheet. no-cors + text/plain
         // avoids a CORS preflight (Apps Script reads e.postData.contents).
         function logEvent(event, query) {
             if (!SHEET_ENDPOINT) return;
+            if (isOwner()) return;   // don't log the owner's own activity
             try {
                 fetch(SHEET_ENDPOINT, {
                     method: 'POST',
@@ -2847,19 +2927,31 @@
 
         // Log which names a visitor searches — debounced so we capture the settled
         // query, not every keystroke, and deduped so each name logs once per visit.
+        // `event` distinguishes the surface: 'searched' (contest username search) vs
+        // 'db_searched' (Scoring Database fighter search).
         const _loggedQueries = new Set();
         let _searchLogTimer = null;
-        function logSearchQuery(query, immediate) {
+        function logSearchQuery(query, immediate, event) {
+            const evt = event || 'searched';
             const q = (query || '').trim();
             if (q.length < 3) return;
             clearTimeout(_searchLogTimer);
             const fire = () => {
-                const key = q.toLowerCase();
+                const key = evt + '::' + q.toLowerCase();
                 if (_loggedQueries.has(key)) return;
                 _loggedQueries.add(key);
-                logEvent('searched', q);
+                logEvent(evt, q);
             };
             if (immediate) fire(); else _searchLogTimer = setTimeout(fire, 1200);
+        }
+
+        // Log the first time a visitor opens each secondary tab, once per session, so the
+        // sheet shows people using the Scoring Database / Insights, not just the sim.
+        const _loggedOpens = new Set();
+        function logTabOpen(event) {
+            if (_loggedOpens.has(event)) return;
+            _loggedOpens.add(event);
+            logEvent(event, '');
         }
 
         initVisitorGate();
@@ -5196,7 +5288,8 @@
                 { key: 'dk', label: 'DK Total', l: false, sortable: true },
             ];
             const LIMIT = 300;
-            let SCORED = [], loaded = false, loading = false, sortKey = 'dk', sortDir = -1;
+            let SCORED = [], ROWS = [], loaded = false, sortKey = 'dk', sortDir = -1;
+            let filtersPopulated = false, dataPromise = null;
 
             function leadValue(s, key) {
                 switch (key) {
@@ -5217,6 +5310,7 @@
             }
 
             function populateFilters() {
+                if (filtersPopulated) return; filtersPopulated = true;
                 document.getElementById('sdbMethod').innerHTML = '<option value="">Any</option>' + ['KO/TKO', 'Submission', 'Decision', 'Other'].map(m => `<option>${m}</option>`).join('');
                 const present = new Set(SCORED.map(s => s.weight));
                 const order = [...WEIGHTS, 'Other']; const opts = [];
@@ -5252,7 +5346,7 @@
                     const r = s.r, p = s.pts;
                     return `<tr>
                         <td class="rank">${i + 1}</td>
-                        <td class="l"><span class="flink" data-fighter="${esc(r.fighter)}">${esc(r.fighter)}</span></td>
+                        <td class="l fcell" data-fighter="${esc(r.fighter)}">${esc(r.fighter)}</td>
                         <td class="l">${esc(r.opponent)}</td>
                         <td><span class="${resClass(r.result)}">${r.result || ''}</span></td>
                         <td class="l" title="${esc(r.method)}">${esc(shortMethod(r.method))}${p.quick > 0 ? ' ⚡' : ''}</td>
@@ -5267,15 +5361,6 @@
                     </tr>`;
                 }).join('');
                 document.getElementById('sdbCount').textContent = total > LIMIT ? `Showing top ${LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} result${total === 1 ? '' : 's'}`;
-                document.querySelectorAll('#sdbHead th.sortable').forEach(th => th.addEventListener('click', () => {
-                    const k = th.dataset.key;
-                    if (k === sortKey) sortDir = -sortDir;
-                    else { sortKey = k; sortDir = (k === 'fighter' || k === 'opponent' || k === 'method' || k === 'date' || k === 'result') ? 1 : -1; }
-                    renderBoard();
-                }));
-                document.querySelectorAll('#sdbBody .flink').forEach(el => el.addEventListener('click', () => {
-                    document.getElementById('sdbName').value = el.dataset.fighter; renderBoard();
-                }));
             }
 
             let filtersWired = false;
@@ -5286,36 +5371,153 @@
                     el.addEventListener('input', renderBoard);
                     el.addEventListener('change', renderBoard);
                 });
+                // Log fighter-name searches in the database to the sheet (debounced, deduped).
+                document.getElementById('sdbName').addEventListener('input', (e) => logSearchQuery(e.target.value, false, 'db_searched'));
                 document.getElementById('sdbQuick').addEventListener('change', renderBoard);
+                // Event delegation (attached once) — clicking a header sorts, clicking a
+                // fighter cell filters to that fighter. Delegation avoids the re-attachment
+                // race that made the fighter name need two clicks.
+                document.getElementById('sdbHead').addEventListener('click', (e) => {
+                    const th = e.target.closest('th.sortable'); if (!th) return;
+                    const k = th.dataset.key;
+                    if (k === sortKey) sortDir = -sortDir;
+                    else { sortKey = k; sortDir = (k === 'fighter' || k === 'opponent' || k === 'method' || k === 'date' || k === 'result') ? 1 : -1; }
+                    renderBoard();
+                });
+                document.getElementById('sdbBody').addEventListener('click', (e) => {
+                    const td = e.target.closest('td.fcell'); if (!td) return;
+                    document.getElementById('sdbName').value = td.dataset.fighter;
+                    renderBoard();
+                });
             }
 
-            async function loadOnce() {
-                if (loaded || loading) return; loading = true;
-                try {
+            // Fetch + score the CSV exactly once; both the board and the insights view
+            // share this promise so the 1.5MB download never happens twice.
+            function ensureData() {
+                if (dataPromise) return dataPromise;
+                dataPromise = (async () => {
                     const resp = await fetch('ufc_fight_stats.csv?v=' + Date.now());
                     const buf = await resp.arrayBuffer();
                     // the CSV is single-byte (windows-1252) — decode so accented names render right
                     const text = new TextDecoder('windows-1252').decode(buf);
-                    const rows = parseCSV(text);
-                    SCORED = rows.map(r => { const pts = dkPoints(r); return { r, pts, dk: pts.total, weight: weightOf(r.weight_class), mgroup: methodGroup(r.method), round: Math.round(num(r.round)) }; });
+                    ROWS = parseCSV(text);
+                    SCORED = ROWS.map(r => { const pts = dkPoints(r); return { r, pts, dk: pts.total, weight: weightOf(r.weight_class), mgroup: methodGroup(r.method), round: Math.round(num(r.round)) }; });
                     SCORED.sort((a, b) => b.dk - a.dk);
-                    populateFilters();
-                    wireFilters();
                     loaded = true;
-                    document.getElementById('sdbLoading').style.display = 'none';
-                    document.querySelector('#scoringdb-view .sdb-scroll').style.display = '';
-                    renderBoard();
-                } catch (e) {
-                    document.getElementById('sdbLoading').textContent = 'Could not load the fight database. Try refreshing.';
-                } finally { loading = false; }
+                })();
+                return dataPromise;
+            }
+
+            async function openBoard() {
+                wireFilters();
+                try { await ensureData(); }
+                catch (e) { document.getElementById('sdbLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
+                populateFilters();
+                document.getElementById('sdbLoading').style.display = 'none';
+                document.querySelector('#scoringdb-view .sdb-scroll').style.display = '';
+                renderBoard();
+            }
+
+            // ---------- SCORING INSIGHTS ----------
+            const THRESHOLDS = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180];
+            const CONCL_ORDER = ['R1 finish', 'R2 finish', 'R3 finish', 'R4 finish', 'R5 finish', 'Decision (3 rnd)', 'Decision (5 rnd)'];
+            let insightSubset = 'all';   // 'all' or 'R1 finish|W' etc.
+
+            function schedRounds(r) { const m = (r.time_format || '').match(/^\s*(\d+)/); return m ? parseInt(m[1], 10) : Math.round(num(r.round)); }
+            function catOf(r) {
+                if ((r.method || '').startsWith('Decision')) return schedRounds(r) === 5 ? 'Decision (5 rnd)' : 'Decision (3 rnd)';
+                return 'R' + Math.round(num(r.round)) + ' finish';
+            }
+            function computeThresh(rows) {
+                const n0 = rows.length;
+                const dks = rows.map(r => dkPoints(r).total);
+                const counts = {}, pct = {};
+                for (const t of THRESHOLDS) { const c = dks.filter(d => d >= t).length; counts[t] = c; pct[t] = n0 ? 100 * c / n0 : 0; }
+                const avg = n0 ? dks.reduce((a, b) => a + b, 0) / n0 : 0;
+                return { n: n0, avg, counts, pct };
+            }
+            function fmtPct(p) { if (p <= 0) return '0'; return (p >= 1 ? p.toFixed(1) : p.toFixed(2)) + '%'; }
+            function heat(p) { const a = Math.min(0.6, p / 100 * 0.6); return `background:rgba(63,179,122,${a.toFixed(3)})`; }
+            function threshRow(label, stats, withCounts) {
+                let cells = `<td class="l" style="font-weight:700">${esc(label)}</td><td>${stats.n.toLocaleString()}</td>`;
+                for (const t of THRESHOLDS) {
+                    const sub = withCounts ? `<div class="cellsub">${stats.counts[t].toLocaleString()}</div>` : '';
+                    cells += `<td style="${heat(stats.pct[t])}">${fmtPct(stats.pct[t])}${sub}</td>`;
+                }
+                cells += `<td class="dktot">${stats.avg.toFixed(1)}</td>`;
+                return `<tr>${cells}</tr>`;
+            }
+            function subsetRows(key) {
+                if (key === 'all') return ROWS;
+                const [c, res] = key.split('|');
+                return ROWS.filter(r => r.result === res && catOf(r) === c);
+            }
+            function subsetLabel(key) {
+                if (key === 'all') return 'All performances';
+                const [c, res] = key.split('|');
+                return `${c} - ${res === 'W' ? 'Win' : 'Loss'}`;
+            }
+            function tileHTML(key, kind, label, avgDk, count) {
+                const sel = key === insightSubset ? ' sel' : '';
+                return `<div class="sdb-tile ${kind}${sel}" data-key="${esc(key)}">
+                    <div class="tlabel">${esc(label)}</div>
+                    <div class="tmeta">avg <b>${avgDk}</b> &middot; ${count.toLocaleString()} fight${count === 1 ? '' : 's'}</div>
+                </div>`;
+            }
+            function renderInsights() {
+                if (!loaded) return;
+                // scoring ladder for the selected subset
+                const sel = subsetRows(insightSubset);
+                const head = `<th class="l">Scope</th><th>Fights</th>` + THRESHOLDS.map(t => `<th>${t}+</th>`).join('') + `<th>Avg DK</th>`;
+                let rows = threshRow(subsetLabel(insightSubset), computeThresh(sel), true);
+                if (insightSubset !== 'all') rows += threshRow('League (all fighters)', computeThresh(ROWS), true);
+                document.getElementById('sdbInsightThresh').innerHTML =
+                    `<div class="sdb-ladder-title">Scoring ladder — ${esc(subsetLabel(insightSubset))}</div>` +
+                    `<div class="sdb-ladder-sub">Each cell: % of these fights scoring at that DK total or higher, with the raw count beneath.</div>` +
+                    `<div class="sdb-ladder-scroll"><table class="sdb-ladder"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+                // conclusion tiles (also the ladder filters)
+                const g = {}; for (const c of CONCL_ORDER) g[c] = { W: [], L: [] };
+                for (const r of ROWS) {
+                    if (r.result !== 'W' && r.result !== 'L') continue;
+                    const c = catOf(r); if (g[c]) g[c][r.result].push(dkPoints(r).total);
+                }
+                const avg = a => a.length ? (a.reduce((x, y) => x + y, 0) / a.length).toFixed(1) : '—';
+                document.getElementById('sdbInsightAll').innerHTML =
+                    tileHTML('all', 'all', 'All performances', avg(ROWS.map(r => dkPoints(r).total)), ROWS.length);
+                // Wins fill the first row, losses the second (7-column grid).
+                let tiles = '';
+                for (const res of ['W', 'L']) {
+                    for (const c of CONCL_ORDER) {
+                        const arr = g[c][res];
+                        tiles += tileHTML(`${c}|${res}`, res === 'W' ? 'win' : 'loss', `${c} - ${res === 'W' ? 'Win' : 'Loss'}`, avg(arr), arr.length);
+                    }
+                }
+                document.getElementById('sdbInsightTiles').innerHTML = tiles;
+            }
+
+            let insightsWired = false;
+            async function openInsights() {
+                if (!insightsWired) {
+                    insightsWired = true;
+                    const onTile = (e) => { const t = e.target.closest('.sdb-tile'); if (!t) return; insightSubset = t.dataset.key; renderInsights(); };
+                    document.getElementById('sdbInsightAll').addEventListener('click', onTile);
+                    document.getElementById('sdbInsightTiles').addEventListener('click', onTile);
+                }
+                try { await ensureData(); }
+                catch (e) { document.getElementById('sdbInsightLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
+                document.getElementById('sdbInsightLoading').style.display = 'none';
+                document.getElementById('sdbInsightBody').style.display = '';
+                renderInsights();
             }
 
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sv) sv.style.display = view === 'scoringdb' ? '' : 'none';
-                if (view === 'scoringdb') loadOnce();
+                if (iv) iv.style.display = view === 'insights' ? '' : 'none';
+                if (view === 'scoringdb') { logTabOpen('opened_database'); openBoard(); }
+                if (view === 'insights') { logTabOpen('opened_insights'); openInsights(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
         })();

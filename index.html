@@ -5771,8 +5771,8 @@
                     while (k >= 0 && sec < 900) { const s = segs[k], take = Math.min(s.dur, 900 - sec), f = take / s.dur; sec += take; base += s.base * f; sig += s.sig * f; td += s.td * f; kd += s.kd * f; ctrl += s.ctrl * f; k--; }
                     rolling.push({ x: cum / 60, sec, base, sig, td, kd, ctrl });
                 }
-                const cumulative = []; let cx = 0, csig = 0, ckd = 0, ctdl = 0, ctda = 0;
-                for (const s of segs) { cx += s.dur; csig += s.sig; ckd += s.kd; ctdl += s.td; ctda += s.tda; cumulative.push({ x: cx / 60, sig: csig, kd: ckd, tdl: ctdl, tda: ctda }); }
+                const cumulative = []; let cx = 0, csig = 0, ckd = 0, ctdl = 0, ctda = 0, cctrl = 0;
+                for (const s of segs) { cx += s.dur; csig += s.sig; ckd += s.kd; ctdl += s.td; ctda += s.tda; cctrl += s.ctrl; cumulative.push({ x: cx / 60, sig: csig, kd: ckd, tdl: ctdl, tda: ctda, ctrl: cctrl }); }
                 return { rolling, cumulative };
             }
             // Each chartable metric: mode (rolling window vs running career total), labels, and
@@ -5785,7 +5785,7 @@
                 sig: { mode: 'rolling', t: 'Significant strikes per minute', u: 'rolling 15-min avg', f: w => w.sig / (w.sec / 60), x: w => w.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
                 td: { mode: 'cumulative', t: 'Takedown success rate', u: 'cumulative &middot; landed / attempted', f: c => c.tda ? c.tdl / c.tda * 100 : 0, x: c => c.tda, xlab: 'cumulative takedown attempts', xsuf: '' },
                 kd: { mode: 'cumulative', t: 'Knockdown rate', u: 'cumulative &middot; per 100 sig strikes', f: c => c.sig ? c.kd / c.sig * 100 : 0, x: c => c.sig, xlab: 'cumulative significant strikes', xsuf: '' },
-                ctrl: { mode: 'rolling', t: 'Control %', u: 'rolling 15-min avg', f: w => w.sec ? w.ctrl / w.sec * 100 : 0, x: w => w.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
+                ctrl: { mode: 'cumulative', t: 'Control %', u: 'cumulative &middot; control time / cage time', f: c => c.x ? c.ctrl / (c.x * 60) * 100 : 0, x: c => c.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
             };
             function niceMax(v) { v = Math.max(v, 0.001); const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (m * p >= v) return m * p; return 10 * p; }
             function niceStep(max, n) { if (max <= 0) return 1; const raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p; }

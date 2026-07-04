@@ -2633,7 +2633,13 @@
         #lookup-view { display: flex; flex-direction: column; gap: 20px; }
         .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         .cmp-cell { background: #ffffff; clip-path: var(--chamfer); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45); padding: 20px 24px 18px; }
+        .cmp-cell-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 6px; }
+        .cmp-cell-h h5 { margin: 0; }
         .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; margin: 0 0 6px; }
+        .cmp-zoom { display: flex; align-items: center; gap: 6px; flex: none; }
+        .cmp-zoom button { font-family: 'Chakra Petch', monospace; width: 26px; height: 26px; line-height: 1; padding: 0; border: 1px solid var(--glass-border); background: #faf6f0; color: var(--text-primary); cursor: pointer; font-size: 1rem; }
+        .cmp-zoom button:hover { border-color: var(--accent); background: #fff; }
+        .cmp-zlvl { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; color: var(--text-secondary); min-width: 36px; text-align: center; }
         .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
         .flc-svg { width: 100%; display: block; overflow: visible; }
         .flc-line { fill: none; stroke-width: 1.5; opacity: 0.72; transition: opacity 0.1s; }
@@ -5765,9 +5771,13 @@
                     + 10 * num(r['r' + i + '_kd']) + 5 * num(r['r' + i + '_td_landed']) + 5 * num(r['r' + i + '_rev']) + 0.03 * num(r['r' + i + '_ctrl_sec']);
             }
             function baseOf(r) { const p = dkPoints(r); return p.str + p.kd + p.td + p.rev + p.ctrl; }
+            // Normalize a fighter name for matching: lowercase and drop a trailing
+            // generational suffix (Jr/Sr/II/III/IV) so slate spellings like "Kai Kamaka III"
+            // match database rows stored as "Kai Kamaka".
+            const normName = s => (s || '').toLowerCase().trim().replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').trim();
             function fighterFights(name) {
-                const key = (name || '').toLowerCase();
-                return ROWS.filter(r => (r.fighter || '').toLowerCase() === key && num(r.fight_time_seconds) > 0)
+                const key = normName(name);
+                return ROWS.filter(r => normName(r.fighter) === key && num(r.fight_time_seconds) > 0)
                     .sort((a, b) => (a.event_date || '').localeCompare(b.event_date || ''));
             }
             // Rolling window (trailing 15 min of fight time) of per-round stat sums, built
@@ -5922,7 +5932,7 @@
             // ---------- SLATE COMPARE ----------
             // Overlay every current-slate fighter's cumulative career totals on shared
             // octagon-minute axes. Slate names come from DKSalaries.csv; histories from ROWS.
-            let cmpFighters = null, cmpPinned = new Set();
+            let cmpFighters = null, cmpPinned = new Set(), cmpXMax = 1, cmpZoom = [];
             const CMP_METRICS = [
                 { key: 'dk', t: 'Cumulative DK Score &mdash; Win Pts Excluded', y: p => p.base },
                 { key: 'sig', t: 'Cumulative significant strikes', y: p => p.sig },
@@ -5931,21 +5941,32 @@
                 { key: 'kd', t: 'Cumulative knockdowns', y: p => p.kd },
             ];
             const lastName = n => { const p = (n || '').trim().split(/\s+/); return p.length > 1 ? p.slice(1).join(' ') : n; };
-            function svgMulti(metric, xMax) {
+            // zoom (>=1) magnifies toward the 0,0 corner: the visible window shrinks to
+            // xMax/zoom by yFull/zoom so the cluster of shorter careers spreads out.
+            function svgMulti(metric, xMax, zoom) {
+                zoom = zoom || 1;
                 const W = 1040, H = 380, pl = 46, pr = 70, pt = 16, pb = 30;
-                const yMax = niceMax(Math.max(...cmpFighters.map(f => metric.y(f.series[f.series.length - 1])), 0));
-                const dec = yMax <= 8 ? 1 : 0;
-                const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
-                let g = '';
-                for (let i = 0; i <= 3; i++) { const v = yMax * i / 3, y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 5}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${v.toFixed(dec)}</text>`; }
-                const xstep = niceStep(xMax, 4);
-                for (let v = xstep; v < xMax * 0.98; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 7}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${v}m</text>`;
+                const yFull = Math.max(...cmpFighters.map(f => metric.y(f.series[f.series.length - 1])), 0);
+                const xVis = xMax / zoom, yVis = niceMax(yFull / zoom);
+                const dec = yVis <= 8 ? 1 : 0;
+                const X = v => pl + v / xVis * (W - pl - pr), Y = v => pt + (1 - v / yVis) * (H - pt - pb);
+                const clipId = 'cmpclip_' + metric.key;
+                let g = `<defs><clipPath id="${clipId}"><rect x="${pl}" y="${pt}" width="${(W - pl - pr).toFixed(1)}" height="${(H - pt - pb).toFixed(1)}"/></clipPath></defs>`;
+                for (let i = 0; i <= 3; i++) { const v = yVis * i / 3, y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 5}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${v.toFixed(dec)}</text>`; }
+                const xstep = niceStep(xVis, 4);
+                for (let v = xstep; v < xVis * 0.98; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 7}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${+v.toFixed(v < 10 ? 1 : 0)}m</text>`;
+                let lines = '';
                 cmpFighters.forEach((f, i) => {
                     let pts = '';
                     for (const p of f.series) pts += `${X(p.x).toFixed(1)},${Y(metric.y(p)).toFixed(1)} `;
-                    g += `<polyline class="flc-line" data-fi="${i}" stroke="${f.color}" points="${pts.trim()}"/>`;
+                    lines += `<polyline class="flc-line" data-fi="${i}" stroke="${f.color}" points="${pts.trim()}"/>`;
+                });
+                g += `<g clip-path="url(#${clipId})">${lines}</g>`;
+                cmpFighters.forEach((f, i) => {
                     const last = f.series[f.series.length - 1];
-                    g += `<text class="flc-label" data-fi="${i}" x="${(X(last.x) + 4).toFixed(1)}" y="${(Y(metric.y(last)) + 3).toFixed(1)}" fill="${f.color}">${esc(lastName(f.name))}</text>`;
+                    const lx = Math.min(X(last.x), W - pr) + 4;
+                    const ly = Math.max(pt + 4, Math.min(H - pb, Y(metric.y(last)))) + 3;
+                    g += `<text class="flc-label" data-fi="${i}" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" fill="${f.color}">${esc(lastName(f.name))}</text>`;
                 });
                 return `<svg class="flc-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}</svg>`;
             }
@@ -5969,13 +5990,22 @@
             }
             // Drop the spotlight: every line shows at full strength again.
             function cmpClear() { cmpPinned = new Set(); cmpApplyHi(null); }
+            // Re-render one chart's SVG at its current zoom (leaves the rest untouched).
+            function renderCmpCell(cell) {
+                const mi = +cell.dataset.mi, z = cmpZoom[mi];
+                cell.querySelector('.cmp-svg-wrap').innerHTML = svgMulti(CMP_METRICS[mi], cmpXMax, z);
+                cell.querySelector('.cmp-zlvl').textContent = z.toFixed(1) + '×';
+            }
             function renderCompare() {
-                const xMax = Math.max(...cmpFighters.map(f => f.series[f.series.length - 1].x), 1);
+                cmpXMax = Math.max(...cmpFighters.map(f => f.series[f.series.length - 1].x), 1);
+                cmpZoom = CMP_METRICS.map(() => 1);
                 document.getElementById('cmpChips').innerHTML =
                     `<span class="flc-chip flc-chip-all" data-all="1">Show all</span>` +
                     cmpFighters.map((f, i) => `<span class="flc-chip" data-fi="${i}" style="--fc:${f.color}">${esc(f.name)}</span>`).join('');
-                document.getElementById('cmpGrid').innerHTML = CMP_METRICS.map(m =>
-                    `<div class="cmp-cell"><h5>${m.t}</h5>${svgMulti(m, xMax)}<div class="flc-axl">cumulative octagon minutes &rarr;</div></div>`).join('');
+                document.getElementById('cmpGrid').innerHTML = CMP_METRICS.map((m, i) =>
+                    `<div class="cmp-cell" data-mi="${i}"><div class="cmp-cell-h"><h5>${m.t}</h5>` +
+                    `<div class="cmp-zoom"><button type="button" data-z="out" title="Zoom out" aria-label="Zoom out">&minus;</button><span class="cmp-zlvl">1.0×</span><button type="button" data-z="in" title="Zoom in" aria-label="Zoom in">+</button></div></div>` +
+                    `<div class="cmp-svg-wrap">${svgMulti(m, cmpXMax, 1)}</div><div class="flc-axl">cumulative octagon minutes &rarr;</div></div>`).join('');
                 cmpApplyHi(null);
             }
             let cmpWired = false;
@@ -5986,6 +6016,12 @@
                 chips.addEventListener('click', e => { const c = e.target.closest('.flc-chip'); if (!c) return; if (c.dataset.all !== undefined) cmpClear(); else cmpSelect(+c.dataset.fi); });
                 grid.addEventListener('mouseover', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(+l.dataset.fi); });
                 grid.addEventListener('mouseout', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(null); });
+                grid.addEventListener('click', e => {
+                    const zb = e.target.closest('[data-z]'); if (!zb) return;
+                    const cell = zb.closest('.cmp-cell'), mi = +cell.dataset.mi;
+                    cmpZoom[mi] = zb.dataset.z === 'in' ? Math.min(cmpZoom[mi] * 1.6, 12) : Math.max(cmpZoom[mi] / 1.6, 1);
+                    renderCmpCell(cell); cmpApplyHi(null);
+                });
             }
             async function openCompare() {
                 if (!cmpWired) { cmpWired = true; wireCompare(); }

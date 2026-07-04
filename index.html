@@ -2625,18 +2625,19 @@
         /* Slate Compare */
         .cmp-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 4px; max-width: 900px; }
         .cmp-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin: 0 0 4px; }
-        .cmp-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 14px; }
-        .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; padding: 4px 9px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); }
-        .flc-chip:hover { border-color: var(--accent); }
-        .flc-chip.pinned { background: #fff; outline: 2px solid rgba(var(--a-rgb), 0.4); outline-offset: -2px; }
-        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        .cmp-cell { max-width: 900px; margin: 0 auto; width: 100%; }
+        .cmp-chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 4px 0 12px; }
+        .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; padding: 6px 11px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); transition: border-color 0.1s, background 0.1s; }
+        .flc-chip:hover { border-color: var(--accent); background: #fff; }
+        .flc-chip.pinned { background: #fff; font-weight: 700; outline: 2px solid rgba(var(--a-rgb), 0.45); outline-offset: -2px; }
+        .fs-divider { height: 1px; background: var(--glass-border); margin: 34px 0 30px; }
+        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 34px; }
+        .cmp-cell { width: 100%; }
         .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; margin: 0 0 6px; }
         .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
         .flc-svg { width: 100%; display: block; overflow: visible; }
         .flc-line { fill: none; stroke-width: 1.5; opacity: 0.72; transition: opacity 0.1s; }
         .flc-label { font-family: 'Chakra Petch', monospace; font-size: 9px; display: none; }
-        .cmp-grid.flc-dim .flc-line { opacity: 0.07; }
+        .cmp-grid.flc-dim .flc-line { opacity: 0.12; }
         .cmp-grid.flc-dim .flc-line.flc-hi { opacity: 1; stroke-width: 2.8; }
         .cmp-grid.flc-dim .flc-label.flc-hi { display: block; }
     </style>
@@ -2741,22 +2742,14 @@
 
         <div id="lookup-view" style="display:none;">
             <div class="sdb-card">
-                <div class="sdb-title">Fighter Lookup</div>
-                <div class="flu-search">
-                    <input id="fluInput" type="text" placeholder="Search a fighter…" autocomplete="off">
-                    <div id="fluSuggest" class="flu-suggest"></div>
-                </div>
-                <div id="fluLoading" class="sdb-loading">Loading fight database…</div>
-                <div id="fluBody" style="display:none;"></div>
-            </div>
-
-            <div class="sdb-card">
-                <div class="sdb-title">Slate Compare</div>
-                <p class="cmp-intro">Every fighter on this week's DraftKings slate, cumulative career totals over octagon time. Hover a name to spotlight one; click to pin.</p>
-                <div id="cmpLoading" class="sdb-loading">Loading slate…</div>
+                <div class="sdb-title">Fighter Stats</div>
+                <p class="cmp-intro">Tap a fighter from this week's DraftKings slate to break down their profile &mdash; and spotlight them across the slate-wide graphs below.</p>
+                <div id="cmpLoading" class="sdb-loading">Loading slate&hellip;</div>
                 <div id="cmpBody" style="display:none;">
                     <div id="cmpChips" class="cmp-chips"></div>
                     <div id="cmpNote" class="cmp-note"></div>
+                    <div id="fluBody"></div>
+                    <div class="fs-divider"></div>
                     <div id="cmpGrid" class="cmp-grid"></div>
                 </div>
             </div>
@@ -5859,8 +5852,6 @@
             function renderFighter(name) {
                 fluCurrent = name;
                 const body = document.getElementById('fluBody');
-                document.getElementById('fluLoading').style.display = 'none';
-                body.style.display = '';
                 const fights = fighterFights(name);
                 const n = fights.length;
                 if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; fluState = null; return; }
@@ -5924,39 +5915,9 @@
                     const tile = e.target.closest('.flu-sm[data-metric]');
                     if (tile) drawChart(tile.dataset.metric);
                 });
-                const inp = document.getElementById('fluInput'), sug = document.getElementById('fluSuggest');
-                let idx = -1, matches = [];
-                const close = () => { sug.classList.remove('show'); sug.innerHTML = ''; idx = -1; };
-                const pick = (nm) => { inp.value = nm; close(); renderFighter(nm); logSearchQuery(nm, true, 'looked_up'); };
-                inp.addEventListener('input', () => {
-                    const q = inp.value.trim().toLowerCase();
-                    if (q.length < 2 || !fluNames) { close(); return; }
-                    matches = fluNames.filter(nm => nm.toLowerCase().includes(q)).slice(0, 12);
-                    if (!matches.length) { close(); return; }
-                    sug.innerHTML = matches.map(m => `<div data-nm="${esc(m)}">${esc(m)}</div>`).join(''); sug.classList.add('show'); idx = -1;
-                });
-                sug.addEventListener('mousedown', e => { const d = e.target.closest('div[data-nm]'); if (d) { e.preventDefault(); pick(d.dataset.nm); } });
-                inp.addEventListener('keydown', e => {
-                    const items = [...sug.querySelectorAll('div')];
-                    if (e.key === 'ArrowDown') idx = Math.min(items.length - 1, idx + 1);
-                    else if (e.key === 'ArrowUp') idx = Math.max(0, idx - 1);
-                    else if (e.key === 'Enter') { if (idx >= 0 && items[idx]) pick(items[idx].dataset.nm); else if (matches.length) pick(matches[0]); return; }
-                    else if (e.key === 'Escape') { close(); return; } else return;
-                    items.forEach((it, i) => it.classList.toggle('sel', i === idx)); e.preventDefault();
-                });
-                inp.addEventListener('blur', () => setTimeout(close, 150));
             }
-            async function openLookup() {
+            function openLookup() {
                 if (!fluWired) { fluWired = true; wireLookup(); }
-                try { await ensureData(); }
-                catch (e) { document.getElementById('fluLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
-                if (!fluNames) fluNames = [...new Set(ROWS.map(r => r.fighter).filter(Boolean))].sort();
-                document.getElementById('fluLoading').style.display = 'none';
-                if (!fluCurrent) {
-                    const def = fluNames.indexOf('Max Holloway') >= 0 ? 'Max Holloway' : fluNames[0];
-                    document.getElementById('fluInput').value = def;
-                    renderFighter(def);
-                }
             }
 
             // ---------- SLATE COMPARE ----------
@@ -5971,7 +5932,7 @@
             ];
             const lastName = n => { const p = (n || '').trim().split(/\s+/); return p.length > 1 ? p.slice(1).join(' ') : n; };
             function svgMulti(metric, xMax) {
-                const W = 900, H = 340, pl = 44, pr = 64, pt = 16, pb = 30;
+                const W = 1040, H = 380, pl = 46, pr = 70, pt = 16, pb = 30;
                 const yMax = niceMax(Math.max(...cmpFighters.map(f => metric.y(f.series[f.series.length - 1])), 0));
                 const dec = yMax <= 8 ? 1 : 0;
                 const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
@@ -5995,6 +5956,15 @@
                 grid.querySelectorAll('.flc-line, .flc-label').forEach(el => el.classList.toggle('flc-hi', active.has(+el.dataset.fi)));
                 document.querySelectorAll('#cmpChips .flc-chip').forEach(c => c.classList.toggle('pinned', cmpPinned.has(+c.dataset.fi)));
             }
+            // Pick one slate fighter: pin (spotlight) their line across every graph and
+            // load their full profile into the section above.
+            function cmpSelect(fi) {
+                if (fi == null || !cmpFighters[fi]) return;
+                cmpPinned = new Set([fi]);
+                cmpApplyHi(null);
+                renderFighter(cmpFighters[fi].name);
+                logSearchQuery(cmpFighters[fi].name, true, 'looked_up');
+            }
             function renderCompare() {
                 const xMax = Math.max(...cmpFighters.map(f => f.series[f.series.length - 1].x), 1);
                 document.getElementById('cmpChips').innerHTML = cmpFighters.map((f, i) => `<span class="flc-chip" data-fi="${i}" style="--fc:${f.color}">${esc(f.name)}</span>`).join('');
@@ -6007,7 +5977,7 @@
                 const chips = document.getElementById('cmpChips'), grid = document.getElementById('cmpGrid');
                 chips.addEventListener('mouseover', e => { const c = e.target.closest('.flc-chip'); if (c) cmpApplyHi(+c.dataset.fi); });
                 chips.addEventListener('mouseout', e => { const c = e.target.closest('.flc-chip'); if (c) cmpApplyHi(null); });
-                chips.addEventListener('click', e => { const c = e.target.closest('.flc-chip'); if (!c) return; const fi = +c.dataset.fi; cmpPinned.has(fi) ? cmpPinned.delete(fi) : cmpPinned.add(fi); cmpApplyHi(null); });
+                chips.addEventListener('click', e => { const c = e.target.closest('.flc-chip'); if (c) cmpSelect(+c.dataset.fi); });
                 grid.addEventListener('mouseover', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(+l.dataset.fi); });
                 grid.addEventListener('mouseout', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(null); });
             }
@@ -6028,6 +5998,10 @@
                 }
                 document.getElementById('cmpLoading').style.display = 'none';
                 document.getElementById('cmpBody').style.display = '';
+                if (cmpPinned.size === 0 && cmpFighters.length) {
+                    const mh = cmpFighters.findIndex(f => f.name === 'Max Holloway');
+                    cmpSelect(mh >= 0 ? mh : 0);
+                }
             }
 
             function showLandingView(view) {

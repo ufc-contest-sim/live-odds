@@ -2502,11 +2502,17 @@
         .opt-note { color: var(--text-secondary); font-size: 0.78rem; font-family: 'Chakra Petch', monospace; margin-bottom: 10px; }
         .opt-grid-scroll { max-height: 52vh; }
         .opt-grid col { }
-        .opt-grid td.proj-cell input, .opt-grid td.own-cell input {
+        .opt-grid td.proj-cell input, .opt-grid td.own-cell input, .opt-grid td.exp-cell input {
             width: 74px; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary);
             padding: 5px 7px; font-size: 0.82rem; font-family: 'Chakra Petch', monospace; text-align: center; outline: none;
         }
-        .opt-grid td.proj-cell input:focus, .opt-grid td.own-cell input:focus { border-color: var(--accent); }
+        .opt-grid td.proj-cell input:focus, .opt-grid td.own-cell input:focus, .opt-grid td.exp-cell input:focus { border-color: var(--accent); }
+        .opt-exposure { margin-top: 18px; }
+        .opt-exposure-title { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-lo); margin-bottom: 8px; }
+        .exp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        .exp-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-primary); background: #faf6f0; border: 1px solid var(--glass-border); border-left: 3px solid var(--accent); padding: 4px 9px; }
+        .exp-chip b { color: var(--accent-lo); }
+        .exp-chip.capped { border-left-color: var(--accent-green); }
         .opt-grid td { white-space: nowrap; }
         .opt-grid input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
         .opt-grid tr.excluded td { opacity: 0.4; }
@@ -2627,7 +2633,7 @@
         <div id="optimizer-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Lineup Optimizer</div>
-                <p class="opt-intro">This week's DraftKings slate loads automatically. Enter your own projected points and projected ownership for each fighter — type directly in the grid, or download the template, fill it in a spreadsheet, and re-upload — then build the top 500 lineups.</p>
+                <p class="opt-intro">This week's DraftKings slate loads automatically. Enter your own projected points, projected ownership, and an optional max-exposure cap for each fighter — type directly in the grid, or download the template, fill it in a spreadsheet, and re-upload — then build a 150-lineup portfolio for the 150-max-entry contest.</p>
 
                 <div id="optLoading" class="sdb-loading">Loading this week's slate…</div>
 
@@ -2640,7 +2646,7 @@
                             <input type="number" id="optOwnCap" placeholder="no cap" min="0" step="1">
                         </div>
                         <label class="opt-toggle"><input type="checkbox" id="optStack"> Allow fight stacking</label>
-                        <button class="opt-btn opt-btn-primary" id="optRunBtn">Build top 500 lineups</button>
+                        <button class="opt-btn opt-btn-primary" id="optRunBtn">Build 150 lineups</button>
                     </div>
                     <div class="opt-err" id="optErr"></div>
                     <div class="opt-note" id="optSalaryNote"></div>
@@ -2650,7 +2656,7 @@
                             <thead>
                                 <tr>
                                     <th class="l">Fighter</th><th class="l">Matchup</th><th>Salary</th>
-                                    <th>Projection</th><th>Own %</th><th>Lock</th><th>Excl</th>
+                                    <th>Projection</th><th>Own %</th><th>Max Exp %</th><th>Lock</th><th>Excl</th>
                                 </tr>
                             </thead>
                             <tbody id="optGridBody"></tbody>
@@ -2669,6 +2675,7 @@
                                 <tbody id="optResultsBody"></tbody>
                             </table>
                         </div>
+                        <div id="optExposure" class="opt-exposure"></div>
                     </div>
                 </div>
             </div>
@@ -5632,7 +5639,7 @@
 
         // ==================== Lineup Optimizer ====================
         (function () {
-            const SALARY_CAP = 50000, ROSTER = 6, MAX_RESULTS = 500;
+            const SALARY_CAP = 50000, ROSTER = 6, MAX_RESULTS = 150;
             let FIGHTERS = [];   // { name, salary, gameInfo, matchup, proj, own, lock, exclude }
             let lastLineups = [];
 
@@ -5693,7 +5700,7 @@
                     // out of the "Name + ID" field, e.g. "Max Holloway (43476469)".
                     let id = iId >= 0 ? (row[iId] || '').trim() : '';
                     if (!id && iNameId >= 0) { const m = String(row[iNameId] || '').match(/\((\d+)\)/); if (m) id = m[1]; }
-                    out.push({ name, id, salary, gameInfo, matchup: matchupOf(gameInfo), proj: 0, own: 0, lock: false, exclude: false });
+                    out.push({ name, id, salary, gameInfo, matchup: matchupOf(gameInfo), proj: 0, own: 0, exp: 0, lock: false, exclude: false });
                 }
                 if (!out.length) throw new Error('No fighters found in file.');
                 return out;
@@ -5708,6 +5715,7 @@
                         <td class="sal">$${f.salary.toLocaleString()}</td>
                         <td class="proj-cell"><input type="number" step="0.1" data-k="proj" value="${f.proj || ''}" placeholder="0"></td>
                         <td class="own-cell"><input type="number" step="0.1" data-k="own" value="${f.own || ''}" placeholder="0"></td>
+                        <td class="exp-cell"><input type="number" step="1" min="0" max="100" data-k="exp" value="${f.exp || ''}" placeholder="—"></td>
                         <td><input type="checkbox" data-k="lock" ${f.lock ? 'checked' : ''}></td>
                         <td><input type="checkbox" data-k="exclude" ${f.exclude ? 'checked' : ''}></td>
                     </tr>`).join('');
@@ -5721,6 +5729,7 @@
                     const f = FIGHTERS[+tr.dataset.i]; const k = inp.dataset.k;
                     if (k === 'proj') f.proj = oNum(inp.value);
                     else if (k === 'own') f.own = oNum(inp.value);
+                    else if (k === 'exp') f.exp = oNum(inp.value);
                 });
                 body.addEventListener('change', e => {
                     const inp = e.target; if (inp.type !== 'checkbox') return;
@@ -5741,7 +5750,8 @@
                 const header = rows[0];
                 const iName = colIndex(header, 'name'), iProj = colIndex(header, 'projection', 'proj', 'points', 'fpts');
                 const iOwn = colIndex(header, 'ownership', 'own', 'proj own', 'projected ownership');
-                if (iName < 0 || (iProj < 0 && iOwn < 0)) throw new Error('Need a Name column plus Projection and/or Ownership columns.');
+                const iExp = colIndex(header, 'maxexposure', 'max exposure', 'exposure', 'max exp', 'exp');
+                if (iName < 0 || (iProj < 0 && iOwn < 0 && iExp < 0)) throw new Error('Need a Name column plus Projection, Ownership, and/or Max Exposure columns.');
                 const byName = {};
                 FIGHTERS.forEach(f => { byName[normName(f.name)] = f; });
                 let matched = 0;
@@ -5750,6 +5760,7 @@
                     if (!f) continue;
                     if (iProj >= 0 && row[iProj] !== '' && row[iProj] != null) f.proj = oNum(row[iProj]);
                     if (iOwn >= 0 && row[iOwn] !== '' && row[iOwn] != null) f.own = oNum(row[iOwn]);
+                    if (iExp >= 0 && row[iExp] !== '' && row[iExp] != null) f.exp = oNum(row[iExp]);
                     matched++;
                 }
                 renderGrid();
@@ -5766,8 +5777,8 @@
             }
 
             function templateCSV() {
-                let out = 'Name,Salary,Projection,Ownership\n';
-                FIGHTERS.forEach(f => { out += `${/[",]/.test(f.name) ? '"' + f.name.replace(/"/g, '""') + '"' : f.name},${f.salary},,\n`; });
+                let out = 'Name,Salary,Projection,Ownership,MaxExposure\n';
+                FIGHTERS.forEach(f => { out += `${/[",]/.test(f.name) ? '"' + f.name.replace(/"/g, '""') + '"' : f.name},${f.salary},,,\n`; });
                 return out;
             }
 
@@ -5839,7 +5850,35 @@
                 })(0, 0, 0, 0, 0, 0);
 
                 results.sort((a, b) => b.proj - a.proj || a.salary - b.salary);
-                return { lineups: results.slice(0, MAX_RESULTS), total: results.length, stackAllowed: !!stackAllowed };
+
+                // Per-fighter exposure caps: max number of the MAX_RESULTS lineups a fighter
+                // may appear in. Locked fighters are exempt (they're intentionally in every
+                // lineup). Build the portfolio greedily in projection order, skipping a
+                // lineup only if it would push a capped fighter over their limit.
+                const capCount = {};
+                for (const f of FIGHTERS) {
+                    if (f.exclude || f.lock) continue;
+                    if (f.exp > 0 && f.exp < 100) capCount[f.id || f.name] = Math.floor(f.exp / 100 * MAX_RESULTS);
+                }
+                const capped = Object.keys(capCount).length > 0;
+                const counts = {}, picked = [];
+                for (const lu of results) {
+                    if (picked.length >= MAX_RESULTS) break;
+                    if (capped) {
+                        let ok = true;
+                        for (const p of lu.players) { const k = p.id || p.name; if (capCount[k] != null && (counts[k] || 0) >= capCount[k]) { ok = false; break; } }
+                        if (!ok) continue;
+                    }
+                    for (const p of lu.players) { const k = p.id || p.name; counts[k] = (counts[k] || 0) + 1; }
+                    picked.push(lu);
+                }
+                // exposure readout (fighter name -> count), sorted highest first
+                const exposure = FIGHTERS
+                    .map(f => ({ name: f.name, count: counts[f.id || f.name] || 0, capped: capCount[f.id || f.name] != null }))
+                    .filter(x => x.count > 0)
+                    .sort((a, b) => b.count - a.count);
+
+                return { lineups: picked, total: results.length, stackAllowed: !!stackAllowed, capped, exposure };
             }
 
             function renderResults(res, ownCap) {
@@ -5874,12 +5913,29 @@
                         <td class="${ownCls}">${lu.own.toFixed(1)}%</td>
                     </tr>`;
                 }).join('');
-                document.getElementById('optResultsTitle').textContent = `Top ${res.lineups.length} lineups`;
+                const shown = res.lineups.length;
+                document.getElementById('optResultsTitle').textContent = `Your ${shown}-lineup portfolio`;
                 const stackedCount = res.lineups.filter(l => l.stacked).length;
-                document.getElementById('optResultsNote').innerHTML =
-                    `${res.total.toLocaleString()} lineup${res.total === 1 ? '' : 's'}${res.total > MAX_RESULTS ? ` — showing the top ${MAX_RESULTS} by projection` : ''}.` +
-                    (res.stackAllowed ? ` Highlighted rows <span class="lu-stack-tag">stack</span> both fighters from a fight (${stackedCount} shown).` : '');
+                let msg;
+                if (res.capped) {
+                    msg = `${shown.toLocaleString()} lineup${shown === 1 ? '' : 's'} in your portfolio (exposure caps applied)${res.total > shown ? ` — from ${res.total.toLocaleString()} possible` : ''}.`;
+                    if (shown < MAX_RESULTS) msg += ` Caps were too tight to reach ${MAX_RESULTS}.`;
+                } else {
+                    msg = `${res.total.toLocaleString()} lineup${res.total === 1 ? '' : 's'}${res.total > MAX_RESULTS ? ` — showing the top ${MAX_RESULTS} by projection` : ''}.`;
+                }
+                msg += res.stackAllowed ? ` Highlighted rows <span class="lu-stack-tag">stack</span> both fighters from a fight (${stackedCount} shown).` : '';
+                document.getElementById('optResultsNote').innerHTML = msg;
+                renderExposure(res.exposure, shown);
                 wrap.style.display = '';
+            }
+
+            function renderExposure(exposure, n) {
+                const el = document.getElementById('optExposure');
+                if (!el) return;
+                if (!exposure || !exposure.length || !n) { el.innerHTML = ''; return; }
+                const chips = exposure.map(x =>
+                    `<span class="exp-chip${x.capped ? ' capped' : ''}">${oEsc(x.name)} <b>${Math.round(100 * x.count / n)}%</b> (${x.count})</span>`).join('');
+                el.innerHTML = `<div class="opt-exposure-title">Portfolio exposure — how many of the ${n} lineups each fighter appears in</div><div class="exp-chips">${chips}</div>`;
             }
 
             function exportResultsCSV() {

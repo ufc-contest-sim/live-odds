@@ -2567,6 +2567,55 @@
             .opt-results-table { min-width: 620px; }
             .opt-results-head { flex-wrap: wrap; }
         }
+
+        /* Fighter Lookup */
+        .flu-search { position: relative; max-width: 460px; margin-bottom: 18px; }
+        .flu-search input { width: 100%; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary); padding: 11px 14px; font-size: 1.05rem; font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 700; outline: none; }
+        .flu-search input:focus { border-color: var(--accent); }
+        .flu-suggest { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--glass-border); max-height: 260px; overflow-y: auto; z-index: 30; display: none; box-shadow: 0 10px 26px rgba(0,0,0,.28); }
+        .flu-suggest.show { display: block; }
+        .flu-suggest div { padding: 8px 12px; cursor: pointer; font-size: 0.9rem; border-bottom: 1px solid #efe9e0; }
+        .flu-suggest div:hover, .flu-suggest div.sel { background: #faf6f0; color: var(--accent-lo); }
+        .flu-head { display: flex; align-items: center; gap: 10px; background: #faf6f0; border: 1px solid var(--glass-border); padding: 11px 14px; margin-bottom: 8px; flex-wrap: wrap; }
+        .flu-head .nm { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.45rem; }
+        .flu-head .meta { margin-left: auto; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); text-align: right; line-height: 1.5; }
+        .flu-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--accent-lo); margin: 0 0 18px; }
+        .flu-chart-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+        .flu-chart-h .t { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.2rem; }
+        .flu-chart-h .u { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .flu-axl { font-family: 'Chakra Petch', monospace; font-size: 0.56rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 4px; }
+        .flu-svg { display: block; width: 100%; overflow: visible; }
+        .flu-placeholder { border: 1px dashed var(--glass-border); padding: 34px; text-align: center; font-family: 'Chakra Petch', monospace; font-size: 0.8rem; color: var(--text-secondary); }
+        .flu-smalls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+        .flu-sm { border: 1px solid var(--glass-border); padding: 12px; }
+        .flu-sm .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .flu-sm .big { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.75rem; line-height: 1; }
+        .flu-sm .big small { font-size: 0.7rem; font-style: normal; font-weight: 400; }
+        .flu-fmc { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 20px; border: 1px solid var(--glass-border); }
+        .flu-fmc > div { padding: 14px; text-align: center; border-right: 1px solid var(--glass-border); }
+        .flu-fmc > div:last-child { border-right: none; }
+        .flu-fmc .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .flu-fmc .v { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 2rem; }
+        .flu-fmc .floor .v { color: #555; } .flu-fmc .med .v { color: var(--accent-lo); } .flu-fmc .ceil .v { color: var(--accent-green); }
+        .flu-sec-t { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-lo); margin: 28px 0 14px; }
+        .flu-dna { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+        .flu-dna h5 { font-family: 'Chakra Petch', monospace; font-size: 0.56rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); margin: 0 0 12px; }
+        .flu-dbar { display: grid; grid-template-columns: 74px 1fr 44px; align-items: center; gap: 8px; margin: 8px 0; font-family: 'Chakra Petch', monospace; font-size: 0.66rem; }
+        .flu-dbar .tr { height: 11px; background: #f1ece4; overflow: hidden; }
+        .flu-dbar .tr i { display: block; height: 100%; background: var(--accent); }
+        .flu-dbar .val { text-align: right; font-weight: 700; }
+        .flu-rounds { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .flu-rc h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.1rem; margin: 0 0 14px; }
+        .flu-rc-bars { display: flex; align-items: flex-end; gap: 12px; height: 150px; }
+        .flu-rc-bars .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; height: 100%; }
+        .flu-rc-bars .bar { width: 100%; background: linear-gradient(180deg, #ff8a2b, #e04d0a); min-height: 2px; }
+        .flu-rc-bars .col.na .bar { background: repeating-linear-gradient(45deg, #f1ece4, #f1ece4 4px, #e9e2d7 4px, #e9e2d7 8px); height: 14px; }
+        .flu-rc-bars .rn { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; color: var(--text-secondary); }
+        .flu-rc-bars .vv { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; font-weight: 700; }
+        .flu-rc-bars .col.na .vv { color: #b3a99c; }
+        .flu-rc-fn { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); margin-top: 12px; }
+        .flu-empty { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); padding: 34px 0; text-align: center; }
+        @media (max-width: 760px) { .flu-smalls { grid-template-columns: repeat(2, 1fr); } .flu-dna, .flu-rounds { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -2592,6 +2641,7 @@
             <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
             <button class="lnav-tab" data-view="scoringdb"><span>Scoring Database</span></button>
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
+            <button class="lnav-tab" data-view="lookup"><span>Fighter Lookup</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
         </div>
 
@@ -2663,6 +2713,18 @@
                     <div id="sdbInsightAll"></div>
                     <div id="sdbInsightTiles" class="sdb-tiles"></div>
                 </div>
+            </div>
+        </div>
+
+        <div id="lookup-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Fighter Lookup</div>
+                <div class="flu-search">
+                    <input id="fluInput" type="text" placeholder="Search a fighter…" autocomplete="off">
+                    <div id="fluSuggest" class="flu-suggest"></div>
+                </div>
+                <div id="fluLoading" class="sdb-loading">Loading fight database…</div>
+                <div id="fluBody" style="display:none;"></div>
             </div>
         </div>
 
@@ -5668,15 +5730,171 @@
                 renderInsights();
             }
 
+            // ---------- FIGHTER LOOKUP ----------
+            let fluNames = null, fluWired = false, fluCurrent = null;
+            const median = a => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); const m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+            const pctile = (a, q) => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(q * s.length))]; };
+            const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+            function roundBase(r, i) {
+                return 0.2 * num(r['r' + i + '_total_str_landed']) + 0.2 * num(r['r' + i + '_sig_str_landed'])
+                    + 10 * num(r['r' + i + '_kd']) + 5 * num(r['r' + i + '_td_landed']) + 5 * num(r['r' + i + '_rev']) + 0.03 * num(r['r' + i + '_ctrl_sec']);
+            }
+            function baseOf(r) { const p = dkPoints(r); return p.str + p.kd + p.td + p.rev + p.ctrl; }
+            function fighterFights(name) {
+                const key = (name || '').toLowerCase();
+                return ROWS.filter(r => (r.fighter || '').toLowerCase() === key && num(r.fight_time_seconds) > 0)
+                    .sort((a, b) => (a.event_date || '').localeCompare(b.event_date || ''));
+            }
+            // Rolling average of pre-bonus DK points per minute over a trailing 15 minutes
+            // of fight time. Built from per-round segments so it is minute-weighted (a fast
+            // KO can't spike it), and plotted against cumulative octagon time.
+            function rolling15(fights) {
+                const segs = [];
+                for (const r of fights) {
+                    const R = Math.round(num(r.round)) || 1, T = num(r.fight_time_seconds);
+                    for (let i = 1; i <= R; i++) { const dur = i < R ? 300 : Math.max(1, T - 300 * (R - 1)); segs.push([dur, roundBase(r, i)]); }
+                }
+                const out = []; let cum = 0;
+                for (let j = 0; j < segs.length; j++) {
+                    cum += segs[j][0]; let wsec = 0, wpts = 0, k = j;
+                    while (k >= 0 && wsec < 900) { const take = Math.min(segs[k][0], 900 - wsec); wpts += segs[k][1] * (take / segs[k][0]); wsec += take; k--; }
+                    out.push([cum / 60, wpts / (wsec / 60)]);
+                }
+                return out;
+            }
+            function svgRolling(series) {
+                const W = 960, H = 240, pl = 38, pr = 14, pt = 16, pb = 26;
+                const xMax = series[series.length - 1][0] || 1;
+                const yMax = Math.max(4, Math.ceil(Math.max(...series.map(p => p[1])) / 2) * 2);
+                const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
+                const med = median(series.map(p => p[1]));
+                let g = '';
+                for (let v = 0; v <= yMax; v += Math.max(2, Math.round(yMax / 3))) { const y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="10" fill="#8a8177">${v}</text>`; }
+                const xstep = xMax > 360 ? 120 : xMax > 120 ? 60 : 30;
+                for (let v = xstep; v < xMax; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">${v}m</text>`;
+                const my = Y(med); g += `<line x1="${pl}" y1="${my.toFixed(1)}" x2="${W - pr}" y2="${my.toFixed(1)}" stroke="#b9b2a8" stroke-dasharray="5 4"/><text x="${W - pr}" y="${(my - 5).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">median ${med.toFixed(1)}</text>`;
+                let d = 'M ' + X(series[0][0]).toFixed(1) + ' ' + Y(series[0][1]).toFixed(1);
+                for (let i = 1; i < series.length; i++) d += ' L ' + X(series[i][0]).toFixed(1) + ' ' + Y(series[i][1]).toFixed(1);
+                g += `<path d="${d} L ${X(xMax).toFixed(1)} ${H - pb} L ${X(series[0][0]).toFixed(1)} ${H - pb} Z" fill="rgba(255,106,18,.08)"/>`;
+                g += `<path d="${d}" fill="none" stroke="#ff6a12" stroke-width="2.4" stroke-linejoin="round"/>`;
+                g += `<circle cx="${X(xMax).toFixed(1)}" cy="${Y(series[series.length - 1][1]).toFixed(1)}" r="4" fill="#e2470a"/>`;
+                return `<svg class="flu-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}</svg>`;
+            }
+            function svgSpark(a) {
+                if (a.length < 2) return '';
+                const W = 120, H = 30, mx = Math.max(...a) || 1;
+                const X = i => i * W / (a.length - 1), Y = v => 4 + (1 - v / mx) * (H - 8);
+                let d = 'M ' + X(0).toFixed(1) + ' ' + Y(a[0]).toFixed(1);
+                for (let i = 1; i < a.length; i++) d += ' L ' + X(i).toFixed(1) + ' ' + Y(a[i]).toFixed(1);
+                return `<svg class="flu-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="margin-top:8px"><path d="${d}" fill="none" stroke="#ff6a12" stroke-width="1.8"/><circle cx="${X(a.length - 1).toFixed(1)}" cy="${Y(a[a.length - 1]).toFixed(1)}" r="2.4" fill="#e2470a"/></svg>`;
+            }
+            function renderFighter(name) {
+                fluCurrent = name;
+                const body = document.getElementById('fluBody');
+                document.getElementById('fluLoading').style.display = 'none';
+                body.style.display = '';
+                const fights = fighterFights(name);
+                const n = fights.length;
+                if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; return; }
+                const totSec = fights.reduce((s, r) => s + num(r.fight_time_seconds), 0);
+                const hrs = Math.floor(totSec / 3600), mm = Math.round((totSec % 3600) / 60);
+                const dkmin = fights.map(r => baseOf(r) / (num(r.fight_time_seconds) / 60));
+                const sigmin = fights.map(r => num(r.sig_str_landed) / (num(r.fight_time_seconds) / 60));
+                const td15 = fights.map(r => num(r.td_landed) / (num(r.fight_time_seconds) / 60) * 15);
+                const kd15 = fights.map(r => num(r.kd) / (num(r.fight_time_seconds) / 60) * 15);
+                const ctrlp = fights.map(r => { const T = num(r.fight_time_seconds); return T ? num(r.ctrl_sec) / T * 100 : 0; });
+                let H = 0, B = 0, L = 0, D = 0, C = 0, G = 0, SA = 0, SS = 0;
+                for (const r of fights) { H += num(r.ss_head_landed); B += num(r.ss_body_landed); L += num(r.ss_leg_landed); D += num(r.ss_distance_landed); C += num(r.ss_clinch_landed); G += num(r.ss_ground_landed); SA += num(r.sig_str_attempted); SS += num(r.sig_str_landed); }
+                const tgt = H + B + L || 1, pos = D + C + G || 1, acc = SA ? Math.round(100 * SS / SA) : 0, avgMin = totSec / n / 60;
+                const rc = []; for (let i = 1; i <= 5; i++) { const reached = fights.filter(r => Math.round(num(r.round)) >= i); rc.push(reached.length ? mean(reached.map(r => roundBase(r, i))) : null); }
+                const wins = fights.filter(r => r.result === 'W').length, losses = fights.filter(r => r.result === 'L').length;
+                const enoughTrend = n >= 3;
+                const timeStr = hrs > 0 ? `${hrs}h ${mm}m` : `${mm}m`;
+                const pctBar = (v, mx) => `<span class="tr"><i style="width:${Math.round(100 * v / mx)}%"></i></span>`;
+                let html = '';
+                html += `<div class="flu-head"><span class="nm">${esc(name)}</span><span class="meta">${n} UFC fight${n === 1 ? '' : 's'} · ${wins}W&ndash;${losses}L · ${timeStr} cage time<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
+                if (n < 6) html += `<div class="flu-note">Limited sample (${n} fight${n === 1 ? '' : 's'}) — per-minute trends may be noisy.</div>`;
+                // rolling chart
+                html += `<div class="flu-chart-h"><div class="t">Fantasy points per minute</div><div class="u">pre-bonus · rolling 15-min average</div></div>`;
+                if (enoughTrend) { html += svgRolling(rolling15(fights)); html += `<div class="flu-axl">cumulative octagon minutes &rarr;</div>`; }
+                else html += `<div class="flu-placeholder">Needs 3+ fights to chart a career trend.</div>`;
+                // rate tiles
+                html += `<div class="flu-smalls">`;
+                html += `<div class="flu-sm"><div class="lbl">Sig strikes / min</div><div class="big">${median(sigmin).toFixed(1)}</div>${svgSpark(sigmin)}</div>`;
+                html += `<div class="flu-sm"><div class="lbl">Takedowns / 15 min</div><div class="big">${median(td15).toFixed(1)}</div></div>`;
+                html += `<div class="flu-sm"><div class="lbl">Knockdowns / 15 min</div><div class="big">${mean(kd15).toFixed(1)}</div></div>`;
+                html += `<div class="flu-sm"><div class="lbl">Control %</div><div class="big">${median(ctrlp).toFixed(0)}<small>%</small></div></div>`;
+                html += `</div>`;
+                // floor/median/ceiling
+                if (enoughTrend) html += `<div class="flu-fmc"><div class="floor"><div class="lbl">Floor · 15th pct</div><div class="v">${pctile(dkmin, 0.15).toFixed(1)}</div></div><div class="med"><div class="lbl">Median</div><div class="v">${median(dkmin).toFixed(1)}</div></div><div class="ceil"><div class="lbl">Ceiling · 85th pct</div><div class="v">${pctile(dkmin, 0.85).toFixed(1)}</div></div></div>`;
+                // style fingerprint
+                html += `<div class="flu-sec-t">Style fingerprint</div><div class="flu-dna">`;
+                html += `<div><h5>Strike targeting</h5>`;
+                html += `<div class="flu-dbar"><span>Head</span>${pctBar(H, tgt)}<span class="val">${Math.round(100 * H / tgt)}%</span></div>`;
+                html += `<div class="flu-dbar"><span>Body</span>${pctBar(B, tgt)}<span class="val">${Math.round(100 * B / tgt)}%</span></div>`;
+                html += `<div class="flu-dbar"><span>Legs</span>${pctBar(L, tgt)}<span class="val">${Math.round(100 * L / tgt)}%</span></div>`;
+                html += `<div class="flu-dbar"><span>Accuracy</span>${pctBar(acc, 100)}<span class="val">${acc}%</span></div></div>`;
+                html += `<div><h5>Where he fights</h5>`;
+                html += `<div class="flu-dbar"><span>At range</span>${pctBar(D, pos)}<span class="val">${Math.round(100 * D / pos)}%</span></div>`;
+                html += `<div class="flu-dbar"><span>Clinch</span>${pctBar(C, pos)}<span class="val">${Math.round(100 * C / pos)}%</span></div>`;
+                html += `<div class="flu-dbar"><span>Ground</span>${pctBar(G, pos)}<span class="val">${Math.round(100 * G / pos)}%</span></div>`;
+                html += `<div class="flu-dbar"><span>Avg fight</span>${pctBar(Math.min(avgMin, 25), 25)}<span class="val">${avgMin.toFixed(1)}m</span></div></div></div>`;
+                // scoring by round
+                html += `<div class="flu-sec-t">Scoring by round</div>`;
+                const mx = Math.max(...rc.filter(v => v != null), 1);
+                html += `<div class="flu-rc-bars">` + rc.map((v, i) => v == null
+                    ? `<div class="col na"><span class="vv">N/A</span><span class="bar"></span><span class="rn">R${i + 1}</span></div>`
+                    : `<div class="col"><span class="vv">${v.toFixed(1)}</span><span class="bar" style="height:${(v / mx * 100).toFixed(1)}%"></span><span class="rn">R${i + 1}</span></div>`).join('') + `</div>`;
+                html += `<div class="flu-rc-fn">avg pre-bonus DK per round · N/A = never reached that round</div>`;
+                body.innerHTML = html;
+            }
+            function wireLookup() {
+                const inp = document.getElementById('fluInput'), sug = document.getElementById('fluSuggest');
+                let idx = -1, matches = [];
+                const close = () => { sug.classList.remove('show'); sug.innerHTML = ''; idx = -1; };
+                const pick = (nm) => { inp.value = nm; close(); renderFighter(nm); logSearchQuery(nm, true, 'looked_up'); };
+                inp.addEventListener('input', () => {
+                    const q = inp.value.trim().toLowerCase();
+                    if (q.length < 2 || !fluNames) { close(); return; }
+                    matches = fluNames.filter(nm => nm.toLowerCase().includes(q)).slice(0, 12);
+                    if (!matches.length) { close(); return; }
+                    sug.innerHTML = matches.map(m => `<div data-nm="${esc(m)}">${esc(m)}</div>`).join(''); sug.classList.add('show'); idx = -1;
+                });
+                sug.addEventListener('mousedown', e => { const d = e.target.closest('div[data-nm]'); if (d) { e.preventDefault(); pick(d.dataset.nm); } });
+                inp.addEventListener('keydown', e => {
+                    const items = [...sug.querySelectorAll('div')];
+                    if (e.key === 'ArrowDown') idx = Math.min(items.length - 1, idx + 1);
+                    else if (e.key === 'ArrowUp') idx = Math.max(0, idx - 1);
+                    else if (e.key === 'Enter') { if (idx >= 0 && items[idx]) pick(items[idx].dataset.nm); else if (matches.length) pick(matches[0]); return; }
+                    else if (e.key === 'Escape') { close(); return; } else return;
+                    items.forEach((it, i) => it.classList.toggle('sel', i === idx)); e.preventDefault();
+                });
+                inp.addEventListener('blur', () => setTimeout(close, 150));
+            }
+            async function openLookup() {
+                if (!fluWired) { fluWired = true; wireLookup(); }
+                try { await ensureData(); }
+                catch (e) { document.getElementById('fluLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
+                if (!fluNames) fluNames = [...new Set(ROWS.map(r => r.fighter).filter(Boolean))].sort();
+                document.getElementById('fluLoading').style.display = 'none';
+                if (!fluCurrent) {
+                    const def = fluNames.indexOf('Max Holloway') >= 0 ? 'Max Holloway' : fluNames[0];
+                    document.getElementById('fluInput').value = def;
+                    renderFighter(def);
+                }
+            }
+
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sv) sv.style.display = view === 'scoringdb' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
+                if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
                 if (view === 'scoringdb') { logTabOpen('opened_database'); openBoard(); }
                 if (view === 'insights') { logTabOpen('opened_insights'); openInsights(); }
+                if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));

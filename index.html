@@ -111,22 +111,9 @@
             z-index: 1;
         }
 
-        /* Glassmorphism blur on top-level card containers */
-        .contest-table-wrapper,
-        .favorite-tile,
-        .quick-search-bar,
-        .search-result-card,
-        .search-no-results,
-        .back-btn,
-        .stats-vertical,
-        .fighter-draft-container,
-        .filters,
-        .table-container,
-        .fight-card-container,
-        .tab-btn {
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
+        /* (Removed leftover glassmorphism backdrop-filter: the cards are opaque white
+           now, so the blur was invisible dead code — but it created stacking contexts
+           that painted the stats/table panels OVER the fighter-search dropdown.) */
 
         /* Landing Page Styles */
         .landing-page {
@@ -529,8 +516,6 @@
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 16px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
         }
 
         .portfolio-chart-title {
@@ -1962,15 +1947,19 @@
         .stats-vertical,
         .fighter-draft-container,
         .dupes-container,
-        .chart-card,
         .fight-card-container,
-        .filters,
         .quick-search-bar,
         .portfolio-chart-container,
         .search-result-card,
         .search-no-results {
             clip-path: var(--chamfer);
             border-radius: 0;
+        }
+        /* .filters and .chart-card intentionally keep border-radius (no clip-path):
+           each contains an absolutely-positioned search dropdown, and clip-path would
+           clip the dropdown where it overflows the container. */
+        .filters, .chart-card {
+            border-radius: 12px;
         }
         .favorite-tile,
         .back-btn,

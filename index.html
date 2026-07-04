@@ -2629,6 +2629,7 @@
         .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; padding: 6px 11px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); transition: border-color 0.1s, background 0.1s; }
         .flc-chip:hover { border-color: var(--accent); background: #fff; }
         .flc-chip.pinned { background: #fff; font-weight: 700; outline: 2px solid rgba(var(--a-rgb), 0.45); outline-offset: -2px; }
+        .flc-chip-all { border-left: 3px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.62rem; }
         #lookup-view { display: flex; flex-direction: column; gap: 20px; }
         .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         .cmp-cell { background: #ffffff; clip-path: var(--chamfer); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45); padding: 20px 24px 18px; }
@@ -2637,8 +2638,8 @@
         .flc-svg { width: 100%; display: block; overflow: visible; }
         .flc-line { fill: none; stroke-width: 1.5; opacity: 0.72; transition: opacity 0.1s; }
         .flc-label { font-family: 'Chakra Petch', monospace; font-size: 9px; display: none; }
-        .cmp-grid.flc-dim .flc-line { opacity: 0.12; }
-        .cmp-grid.flc-dim .flc-line.flc-hi { opacity: 1; stroke-width: 2.8; }
+        .cmp-grid.flc-dim .flc-line { opacity: 0.34; }
+        .cmp-grid.flc-dim .flc-line.flc-hi { opacity: 1; stroke-width: 3; }
         .cmp-grid.flc-dim .flc-label.flc-hi { display: block; }
     </style>
 </head>
@@ -5953,7 +5954,9 @@
                 const active = new Set(cmpPinned); if (hoverFi != null) active.add(hoverFi);
                 grid.classList.toggle('flc-dim', active.size > 0);
                 grid.querySelectorAll('.flc-line, .flc-label').forEach(el => el.classList.toggle('flc-hi', active.has(+el.dataset.fi)));
-                document.querySelectorAll('#cmpChips .flc-chip').forEach(c => c.classList.toggle('pinned', cmpPinned.has(+c.dataset.fi)));
+                document.querySelectorAll('#cmpChips .flc-chip[data-fi]').forEach(c => c.classList.toggle('pinned', cmpPinned.has(+c.dataset.fi)));
+                const allChip = document.querySelector('#cmpChips .flc-chip-all');
+                if (allChip) allChip.classList.toggle('pinned', cmpPinned.size === 0);
             }
             // Pick one slate fighter: pin (spotlight) their line across every graph and
             // load their full profile into the section above.
@@ -5964,9 +5967,13 @@
                 renderFighter(cmpFighters[fi].name);
                 logSearchQuery(cmpFighters[fi].name, true, 'looked_up');
             }
+            // Drop the spotlight: every line shows at full strength again.
+            function cmpClear() { cmpPinned = new Set(); cmpApplyHi(null); }
             function renderCompare() {
                 const xMax = Math.max(...cmpFighters.map(f => f.series[f.series.length - 1].x), 1);
-                document.getElementById('cmpChips').innerHTML = cmpFighters.map((f, i) => `<span class="flc-chip" data-fi="${i}" style="--fc:${f.color}">${esc(f.name)}</span>`).join('');
+                document.getElementById('cmpChips').innerHTML =
+                    `<span class="flc-chip flc-chip-all" data-all="1">Show all</span>` +
+                    cmpFighters.map((f, i) => `<span class="flc-chip" data-fi="${i}" style="--fc:${f.color}">${esc(f.name)}</span>`).join('');
                 document.getElementById('cmpGrid').innerHTML = CMP_METRICS.map(m =>
                     `<div class="cmp-cell"><h5>${m.t}</h5>${svgMulti(m, xMax)}<div class="flc-axl">cumulative octagon minutes &rarr;</div></div>`).join('');
                 cmpApplyHi(null);
@@ -5974,9 +5981,9 @@
             let cmpWired = false;
             function wireCompare() {
                 const chips = document.getElementById('cmpChips'), grid = document.getElementById('cmpGrid');
-                chips.addEventListener('mouseover', e => { const c = e.target.closest('.flc-chip'); if (c) cmpApplyHi(+c.dataset.fi); });
-                chips.addEventListener('mouseout', e => { const c = e.target.closest('.flc-chip'); if (c) cmpApplyHi(null); });
-                chips.addEventListener('click', e => { const c = e.target.closest('.flc-chip'); if (c) cmpSelect(+c.dataset.fi); });
+                chips.addEventListener('mouseover', e => { const c = e.target.closest('.flc-chip[data-fi]'); if (c) cmpApplyHi(+c.dataset.fi); });
+                chips.addEventListener('mouseout', e => { const c = e.target.closest('.flc-chip[data-fi]'); if (c) cmpApplyHi(null); });
+                chips.addEventListener('click', e => { const c = e.target.closest('.flc-chip'); if (!c) return; if (c.dataset.all !== undefined) cmpClear(); else cmpSelect(+c.dataset.fi); });
                 grid.addEventListener('mouseover', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(+l.dataset.fi); });
                 grid.addEventListener('mouseout', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(null); });
             }

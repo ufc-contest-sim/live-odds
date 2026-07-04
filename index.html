@@ -2530,7 +2530,54 @@
         .opt-results-table td.lu-proj { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); }
         .opt-results-table td.lu-rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.78rem; }
         .opt-results-table td.lu-over { color: var(--accent-red); font-weight: 700; }
-        @media (max-width: 720px) { .opt-toolbar { flex-direction: column; align-items: stretch; } }
+        @media (max-width: 720px) { .opt-toolbar { flex-direction: column; align-items: stretch; } .opt-cap input { width: 100%; } }
+
+        /* Mobile: turn the 8-column entry grid into a stacked card per fighter. */
+        @media (max-width: 640px) {
+            .opt-grid-scroll { max-height: none; overflow: visible; }
+            .opt-grid, .opt-grid tbody { display: block; width: 100%; }
+            .opt-grid thead { display: none; }
+            .opt-grid tr {
+                display: grid; align-items: center; gap: 8px 10px;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-areas:
+                    "name name salary"
+                    "matchup matchup matchup"
+                    "proj own exp"
+                    "lock excl excl";
+                background: #fff; border: 1px solid var(--glass-border); border-left: 3px solid var(--accent);
+                padding: 12px 13px; margin-bottom: 10px;
+            }
+            .opt-grid tr.locked { background: rgba(var(--a-rgb), 0.08); }
+            .opt-grid tr.excluded { opacity: 0.5; }
+            .opt-grid td { display: block; border: none; padding: 0; text-align: left; white-space: normal; }
+            .opt-grid td:nth-child(1) { grid-area: name; font-weight: 700; font-size: 0.98rem; }
+            .opt-grid td:nth-child(2) { grid-area: matchup; color: var(--accent-lo); font-family: 'Chakra Petch', monospace; font-size: 0.72rem; }
+            .opt-grid td:nth-child(3) { grid-area: salary; text-align: right; font-family: 'Chakra Petch', monospace; font-weight: 700; }
+            .opt-grid td.proj-cell { grid-area: proj; }
+            .opt-grid td.own-cell { grid-area: own; }
+            .opt-grid td.exp-cell { grid-area: exp; }
+            .opt-grid td.proj-cell, .opt-grid td.own-cell, .opt-grid td.exp-cell { display: flex; flex-direction: column; gap: 3px; }
+            .opt-grid td.proj-cell::before, .opt-grid td.own-cell::before, .opt-grid td.exp-cell::before,
+            .opt-grid td:nth-child(7)::before, .opt-grid td:nth-child(8)::before {
+                font-family: 'Chakra Petch', monospace; font-size: 0.55rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo);
+            }
+            .opt-grid td.proj-cell::before { content: "Projection"; }
+            .opt-grid td.own-cell::before { content: "Own %"; }
+            .opt-grid td.exp-cell::before { content: "Max Exp %"; }
+            .opt-grid td.proj-cell input, .opt-grid td.own-cell input, .opt-grid td.exp-cell input {
+                width: 100%; font-size: 16px; padding: 9px 8px;   /* 16px keeps iOS from zooming on focus */
+            }
+            .opt-grid td:nth-child(7) { grid-area: lock; }
+            .opt-grid td:nth-child(8) { grid-area: excl; }
+            .opt-grid td:nth-child(7), .opt-grid td:nth-child(8) { display: flex; align-items: center; gap: 7px; }
+            .opt-grid td:nth-child(7)::before { content: "Lock"; }
+            .opt-grid td:nth-child(8)::before { content: "Exclude"; }
+            .opt-grid input[type="checkbox"] { width: 20px; height: 20px; }
+            /* the 150-lineup results table stays a table but scrolls sideways, readable */
+            .opt-results-table { min-width: 620px; }
+            .opt-results-head { flex-wrap: wrap; }
+        }
     </style>
 </head>
 <body>

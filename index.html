@@ -2587,10 +2587,15 @@
         .flu-svg { display: block; width: 100%; overflow: visible; }
         .flu-placeholder { border: 1px dashed var(--glass-border); padding: 34px; text-align: center; font-family: 'Chakra Petch', monospace; font-size: 0.8rem; color: var(--text-secondary); }
         .flu-smalls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
-        .flu-sm { border: 1px solid var(--glass-border); padding: 12px; }
+        .flu-sm { border: 1px solid var(--glass-border); padding: 12px; cursor: pointer; transition: border-color 0.12s; }
+        .flu-sm:hover { border-color: var(--accent); }
+        .flu-sm.active { border-color: var(--accent); outline: 2px solid rgba(var(--a-rgb), 0.4); outline-offset: -2px; }
         .flu-sm .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
         .flu-sm .big { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.75rem; line-height: 1; }
         .flu-sm .big small { font-size: 0.7rem; font-style: normal; font-weight: 400; }
+        .flu-sub { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); margin-top: 6px; }
+        .flu-revert { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 0.5px; text-transform: uppercase; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--accent-lo); padding: 5px 10px; cursor: pointer; }
+        .flu-revert:hover { border-color: var(--accent); }
         .flu-fmc { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 20px; border: 1px solid var(--glass-border); }
         .flu-fmc > div { padding: 14px; text-align: center; border-right: 1px solid var(--glass-border); }
         .flu-fmc > div:last-child { border-right: none; }
@@ -5745,34 +5750,47 @@
                 return ROWS.filter(r => (r.fighter || '').toLowerCase() === key && num(r.fight_time_seconds) > 0)
                     .sort((a, b) => (a.event_date || '').localeCompare(b.event_date || ''));
             }
-            // Rolling average of pre-bonus DK points per minute over a trailing 15 minutes
-            // of fight time. Built from per-round segments so it is minute-weighted (a fast
-            // KO can't spike it), and plotted against cumulative octagon time.
-            function rolling15(fights) {
+            // Rolling window (trailing 15 min of fight time) of per-round stat sums, built
+            // from per-round segments so every metric is minute-weighted (a fast KO can't
+            // spike it) and plotted against cumulative octagon time.
+            function rollingSeries(fights) {
                 const segs = [];
                 for (const r of fights) {
                     const R = Math.round(num(r.round)) || 1, T = num(r.fight_time_seconds);
-                    for (let i = 1; i <= R; i++) { const dur = i < R ? 300 : Math.max(1, T - 300 * (R - 1)); segs.push([dur, roundBase(r, i)]); }
+                    for (let i = 1; i <= R; i++) {
+                        const dur = i < R ? 300 : Math.max(1, T - 300 * (R - 1));
+                        segs.push({ dur, base: roundBase(r, i), sig: num(r['r' + i + '_sig_str_landed']), td: num(r['r' + i + '_td_landed']), kd: num(r['r' + i + '_kd']), ctrl: num(r['r' + i + '_ctrl_sec']) });
+                    }
                 }
                 const out = []; let cum = 0;
                 for (let j = 0; j < segs.length; j++) {
-                    cum += segs[j][0]; let wsec = 0, wpts = 0, k = j;
-                    while (k >= 0 && wsec < 900) { const take = Math.min(segs[k][0], 900 - wsec); wpts += segs[k][1] * (take / segs[k][0]); wsec += take; k--; }
-                    out.push([cum / 60, wpts / (wsec / 60)]);
+                    cum += segs[j].dur; let sec = 0, base = 0, sig = 0, td = 0, kd = 0, ctrl = 0, k = j;
+                    while (k >= 0 && sec < 900) { const s = segs[k], take = Math.min(s.dur, 900 - sec), f = take / s.dur; sec += take; base += s.base * f; sig += s.sig * f; td += s.td * f; kd += s.kd * f; ctrl += s.ctrl * f; k--; }
+                    out.push({ x: cum / 60, sec, base, sig, td, kd, ctrl });
                 }
                 return out;
             }
+            // Each chartable metric: title, unit, and how to turn a rolling window into a value.
+            const METRICS = {
+                fantasy: { t: 'Fantasy points per minute', u: 'pre-bonus &middot; rolling 15-min avg', f: w => w.base / (w.sec / 60) },
+                sig: { t: 'Significant strikes per minute', u: 'rolling 15-min avg', f: w => w.sig / (w.sec / 60) },
+                td: { t: 'Takedowns per 5 min', u: 'landed &middot; rolling 15-min avg', f: w => w.td / (w.sec / 60) * 5 },
+                kd: { t: 'Knockdown rate', u: 'per 100 sig strikes &middot; rolling 15-min avg', f: w => w.sig ? w.kd / w.sig * 100 : 0 },
+                ctrl: { t: 'Control %', u: 'rolling 15-min avg', f: w => w.sec ? w.ctrl / w.sec * 100 : 0 },
+            };
+            function niceMax(v) { v = Math.max(v, 0.001); const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (m * p >= v * 1.02) return m * p; return 10 * p; }
             function svgRolling(series) {
-                const W = 960, H = 240, pl = 38, pr = 14, pt = 16, pb = 26;
+                const W = 960, H = 240, pl = 42, pr = 14, pt = 16, pb = 26;
                 const xMax = series[series.length - 1][0] || 1;
-                const yMax = Math.max(4, Math.ceil(Math.max(...series.map(p => p[1])) / 2) * 2);
+                const yMax = niceMax(Math.max(...series.map(p => p[1]), 0));
+                const dec = yMax <= 8 ? 1 : 0;
                 const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
                 const med = median(series.map(p => p[1]));
                 let g = '';
-                for (let v = 0; v <= yMax; v += Math.max(2, Math.round(yMax / 3))) { const y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="10" fill="#8a8177">${v}</text>`; }
+                for (let i = 0; i <= 3; i++) { const v = yMax * i / 3, y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="10" fill="#8a8177">${v.toFixed(dec)}</text>`; }
                 const xstep = xMax > 360 ? 120 : xMax > 120 ? 60 : 30;
                 for (let v = xstep; v < xMax; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">${v}m</text>`;
-                const my = Y(med); g += `<line x1="${pl}" y1="${my.toFixed(1)}" x2="${W - pr}" y2="${my.toFixed(1)}" stroke="#b9b2a8" stroke-dasharray="5 4"/><text x="${W - pr}" y="${(my - 5).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">median ${med.toFixed(1)}</text>`;
+                const my = Y(med); g += `<line x1="${pl}" y1="${my.toFixed(1)}" x2="${W - pr}" y2="${my.toFixed(1)}" stroke="#b9b2a8" stroke-dasharray="5 4"/><text x="${W - pr}" y="${(my - 5).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">median ${med.toFixed(dec)}</text>`;
                 let d = 'M ' + X(series[0][0]).toFixed(1) + ' ' + Y(series[0][1]).toFixed(1);
                 for (let i = 1; i < series.length; i++) d += ' L ' + X(series[i][0]).toFixed(1) + ' ' + Y(series[i][1]).toFixed(1);
                 g += `<path d="${d} L ${X(xMax).toFixed(1)} ${H - pb} L ${X(series[0][0]).toFixed(1)} ${H - pb} Z" fill="rgba(255,106,18,.08)"/>`;
@@ -5780,13 +5798,19 @@
                 g += `<circle cx="${X(xMax).toFixed(1)}" cy="${Y(series[series.length - 1][1]).toFixed(1)}" r="4" fill="#e2470a"/>`;
                 return `<svg class="flu-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}</svg>`;
             }
-            function svgSpark(a) {
-                if (a.length < 2) return '';
-                const W = 120, H = 30, mx = Math.max(...a) || 1;
-                const X = i => i * W / (a.length - 1), Y = v => 4 + (1 - v / mx) * (H - 8);
-                let d = 'M ' + X(0).toFixed(1) + ' ' + Y(a[0]).toFixed(1);
-                for (let i = 1; i < a.length; i++) d += ' L ' + X(i).toFixed(1) + ' ' + Y(a[i]).toFixed(1);
-                return `<svg class="flu-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="margin-top:8px"><path d="${d}" fill="none" stroke="#ff6a12" stroke-width="1.8"/><circle cx="${X(a.length - 1).toFixed(1)}" cy="${Y(a[a.length - 1]).toFixed(1)}" r="2.4" fill="#e2470a"/></svg>`;
+            let fluState = null;
+            // Draw the cumulative chart for a chosen metric (a tile) or 'fantasy' (default).
+            function drawChart(metric) {
+                if (!fluState) return;
+                const cfg = METRICS[metric] || METRICS.fantasy;
+                document.getElementById('fluChartTitle').textContent = cfg.t;
+                document.getElementById('fluChartUnit').innerHTML = cfg.u;
+                const chart = document.getElementById('fluChart'), axl = document.getElementById('fluAxl');
+                if (fluState.enoughTrend) { chart.innerHTML = svgRolling(fluState.roll.map(w => [w.x, cfg.f(w)])); axl.style.display = ''; }
+                else { chart.innerHTML = `<div class="flu-placeholder">Needs 3+ fights to chart a career trend.</div>`; axl.style.display = 'none'; }
+                document.querySelectorAll('#fluBody .flu-sm').forEach(t => t.classList.toggle('active', t.dataset.metric === metric));
+                document.getElementById('fluRevert').style.display = metric === 'fantasy' ? 'none' : '';
+                fluState.metric = metric;
             }
             function renderFighter(name) {
                 fluCurrent = name;
@@ -5795,17 +5819,18 @@
                 body.style.display = '';
                 const fights = fighterFights(name);
                 const n = fights.length;
-                if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; return; }
+                if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; fluState = null; return; }
                 const totSec = fights.reduce((s, r) => s + num(r.fight_time_seconds), 0);
                 const hrs = Math.floor(totSec / 3600), mm = Math.round((totSec % 3600) / 60);
-                const dkmin = fights.map(r => baseOf(r) / (num(r.fight_time_seconds) / 60));
                 const sigmin = fights.map(r => num(r.sig_str_landed) / (num(r.fight_time_seconds) / 60));
-                const td15 = fights.map(r => num(r.td_landed) / (num(r.fight_time_seconds) / 60) * 15);
-                const kd15 = fights.map(r => num(r.kd) / (num(r.fight_time_seconds) / 60) * 15);
+                const td5 = fights.map(r => num(r.td_landed) * 300 / num(r.fight_time_seconds));
+                const td5att = fights.map(r => num(r.td_attempted) * 300 / num(r.fight_time_seconds));
                 const ctrlp = fights.map(r => { const T = num(r.fight_time_seconds); return T ? num(r.ctrl_sec) / T * 100 : 0; });
-                let H = 0, B = 0, L = 0, D = 0, C = 0, G = 0, SA = 0, SS = 0;
-                for (const r of fights) { H += num(r.ss_head_landed); B += num(r.ss_body_landed); L += num(r.ss_leg_landed); D += num(r.ss_distance_landed); C += num(r.ss_clinch_landed); G += num(r.ss_ground_landed); SA += num(r.sig_str_attempted); SS += num(r.sig_str_landed); }
+                let H = 0, B = 0, L = 0, D = 0, C = 0, G = 0, SA = 0, SS = 0, KDsum = 0;
+                for (const r of fights) { H += num(r.ss_head_landed); B += num(r.ss_body_landed); L += num(r.ss_leg_landed); D += num(r.ss_distance_landed); C += num(r.ss_clinch_landed); G += num(r.ss_ground_landed); SA += num(r.sig_str_attempted); SS += num(r.sig_str_landed); KDsum += num(r.kd); }
                 const tgt = H + B + L || 1, pos = D + C + G || 1, acc = SA ? Math.round(100 * SS / SA) : 0, avgMin = totSec / n / 60;
+                const kdRate = SS ? KDsum / SS * 100 : 0;
+                const kdFmt = kdRate >= 1 ? kdRate.toFixed(1) : kdRate.toFixed(2);
                 const rc = []; for (let i = 1; i <= 5; i++) { const reached = fights.filter(r => Math.round(num(r.round)) >= i); rc.push(reached.length ? mean(reached.map(r => roundBase(r, i))) : null); }
                 const wins = fights.filter(r => r.result === 'W').length, losses = fights.filter(r => r.result === 'L').length;
                 const enoughTrend = n >= 3;
@@ -5814,19 +5839,17 @@
                 let html = '';
                 html += `<div class="flu-head"><span class="nm">${esc(name)}</span><span class="meta">${n} UFC fight${n === 1 ? '' : 's'} · ${wins}W&ndash;${losses}L · ${timeStr} cage time<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
                 if (n < 6) html += `<div class="flu-note">Limited sample (${n} fight${n === 1 ? '' : 's'}) — per-minute trends may be noisy.</div>`;
-                // rolling chart
-                html += `<div class="flu-chart-h"><div class="t">Fantasy points per minute</div><div class="u">pre-bonus · rolling 15-min average</div></div>`;
-                if (enoughTrend) { html += svgRolling(rolling15(fights)); html += `<div class="flu-axl">cumulative octagon minutes &rarr;</div>`; }
-                else html += `<div class="flu-placeholder">Needs 3+ fights to chart a career trend.</div>`;
-                // rate tiles
+                // rolling chart (metric-switchable via the tiles below)
+                html += `<div class="flu-chart-h"><div class="t" id="fluChartTitle">Fantasy points per minute</div>`;
+                html += `<div style="display:flex;align-items:center;gap:12px;margin-left:auto"><button id="fluRevert" class="flu-revert" style="display:none">&#8617; Fantasy pts</button><div class="u" id="fluChartUnit"></div></div></div>`;
+                html += `<div id="fluChart"></div><div class="flu-axl" id="fluAxl">cumulative octagon minutes &rarr;</div>`;
+                // rate tiles — click one to chart it above
                 html += `<div class="flu-smalls">`;
-                html += `<div class="flu-sm"><div class="lbl">Sig strikes / min</div><div class="big">${median(sigmin).toFixed(1)}</div>${svgSpark(sigmin)}</div>`;
-                html += `<div class="flu-sm"><div class="lbl">Takedowns / 15 min</div><div class="big">${median(td15).toFixed(1)}</div></div>`;
-                html += `<div class="flu-sm"><div class="lbl">Knockdowns / 15 min</div><div class="big">${mean(kd15).toFixed(1)}</div></div>`;
-                html += `<div class="flu-sm"><div class="lbl">Control %</div><div class="big">${median(ctrlp).toFixed(0)}<small>%</small></div></div>`;
+                html += `<div class="flu-sm" data-metric="sig"><div class="lbl">Sig strikes / min</div><div class="big">${median(sigmin).toFixed(1)}</div></div>`;
+                html += `<div class="flu-sm" data-metric="td"><div class="lbl">Takedowns / 5 min</div><div class="big">${median(td5).toFixed(1)}</div><div class="flu-sub">${median(td5att).toFixed(1)} attempted / 5 min</div></div>`;
+                html += `<div class="flu-sm" data-metric="kd"><div class="lbl">Knockdown rate</div><div class="big">${kdFmt}<small>%</small></div><div class="flu-sub">per 100 sig strikes</div></div>`;
+                html += `<div class="flu-sm" data-metric="ctrl"><div class="lbl">Control %</div><div class="big">${median(ctrlp).toFixed(0)}<small>%</small></div></div>`;
                 html += `</div>`;
-                // floor/median/ceiling
-                if (enoughTrend) html += `<div class="flu-fmc"><div class="floor"><div class="lbl">Floor · 15th pct</div><div class="v">${pctile(dkmin, 0.15).toFixed(1)}</div></div><div class="med"><div class="lbl">Median</div><div class="v">${median(dkmin).toFixed(1)}</div></div><div class="ceil"><div class="lbl">Ceiling · 85th pct</div><div class="v">${pctile(dkmin, 0.85).toFixed(1)}</div></div></div>`;
                 // style fingerprint
                 html += `<div class="flu-sec-t">Style fingerprint</div><div class="flu-dna">`;
                 html += `<div><h5>Strike targeting</h5>`;
@@ -5847,8 +5870,16 @@
                     : `<div class="col"><span class="vv">${v.toFixed(1)}</span><span class="bar" style="height:${(v / mx * 100).toFixed(1)}%"></span><span class="rn">R${i + 1}</span></div>`).join('') + `</div>`;
                 html += `<div class="flu-rc-fn">avg pre-bonus DK per round · N/A = never reached that round</div>`;
                 body.innerHTML = html;
+                fluState = { roll: rollingSeries(fights), enoughTrend };
+                drawChart('fantasy');
             }
             function wireLookup() {
+                // Click a rate tile to chart that metric above; revert button returns to fantasy.
+                document.getElementById('fluBody').addEventListener('click', e => {
+                    if (e.target.closest('#fluRevert')) { drawChart('fantasy'); return; }
+                    const tile = e.target.closest('.flu-sm[data-metric]');
+                    if (tile) drawChart(tile.dataset.metric);
+                });
                 const inp = document.getElementById('fluInput'), sug = document.getElementById('fluSuggest');
                 let idx = -1, matches = [];
                 const close = () => { sug.classList.remove('show'); sug.innerHTML = ''; idx = -1; };

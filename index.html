@@ -5570,6 +5570,16 @@
             const THRESHOLDS = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180];
             const CONCL_ORDER = ['R1 finish', 'R2 finish', 'R3 finish', 'R4 finish', 'R5 finish', 'Decision (3 rnd)', 'Decision (5 rnd)'];
             let insightSubset = 'all';   // 'all' or 'R1 finish|W' etc.
+            // The UFC only started tracking control time on 1999-07-16 (UFC 21). Fights
+            // before that have no control data, so their DK totals are understated — the
+            // scoring ladder and tiles exclude them. (event_date is ISO, so >= compares.)
+            const CTRL_SINCE = '1999-07-16';
+            const CTRL_SINCE_LABEL = 'July 16, 1999';
+            let INSIGHT_ROWS = null;
+            function insightRows() {
+                if (!INSIGHT_ROWS) INSIGHT_ROWS = ROWS.filter(r => (r.event_date || '') >= CTRL_SINCE);
+                return INSIGHT_ROWS;
+            }
 
             function schedRounds(r) { const m = (r.time_format || '').match(/^\s*(\d+)/); return m ? parseInt(m[1], 10) : Math.round(num(r.round)); }
             function catOf(r) {
@@ -5596,9 +5606,9 @@
                 return `<tr>${cells}</tr>`;
             }
             function subsetRows(key) {
-                if (key === 'all') return ROWS;
+                if (key === 'all') return insightRows();
                 const [c, res] = key.split('|');
-                return ROWS.filter(r => r.result === res && catOf(r) === c);
+                return insightRows().filter(r => r.result === res && catOf(r) === c);
             }
             function subsetLabel(key) {
                 if (key === 'all') return 'All performances';
@@ -5618,20 +5628,20 @@
                 const sel = subsetRows(insightSubset);
                 const head = `<th class="l">Scope</th><th>Fights</th>` + THRESHOLDS.map(t => `<th>${t}+</th>`).join('') + `<th>Avg DK</th>`;
                 let rows = threshRow(subsetLabel(insightSubset), computeThresh(sel), true);
-                if (insightSubset !== 'all') rows += threshRow('League (all fighters)', computeThresh(ROWS), true);
+                if (insightSubset !== 'all') rows += threshRow('League (all fighters)', computeThresh(insightRows()), true);
                 document.getElementById('sdbInsightThresh').innerHTML =
                     `<div class="sdb-ladder-title">Scoring ladder — ${esc(subsetLabel(insightSubset))}</div>` +
-                    `<div class="sdb-ladder-sub">Each cell: % of these fights scoring at that DK total or higher, with the raw count beneath.</div>` +
+                    `<div class="sdb-ladder-sub">Each cell: % of these fights scoring at that DK total or higher, with the raw count beneath. <strong>Scores since ${CTRL_SINCE_LABEL}</strong> — the UFC began tracking control time then, so earlier fights are excluded to keep DK totals accurate.</div>` +
                     `<div class="sdb-ladder-scroll"><table class="sdb-ladder"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
                 // conclusion tiles (also the ladder filters)
                 const g = {}; for (const c of CONCL_ORDER) g[c] = { W: [], L: [] };
-                for (const r of ROWS) {
+                for (const r of insightRows()) {
                     if (r.result !== 'W' && r.result !== 'L') continue;
                     const c = catOf(r); if (g[c]) g[c][r.result].push(dkPoints(r).total);
                 }
                 const avg = a => a.length ? (a.reduce((x, y) => x + y, 0) / a.length).toFixed(1) : '—';
                 document.getElementById('sdbInsightAll').innerHTML =
-                    tileHTML('all', 'all', 'All performances', avg(ROWS.map(r => dkPoints(r).total)), ROWS.length);
+                    tileHTML('all', 'all', 'All performances', avg(insightRows().map(r => dkPoints(r).total)), insightRows().length);
                 // Wins fill the first row, losses the second (7-column grid).
                 let tiles = '';
                 for (const res of ['W', 'L']) {

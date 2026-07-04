@@ -5777,15 +5777,19 @@
             }
             // Each chartable metric: mode (rolling window vs running career total), labels, and
             // how to turn a window/total into the plotted value.
+            // x is the value plotted on the horizontal axis: rolling metrics run on octagon
+            // time; the cumulative rates run on their own denominator so they settle left→right
+            // as that denominator grows (TD success vs attempts, KD rate vs sig strikes).
             const METRICS = {
-                fantasy: { mode: 'rolling', t: 'Fantasy points per minute', u: 'pre-bonus &middot; rolling 15-min avg', f: w => w.base / (w.sec / 60) },
-                sig: { mode: 'rolling', t: 'Significant strikes per minute', u: 'rolling 15-min avg', f: w => w.sig / (w.sec / 60) },
-                td: { mode: 'cumulative', t: 'Takedown success rate', u: 'cumulative &middot; landed / attempted', f: c => c.tda ? c.tdl / c.tda * 100 : 0 },
-                kd: { mode: 'cumulative', t: 'Knockdown rate', u: 'cumulative &middot; per 100 sig strikes', f: c => c.sig ? c.kd / c.sig * 100 : 0 },
-                ctrl: { mode: 'rolling', t: 'Control %', u: 'rolling 15-min avg', f: w => w.sec ? w.ctrl / w.sec * 100 : 0 },
+                fantasy: { mode: 'rolling', t: 'Fantasy points per minute', u: 'pre-bonus &middot; rolling 15-min avg', f: w => w.base / (w.sec / 60), x: w => w.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
+                sig: { mode: 'rolling', t: 'Significant strikes per minute', u: 'rolling 15-min avg', f: w => w.sig / (w.sec / 60), x: w => w.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
+                td: { mode: 'cumulative', t: 'Takedown success rate', u: 'cumulative &middot; landed / attempted', f: c => c.tda ? c.tdl / c.tda * 100 : 0, x: c => c.tda, xlab: 'cumulative takedown attempts', xsuf: '' },
+                kd: { mode: 'cumulative', t: 'Knockdown rate', u: 'cumulative &middot; per 100 sig strikes', f: c => c.sig ? c.kd / c.sig * 100 : 0, x: c => c.sig, xlab: 'cumulative significant strikes', xsuf: '' },
+                ctrl: { mode: 'rolling', t: 'Control %', u: 'rolling 15-min avg', f: w => w.sec ? w.ctrl / w.sec * 100 : 0, x: w => w.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
             };
             function niceMax(v) { v = Math.max(v, 0.001); const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (m * p >= v) return m * p; return 10 * p; }
-            function svgRolling(series, showMedian) {
+            function niceStep(max, n) { if (max <= 0) return 1; const raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p; }
+            function svgRolling(series, showMedian, xsuf) {
                 const W = 960, H = 240, pl = 42, pr = 14, pt = 16, pb = 26;
                 const xMax = series[series.length - 1][0] || 1;
                 const yMax = niceMax(Math.max(...series.map(p => p[1]), 0));
@@ -5793,8 +5797,8 @@
                 const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
                 let g = '';
                 for (let i = 0; i <= 3; i++) { const v = yMax * i / 3, y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="10" fill="#8a8177">${v.toFixed(dec)}</text>`; }
-                const xstep = xMax > 360 ? 120 : xMax > 120 ? 60 : 30;
-                for (let v = xstep; v < xMax; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">${v}m</text>`;
+                const xstep = niceStep(xMax, 4);
+                for (let v = xstep; v < xMax * 0.98; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">${v}${xsuf || ''}</text>`;
                 if (showMedian !== false) { const med = median(series.map(p => p[1])), my = Y(med); g += `<line x1="${pl}" y1="${my.toFixed(1)}" x2="${W - pr}" y2="${my.toFixed(1)}" stroke="#b9b2a8" stroke-dasharray="5 4"/><text x="${W - pr}" y="${(my - 5).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">median ${med.toFixed(dec)}</text>`; }
                 let d = 'M ' + X(series[0][0]).toFixed(1) + ' ' + Y(series[0][1]).toFixed(1);
                 for (let i = 1; i < series.length; i++) d += ' L ' + X(series[i][0]).toFixed(1) + ' ' + Y(series[i][1]).toFixed(1);
@@ -5811,12 +5815,14 @@
                 document.getElementById('fluChartTitle').textContent = cfg.t;
                 document.getElementById('fluChartUnit').innerHTML = cfg.u;
                 const chart = document.getElementById('fluChart'), axl = document.getElementById('fluAxl');
-                if (fluState.enoughTrend) {
+                if (!fluState.enoughTrend) { chart.innerHTML = `<div class="flu-placeholder">Needs 3+ fights to chart a career trend.</div>`; axl.style.display = 'none'; }
+                else {
                     const src = cfg.mode === 'cumulative' ? fluState.series.cumulative : fluState.series.rolling;
-                    chart.innerHTML = svgRolling(src.map(w => [w.x, cfg.f(w)]), cfg.mode !== 'cumulative');
-                    axl.style.display = '';
+                    const series = src.map(w => [cfg.x(w), cfg.f(w)]);
+                    const xMax = series.length ? series[series.length - 1][0] : 0;
+                    if (xMax <= 0) { chart.innerHTML = `<div class="flu-placeholder">No ${metric === 'td' ? 'takedown attempts' : 'data'} on record to chart.</div>`; axl.style.display = 'none'; }
+                    else { chart.innerHTML = svgRolling(series, cfg.mode !== 'cumulative', cfg.xsuf); axl.style.display = ''; axl.innerHTML = cfg.xlab + ' &rarr;'; }
                 }
-                else { chart.innerHTML = `<div class="flu-placeholder">Needs 3+ fights to chart a career trend.</div>`; axl.style.display = 'none'; }
                 document.querySelectorAll('#fluBody .flu-sm').forEach(t => t.classList.toggle('active', t.dataset.metric === metric));
                 document.getElementById('fluRevert').style.display = metric === 'fantasy' ? 'none' : '';
                 fluState.metric = metric;

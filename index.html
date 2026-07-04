@@ -6039,10 +6039,6 @@
                     renderCompare();
                 }
                 document.getElementById('cmpLoading').style.display = 'none';
-                if (cmpPinned.size === 0 && cmpFighters.length) {
-                    const mh = cmpFighters.findIndex(f => f.name === 'Max Holloway');
-                    cmpSelect(mh >= 0 ? mh : 0);
-                }
             }
 
             function showLandingView(view) {

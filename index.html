@@ -66,8 +66,8 @@
             --bg-hover: #f4efe8;
             --border: rgba(13, 12, 11, 0.12);
             --border-accent: rgba(255, 106, 18, 0.55);
-            --text-primary: #16130f;         /* dark — reads on white cards */
-            --text-secondary: #6f6a63;
+            --text-primary: #000000;         /* true black on white cards */
+            --text-secondary: #000000;       /* true black — no muted grey on white/orange */
             --text-on-dark: #f4f2ee;         /* light — for text on the dark page */
             --text-on-dark-mute: #a49c8f;
             --accent: #ff6a12;
@@ -2153,7 +2153,7 @@
         #lineup-table thead th,
         #portfolio-table thead th,
         .whatif-table-scroll thead th {
-            color: #100f0d;
+            color: #000000;
             font-weight: 700;
             border-bottom: 2px solid rgba(0, 0, 0, 0.20);
         }
@@ -2192,7 +2192,7 @@
         .tab-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
         .tab-btn.active {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
-            color: #100f0d;
+            color: #000000;
             font-weight: 700;
             border-color: transparent;
             box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);
@@ -2242,7 +2242,7 @@
         }
         #visitor-gate .vg-card {
             background: #ffffff;
-            color: #16130f;
+            color: #000000;
             width: 100%;
             max-width: 450px;
             clip-path: var(--chamfer);
@@ -2288,7 +2288,7 @@
             font-family: inherit;
             border: 1px solid var(--glass-border);
             background: #faf6f0;
-            color: #16130f;
+            color: #000000;
             outline: none;
             margin-bottom: 14px;
         }
@@ -2302,7 +2302,7 @@
             font-size: 1.1rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #100f0d;
+            color: #000000;
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
             border: none;
             cursor: pointer;
@@ -2336,7 +2336,7 @@
         .lnav-tab:hover { color: var(--text-primary); }
         .lnav-tab.active {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
-            color: #100f0d; border-color: transparent;
+            color: #000000; border-color: transparent;
             box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);
         }
 
@@ -2386,7 +2386,7 @@
         .sdb-table thead { position: sticky; top: 0; z-index: 1; }
         .sdb-table thead th {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
-            color: #100f0d; font-weight: 700;
+            color: #000000; font-weight: 700;
             font-family: 'Chakra Petch', monospace;
             font-size: 0.6rem; letter-spacing: 0.5px; text-transform: uppercase;
             padding: 9px 5px; text-align: center; white-space: nowrap;
@@ -2446,7 +2446,7 @@
         .sdb-ladder { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
         .sdb-ladder th {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
-            color: #100f0d; font-weight: 700; font-family: 'Chakra Petch', monospace;
+            color: #000000; font-weight: 700; font-family: 'Chakra Petch', monospace;
             font-size: 0.62rem; letter-spacing: 0.5px; text-transform: uppercase;
             padding: 8px 6px; text-align: center; white-space: nowrap;
             border-bottom: 2px solid rgba(0, 0, 0, 0.2);
@@ -2488,7 +2488,7 @@
         .opt-btn:hover { border-color: var(--accent); }
         .opt-btn-primary {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
-            color: #100f0d; font-weight: 700; border-color: transparent;
+            color: #000000; font-weight: 700; border-color: transparent;
         }
         .opt-btn-primary:hover { filter: brightness(1.06); }
         .opt-upload { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 22px; border: 1px dashed var(--glass-border); background: #faf6f0; }
@@ -2627,20 +2627,14 @@
         <div id="optimizer-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Lineup Optimizer</div>
-                <p class="opt-intro">Upload the DraftKings salary file for this slate, enter your own projected points and projected ownership for each fighter, then build the top 500 lineups. Type directly in the grid, or download the template, fill it in a spreadsheet, and re-upload.</p>
+                <p class="opt-intro">This week's DraftKings slate loads automatically. Enter your own projected points and projected ownership for each fighter — type directly in the grid, or download the template, fill it in a spreadsheet, and re-upload — then build the top 500 lineups.</p>
 
-                <div class="opt-upload" id="optUpload">
-                    <label class="opt-btn opt-btn-primary">
-                        <input type="file" id="optSalaryFile" accept=".csv" hidden> Upload DraftKings salary CSV
-                    </label>
-                    <span class="opt-upload-hint">The standard DKSalaries.csv you download from the contest lobby.</span>
-                    <div class="opt-err" id="optErr"></div>
-                </div>
+                <div id="optLoading" class="sdb-loading">Loading this week's slate…</div>
 
                 <div id="optWorkspace" style="display:none;">
                     <div class="opt-toolbar">
+                        <button class="opt-btn opt-btn-primary" id="optTemplateBtn">Download projection template</button>
                         <label class="opt-btn"><input type="file" id="optProjFile" accept=".csv" hidden> Upload filled projections</label>
-                        <button class="opt-btn" id="optTemplateBtn">Download projection template</button>
                         <div class="opt-cap">
                             <label>Max total ownership %</label>
                             <input type="number" id="optOwnCap" placeholder="no cap" min="0" step="1">
@@ -2648,6 +2642,7 @@
                         <label class="opt-toggle"><input type="checkbox" id="optStack"> Allow fight stacking</label>
                         <button class="opt-btn opt-btn-primary" id="optRunBtn">Build top 500 lineups</button>
                     </div>
+                    <div class="opt-err" id="optErr"></div>
                     <div class="opt-note" id="optSalaryNote"></div>
 
                     <div class="sdb-scroll opt-grid-scroll">
@@ -5481,20 +5476,22 @@
                 // Log fighter-name searches in the database to the sheet (debounced, deduped).
                 document.getElementById('sdbName').addEventListener('input', (e) => logSearchQuery(e.target.value, false, 'db_searched'));
                 document.getElementById('sdbQuick').addEventListener('change', renderBoard);
-                // Event delegation (attached once) — clicking a header sorts, clicking a
-                // fighter cell filters to that fighter. Delegation avoids the re-attachment
-                // race that made the fighter name need two clicks.
-                document.getElementById('sdbHead').addEventListener('click', (e) => {
+                // Event delegation (attached once) — a header sorts, a row filters to that
+                // fighter. We listen on MOUSEDOWN, not click: if the search box is focused,
+                // a click first blurs it (firing change -> renderBoard, which rebuilds the
+                // rows) so the click would land on a detached node and do nothing. mousedown
+                // fires before that blur/re-render, so one press always works.
+                document.getElementById('sdbHead').addEventListener('mousedown', (e) => {
                     const th = e.target.closest('th.sortable'); if (!th) return;
                     const k = th.dataset.key;
                     if (k === sortKey) sortDir = -sortDir;
                     else { sortKey = k; sortDir = (k === 'fighter' || k === 'opponent' || k === 'method' || k === 'date' || k === 'result') ? 1 : -1; }
                     renderBoard();
                 });
-                // Whole row is the click target (a big, forgiving hit area) so filtering
-                // to a fighter always takes a single click.
-                document.getElementById('sdbBody').addEventListener('click', (e) => {
+                // Whole row is the target (a big, forgiving hit area).
+                document.getElementById('sdbBody').addEventListener('mousedown', (e) => {
                     const tr = e.target.closest('tr'); if (!tr || !tr.dataset.fighter) return;
+                    e.preventDefault();   // don't start a text selection / focus shuffle
                     document.getElementById('sdbName').value = tr.dataset.fighter;
                     renderBoard();
                 });
@@ -5628,7 +5625,7 @@
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (view === 'scoringdb') { logTabOpen('opened_database'); openBoard(); }
                 if (view === 'insights') { logTabOpen('opened_insights'); openInsights(); }
-                if (view === 'optimizer') { logTabOpen('opened_optimizer'); }
+                if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
         })();
@@ -5898,30 +5895,35 @@
                 downloadCSV('mmalivesim_top_lineups.csv', out);
             }
 
+            // The DraftKings salary file is committed to the repo (owner refreshes it each
+            // week as DKSalaries.csv); fetch it once on first tab open.
+            let salaryPromise = null;
+            function ensureSalary() {
+                if (salaryPromise) return salaryPromise;
+                salaryPromise = (async () => {
+                    const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                    if (!resp.ok) throw new Error('slate not posted');
+                    FIGHTERS = loadSalaryCSV(await resp.text());
+                    renderGrid();
+                    const fightCount = new Set(FIGHTERS.map(f => f.gameInfo)).size;
+                    document.getElementById('optSalaryNote').textContent =
+                        `${FIGHTERS.length} fighters across ${fightCount} fights. Enter your projections & ownership, then build.`;
+                })();
+                return salaryPromise;
+            }
+            async function openOptimizer() {
+                try { await ensureSalary(); }
+                catch (e) {
+                    document.getElementById('optLoading').textContent = 'This week\'s slate hasn\'t been posted yet — check back soon.';
+                    return;
+                }
+                document.getElementById('optLoading').style.display = 'none';
+                document.getElementById('optWorkspace').style.display = '';
+            }
+
             function initOptimizer() {
-                const salaryInput = document.getElementById('optSalaryFile');
-                if (!salaryInput) return;
+                if (!document.getElementById('optWorkspace')) return;
                 wireGrid();
-                salaryInput.addEventListener('change', e => {
-                    const file = e.target.files[0]; if (!file) return;
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        try {
-                            FIGHTERS = loadSalaryCSV(reader.result);
-                            document.getElementById('optErr').textContent = '';
-                            renderGrid();
-                            document.getElementById('optWorkspace').style.display = '';
-                            document.getElementById('optResults').style.display = 'none';
-                            const fightCount = new Set(FIGHTERS.map(f => f.gameInfo)).size;
-                            document.getElementById('optSalaryNote').textContent =
-                                `${FIGHTERS.length} fighters across ${fightCount} fights loaded. Enter your projections & ownership, then build.`;
-                        } catch (err) {
-                            document.getElementById('optErr').textContent = err.message || 'Could not read that file.';
-                        }
-                        salaryInput.value = '';
-                    };
-                    reader.readAsText(file);
-                });
 
                 document.getElementById('optProjFile').addEventListener('change', e => {
                     const file = e.target.files[0]; if (!file) return;
@@ -5962,6 +5964,7 @@
                 document.getElementById('optExportBtn').addEventListener('click', exportResultsCSV);
             }
             initOptimizer();
+            window.__openOptimizer = openOptimizer;
         })();
     </script>
 </body>

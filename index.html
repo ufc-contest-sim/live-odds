@@ -2629,9 +2629,9 @@
         .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; padding: 6px 11px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); transition: border-color 0.1s, background 0.1s; }
         .flc-chip:hover { border-color: var(--accent); background: #fff; }
         .flc-chip.pinned { background: #fff; font-weight: 700; outline: 2px solid rgba(var(--a-rgb), 0.45); outline-offset: -2px; }
-        .fs-divider { height: 1px; background: var(--glass-border); margin: 34px 0 30px; }
-        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 34px; }
-        .cmp-cell { width: 100%; }
+        #lookup-view { display: flex; flex-direction: column; gap: 20px; }
+        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .cmp-cell { background: #ffffff; clip-path: var(--chamfer); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45); padding: 20px 24px 18px; }
         .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; margin: 0 0 6px; }
         .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
         .flc-svg { width: 100%; display: block; overflow: visible; }
@@ -2745,14 +2745,11 @@
                 <div class="sdb-title">Fighter Stats</div>
                 <p class="cmp-intro">Tap a fighter from this week's DraftKings slate to break down their profile &mdash; and spotlight them across the slate-wide graphs below.</p>
                 <div id="cmpLoading" class="sdb-loading">Loading slate&hellip;</div>
-                <div id="cmpBody" style="display:none;">
-                    <div id="cmpChips" class="cmp-chips"></div>
-                    <div id="cmpNote" class="cmp-note"></div>
-                    <div id="fluBody"></div>
-                    <div class="fs-divider"></div>
-                    <div id="cmpGrid" class="cmp-grid"></div>
-                </div>
+                <div id="cmpChips" class="cmp-chips"></div>
+                <div id="cmpNote" class="cmp-note"></div>
             </div>
+            <div class="sdb-card" id="fluCard" style="display:none;"><div id="fluBody"></div></div>
+            <div id="cmpGrid" class="cmp-grid"></div>
         </div>
 
         <div id="optimizer-view" style="display:none;">
@@ -5793,8 +5790,8 @@
                     while (k >= 0 && sec < 900) { const s = segs[k], take = Math.min(s.dur, 900 - sec), f = take / s.dur; sec += take; base += s.base * f; sig += s.sig * f; td += s.td * f; kd += s.kd * f; ctrl += s.ctrl * f; k--; }
                     rolling.push({ x: cum / 60, sec, base, sig, td, kd, ctrl });
                 }
-                const cumulative = []; let cx = 0, csig = 0, ckd = 0, ctdl = 0, ctda = 0, cctrl = 0;
-                for (const s of segs) { cx += s.dur; csig += s.sig; ckd += s.kd; ctdl += s.td; ctda += s.tda; cctrl += s.ctrl; cumulative.push({ x: cx / 60, sig: csig, kd: ckd, tdl: ctdl, tda: ctda, ctrl: cctrl }); }
+                const cumulative = []; let cx = 0, csig = 0, ckd = 0, ctdl = 0, ctda = 0, cctrl = 0, cbase = 0;
+                for (const s of segs) { cx += s.dur; csig += s.sig; ckd += s.kd; ctdl += s.td; ctda += s.tda; cctrl += s.ctrl; cbase += s.base; cumulative.push({ x: cx / 60, sig: csig, kd: ckd, tdl: ctdl, tda: ctda, ctrl: cctrl, base: cbase }); }
                 return { rolling, cumulative };
             }
             // Each chartable metric: mode (rolling window vs running career total), labels, and
@@ -5852,6 +5849,7 @@
             function renderFighter(name) {
                 fluCurrent = name;
                 const body = document.getElementById('fluBody');
+                document.getElementById('fluCard').style.display = '';
                 const fights = fighterFights(name);
                 const n = fights.length;
                 if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; fluState = null; return; }
@@ -5925,6 +5923,7 @@
             // octagon-minute axes. Slate names come from DKSalaries.csv; histories from ROWS.
             let cmpFighters = null, cmpPinned = new Set();
             const CMP_METRICS = [
+                { key: 'dk', t: 'Cumulative DK Score &mdash; Win Pts Excluded', y: p => p.base },
                 { key: 'sig', t: 'Cumulative significant strikes', y: p => p.sig },
                 { key: 'td', t: 'Cumulative takedowns', y: p => p.tdl },
                 { key: 'ctrl', t: 'Cumulative control (min)', y: p => p.ctrl / 60 },
@@ -5997,7 +5996,6 @@
                     renderCompare();
                 }
                 document.getElementById('cmpLoading').style.display = 'none';
-                document.getElementById('cmpBody').style.display = '';
                 if (cmpPinned.size === 0 && cmpFighters.length) {
                     const mh = cmpFighters.findIndex(f => f.name === 'Max Holloway');
                     cmpSelect(mh >= 0 ? mh : 0);

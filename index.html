@@ -2411,7 +2411,9 @@
         .sdb-table col.c-rd { width: 4%; }
         .sdb-table col.c-date { width: 8%; }
         .sdb-table col.c-num { width: 6.4%; }
+        .sdb-table tbody tr { cursor: pointer; }
         .sdb-table tbody tr:hover { background: #faf6f0; }
+        .sdb-table tbody tr:hover td.fcell { color: var(--accent-lo); text-decoration: underline; }
         .sdb-table td.rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.78rem; }
         .sdb-table td.pts { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); }
         .sdb-table td.dktot { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); font-size: 0.95rem; }
@@ -5344,9 +5346,9 @@
                 }).join('');
                 document.getElementById('sdbBody').innerHTML = rows.map((s, i) => {
                     const r = s.r, p = s.pts;
-                    return `<tr>
+                    return `<tr data-fighter="${esc(r.fighter)}">
                         <td class="rank">${i + 1}</td>
-                        <td class="l fcell" data-fighter="${esc(r.fighter)}">${esc(r.fighter)}</td>
+                        <td class="l fcell">${esc(r.fighter)}</td>
                         <td class="l">${esc(r.opponent)}</td>
                         <td><span class="${resClass(r.result)}">${r.result || ''}</span></td>
                         <td class="l" title="${esc(r.method)}">${esc(shortMethod(r.method))}${p.quick > 0 ? ' ⚡' : ''}</td>
@@ -5384,9 +5386,11 @@
                     else { sortKey = k; sortDir = (k === 'fighter' || k === 'opponent' || k === 'method' || k === 'date' || k === 'result') ? 1 : -1; }
                     renderBoard();
                 });
+                // Whole row is the click target (a big, forgiving hit area) so filtering
+                // to a fighter always takes a single click.
                 document.getElementById('sdbBody').addEventListener('click', (e) => {
-                    const td = e.target.closest('td.fcell'); if (!td) return;
-                    document.getElementById('sdbName').value = td.dataset.fighter;
+                    const tr = e.target.closest('tr'); if (!tr || !tr.dataset.fighter) return;
+                    document.getElementById('sdbName').value = tr.dataset.fighter;
                     renderBoard();
                 });
             }

@@ -2575,85 +2575,62 @@
             .opt-results-head { flex-wrap: wrap; }
         }
 
-        /* Fighter Lookup */
-        .flu-search { position: relative; max-width: 460px; margin-bottom: 18px; }
-        .flu-search input { width: 100%; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary); padding: 11px 14px; font-size: 1.05rem; font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 700; outline: none; }
+        /* Fighter Stats */
+        #lookup-view { display: flex; flex-direction: column; gap: 24px; }
+        .fsx-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 16px; max-width: 900px; }
+        .flu-search { position: relative; max-width: 460px; margin-bottom: 4px; }
+        .flu-search input { width: 100%; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary); padding: 11px 14px; font-size: 1rem; font-family: inherit; font-weight: 600; outline: none; }
         .flu-search input:focus { border-color: var(--accent); }
         .flu-suggest { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--glass-border); max-height: 260px; overflow-y: auto; z-index: 30; display: none; box-shadow: 0 10px 26px rgba(0,0,0,.28); }
         .flu-suggest.show { display: block; }
         .flu-suggest div { padding: 8px 12px; cursor: pointer; font-size: 0.9rem; border-bottom: 1px solid #efe9e0; }
         .flu-suggest div:hover, .flu-suggest div.sel { background: #faf6f0; color: var(--accent-lo); }
-        .flu-head { display: flex; align-items: center; gap: 10px; background: #faf6f0; border: 1px solid var(--glass-border); padding: 11px 14px; margin-bottom: 8px; flex-wrap: wrap; }
-        .flu-head .nm { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.45rem; }
-        .flu-head .meta { margin-left: auto; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); text-align: right; line-height: 1.5; }
-        .flu-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--accent-lo); margin: 0 0 16px; }
-        .flu-chart-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-        .flu-chart-h .t { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.2rem; }
-        .flu-chart-h .u { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
-        .flu-axl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 4px; }
-        .flu-svg { display: block; width: 100%; overflow: visible; }
-        .flu-placeholder { border: 1px dashed var(--glass-border); padding: 34px; text-align: center; font-family: 'Chakra Petch', monospace; font-size: 0.8rem; color: var(--text-secondary); }
-        .flu-smalls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
-        .flu-sm { border: 1px solid var(--glass-border); padding: 12px; cursor: pointer; transition: border-color 0.12s; }
-        .flu-sm:hover { border-color: var(--accent); background: #fbf8f2; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10); }
-        .flu-sm.active { border-color: var(--accent); outline: 2px solid rgba(var(--a-rgb), 0.4); outline-offset: -2px; }
-        .flu-sm .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
-        .flu-sm .big { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.75rem; line-height: 1; }
-        .flu-sm .big small { font-size: 0.7rem; font-style: normal; font-weight: 400; }
-        .flu-sub { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 6px; }
-        .flu-revert { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--accent-lo); padding: 8px 12px; cursor: pointer; }
-        .flu-revert:hover { border-color: var(--accent); }
-        .flu-fmc { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 24px; border: 1px solid var(--glass-border); }
-        .flu-fmc > div { padding: 14px; text-align: center; border-right: 1px solid var(--glass-border); }
-        .flu-fmc > div:last-child { border-right: none; }
-        .flu-fmc .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
-        .flu-fmc .v { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 2rem; }
-        .flu-fmc .floor .v { color: #555; } .flu-fmc .med .v { color: var(--accent-lo); } .flu-fmc .ceil .v { color: var(--accent-green); }
-        .flu-sec-t { font-family: 'Chakra Petch', monospace; font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-lo); margin: 32px 0 16px; }
-        .flu-dna { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .flu-dna h5 { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); margin: 0 0 12px; }
-        .flu-dbar { display: grid; grid-template-columns: 74px 1fr 44px; align-items: center; gap: 8px; margin: 8px 0; font-family: 'Chakra Petch', monospace; font-size: 0.66rem; }
-        .flu-dbar .tr { height: 11px; background: #f1ece4; overflow: hidden; }
-        .flu-dbar .tr i { display: block; height: 100%; background: var(--accent); }
-        .flu-dbar .val { text-align: right; font-weight: 700; }
-        .flu-rounds { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .flu-rc h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.1rem; margin: 0 0 14px; }
-        .flu-rc-bars { display: flex; align-items: flex-end; gap: 12px; height: 150px; }
-        .flu-rc-bars .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; height: 100%; }
-        .flu-rc-bars .bar { width: 100%; background: linear-gradient(180deg, #ff8a2b, #e04d0a); min-height: 2px; }
-        .flu-rc-bars .col.na .bar { background: repeating-linear-gradient(45deg, #f1ece4, #f1ece4 4px, #e9e2d7 4px, #e9e2d7 8px); height: 14px; }
-        .flu-rc-bars .rn { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; color: var(--text-secondary); }
-        .flu-rc-bars .vv { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; font-weight: 700; }
-        .flu-rc-bars .col.na .vv { color: #b3a99c; }
-        .flu-rc-fn { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 12px; }
         .flu-empty { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); padding: 34px 0; text-align: center; }
-        @media (max-width: 760px) { .flu-smalls { grid-template-columns: repeat(2, 1fr); } .flu-dna, .flu-rounds { grid-template-columns: 1fr; } }
-
-        /* Slate Compare */
-        .cmp-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 4px; max-width: 900px; }
-        .cmp-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin: 0 0 4px; }
-        .cmp-chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 4px 0 12px; }
-        .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; padding: 8px 12px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); transition: border-color 0.1s, background 0.1s; }
-        .flc-chip:hover { border-color: var(--accent); background: #fff; }
-        .flc-chip.pinned { background: #fff; outline: 2px solid rgba(var(--a-rgb), 0.45); outline-offset: -2px; }
-        .flc-chip-all { border-left: 3px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.68rem; }
-        #lookup-view { display: flex; flex-direction: column; gap: 24px; }
-        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
-        .cmp-cell { background: var(--bg-card); clip-path: var(--chamfer); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); padding: 24px; }
-        .cmp-cell-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 6px; }
-        .cmp-cell-h h5 { margin: 0; }
-        .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; margin: 0 0 6px; }
-        .cmp-zoom { display: flex; align-items: center; gap: 6px; flex: none; }
-        .cmp-zoom button { font-family: 'Chakra Petch', monospace; width: 32px; height: 32px; line-height: 1; padding: 0; border: 1px solid var(--glass-border); background: #faf6f0; color: var(--text-primary); cursor: pointer; font-size: 1rem; }
-        .cmp-zoom button:hover { border-color: var(--accent); background: #fff; }
-        .cmp-zlvl { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; color: var(--text-secondary); min-width: 36px; text-align: center; }
-        .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
-        .flc-svg { width: 100%; display: block; overflow: visible; }
-        .flc-line { fill: none; stroke-width: 1.5; opacity: 0.72; transition: opacity 0.1s; }
-        .flc-label { font-family: 'Chakra Petch', monospace; font-size: 9px; display: none; }
-        .cmp-grid.flc-dim .flc-line { opacity: 0.34; }
-        .cmp-grid.flc-dim .flc-line.flc-hi { opacity: 1; stroke-width: 3; }
-        .cmp-grid.flc-dim .flc-label.flc-hi { display: block; }
+        .fsx-hero { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; background: #faf6f0; border: 1px solid var(--glass-border); border-left: 4px solid var(--accent); padding: 12px 16px; margin: 16px 0 20px; }
+        .fsx-hero .nm { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.55rem; line-height: 1; }
+        .fsx-hero .rec { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.95rem; color: var(--accent-lo); }
+        .fsx-hero .wc { font-family: 'Chakra Petch', monospace; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .fsx-hero .meta { margin-left: auto; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); text-align: right; line-height: 1.55; }
+        .fsx-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .fsx-tile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); background: #fbf8f2; padding: 12px 14px; }
+        .fsx-tile .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .fsx-tile .big { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.7rem; line-height: 1.1; }
+        .fsx-tile .big small { font-size: 0.72rem; font-style: normal; font-weight: 400; }
+        .fsx-tile .sub { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 4px; }
+        .fsx-secbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 28px 0 12px; }
+        .fsx-secbar .t { font-family: 'Chakra Petch', monospace; font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-lo); }
+        .fsx-toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); user-select: none; }
+        .fsx-toggle input { accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer; }
+        .fsx-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .fsx-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-variant-numeric: tabular-nums; min-width: 1060px; }
+        .fsx-table th { font-family: 'Chakra Petch', monospace; white-space: nowrap; text-align: right; }
+        .fsx-table thead tr.grp th { background: #17161a; color: #cfc9bf; font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; padding: 7px 8px; text-align: left; border-bottom: none; cursor: default; }
+        .fsx-table thead tr.grp th.pts { color: var(--accent-hi); }
+        .fsx-table thead tr.cols th { background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%); color: #000000; font-weight: 700; font-size: 0.64rem; letter-spacing: 0.5px; text-transform: uppercase; padding: 8px 8px; border-bottom: 2px solid rgba(0, 0, 0, 0.2); cursor: default; }
+        .fsx-table th.l, .fsx-table td.l { text-align: left; }
+        .fsx-table td { padding: 8px 8px; text-align: right; white-space: nowrap; border-bottom: 1px solid #efe9e0; }
+        .fsx-table tbody tr.fsx-main td { border-top: 2px solid #e7e0d4; font-weight: 500; }
+        .fsx-table tbody tr.fsx-main td.opp-cell { font-weight: 700; }
+        .fsx-link { cursor: pointer; border-bottom: 1px dotted var(--accent); }
+        .fsx-link:hover { color: var(--accent-lo); }
+        .fsx-opp td { color: #857b6b; font-size: 0.78rem; background: rgba(13, 12, 11, 0.025); border-bottom: 1px solid #efe9e0; font-weight: 400; }
+        .fsx-opp td .oppnm { font-style: italic; }
+        .fsx-table.no-opp .fsx-opp, .fsx-table.no-opp tfoot tr.opp { display: none; }
+        .fsx-w { color: var(--accent-green); font-weight: 700; }
+        .fsx-l { color: var(--accent-red); font-weight: 700; }
+        .fsx-d { color: var(--text-secondary); font-weight: 700; }
+        .fsx-table td.dk { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); }
+        .fsx-opp td.dk { color: #a5947e; }
+        .fsx-table td.sep, .fsx-table th.sep { border-left: 1px solid #e4ddd0; }
+        .fsx-table thead tr.cols th.sep { border-left: 1px solid rgba(0, 0, 0, 0.25); }
+        .fsx-table tfoot td { padding: 9px 8px; font-weight: 700; background: #f1ece2; border-top: 2px solid #17161a; white-space: nowrap; text-align: right; }
+        .fsx-table tfoot tr.opp td { font-weight: 500; color: #857b6b; background: #f5f1e8; border-top: 1px dashed #d8d0c0; font-size: 0.78rem; }
+        .fsx-table tfoot td.l { text-align: left; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        .fsx-fn { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.55; }
+        @media (max-width: 760px) {
+            .fsx-tiles { grid-template-columns: repeat(2, 1fr); }
+            .fsx-hero .meta { margin-left: 0; text-align: left; width: 100%; }
+        }
 
         /* ═══════════════════════════════════════════════════
            POLISH PASS — consistent interaction states, focus
@@ -2719,7 +2696,6 @@
 
         <div class="landing-nav">
             <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
-            <button class="lnav-tab" data-view="scoringdb"><span>Scoring Database</span></button>
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
         </div>
@@ -2742,6 +2718,11 @@
                 <div id="quick-search-results" class="quick-search-results"></div>
             </div>
             <div id="contests-list"></div>
+        </div>
+
+        <div id="insightsSubnav" class="view-tabs" style="display:none; justify-content: flex-start;">
+            <button class="tab-btn active" data-isub="ladder"><span>Scoring Ladder</span></button>
+            <button class="tab-btn" data-isub="database"><span>Score Database</span></button>
         </div>
 
         <div id="scoringdb-view" style="display:none;">
@@ -2798,13 +2779,16 @@
         <div id="lookup-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Fighter Stats</div>
-                <p class="cmp-intro">Tap a fighter from this week's DraftKings slate to break down their profile &mdash; and spotlight them across the slate-wide graphs below.</p>
-                <div id="cmpLoading" class="sdb-loading">Loading slate&hellip;</div>
-                <div id="cmpChips" class="cmp-chips"></div>
-                <div id="cmpNote" class="cmp-note"></div>
+                <p class="fsx-intro">Search any UFC fighter for their career DFS profile: every fight with the full stat line and DraftKings scoring breakdown, what each opponent did back, and career averages.</p>
+                <div class="flu-search">
+                    <input id="fluInput" type="text" placeholder="Search a fighter&hellip;" autocomplete="off">
+                    <div id="fluSuggest" class="flu-suggest"></div>
+                </div>
+                <div id="fluLoading" class="sdb-loading">Loading fight database&hellip;</div>
+                <div id="fluBody" style="display:none;"></div>
             </div>
-            <div class="sdb-card" id="fluCard" style="display:none;"><div id="fluBody"></div></div>
-            <div id="cmpGrid" class="cmp-grid"></div>
+        </div>
+
         </div>
 
         <div id="optimizer-view" style="display:none;">
@@ -5809,16 +5793,12 @@
                 renderInsights();
             }
 
-            // ---------- FIGHTER LOOKUP ----------
-            let fluNames = null, fluWired = false, fluCurrent = null;
-            const median = a => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); const m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
-            const pctile = (a, q) => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(q * s.length))]; };
+            // ---------- FIGHTER STATS ----------
+            // Search-first career sheet: every fight as a full DK stat line, the
+            // opponent's line in that same fight underneath (toggleable), and
+            // AVG / OPP AVG career rows pinned to the bottom of the log.
+            let fluNames = null, fluWired = false, fluCurrent = null, fluShowOpp = true;
             const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
-            function roundBase(r, i) {
-                return 0.2 * num(r['r' + i + '_total_str_landed']) + 0.2 * num(r['r' + i + '_sig_str_landed'])
-                    + 10 * num(r['r' + i + '_kd']) + 5 * num(r['r' + i + '_td_landed']) + 5 * num(r['r' + i + '_rev']) + 0.03 * num(r['r' + i + '_ctrl_sec']);
-            }
-            function baseOf(r) { const p = dkPoints(r); return p.str + p.kd + p.td + p.rev + p.ctrl; }
             // Normalize a fighter name for matching: lowercase and drop a trailing
             // generational suffix (Jr/Sr/II/III/IV) so slate spellings like "Kai Kamaka III"
             // match database rows stored as "Kai Kamaka".
@@ -5828,281 +5808,188 @@
                 return ROWS.filter(r => normName(r.fighter) === key && num(r.fight_time_seconds) > 0)
                     .sort((a, b) => (a.event_date || '').localeCompare(b.event_date || ''));
             }
-            // Rolling window (trailing 15 min of fight time) of per-round stat sums, built
-            // from per-round segments so every metric is minute-weighted (a fast KO can't
-            // spike it) and plotted against cumulative octagon time.
-            // Build two career series from per-round segments: a rolling one (trailing 15 min
-            // of fight time, for rate metrics) and a cumulative one (running career totals,
-            // for the knockdown/takedown rates that read best as a settling average).
-            function buildSeries(fights) {
-                const segs = [];
-                for (const r of fights) {
-                    const R = Math.round(num(r.round)) || 1, T = num(r.fight_time_seconds);
-                    for (let i = 1; i <= R; i++) {
-                        const dur = i < R ? 300 : Math.max(1, T - 300 * (R - 1));
-                        segs.push({ dur, base: roundBase(r, i), sig: num(r['r' + i + '_sig_str_landed']), td: num(r['r' + i + '_td_landed']), tda: num(r['r' + i + '_td_attempted']), kd: num(r['r' + i + '_kd']), ctrl: num(r['r' + i + '_ctrl_sec']) });
-                    }
+            // The CSV carries one row per corner, so the opponent's stat line for a
+            // fight is the sibling row sharing the same fight_id.
+            let FIGHT_IDX = null;
+            function oppRowOf(r) {
+                if (!FIGHT_IDX) {
+                    FIGHT_IDX = new Map();
+                    for (const row of ROWS) { const k = row.fight_id; if (!k) continue; const a = FIGHT_IDX.get(k); if (a) a.push(row); else FIGHT_IDX.set(k, [row]); }
                 }
-                const rolling = []; let cum = 0;
-                for (let j = 0; j < segs.length; j++) {
-                    cum += segs[j].dur; let sec = 0, base = 0, sig = 0, td = 0, kd = 0, ctrl = 0, k = j;
-                    while (k >= 0 && sec < 900) { const s = segs[k], take = Math.min(s.dur, 900 - sec), f = take / s.dur; sec += take; base += s.base * f; sig += s.sig * f; td += s.td * f; kd += s.kd * f; ctrl += s.ctrl * f; k--; }
-                    rolling.push({ x: cum / 60, sec, base, sig, td, kd, ctrl });
-                }
-                const cumulative = []; let cx = 0, csig = 0, ckd = 0, ctdl = 0, ctda = 0, cctrl = 0, cbase = 0;
-                for (const s of segs) { cx += s.dur; csig += s.sig; ckd += s.kd; ctdl += s.td; ctda += s.tda; cctrl += s.ctrl; cbase += s.base; cumulative.push({ x: cx / 60, sig: csig, kd: ckd, tdl: ctdl, tda: ctda, ctrl: cctrl, base: cbase }); }
-                return { rolling, cumulative };
+                const rows = FIGHT_IDX.get(r.fight_id) || [];
+                return rows.find(x => x !== r && normName(x.fighter) === normName(r.opponent)) || rows.find(x => x !== r) || null;
             }
-            // Each chartable metric: mode (rolling window vs running career total), labels, and
-            // how to turn a window/total into the plotted value.
-            // x is the value plotted on the horizontal axis: rolling metrics run on octagon
-            // time; the cumulative rates run on their own denominator so they settle left→right
-            // as that denominator grows (TD success vs attempts, KD rate vs sig strikes).
-            const METRICS = {
-                fantasy: { mode: 'rolling', t: 'Fantasy points per minute', u: 'pre-bonus &middot; rolling 15-min avg', f: w => w.base / (w.sec / 60), x: w => w.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
-                sig: { mode: 'rolling', t: 'Significant strikes per minute', u: 'rolling 15-min avg', f: w => w.sig / (w.sec / 60), x: w => w.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
-                td: { mode: 'cumulative', t: 'Takedown success rate', u: 'cumulative &middot; landed / attempted', f: c => c.tda ? c.tdl / c.tda * 100 : 0, x: c => c.tda, xlab: 'cumulative takedown attempts', xsuf: '' },
-                kd: { mode: 'cumulative', t: 'Knockdown rate', u: 'cumulative &middot; per 100 sig strikes', f: c => c.sig ? c.kd / c.sig * 100 : 0, x: c => c.sig, xlab: 'cumulative significant strikes', xsuf: '' },
-                ctrl: { mode: 'cumulative', t: 'Control %', u: 'cumulative &middot; control time / cage time', f: c => c.x ? c.ctrl / (c.x * 60) * 100 : 0, x: c => c.x, xlab: 'cumulative octagon minutes', xsuf: 'm' },
-            };
-            function niceMax(v) { v = Math.max(v, 0.001); const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (m * p >= v) return m * p; return 10 * p; }
-            function niceStep(max, n) { if (max <= 0) return 1; const raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p; }
-            function svgRolling(series, showMedian, xsuf) {
-                const W = 960, H = 240, pl = 42, pr = 14, pt = 16, pb = 26;
-                const xMax = series[series.length - 1][0] || 1;
-                const yMax = niceMax(Math.max(...series.map(p => p[1]), 0));
-                const dec = yMax <= 8 ? 1 : 0;
-                const X = v => pl + v / xMax * (W - pl - pr), Y = v => pt + (1 - Math.min(v, yMax) / yMax) * (H - pt - pb);
-                let g = '';
-                for (let i = 0; i <= 3; i++) { const v = yMax * i / 3, y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="10" fill="#8a8177">${v.toFixed(dec)}</text>`; }
-                const xstep = niceStep(xMax, 4);
-                for (let v = xstep; v < xMax * 0.98; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">${v}${xsuf || ''}</text>`;
-                if (showMedian !== false) { const med = median(series.map(p => p[1])), my = Y(med); g += `<line x1="${pl}" y1="${my.toFixed(1)}" x2="${W - pr}" y2="${my.toFixed(1)}" stroke="#b9b2a8" stroke-dasharray="5 4"/><text x="${W - pr}" y="${(my - 5).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9.5" fill="#8a8177">median ${med.toFixed(dec)}</text>`; }
-                let d = 'M ' + X(series[0][0]).toFixed(1) + ' ' + Y(series[0][1]).toFixed(1);
-                for (let i = 1; i < series.length; i++) d += ' L ' + X(series[i][0]).toFixed(1) + ' ' + Y(series[i][1]).toFixed(1);
-                g += `<path d="${d} L ${X(xMax).toFixed(1)} ${H - pb} L ${X(series[0][0]).toFixed(1)} ${H - pb} Z" fill="rgba(255,106,18,.08)"/>`;
-                g += `<path d="${d}" fill="none" stroke="#ff6a12" stroke-width="2.4" stroke-linejoin="round"/>`;
-                g += `<circle cx="${X(xMax).toFixed(1)}" cy="${Y(series[series.length - 1][1]).toFixed(1)}" r="4" fill="#e2470a"/>`;
-                return `<svg class="flu-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}</svg>`;
+            const fmtCtrl = s => { s = Math.round(num(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+            const f1 = v => (Math.round(v * 10) / 10).toFixed(1);
+            const f0 = v => String(Math.round(v));
+            function fsMethod(m) {
+                if (!m) return '—';
+                if (m === 'Decision - Unanimous') return 'U-Dec';
+                if (m === 'Decision - Split') return 'S-Dec';
+                if (m === 'Decision - Majority') return 'M-Dec';
+                if (m === "TKO - Doctor's Stoppage") return 'TKO (doc)';
+                if (m === 'Submission') return 'Sub';
+                if (m === 'Could Not Continue') return 'CNC';
+                return m;
             }
-            let fluState = null;
-            // Draw the cumulative chart for a chosen metric (a tile) or 'fantasy' (default).
-            function drawChart(metric) {
-                if (!fluState) return;
-                const cfg = METRICS[metric] || METRICS.fantasy;
-                document.getElementById('fluChartTitle').textContent = cfg.t;
-                document.getElementById('fluChartUnit').innerHTML = cfg.u;
-                const chart = document.getElementById('fluChart'), axl = document.getElementById('fluAxl');
-                if (!fluState.enoughTrend) { chart.innerHTML = `<div class="flu-placeholder">Needs 3+ fights to chart a career trend.</div>`; axl.style.display = 'none'; }
-                else {
-                    const src = cfg.mode === 'cumulative' ? fluState.series.cumulative : fluState.series.rolling;
-                    const series = src.map(w => [cfg.x(w), cfg.f(w)]);
-                    const xMax = series.length ? series[series.length - 1][0] : 0;
-                    if (xMax <= 0) { chart.innerHTML = `<div class="flu-placeholder">No ${metric === 'td' ? 'takedown attempts' : 'data'} on record to chart.</div>`; axl.style.display = 'none'; }
-                    else { chart.innerHTML = svgRolling(series, cfg.mode !== 'cumulative', cfg.xsuf); axl.style.display = ''; axl.innerHTML = cfg.xlab + ' &rarr;'; }
-                }
-                document.querySelectorAll('#fluBody .flu-sm').forEach(t => t.classList.toggle('active', t.dataset.metric === metric));
-                document.getElementById('fluRevert').style.display = metric === 'fantasy' ? 'none' : '';
-                fluState.metric = metric;
+            const resChip = res => res === 'W' ? '<span class="fsx-w">W</span>' : res === 'L' ? '<span class="fsx-l">L</span>' : `<span class="fsx-d">${esc(res || '—')}</span>`;
+            // One <tr> of stat cells shared by fighter rows, opponent rows and the
+            // AVG footers: raw counting stats, then the DK scoring they translate to.
+            function statCells(o) {
+                return `<td class="sep">${o.kd}</td><td>${o.sig}</td><td>${o.tot}</td><td>${o.td}</td><td>${o.sub}</td><td>${o.rev}</td><td>${o.ctrl}</td>` +
+                       `<td class="sep">${o.pstr}</td><td>${o.pkd}</td><td>${o.ptd}</td><td>${o.prev}</td><td>${o.pctrl}</td><td>${o.pwin}</td><td class="dk">${o.pdk}</td>`;
+            }
+            function rowStats(r) {
+                const p = dkPoints(r);
+                return {
+                    kd: f0(num(r.kd)), sig: `${f0(num(r.sig_str_landed))}/${f0(num(r.sig_str_attempted))}`,
+                    tot: f0(num(r.total_str_landed)), td: `${f0(num(r.td_landed))}/${f0(num(r.td_attempted))}`,
+                    sub: f0(num(r.sub_att)), rev: f0(num(r.rev)), ctrl: fmtCtrl(r.ctrl_sec),
+                    pstr: f1(p.str), pkd: f0(p.kd), ptd: f0(p.td), prev: f0(p.rev), pctrl: f1(p.ctrl), pwin: f0(p.win + p.quick), pdk: f1(p.total),
+                };
+            }
+            function avgStats(rows) {
+                const g = k => mean(rows.map(r => num(r[k])));
+                const ps = rows.map(r => dkPoints(r));
+                return {
+                    kd: f1(g('kd')), sig: `${f1(g('sig_str_landed'))}/${f1(g('sig_str_attempted'))}`,
+                    tot: f1(g('total_str_landed')), td: `${f1(g('td_landed'))}/${f1(g('td_attempted'))}`,
+                    sub: f1(g('sub_att')), rev: f1(g('rev')), ctrl: fmtCtrl(g('ctrl_sec')),
+                    pstr: f1(mean(ps.map(p => p.str))), pkd: f1(mean(ps.map(p => p.kd))), ptd: f1(mean(ps.map(p => p.td))),
+                    prev: f1(mean(ps.map(p => p.rev))), pctrl: f1(mean(ps.map(p => p.ctrl))), pwin: f1(mean(ps.map(p => p.win + p.quick))),
+                    pdk: f1(mean(ps.map(p => p.total))),
+                };
             }
             function renderFighter(name) {
                 fluCurrent = name;
                 const body = document.getElementById('fluBody');
-                document.getElementById('fluCard').style.display = '';
+                body.style.display = '';
                 const fights = fighterFights(name);
                 const n = fights.length;
-                if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; fluState = null; return; }
+                if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; return; }
+                const canonical = fights[n - 1].fighter;
+                const wins = fights.filter(r => r.result === 'W').length, losses = fights.filter(r => r.result === 'L').length;
+                const other = n - wins - losses;
                 const totSec = fights.reduce((s, r) => s + num(r.fight_time_seconds), 0);
                 const hrs = Math.floor(totSec / 3600), mm = Math.round((totSec % 3600) / 60);
-                const sigmin = fights.map(r => num(r.sig_str_landed) / (num(r.fight_time_seconds) / 60));
-                const td5 = fights.map(r => num(r.td_landed) * 300 / num(r.fight_time_seconds));
-                const td5att = fights.map(r => num(r.td_attempted) * 300 / num(r.fight_time_seconds));
-                const ctrlp = fights.map(r => { const T = num(r.fight_time_seconds); return T ? num(r.ctrl_sec) / T * 100 : 0; });
-                let H = 0, B = 0, L = 0, D = 0, C = 0, G = 0, SA = 0, SS = 0, KDsum = 0;
-                for (const r of fights) { H += num(r.ss_head_landed); B += num(r.ss_body_landed); L += num(r.ss_leg_landed); D += num(r.ss_distance_landed); C += num(r.ss_clinch_landed); G += num(r.ss_ground_landed); SA += num(r.sig_str_attempted); SS += num(r.sig_str_landed); KDsum += num(r.kd); }
-                const tgt = H + B + L || 1, pos = D + C + G || 1, acc = SA ? Math.round(100 * SS / SA) : 0, avgMin = totSec / n / 60;
-                const kdRate = SS ? KDsum / SS * 100 : 0;
-                const kdFmt = kdRate >= 1 ? kdRate.toFixed(1) : kdRate.toFixed(2);
-                const rc = []; for (let i = 1; i <= 5; i++) { const reached = fights.filter(r => Math.round(num(r.round)) >= i); rc.push(reached.length ? mean(reached.map(r => roundBase(r, i))) : null); }
-                const wins = fights.filter(r => r.result === 'W').length, losses = fights.filter(r => r.result === 'L').length;
-                const enoughTrend = n >= 3;
                 const timeStr = hrs > 0 ? `${hrs}h ${mm}m` : `${mm}m`;
-                const pctBar = (v, mx) => `<span class="tr"><i style="width:${Math.round(100 * v / mx)}%"></i></span>`;
+                const dks = fights.map(r => dkPoints(r).total);
+                const last5 = dks.slice(-5);
+                const games100 = dks.filter(v => v >= 100).length;
+                const finishes = fights.filter(r => r.result === 'W' && methodGroup(r.method) !== 'Decision' && methodGroup(r.method) !== 'Other').length;
+                const sumOf = k => fights.reduce((s, r) => s + num(r[k]), 0);
+                const sigMin = sumOf('sig_str_landed') / (totSec / 60);
+                const td15 = sumOf('td_landed') * 900 / totSec, td15a = sumOf('td_attempted') * 900 / totSec;
+                const ctrlPct = sumOf('ctrl_sec') / totSec * 100;
+                const kdTot = sumOf('kd');
+                const oppRows = fights.map(r => oppRowOf(r));
+                const haveOpp = oppRows.filter(Boolean).length;
+
                 let html = '';
-                html += `<div class="flu-head"><span class="nm">${esc(name)}</span><span class="meta">${n} UFC fight${n === 1 ? '' : 's'} · ${wins}W&ndash;${losses}L · ${timeStr} cage time<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
-                if (n < 6) html += `<div class="flu-note">Limited sample (${n} fight${n === 1 ? '' : 's'}) — per-minute trends may be noisy.</div>`;
-                // rolling chart (metric-switchable via the tiles below)
-                html += `<div class="flu-chart-h"><div class="t" id="fluChartTitle">Fantasy points per minute</div>`;
-                html += `<div style="display:flex;align-items:center;gap:12px;margin-left:auto"><button id="fluRevert" class="flu-revert" style="display:none">&#8617; Fantasy pts</button><div class="u" id="fluChartUnit"></div></div></div>`;
-                html += `<div id="fluChart"></div><div class="flu-axl" id="fluAxl">cumulative octagon minutes &rarr;</div>`;
-                // rate tiles — click one to chart it above
-                html += `<div class="flu-smalls">`;
-                html += `<div class="flu-sm" data-metric="sig"><div class="lbl">Sig strikes / min</div><div class="big">${median(sigmin).toFixed(1)}</div></div>`;
-                html += `<div class="flu-sm" data-metric="td"><div class="lbl">Takedowns / 5 min</div><div class="big">${median(td5).toFixed(1)}</div><div class="flu-sub">${median(td5att).toFixed(1)} attempted / 5 min</div></div>`;
-                html += `<div class="flu-sm" data-metric="kd"><div class="lbl">Knockdown rate</div><div class="big">${kdFmt}<small>%</small></div><div class="flu-sub">per 100 sig strikes</div></div>`;
-                html += `<div class="flu-sm" data-metric="ctrl"><div class="lbl">Control %</div><div class="big">${median(ctrlp).toFixed(0)}<small>%</small></div></div>`;
+                html += `<div class="fsx-hero"><span class="nm">${esc(canonical)}</span>` +
+                        `<span class="rec">${wins}&ndash;${losses}${other ? '&ndash;' + other : ''} in UFC</span>` +
+                        `<span class="wc">${esc(weightOf(fights[n - 1].weight_class))}</span>` +
+                        `<span class="meta">${n} fight${n === 1 ? '' : 's'} &middot; ${timeStr} cage time &middot; avg ${(totSec / n / 60).toFixed(1)}m<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
+
+                html += `<div class="fsx-tiles">`;
+                html += `<div class="fsx-tile"><div class="lbl">Avg DK score</div><div class="big">${f1(mean(dks))}</div><div class="sub">win + quick bonuses included</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Last ${last5.length} avg</div><div class="big">${f1(mean(last5))}</div><div class="sub">${last5.length < n ? 'career ' + f1(mean(dks)) + ' for context' : 'entire UFC run'}</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">100+ DK games</div><div class="big">${games100}<small> of ${n}</small></div><div class="sub">ceiling games</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Finish rate</div><div class="big">${wins ? Math.round(100 * finishes / wins) : 0}<small>%</small></div><div class="sub">${finishes} of ${wins} win${wins === 1 ? '' : 's'} by KO/sub</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Sig strikes / min</div><div class="big">${f1(sigMin)}</div><div class="sub">career, all cage time</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Takedowns / 15 min</div><div class="big">${f1(td15)}</div><div class="sub">${f1(td15a)} attempted</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Control</div><div class="big">${ctrlPct.toFixed(0)}<small>%</small></div><div class="sub">of total cage time</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Knockdowns</div><div class="big">${f1(kdTot / n)}<small> / fight</small></div><div class="sub">${kdTot} career</div></div>`;
                 html += `</div>`;
-                // style fingerprint
-                html += `<div class="flu-sec-t">Style fingerprint</div><div class="flu-dna">`;
-                html += `<div><h5>Strike targeting</h5>`;
-                html += `<div class="flu-dbar"><span>Head</span>${pctBar(H, tgt)}<span class="val">${Math.round(100 * H / tgt)}%</span></div>`;
-                html += `<div class="flu-dbar"><span>Body</span>${pctBar(B, tgt)}<span class="val">${Math.round(100 * B / tgt)}%</span></div>`;
-                html += `<div class="flu-dbar"><span>Legs</span>${pctBar(L, tgt)}<span class="val">${Math.round(100 * L / tgt)}%</span></div>`;
-                html += `<div class="flu-dbar"><span>Accuracy</span>${pctBar(acc, 100)}<span class="val">${acc}%</span></div></div>`;
-                html += `<div><h5>Where the fight happens</h5>`;
-                html += `<div class="flu-dbar"><span>At range</span>${pctBar(D, pos)}<span class="val">${Math.round(100 * D / pos)}%</span></div>`;
-                html += `<div class="flu-dbar"><span>Clinch</span>${pctBar(C, pos)}<span class="val">${Math.round(100 * C / pos)}%</span></div>`;
-                html += `<div class="flu-dbar"><span>Ground</span>${pctBar(G, pos)}<span class="val">${Math.round(100 * G / pos)}%</span></div>`;
-                html += `<div class="flu-dbar"><span>Avg fight</span>${pctBar(Math.min(avgMin, 25), 25)}<span class="val">${avgMin.toFixed(1)}m</span></div></div></div>`;
-                // scoring by round
-                html += `<div class="flu-sec-t">Scoring by round</div>`;
-                const mx = Math.max(...rc.filter(v => v != null), 1);
-                html += `<div class="flu-rc-bars">` + rc.map((v, i) => v == null
-                    ? `<div class="col na"><span class="vv">N/A</span><span class="bar"></span><span class="rn">R${i + 1}</span></div>`
-                    : `<div class="col"><span class="vv">${v.toFixed(1)}</span><span class="bar" style="height:${(v / mx * 100).toFixed(1)}%"></span><span class="rn">R${i + 1}</span></div>`).join('') + `</div>`;
-                html += `<div class="flu-rc-fn">avg pre-bonus DK per round · N/A = never reached that round</div>`;
+
+                html += `<div class="fsx-secbar"><span class="t">Fight by fight &middot; newest first</span>` +
+                        `<label class="fsx-toggle"><input type="checkbox" id="fsxOppTgl"${fluShowOpp ? ' checked' : ''}> Opponent lines</label></div>`;
+                html += `<div class="fsx-scroll"><table class="fsx-table${fluShowOpp ? '' : ' no-opp'}" id="fsxTable"><thead>`;
+                html += `<tr class="grp"><th colspan="4">Fight</th><th colspan="7" class="sep">In the cage</th><th colspan="7" class="sep pts">DraftKings points</th></tr>`;
+                html += `<tr class="cols"><th class="l">Date</th><th class="l">Opponent</th><th class="l">Res</th><th class="l">Method</th>` +
+                        `<th class="sep">KD</th><th>Sig str</th><th>Tot</th><th>TD</th><th>Sub</th><th>Rev</th><th>Ctrl</th>` +
+                        `<th class="sep">Str</th><th>KD</th><th>TD</th><th>Rev</th><th>Ctrl</th><th>Win</th><th>DK</th></tr></thead><tbody>`;
+                for (let i = n - 1; i >= 0; i--) {
+                    const r = fights[i], o = oppRows[i];
+                    const meth = `${esc(fsMethod(r.method))} &middot; R${f0(num(r.round))} ${esc(r.time || '')}`;
+                    html += `<tr class="fsx-main"><td class="l">${fmtDate(r.event_date)}</td>` +
+                            `<td class="l opp-cell"><span class="fsx-link" data-nm="${esc(r.opponent)}">${esc(r.opponent)}</span></td>` +
+                            `<td class="l">${resChip(r.result)}</td><td class="l">${meth}</td>${statCells(rowStats(r))}</tr>`;
+                    if (o) html += `<tr class="fsx-opp"><td class="l"></td><td class="l"><span class="oppnm">&#8627; ${esc(r.opponent)} did</span></td><td class="l"></td><td class="l"></td>${statCells(rowStats(o))}</tr>`;
+                }
+                html += `</tbody><tfoot>`;
+                html += `<tr><td class="l" colspan="4">Avg &middot; ${n} fight${n === 1 ? '' : 's'}</td>${statCells(avgStats(fights))}</tr>`;
+                if (haveOpp) html += `<tr class="opp"><td class="l" colspan="4">Opp avg &middot; done back to ${esc(canonical.split(' ').slice(-1)[0])}</td>${statCells(avgStats(oppRows.filter(Boolean)))}</tr>`;
+                html += `</tfoot></table></div>`;
+                html += `<div class="fsx-fn">UFC fights only &middot; DK points computed from the fight stats (Str = 0.2&times;total + 0.2&times;sig &middot; KD 10 &middot; TD 5 &middot; Rev 5 &middot; Ctrl 0.03/sec &middot; Win 30 dec / 40&ndash;90 by finish round, +25 sub-60s R1) &middot; the muted line under each fight is what that opponent did in the same cage &middot; click any opponent to open their sheet.</div>`;
                 body.innerHTML = html;
-                fluState = { series: buildSeries(fights), enoughTrend };
-                drawChart('fantasy');
             }
             function wireLookup() {
-                // Click a rate tile to chart that metric above; revert button returns to fantasy.
-                document.getElementById('fluBody').addEventListener('click', e => {
-                    if (e.target.closest('#fluRevert')) { drawChart('fantasy'); return; }
-                    const tile = e.target.closest('.flu-sm[data-metric]');
-                    if (tile) drawChart(tile.dataset.metric);
+                const body = document.getElementById('fluBody');
+                body.addEventListener('click', e => {
+                    const lk = e.target.closest('.fsx-link');
+                    if (lk) { document.getElementById('fluInput').value = lk.dataset.nm; renderFighter(lk.dataset.nm); logSearchQuery(lk.dataset.nm, true, 'looked_up'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
                 });
+                body.addEventListener('change', e => {
+                    if (e.target.id === 'fsxOppTgl') { fluShowOpp = e.target.checked; const t = document.getElementById('fsxTable'); if (t) t.classList.toggle('no-opp', !fluShowOpp); }
+                });
+                const inp = document.getElementById('fluInput'), sug = document.getElementById('fluSuggest');
+                let idx = -1, matches = [];
+                const close = () => { sug.classList.remove('show'); sug.innerHTML = ''; idx = -1; };
+                const pick = (nm) => { inp.value = nm; close(); renderFighter(nm); logSearchQuery(nm, true, 'looked_up'); };
+                inp.addEventListener('input', () => {
+                    const q = inp.value.trim().toLowerCase();
+                    if (q.length < 2 || !fluNames) { close(); return; }
+                    matches = fluNames.filter(nm => nm.toLowerCase().includes(q)).slice(0, 12);
+                    if (!matches.length) { close(); return; }
+                    sug.innerHTML = matches.map(m => `<div data-nm="${esc(m)}">${esc(m)}</div>`).join(''); sug.classList.add('show'); idx = -1;
+                });
+                sug.addEventListener('mousedown', e => { const d = e.target.closest('div[data-nm]'); if (d) { e.preventDefault(); pick(d.dataset.nm); } });
+                inp.addEventListener('keydown', e => {
+                    const items = [...sug.querySelectorAll('div')];
+                    if (e.key === 'ArrowDown') idx = Math.min(items.length - 1, idx + 1);
+                    else if (e.key === 'ArrowUp') idx = Math.max(0, idx - 1);
+                    else if (e.key === 'Enter') { if (idx >= 0 && items[idx]) pick(items[idx].dataset.nm); else if (matches.length) pick(matches[0]); return; }
+                    else if (e.key === 'Escape') { close(); return; } else return;
+                    items.forEach((it, i) => it.classList.toggle('sel', i === idx)); e.preventDefault();
+                });
+                inp.addEventListener('blur', () => setTimeout(close, 150));
             }
-            function openLookup() {
+            async function openLookup() {
                 if (!fluWired) { fluWired = true; wireLookup(); }
-            }
-
-            // ---------- SLATE COMPARE ----------
-            // Overlay every current-slate fighter's cumulative career totals on shared
-            // octagon-minute axes. Slate names come from DKSalaries.csv; histories from ROWS.
-            let cmpFighters = null, cmpPinned = new Set(), cmpXMax = 1, cmpZoom = [];
-            const CMP_METRICS = [
-                { key: 'dk', t: 'Cumulative DK Score &mdash; Win Pts Excluded', y: p => p.base },
-                { key: 'sig', t: 'Cumulative significant strikes', y: p => p.sig },
-                { key: 'td', t: 'Cumulative takedowns', y: p => p.tdl },
-                { key: 'ctrl', t: 'Cumulative control (min)', y: p => p.ctrl / 60 },
-                { key: 'kd', t: 'Cumulative knockdowns', y: p => p.kd },
-            ];
-            const lastName = n => { const p = (n || '').trim().split(/\s+/); return p.length > 1 ? p.slice(1).join(' ') : n; };
-            // zoom (>=1) magnifies toward the 0,0 corner: the visible window shrinks to
-            // xMax/zoom by yFull/zoom so the cluster of shorter careers spreads out.
-            function svgMulti(metric, xMax, zoom) {
-                zoom = zoom || 1;
-                const W = 1040, H = 380, pl = 46, pr = 70, pt = 16, pb = 30;
-                const yFull = Math.max(...cmpFighters.map(f => metric.y(f.series[f.series.length - 1])), 0);
-                const xVis = xMax / zoom, yVis = niceMax(yFull / zoom);
-                const dec = yVis <= 8 ? 1 : 0;
-                const X = v => pl + v / xVis * (W - pl - pr), Y = v => pt + (1 - v / yVis) * (H - pt - pb);
-                const clipId = 'cmpclip_' + metric.key;
-                let g = `<defs><clipPath id="${clipId}"><rect x="${pl}" y="${pt}" width="${(W - pl - pr).toFixed(1)}" height="${(H - pt - pb).toFixed(1)}"/></clipPath></defs>`;
-                for (let i = 0; i <= 3; i++) { const v = yVis * i / 3, y = Y(v); g += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W - pr}" y2="${y.toFixed(1)}" stroke="#efe9e0"/><text x="${pl - 5}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${v.toFixed(dec)}</text>`; }
-                const xstep = niceStep(xVis, 4);
-                for (let v = xstep; v < xVis * 0.98; v += xstep) g += `<text x="${X(v).toFixed(1)}" y="${H - 7}" text-anchor="middle" font-family="Chakra Petch, monospace" font-size="9" fill="#8a8177">${+v.toFixed(v < 10 ? 1 : 0)}m</text>`;
-                let lines = '';
-                cmpFighters.forEach((f, i) => {
-                    let pts = '';
-                    for (const p of f.series) pts += `${X(p.x).toFixed(1)},${Y(metric.y(p)).toFixed(1)} `;
-                    lines += `<polyline class="flc-line" data-fi="${i}" stroke="${f.color}" points="${pts.trim()}"/>`;
-                });
-                g += `<g clip-path="url(#${clipId})">${lines}</g>`;
-                cmpFighters.forEach((f, i) => {
-                    const last = f.series[f.series.length - 1];
-                    const lx = Math.min(X(last.x), W - pr) + 4;
-                    const ly = Math.max(pt + 4, Math.min(H - pb, Y(metric.y(last)))) + 3;
-                    g += `<text class="flc-label" data-fi="${i}" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" fill="${f.color}">${esc(lastName(f.name))}</text>`;
-                });
-                return `<svg class="flc-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}</svg>`;
-            }
-            function cmpApplyHi(hoverFi) {
-                const grid = document.getElementById('cmpGrid');
-                const active = new Set(cmpPinned); if (hoverFi != null) active.add(hoverFi);
-                grid.classList.toggle('flc-dim', active.size > 0);
-                grid.querySelectorAll('.flc-line, .flc-label').forEach(el => el.classList.toggle('flc-hi', active.has(+el.dataset.fi)));
-                document.querySelectorAll('#cmpChips .flc-chip[data-fi]').forEach(c => c.classList.toggle('pinned', cmpPinned.has(+c.dataset.fi)));
-                const allChip = document.querySelector('#cmpChips .flc-chip-all');
-                if (allChip) allChip.classList.toggle('pinned', cmpPinned.size === 0);
-            }
-            // Pick one slate fighter: pin (spotlight) their line across every graph and
-            // load their full profile into the section above.
-            function cmpSelect(fi) {
-                if (fi == null || !cmpFighters[fi]) return;
-                cmpPinned = new Set([fi]);
-                cmpApplyHi(null);
-                renderFighter(cmpFighters[fi].name);
-                logSearchQuery(cmpFighters[fi].name, true, 'looked_up');
-            }
-            // Drop the spotlight: every line shows at full strength again.
-            function cmpClear() { cmpPinned = new Set(); cmpApplyHi(null); }
-            // Re-render one chart's SVG at its current zoom (leaves the rest untouched).
-            function renderCmpCell(cell) {
-                const mi = +cell.dataset.mi, z = cmpZoom[mi];
-                cell.querySelector('.cmp-svg-wrap').innerHTML = svgMulti(CMP_METRICS[mi], cmpXMax, z);
-                cell.querySelector('.cmp-zlvl').textContent = z.toFixed(1) + '×';
-            }
-            function renderCompare() {
-                cmpXMax = Math.max(...cmpFighters.map(f => f.series[f.series.length - 1].x), 1);
-                cmpZoom = CMP_METRICS.map(() => 1);
-                document.getElementById('cmpChips').innerHTML =
-                    `<span class="flc-chip flc-chip-all" data-all="1">Show all</span>` +
-                    cmpFighters.map((f, i) => `<span class="flc-chip" data-fi="${i}" style="--fc:${f.color}">${esc(f.name)}</span>`).join('');
-                document.getElementById('cmpGrid').innerHTML = CMP_METRICS.map((m, i) =>
-                    `<div class="cmp-cell" data-mi="${i}"><div class="cmp-cell-h"><h5>${m.t}</h5>` +
-                    `<div class="cmp-zoom"><button type="button" data-z="out" title="Zoom out" aria-label="Zoom out">&minus;</button><span class="cmp-zlvl">1.0×</span><button type="button" data-z="in" title="Zoom in" aria-label="Zoom in">+</button></div></div>` +
-                    `<div class="cmp-svg-wrap">${svgMulti(m, cmpXMax, 1)}</div><div class="flc-axl">cumulative octagon minutes &rarr;</div></div>`).join('');
-                cmpApplyHi(null);
-            }
-            let cmpWired = false;
-            function wireCompare() {
-                const chips = document.getElementById('cmpChips'), grid = document.getElementById('cmpGrid');
-                chips.addEventListener('mouseover', e => { const c = e.target.closest('.flc-chip[data-fi]'); if (c) cmpApplyHi(+c.dataset.fi); });
-                chips.addEventListener('mouseout', e => { const c = e.target.closest('.flc-chip[data-fi]'); if (c) cmpApplyHi(null); });
-                chips.addEventListener('click', e => { const c = e.target.closest('.flc-chip'); if (!c) return; if (c.dataset.all !== undefined) cmpClear(); else cmpSelect(+c.dataset.fi); });
-                grid.addEventListener('mouseover', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(+l.dataset.fi); });
-                grid.addEventListener('mouseout', e => { const l = e.target.closest('.flc-line'); if (l) cmpApplyHi(null); });
-                grid.addEventListener('click', e => {
-                    const zb = e.target.closest('[data-z]'); if (!zb) return;
-                    const cell = zb.closest('.cmp-cell'), mi = +cell.dataset.mi;
-                    cmpZoom[mi] = zb.dataset.z === 'in' ? Math.min(cmpZoom[mi] * 1.6, 12) : Math.max(cmpZoom[mi] / 1.6, 1);
-                    renderCmpCell(cell); cmpApplyHi(null);
-                });
-            }
-            async function openCompare() {
-                if (!cmpWired) { cmpWired = true; wireCompare(); }
                 try { await ensureData(); }
-                catch (e) { document.getElementById('cmpLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
-                if (!cmpFighters) {
-                    let names = [];
-                    try { const resp = await fetch('DKSalaries.csv?v=' + Date.now()); names = [...new Set(parseCSV(await resp.text()).map(r => r.Name).filter(Boolean))]; }
-                    catch (e) { document.getElementById('cmpLoading').textContent = 'Could not load this week\'s slate.'; return; }
-                    cmpFighters = [];
-                    let skipped = 0;
-                    names.forEach(nm => { const f = fighterFights(nm); if (f.length) cmpFighters.push({ name: nm, series: buildSeries(f).cumulative }); else skipped++; });
-                    cmpFighters.forEach((f, i) => f.color = `hsl(${Math.round((i * 137.508) % 360)}, 70%, 45%)`);
-                    document.getElementById('cmpNote').textContent = `${cmpFighters.length} fighters with UFC history` + (skipped ? ` · ${skipped} debut${skipped === 1 ? '' : 's'} omitted (no data yet)` : '');
-                    renderCompare();
+                catch (e) { document.getElementById('fluLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
+                if (!fluNames) fluNames = [...new Set(ROWS.map(r => r.fighter).filter(Boolean))].sort();
+                document.getElementById('fluLoading').style.display = 'none';
+                if (!fluCurrent) {
+                    const body = document.getElementById('fluBody');
+                    body.style.display = '';
+                    body.innerHTML = `<div class="flu-empty">Search any UFC fighter to pull their full fight-by-fight DK sheet.</div>`;
                 }
-                document.getElementById('cmpLoading').style.display = 'none';
             }
 
+            // Scoring Insights hosts two sub-tabs: the ladder (default) and the
+            // full score database, which used to be its own top-level tab.
+            let insightsSub = 'ladder';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
-                if (sv) sv.style.display = view === 'scoringdb' ? '' : 'none';
-                if (iv) iv.style.display = view === 'insights' ? '' : 'none';
+                if (sn) sn.style.display = view === 'insights' ? '' : 'none';
+                if (sv) sv.style.display = view === 'insights' && insightsSub === 'database' ? '' : 'none';
+                if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
-                if (view === 'scoringdb') { logTabOpen('opened_database'); openBoard(); }
-                if (view === 'insights') { logTabOpen('opened_insights'); openInsights(); }
-                if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); openCompare(); }
+                if (view === 'insights') {
+                    document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.isub === insightsSub));
+                    if (insightsSub === 'database') { logTabOpen('opened_database'); openBoard(); }
+                    else { logTabOpen('opened_insights'); openInsights(); }
+                }
+                if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
+            document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { insightsSub = b.dataset.isub; showLandingView('insights'); }));
         })();
 
         // ==================== Lineup Optimizer ====================

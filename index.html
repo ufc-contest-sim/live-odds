@@ -2613,18 +2613,17 @@
         .fsx-table tbody tr.fsx-main td.opp-cell { font-weight: 700; }
         .fsx-link { cursor: pointer; border-bottom: 1px dotted var(--accent); }
         .fsx-link:hover { color: var(--accent-lo); }
-        .fsx-opp td { color: #857b6b; font-size: 0.78rem; background: rgba(13, 12, 11, 0.025); border-bottom: 1px solid #efe9e0; font-weight: 400; }
+        .fsx-opp td { color: var(--accent-lo); font-size: 0.78rem; background: rgba(13, 12, 11, 0.025); border-bottom: 1px solid #efe9e0; font-weight: 400; }
         .fsx-opp td .oppnm { font-style: italic; }
         .fsx-table.no-opp .fsx-opp, .fsx-table.no-opp tfoot tr.opp { display: none; }
         .fsx-w { color: var(--accent-green); font-weight: 700; }
         .fsx-l { color: var(--accent-red); font-weight: 700; }
         .fsx-d { color: var(--text-secondary); font-weight: 700; }
         .fsx-table td.dk { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); }
-        .fsx-opp td.dk { color: #a5947e; }
         .fsx-table td.sep, .fsx-table th.sep { border-left: 1px solid #e4ddd0; }
         .fsx-table thead tr.cols th.sep { border-left: 1px solid rgba(0, 0, 0, 0.25); }
         .fsx-table tfoot td { padding: 9px 8px; font-weight: 700; background: #f1ece2; border-top: 2px solid #17161a; white-space: nowrap; text-align: right; }
-        .fsx-table tfoot tr.opp td { font-weight: 500; color: #857b6b; background: #f5f1e8; border-top: 1px dashed #d8d0c0; font-size: 0.78rem; }
+        .fsx-table tfoot tr.opp td { font-weight: 500; color: var(--accent-lo); background: #f5f1e8; border-top: 1px dashed #d8d0c0; font-size: 0.78rem; }
         .fsx-table tfoot td.l { text-align: left; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; }
         .fsx-fn { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.55; }
         @media (max-width: 760px) {
@@ -5875,12 +5874,12 @@
                 const hrs = Math.floor(totSec / 3600), mm = Math.round((totSec % 3600) / 60);
                 const timeStr = hrs > 0 ? `${hrs}h ${mm}m` : `${mm}m`;
                 const dks = fights.map(r => dkPoints(r).total);
-                const last5 = dks.slice(-5);
                 const games100 = dks.filter(v => v >= 100).length;
                 const finishes = fights.filter(r => r.result === 'W' && methodGroup(r.method) !== 'Decision' && methodGroup(r.method) !== 'Other').length;
                 const sumOf = k => fights.reduce((s, r) => s + num(r[k]), 0);
                 const sigMin = sumOf('sig_str_landed') / (totSec / 60);
-                const td15 = sumOf('td_landed') * 900 / totSec, td15a = sumOf('td_attempted') * 900 / totSec;
+                const td15 = sumOf('td_landed') * 900 / totSec;
+                const tdL = sumOf('td_landed'), tdA = sumOf('td_attempted');
                 const ctrlPct = sumOf('ctrl_sec') / totSec * 100;
                 const kdTot = sumOf('kd');
                 const oppRows = fights.map(r => oppRowOf(r));
@@ -5893,22 +5892,22 @@
                         `<span class="meta">${n} fight${n === 1 ? '' : 's'} &middot; ${timeStr} cage time &middot; avg ${(totSec / n / 60).toFixed(1)}m<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
 
                 html += `<div class="fsx-tiles">`;
-                html += `<div class="fsx-tile"><div class="lbl">Avg DK score</div><div class="big">${f1(mean(dks))}</div><div class="sub">win + quick bonuses included</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Last ${last5.length} avg</div><div class="big">${f1(mean(last5))}</div><div class="sub">${last5.length < n ? 'career ' + f1(mean(dks)) + ' for context' : 'entire UFC run'}</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">100+ DK games</div><div class="big">${games100}<small> of ${n}</small></div><div class="sub">ceiling games</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Finish rate</div><div class="big">${wins ? Math.round(100 * finishes / wins) : 0}<small>%</small></div><div class="sub">${finishes} of ${wins} win${wins === 1 ? '' : 's'} by KO/sub</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Sig strikes / min</div><div class="big">${f1(sigMin)}</div><div class="sub">career, all cage time</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Takedowns / 15 min</div><div class="big">${f1(td15)}</div><div class="sub">${f1(td15a)} attempted</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Control</div><div class="big">${ctrlPct.toFixed(0)}<small>%</small></div><div class="sub">of total cage time</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Knockdowns</div><div class="big">${f1(kdTot / n)}<small> / fight</small></div><div class="sub">${kdTot} career</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Avg DK score</div><div class="big">${f1(mean(dks))}</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">100+ DK scores</div><div class="big">${games100}<small> of ${n}</small></div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Finish rate</div><div class="big">${wins ? Math.round(100 * finishes / wins) : 0}<small>%</small></div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Sig strikes / min</div><div class="big">${f1(sigMin)}</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Takedowns / 15 min</div><div class="big">${f1(td15)}</div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Takedown success</div><div class="big">${f0(tdL)}/${f0(tdA)}<small> (${tdA ? Math.round(100 * tdL / tdA) : 0}%)</small></div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Control</div><div class="big">${ctrlPct.toFixed(0)}<small>%</small></div></div>`;
+                html += `<div class="fsx-tile"><div class="lbl">Knockdowns</div><div class="big">${f1(kdTot / n)}<small> / fight</small></div></div>`;
                 html += `</div>`;
 
                 html += `<div class="fsx-secbar"><span class="t">Fight by fight &middot; newest first</span>` +
-                        `<label class="fsx-toggle"><input type="checkbox" id="fsxOppTgl"${fluShowOpp ? ' checked' : ''}> Opponent lines</label></div>`;
+                        `<label class="fsx-toggle"><input type="checkbox" id="fsxOppTgl"${fluShowOpp ? ' checked' : ''}> Opponent stats</label></div>`;
                 html += `<div class="fsx-scroll"><table class="fsx-table${fluShowOpp ? '' : ' no-opp'}" id="fsxTable"><thead>`;
                 html += `<tr class="grp"><th colspan="4">Fight</th><th colspan="7" class="sep">In the cage</th><th colspan="7" class="sep pts">DraftKings points</th></tr>`;
                 html += `<tr class="cols"><th class="l">Date</th><th class="l">Opponent</th><th class="l">Res</th><th class="l">Method</th>` +
-                        `<th class="sep">KD</th><th>Sig str</th><th>Tot</th><th>TD</th><th>Sub</th><th>Rev</th><th>Ctrl</th>` +
+                        `<th class="sep">KD</th><th>Sig str</th><th>Str</th><th>TD</th><th>Sub</th><th>Rev</th><th>Ctrl</th>` +
                         `<th class="sep">Str</th><th>KD</th><th>TD</th><th>Rev</th><th>Ctrl</th><th>Win</th><th>DK</th></tr></thead><tbody>`;
                 for (let i = n - 1; i >= 0; i--) {
                     const r = fights[i], o = oppRows[i];
@@ -5916,13 +5915,12 @@
                     html += `<tr class="fsx-main"><td class="l">${fmtDate(r.event_date)}</td>` +
                             `<td class="l opp-cell"><span class="fsx-link" data-nm="${esc(r.opponent)}">${esc(r.opponent)}</span></td>` +
                             `<td class="l">${resChip(r.result)}</td><td class="l">${meth}</td>${statCells(rowStats(r))}</tr>`;
-                    if (o) html += `<tr class="fsx-opp"><td class="l"></td><td class="l"><span class="oppnm">&#8627; ${esc(r.opponent)} did</span></td><td class="l"></td><td class="l"></td>${statCells(rowStats(o))}</tr>`;
+                    if (o) html += `<tr class="fsx-opp"><td class="l"></td><td class="l"><span class="oppnm">&#8627; ${esc(r.opponent)}</span></td><td class="l"></td><td class="l"></td>${statCells(rowStats(o))}</tr>`;
                 }
                 html += `</tbody><tfoot>`;
                 html += `<tr><td class="l" colspan="4">Avg &middot; ${n} fight${n === 1 ? '' : 's'}</td>${statCells(avgStats(fights))}</tr>`;
-                if (haveOpp) html += `<tr class="opp"><td class="l" colspan="4">Opp avg &middot; done back to ${esc(canonical.split(' ').slice(-1)[0])}</td>${statCells(avgStats(oppRows.filter(Boolean)))}</tr>`;
+                if (haveOpp) html += `<tr class="opp"><td class="l" colspan="4">Opp avg</td>${statCells(avgStats(oppRows.filter(Boolean)))}</tr>`;
                 html += `</tfoot></table></div>`;
-                html += `<div class="fsx-fn">UFC fights only &middot; DK points computed from the fight stats (Str = 0.2&times;total + 0.2&times;sig &middot; KD 10 &middot; TD 5 &middot; Rev 5 &middot; Ctrl 0.03/sec &middot; Win 30 dec / 40&ndash;90 by finish round, +25 sub-60s R1) &middot; the muted line under each fight is what that opponent did in the same cage &middot; click any opponent to open their sheet.</div>`;
                 body.innerHTML = html;
             }
             function wireLookup() {

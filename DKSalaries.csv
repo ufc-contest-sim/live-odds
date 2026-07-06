@@ -2,6 +2,7 @@ Position,Name + ID,Name,ID,Roster Position,Salary,Game Info,TeamAbbrev,AvgPoints
 F,Gable Steveson (43476488),Gable Steveson,43476488,F,9900,Ellison@Steveson 07/11/2026 07:40PM ET,Steveson,0
 F,Adrian Yanez (43476474),Adrian Yanez,43476474,F,9400,Yanez@Garbrandt 07/11/2026 07:20PM ET,Yanez,68.59
 F,Luke Riley (43476483),Luke Riley,43476483,F,9300,Kamaka III@Riley 07/11/2026 07:00PM ET,Riley,79.92
+F,Alessandro Costa (43501954),Alessandro Costa,43501954,F,9100,Durden@Costa 07/11/2026 05:00PM ET,Costa,69.55
 F,Max Holloway (43476469),Max Holloway,43476469,F,9000,Holloway@McGregor 07/11/2026 10:20PM ET,Holloway,86.24
 F,Damian Pinas (43476481),Damian Pinas,43476481,F,8900,Almeida@Pinas 07/11/2026 05:30PM ET,Pinas,118.87
 F,Lone'er Kavanagh (43476478),Lone'er Kavanagh,43476478,F,8800,Kavanagh@Royval 07/11/2026 09:20PM ET,Kavanagh,62.54
@@ -20,6 +21,7 @@ F,Nikita Krylov (43476476),Nikita Krylov,43476476,F,7500,Whittaker@Krylov 07/11/
 F,Brandon Royval (43476477),Brandon Royval,43476477,F,7400,Kavanagh@Royval 07/11/2026 09:20PM ET,Royval,74.14
 F,Cesar Almeida (43476482),Cesar Almeida,43476482,F,7300,Almeida@Pinas 07/11/2026 05:30PM ET,Almeida,63.11
 F,Conor McGregor (43476470),Conor McGregor,43476470,F,7200,Holloway@McGregor 07/11/2026 10:20PM ET,McGregor,88.16
+F,Cody Durden (43501955),Cody Durden,43501955,F,7100,Durden@Costa 07/11/2026 05:00PM ET,Durden,58.41
 F,Kai Kamaka III (43476484),Kai Kamaka III,43476484,F,6900,Kamaka III@Riley 07/11/2026 07:00PM ET,Kamaka III,62.30
 F,Cody Garbrandt (43476473),Cody Garbrandt,43476473,F,6800,Yanez@Garbrandt 07/11/2026 07:20PM ET,Garbrandt,59.41
 F,Elisha Ellison (43476487),Elisha Ellison,43476487,F,6300,Ellison@Steveson 07/11/2026 07:40PM ET,Ellison,1.59

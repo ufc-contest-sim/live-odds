@@ -59,11 +59,11 @@
         }
         
         :root {
-            --bg-dark: #07070a;              /* page stays dark */
+            --bg-dark: #0b0b0f;              /* page stays dark */
             /* Orange Trim theme: white content boxes on a dark page */
-            --bg-card: #ffffff;
-            --bg-card-solid: #ffffff;
-            --bg-hover: #f4efe8;
+            --bg-card: #f7f3ec;
+            --bg-card-solid: #f7f3ec;
+            --bg-hover: #ece5d8;
             --border: rgba(13, 12, 11, 0.12);
             --border-accent: rgba(255, 106, 18, 0.55);
             --text-primary: #000000;         /* true black on white cards */
@@ -72,13 +72,13 @@
             --text-on-dark-mute: #a49c8f;
             --accent: #ff6a12;
             --accent-hi: #ff8a2b;
-            --accent-lo: #e2470a;
+            --accent-lo: #c43e05;
             --a-rgb: 255, 106, 18;
-            --accent-green: #0a9a56;
+            --accent-green: #08814a;
             --accent-red: #e0243a;
             --accent-blue: #ff8a2b;
-            --accent-gold: #e2470a;
-            --glass-bg: #ffffff;
+            --accent-gold: #c43e05;
+            --glass-bg: #f7f3ec;
             --glass-border: rgba(13, 12, 11, 0.12);
             --chamfer: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
             --chamfer-sm: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
@@ -88,7 +88,7 @@
             font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background:
                 radial-gradient(1100px 500px at 50% -8%, rgba(255, 92, 26, 0.08), transparent 60%),
-                #07070a;
+                #0b0b0f;
             background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
@@ -100,7 +100,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 40;
         }
@@ -187,7 +187,7 @@
 
 
         .contest-table td {
-            padding: 11px 24px;
+            padding: 12px 24px;
             border-bottom: 1px solid #ece6dd;
             font-size: 1.05rem;
             text-align: center;
@@ -207,7 +207,7 @@
         }
 
         .contest-table tbody tr:hover {
-            background: #efe9e0;
+            background: var(--bg-hover);
         }
 
         .contest-table tbody tr:hover .contest-table-name {
@@ -443,7 +443,7 @@
 
         /* Quick Search */
         .quick-search-section {
-            margin-bottom: 40px;
+            margin-bottom: 24px;
         }
 
         .quick-search-bar {
@@ -632,20 +632,20 @@
             cursor: pointer;
             padding: 4px 10px;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #faf6f0;
+            border: 1px solid var(--glass-border);
             transition: background 0.15s, border-color 0.15s;
             user-select: none;
         }
 
         .portfolio-filter-label:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--bg-hover);
         }
 
         .portfolio-filter-label input[type="checkbox"] {
             accent-color: var(--accent-green);
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             cursor: pointer;
         }
 
@@ -683,7 +683,7 @@
         .pq-bot { display: flex; align-items: flex-start; justify-content: center; width: 100%; }
         .pq-val {
             font-family: 'Chakra Petch', monospace;
-            font-size: 0.6rem; font-weight: 700; white-space: nowrap; line-height: 1.4;
+            font-size: 0.66rem; font-weight: 700; white-space: nowrap; line-height: 1.4;
         }
         .pq-val.positive { color: #0c8a50; }
         .pq-val.negative { color: #c9223c; }
@@ -692,7 +692,7 @@
         .pq-axis span {
             flex: 1; text-align: center; min-width: 0;
             font-family: 'Chakra Petch', monospace;
-            font-size: 0.56rem; color: var(--text-secondary);
+            font-size: 0.66rem; color: var(--text-secondary);
         }
         .pq-axis-title {
             text-align: center; font-size: 0.66rem; letter-spacing: 1px;
@@ -801,7 +801,7 @@
         /* Leaderboard Page Styles */
         .leaderboard-page {
             display: none;
-            padding: 20px;
+            padding: 40px 20px 48px;
         }
         
         .container {
@@ -810,7 +810,7 @@
         }
         
         header {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--glass-border);
             display: flex;
@@ -855,8 +855,8 @@
         .stats-and-fighters {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 24px;
+            margin-bottom: 24px;
             align-items: start;
         }
 
@@ -867,7 +867,7 @@
         .stats-vertical {
             background: var(--glass-bg);
 
-            padding: 25px;
+            padding: 24px;
             border-radius: 14px;
             border: 1px solid var(--glass-border);
         }
@@ -920,7 +920,7 @@
         .fighter-draft-container {
             background: var(--glass-bg);
 
-            padding: 25px;
+            padding: 24px;
             border-radius: 14px;
             border: 1px solid var(--glass-border);
             overflow-y: auto;
@@ -939,7 +939,7 @@
         }
 
         .fighter-draft-table td {
-            padding: 10px 12px;
+            padding: 10px 16px;
             border-bottom: 1px solid #ece6dd;
             font-size: 0.9rem;
         }
@@ -955,7 +955,7 @@
         /* Dupes by User table (Portfolio view) */
         .dupes-container {
             background: var(--glass-bg);
-            padding: 25px;
+            padding: 24px;
             border-radius: 14px;
             border: 1px solid var(--glass-border);
             overflow-y: auto;
@@ -994,7 +994,7 @@
         }
 
         .fighter-draft-table th {
-            padding: 8px 12px;
+            padding: 8px 16px;
             font-size: 0.72rem;
             color: var(--text-secondary);
             text-transform: uppercase;
@@ -1012,7 +1012,7 @@
         #insights-view {
             display: grid;
             grid-template-columns: 3fr 2fr;
-            gap: 20px;
+            gap: 24px;
             align-items: start;
         }
 
@@ -1069,7 +1069,6 @@
         .pair-toggle.active {
             border-color: var(--accent-green);
             color: var(--accent-green);
-            font-weight: 600;
         }
 
         .pair-count {
@@ -1098,7 +1097,7 @@
         .chart-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 14px;
+            border-radius: 4px;
             padding: 24px;
             display: flex;
             flex-direction: column;
@@ -1197,7 +1196,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             text-align: left;
-            padding: 12px 14px;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--glass-border);
             cursor: pointer;
             z-index: 1;
@@ -1208,7 +1207,7 @@
         .dupe-table th:hover { color: var(--text-primary); }
 
         .dupe-table td {
-            padding: 10px 14px;
+            padding: 10px 16px;
             border-bottom: 1px solid #ece6dd;
             font-size: 0.88rem;
         }
@@ -1221,9 +1220,9 @@
             background: var(--glass-bg);
 
             border: 1px solid var(--glass-border);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            padding: 16px 24px;
+            border-radius: 4px;
+            margin-bottom: 24px;
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
@@ -1236,7 +1235,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             justify-content: center;
         }
 
@@ -1430,11 +1429,11 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             border-bottom: 1px solid #efe9e0;
-            cursor: pointer;
             transition: color 0.2s;
         }
         
-        th:hover {
+        th.sortable { cursor: pointer; }
+        th.sortable:hover {
             color: var(--text-primary);
         }
         
@@ -1458,11 +1457,16 @@
             background: #efe9e0;
             border-bottom: none;
         }
+
+        .row-main:nth-child(4n+3) {
+            background: rgba(13, 12, 11, 0.035);
+        }
         
         td {
-            padding: 14px 16px;
+            padding: 11px 16px;
             color: var(--text-primary);
             font-size: 0.9rem;
+            font-variant-numeric: tabular-nums;
         }
         
         .expand-icon {
@@ -1601,7 +1605,7 @@
         /* What If Mode Styles */
         .whatif-panel {
             display: none;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
 
         .whatif-panel.active {
@@ -1613,7 +1617,7 @@
 
             border: 1px solid var(--glass-border);
             border-radius: 14px;
-            padding: 25px;
+            padding: 24px;
         }
 
         .fight-card-container h3 {
@@ -1726,8 +1730,8 @@
         /* What If Side-by-Side Layout */
         .whatif-layout {
             display: none;
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 24px;
+            margin-bottom: 24px;
         }
 
         .whatif-layout.active {
@@ -1737,7 +1741,7 @@
         }
 
         .whatif-left .fight-card-container {
-            padding: 20px;
+            padding: 24px;
         }
 
         .whatif-left .fight-row {
@@ -1840,13 +1844,14 @@
         .live-ticker-track {
             display: inline-block;
             padding: 8px 0;
-            animation: lts-tick 40s linear infinite;
+            animation: lts-tick 80s linear infinite;
         }
         .live-ticker-track span { margin: 0 26px; color: #cfc9bf; }
         .live-ticker-track b { color: #ffffff; font-weight: 600; }   /* names white */
         .live-ticker-track b.am { color: #ffffff; }                  /* locked scores white */
-        .live-ticker-track .tbd { color: var(--accent); font-style: normal; font-weight: 600; }  /* TBD orange */
+        .live-ticker-track .tbd { color: rgba(var(--a-rgb), 0.7); font-style: normal; font-weight: 600; }  /* TBD orange */
         @keyframes lts-tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .live-ticker:hover .live-ticker-track { animation-play-state: paused; }
 
         /* --- landing hero --- */
         .landing-header { position: relative; padding: 26px 0 6px; }
@@ -1924,11 +1929,11 @@
         .pill.live {
             border-color: var(--accent);
             color: var(--accent);
-            animation: pill-breathe 2.2s ease-in-out infinite;
+            animation: pill-breathe 4.5s ease-in-out infinite;
         }
         @keyframes pill-breathe {
             0%, 100% { box-shadow: 0 0 24px rgba(var(--a-rgb), 0.25), inset 0 0 12px rgba(var(--a-rgb), 0.08); }
-            50%      { box-shadow: 0 0 40px rgba(var(--a-rgb), 0.45), inset 0 0 18px rgba(var(--a-rgb), 0.14); }
+            50%      { box-shadow: 0 0 28px rgba(var(--a-rgb), 0.32), inset 0 0 14px rgba(var(--a-rgb), 0.10); }
         }
         .pill.live .dot {
             display: inline-block;
@@ -1937,7 +1942,7 @@
             background: var(--accent);
             margin-right: 8px;
             transform: skewX(12deg);
-            animation: pill-blink 1.1s ease-in-out infinite;
+            animation: pill-blink 2.4s ease-in-out infinite;
         }
         @keyframes pill-blink { 50% { opacity: 0.25; } }
 
@@ -1983,8 +1988,8 @@
         /* --- telemetry type: labels & numbers in Chakra Petch --- */
         th {
             font-family: 'Chakra Petch', monospace;
-            font-size: 0.68rem;
-            letter-spacing: 2px;
+            font-size: 0.74rem;
+            letter-spacing: 1px;
         }
         .filters label,
         .favorites-label,
@@ -2015,8 +2020,8 @@
             font-family: 'Chakra Petch', monospace;
             font-style: normal;
             font-weight: 600;
-            font-size: 0.72rem;
-            letter-spacing: 3px;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--text-secondary);
             display: flex;
@@ -2039,6 +2044,7 @@
         .contest-table-name {
             font-size: 1.35rem;
             letter-spacing: 0.5px;
+            font-style: normal;
         }
         .contest-table th.sortable:hover { color: var(--accent); }
         .contest-table tbody tr:hover .contest-table-name { color: var(--accent-hi); }
@@ -2049,7 +2055,7 @@
             transform: skewX(-12deg);
             border-radius: 0;
             font-family: 'Chakra Petch', monospace;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.5px;
         }
         .tab-btn > span { display: inline-block; transform: skewX(12deg); }
@@ -2070,16 +2076,16 @@
         .fight-score-input:focus,
         .quick-search-bar:focus-within { border-color: var(--accent); }
         .pair-toggle.active { border-color: var(--accent); color: var(--accent); }
-        .chart-tip b { color: var(--accent-hi); }
-        .fighter-option.selected { color: var(--accent-hi); }
+        .chart-tip b { color: var(--accent-lo); }
+        .fighter-option.selected { color: var(--accent-lo); }
         .fighter-chip-selected { background: var(--accent); color: var(--bg-dark); }
-        .expand-icon { color: var(--accent); }
+        .expand-icon { color: rgba(var(--a-rgb), 0.55); }
         .fighter-chip .slot { background: var(--accent); color: var(--bg-dark); }
-        .fight-score-input.has-value { border-color: var(--accent); color: var(--accent-hi); }
+        .fight-score-input.has-value { border-color: var(--accent); color: var(--accent-lo); }
         .search-results-header h3 { color: var(--text-primary); }
 
         /* --- exposure meters: shimmer on the draft bars --- */
-        .fighter-draft-table .draft-pct { color: var(--accent-hi); }
+        .fighter-draft-table .draft-pct { color: var(--accent-lo); }
 
         @media (max-width: 600px) {
             .landing-page { padding-top: 70px; }
@@ -2103,14 +2109,14 @@
         .fight-card-container,
         .filters,
         .portfolio-chart-container {
-            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
             border-top: 3px solid var(--accent);
         }
         .quick-search-bar {
-            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
             border-left: 4px solid var(--accent);
         }
-        .search-result-card { box-shadow: 0 8px 26px rgba(0, 0, 0, 0.4); }
+        .search-result-card { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22); }
 
         /* --- text that sits directly on the DARK page stays light --- */
         .landing-header h1 { color: var(--text-on-dark); }
@@ -2147,9 +2153,9 @@
             border-bottom: 2px solid rgba(0, 0, 0, 0.20);
         }
         .contest-table th.sortable:hover,
-        thead th:hover { color: rgba(0, 0, 0, 0.62); }
+        thead th.sortable:hover { color: rgba(0, 0, 0, 0.62); }
         thead th.sortable::after { opacity: 0.5; }
-        .contest-table td.col-prizes { color: var(--accent-lo); }
+        .contest-table td.col-prizes { color: var(--accent-green); }
         .contest-table tbody tr:hover .contest-table-name { color: var(--accent-lo); }
         th.sortable::after { opacity: 0.55; }
 
@@ -2173,10 +2179,10 @@
 
         /* --- view tabs: white boxes, orange when active --- */
         .tab-btn {
-            background: #ffffff;
+            background: var(--bg-card);
             color: var(--text-secondary);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
         }
         .tab-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
         .tab-btn.active {
@@ -2184,7 +2190,7 @@
             color: #000000;
             font-weight: 700;
             border-color: transparent;
-            box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);
+            box-shadow: 0 2px 10px rgba(var(--a-rgb), 0.25);
         }
 
         /* --- inputs / selects / small controls on white cards --- */
@@ -2202,7 +2208,7 @@
         }
         .fight-score-input.prefilled { background: #f0e7db; }
         .add-fav-btn { background: #faf6f0; color: var(--text-secondary); }
-        .back-btn { background: #ffffff; color: var(--text-secondary); box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+        .back-btn { background: var(--bg-card); color: var(--text-secondary); box-shadow: 0 2px 8px rgba(0,0,0,.28); }
         .back-btn:hover { color: var(--text-primary); border-color: var(--accent); }
         .clear-btn { background: #faf6f0; }
 
@@ -2236,7 +2242,7 @@
             max-width: 450px;
             clip-path: var(--chamfer);
             border-top: 4px solid var(--accent);
-            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
             padding: 36px 32px 30px;
             text-align: center;
         }
@@ -2308,39 +2314,39 @@
         /* ═══════════════════════════════════════════════════
            Landing nav (Contests / Scoring Database) + DB board
            ═══════════════════════════════════════════════════ */
-        .landing-nav { display: flex; gap: 8px; margin: 0 0 18px; flex-wrap: wrap; }
+        .landing-nav { display: flex; gap: 8px; margin: 0 0 24px; flex-wrap: wrap; }
         .lnav-tab {
             transform: skewX(-12deg);
             border: 1px solid var(--glass-border);
-            background: #ffffff;
+            background: var(--bg-card);
             color: var(--text-secondary);
             padding: 11px 26px;
             font-family: 'Chakra Petch', monospace;
             font-size: 0.85rem; font-weight: 700;
             letter-spacing: 1px; text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
         }
         .lnav-tab > span { display: inline-block; transform: skewX(12deg); }
-        .lnav-tab:hover { color: var(--text-primary); }
+        .lnav-tab:hover { color: var(--text-primary); background: var(--bg-hover); }
         .lnav-tab.active {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
             color: #000000; border-color: transparent;
-            box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.4);
+            box-shadow: 0 2px 10px rgba(var(--a-rgb), 0.25);
         }
 
         .sdb-card {
-            background: #ffffff;
+            background: var(--bg-card);
             clip-path: var(--chamfer);
             border: 1px solid var(--glass-border);
             border-top: 3px solid var(--accent);
-            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
-            padding: 22px 24px 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            padding: 24px;
             color: var(--text-primary);
         }
         .sdb-title {
             font-family: 'Chakra Petch', monospace;
-            font-size: 0.72rem; font-weight: 700; letter-spacing: 3px;
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
             text-transform: uppercase; color: var(--accent-lo);
             margin-bottom: 16px;
         }
@@ -2351,7 +2357,7 @@
         .sdb-fg { display: flex; flex-direction: column; gap: 4px; }
         .sdb-fg label {
             font-family: 'Chakra Petch', monospace;
-            font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase;
+            font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase;
             color: var(--text-secondary);
         }
         .sdb-fg input, .sdb-fg select {
@@ -2364,28 +2370,28 @@
             display: flex; align-items: center; gap: 7px;
             font-size: 0.82rem; color: var(--text-secondary); cursor: pointer;
         }
-        .sdb-check input { accent-color: var(--accent); width: 15px; height: 15px; }
+        .sdb-check input { accent-color: var(--accent); width: 18px; height: 18px; }
         .sdb-count {
             margin-left: auto; font-family: 'Chakra Petch', monospace;
             font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap;
         }
         .sdb-loading { text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.95rem; }
         .sdb-scroll { overflow-x: auto; max-height: 68vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-        .sdb-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; table-layout: fixed; }
+        .sdb-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; table-layout: fixed; }
         .sdb-table thead { position: sticky; top: 0; z-index: 1; }
         .sdb-table thead th {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
             color: #000000; font-weight: 700;
             font-family: 'Chakra Petch', monospace;
-            font-size: 0.6rem; letter-spacing: 0.5px; text-transform: uppercase;
-            padding: 9px 5px; text-align: center; white-space: nowrap;
+            font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 10px 8px; text-align: center; white-space: nowrap;
             border-bottom: 2px solid rgba(0, 0, 0, 0.2);
         }
         .sdb-table thead th.l { text-align: left; }
         .sdb-table thead th.sortable { cursor: pointer; }
-        .sdb-table thead th.sorted { background: linear-gradient(100deg, #ff8a2b, #e04d0a); }
+        .sdb-table thead th.sorted { background: #17161a; color: #ff8a2b; }
         .sdb-table td {
-            padding: 8px 5px; text-align: center; white-space: nowrap;
+            padding: 10px 8px; text-align: center; white-space: nowrap;
             border-bottom: 1px solid #efe9e0;
             overflow: hidden; text-overflow: ellipsis;
         }
@@ -2400,10 +2406,11 @@
         .sdb-table col.c-rd { width: 4%; }
         .sdb-table col.c-date { width: 8%; }
         .sdb-table col.c-num { width: 6.4%; }
+        .sdb-table tbody tr:nth-child(even) { background: rgba(13, 12, 11, 0.035); }
         .sdb-table tbody tr { cursor: pointer; }
-        .sdb-table tbody tr:hover { background: #faf6f0; }
+        .sdb-table tbody tr:hover { background: var(--bg-hover); }
         .sdb-table tbody tr:hover td.fcell { color: var(--accent-lo); text-decoration: underline; }
-        .sdb-table td.rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.78rem; }
+        .sdb-table td.rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.8rem; }
         .sdb-table td.pts { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); }
         .sdb-table td.dktot { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); font-size: 0.95rem; }
         .sdb-table .flink { color: var(--text-primary); font-weight: 600; cursor: pointer; border-bottom: 1px dotted var(--accent); }
@@ -2436,22 +2443,22 @@
         .sdb-ladder th {
             background: linear-gradient(100deg, #ff6f14 0%, #f15c0e 55%, #e04d0a 100%);
             color: #000000; font-weight: 700; font-family: 'Chakra Petch', monospace;
-            font-size: 0.62rem; letter-spacing: 0.5px; text-transform: uppercase;
-            padding: 8px 6px; text-align: center; white-space: nowrap;
+            font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 10px 8px; text-align: center; white-space: nowrap;
             border-bottom: 2px solid rgba(0, 0, 0, 0.2);
         }
         .sdb-ladder th.l { text-align: left; }
-        .sdb-ladder td { padding: 8px 6px; text-align: center; white-space: nowrap; border-bottom: 1px solid #efe9e0; }
+        .sdb-ladder td { padding: 10px 8px; text-align: center; white-space: nowrap; border-bottom: 1px solid #efe9e0; }
         .sdb-ladder td.l { text-align: left; }
-        .sdb-ladder .cellsub { font-size: 0.6rem; color: var(--text-secondary); margin-top: 2px; }
+        .sdb-ladder .cellsub { font-size: 0.66rem; color: var(--text-secondary); margin-top: 2px; }
         .sdb-ladder .dktot { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); }
 
         .sdb-tiles { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
         .sdb-tile {
-            background: #ffffff; border: 1px solid var(--glass-border);
+            background: var(--bg-card); border: 1px solid var(--glass-border);
             border-left: 4px solid var(--text-secondary);
             clip-path: var(--chamfer-sm); padding: 12px 13px; cursor: pointer;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); transition: transform 0.12s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); transition: transform 0.12s;
         }
         .sdb-tile:hover { transform: translateY(-2px); }
         .sdb-tile.win { border-left-color: var(--accent-green); }
@@ -2480,12 +2487,12 @@
             color: #000000; font-weight: 700; border-color: transparent;
         }
         .opt-btn-primary:hover { filter: brightness(1.06); }
-        .opt-upload { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 22px; border: 1px dashed var(--glass-border); background: #faf6f0; }
+        .opt-upload { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 24px; border: 1px dashed var(--glass-border); background: #faf6f0; }
         .opt-upload-hint { color: var(--text-secondary); font-size: 0.8rem; }
         .opt-err { color: var(--accent-red); font-size: 0.82rem; font-weight: 600; width: 100%; }
         .opt-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; margin-bottom: 12px; }
         .opt-cap { display: flex; flex-direction: column; gap: 4px; }
-        .opt-cap label { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .opt-cap label { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
         .opt-cap input { background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary); padding: 8px 11px; font-size: 0.9rem; font-family: inherit; outline: none; width: 120px; }
         .opt-cap input:focus { border-color: var(--accent); }
         .opt-note { color: var(--text-secondary); font-size: 0.78rem; font-family: 'Chakra Petch', monospace; margin-bottom: 10px; }
@@ -2497,21 +2504,21 @@
         }
         .opt-grid td.proj-cell input:focus, .opt-grid td.own-cell input:focus, .opt-grid td.exp-cell input:focus { border-color: var(--accent); }
         .opt-exposure { margin-top: 18px; }
-        .opt-exposure-title { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-lo); margin-bottom: 8px; }
+        .opt-exposure-title { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); margin-bottom: 8px; }
         .exp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
         .exp-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-primary); background: #faf6f0; border: 1px solid var(--glass-border); border-left: 3px solid var(--accent); padding: 4px 9px; }
         .exp-chip b { color: var(--accent-lo); }
         .exp-chip.capped { border-left-color: var(--accent-green); }
         .opt-grid td { white-space: nowrap; }
-        .opt-grid input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+        .opt-grid input[type="checkbox"] { accent-color: var(--accent); width: 20px; height: 20px; cursor: pointer; }
         .opt-grid tr.excluded td { opacity: 0.4; }
         .opt-grid tr.locked { background: rgba(var(--a-rgb), 0.08); }
         .opt-grid td.sal { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); }
         .opt-toggle { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; }
-        .opt-toggle input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+        .opt-toggle input { accent-color: var(--accent); width: 20px; height: 20px; cursor: pointer; }
         .opt-results-table tr.lu-stacked { background: rgba(var(--a-rgb), 0.07); box-shadow: inset 3px 0 0 var(--accent); }
         .opt-results-table tr.lu-stacked:hover { background: rgba(var(--a-rgb), 0.12); }
-        .lu-stack-tag { display: inline-block; margin-left: 5px; font-size: 0.5rem; font-family: 'Chakra Petch', monospace; letter-spacing: 0.5px; text-transform: uppercase; color: var(--accent-lo); border: 1px solid var(--accent); padding: 0 3px; vertical-align: middle; }
+        .lu-stack-tag { display: inline-block; margin-left: 5px; font-size: 0.64rem; font-family: 'Chakra Petch', monospace; letter-spacing: 0.5px; text-transform: uppercase; color: var(--accent-lo); border: 1px solid var(--accent); padding: 0 3px; vertical-align: middle; }
         .opt-results-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 22px 0 4px; }
         .opt-results-scroll { max-height: 62vh; }
         .opt-results-table td.lu-fighter { text-align: left; white-space: normal; }
@@ -2549,7 +2556,7 @@
             .opt-grid td.proj-cell, .opt-grid td.own-cell, .opt-grid td.exp-cell { display: flex; flex-direction: column; gap: 3px; }
             .opt-grid td.proj-cell::before, .opt-grid td.own-cell::before, .opt-grid td.exp-cell::before,
             .opt-grid td:nth-child(7)::before, .opt-grid td:nth-child(8)::before {
-                font-family: 'Chakra Petch', monospace; font-size: 0.55rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo);
+                font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo);
             }
             .opt-grid td.proj-cell::before { content: "Projection"; }
             .opt-grid td.own-cell::before { content: "Own %"; }
@@ -2579,37 +2586,37 @@
         .flu-head { display: flex; align-items: center; gap: 10px; background: #faf6f0; border: 1px solid var(--glass-border); padding: 11px 14px; margin-bottom: 8px; flex-wrap: wrap; }
         .flu-head .nm { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.45rem; }
         .flu-head .meta { margin-left: auto; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); text-align: right; line-height: 1.5; }
-        .flu-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--accent-lo); margin: 0 0 18px; }
+        .flu-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--accent-lo); margin: 0 0 16px; }
         .flu-chart-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
         .flu-chart-h .t { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.2rem; }
-        .flu-chart-h .u { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
-        .flu-axl { font-family: 'Chakra Petch', monospace; font-size: 0.56rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 4px; }
+        .flu-chart-h .u { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .flu-axl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 4px; }
         .flu-svg { display: block; width: 100%; overflow: visible; }
         .flu-placeholder { border: 1px dashed var(--glass-border); padding: 34px; text-align: center; font-family: 'Chakra Petch', monospace; font-size: 0.8rem; color: var(--text-secondary); }
-        .flu-smalls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+        .flu-smalls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
         .flu-sm { border: 1px solid var(--glass-border); padding: 12px; cursor: pointer; transition: border-color 0.12s; }
-        .flu-sm:hover { border-color: var(--accent); }
+        .flu-sm:hover { border-color: var(--accent); background: #fbf8f2; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10); }
         .flu-sm.active { border-color: var(--accent); outline: 2px solid rgba(var(--a-rgb), 0.4); outline-offset: -2px; }
-        .flu-sm .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .flu-sm .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
         .flu-sm .big { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.75rem; line-height: 1; }
         .flu-sm .big small { font-size: 0.7rem; font-style: normal; font-weight: 400; }
-        .flu-sub { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); margin-top: 6px; }
-        .flu-revert { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 0.5px; text-transform: uppercase; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--accent-lo); padding: 5px 10px; cursor: pointer; }
+        .flu-sub { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 6px; }
+        .flu-revert { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--accent-lo); padding: 8px 12px; cursor: pointer; }
         .flu-revert:hover { border-color: var(--accent); }
-        .flu-fmc { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 20px; border: 1px solid var(--glass-border); }
+        .flu-fmc { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 24px; border: 1px solid var(--glass-border); }
         .flu-fmc > div { padding: 14px; text-align: center; border-right: 1px solid var(--glass-border); }
         .flu-fmc > div:last-child { border-right: none; }
-        .flu-fmc .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .flu-fmc .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
         .flu-fmc .v { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 2rem; }
         .flu-fmc .floor .v { color: #555; } .flu-fmc .med .v { color: var(--accent-lo); } .flu-fmc .ceil .v { color: var(--accent-green); }
-        .flu-sec-t { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-lo); margin: 28px 0 14px; }
-        .flu-dna { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
-        .flu-dna h5 { font-family: 'Chakra Petch', monospace; font-size: 0.56rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); margin: 0 0 12px; }
+        .flu-sec-t { font-family: 'Chakra Petch', monospace; font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-lo); margin: 32px 0 16px; }
+        .flu-dna { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .flu-dna h5 { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); margin: 0 0 12px; }
         .flu-dbar { display: grid; grid-template-columns: 74px 1fr 44px; align-items: center; gap: 8px; margin: 8px 0; font-family: 'Chakra Petch', monospace; font-size: 0.66rem; }
         .flu-dbar .tr { height: 11px; background: #f1ece4; overflow: hidden; }
         .flu-dbar .tr i { display: block; height: 100%; background: var(--accent); }
         .flu-dbar .val { text-align: right; font-weight: 700; }
-        .flu-rounds { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .flu-rounds { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         .flu-rc h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.1rem; margin: 0 0 14px; }
         .flu-rc-bars { display: flex; align-items: flex-end; gap: 12px; height: 150px; }
         .flu-rc-bars .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; height: 100%; }
@@ -2618,7 +2625,7 @@
         .flu-rc-bars .rn { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; color: var(--text-secondary); }
         .flu-rc-bars .vv { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; font-weight: 700; }
         .flu-rc-bars .col.na .vv { color: #b3a99c; }
-        .flu-rc-fn { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); margin-top: 12px; }
+        .flu-rc-fn { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 12px; }
         .flu-empty { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); padding: 34px 0; text-align: center; }
         @media (max-width: 760px) { .flu-smalls { grid-template-columns: repeat(2, 1fr); } .flu-dna, .flu-rounds { grid-template-columns: 1fr; } }
 
@@ -2626,27 +2633,69 @@
         .cmp-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 4px; max-width: 900px; }
         .cmp-note { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin: 0 0 4px; }
         .cmp-chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 4px 0 12px; }
-        .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; padding: 6px 11px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); transition: border-color 0.1s, background 0.1s; }
+        .flc-chip { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; padding: 8px 12px; border: 1px solid var(--glass-border); border-left: 3px solid var(--fc); background: #faf6f0; cursor: pointer; color: var(--text-primary); transition: border-color 0.1s, background 0.1s; }
         .flc-chip:hover { border-color: var(--accent); background: #fff; }
-        .flc-chip.pinned { background: #fff; font-weight: 700; outline: 2px solid rgba(var(--a-rgb), 0.45); outline-offset: -2px; }
-        .flc-chip-all { border-left: 3px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.62rem; }
-        #lookup-view { display: flex; flex-direction: column; gap: 20px; }
-        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .cmp-cell { background: #ffffff; clip-path: var(--chamfer); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45); padding: 20px 24px 18px; }
+        .flc-chip.pinned { background: #fff; outline: 2px solid rgba(var(--a-rgb), 0.45); outline-offset: -2px; }
+        .flc-chip-all { border-left: 3px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.68rem; }
+        #lookup-view { display: flex; flex-direction: column; gap: 24px; }
+        .cmp-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        .cmp-cell { background: var(--bg-card); clip-path: var(--chamfer); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); padding: 24px; }
         .cmp-cell-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 6px; }
         .cmp-cell-h h5 { margin: 0; }
         .cmp-cell h5 { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; margin: 0 0 6px; }
         .cmp-zoom { display: flex; align-items: center; gap: 6px; flex: none; }
-        .cmp-zoom button { font-family: 'Chakra Petch', monospace; width: 26px; height: 26px; line-height: 1; padding: 0; border: 1px solid var(--glass-border); background: #faf6f0; color: var(--text-primary); cursor: pointer; font-size: 1rem; }
+        .cmp-zoom button { font-family: 'Chakra Petch', monospace; width: 32px; height: 32px; line-height: 1; padding: 0; border: 1px solid var(--glass-border); background: #faf6f0; color: var(--text-primary); cursor: pointer; font-size: 1rem; }
         .cmp-zoom button:hover { border-color: var(--accent); background: #fff; }
         .cmp-zlvl { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; color: var(--text-secondary); min-width: 36px; text-align: center; }
-        .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.54rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
+        .cmp-cell .flc-axl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-align: center; margin-top: 2px; }
         .flc-svg { width: 100%; display: block; overflow: visible; }
         .flc-line { fill: none; stroke-width: 1.5; opacity: 0.72; transition: opacity 0.1s; }
         .flc-label { font-family: 'Chakra Petch', monospace; font-size: 9px; display: none; }
         .cmp-grid.flc-dim .flc-line { opacity: 0.34; }
         .cmp-grid.flc-dim .flc-line.flc-hi { opacity: 1; stroke-width: 3; }
         .cmp-grid.flc-dim .flc-label.flc-hi { display: block; }
+
+        /* ═══════════════════════════════════════════════════
+           POLISH PASS — consistent interaction states, focus
+           visibility, numeric alignment, motion + mobile fixes
+           ═══════════════════════════════════════════════════ */
+        .sdb-insight-note, .sdb-ladder-sub, .opt-note, .opt-upload-hint, .cmp-note, .flu-note, .sdb-legend { line-height: 1.55; }
+        .filters, .chart-card { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); }
+        .row-main:hover .expand-icon, .row-main.expanded .expand-icon { color: var(--accent); }
+        #username-table th:nth-child(n+4), #username-table td:nth-child(n+4),
+        #lineup-table th:nth-child(n+3), #lineup-table td:nth-child(n+3),
+        #portfolio-table th:nth-child(n+3), #portfolio-table td:nth-child(n+3) { text-align: right; }
+        .lnav-tab, .tab-btn, .opt-btn, .flc-chip, .flu-sm, .flu-revert, .cmp-zoom button, .sdb-tile, .pair-toggle, .add-fav-btn, .back-btn, .portfolio-filter-label {
+            transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.15s, filter 0.15s;
+        }
+        button:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .opt-btn:focus-visible, #visitor-gate button:focus-visible { outline-offset: -3px; }
+        @media (prefers-reduced-motion: reduce) {
+            .live-ticker-track, .pill.live, .pill.live .dot, .oct-mark polygon.spin { animation: none; }
+        }
+        @media (max-width: 760px) {
+            #scoringdb-view .sdb-table { min-width: 720px; }
+            .flu-svg text, .flc-svg text, .flc-label { font-size: 16px; }
+            .sdb-fg input, .sdb-fg select, .opt-cap input, .dupe-search, .pair-search-input, .fight-score-input { font-size: 16px; }
+            .cmp-zoom button { width: 34px; height: 34px; }
+            .flc-chip { padding: 10px 13px; }
+            .opt-grid input[type="checkbox"] { width: 28px; height: 28px; }
+            .sdb-check { padding: 6px 0; }
+            .sdb-card { padding: 18px 14px 16px; }
+            .cmp-cell { padding: 16px 14px 14px; }
+            th, td { padding: 10px 6px; }
+            .table-scroll {
+                background:
+                    linear-gradient(270deg, var(--bg-card) 40%, rgba(247, 243, 236, 0)) right / 28px 100% no-repeat local,
+                    linear-gradient(270deg, rgba(17, 17, 17, 0.16), rgba(17, 17, 17, 0)) right / 14px 100% no-repeat;
+            }
+        }
+        @media (max-width: 500px) {
+            .flu-svg text, .flc-svg text, .flc-label { font-size: 32px; }
+        }
     </style>
 </head>
 <body>
@@ -3521,7 +3570,7 @@
                     `<span><b>${name}</b>: ${score == null ? '<i class="tbd">TBD</i>' : `<b class="am">${Number(score).toFixed(2)}</b>`}</span>`
                 ).join('');
                 // keep the scroll speed steady regardless of card size
-                track.style.animationDuration = Math.max(30, fighters.length * 3.5) + 's';
+                track.style.animationDuration = Math.max(60, fighters.length * 7) + 's';
 
                 // Mode label: once any fighter score is locked in, we're live
                 const anyLocked = fights.some(f => f.fighter1_score != null || f.fighter2_score != null);

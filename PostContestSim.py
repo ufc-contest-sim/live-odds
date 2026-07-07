@@ -237,6 +237,50 @@ def read_payouts_named(xl: pd.ExcelFile, payouts_sheet: str, prefix_sheet: Optio
         for r in range(1, len(payouts)):
             prefix[r] = prefix[r-1] + payouts[r]
     return np.array(payouts, dtype=np.float64), np.array(prefix, dtype=np.float64), int(last_paid)
+
+def read_payouts_json(ref: str, wb_path: str):
+    """Load a per-rank payout table from a scraped dk_payouts file instead of an
+    Excel sheet, so payout tables never have to be entered by hand. `ref` is a
+    DraftKings contest id (all digits) -> dk_payouts/<id>.json next to the
+    workbook, or a direct path to such a JSON. Returns (payouts, prefix,
+    last_paid) in the exact shape read_payouts_named returns: arrays indexed by
+    rank (index 0 unused), prefix cumulative."""
+    s = str(ref).strip()
+    base = Path(wb_path).resolve().parent
+    if s.isdigit():
+        path = base / "dk_payouts" / f"{s}.json"
+    else:
+        p = Path(s)
+        path = p if p.is_absolute() else (base / s)
+    if not path.exists():
+        hint = s if s.isdigit() else "<contest-id>"
+        raise FileNotFoundError(
+            f"Scraped payout file not found: {path}\n"
+            f"  Build it with: python scrape_dk_contests.py --payouts --ids {hint}")
+    with open(path, "r", encoding="utf-8") as f:
+        rec = json.load(f)
+    per_rank = rec.get("payouts") or []
+    if not per_rank:
+        raise ValueError(f"Payout file '{path}' has no non-empty 'payouts' list.")
+    max_rank = len(per_rank)
+    payouts = [0.0] * (max_rank + 1)            # payouts[r] = prize for rank r
+    for i, v in enumerate(per_rank):
+        payouts[i + 1] = float(v)
+    prefix = [0.0] * (max_rank + 1)             # prefix[r] = cumulative through rank r
+    for r in range(1, max_rank + 1):
+        prefix[r] = prefix[r - 1] + payouts[r]
+    last_paid = max([r for r in range(1, max_rank + 1) if payouts[r] > 0], default=0)
+    return np.array(payouts, dtype=np.float64), np.array(prefix, dtype=np.float64), int(last_paid)
+
+def load_payouts(xl, ref: str, prefix_sheet, wb_path: str):
+    """Dispatch payout loading: a numeric DraftKings id or a *.json path pulls
+    from a scraped dk_payouts file; anything else is an Excel sheet name (the
+    original behavior, kept as a fallback so existing workbooks still run)."""
+    s = str(ref).strip()
+    if s.isdigit() or s.lower().endswith(".json"):
+        return read_payouts_json(s, wb_path)
+    return read_payouts_named(xl, ref, prefix_sheet)
+
 def read_fighter_map(xl: pd.ExcelFile):
     # Columns: Fighter (A), FightID (B), optional Score (C), optional Salary (D)
     df = pd.read_excel(xl, sheet_name="DraftKings Fighter Pool", engine="openpyxl")
@@ -706,7 +750,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         payouts_sheet = c["PayoutsSheet"]
         prefix_sheet = c.get("PrefixSheet", None)
         entry = float(c["EntryFee"])
-        payouts_arr, prefix, last_paid = read_payouts_named(xl, payouts_sheet, prefix_sheet)
+        payouts_arr, prefix, last_paid = load_payouts(xl, payouts_sheet, prefix_sheet, wb_path)
         prize_pool = float(prefix[last_paid])
         # Read lineups from CSV file or Excel sheet
         fighters, users = read_lineups(xl, lineups_ref, wb_path)

@@ -139,8 +139,12 @@ def publish_results():
             print(f"  Top NetEV: ${top_netev:,.2f}")
             print(f"  Top ROI: {top_roi:.2f}%")
 
-            # Add to contests config
-            total_prizes = extract_total_prizes(contest_name)
+            # Add to contests config. Prefer the exact prize pool (sum of the
+            # per-rank payouts) over guessing it from the contest name.
+            if payouts:
+                total_prizes = int(round(sum(float(p) for p in payouts)))
+            else:
+                total_prizes = extract_total_prizes(contest_name)
             contests_config.append({
                 "id": sanitize_filename(contest_name).lower(),
                 "name": contest_name,

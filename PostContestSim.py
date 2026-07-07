@@ -127,7 +127,18 @@ def read_lineups_csv(csv_path: str):
     if not Path(csv_path).exists():
         raise FileNotFoundError(f"DraftKings CSV file not found: {csv_path}")
 
-    df = pd.read_csv(csv_path)
+    if csv_path.lower().endswith('.zip'):
+        # DK standings download is a .zip holding one CSV — read it in place so
+        # there's no manual unzip step.
+        import zipfile
+        with zipfile.ZipFile(csv_path) as z:
+            inner = [n for n in z.namelist() if n.lower().endswith('.csv')]
+            if not inner:
+                raise ValueError(f"No CSV found inside zip: {csv_path}")
+            with z.open(inner[0]) as fh:
+                df = pd.read_csv(fh)
+    else:
+        df = pd.read_csv(csv_path)
 
     col_map = {c.strip().lower(): c for c in df.columns}
     entry_col = col_map.get('entryname')
@@ -348,12 +359,84 @@ def read_lineups_sheet(xl: pd.ExcelFile, sheet_name: str):
     return fighters[mask], [u for i, u in enumerate(users) if mask[i]]
 
 def read_lineups(xl: pd.ExcelFile, lineups_ref: str, wb_path: str):
-    """Read lineups from either a CSV file or an Excel sheet."""
-    if lineups_ref.lower().endswith('.csv'):
+    """Read lineups from a CSV/zip file (relative to the workbook) or an Excel sheet."""
+    low = lineups_ref.lower()
+    if low.endswith('.csv') or low.endswith('.zip'):
         csv_path = Path(wb_path).resolve().parent / lineups_ref
         return read_lineups_csv(str(csv_path))
     else:
         return read_lineups_sheet(xl, lineups_ref)
+
+def _load_dk_lobby(base: Path):
+    """id (str) -> lobby record, from dk_lobby.json next to the workbook (or {})."""
+    p = base / "dk_lobby.json"
+    if not p.exists():
+        return {}
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+    return {str(c.get("id")): c for c in data if c.get("id") is not None}
+
+def _tidy_contest_name(dk_name: str, cid: str) -> str:
+    """DK's verbose lobby name -> a clean display name matching the site's style.
+    'UFC $26K Double Champ [$13K to 1st]' -> '26K Double Champ'."""
+    if not dk_name:
+        return f"Contest {cid}"
+    s = re.sub(r'^\s*UFC\s+', '', dk_name)      # drop the 'UFC ' prefix
+    s = re.sub(r'\s*\[[^\]]*\]\s*$', '', s)     # drop a trailing '[...]' tag
+    s = s.replace('$', '').strip()
+    return s or f"Contest {cid}"
+
+# DK standings downloads are named 'contest-standings-<id>.csv' (or .zip).
+_STANDINGS_RE = re.compile(r'contest-standings-(\d+)\.(csv|zip)$', re.I)
+
+def discover_contests(wb_path: str):
+    """Build the contest list from the DraftKings standings files sitting next to
+    the workbook. Each 'contest-standings-<id>.csv' (or .zip) you saved is one
+    contest to sim; if there's no file for a contest, it simply isn't simmed.
+    Name and entry fee come from dk_lobby.json, payouts from dk_payouts/<id>.json
+    — so the Excel 'Contests' sheet isn't needed at all. Returns [] when no
+    standings files are present, so the workbook 'Contests' sheet is used instead."""
+    base = Path(wb_path).resolve().parent
+    found = {}  # id -> filename (prefer .csv over .zip if both exist)
+    for f in sorted(base.iterdir()):
+        m = _STANDINGS_RE.search(f.name)
+        if m:
+            cid = m.group(1)
+            if cid not in found or f.suffix.lower() == ".csv":
+                found[cid] = f.name
+    if not found:
+        return []
+    lobby = _load_dk_lobby(base)
+    contests = []
+    for cid, fname in found.items():
+        rec = lobby.get(cid, {})
+        fee = rec.get("entry_fee")
+        if fee is None:  # fall back to the scraped payout file's entry fee
+            pf = base / "dk_payouts" / f"{cid}.json"
+            if pf.exists():
+                try:
+                    with open(pf, "r", encoding="utf-8") as pfh:
+                        fee = json.load(pfh).get("entry_fee")
+                except Exception:
+                    fee = None
+        if not fee or float(fee) <= 0:
+            raise ValueError(
+                f"Found {fname} but no entry fee for contest {cid}. "
+                f"Refresh the lobby:  python scrape_dk_contests.py")
+        contests.append({
+            "ContestName": _tidy_contest_name(rec.get("name"), cid),
+            "LineupsSheet": fname,        # read_lineups handles .csv and .zip
+            "PayoutsSheet": cid,          # load_payouts -> dk_payouts/<id>.json
+            "PrefixSheet": None,
+            "EntryFee": float(fee),
+            "ContestId": cid,
+        })
+    log(f"[discover] {len(contests)} contest(s) from standings files: "
+        + ", ".join(c["ContestId"] for c in contests))
+    return contests
 
 def read_contests(xl: pd.ExcelFile, wb_path: str):
     """
@@ -668,7 +751,9 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
 # -------------------- Pack workbook once --------------------
 def pack_npz_multi(wb_path: str, temp_dir: Path):
     xl = pd.ExcelFile(wb_path, engine="openpyxl")
-    contests = read_contests(xl, wb_path)
+    # Prefer the DraftKings standings files dropped next to the workbook
+    # (contest-standings-<id>.csv/zip); fall back to the Excel 'Contests' sheet.
+    contests = discover_contests(wb_path) or read_contests(xl, wb_path)
     fmap, fixed_scores, fighter_order, salary_map = read_fighter_map(xl)
     # Build fight_card from fighter_order (preserves DK Fighter Pool sheet order)
     fight_card_map = {}

@@ -1,3 +1,5 @@
 __pycache__/
 dk_lobby.json
 dk_payouts/
+contest-standings-*
+conteststandings*

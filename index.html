@@ -2602,7 +2602,7 @@
         .fsx-toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); user-select: none; }
         .fsx-toggle input { accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer; }
         .fsx-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .fsx-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-variant-numeric: tabular-nums; min-width: 1060px; }
+        .fsx-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-variant-numeric: tabular-nums; min-width: 640px; }
         .fsx-table th { font-family: 'Chakra Petch', monospace; white-space: nowrap; text-align: right; }
         .fsx-table thead tr.grp th { background: #17161a; color: #cfc9bf; font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; padding: 7px 8px; text-align: left; border-bottom: none; cursor: default; }
         .fsx-table thead tr.grp th.pts { color: var(--accent-hi); }
@@ -2626,6 +2626,35 @@
         .fsx-table tfoot tr.opp td { font-weight: 500; color: var(--accent-lo); background: #f5f1e8; border-top: 1px dashed #d8d0c0; font-size: 0.78rem; }
         .fsx-table tfoot td.l { text-align: left; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; }
         .fsx-fn { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.55; }
+        .fsx-hint { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); margin-top: 10px; }
+        .fsx-table tbody tr.fsx-main, .fsx-table tbody tr.fsx-opp { cursor: pointer; }
+        .fsx-table tbody tr.fsx-main:hover, .fsx-table tbody tr.fsx-main:hover + tr.fsx-opp { background: var(--bg-hover); }
+        .fsx-table tbody tr.fsx-opp:hover { background: var(--bg-hover); }
+        /* fight head-to-head modal */
+        .fsx-modal { position: fixed; inset: 0; z-index: 200; background: rgba(9, 8, 7, 0.7); display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
+        .fxm-card { position: relative; background: var(--bg-card); clip-path: var(--chamfer); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); box-shadow: 0 16px 48px rgba(0,0,0,0.5); width: 100%; max-width: 620px; padding: 26px 26px 22px; }
+        .fxm-x { position: absolute; top: 10px; right: 12px; background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; line-height: 1; cursor: pointer; padding: 4px 8px; }
+        .fxm-x:hover { color: var(--accent); }
+        .fxm-head { border-bottom: 1px solid var(--glass-border); padding-bottom: 12px; margin-bottom: 6px; }
+        .fxm-names { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+        .fxm-names .me { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.3rem; }
+        .fxm-names .op { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.3rem; color: var(--accent-lo); text-align: right; }
+        .fxm-names .vs { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); flex: none; }
+        .fxm-sub { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); margin-top: 8px; }
+        .fxm-rows { margin-top: 8px; }
+        .fxm-row { display: grid; grid-template-columns: 1fr 128px 1fr; align-items: center; gap: 10px; padding: 5px 0; font-variant-numeric: tabular-nums; }
+        .fxm-row .fxm-a { text-align: right; font-weight: 600; }
+        .fxm-row .fxm-b { text-align: left; font-weight: 600; }
+        .fxm-row .fxm-a small, .fxm-row .fxm-b small { font-weight: 400; color: var(--text-secondary); }
+        .fxm-row .fxm-a.win, .fxm-row .fxm-b.win { color: var(--accent-lo); }
+        .fxm-mid { text-align: center; }
+        .fxm-lbl { display: block; font-family: 'Chakra Petch', monospace; font-size: 0.58rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .fxm-bar { display: flex; height: 4px; margin-top: 4px; background: #efe9e0; overflow: hidden; }
+        .fxm-bar i { display: block; height: 100%; background: var(--accent); }
+        .fxm-bar b { display: block; height: 100%; background: #b9b2a8; }
+        .fxm-row.big { padding: 8px 0; }
+        .fxm-row.big .fxm-a, .fxm-row.big .fxm-b { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.5rem; }
+        .fxm-divlbl { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-lo); margin: 14px 0 4px; text-align: center; }
         @media (max-width: 760px) {
             .fsx-tiles { grid-template-columns: repeat(2, 1fr); }
             .fsx-hero .meta { margin-left: 0; text-align: left; width: 100%; }
@@ -2788,6 +2817,7 @@
                 <div id="fluBody" style="display:none;"></div>
             </div>
         </div>
+        <div id="fsxModal" class="fsx-modal" style="display:none;"></div>
 
         <div id="optimizer-view" style="display:none;">
             <div class="sdb-card">
@@ -2800,11 +2830,15 @@
                         <button class="opt-btn opt-btn-primary" id="optTemplateBtn">Download projection template</button>
                         <label class="opt-btn"><input type="file" id="optProjFile" accept=".csv" hidden> Upload filled projections</label>
                         <div class="opt-cap">
+                            <label># of lineups</label>
+                            <input type="number" id="optCount" value="150" min="1" max="1000" step="1">
+                        </div>
+                        <div class="opt-cap">
                             <label>Max total ownership %</label>
                             <input type="number" id="optOwnCap" placeholder="no cap" min="0" step="1">
                         </div>
                         <label class="opt-toggle"><input type="checkbox" id="optStack"> Allow fight stacking</label>
-                        <button class="opt-btn opt-btn-primary" id="optRunBtn">Build 150 lineups</button>
+                        <button class="opt-btn opt-btn-primary" id="optRunBtn">Build lineups</button>
                     </div>
                     <div class="opt-err" id="optErr"></div>
                     <div class="opt-note" id="optSalaryNote"></div>
@@ -5795,7 +5829,7 @@
             // Search-first career sheet: every fight as a full DK stat line, the
             // opponent's line in that same fight underneath (toggleable), and
             // AVG / OPP AVG career rows pinned to the bottom of the log.
-            let fluNames = null, fluWired = false, fluCurrent = null, fluShowOpp = true;
+            let fluNames = null, fluWired = false, fluCurrent = null, fluShowOpp = true, fsxState = null;
             const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
             // Normalize a fighter name for matching: lowercase and drop a trailing
             // generational suffix (Jr/Sr/II/III/IV) so slate spellings like "Kai Kamaka III"
@@ -5831,31 +5865,25 @@
                 return m;
             }
             const resChip = res => res === 'W' ? '<span class="fsx-w">W</span>' : res === 'L' ? '<span class="fsx-l">L</span>' : `<span class="fsx-d">${esc(res || '—')}</span>`;
-            // One <tr> of stat cells shared by fighter rows, opponent rows and the
-            // AVG footers: raw counting stats, then the DK scoring they translate to.
+            // One <tr> of stat cells shared by fighter rows, opponent rows and the AVG
+            // footers: lean landed-only counting stats + the DK total. Full detail
+            // (attempts, accuracy, per-category DK points) lives in the fight modal.
             function statCells(o) {
-                return `<td class="sep">${o.kd}</td><td>${o.sig}</td><td>${o.tot}</td><td>${o.td}</td><td>${o.sub}</td><td>${o.rev}</td><td>${o.ctrl}</td>` +
-                       `<td class="sep">${o.pstr}</td><td>${o.pkd}</td><td>${o.ptd}</td><td>${o.prev}</td><td>${o.pctrl}</td><td>${o.pwin}</td><td class="dk">${o.pdk}</td>`;
+                return `<td class="sep">${o.kd}</td><td>${o.sig}</td><td>${o.tot}</td><td>${o.td}</td><td>${o.rev}</td><td>${o.ctrl}</td>` +
+                       `<td class="sep dk">${o.pdk}</td>`;
             }
             function rowStats(r) {
-                const p = dkPoints(r);
                 return {
-                    kd: f0(num(r.kd)), sig: `${f0(num(r.sig_str_landed))}/${f0(num(r.sig_str_attempted))}`,
-                    tot: f0(num(r.total_str_landed)), td: `${f0(num(r.td_landed))}/${f0(num(r.td_attempted))}`,
-                    sub: f0(num(r.sub_att)), rev: f0(num(r.rev)), ctrl: fmtCtrl(r.ctrl_sec),
-                    pstr: f1(p.str), pkd: f0(p.kd), ptd: f0(p.td), prev: f0(p.rev), pctrl: f1(p.ctrl), pwin: f0(p.win + p.quick), pdk: f1(p.total),
+                    kd: f0(num(r.kd)), sig: f0(num(r.sig_str_landed)), tot: f0(num(r.total_str_landed)),
+                    td: f0(num(r.td_landed)), rev: f0(num(r.rev)), ctrl: fmtCtrl(r.ctrl_sec), pdk: f1(dkPoints(r).total),
                 };
             }
             function avgStats(rows) {
                 const g = k => mean(rows.map(r => num(r[k])));
-                const ps = rows.map(r => dkPoints(r));
                 return {
-                    kd: f1(g('kd')), sig: `${f1(g('sig_str_landed'))}/${f1(g('sig_str_attempted'))}`,
-                    tot: f1(g('total_str_landed')), td: `${f1(g('td_landed'))}/${f1(g('td_attempted'))}`,
-                    sub: f1(g('sub_att')), rev: f1(g('rev')), ctrl: fmtCtrl(g('ctrl_sec')),
-                    pstr: f1(mean(ps.map(p => p.str))), pkd: f1(mean(ps.map(p => p.kd))), ptd: f1(mean(ps.map(p => p.td))),
-                    prev: f1(mean(ps.map(p => p.rev))), pctrl: f1(mean(ps.map(p => p.ctrl))), pwin: f1(mean(ps.map(p => p.win + p.quick))),
-                    pdk: f1(mean(ps.map(p => p.total))),
+                    kd: f1(g('kd')), sig: f1(g('sig_str_landed')), tot: f1(g('total_str_landed')),
+                    td: f1(g('td_landed')), rev: f1(g('rev')), ctrl: fmtCtrl(g('ctrl_sec')),
+                    pdk: f1(mean(rows.map(r => dkPoints(r).total))),
                 };
             }
             function renderFighter(name) {
@@ -5903,30 +5931,99 @@
                 html += `<div class="fsx-secbar"><span class="t">Fight by fight &middot; newest first</span>` +
                         `<label class="fsx-toggle"><input type="checkbox" id="fsxOppTgl"${fluShowOpp ? ' checked' : ''}> Opponent stats</label></div>`;
                 html += `<div class="fsx-scroll"><table class="fsx-table${fluShowOpp ? '' : ' no-opp'}" id="fsxTable"><thead>`;
-                html += `<tr class="grp"><th colspan="4">Fight</th><th colspan="7" class="sep">In the cage</th><th colspan="7" class="sep pts">DraftKings points</th></tr>`;
+                html += `<tr class="grp"><th colspan="4">Fight</th><th colspan="6" class="sep">In the cage</th><th colspan="1" class="sep pts">DK</th></tr>`;
                 html += `<tr class="cols"><th class="l">Date</th><th class="l">Opponent</th><th class="l">Res</th><th class="l">Method</th>` +
-                        `<th class="sep">KD</th><th>Sig str</th><th>Str</th><th>TD</th><th>Sub</th><th>Rev</th><th>Ctrl</th>` +
-                        `<th class="sep">Str</th><th>KD</th><th>TD</th><th>Rev</th><th>Ctrl</th><th>Win</th><th>DK</th></tr></thead><tbody>`;
+                        `<th class="sep">KD</th><th>Sig str</th><th>Str</th><th>TD</th><th>Rev</th><th>Ctrl</th>` +
+                        `<th class="sep">Total</th></tr></thead><tbody>`;
                 for (let i = n - 1; i >= 0; i--) {
                     const r = fights[i], o = oppRows[i];
                     const meth = `${esc(fsMethod(r.method))} &middot; R${f0(num(r.round))} ${esc(r.time || '')}`;
-                    html += `<tr class="fsx-main"><td class="l">${fmtDate(r.event_date)}</td>` +
+                    html += `<tr class="fsx-main" data-fi="${i}"><td class="l">${fmtDate(r.event_date)}</td>` +
                             `<td class="l opp-cell"><span class="fsx-link" data-nm="${esc(r.opponent)}">${esc(r.opponent)}</span></td>` +
                             `<td class="l">${resChip(r.result)}</td><td class="l">${meth}</td>${statCells(rowStats(r))}</tr>`;
-                    if (o) html += `<tr class="fsx-opp"><td class="l"></td><td class="l"><span class="oppnm">&#8627; ${esc(r.opponent)}</span></td><td class="l"></td><td class="l"></td>${statCells(rowStats(o))}</tr>`;
+                    if (o) html += `<tr class="fsx-opp" data-fi="${i}"><td class="l"></td><td class="l"><span class="oppnm">&#8627; ${esc(r.opponent)}</span></td><td class="l"></td><td class="l"></td>${statCells(rowStats(o))}</tr>`;
                 }
                 html += `</tbody><tfoot>`;
                 html += `<tr><td class="l" colspan="4">Avg &middot; ${n} fight${n === 1 ? '' : 's'}</td>${statCells(avgStats(fights))}</tr>`;
                 if (haveOpp) html += `<tr class="opp"><td class="l" colspan="4">Opp avg</td>${statCells(avgStats(oppRows.filter(Boolean)))}</tr>`;
                 html += `</tfoot></table></div>`;
+                html += `<div class="fsx-hint">Tap any fight for the full head-to-head breakdown.</div>`;
                 body.innerHTML = html;
+                fsxState = { name: canonical, fights, oppRows };
             }
+            // ---- per-fight head-to-head modal ----
+            function fightMetrics(r) {
+                const p = dkPoints(r);
+                const sl = num(r.sig_str_landed), sa = num(r.sig_str_attempted);
+                const tl = num(r.td_landed), ta = num(r.td_attempted);
+                return {
+                    dk: p.total, sigL: sl, sigA: sa, sigPct: sa ? Math.round(100 * sl / sa) : 0,
+                    tot: num(r.total_str_landed), tdL: tl, tdA: ta, tdPct: ta ? Math.round(100 * tl / ta) : 0,
+                    ctrl: fmtCtrl(r.ctrl_sec), ctrlSec: num(r.ctrl_sec), kd: num(r.kd), rev: num(r.rev),
+                    head: num(r.ss_head_landed), body: num(r.ss_body_landed), leg: num(r.ss_leg_landed),
+                    pts: { str: p.str, kd: p.kd, td: p.td, rev: p.rev, ctrl: p.ctrl, win: p.win + p.quick, total: p.total },
+                };
+            }
+            // A comparison row: fighter value (left) / label / opponent value (right),
+            // with a split bar showing who won that category.
+            function fxmRow(label, aTxt, bTxt, aNum, bNum, big) {
+                const t = (aNum || 0) + (bNum || 0);
+                const ap = t > 0 ? Math.round(100 * (aNum || 0) / t) : 50;
+                const aw = (aNum || 0) >= (bNum || 0) ? ' win' : '', bw = (bNum || 0) > (aNum || 0) ? ' win' : '';
+                return `<div class="fxm-row${big ? ' big' : ''}"><div class="fxm-a${aw}">${aTxt}</div>` +
+                    `<div class="fxm-mid"><span class="fxm-lbl">${label}</span>` +
+                    `<span class="fxm-bar"><i style="width:${ap}%"></i><b style="width:${100 - ap}%"></b></span></div>` +
+                    `<div class="fxm-b${bw}">${bTxt}</div></div>`;
+            }
+            function openFightModal(fi) {
+                if (!fsxState || !fsxState.fights[fi]) return;
+                const r = fsxState.fights[fi], o = fsxState.oppRows[fi];
+                const A = fightMetrics(r), B = o ? fightMetrics(o) : null;
+                const bn = v => B ? v : '&mdash;';
+                const oppName = r.opponent, meName = fsxState.name;
+                const meth = `${esc(fsMethod(r.method))} &middot; R${f0(num(r.round))} ${esc(r.time || '')}`;
+                let h = `<div class="fxm-card" role="dialog" aria-modal="true">`;
+                h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
+                h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(meName)}</span><span class="vs">vs</span><span class="op">${esc(oppName)}</span></div>` +
+                    `<div class="fxm-sub">${resChip(r.result)} &middot; ${meth} &middot; ${fmtDate(r.event_date)} &middot; ${esc(weightOf(r.weight_class))}</div></div>`;
+                h += `<div class="fxm-rows">`;
+                h += fxmRow('DK Score', f1(A.dk), bn(B && f1(B.dk)), A.dk, B && B.dk, true);
+                h += fxmRow('Sig strikes', `${A.sigL}/${A.sigA} <small>(${A.sigPct}%)</small>`, bn(B && `${B.sigL}/${B.sigA} <small>(${B.sigPct}%)</small>`), A.sigL, B && B.sigL);
+                h += fxmRow('Total strikes', A.tot, bn(B && B.tot), A.tot, B && B.tot);
+                h += fxmRow('Takedowns', `${A.tdL}/${A.tdA} <small>(${A.tdPct}%)</small>`, bn(B && `${B.tdL}/${B.tdA} <small>(${B.tdPct}%)</small>`), A.tdL, B && B.tdL);
+                h += fxmRow('Control', A.ctrl, bn(B && B.ctrl), A.ctrlSec, B && B.ctrlSec);
+                h += fxmRow('Knockdowns', A.kd, bn(B && B.kd), A.kd, B && B.kd);
+                h += fxmRow('Reversals', A.rev, bn(B && B.rev), A.rev, B && B.rev);
+                h += `<div class="fxm-divlbl">Sig strikes by target</div>`;
+                h += fxmRow('Head', A.head, bn(B && B.head), A.head, B && B.head);
+                h += fxmRow('Body', A.body, bn(B && B.body), A.body, B && B.body);
+                h += fxmRow('Legs', A.leg, bn(B && B.leg), A.leg, B && B.leg);
+                h += `<div class="fxm-divlbl">DraftKings scoring</div>`;
+                const P = A.pts, Q = B && B.pts;
+                h += fxmRow('Striking', f1(P.str), bn(Q && f1(Q.str)), P.str, Q && Q.str);
+                h += fxmRow('Knockdown', f0(P.kd), bn(Q && f0(Q.kd)), P.kd, Q && Q.kd);
+                h += fxmRow('Takedown', f0(P.td), bn(Q && f0(Q.td)), P.td, Q && Q.td);
+                h += fxmRow('Reversal', f0(P.rev), bn(Q && f0(Q.rev)), P.rev, Q && Q.rev);
+                h += fxmRow('Control', f1(P.ctrl), bn(Q && f1(Q.ctrl)), P.ctrl, Q && Q.ctrl);
+                h += fxmRow('Win / finish', f0(P.win), bn(Q && f0(Q.win)), P.win, Q && Q.win);
+                h += fxmRow('Total', f1(P.total), bn(Q && f1(Q.total)), P.total, Q && Q.total, true);
+                h += `</div></div>`;
+                const m = document.getElementById('fsxModal');
+                m.innerHTML = h;
+                m.style.display = 'flex';
+            }
+            function closeFightModal() { const m = document.getElementById('fsxModal'); if (m) { m.style.display = 'none'; m.innerHTML = ''; } }
             function wireLookup() {
                 const body = document.getElementById('fluBody');
                 body.addEventListener('click', e => {
                     const lk = e.target.closest('.fsx-link');
-                    if (lk) { document.getElementById('fluInput').value = lk.dataset.nm; renderFighter(lk.dataset.nm); logSearchQuery(lk.dataset.nm, true, 'looked_up'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+                    if (lk) { document.getElementById('fluInput').value = lk.dataset.nm; renderFighter(lk.dataset.nm); logSearchQuery(lk.dataset.nm, true, 'looked_up'); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+                    const row = e.target.closest('.fsx-main, .fsx-opp');
+                    if (row && row.dataset.fi != null) openFightModal(+row.dataset.fi);
                 });
+                const modal = document.getElementById('fsxModal');
+                modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('.fxm-x')) closeFightModal(); });
+                document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFightModal(); });
                 body.addEventListener('change', e => {
                     if (e.target.id === 'fsxOppTgl') { fluShowOpp = e.target.checked; const t = document.getElementById('fsxTable'); if (t) t.classList.toggle('no-opp', !fluShowOpp); }
                 });
@@ -5991,7 +6088,8 @@
 
         // ==================== Lineup Optimizer ====================
         (function () {
-            const SALARY_CAP = 50000, ROSTER = 6, MAX_RESULTS = 150;
+            const SALARY_CAP = 50000, ROSTER = 6;
+            let MAX_RESULTS = 150;  // how many lineups to build; set from the "# of lineups" input at run time
             let FIGHTERS = [];   // { name, salary, gameInfo, matchup, proj, own, lock, exclude }
             let lastLineups = [];
 
@@ -6356,6 +6454,8 @@
 
                 document.getElementById('optRunBtn').addEventListener('click', () => {
                     if (!FIGHTERS.length) return;
+                    const cntRaw = parseInt(document.getElementById('optCount').value, 10);
+                    MAX_RESULTS = Math.max(1, Math.min(1000, isNaN(cntRaw) ? 150 : cntRaw));
                     const capRaw = document.getElementById('optOwnCap').value.trim();
                     const ownCap = capRaw === '' ? null : oNum(capRaw);
                     if (!FIGHTERS.some(f => !f.exclude && f.proj > 0)) {

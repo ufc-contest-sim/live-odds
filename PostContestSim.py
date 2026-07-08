@@ -389,8 +389,12 @@ def _tidy_contest_name(dk_name: str, cid: str) -> str:
     s = s.replace('$', '').strip()
     return s or f"Contest {cid}"
 
-# DK standings downloads are named 'contest-standings-<id>.csv' (or .zip).
-_STANDINGS_RE = re.compile(r'contest-standings-(\d+)\.(csv|zip)$', re.I)
+# DK standings downloads are named 'contest-standings-<id>.csv' (or .zip). Match
+# the id loosely so separators can't trip us up: hyphens/underscores/spaces are
+# all optional, so 'contest-standings-123', 'conteststandings123', and
+# 'contest-standings-123 (1).csv' all resolve to id 123. The .csv/.zip check is
+# done separately on the file extension.
+_STANDINGS_RE = re.compile(r'contest[-_ ]?standings[-_ ]?(\d+)', re.I)
 
 def discover_contests(wb_path: str):
     """Build the contest list from the DraftKings standings files sitting next to
@@ -402,6 +406,8 @@ def discover_contests(wb_path: str):
     base = Path(wb_path).resolve().parent
     found = {}  # id -> filename (prefer .csv over .zip if both exist)
     for f in sorted(base.iterdir()):
+        if f.suffix.lower() not in ('.csv', '.zip'):
+            continue
         m = _STANDINGS_RE.search(f.name)
         if m:
             cid = m.group(1)

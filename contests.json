@@ -1,20 +1,28 @@
 {
   "contests": [
     {
-      "id": "100k_knockout",
-      "name": "100K Knockout",
-      "file": "100K_Knockout.json",
-      "entryFee": 555.0,
-      "totalPrizes": 100000,
-      "entrants": 194
+      "id": "10k_title_fight",
+      "name": "10K Title Fight",
+      "file": "10K_Title_Fight.json",
+      "entryFee": 1060.0,
+      "totalPrizes": 10000,
+      "entrants": 10
     },
     {
-      "id": "12k_title_fight",
-      "name": "12K Title Fight",
-      "file": "12K_Title_Fight.json",
-      "entryFee": 1060.0,
-      "totalPrizes": 12000,
-      "entrants": 10
+      "id": "1m_ufc_329_special",
+      "name": "1M UFC 329 Special",
+      "file": "1M_UFC_329_Special.json",
+      "entryFee": 25.0,
+      "totalPrizes": 1000000,
+      "entrants": 39768
+    },
+    {
+      "id": "250k_knockout_special",
+      "name": "250K Knockout Special",
+      "file": "250K_Knockout_Special.json",
+      "entryFee": 555.0,
+      "totalPrizes": 250000,
+      "entrants": 458
     },
     {
       "id": "26k_double_champ",
@@ -22,63 +30,23 @@
       "file": "26K_Double_Champ.json",
       "entryFee": 2120.0,
       "totalPrizes": 26000,
-      "entrants": 10
+      "entrants": 13
     },
     {
-      "id": "2k_sprawl",
-      "name": "2K Sprawl",
-      "file": "2K_Sprawl.json",
-      "entryFee": 4.0,
-      "totalPrizes": 2000,
-      "entrants": 594
-    },
-    {
-      "id": "300k_throwdown",
-      "name": "300K Throwdown",
-      "file": "300K_Throwdown.json",
-      "entryFee": 18.0,
-      "totalPrizes": 300000,
-      "entrants": 19558
-    },
-    {
-      "id": "30k_arm_bar",
-      "name": "30K Arm Bar",
-      "file": "30K_Arm_Bar.json",
+      "id": "40k_arm_bar",
+      "name": "40K Arm Bar",
+      "file": "40K_Arm_Bar.json",
       "entryFee": 5.0,
-      "totalPrizes": 30000,
-      "entrants": 7134
+      "totalPrizes": 40000,
+      "entrants": 9512
     },
     {
-      "id": "30k_hook",
-      "name": "30K Hook",
-      "file": "30K_Hook.json",
+      "id": "40k_hook",
+      "name": "40K Hook",
+      "file": "40K_Hook.json",
       "entryFee": 8.0,
-      "totalPrizes": 30000,
-      "entrants": 4411
-    },
-    {
-      "id": "30k_thunderdome",
-      "name": "30K Thunderdome",
-      "file": "30K_Thunderdome.json",
-      "entryFee": 5300.0,
-      "totalPrizes": 30000,
-      "entrants": 6
-    },
-    {
-      "id": "5k_clinch",
-      "name": "5K Clinch",
-      "file": "5K_Clinch.json",
-      "entryFee": 5.0,
-      "totalPrizes": 5000,
-      "entrants": 1189
-    },
-    {
-      "id": "5k_sprawl",
-      "name": "5K Sprawl",
-      "file": "5K_Sprawl.json",
-      "entryFee": 12.0,
-      "totalPrizes": 5000,
-      "entrants": 490
+      "totalPrizes": 40000,
+      "entrants": 5882
     }
   ]
 }

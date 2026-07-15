@@ -60,20 +60,67 @@ def ids_from_lines(lines):
     return out
 
 
-def load_auth():
-    """Return ('browser', cookiejar) or ('file', cookie_header) or (None, None)."""
+def _clean_cookie_header(raw):
+    """Make a pasted Cookie header usable: drop a leading 'Cookie:' label,
+    strip surrounding quotes, and remove any line breaks a paste added."""
+    raw = raw.strip().replace("\r", "").replace("\n", "")
+    if raw.lower().startswith("cookie:"):
+        raw = raw[len("cookie:"):].strip()
+    if len(raw) >= 2 and raw[0] in "\"'" and raw[-1] == raw[0]:
+        raw = raw[1:-1].strip()
+    return raw.strip()
+
+
+def _load_browser_cookies():
+    """Try each supported browser one at a time; merge whatever we can read.
+    Returns (cookiejar_or_None, notes) where notes explains each browser's
+    result so a failure (e.g. a locked cookie file) is visible instead of
+    silently swallowed."""
+    notes = []
     try:
         import browser_cookie3 as bc
-        cj = bc.load(domain_name="draftkings.com")
-        if cj and len(cj):
-            return "browser", cj
     except Exception:
-        pass
+        return None, ["browser_cookie3 is not installed (pip install browser_cookie3)"]
+    import http.cookiejar
+    jar = http.cookiejar.CookieJar()
+    got = 0
+    for fn_name in ("chrome", "edge", "brave", "chromium", "vivaldi", "opera", "firefox"):
+        fn = getattr(bc, fn_name, None)
+        if fn is None:
+            continue
+        try:
+            cj = fn(domain_name="draftkings.com")
+        except Exception as e:  # noqa: BLE001 - report, don't abort
+            msg = str(e).splitlines()[0] if str(e) else e.__class__.__name__
+            if "admin" in msg.lower():
+                notes.append(f"{fn_name}: cookie file is locked — "
+                             f"right-click standings.bat and 'Run as administrator' (or close {fn_name})")
+            else:
+                notes.append(f"{fn_name}: {msg[:90]}")
+            continue
+        n = 0
+        for ck in cj:
+            jar.set_cookie(ck)
+            n += 1
+        if n:
+            got += n
+            notes.append(f"{fn_name}: read {n} DraftKings cookie(s)")
+    return (jar if got else None), notes
+
+
+def load_auth():
+    """Return ('browser', cookiejar) or ('file', cookie_header) or (None, None).
+    dk_cookie.txt wins if present (no admin needed); otherwise read the browser."""
     p = Path("dk_cookie.txt")
     if p.exists():
-        raw = p.read_text(encoding="utf-8").strip()
+        raw = _clean_cookie_header(p.read_text(encoding="utf-8"))
         if raw:
             return "file", raw
+    jar, notes = _load_browser_cookies()
+    for line in notes:
+        print(f"  [auth] {line}")
+    if jar is not None:
+        return "browser", jar
     return None, None
 
 
@@ -138,8 +185,10 @@ def main():
 
     mode, auth = load_auth()
     if not mode:
-        print("Could not find your DraftKings login.\n"
-              "  - Easiest: pip install browser_cookie3, then just be logged into DraftKings in your browser.\n"
+        print("\nCould not read your DraftKings login. Any of these fixes it:\n"
+              "  - Right-click standings.bat and 'Run as administrator' (reads your logged-in browser even with it open).\n"
+              "  - Or close your browser fully, then re-run (no admin needed).\n"
+              "  - Or install it once: pip install browser_cookie3\n"
               "  - Or paste your DK 'Cookie' header into a file named dk_cookie.txt next to this script.")
         sys.exit(1)
 

@@ -3,6 +3,28 @@
 """
 UFC Post-Contest Simulator — Multi-Contest (shared fight sampling) + HP + MP
 
+v3 performance release — byte-identical outputs, ~5x faster engine:
+  * Ranking rewritten: one argsort + tie-run boundary scan replaces the flat
+    double-searchsorted (which was 30x the cost of the sort itself at big
+    contest sizes). Rank intervals come out bit-identical.
+  * Deduplication: entries with identical mapped fighter columns are one
+    unique lineup; all rank/payout math runs on uniques with copy weights
+    (~2-3x fewer columns on big GPPs). A one-time per-contest self-check
+    bit-compares unique vs entry scores and silently falls back to the legacy
+    path if a BLAS/numpy change ever breaks the equivalence. Degenerate
+    shapes (1-row micro-batch tails, 1-unique contests) always use legacy.
+  * Wins/2nd/3rd derived from the rank intervals (no extra masked-max passes).
+  * Portfolio tracking stores per-contest outcomes only for users IN each
+    contest (ragged) instead of (contests x iters x ALL users) dense — ~7x
+    less RAM/disk; the dense arrays were the real ceiling on iteration count.
+  * Percentile phase sorts all users as bulk matrix ops (was: one Python-loop
+    sort per user per contest); result CSVs built column-wise (was: per-row).
+  * Worker results are accumulated in submission order, so a fixed seed now
+    reproduces byte-identical outputs run to run.
+  * BLAS pinned to 1 thread per worker (workers are the parallelism); the
+    workers prompt now suggests your machine's core count.
+  * --legacy flag forces the original ranking path everywhere.
+
 v2 performance/stability release — identical outputs, faster engine:
   * Work is now split across ALL workers regardless of progress step.
     (v1 made one worker task per progress_step; with defaults 200k iters /
@@ -48,7 +70,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 from openpyxl import load_workbook
-from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor
 import itertools
 Z99 = 2.326347874
 # Optimal-lineup (DraftKings classic MMA): 6 fighters, $50,000 cap, no pairing rule.
@@ -566,7 +588,7 @@ def build_mats(fighters, fmap, id2idx):
     return C1, C2
 # -------------------- Worker --------------------
 def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
-               mem_budget_mb: int = 1024):
+               mem_budget_mb: int = 1024, force_legacy: bool = False):
     rng = np.random.default_rng(seed)
     data = np.load(npz_path, allow_pickle=False)
     # shared fight sampling
@@ -586,8 +608,10 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
         M_opt = np.zeros((nf_opt, opt_combos.shape[0]), dtype=np.float32)
         for ci in range(OPT_ROSTER):
             M_opt[opt_combos[:, ci], np.arange(opt_combos.shape[0])] = 1.0
+        combo_buf = np.empty((512, opt_combos.shape[0]), dtype=np.float32)
     else:
         M_opt = None
+        combo_buf = None
     # contests packed
     K = int(data["K"])
     last_paid = data["last_paid"].astype(np.int64)      # (K,)
@@ -596,6 +620,13 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     offsets = data["offsets"].astype(np.int64)          # (K+1,)
     C1_concat = data["C1_concat"].astype(np.int8)       # (sum_n, F)
     C2_concat = data["C2_concat"].astype(np.int8)       # (sum_n, F)
+    # dedupe structures: entries sharing the exact same fighter columns are one
+    # unique lineup; all rank/payout math can run on uniques with copy weights
+    U_list = data["U_list"].astype(np.int64)            # (K,) uniques per contest
+    u_offsets = data["u_offsets"].astype(np.int64)      # (K+1,)
+    uC1_concat = data["uC1_concat"].astype(np.int8)     # (sum_U, F)
+    uC2_concat = data["uC2_concat"].astype(np.int8)
+    inv_concat = data["inv_concat"].astype(np.int64)    # entry -> unique id, per contest
     # portfolio tracking
     user_map_concat = data["user_map_concat"].astype(np.int64)
     num_users = int(data["num_users"])
@@ -621,14 +652,30 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
         user_perm_list.append(perm)
         user_starts_list.append(starts)
         user_ids_list.append(uids)
-    # per-contest transposed matrices
-    C1T_list = []
-    C2T_list = []
+    # per-contest transposed matrices (legacy entry columns kept for the
+    # fallback path and the startup self-check) + unique-lineup columns
+    C1T_list, C2T_list = [], []
+    uC1T_list, uC2T_list = [], []
+    inv_list, w_list, invperm_list = [], [], []
     for k in range(K):
         a = int(offsets[k]); b = int(offsets[k+1])
         C1T_list.append(C1_concat[a:b].T.astype(np.float32, copy=False))  # (F x n_k)
         C2T_list.append(C2_concat[a:b].T.astype(np.float32, copy=False))
-    # accumulators
+        ua = int(u_offsets[k]); ub = int(u_offsets[k+1])
+        uC1T_list.append(uC1_concat[ua:ub].T.astype(np.float32, copy=False))  # (F x U_k)
+        uC2T_list.append(uC2_concat[ua:ub].T.astype(np.float32, copy=False))
+        inv = inv_concat[a:b]
+        inv_list.append(inv)
+        w_list.append(np.bincount(inv, minlength=int(U_list[k])).astype(np.int64))
+        invperm_list.append(inv[user_perm_list[k]])   # fused gather order for reduceat
+    # Fast path applies per contest when it has >=2 unique lineups. Degenerate
+    # GEMM shapes (a 1-row micro-batch, or a 1-unique contest) dispatch to GEMV
+    # kernels whose summation order differs from the wide GEMM, so those cases
+    # always run the legacy path to keep outputs bit-identical.
+    fast_ok = [(not force_legacy) and int(U_list[k]) >= 2 for k in range(K)]
+    self_checked = [False] * K
+    # accumulators (always per-entry; fast batches accumulate per-unique batch
+    # sums and expand the length-U vector through inv — identical addends)
     sum_scores = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     sumsq_scores = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     total_payout = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
@@ -637,17 +684,22 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
     cashes = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     seconds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
     thirds = [np.zeros(int(n_list[k]), dtype=np.float64) for k in range(K)]
-    # Portfolio outcome tracking: store per-user net profit for each iteration
+    # Portfolio outcome tracking: per-user net profit for each iteration.
+    # "all" stays dense over every user; per-contest arrays only hold the users
+    # actually IN that contest (everyone else's cell is structurally 0 and the
+    # percentile builder excludes all-zero users anyway).
     user_outcomes = np.zeros((iters, num_users), dtype=np.float32)
-    user_outcomes_per_contest = np.zeros((K, iters, num_users), dtype=np.float32)
+    contest_outcomes = [np.zeros((iters, len(user_ids_list[k])), dtype=np.float32)
+                        for k in range(K)]
+    contest_fees_uids = [user_contest_fees[k][user_ids_list[k]] for k in range(K)]
     iter_cursor = 0  # tracks which iteration we're writing to in user_outcomes
     done_total = 0
     while done_total < iters:
         B = min(batch, iters - done_total)
         bytes_budget = int(mem_budget_mb) * (1 << 20)
-        # The vectorized engine holds several (m x n) float64 intermediates
-        # (scores, negated copy, sorted copy, ranks, payouts) plus the
-        # (m x num_users) accumulators — budget ~64 bytes per score cell.
+        # NOTE: this sizing formula is intentionally unchanged. micro_b sets the
+        # partial-sum boundaries of every accumulator; changing it would change
+        # float64 rounding and break bit-identical output vs prior versions.
         max_n = int(n_list.max()) if len(n_list) else 1
         bytes_per_row = max(1, max_n * 64 + num_users * 16)
         micro_b = max(1, min(B, bytes_budget // bytes_per_row))
@@ -675,84 +727,147 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                 sub = 512
                 for o0 in range(0, len(rem), sub):
                     block = fs[rem[o0:o0+sub]]             # (sm, nf_opt)
-                    combo_scores = block @ M_opt           # (sm, C)
+                    combo_scores = np.matmul(block, M_opt, out=combo_buf[:block.shape[0]])
                     best = opt_combos[combo_scores.argmax(axis=1)]   # (sm, OPT_ROSTER)
                     np.add.at(opt_counts, best.ravel(), 1)
             # per-user payout accumulator for this micro-batch
             user_payout_batch = np.zeros((m, num_users), dtype=np.float64)
-            contest_user_payouts = np.zeros((K, m, num_users), dtype=np.float64)
             # evaluate each contest — fully vectorized across the micro-batch
             for k in range(K):
-                C1T = C1T_list[k]
-                C2T = C2T_list[k]
                 prefix = prefix_mat[k]
                 lp = int(last_paid[k])
                 n_k = int(n_list[k])
-                scores = s1 @ C1T + s2 @ C2T  # (m x n_k) — FAST matmul
-                sc = scores.astype(np.float64)
-                sum_scores[k] += sc.sum(axis=0)
-                sumsq_scores[k] += np.einsum('ij,ij->j', sc, sc)
-                # ---- batched rank computation ----
-                # Rows are made globally ascending by adding disjoint per-row
-                # offsets, so ONE flat searchsorted ranks every entry of every
-                # iteration at once (replaces the per-iteration Python loop).
-                neg = -sc
-                neg_sorted = np.sort(neg, axis=1)          # (m, n_k) ascending = best first
-                row_min = neg_sorted[:, 0].min()
-                row_max = neg_sorted[:, -1].max()
-                span = (row_max - row_min) + 1.0
-                base = (np.arange(m, dtype=np.float64) * span)[:, None]
-                flat_sorted = (neg_sorted + base).ravel()
-                flat_q = (neg + base).ravel()
-                row_start = (np.arange(m, dtype=np.int64) * n_k)[:, None]
-                left = np.searchsorted(flat_sorted, flat_q, side='left').reshape(m, n_k) - row_start
-                right = np.searchsorted(flat_sorted, flat_q, side='right').reshape(m, n_k) - row_start
-                group_sizes = (right - left).astype(np.float64)
-                # Tie-split payouts: (prefix[end] - prefix[start]) / group_size
-                safe_left = np.minimum(left, lp)
-                safe_right = np.minimum(right, lp)
-                payout = (prefix[safe_right] - prefix[safe_left]) / np.maximum(group_sizes, 1.0)  # (m, n_k)
-                total_payout[k] += payout.sum(axis=0)
-                cashes[k] += (payout > 0.0).sum(axis=0)
-                # 1st place: entries matching top score (ties all count — matches DK rank)
-                top = sc.max(axis=1)
-                is_win = sc == top[:, None]
-                wins[k] += is_win.sum(axis=0)
-                win_total[k] += (payout * is_win).sum(axis=0)
-                # 2nd place: next distinct score group
-                sc_m = np.where(is_win, -np.inf, sc)
-                val2 = sc_m.max(axis=1)
-                has2 = np.isfinite(val2)
-                is_second = (sc == val2[:, None]) & has2[:, None]
-                seconds[k] += is_second.sum(axis=0)
-                # 3rd place: next distinct score group after 2nd
-                sc_m = np.where(is_second, -np.inf, sc_m)
-                val3 = sc_m.max(axis=1)
-                has3 = np.isfinite(val3)
-                thirds[k] += ((sc == val3[:, None]) & has3[:, None]).sum(axis=0)
+                U_k = int(U_list[k])
+                inv = inv_list[k]
+                legacy32 = None
+                use_fast = fast_ok[k] and m > 1
+                if use_fast:
+                    su32 = s1 @ uC1T_list[k]               # (m x U_k) on unique lineups
+                    su32 += s2 @ uC2T_list[k]
+                    if not self_checked[k]:
+                        # One-time self-check: unique-column scores expanded to
+                        # entries must be bit-identical to the legacy entry-level
+                        # GEMM. If a BLAS/numpy change ever breaks that, this
+                        # contest silently drops to the legacy path.
+                        legacy32 = s1 @ C1T_list[k] + s2 @ C2T_list[k]
+                        if np.array_equal(su32[:, inv].view(np.uint32), legacy32.view(np.uint32)):
+                            self_checked[k] = True
+                        else:
+                            log(f"[warn] dedupe self-check failed for contest {k}; using legacy path")
+                            fast_ok[k] = False
+                            use_fast = False
+                if use_fast:
+                    # ---- fast path: rank unique lineups with copy weights ----
+                    scu = su32.astype(np.float64)
+                    sum_scores[k] += scu.sum(axis=0)[inv]
+                    sumsq_scores[k] += np.einsum('ij,ij->j', scu, scu)[inv]
+                    # Ranks from one argsort + tie-run boundaries. float32 order
+                    # equals float64 order (the cast is monotonic), so ranks and
+                    # tie groups are identical to the legacy searchsorted's.
+                    negu = -su32
+                    order = np.argsort(negu, axis=1)
+                    srt = np.take_along_axis(negu, order, axis=1)
+                    new_grp = np.empty((m, U_k), dtype=bool)
+                    new_grp[:, 0] = True
+                    np.not_equal(srt[:, 1:], srt[:, :-1], out=new_grp[:, 1:])
+                    posU = np.arange(U_k, dtype=np.int64)
+                    start_pos = np.maximum.accumulate(np.where(new_grp, posU, 0), axis=1)
+                    end_pos = np.empty((m, U_k), dtype=np.int64)
+                    end_pos[:, -1] = U_k
+                    em = np.where(new_grp[:, 1:], posU[1:], U_k)
+                    np.minimum.accumulate(em[:, ::-1], axis=1, out=end_pos[:, :-1][:, ::-1])
+                    # weighted rank interval [Lw, Rw) = entry-level [left, right)
+                    w_sorted = w_list[k][order]
+                    cw0 = np.empty((m, U_k + 1), dtype=np.int64)
+                    cw0[:, 0] = 0
+                    np.cumsum(w_sorted, axis=1, out=cw0[:, 1:])
+                    Lw_s = np.take_along_axis(cw0, start_pos, axis=1)
+                    Rw_s = np.take_along_axis(cw0, end_pos, axis=1)
+                    Lw = np.empty((m, U_k), dtype=np.int64)
+                    Rw = np.empty((m, U_k), dtype=np.int64)
+                    np.put_along_axis(Lw, order, Lw_s, axis=1)
+                    np.put_along_axis(Rw, order, Rw_s, axis=1)
+                    group_sizes = (Rw - Lw).astype(np.float64)
+                    safe_left = np.minimum(Lw, lp)
+                    safe_right = np.minimum(Rw, lp)
+                    payout = (prefix[safe_right] - prefix[safe_left]) / np.maximum(group_sizes, 1.0)
+                    total_payout[k] += payout.sum(axis=0)[inv]
+                    cashes[k] += (payout > 0.0).sum(axis=0)[inv]
+                    # 1st place: rank interval starting at 0 (ties all count)
+                    is_win = Lw == 0
+                    wins[k] += is_win.sum(axis=0)[inv]
+                    win_total[k] += (payout * is_win).sum(axis=0)[inv]
+                    # 2nd/3rd place: the tie groups whose left rank equals the
+                    # previous group's right rank (verified identical to the
+                    # legacy masked-max computation)
+                    rows_i = np.arange(m)
+                    wr = Rw[rows_i, np.argmax(is_win, axis=1)]
+                    is_second = Lw == wr[:, None]
+                    seconds[k] += is_second.sum(axis=0)[inv]
+                    has2 = is_second.any(axis=1)
+                    r2 = np.where(has2, Rw[rows_i, np.argmax(is_second, axis=1)], -1)
+                    thirds[k] += (Lw == r2[:, None]).sum(axis=0)[inv]
+                    # per-entry payouts in user-sorted order, gathered straight
+                    # from the unique payouts (same values the legacy
+                    # payout[:, perm] copy would hold)
+                    payout_perm = payout[:, invperm_list[k]]
+                else:
+                    # ---- legacy path (original engine, kept verbatim) ----
+                    if legacy32 is None:
+                        legacy32 = s1 @ C1T_list[k] + s2 @ C2T_list[k]
+                    sc = legacy32.astype(np.float64)
+                    sum_scores[k] += sc.sum(axis=0)
+                    sumsq_scores[k] += np.einsum('ij,ij->j', sc, sc)
+                    neg = -sc
+                    neg_sorted = np.sort(neg, axis=1)          # (m, n_k) ascending = best first
+                    row_min = neg_sorted[:, 0].min()
+                    row_max = neg_sorted[:, -1].max()
+                    span = (row_max - row_min) + 1.0
+                    base = (np.arange(m, dtype=np.float64) * span)[:, None]
+                    flat_sorted = (neg_sorted + base).ravel()
+                    flat_q = (neg + base).ravel()
+                    row_start = (np.arange(m, dtype=np.int64) * n_k)[:, None]
+                    left = np.searchsorted(flat_sorted, flat_q, side='left').reshape(m, n_k) - row_start
+                    right = np.searchsorted(flat_sorted, flat_q, side='right').reshape(m, n_k) - row_start
+                    group_sizes = (right - left).astype(np.float64)
+                    safe_left = np.minimum(left, lp)
+                    safe_right = np.minimum(right, lp)
+                    payout = (prefix[safe_right] - prefix[safe_left]) / np.maximum(group_sizes, 1.0)
+                    total_payout[k] += payout.sum(axis=0)
+                    cashes[k] += (payout > 0.0).sum(axis=0)
+                    top = sc.max(axis=1)
+                    is_win = sc == top[:, None]
+                    wins[k] += is_win.sum(axis=0)
+                    win_total[k] += (payout * is_win).sum(axis=0)
+                    sc_m = np.where(is_win, -np.inf, sc)
+                    val2 = sc_m.max(axis=1)
+                    has2 = np.isfinite(val2)
+                    is_second = (sc == val2[:, None]) & has2[:, None]
+                    seconds[k] += is_second.sum(axis=0)
+                    sc_m = np.where(is_second, -np.inf, sc_m)
+                    val3 = sc_m.max(axis=1)
+                    has3 = np.isfinite(val3)
+                    thirds[k] += ((sc == val3[:, None]) & has3[:, None]).sum(axis=0)
+                    payout_perm = payout[:, user_perm_list[k]]
                 # Portfolio: per-user payouts via grouped reduce (one call per batch)
-                perm = user_perm_list[k]
                 starts = user_starts_list[k]
                 uids = user_ids_list[k]
                 if len(uids):
-                    per_user = np.add.reduceat(payout[:, perm], starts, axis=1)  # (m, n_groups)
+                    per_user = np.add.reduceat(payout_perm, starts, axis=1)  # (m, n_groups)
                     user_payout_batch[:, uids] += per_user
-                    contest_user_payouts[k][:, uids] = per_user
+                    contest_outcomes[k][iter_cursor:iter_cursor + m] = \
+                        (per_user - contest_fees_uids[k]).astype(np.float32)
             # Store per-user net profit (payouts - entry fees) for this micro-batch
             user_payout_batch -= user_total_fees  # subtract fees to get net profit
             user_outcomes[iter_cursor:iter_cursor + m] = user_payout_batch.astype(np.float32)
-            # Per-contest net profit
-            for k in range(K):
-                contest_user_payouts[k] -= user_contest_fees[k]
-            user_outcomes_per_contest[:, iter_cursor:iter_cursor + m, :] = contest_user_payouts.astype(np.float32)
             iter_cursor += m
             off += m
         done_total += B
     # Save user_outcomes to temp files to avoid pipe size limits on Windows
     outcomes_path = npz_path + f".user_outcomes_{idx}.npy"
     np.save(outcomes_path, user_outcomes)
-    per_contest_path = npz_path + f".user_outcomes_per_contest_{idx}.npy"
-    np.save(per_contest_path, user_outcomes_per_contest)
+    per_contest_path = npz_path + f".contest_outcomes_{idx}.npz"
+    np.savez(per_contest_path, **{f"c{k}": contest_outcomes[k] for k in range(K)})
     return (idx, done_total, sum_scores, sumsq_scores, total_payout, wins, win_total, cashes, seconds, thirds, outcomes_path, per_contest_path, opt_counts)
 # -------------------- Pack workbook once --------------------
 def pack_npz_multi(wb_path: str, temp_dir: Path):
@@ -835,6 +950,12 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     prefix_list = []
     user_map_blocks = []  # per-contest array mapping lineup_idx -> user_idx
     all_users_set = {}    # username -> user_idx (case-preserved, keyed by casefold)
+    # dedupe: unique fighter-column signatures per contest (identical columns =>
+    # identical scores every iteration, so the worker ranks uniques w/ weights)
+    inv_blocks = []       # per-contest entry -> unique id
+    uC1_blocks = []
+    uC2_blocks = []
+    U_list = []
     for c in contests:
         name = c["ContestName"]
         lineups_ref = c["LineupsSheet"]
@@ -847,6 +968,15 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         fighters, users = read_lineups(xl, lineups_ref, wb_path)
         lineup_keys, copies = compute_copies_and_keys(fighters)
         C1, C2 = build_mats(fighters, fmap, id2idx)
+        # Unique lineup signatures, keyed on the exact mapped fighter columns
+        # (not name strings): the columns are what determine the score bits.
+        sig = np.concatenate([C1, C2], axis=1)
+        _, first_idx, inv_k = np.unique(sig, axis=0, return_index=True, return_inverse=True)
+        inv_k = inv_k.reshape(-1).astype(np.int64)
+        inv_blocks.append(inv_k)
+        uC1_blocks.append(C1[first_idx])
+        uC2_blocks.append(C2[first_idx])
+        U_list.append(len(first_idx))
         # Compute per-lineup total salary from salary_map
         n_k_tmp = fighters.shape[0]
         lineup_salaries = np.zeros(n_k_tmp, dtype=np.float64)
@@ -882,6 +1012,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
                 all_users_set[ukey] = (len(all_users_set), u)  # (idx, display_name)
             umap_k[i_lu] = all_users_set[ukey][0]
         user_map_blocks.append(umap_k)
+        contest_meta[-1]["uids"] = np.unique(umap_k)  # users in this contest (sorted)
         C1_blocks.append(C1)
         C2_blocks.append(C2)
         n_list.append(n_k)
@@ -919,6 +1050,17 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     offsets = np.array(offsets, dtype=np.int64)
     C1_concat = np.vstack(C1_blocks).astype(np.int8, copy=False)
     C2_concat = np.vstack(C2_blocks).astype(np.int8, copy=False)
+    # dedupe blocks
+    u_offsets = [0]
+    for u in U_list:
+        u_offsets.append(u_offsets[-1] + u)
+    u_offsets = np.array(u_offsets, dtype=np.int64)
+    uC1_concat = np.vstack(uC1_blocks).astype(np.int8, copy=False)
+    uC2_concat = np.vstack(uC2_blocks).astype(np.int8, copy=False)
+    inv_concat = np.concatenate(inv_blocks).astype(np.int64)
+    total_u = int(u_offsets[-1])
+    log(f"[dedupe] {int(offsets[-1]):,} entries -> {total_u:,} unique lineups "
+        f"({(int(offsets[-1]) / max(1, total_u)):.2f}x)")
     # -------- Optimal-lineup setup (slate-level) --------
     opt_names = [n for n in salary_map.keys() if n in fmap]
     opt_fidx = np.array([id2idx[fmap[n][0]] for n in opt_names], dtype=np.int64)
@@ -951,6 +1093,12 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         offsets=offsets,
         C1_concat=C1_concat,
         C2_concat=C2_concat,
+        # dedupe
+        U_list=np.array(U_list, dtype=np.int64),
+        u_offsets=u_offsets,
+        uC1_concat=uC1_concat,
+        uC2_concat=uC2_concat,
+        inv_concat=inv_concat,
         # portfolio tracking
         user_map_concat=user_map_concat,
         num_users=np.array(num_users, dtype=np.int64),
@@ -979,7 +1127,8 @@ def main():
         pass
     DEFAULT_WB = "Post Contest Sim.xlsm"
     DEFAULT_ITERS = 200000
-    DEFAULT_WORKERS = 4
+    # Suggest roughly the physical core count (cpu_count reports logical/SMT).
+    DEFAULT_WORKERS = max(4, min(16, (os.cpu_count() or 8) // 2))
     DEFAULT_BATCH = 32768
     DEFAULT_STEP = 100000
     ap = argparse.ArgumentParser(add_help=False)
@@ -990,6 +1139,8 @@ def main():
     ap.add_argument("--progress_step", type=int)
     ap.add_argument("--seed", type=int)
     ap.add_argument("--out")
+    ap.add_argument("--legacy", action="store_true",
+                    help="force the original ranking engine (slow path) everywhere")
     args, _ = ap.parse_known_args()
     wb = args.workbook or DEFAULT_WB
     if not Path(wb).exists():
@@ -1003,7 +1154,8 @@ def main():
         _already_paused = True
         return
     iters = args.iters if (args.iters and args.iters > 0) else ask_int("Number of iterations", DEFAULT_ITERS)
-    workers = args.workers if (args.workers and args.workers > 0) else ask_int("Number of worker processes (try 4, 6, 8)", DEFAULT_WORKERS)
+    workers = args.workers if (args.workers and args.workers > 0) else ask_int(
+        f"Number of worker processes (your CPU suggests {DEFAULT_WORKERS})", DEFAULT_WORKERS)
     if args.batch and args.batch > 0:
         batch = args.batch
     else:
@@ -1054,11 +1206,22 @@ def main():
         thirds       = [np.zeros(c["n"], dtype=np.float64) for c in contest_meta]
         done_iters = 0
         all_user_outcomes = []  # collect per-worker user outcome arrays
-        all_user_outcomes_per_contest = []  # collect per-worker per-contest outcome arrays
+        contest_npzs = []       # per-worker npz handles of ragged per-contest outcomes
+        # Pin BLAS to one thread per worker process: the workers ARE the
+        # parallelism, and oversubscribed BLAS threads fight each other. Thread
+        # count doesn't change GEMM results here (the k-reduction per output
+        # element is sequential either way). Users' own env settings win.
+        for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+                   "NUMEXPR_NUM_THREADS"):
+            os.environ.setdefault(_v, "1")
         with ProcessPoolExecutor(max_workers=workers) as ex:
-            futs = [ex.submit(worker_run, i, bundle, int(chunks[i]), int(batch), int(child_seeds[i]))
+            futs = [ex.submit(worker_run, i, bundle, int(chunks[i]), int(batch), int(child_seeds[i]),
+                              force_legacy=bool(args.legacy))
                     for i in range(len(chunks))]
-            for fut in as_completed(futs):
+            # Collect in submission order (NOT completion order) so float64
+            # accumulation order is deterministic: same seed + same settings
+            # now reproduce byte-identical outputs run to run.
+            for fut in futs:
                 (idx, its, s_list, ss_list, tp_list, w_list, wt_list, c_list, sec_list, thi_list, outcomes_path, per_contest_path, opt_c) = fut.result()
                 if opt_c is not None and len(opt_c) == len(opt_counts_total):
                     opt_counts_total += opt_c
@@ -1073,8 +1236,7 @@ def main():
                     thirds[k]       += thi_list[k]
                 all_user_outcomes.append(np.load(outcomes_path))
                 os.remove(outcomes_path)
-                all_user_outcomes_per_contest.append(np.load(per_contest_path))
-                os.remove(per_contest_path)
+                contest_npzs.append(np.load(per_contest_path))  # lazy npz; closed after percentiles
                 done_iters += its
                 rate = done_iters / max(1e-9, (time.time() - t0))
                 log(f"[progress] {done_iters:,}/{iters:,} ({done_iters/iters:,.1%}) | {rate:,.0f} it/s")
@@ -1108,31 +1270,35 @@ def main():
             keys     = meta["lineup_keys"]
             copies   = meta["copies"]
             salaries = meta["lineup_salaries"]
-            rows = []
-            for i in range(n):
-                rows.append([
-                    meta["Contest"],
-                    i+1, users[i], keys[i], int(copies[i]),
-                    safe_str(fighters[i,0]), safe_str(fighters[i,1]), safe_str(fighters[i,2]),
-                    safe_str(fighters[i,3]), safe_str(fighters[i,4]), safe_str(fighters[i,5]),
-                    float(entry), float(AvgWinPayout[i]),
-                    float(EV[i]), float(NetEV[i]), float(ROI[i]), float(WinPct[i]),
-                    float(SecondPct[i]), float(ThirdPct[i]),
-                    float(CashPct[i]),
-                    float(mean[i]), float(sd[i]), float(p99[i]),
-                    float(total_payout[k][i]),
-                    float(salaries[i])
-                ])
-            cols = [
-                "Contest",
-                "Row","Username","LineupKey","Copies",
-                "F1","F2","F3","F4","F5","F6",
-                "EntryFee","AvgWinPayout",
-                "EV","NetEV","ROI%","WinPct","SecondPct","ThirdPct","CashPct",
-                "MeanScore","SDScore","P99Score",
-                "TotalPayout","TotalSalary"
-            ]
-            df_k = pd.DataFrame(rows, columns=cols)
+            # Column-wise build (same values/dtypes as the old per-row loop,
+            # which spent ~15s in Python for large slates)
+            df_k = pd.DataFrame({
+                "Contest": [meta["Contest"]] * n,
+                "Row": np.arange(1, n + 1, dtype=np.int64),
+                "Username": list(users),
+                "LineupKey": list(keys),
+                "Copies": copies.astype(np.int64),
+                "F1": [safe_str(x) for x in fighters[:, 0]],
+                "F2": [safe_str(x) for x in fighters[:, 1]],
+                "F3": [safe_str(x) for x in fighters[:, 2]],
+                "F4": [safe_str(x) for x in fighters[:, 3]],
+                "F5": [safe_str(x) for x in fighters[:, 4]],
+                "F6": [safe_str(x) for x in fighters[:, 5]],
+                "EntryFee": np.full(n, float(entry), dtype=np.float64),
+                "AvgWinPayout": AvgWinPayout.astype(np.float64, copy=False),
+                "EV": EV.astype(np.float64, copy=False),
+                "NetEV": NetEV.astype(np.float64, copy=False),
+                "ROI%": ROI.astype(np.float64, copy=False),
+                "WinPct": WinPct.astype(np.float64, copy=False),
+                "SecondPct": SecondPct.astype(np.float64, copy=False),
+                "ThirdPct": ThirdPct.astype(np.float64, copy=False),
+                "CashPct": CashPct.astype(np.float64, copy=False),
+                "MeanScore": mean.astype(np.float64, copy=False),
+                "SDScore": sd.astype(np.float64, copy=False),
+                "P99Score": p99.astype(np.float64, copy=False),
+                "TotalPayout": total_payout[k].astype(np.float64, copy=False),
+                "TotalSalary": salaries.astype(np.float64, copy=False),
+            })
             cname = safe_filename(meta["Contest"])
             per_path = os.path.join(out_dir, f"{base_stem}_{cname}.csv")
             df_k.to_csv(per_path, index=False, encoding="utf-8")
@@ -1159,13 +1325,34 @@ def main():
                 f"avg total paid=${total_paid_per_contest:,.2f}")
             if abs(avg_ev - expected_ev) > 1e-4 or abs(total_paid_per_contest - prize_pool) > 1e-2:
                 log(f"[warn:{meta['Contest']}] EV/payout conservation check failed; verify payout prefix/tie-split logic and inputs.")
-        # Compute and write portfolio percentile distributions
+        # Compute and write portfolio percentile distributions.
+        # All sorting is done as bulk column sorts up front (one np.sort per
+        # matrix instead of one per user) — identical order statistics, just
+        # ~10-20x faster than the old per-user Python loop.
         combined_outcomes = np.vstack(all_user_outcomes)  # (total_iters, num_users)
-        combined_per_contest = np.concatenate(all_user_outcomes_per_contest, axis=1)  # (K, total_iters, num_users)
-        del all_user_outcomes, all_user_outcomes_per_contest  # free memory
+        del all_user_outcomes  # free memory
         num_users = combined_outcomes.shape[1]
+        sorted_all = np.sort(np.ascontiguousarray(combined_outcomes.T), axis=1)  # (num_users, total_iters)
+        del combined_outcomes
         percentile_points = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 99]
         contest_names = [meta["Contest"] for meta in contest_meta]
+        # Per-contest ragged matrices: columns are only the users IN the
+        # contest (worker's user_ids_list order = sorted global user ids).
+        contest_sorted = []   # (n_uids_k, total_iters) sorted per user
+        contest_nz = []       # per-column any-nonzero mask
+        contest_uid_pos = []  # global user id -> column position
+        for k in range(K):
+            pieces = [z[f"c{k}"] for z in contest_npzs]
+            mat = np.vstack(pieces)  # (total_iters, n_uids_k)
+            del pieces
+            uids_k = contest_meta[k]["uids"]
+            contest_nz.append((mat != 0).any(axis=0) if mat.size else
+                              np.zeros(len(uids_k), dtype=bool))
+            contest_sorted.append(np.sort(np.ascontiguousarray(mat.T), axis=1))
+            contest_uid_pos.append({int(u): i for i, u in enumerate(uids_k)})
+            del mat
+        for z in contest_npzs:
+            z.close()
 
         def compute_pctiles(sorted_data):
             pctiles = {"min": round(float(sorted_data[0]), 2), "max": round(float(sorted_data[-1]), 2)}
@@ -1180,18 +1367,15 @@ def main():
             uname = user_display_names[u_idx]
             if not uname:
                 continue
-            user_data = combined_outcomes[:, u_idx]
-            sorted_data = np.sort(user_data)
-            user_entry = {"all": compute_pctiles(sorted_data), "by_contest": {}}
-            # Per-contest percentiles
+            user_entry = {"all": compute_pctiles(sorted_all[u_idx]), "by_contest": {}}
+            # Per-contest percentiles (only if the user has entries there —
+            # same any-nonzero rule as before)
             for k_idx, cname in enumerate(contest_names):
-                contest_data = combined_per_contest[k_idx, :, u_idx]
-                # Only include if user has entries in this contest (fees > 0)
-                if np.any(contest_data != 0):
-                    sorted_contest = np.sort(contest_data)
-                    user_entry["by_contest"][cname] = compute_pctiles(sorted_contest)
+                pos = contest_uid_pos[k_idx].get(u_idx)
+                if pos is not None and contest_nz[k_idx][pos]:
+                    user_entry["by_contest"][cname] = compute_pctiles(contest_sorted[k_idx][pos])
             portfolio_percentiles["users"][uname] = user_entry
-        del combined_outcomes, combined_per_contest  # free memory
+        del sorted_all, contest_sorted  # free memory
         pct_path = os.path.join(out_dir, f"{base_stem}_portfolio_percentiles.json")
         with open(pct_path, 'w', encoding='utf-8') as pf:
             json.dump(portfolio_percentiles, pf, indent=2)

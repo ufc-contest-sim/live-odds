@@ -9,6 +9,14 @@
       "entrants": 39768
     },
     {
+      "id": "contest_191825826",
+      "name": "Contest 191825826",
+      "file": "Contest_191825826.json",
+      "entryFee": 3.0,
+      "totalPrizes": 120000,
+      "entrants": 47562
+    },
+    {
       "id": "contest_192029291",
       "name": "Contest 192029291",
       "file": "Contest_192029291.json",
@@ -81,6 +89,14 @@
       "entrants": 1176
     },
     {
+      "id": "contest_192029305",
+      "name": "Contest 192029305",
+      "file": "Contest_192029305.json",
+      "entryFee": 0.5,
+      "totalPrizes": 25000,
+      "entrants": 59453
+    },
+    {
       "id": "contest_192029306",
       "name": "Contest 192029306",
       "file": "Contest_192029306.json",
@@ -95,6 +111,30 @@
       "entryFee": 55.0,
       "totalPrizes": 8000,
       "entrants": 165
+    },
+    {
+      "id": "contest_192029488",
+      "name": "Contest 192029488",
+      "file": "Contest_192029488.json",
+      "entryFee": 5.0,
+      "totalPrizes": 135,
+      "entrants": 31
+    },
+    {
+      "id": "contest_192029489",
+      "name": "Contest 192029489",
+      "file": "Contest_192029489.json",
+      "entryFee": 5.0,
+      "totalPrizes": 135,
+      "entrants": 31
+    },
+    {
+      "id": "contest_192029501",
+      "name": "Contest 192029501",
+      "file": "Contest_192029501.json",
+      "entryFee": 5.0,
+      "totalPrizes": 90,
+      "entrants": 20
     }
   ]
 }

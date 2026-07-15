@@ -470,6 +470,15 @@ def discover_contests(wb_path: str):
             "EntryFee": float(fee),
             "ContestId": cid,
         })
+    # De-collide display names (DK runs several identically-named contests per
+    # slate, e.g. three "$5 Triple Up"s): identical names would overwrite each
+    # other's output files, so repeats get " (2)", " (3)" in contest-id order.
+    name_counts = {}
+    for c in contests:
+        nm = c["ContestName"]
+        name_counts[nm] = name_counts.get(nm, 0) + 1
+        if name_counts[nm] > 1:
+            c["ContestName"] = f"{nm} ({name_counts[nm]})"
     log(f"[discover] {len(contests)} contest(s) from standings files: "
         + ", ".join(c["ContestId"] for c in contests))
     return contests

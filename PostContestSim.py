@@ -442,20 +442,28 @@ def discover_contests(wb_path: str):
     for cid, fname in found.items():
         rec = lobby.get(cid, {})
         fee = rec.get("entry_fee")
-        if fee is None:  # fall back to the scraped payout file's entry fee
+        name = rec.get("name")
+        if fee is None or not name:
+            # Fall back to the scraped payout file: it carries both the entry
+            # fee AND the contest name, so a missing/stale/deleted
+            # dk_lobby.json can't blank the names on the site.
             pf = base / "dk_payouts" / f"{cid}.json"
             if pf.exists():
                 try:
                     with open(pf, "r", encoding="utf-8") as pfh:
-                        fee = json.load(pfh).get("entry_fee")
+                        prec = json.load(pfh)
+                    if fee is None:
+                        fee = prec.get("entry_fee")
+                    if not name:
+                        name = prec.get("name")
                 except Exception:
-                    fee = None
+                    pass
         if not fee or float(fee) <= 0:
             raise ValueError(
                 f"Found {fname} but no entry fee for contest {cid}. "
                 f"Refresh the lobby:  python scrape_dk_contests.py")
         contests.append({
-            "ContestName": _tidy_contest_name(rec.get("name"), cid),
+            "ContestName": _tidy_contest_name(name, cid),
             "LineupsSheet": fname,        # read_lineups handles .csv and .zip
             "PayoutsSheet": cid,          # load_payouts -> dk_payouts/<id>.json
             "PrefixSheet": None,

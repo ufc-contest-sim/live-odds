@@ -7,8 +7,10 @@ echo.
 
 cd /d "%~dp0"
 
-:: Stage, commit, and push
+:: Stage, commit, and push. The stats CSV is only staged when it exists
+:: locally, so a missing local copy never deletes it from the site.
 git add *.json DKSalaries.csv
+if exist ufc_fight_stats.csv git add ufc_fight_stats.csv
 git commit -m "Update contest and salary files"
 if %errorlevel% neq 0 (
     echo.

@@ -426,15 +426,24 @@ def discover_contests(wb_path: str):
     — so the Excel 'Contests' sheet isn't needed at all. Returns [] when no
     standings files are present, so the workbook 'Contests' sheet is used instead."""
     base = Path(wb_path).resolve().parent
-    found = {}  # id -> filename (prefer .csv over .zip if both exist)
-    for f in sorted(base.iterdir()):
-        if f.suffix.lower() not in ('.csv', '.zip'):
+    found = {}  # id -> relative path (prefer .csv over .zip if both exist)
+    # Scan the workbook's folder AND a 'standings' subfolder next to it, so the
+    # week's downloads can live in one tidy place. Neither scan is recursive:
+    # archive old weeks in a sub-subfolder (e.g. standings\old\) and they're
+    # ignored instead of getting simmed again.
+    for d in (base, base / "standings"):
+        if not d.is_dir():
             continue
-        m = _STANDINGS_RE.search(f.name)
-        if m:
-            cid = m.group(1)
-            if cid not in found or f.suffix.lower() == ".csv":
-                found[cid] = f.name
+        for f in sorted(d.iterdir()):
+            if f.suffix.lower() not in ('.csv', '.zip'):
+                continue
+            m = _STANDINGS_RE.search(f.name)
+            if m:
+                cid = m.group(1)
+                rel = f.name if d == base else f"standings/{f.name}"
+                if cid not in found or (f.suffix.lower() == ".csv"
+                                        and found[cid].lower().endswith(".zip")):
+                    found[cid] = rel
     if not found:
         return []
     lobby = _load_dk_lobby(base)

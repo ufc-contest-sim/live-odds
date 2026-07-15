@@ -2,7 +2,7 @@
   "contests": [
     {
       "id": "contest_191819063",
-      "name": "Contest 191819063",
+      "name": "1M UFC 329 Special",
       "file": "Contest_191819063.json",
       "entryFee": 25.0,
       "totalPrizes": 1000000,
@@ -10,7 +10,7 @@
     },
     {
       "id": "contest_192029291",
-      "name": "Contest 192029291",
+      "name": "10K Title Fight",
       "file": "Contest_192029291.json",
       "entryFee": 1060.0,
       "totalPrizes": 10000,
@@ -18,7 +18,7 @@
     },
     {
       "id": "contest_192029292",
-      "name": "Contest 192029292",
+      "name": "10K Clinch",
       "file": "Contest_192029292.json",
       "entryFee": 5.0,
       "totalPrizes": 10000,
@@ -26,7 +26,7 @@
     },
     {
       "id": "contest_192029293",
-      "name": "Contest 192029293",
+      "name": "20K Contender",
       "file": "Contest_192029293.json",
       "entryFee": 100.0,
       "totalPrizes": 20000,
@@ -34,7 +34,7 @@
     },
     {
       "id": "contest_192029294",
-      "name": "Contest 192029294",
+      "name": "10K Counter Punch",
       "file": "Contest_192029294.json",
       "entryFee": 40.0,
       "totalPrizes": 10000,
@@ -42,7 +42,7 @@
     },
     {
       "id": "contest_192029295",
-      "name": "Contest 192029295",
+      "name": "40K Hook",
       "file": "Contest_192029295.json",
       "entryFee": 8.0,
       "totalPrizes": 40000,
@@ -50,7 +50,7 @@
     },
     {
       "id": "contest_192029298",
-      "name": "Contest 192029298",
+      "name": "250K Knockout Special",
       "file": "Contest_192029298.json",
       "entryFee": 555.0,
       "totalPrizes": 250000,
@@ -58,7 +58,7 @@
     },
     {
       "id": "contest_192029299",
-      "name": "Contest 192029299",
+      "name": "26K Double Champ",
       "file": "Contest_192029299.json",
       "entryFee": 2120.0,
       "totalPrizes": 26000,
@@ -66,7 +66,7 @@
     },
     {
       "id": "contest_192029300",
-      "name": "Contest 192029300",
+      "name": "40K Arm Bar",
       "file": "Contest_192029300.json",
       "entryFee": 5.0,
       "totalPrizes": 40000,
@@ -74,7 +74,7 @@
     },
     {
       "id": "contest_192029302",
-      "name": "Contest 192029302",
+      "name": "12K Flying Knee",
       "file": "Contest_192029302.json",
       "entryFee": 12.0,
       "totalPrizes": 12000,
@@ -82,7 +82,7 @@
     },
     {
       "id": "contest_192029306",
-      "name": "Contest 192029306",
+      "name": "30K Triangle",
       "file": "Contest_192029306.json",
       "entryFee": 200.0,
       "totalPrizes": 30200,
@@ -90,7 +90,7 @@
     },
     {
       "id": "contest_192029308",
-      "name": "Contest 192029308",
+      "name": "8K Fifth Round",
       "file": "Contest_192029308.json",
       "entryFee": 55.0,
       "totalPrizes": 8000,

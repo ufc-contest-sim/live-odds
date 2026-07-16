@@ -10,13 +10,28 @@ apple-touch-icon.png (180x180). Then run publish.bat.
 from pathlib import Path
 from PIL import Image
 
-SRC = "logo.png"
+
+def find_logo():
+    """Find the logo even if Windows saved it as logo.png.png, or as a jpg/webp.
+    Prefers an exact logo.png, then any logo.* (newest first)."""
+    here = Path(".")
+    exact = here / "logo.png"
+    if exact.exists():
+        return exact
+    cands = sorted(
+        (f for f in here.glob("logo.*")
+         if f.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp")),
+        key=lambda f: f.stat().st_mtime, reverse=True)
+    return cands[0] if cands else None
+
 
 def main():
-    p = Path(SRC)
-    if not p.exists():
-        print(f"Put your logo here as '{SRC}' (square PNG) and re-run.")
+    p = find_logo()
+    if p is None:
+        print("Put your logo here as 'logo.png' (square image) and re-run.")
         return
+    if p.name != "logo.png":
+        print(f"note: using '{p.name}' (Windows may have hidden the real extension)")
     img = Image.open(p).convert("RGBA")
     w, h = img.size
     if w != h:

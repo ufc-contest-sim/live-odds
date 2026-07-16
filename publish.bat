@@ -11,6 +11,12 @@ cd /d "%~dp0"
 :: locally, so a missing local copy never deletes it from the site.
 git add *.json DKSalaries.csv
 if exist ufc_fight_stats.csv git add ufc_fight_stats.csv
+:: Site icons (favicon), when present
+if exist favicon.ico git add favicon.ico
+if exist favicon-96x96.png git add favicon-96x96.png
+if exist favicon-192x192.png git add favicon-192x192.png
+if exist favicon-512x512.png git add favicon-512x512.png
+if exist apple-touch-icon.png git add apple-touch-icon.png
 git commit -m "Update contest and salary files"
 if %errorlevel% neq 0 (
     echo.

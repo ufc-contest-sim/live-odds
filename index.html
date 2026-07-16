@@ -11,6 +11,12 @@
     <meta name="theme-color" content="#ff6a12">
     <link rel="canonical" href="https://mmalivesim.com/">
 
+    <!-- Favicons (Google shows this next to the search result) -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
     <!-- Open Graph (Discord, iMessage, Facebook) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="MMA LiveSim">
@@ -27,15 +33,33 @@
     <meta name="twitter:description" content="Real-time, simulation-based win probabilities for UFC DFS contests on DraftKings.">
     <meta name="twitter:image" content="https://mmalivesim.com/og-image.png">
 
-    <!-- Structured data: help Google associate the brand name -->
+    <!-- Structured data: help Google associate the brand name + logo -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "MMA LiveSim",
-      "alternateName": ["MMA Live Sim", "MMALiveSim"],
-      "url": "https://mmalivesim.com/",
-      "description": "Real-time, simulation-based win probabilities for UFC DFS contests on DraftKings."
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://mmalivesim.com/#org",
+          "name": "MMA LiveSim",
+          "alternateName": ["MMA Live Sim", "MMALiveSim"],
+          "url": "https://mmalivesim.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://mmalivesim.com/favicon-512x512.png",
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "@type": "WebSite",
+          "name": "MMA LiveSim",
+          "alternateName": ["MMA Live Sim", "MMALiveSim"],
+          "url": "https://mmalivesim.com/",
+          "publisher": { "@id": "https://mmalivesim.com/#org" },
+          "description": "Real-time, simulation-based win probabilities for UFC DFS contests on DraftKings."
+        }
+      ]
     }
     </script>
 

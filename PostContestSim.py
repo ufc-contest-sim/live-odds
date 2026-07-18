@@ -470,10 +470,16 @@ def discover_contests(wb_path: str):
                         name = prec.get("name")
                 except Exception:
                     pass
-        if not fee or float(fee) <= 0:
-            raise ValueError(
-                f"Found {fname} but no entry fee for contest {cid}. "
-                f"Refresh the lobby:  python scrape_dk_contests.py")
+        # Skip a contest we can't sim rather than aborting the whole run:
+        #  - fee is None  -> no source had it (not scraped / stale lobby)
+        #  - fee <= 0      -> a FREE contest (nothing to sim: no entry, no prize)
+        if fee is None:
+            log(f"[skip] {fname}: no entry fee for contest {cid} — scrape it with "
+                f"'python scrape_dk_contests.py --payouts --ids {cid}' (skipping this one).")
+            continue
+        if float(fee) <= 0:
+            log(f"[skip] {fname}: contest {cid} is free ($0 entry) — nothing to sim.")
+            continue
         contests.append({
             "ContestName": _tidy_contest_name(name, cid),
             "LineupsSheet": fname,        # read_lineups handles .csv and .zip

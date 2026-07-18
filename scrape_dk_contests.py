@@ -25,6 +25,13 @@ Typical use
   python scrape_dk_contests.py --payouts --contains Thunderdome # by name
   python scrape_dk_contests.py --payouts --ids 191819063,192029298
 
+  # Forgot to scrape and a contest FILLED UP (so DK hid it from the lobby)?
+  # Pass its id (or its draft/gamecenter URL) — it's fetched directly by id:
+  python scrape_dk_contests.py --payouts --ids 192029298,192029306
+
+Already-saved contests are skipped (a payout table never changes once posted);
+pass --refresh to re-scrape them anyway.
+
 Payouts are written one file per contest to  dk_payouts/<id>.json  as:
   { contest_id, name, entry_fee, entrants, max_entries, prize_pool,
     last_paid_rank, total_payout, payouts: [rank1, rank2, ...] }
@@ -137,6 +144,35 @@ def fetch_payouts(cid):
     return per_rank, last_paid, float(sum(per_rank))
 
 
+def fetch_contest_by_id(cid):
+    """Normalize one contest straight from the detail endpoint. Works even when
+    the contest has left the lobby — a contest that FILLED to capacity is hidden
+    from the lobby feed just like a finished one, so if it filled before you ran
+    the scraper its payouts are still recoverable by id. Returns a
+    normalize_contest-shaped dict, or None if the id isn't retrievable."""
+    try:
+        data = get_json(DETAIL_URL.format(cid=cid))
+    except Exception:  # noqa: BLE001
+        return None
+    d = data.get("contestDetail", data) or {}
+    name = d.get("name")
+    if not name:
+        return None
+    return {
+        "id": cid,
+        "name": name,
+        "entry_fee": float(d.get("entryFee", 0) or 0),
+        "prize_pool": 0.0,          # derived from the expanded payouts
+        "entrants": int(d.get("entries", 0) or 0),
+        "max_entries": int(d.get("maximumEntries", 0) or 0),
+        "max_per_user": int(d.get("maximumEntriesPerUser", 0) or 0),
+        "draft_group": d.get("draftGroupId"),
+        "game_type": "Classic",
+        "guaranteed": False,
+        "starts": "",
+    }
+
+
 def select(contests, args):
     out = contests
     if args.ids:
@@ -175,29 +211,59 @@ def main():
                     help="also fetch + expand payout tables for the selected contests")
     ap.add_argument("--min-fee", type=float, default=None, help="only contests with entry fee >= this")
     ap.add_argument("--contains", help="only contests whose name contains this (case-insensitive)")
-    ap.add_argument("--ids", help="comma-separated contest IDs to keep")
+    ap.add_argument("--ids", help="comma-separated contest IDs (or draft/gamecenter URLs). "
+                    "IDs not in the lobby (contests that filled to capacity and got hidden) "
+                    "are fetched directly by id.")
     ap.add_argument("--guaranteed", action="store_true", help="only guaranteed (GPP) contests")
     ap.add_argument("--limit", type=int, default=None, help="keep at most N (after sorting by entry fee)")
     ap.add_argument("--out-dir", default="dk_payouts", help="folder for per-contest payout files")
     ap.add_argument("--pause", type=float, default=0.6, help="seconds between payout requests (be polite)")
+    ap.add_argument("--refresh", action="store_true",
+                    help="re-scrape even contests already saved in out-dir (default: skip cached)")
     args = ap.parse_args()
+
+    # Pull bare ids out of whatever was passed to --ids (bare id or a URL).
+    requested_ids = []
+    if args.ids:
+        for tok in args.ids.split(","):
+            m = re.search(r"(\d{5,})", tok)
+            if m and m.group(1) not in requested_ids:
+                requested_ids.append(m.group(1))
 
     try:
         lobby = fetch_lobby(args.sport)
     except Exception as e:  # noqa: BLE001
-        print(f"Could not load the {args.sport} lobby: {e}", file=sys.stderr)
-        sys.exit(1)
+        if not requested_ids:
+            print(f"Could not load the {args.sport} lobby: {e}", file=sys.stderr)
+            sys.exit(1)
+        print(f"[warn] lobby unavailable ({e}); continuing with --ids only.", file=sys.stderr)
+        lobby = []
 
-    if not lobby:
+    if lobby:
+        with open("dk_lobby.json", "w", encoding="utf-8") as f:
+            json.dump(lobby, f, indent=2)
+
+    if not lobby and not requested_ids:
         print(f"No Classic {args.sport} contests are open right now.")
         return
 
-    with open("dk_lobby.json", "w", encoding="utf-8") as f:
-        json.dump(lobby, f, indent=2)
-
     picked = select(lobby, args)
-    print_table(picked)
-    print("Full lobby saved to dk_lobby.json")
+    # Recover any requested ids missing from the lobby (filled/hidden) by id.
+    if requested_ids:
+        have = {str(c["id"]) for c in picked}
+        for cid in requested_ids:
+            if cid in have:
+                continue
+            c = fetch_contest_by_id(cid)
+            if c:
+                picked.append(c)
+                print(f"  (by id) {cid}: {c['name']}")
+            else:
+                print(f"  !  {cid}: couldn't fetch by id (bad id, or DK returned no detail)")
+
+    if lobby:
+        print_table(picked)
+        print("Full lobby saved to dk_lobby.json")
 
     if not args.payouts:
         print("\n(Add --payouts to also fetch payout tables for the contests above.)")
@@ -205,8 +271,15 @@ def main():
 
     os.makedirs(args.out_dir, exist_ok=True)
     print(f"\nFetching payouts for {len(picked)} contest(s) -> {args.out_dir}/")
-    ok = 0
+    ok = skipped = 0
     for c in picked:
+        out_path = os.path.join(args.out_dir, f"{c['id']}.json")
+        # Cache: a contest we've already saved never changes its payout table, so
+        # skip it. --refresh forces a re-scrape.
+        if os.path.exists(out_path) and not args.refresh:
+            print(f"  cached {c['name']} ({c['id']})")
+            skipped += 1
+            continue
         try:
             per_rank, last_paid, total = fetch_payouts(c["id"])
         except Exception as e:  # noqa: BLE001
@@ -215,20 +288,23 @@ def main():
         if not per_rank:
             print(f"  ? {c['name']} ({c['id']}): no payout summary (not finalized yet?)")
             continue
+        # by-id contests carry no advertised pool; use the expanded total.
+        pool = c["prize_pool"] if c["prize_pool"] > 0 else total
         rec = {
             "contest_id": c["id"], "name": c["name"], "entry_fee": c["entry_fee"],
             "entrants": c["entrants"], "max_entries": c["max_entries"],
-            "prize_pool": c["prize_pool"], "last_paid_rank": last_paid,
+            "prize_pool": pool, "last_paid_rank": last_paid,
             "total_payout": round(total, 2), "payouts": [round(v, 2) for v in per_rank],
         }
-        with open(os.path.join(args.out_dir, f"{c['id']}.json"), "w", encoding="utf-8") as f:
+        with open(out_path, "w", encoding="utf-8") as f:
             json.dump(rec, f, indent=2)
         # Sanity check: expanded payouts should roughly match the advertised pool.
-        flag = "" if abs(total - c["prize_pool"]) <= max(1.0, 0.02 * c["prize_pool"]) else "  <-- differs from pool"
+        flag = "" if abs(total - pool) <= max(1.0, 0.02 * pool) else "  <-- differs from pool"
         print(f"  ok {c['name']}: pays top {last_paid:,}, total {fmt_money(total)}{flag}")
         ok += 1
         time.sleep(args.pause)
-    print(f"\nDone. {ok} payout file(s) written to {args.out_dir}/")
+    tail = f", {skipped} cached" if skipped else ""
+    print(f"\nDone. {ok} payout file(s) written to {args.out_dir}/{tail}")
 
 
 if __name__ == "__main__":

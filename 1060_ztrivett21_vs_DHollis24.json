@@ -1,11 +1,11 @@
 {
   "contest_name": "1060 ztrivett21 vs DHollis24",
-  "last_updated": "2026-07-18T20:21:52.654519",
+  "last_updated": "2026-07-18T20:39:32.019329",
   "total_lineups": 2,
   "summary": {
-    "top_win_pct": 98.66,
-    "top_netev": 913.12,
-    "top_roi": 86.14
+    "top_win_pct": 100.0,
+    "top_netev": 940.0,
+    "top_roi": 88.68
   },
   "leaderboard": [
     {
@@ -21,18 +21,18 @@
       "F5": "Austin Bashi",
       "F6": "Ezra Elliott",
       "EntryFee": 1060.0,
-      "AvgWinPayout": 2000.0,
-      "EV": 26.88,
-      "NetEV": -1033.12,
-      "ROI%": -97.46415094339622,
-      "WinPct": 1.344,
-      "SecondPct": 98.656,
+      "AvgWinPayout": 0.0,
+      "EV": 0.0,
+      "NetEV": -1060.0,
+      "ROI%": -100.0,
+      "WinPct": 0.0,
+      "SecondPct": 100.0,
       "ThirdPct": 0.0,
-      "CashPct": 1.344,
-      "MeanScore": 558.4894920379638,
-      "SDScore": 59.0772082960975,
-      "P99Score": 695.9236299594454,
-      "TotalPayout": 2688000.0,
+      "CashPct": 0.0,
+      "MeanScore": 573.3811085177613,
+      "SDScore": 46.39172732801696,
+      "P99Score": 681.3044047584813,
+      "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
     {
@@ -49,17 +49,17 @@
       "F6": "Ezra Elliott",
       "EntryFee": 1060.0,
       "AvgWinPayout": 2000.0,
-      "EV": 1973.12,
-      "NetEV": 913.12,
-      "ROI%": 86.14339622641508,
-      "WinPct": 98.656,
-      "SecondPct": 1.344,
+      "EV": 2000.0,
+      "NetEV": 940.0,
+      "ROI%": 88.67924528301887,
+      "WinPct": 100.0,
+      "SecondPct": 0.0,
       "ThirdPct": 0.0,
-      "CashPct": 98.656,
-      "MeanScore": 620.6080686688232,
-      "SDScore": 46.560854628828935,
-      "P99Score": 728.9248138462225,
-      "TotalPayout": 197312000.0,
+      "CashPct": 100.0,
+      "MeanScore": 620.5911314471435,
+      "SDScore": 46.39172749420791,
+      "P99Score": 728.5144280744814,
+      "TotalPayout": 200000000.0,
       "TotalSalary": 49700.0
     }
   ],
@@ -82,8 +82,8 @@
       "fight_id": 3,
       "fighter1": "Chase Hooper",
       "fighter2": "Mitch Ramirez",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 99.01,
+      "fighter2_score": 0.8
     },
     {
       "fight_id": 4,
@@ -180,13 +180,13 @@
     "Anna Melisano": 6800.0
   },
   "optimal_map": {
-    "Dricus Du Plessis": 22.46,
-    "Kamaru Usman": 27.25,
-    "Christian Leroy Duncan": 7.47,
-    "Jared Cannonier": 2.37,
-    "Chase Hooper": 26.13,
-    "Mitch Ramirez": 3.78,
-    "Fatima Kline": 92.63,
+    "Dricus Du Plessis": 23.47,
+    "Kamaru Usman": 27.21,
+    "Christian Leroy Duncan": 8.08,
+    "Jared Cannonier": 2.42,
+    "Chase Hooper": 0.0,
+    "Mitch Ramirez": 0.0,
+    "Fatima Kline": 98.62,
     "Tabatha Ricci": 0.0,
     "Tommy McMillen": 100.0,
     "Alberto Montes": 0.0,
@@ -195,14 +195,14 @@
     "Seokhyeon Ko": 0.0,
     "Jean-Paul Lebosnoyani": 0.0,
     "Levi Rodrigues Jr.": 0.0,
-    "Felipe Franco": 99.99,
+    "Felipe Franco": 100.0,
     "Damien Anderson": 0.0,
     "Ezra Elliott": 100.0,
     "Alden Coria": 0.0,
     "Stewart Nicoll": 0.0,
     "Alvin Hines": 0.0,
-    "RJ Harris": 68.33,
-    "Dione Barbosa": 49.59,
+    "RJ Harris": 71.01,
+    "Dione Barbosa": 69.18,
     "Anna Melisano": 0.0
   }
 }

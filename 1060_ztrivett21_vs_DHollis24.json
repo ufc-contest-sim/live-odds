@@ -1,6 +1,6 @@
 {
   "contest_name": "1060 ztrivett21 vs DHollis24",
-  "last_updated": "2026-07-18T20:39:32.019329",
+  "last_updated": "2026-07-18T21:20:51.416667",
   "total_lineups": 2,
   "summary": {
     "top_win_pct": 100.0,
@@ -29,9 +29,9 @@
       "SecondPct": 100.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 573.3811085177613,
-      "SDScore": 46.39172732801696,
-      "P99Score": 681.3044047584813,
+      "MeanScore": 573.6724740997314,
+      "SDScore": 46.61411938131291,
+      "P99Score": 682.1131316208309,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -56,10 +56,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 620.5911314471435,
-      "SDScore": 46.39172749420791,
-      "P99Score": 728.5144280744814,
-      "TotalPayout": 200000000.0,
+      "MeanScore": 620.8824966296387,
+      "SDScore": 46.61411938683046,
+      "P99Score": 729.3231541635739,
+      "TotalPayout": 100000000.0,
       "TotalSalary": 49700.0
     }
   ],
@@ -75,8 +75,8 @@
       "fight_id": 2,
       "fighter1": "Christian Leroy Duncan",
       "fighter2": "Jared Cannonier",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 71.85,
+      "fighter2_score": 53.16
     },
     {
       "fight_id": 3,
@@ -180,13 +180,13 @@
     "Anna Melisano": 6800.0
   },
   "optimal_map": {
-    "Dricus Du Plessis": 23.47,
-    "Kamaru Usman": 27.21,
-    "Christian Leroy Duncan": 8.08,
-    "Jared Cannonier": 2.42,
+    "Dricus Du Plessis": 23.38,
+    "Kamaru Usman": 27.53,
+    "Christian Leroy Duncan": 0.0,
+    "Jared Cannonier": 0.0,
     "Chase Hooper": 0.0,
     "Mitch Ramirez": 0.0,
-    "Fatima Kline": 98.62,
+    "Fatima Kline": 100.0,
     "Tabatha Ricci": 0.0,
     "Tommy McMillen": 100.0,
     "Alberto Montes": 0.0,
@@ -201,8 +201,8 @@
     "Alden Coria": 0.0,
     "Stewart Nicoll": 0.0,
     "Alvin Hines": 0.0,
-    "RJ Harris": 71.01,
-    "Dione Barbosa": 69.18,
+    "RJ Harris": 72.47,
+    "Dione Barbosa": 76.62,
     "Anna Melisano": 0.0
   }
 }

@@ -1,6 +1,6 @@
 {
   "contest_name": "1060 brknets23 vs DHollis24",
-  "last_updated": "2026-07-18T21:20:51.407147",
+  "last_updated": "2026-07-18T22:19:52.937313",
   "total_lineups": 2,
   "summary": {
     "top_win_pct": 100.0,
@@ -29,10 +29,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 573.6724740997314,
-      "SDScore": 46.61411938131291,
-      "P99Score": 682.1131316208309,
-      "TotalPayout": 100000000.0,
+      "MeanScore": 534.0799560546875,
+      "SDScore": 0.0,
+      "P99Score": 534.0799560546875,
+      "TotalPayout": 2000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -56,9 +56,9 @@
       "SecondPct": 100.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 538.8324681433105,
-      "SDScore": 46.61411642663872,
-      "P99Score": 647.27311879081,
+      "MeanScore": 499.239990234375,
+      "SDScore": 0.0,
+      "P99Score": 499.239990234375,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     }
@@ -68,8 +68,8 @@
       "fight_id": 1,
       "fighter1": "Dricus Du Plessis",
       "fighter2": "Kamaru Usman",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 85.18,
+      "fighter2_score": 38.92
     },
     {
       "fight_id": 2,
@@ -180,8 +180,8 @@
     "Anna Melisano": 6800.0
   },
   "optimal_map": {
-    "Dricus Du Plessis": 23.38,
-    "Kamaru Usman": 27.53,
+    "Dricus Du Plessis": 0.0,
+    "Kamaru Usman": 0.0,
     "Christian Leroy Duncan": 0.0,
     "Jared Cannonier": 0.0,
     "Chase Hooper": 0.0,
@@ -201,8 +201,8 @@
     "Alden Coria": 0.0,
     "Stewart Nicoll": 0.0,
     "Alvin Hines": 0.0,
-    "RJ Harris": 72.47,
-    "Dione Barbosa": 76.62,
+    "RJ Harris": 100.0,
+    "Dione Barbosa": 100.0,
     "Anna Melisano": 0.0
   }
 }

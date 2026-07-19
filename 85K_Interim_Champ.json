@@ -1,6 +1,6 @@
 {
   "contest_name": "85K Interim Champ",
-  "last_updated": "2026-07-18T21:20:52.916481",
+  "last_updated": "2026-07-18T22:19:54.366014",
   "total_lineups": 6,
   "summary": {
     "top_win_pct": 100.0,
@@ -29,9 +29,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 424.1924592260742,
-      "SDScore": 46.61411534452064,
-      "P99Score": 532.6331073561905,
+      "MeanScore": 384.6000061035156,
+      "SDScore": 0.0,
+      "P99Score": 384.6000061035156,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -56,9 +56,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 573.6724740997314,
-      "SDScore": 46.61411938131291,
-      "P99Score": 682.1131316208309,
+      "MeanScore": 534.0799560546875,
+      "SDScore": 0.0,
+      "P99Score": 534.0799560546875,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -83,10 +83,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 637.0124611340332,
-      "SDScore": 46.61411700346146,
-      "P99Score": 745.453113123423,
-      "TotalPayout": 300000000.0,
+      "MeanScore": 597.4200439453125,
+      "SDScore": 0.0,
+      "P99Score": 597.4200439453125,
+      "TotalPayout": 6000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -110,10 +110,10 @@
       "SecondPct": 100.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 620.8824966296387,
-      "SDScore": 46.61411938683046,
-      "P99Score": 729.3231541635739,
-      "TotalPayout": 125000000.0,
+      "MeanScore": 581.2899780273438,
+      "SDScore": 0.0,
+      "P99Score": 581.2899780273438,
+      "TotalPayout": 2500.0,
       "TotalSalary": 49700.0
     },
     {
@@ -137,9 +137,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 406.9824621118164,
-      "SDScore": 46.61411715586995,
-      "P99Score": 515.4231144557614,
+      "MeanScore": 367.3899841308594,
+      "SDScore": 0.0,
+      "P99Score": 367.3899841308594,
       "TotalPayout": 0.0,
       "TotalSalary": 49800.0
     },
@@ -164,9 +164,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 100.0,
       "CashPct": 0.0,
-      "MeanScore": 601.9624731848145,
-      "SDScore": 46.61411620848854,
-      "P99Score": 710.4031233248207,
+      "MeanScore": 562.3699951171875,
+      "SDScore": 0.0,
+      "P99Score": 562.3699951171875,
       "TotalPayout": 0.0,
       "TotalSalary": 49700.0
     }
@@ -176,8 +176,8 @@
       "fight_id": 1,
       "fighter1": "Dricus Du Plessis",
       "fighter2": "Kamaru Usman",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 85.18,
+      "fighter2_score": 38.92
     },
     {
       "fight_id": 2,
@@ -289,8 +289,8 @@
     "Anna Melisano": 6800.0
   },
   "optimal_map": {
-    "Dricus Du Plessis": 23.38,
-    "Kamaru Usman": 27.53,
+    "Dricus Du Plessis": 0.0,
+    "Kamaru Usman": 0.0,
     "Christian Leroy Duncan": 0.0,
     "Jared Cannonier": 0.0,
     "Chase Hooper": 0.0,
@@ -310,8 +310,8 @@
     "Alden Coria": 0.0,
     "Stewart Nicoll": 0.0,
     "Alvin Hines": 0.0,
-    "RJ Harris": 72.47,
-    "Dione Barbosa": 76.62,
+    "RJ Harris": 100.0,
+    "Dione Barbosa": 100.0,
     "Anna Melisano": 0.0
   }
 }

@@ -1,11 +1,11 @@
 {
   "contest_name": "1060 ztrivett21 vs DHollis24",
-  "last_updated": "2026-07-18T22:19:52.944349",
+  "last_updated": "2026-07-19T13:06:56.515317",
   "total_lineups": 2,
   "summary": {
-    "top_win_pct": 100.0,
-    "top_netev": 940.0,
-    "top_roi": 88.68
+    "top_win_pct": 50.7,
+    "top_netev": -46.16,
+    "top_roi": -4.35
   },
   "leaderboard": [
     {
@@ -21,18 +21,18 @@
       "F5": "Austin Bashi",
       "F6": "Ezra Elliott",
       "EntryFee": 1060.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -1060.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 100.0,
+      "AvgWinPayout": 1999.881645132656,
+      "EV": 1013.84,
+      "NetEV": -46.15999999999997,
+      "ROI%": -4.354716981132072,
+      "WinPct": 50.695,
+      "SecondPct": 49.305,
       "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 534.0799560546875,
-      "SDScore": 0.0,
-      "P99Score": 534.0799560546875,
-      "TotalPayout": 0.0,
+      "CashPct": 50.695,
+      "MeanScore": 463.8367584209442,
+      "SDScore": 96.479799901765,
+      "P99Score": 688.2823358063606,
+      "TotalPayout": 101384000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -48,18 +48,18 @@
       "F5": "Dione Barbosa",
       "F6": "Ezra Elliott",
       "EntryFee": 1060.0,
-      "AvgWinPayout": 2000.0,
-      "EV": 2000.0,
-      "NetEV": 940.0,
-      "ROI%": 88.67924528301887,
-      "WinPct": 100.0,
-      "SecondPct": 0.0,
+      "AvgWinPayout": 1999.8783232950047,
+      "EV": 986.16,
+      "NetEV": -73.84000000000003,
+      "ROI%": -6.966037735849059,
+      "WinPct": 49.311,
+      "SecondPct": 50.68899999999999,
       "ThirdPct": 0.0,
-      "CashPct": 100.0,
-      "MeanScore": 581.2899780273438,
-      "SDScore": 0.0,
-      "P99Score": 581.2899780273438,
-      "TotalPayout": 2000.0,
+      "CashPct": 49.311,
+      "MeanScore": 464.0052020532989,
+      "SDScore": 95.54282987772991,
+      "P99Score": 686.2710612152996,
+      "TotalPayout": 98616000.0,
       "TotalSalary": 49700.0
     }
   ],
@@ -68,85 +68,85 @@
       "fight_id": 1,
       "fighter1": "Dricus Du Plessis",
       "fighter2": "Kamaru Usman",
-      "fighter1_score": 85.18,
-      "fighter2_score": 38.92
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 2,
       "fighter1": "Christian Leroy Duncan",
       "fighter2": "Jared Cannonier",
-      "fighter1_score": 71.85,
-      "fighter2_score": 53.16
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 3,
       "fighter1": "Chase Hooper",
       "fighter2": "Mitch Ramirez",
-      "fighter1_score": 99.01,
-      "fighter2_score": 0.8
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 4,
       "fighter1": "Fatima Kline",
       "fighter2": "Tabatha Ricci",
-      "fighter1_score": 109.4,
-      "fighter2_score": 15.9
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 5,
       "fighter1": "Tommy McMillen",
       "fighter2": "Alberto Montes",
-      "fighter1_score": 168.11,
-      "fighter2_score": 22.4
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 6,
       "fighter1": "Jose Delgado",
       "fighter2": "Austin Bashi",
-      "fighter1_score": 69.42,
-      "fighter2_score": 42.9
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 7,
       "fighter1": "Seokhyeon Ko",
       "fighter2": "Jean-Paul Lebosnoyani",
-      "fighter1_score": 37.41,
-      "fighter2_score": 72.67
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 8,
       "fighter1": "Levi Rodrigues Jr.",
       "fighter2": "Felipe Franco",
-      "fighter1_score": 7.4,
-      "fighter2_score": 110.13
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 9,
       "fighter1": "Damien Anderson",
       "fighter2": "Ezra Elliott",
-      "fighter1_score": 7.41,
-      "fighter2_score": 115.23
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 10,
       "fighter1": "Alden Coria",
       "fighter2": "Stewart Nicoll",
-      "fighter1_score": 69.91,
-      "fighter2_score": 44.71
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 11,
       "fighter1": "Alvin Hines",
       "fighter2": "RJ Harris",
-      "fighter1_score": 4.4,
-      "fighter2_score": 106.7
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 12,
       "fighter1": "Dione Barbosa",
       "fighter2": "Anna Melisano",
-      "fighter1_score": 106.73,
-      "fighter2_score": 1.6
+      "fighter1_score": null,
+      "fighter2_score": null
     }
   ],
   "payouts": [
@@ -180,29 +180,29 @@
     "Anna Melisano": 6800.0
   },
   "optimal_map": {
-    "Dricus Du Plessis": 0.0,
-    "Kamaru Usman": 0.0,
-    "Christian Leroy Duncan": 0.0,
-    "Jared Cannonier": 0.0,
-    "Chase Hooper": 0.0,
-    "Mitch Ramirez": 0.0,
-    "Fatima Kline": 100.0,
-    "Tabatha Ricci": 0.0,
-    "Tommy McMillen": 100.0,
-    "Alberto Montes": 0.0,
-    "Jose Delgado": 0.0,
-    "Austin Bashi": 0.0,
-    "Seokhyeon Ko": 0.0,
-    "Jean-Paul Lebosnoyani": 0.0,
-    "Levi Rodrigues Jr.": 0.0,
-    "Felipe Franco": 100.0,
-    "Damien Anderson": 0.0,
-    "Ezra Elliott": 100.0,
-    "Alden Coria": 0.0,
-    "Stewart Nicoll": 0.0,
-    "Alvin Hines": 0.0,
-    "RJ Harris": 100.0,
-    "Dione Barbosa": 100.0,
-    "Anna Melisano": 0.0
+    "Dricus Du Plessis": 29.54,
+    "Kamaru Usman": 47.48,
+    "Christian Leroy Duncan": 11.11,
+    "Jared Cannonier": 10.18,
+    "Chase Hooper": 29.39,
+    "Mitch Ramirez": 13.28,
+    "Fatima Kline": 25.27,
+    "Tabatha Ricci": 13.47,
+    "Tommy McMillen": 40.98,
+    "Alberto Montes": 18.53,
+    "Jose Delgado": 23.28,
+    "Austin Bashi": 43.2,
+    "Seokhyeon Ko": 33.17,
+    "Jean-Paul Lebosnoyani": 24.32,
+    "Levi Rodrigues Jr.": 27.56,
+    "Felipe Franco": 25.95,
+    "Damien Anderson": 25.33,
+    "Ezra Elliott": 31.88,
+    "Alden Coria": 25.99,
+    "Stewart Nicoll": 5.07,
+    "Alvin Hines": 27.52,
+    "RJ Harris": 24.98,
+    "Dione Barbosa": 33.8,
+    "Anna Melisano": 8.72
   }
 }

@@ -2770,6 +2770,15 @@
         .hb-add:hover { background: var(--accent-hi); }
         .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
         .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
+        .hb-saved { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
+        .hb-saved-head { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-saved-list { display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; }
+        .hb-saved-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); cursor: pointer; }
+        .hb-saved-row:hover { background: var(--bg-hover); border-color: var(--border-accent); }
+        .hb-saved-info { flex: 1; min-width: 0; }
+        .hb-saved-names { font-size: 0.78rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-saved-sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
+        .hb-saved-row .rm { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 0 4px; }
         @media (max-width: 900px) {
             .hb-wrap { grid-template-columns: 1fr; }
             .hb-meter { position: sticky; top: 0; z-index: 20; box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); }
@@ -2956,7 +2965,6 @@
         <div id="builder-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Hand Builder</div>
-                <p class="fsx-intro">Build a lineup by hand under the $50,000 DraftKings cap. Tap a fighter to add them — your salary, what's left, and how much you can spend per open slot update live.</p>
 
                 <div id="hbLoading" class="sdb-loading">Loading this week's slate…</div>
 
@@ -2975,7 +2983,12 @@
                         <div class="hb-slots" id="hbSlots"></div>
                         <div class="hb-actions">
                             <button class="opt-btn" id="hbClear">Clear</button>
-                            <button class="opt-btn opt-btn-primary" id="hbCopy" disabled>Copy lineup</button>
+                            <button class="opt-btn opt-btn-primary" id="hbSave" disabled>Save Lineup</button>
+                        </div>
+                        <div class="hb-saved" id="hbSavedWrap" style="display:none;">
+                            <div class="hb-saved-head" id="hbSavedCount">Saved lineups (0)</div>
+                            <div class="hb-saved-list" id="hbSavedList"></div>
+                            <button class="opt-btn opt-btn-primary" id="hbExport">Export lineups</button>
                         </div>
                     </div>
                     <div class="hb-main">
@@ -6599,6 +6612,7 @@
 
             // ===== Hand Builder (reuses FIGHTERS / ensureSalary from above) =====
             let hbPicks = [];                 // fighter object references from FIGHTERS
+            let hbSaved = [];                 // list of saved lineups (each an array of 6 fighters)
             let hbSortKey = 'sal-desc', hbSearchStr = '', hbWired = false;
             const hbKey = f => (f.id || '') + '|' + f.name;
             const hbInPicks = f => hbPicks.some(p => hbKey(p) === hbKey(f));
@@ -6634,7 +6648,46 @@
                 const dupEl = document.getElementById('hbDup');
                 if (dups.length) { dupEl.style.display = ''; dupEl.textContent = '⚠ Both sides of a fight: ' + dups.join(', '); }
                 else dupEl.style.display = 'none';
-                document.getElementById('hbCopy').disabled = !(count === ROSTER && !over);
+                document.getElementById('hbSave').disabled = !(count === ROSTER && !over);
+            }
+
+            const hbSig = picks => picks.map(hbKey).sort().join('|');
+
+            function hbSaveLineup() {
+                if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
+                const btn = document.getElementById('hbSave');
+                const flash = msg => { btn.textContent = msg; setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300); };
+                if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { flash('Already saved'); return; }
+                hbSaved.push(hbPicks.slice());
+                hbRenderSaved();
+                flash('Saved ✓');
+            }
+
+            function hbRenderSaved() {
+                const wrap = document.getElementById('hbSavedWrap');
+                if (!hbSaved.length) { wrap.style.display = 'none'; return; }
+                wrap.style.display = '';
+                document.getElementById('hbSavedCount').textContent = 'Saved lineups (' + hbSaved.length + ')';
+                document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
+                    const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
+                    return `<div class="hb-saved-row" data-i="${i}" title="Load into builder">
+                        <div class="hb-saved-info"><div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
+                        <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
+                    </div>`;
+                }).join('');
+            }
+
+            function hbExportSaved() {
+                if (!hbSaved.length) return;
+                let out = 'Rank,F1,F2,F3,F4,F5,F6,Salary\n';
+                hbSaved.forEach((lu, i) => {
+                    const players = lu.slice().sort((a, b) => b.salary - a.salary);
+                    const ids = players.map(p => p.id || '');
+                    while (ids.length < ROSTER) ids.push('');
+                    const sal = players.reduce((s, f) => s + (f.salary || 0), 0);
+                    out += `${i + 1},${ids.join(',')},${sal}\n`;
+                });
+                downloadCSV('mmalivesim_handbuilt_lineups.csv', out);
             }
 
             function hbRenderSlots() {
@@ -6672,7 +6725,7 @@
                 }).join('');
             }
 
-            function hbRender() { hbRenderMeter(); hbRenderSlots(); hbRenderPool(); }
+            function hbRender() { hbRenderMeter(); hbRenderSlots(); hbRenderPool(); hbRenderSaved(); }
 
             function hbWire() {
                 if (hbWired) return; hbWired = true;
@@ -6687,12 +6740,13 @@
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
                 document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
                 document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbRender(); });
-                document.getElementById('hbCopy').addEventListener('click', () => {
-                    const btn = document.getElementById('hbCopy');
-                    const txt = hbPicks.map(f => f.name).join(', ') + '  —  $' + hbTotal().toLocaleString() + ' / $' + SALARY_CAP.toLocaleString();
-                    const done = () => { const t = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = t; }, 1400); };
-                    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(done);
-                    else done();
+                document.getElementById('hbSave').addEventListener('click', hbSaveLineup);
+                document.getElementById('hbExport').addEventListener('click', hbExportSaved);
+                document.getElementById('hbSavedList').addEventListener('click', e => {
+                    const rm = e.target.closest('.rm');
+                    if (rm) { hbSaved.splice(+rm.dataset.i, 1); hbRenderSaved(); return; }
+                    const row = e.target.closest('.hb-saved-row');
+                    if (row) { hbPicks = hbSaved[+row.dataset.i].slice(); hbRender(); }
                 });
             }
 

@@ -2725,6 +2725,61 @@
         @media (max-width: 500px) {
             .flu-svg text, .flc-svg text, .flc-label { font-size: 32px; }
         }
+        /* ---------- Hand Builder ---------- */
+        .hb-wrap { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start; }
+        .hb-side { display: flex; flex-direction: column; gap: 14px; }
+        @media (min-width: 901px) { .hb-side { position: sticky; top: 12px; } }
+        .hb-meter { background: var(--bg-card); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); clip-path: var(--chamfer-sm); padding: 14px 16px; }
+        .hb-meter.over { border-top-color: var(--accent-red); }
+        .hb-meter-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+        .hb-total { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.55rem; letter-spacing: 0.5px; }
+        .hb-total .cap { font-size: 0.95rem; font-weight: 700; color: var(--text-secondary); }
+        .hb-count { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.9rem; padding: 2px 10px; border: 1px solid var(--border); white-space: nowrap; }
+        .hb-count.full { background: var(--accent-green); color: #fff; border-color: transparent; }
+        .hb-bar { height: 8px; background: var(--bg-hover); margin: 11px 0 8px; overflow: hidden; }
+        .hb-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-hi), var(--accent-lo)); transition: width .18s ease; }
+        .hb-meter.over .hb-bar-fill { background: var(--accent-red); }
+        .hb-meter-sub { display: flex; justify-content: space-between; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.4px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-status { margin-top: 10px; font-weight: 700; font-size: 0.9rem; }
+        .hb-status.ok { color: var(--accent-green); }
+        .hb-status.over { color: var(--accent-red); }
+        .hb-status.wip { color: var(--accent-lo); }
+        .hb-dup { margin-top: 6px; font-size: 0.75rem; color: var(--accent-red); font-weight: 600; }
+        .hb-slots { display: flex; flex-direction: column; gap: 7px; }
+        .hb-slot { display: flex; align-items: center; gap: 10px; padding: 9px 11px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); min-height: 42px; }
+        .hb-slot.empty { border-style: dashed; opacity: 0.55; justify-content: center; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-slot .nm { font-weight: 700; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-slot .sl { font-family: 'Chakra Petch', monospace; font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
+        .hb-slot .rm { background: none; border: none; color: var(--accent-red); font-size: 1.25rem; line-height: 1; cursor: pointer; padding: 0 2px; }
+        .hb-actions { display: flex; gap: 8px; }
+        .hb-actions .opt-btn { flex: 1; }
+        .hb-main { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+        .hb-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+        .hb-search { flex: 1; min-width: 150px; padding: 9px 12px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
+        .hb-sort { padding: 9px 12px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: 'Chakra Petch', monospace; font-size: 0.8rem; }
+        .hb-pool { display: flex; flex-direction: column; max-height: 62vh; overflow-y: auto; border: 1px solid var(--border); }
+        .hb-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg-card); cursor: pointer; }
+        .hb-row:last-child { border-bottom: none; }
+        .hb-row.picked { background: rgba(var(--a-rgb), 0.12); }
+        .hb-row.cant { opacity: 0.4; }
+        .hb-info { flex: 1; min-width: 0; }
+        .hb-name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-match { font-size: 0.72rem; color: var(--text-secondary); font-family: 'Chakra Petch', monospace; letter-spacing: 0.3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-sal { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.92rem; white-space: nowrap; }
+        .hb-add { min-width: 40px; height: 36px; border: 1px solid var(--accent); background: var(--accent); color: #000; font-weight: 800; font-size: 1.2rem; line-height: 1; cursor: pointer; clip-path: var(--chamfer-sm); }
+        .hb-add:hover { background: var(--accent-hi); }
+        .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
+        .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
+        @media (max-width: 900px) {
+            .hb-wrap { grid-template-columns: 1fr; }
+            .hb-meter { position: sticky; top: 0; z-index: 20; box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); }
+            .hb-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+            .hb-pool { max-height: none; }
+        }
+        @media (max-width: 420px) {
+            .hb-slots { grid-template-columns: 1fr; }
+            .hb-total { font-size: 1.35rem; }
+        }
     </style>
 </head>
 <body>
@@ -2751,6 +2806,7 @@
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
             <button class="lnav-tab" data-view="lookup"><span>Fighter Stats</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
+            <button class="lnav-tab" data-view="builder"><span>Hand Builder</span></button>
         </div>
 
         <div id="contests-view">
@@ -2892,6 +2948,47 @@
                             </table>
                         </div>
                         <div id="optExposure" class="opt-exposure"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="builder-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Hand Builder</div>
+                <p class="fsx-intro">Build a lineup by hand under the $50,000 DraftKings cap. Tap a fighter to add them — your salary, what's left, and how much you can spend per open slot update live.</p>
+
+                <div id="hbLoading" class="sdb-loading">Loading this week's slate…</div>
+
+                <div id="hbWrap" class="hb-wrap" style="display:none;">
+                    <div class="hb-side">
+                        <div class="hb-meter" id="hbMeter">
+                            <div class="hb-meter-top">
+                                <div class="hb-total"><span id="hbTotal">$0</span> <span class="cap">/ $50,000</span></div>
+                                <div class="hb-count" id="hbCount">0/6</div>
+                            </div>
+                            <div class="hb-bar"><div class="hb-bar-fill" id="hbBarFill"></div></div>
+                            <div class="hb-meter-sub"><span id="hbLeft">$50,000 left</span><span id="hbPerSlot">$8,333/slot</span></div>
+                            <div class="hb-status wip" id="hbStatus">Add 6 fighters</div>
+                            <div class="hb-dup" id="hbDup" style="display:none;"></div>
+                        </div>
+                        <div class="hb-slots" id="hbSlots"></div>
+                        <div class="hb-actions">
+                            <button class="opt-btn" id="hbClear">Clear</button>
+                            <button class="opt-btn opt-btn-primary" id="hbCopy" disabled>Copy lineup</button>
+                        </div>
+                    </div>
+                    <div class="hb-main">
+                        <div class="hb-tools">
+                            <input class="hb-search" id="hbSearch" type="text" placeholder="Search fighter or matchup…" autocomplete="off">
+                            <select class="hb-sort" id="hbSort">
+                                <option value="sal-desc">Salary: high → low</option>
+                                <option value="sal-asc">Salary: low → high</option>
+                                <option value="name">Name A → Z</option>
+                                <option value="fight">Matchup</option>
+                            </select>
+                        </div>
+                        <div class="hb-pool" id="hbPool"></div>
                     </div>
                 </div>
             </div>
@@ -6091,12 +6188,13 @@
             let insightsSub = 'ladder';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sn) sn.style.display = view === 'insights' ? '' : 'none';
                 if (sv) sv.style.display = view === 'insights' && insightsSub === 'database' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
+                if (bv) bv.style.display = view === 'builder' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
                 if (view === 'insights') {
                     document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.isub === insightsSub));
@@ -6105,6 +6203,7 @@
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
+                if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
             document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { insightsSub = b.dataset.isub; showLandingView('insights'); }));
@@ -6497,6 +6596,118 @@
             }
             initOptimizer();
             window.__openOptimizer = openOptimizer;
+
+            // ===== Hand Builder (reuses FIGHTERS / ensureSalary from above) =====
+            let hbPicks = [];                 // fighter object references from FIGHTERS
+            let hbSortKey = 'sal-desc', hbSearchStr = '', hbWired = false;
+            const hbKey = f => (f.id || '') + '|' + f.name;
+            const hbInPicks = f => hbPicks.some(p => hbKey(p) === hbKey(f));
+            const hbTotal = () => hbPicks.reduce((s, f) => s + (f.salary || 0), 0);
+
+            function hbAddOrRemove(f) {
+                if (hbInPicks(f)) hbPicks = hbPicks.filter(p => hbKey(p) !== hbKey(f));
+                else if (hbPicks.length < ROSTER) hbPicks.push(f);
+                else return;
+                hbRender();
+            }
+
+            function hbRenderMeter() {
+                const total = hbTotal(), remaining = SALARY_CAP - total;
+                const count = hbPicks.length, slotsLeft = ROSTER - count, over = total > SALARY_CAP;
+                const meter = document.getElementById('hbMeter');
+                meter.classList.toggle('over', over);
+                document.getElementById('hbTotal').textContent = '$' + total.toLocaleString();
+                const cnt = document.getElementById('hbCount');
+                cnt.textContent = count + '/' + ROSTER;
+                cnt.classList.toggle('full', count === ROSTER && !over);
+                document.getElementById('hbBarFill').style.width = Math.min(100, total / SALARY_CAP * 100) + '%';
+                document.getElementById('hbLeft').textContent =
+                    (remaining < 0 ? '-$' + Math.abs(remaining).toLocaleString() : '$' + remaining.toLocaleString()) + ' left';
+                document.getElementById('hbPerSlot').textContent =
+                    slotsLeft > 0 ? '$' + Math.floor(remaining / slotsLeft).toLocaleString() + '/slot' : '—';
+                const st = document.getElementById('hbStatus');
+                if (over) { st.className = 'hb-status over'; st.textContent = 'Over the cap by $' + (total - SALARY_CAP).toLocaleString(); }
+                else if (count < ROSTER) { st.className = 'hb-status wip'; st.textContent = 'Add ' + slotsLeft + ' more fighter' + (slotsLeft === 1 ? '' : 's'); }
+                else { st.className = 'hb-status ok'; st.textContent = 'Valid lineup — $' + remaining.toLocaleString() + ' to spare'; }
+                const seen = {}, dups = [];
+                hbPicks.forEach(f => { const m = f.matchup || ''; if (m) { if (seen[m] && dups.indexOf(m) < 0) dups.push(m); seen[m] = 1; } });
+                const dupEl = document.getElementById('hbDup');
+                if (dups.length) { dupEl.style.display = ''; dupEl.textContent = '⚠ Both sides of a fight: ' + dups.join(', '); }
+                else dupEl.style.display = 'none';
+                document.getElementById('hbCopy').disabled = !(count === ROSTER && !over);
+            }
+
+            function hbRenderSlots() {
+                let html = '';
+                for (let i = 0; i < ROSTER; i++) {
+                    const f = hbPicks[i];
+                    if (f) html += `<div class="hb-slot"><span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
+                    else html += `<div class="hb-slot empty">Slot ${i + 1}</div>`;
+                }
+                document.getElementById('hbSlots').innerHTML = html;
+            }
+
+            function hbRenderPool() {
+                const remaining = SALARY_CAP - hbTotal(), full = hbPicks.length >= ROSTER;
+                let list = FIGHTERS.slice();
+                const q = hbSearchStr.trim().toLowerCase();
+                if (q) list = list.filter(f => (f.name || '').toLowerCase().includes(q) || (f.matchup || '').toLowerCase().includes(q));
+                const cmp = {
+                    'sal-desc': (a, b) => b.salary - a.salary || a.name.localeCompare(b.name),
+                    'sal-asc': (a, b) => a.salary - b.salary || a.name.localeCompare(b.name),
+                    'name': (a, b) => a.name.localeCompare(b.name),
+                    'fight': (a, b) => (a.matchup || '').localeCompare(b.matchup || '') || b.salary - a.salary,
+                }[hbSortKey];
+                list.sort(cmp);
+                const pool = document.getElementById('hbPool');
+                if (!list.length) { pool.innerHTML = '<div class="hb-empty-msg">No fighters match your search.</div>'; return; }
+                pool.innerHTML = list.map(f => {
+                    const picked = hbInPicks(f);
+                    const cant = !picked && (full || f.salary > remaining);
+                    return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}" data-k="${oEsc(hbKey(f))}">
+                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}</div></div>
+                        <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
+                        <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
+                    </div>`;
+                }).join('');
+            }
+
+            function hbRender() { hbRenderMeter(); hbRenderSlots(); hbRenderPool(); }
+
+            function hbWire() {
+                if (hbWired) return; hbWired = true;
+                document.getElementById('hbPool').addEventListener('click', e => {
+                    const row = e.target.closest('.hb-row'); if (!row) return;
+                    const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (f) hbAddOrRemove(f);
+                });
+                document.getElementById('hbSlots').addEventListener('click', e => {
+                    const btn = e.target.closest('.rm'); if (!btn) return;
+                    const f = FIGHTERS.find(x => hbKey(x) === btn.dataset.k); if (f) hbAddOrRemove(f);
+                });
+                document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
+                document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
+                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbRender(); });
+                document.getElementById('hbCopy').addEventListener('click', () => {
+                    const btn = document.getElementById('hbCopy');
+                    const txt = hbPicks.map(f => f.name).join(', ') + '  —  $' + hbTotal().toLocaleString() + ' / $' + SALARY_CAP.toLocaleString();
+                    const done = () => { const t = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = t; }, 1400); };
+                    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(done);
+                    else done();
+                });
+            }
+
+            async function openHandBuilder() {
+                hbWire();
+                try { await ensureSalary(); }
+                catch (e) {
+                    document.getElementById('hbLoading').textContent = 'This week\'s slate hasn\'t been posted yet — check back soon.';
+                    return;
+                }
+                document.getElementById('hbLoading').style.display = 'none';
+                document.getElementById('hbWrap').style.display = '';
+                hbRender();
+            }
+            window.__openHandBuilder = openHandBuilder;
         })();
     </script>
 </body>

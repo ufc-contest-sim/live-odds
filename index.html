@@ -520,6 +520,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
+            padding: 4px 18px 0;
         }
 
         .search-results-header h3 {
@@ -5352,11 +5353,10 @@
                 const color = lev > 3 ? C.green : (lev < -3 ? C.red : C.grey);
                 const c = svgEl('circle', { cx: x(p.draft), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
                 c.style.cursor = 'pointer';
+                // Names live in the hover tooltip only — permanent labels overlapped
+                // badly on crowded slates.
                 bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
                 svg.appendChild(c);
-                if (p.draft >= maxV * 0.35 || Math.abs(lev) >= 6) {
-                    const t = svgEl('text', { x: x(p.draft) + 9, y: y(p.win) + 4, fill: '#4a453d', 'font-size': 10.5 }); t.textContent = p.name; svg.appendChild(t);
-                }
             });
         }
 

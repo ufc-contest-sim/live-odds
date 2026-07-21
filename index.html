@@ -520,6 +520,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
+            padding: 4px 18px 0;
         }
 
         .search-results-header h3 {
@@ -2584,7 +2585,7 @@
             }
             .opt-grid td.proj-cell::before { content: "Projection"; }
             .opt-grid td.own-cell::before { content: "Own %"; }
-            .opt-grid td.exp-cell::before { content: "Max Exp %"; }
+            .opt-grid td.exp-cell::before { content: "Max Exposure %"; }
             .opt-grid td.proj-cell input, .opt-grid td.own-cell input, .opt-grid td.exp-cell input {
                 width: 100%; font-size: 16px; padding: 9px 8px;   /* 16px keeps iOS from zooming on focus */
             }
@@ -2725,6 +2726,457 @@
         @media (max-width: 500px) {
             .flu-svg text, .flc-svg text, .flc-label { font-size: 32px; }
         }
+        /* ---------- Hand Builder ---------- */
+        .hb-wrap { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start; }
+        .hb-side { display: flex; flex-direction: column; gap: 14px; }
+        @media (min-width: 901px) { .hb-side { position: sticky; top: 12px; } }
+        .hb-meter { background: var(--bg-card); border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); clip-path: var(--chamfer-sm); padding: 14px 16px; }
+        .hb-meter.over { border-top-color: var(--accent-red); }
+        .hb-meter-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+        .hb-total { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.55rem; letter-spacing: 0.5px; }
+        .hb-total .cap { font-size: 0.95rem; font-weight: 700; color: var(--text-secondary); }
+        .hb-count { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.9rem; padding: 2px 10px; border: 1px solid var(--border); white-space: nowrap; }
+        .hb-count.full { background: var(--accent-green); color: #fff; border-color: transparent; }
+        .hb-bar { height: 8px; background: var(--bg-hover); margin: 11px 0 8px; overflow: hidden; }
+        .hb-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-hi), var(--accent-lo)); transition: width .18s ease; }
+        .hb-meter.over .hb-bar-fill { background: var(--accent-red); }
+        .hb-meter-sub { display: flex; justify-content: space-between; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.4px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-status { margin-top: 10px; font-weight: 700; font-size: 0.9rem; }
+        .hb-status.ok { color: var(--accent-green); }
+        .hb-status.over { color: var(--accent-red); }
+        .hb-status.wip { color: var(--accent-lo); }
+        .hb-dup { margin-top: 6px; font-size: 0.75rem; color: var(--accent-red); font-weight: 600; }
+        .hb-slots { display: flex; flex-direction: column; gap: 7px; }
+        .hb-slot { display: flex; align-items: center; gap: 10px; padding: 9px 11px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); min-height: 42px; }
+        .hb-slot.empty { border-style: dashed; opacity: 0.55; justify-content: center; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-slot .nm { font-weight: 700; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-slot .sl { font-family: 'Chakra Petch', monospace; font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
+        .hb-slot .rm { background: none; border: none; color: var(--accent-red); font-size: 1.25rem; line-height: 1; cursor: pointer; padding: 0 2px; }
+        .hb-actions { display: flex; gap: 8px; }
+        .hb-actions .opt-btn { flex: 1; }
+        .hb-main { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+        .hb-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+        .hb-search { flex: 1; min-width: 150px; padding: 9px 12px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
+        .hb-sort { padding: 9px 12px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: 'Chakra Petch', monospace; font-size: 0.8rem; }
+        .hb-pool { display: flex; flex-direction: column; max-height: 62vh; overflow-y: auto; border: 1px solid var(--border); }
+        .hb-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--bg-card); cursor: pointer; }
+        .hb-row:last-child { border-bottom: none; }
+        .hb-row.picked { background: rgba(var(--a-rgb), 0.12); }
+        .hb-row.cant { opacity: 0.4; }
+        .hb-info { flex: 1; min-width: 0; }
+        .hb-name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-match { font-size: 0.72rem; color: var(--text-secondary); font-family: 'Chakra Petch', monospace; letter-spacing: 0.3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-sal { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.92rem; white-space: nowrap; }
+        .hb-add { min-width: 40px; height: 36px; border: 1px solid var(--accent); background: var(--accent); color: #000; font-weight: 800; font-size: 1.2rem; line-height: 1; cursor: pointer; clip-path: var(--chamfer-sm); }
+        .hb-add:hover { background: var(--accent-hi); }
+        .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
+        .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
+        .hb-saved { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
+        .hb-saved-head { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-saved-list { display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; }
+        .hb-saved-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); cursor: pointer; }
+        .hb-saved-row:hover { background: var(--bg-hover); border-color: var(--border-accent); }
+        .hb-saved-info { flex: 1; min-width: 0; }
+        .hb-saved-names { font-size: 0.78rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hb-saved-sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
+        .hb-saved-row .rm { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 0 4px; }
+        @media (max-width: 900px) {
+            .hb-wrap { grid-template-columns: 1fr; }
+            .hb-meter { position: sticky; top: 0; z-index: 20; box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); }
+            .hb-slots { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+            .hb-pool { max-height: none; }
+        }
+        @media (max-width: 420px) {
+            .hb-slots { grid-template-columns: 1fr; }
+            .hb-total { font-size: 1.35rem; }
+        }
+    </style>
+    <style id="theme-v2">
+        /* ═══════════════════════════════════════════════════════════
+           FIGHT NIGHT — theme v2 (CSS-only overlay)
+           Dark consumer-sports-app look: near-black surfaces, chunky
+           rounded cards, confident orange, mint/coral ROI numbers.
+           ═══════════════════════════════════════════════════════════ */
+        :root {
+            --bg-dark: #0b0b0e;
+            --bg-card: #16161b;
+            --bg-card-solid: #16161b;
+            --bg-hover: #23232c;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(255, 138, 43, 0.55);
+            --text-primary: #f5f4f7;
+            --text-secondary: #a8a7b3;
+            --text-on-dark: #f5f4f7;
+            --text-on-dark-mute: #9a99a8;
+            --accent: #ff6a12;
+            --accent-hi: #ff8a2b;
+            --accent-lo: #ff7d1f;            /* was a dark burnt orange; must read on dark */
+            --a-rgb: 255, 106, 18;
+            --accent-green: #2fe08a;         /* mint — 9.0–10.4:1 on all card surfaces */
+            --accent-red: #ff5d6e;           /* coral — 5.2–6.1:1 on all card surfaces */
+            --accent-blue: #ff8a2b;
+            --accent-gold: #ffb15c;
+            --glass-bg: #16161b;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --chamfer: none;                 /* kill cut corners -> border-radius works */
+            --chamfer-sm: none;
+            --fn-card-2: #1b1b22;            /* raised inner surface */
+            --fn-inset: #101016;             /* sunken inputs / wells */
+            --fn-line: rgba(255, 255, 255, 0.06);
+            --fn-grad: linear-gradient(100deg, #ff8a2b 0%, #ff6a12 55%, #f4550a 100%);
+            --fn-head: 'Arial Narrow', 'Liberation Sans Narrow', 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+            --fn-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'Liberation Sans', Arial, sans-serif;
+            --fn-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
+        }
+
+        /* ---------- base ---------- */
+        body {
+            font-family: var(--fn-body);
+            background:
+                radial-gradient(1200px 540px at 50% -10%, rgba(255, 106, 18, 0.13), transparent 62%),
+                radial-gradient(900px 500px at 100% 110%, rgba(255, 106, 18, 0.05), transparent 60%),
+                #0b0b0e;
+            background-attachment: fixed;
+            color: var(--text-primary);
+        }
+        ::selection { background: rgba(var(--a-rgb), 0.45); color: #fff; }
+        * { scrollbar-color: #33323d #101016; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #101016; }
+        ::-webkit-scrollbar-thumb { background: #33323d; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #45444f; }
+
+        /* condensed-feel display type (Google Fonts may not load) */
+        h1, .landing-header h1, .search-results-header h3,
+        .hb-total, .fsx-hero .nm, #visitor-gate button, #visitor-gate h2,
+        .sdb-title, .portfolio-chart-title, .fight-card-container h3,
+        .stats-vertical h3, .fighter-draft-container h3, .dupes-container h3,
+        .chart-card h3, .opt-results-head {
+            font-family: var(--fn-head);
+            font-stretch: semi-condensed;
+        }
+
+        /* ---------- broadcast ticker ---------- */
+        .live-ticker {
+            background: #101014;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, #f4550a, #ff8a2b, #f4550a) 1;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            font-size: 0.68rem;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
+        }
+        .live-ticker-track span { color: #8f8e9c; }
+        .live-ticker-track b, .live-ticker-track b.am { color: #f5f4f7; font-weight: 800; }
+
+        /* ---------- hero ---------- */
+        .landing-header h1 {
+            color: var(--text-on-dark);
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-shadow: 0 26px 70px rgba(0, 0, 0, 0.8);
+        }
+        .landing-kicker { font-weight: 700; letter-spacing: 6px; }
+        .brand-sub, .landing-header p { color: var(--text-on-dark-mute); font-weight: 500; }
+
+        /* pills: parallelograms -> real rounded pills */
+        .pill { transform: none; border-radius: 999px; padding: 9px 20px;
+                background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(255, 255, 255, 0.12);
+                font-weight: 700; }
+        .pill > i, .pill.live .dot { transform: none; }
+        .pill.live {
+            background: rgba(var(--a-rgb), 0.14);
+            border-color: rgba(var(--a-rgb), 0.55);
+            color: var(--accent-hi);
+        }
+        .hero-badges .pill { color: var(--text-on-dark-mute); }
+        .hero-badges .pill.live { color: var(--accent-hi); border-color: rgba(var(--a-rgb), 0.55); }
+
+        /* ---------- landing nav: chunky rounded segments ---------- */
+        .lnav-tab {
+            transform: none;
+            border-radius: 14px;
+            background: var(--fn-card-2);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            color: var(--text-secondary);
+            padding: 13px 26px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+        }
+        .lnav-tab > span { transform: none; }
+        .lnav-tab:hover { background: var(--bg-hover); color: var(--text-primary); border-color: rgba(255, 255, 255, 0.16); }
+        .lnav-tab.active {
+            background: var(--fn-grad);
+            color: #180a02;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ---------- search bar ---------- */
+        .quick-search-bar {
+            background: var(--fn-card-2);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-left: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+        .quick-search-bar:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(var(--a-rgb), 0.18);
+        }
+        .quick-search-bar input { color: var(--text-primary); font-weight: 600; }
+        .quick-search-bar input::placeholder { color: #7c7b89; }
+        .quick-search-icon { color: #7c7b89; }
+
+        /* ---------- cards: chunky, rounded, dark ---------- */
+        .contest-table-wrapper, .table-container, .stats-vertical,
+        .fighter-draft-container, .dupes-container, .chart-card,
+        .fight-card-container, .filters, .portfolio-chart-container,
+        .search-result-card, .search-no-results, .sdb-card,
+        .quick-search-results, .whatif-panel {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+        }
+        .contest-table-wrapper, .table-container, .stats-vertical,
+        .fighter-draft-container, .dupes-container, .chart-card,
+        .fight-card-container, .filters, .quick-search-results, .sdb-card {
+            border-top: 3px solid var(--accent);
+        }
+        .contest-table-wrapper, .table-container { overflow: hidden; }
+        .search-result-card { border-radius: 14px; }
+        .search-result-card:hover { background: var(--bg-hover); border-color: var(--border-accent); }
+
+        /* ---------- landing contest table ---------- */
+        .contest-table thead { background: var(--fn-grad); }
+        .contest-table th { color: #180a02; letter-spacing: 1.2px; font-weight: 800; border-bottom: 2px solid rgba(0, 0, 0, 0.25); }
+        .contest-table td { border-bottom: 1px solid var(--fn-line); font-weight: 600; }
+        .contest-table-name { font-weight: 800; letter-spacing: 0.2px; }
+        .contest-table tbody tr:hover { background: rgba(var(--a-rgb), 0.09); }
+        .contest-table tbody tr:hover .contest-table-name { color: var(--accent-hi); }
+        .contest-table td.col-fee { font-family: var(--fn-mono); }
+        .contest-table td.col-prizes { color: var(--accent-green); font-weight: 800; font-family: var(--fn-mono); }
+        .contest-table td.col-entrants { font-family: var(--fn-mono); color: var(--text-secondary); }
+
+        /* ---------- generic tables (leaderboard) ---------- */
+        thead { background: var(--fn-card-2); }
+        th { border-bottom: 1px solid var(--fn-line); color: var(--text-secondary); }
+        #username-table thead, #lineup-table thead, #portfolio-table thead,
+        .whatif-table-scroll thead { background: var(--fn-grad); }
+        #username-table thead th, #lineup-table thead th, #portfolio-table thead th,
+        .whatif-table-scroll thead th { color: #180a02; font-weight: 800; border-bottom: 2px solid rgba(0, 0, 0, 0.25); }
+        .contest-table th.sortable:hover, thead th.sortable:hover { color: rgba(24, 10, 2, 0.6); }
+        .row-main { border-bottom: 1px solid var(--fn-line); }
+        .row-main:nth-child(4n+3) { background: rgba(255, 255, 255, 0.025); }
+        .row-main:hover, .row-main.expanded { background: rgba(var(--a-rgb), 0.09); }
+        td { font-weight: 500; }
+        .username { font-weight: 700; }
+        .lineup-row { background: #101014; border-bottom: 1px solid var(--fn-line); }
+        .fighter-chip { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 10px; font-weight: 600; }
+        .portfolio-lineup-row { border-bottom: 1px solid var(--fn-line); }
+
+        /* ---------- THE ROI NUMBERS (design centerpiece) ---------- */
+        .positive, .stat-row .value.positive, .portfolio-bar-value.positive,
+        .pq-stat b.positive, .portfolio-bar-marker.positive {
+            color: var(--accent-green);
+            font-weight: 800;
+            font-family: var(--fn-mono);
+        }
+        .negative, .stat-row .value.negative, .portfolio-bar-value.negative,
+        .pq-stat b.negative, .portfolio-bar-marker.negative {
+            color: var(--accent-red);
+            font-weight: 800;
+            font-family: var(--fn-mono);
+        }
+        .pq-val.positive { color: var(--accent-green); }
+        .pq-val.negative { color: var(--accent-red); }
+        .portfolio-bar.positive-bar { background: linear-gradient(to top, #14b56b, #2fe08a); }
+        .portfolio-bar.negative-bar { background: linear-gradient(to bottom, #ff5d6e, #d92e44); }
+        .stat-row { border-bottom: 1px solid var(--fn-line); }
+        .stat-row .value { font-weight: 700; }
+
+        /* ---------- leaderboard header + view tabs ---------- */
+        h1, #contest-name { color: var(--text-on-dark); font-weight: 900; letter-spacing: 1.5px; }
+        .updated { color: var(--text-on-dark-mute); }
+        .back-btn {
+            background: var(--fn-card-2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            padding: 9px 18px;
+        }
+        .back-btn:hover { color: var(--text-primary); border-color: var(--border-accent); background: var(--bg-hover); }
+        .tab-btn {
+            transform: none;
+            border-radius: 999px;
+            background: var(--fn-card-2);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            color: var(--text-secondary);
+            font-weight: 700;
+            padding: 10px 22px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+        }
+        .tab-btn > span { transform: none; }
+        .tab-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .tab-btn.active {
+            background: var(--fn-grad);
+            color: #180a02;
+            font-weight: 800;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ---------- sub-tables ---------- */
+        .fighter-draft-table th, .dupe-table th { background: var(--fn-card-2); color: var(--text-secondary); border-bottom: 1px solid var(--fn-line); }
+        .fighter-draft-table td, .dupe-table td { border-bottom: 1px solid var(--fn-line); }
+        .fighter-draft-table tr:hover, .dupe-table tr:hover td { background: rgba(var(--a-rgb), 0.09); }
+
+        /* ---------- inputs / selects / small controls ---------- */
+        .filters input, .filters select, .pair-search-input, .pair-controls select,
+        .dupe-search, .fight-score-input, .fighter-dropdown-list, .username-dropdown,
+        .sdb-fg input, .sdb-fg select, .opt-cap input, .flu-search input,
+        .hb-search, .hb-sort, #visitor-gate input,
+        .opt-grid td.proj-cell input, .opt-grid td.own-cell input, .opt-grid td.exp-cell input {
+            background: var(--fn-inset);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 10px;
+        }
+        .fight-score-input.prefilled { background: #1d1d25; }
+        .fight-score-input.has-value { border-color: var(--border-accent); }
+        .fight-row { border-bottom: 1px solid var(--fn-line); }
+        .filters input::placeholder, .dupe-search::placeholder, .hb-search::placeholder,
+        .flu-search input::placeholder, .pair-search-input::placeholder { color: #7c7b89; }
+        .username-dropdown { border-radius: 14px; overflow: hidden; box-shadow: 0 16px 44px rgba(0, 0, 0, 0.6); }
+        .username-dropdown-item { border-bottom: 1px solid var(--fn-line); }
+        .username-dropdown-item:hover { background: var(--bg-hover); }
+        .fighter-option:hover { background: var(--bg-hover); }
+        .fighter-option.selected { background: rgba(47, 224, 138, 0.12); color: var(--accent-green); }
+        .add-fav-btn, .clear-btn, .whatif-reset-btn, .pair-toggle {
+            background: var(--fn-card-2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border-radius: 999px;
+            font-weight: 700;
+        }
+        .add-fav-btn:hover, .clear-btn:hover, .whatif-reset-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .portfolio-filter-label { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-secondary); border-radius: 999px; }
+        .portfolio-filter-label:hover { background: var(--bg-hover); }
+        .chart-tip { background: #23232c; border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6); border-radius: 10px; }
+        .favorite-tile { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; }
+        .favorite-tile:hover { border-color: var(--border-accent); background: var(--bg-hover); }
+
+        /* ---------- fighter stats database ---------- */
+        .sdb-table thead th { background: var(--fn-grad); color: #180a02; font-weight: 800; }
+        .sdb-table thead th.sorted { background: #101014; color: var(--accent-hi); }
+        .sdb-table td { border-bottom: 1px solid var(--fn-line); }
+        .sdb-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+        .sdb-table tbody tr:hover { background: rgba(var(--a-rgb), 0.09); }
+        .sdb-legend-grid span { border-bottom: 1px solid var(--fn-line); }
+        .sdb-ladder th { background: var(--fn-grad); color: #180a02; font-weight: 800; }
+        .sdb-ladder td { border-bottom: 1px solid var(--fn-line); }
+        .sdb-tile { background: var(--fn-card-2); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid #55545f; }
+        .sdb-tile.win { border-left-color: var(--accent-green); }
+        .sdb-tile.loss { border-left-color: var(--accent-red); }
+
+        /* ---------- optimizer ---------- */
+        .opt-btn {
+            background: var(--fn-card-2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 999px;
+            font-weight: 700;
+            padding: 11px 20px;
+        }
+        .opt-btn:hover { background: var(--bg-hover); border-color: rgba(255, 255, 255, 0.18); }
+        /* primary CTA: the ONE glow */
+        .opt-btn-primary, .opt-btn-primary:hover {
+            background: var(--fn-grad);
+            color: #180a02;
+            font-weight: 800;
+            border-color: transparent;
+            box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.45);
+        }
+        .opt-upload { background: var(--fn-inset); border: 1px dashed rgba(255, 255, 255, 0.16); border-radius: 14px; }
+        .exp-chip { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--accent); border-radius: 8px; }
+
+        /* ---------- fighter lookup / matchup modal ---------- */
+        .flu-suggest { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; overflow: hidden; box-shadow: 0 16px 44px rgba(0, 0, 0, 0.6); }
+        .flu-suggest div { border-bottom: 1px solid var(--fn-line); }
+        .flu-suggest div:hover, .flu-suggest div.sel { background: var(--bg-hover); color: var(--accent-hi); }
+        .fsx-hero { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid var(--accent); border-radius: 14px; }
+        .fsx-tile { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-top: 3px solid var(--accent); border-radius: 12px; }
+        .fsx-table thead tr.grp th { background: #101014; color: #9a99a8; }
+        .fsx-table thead tr.cols th { background: var(--fn-grad); color: #180a02; font-weight: 800; }
+        .fsx-table td { border-bottom: 1px solid var(--fn-line); }
+        .fsx-table tbody tr.fsx-main td { border-top: 2px solid rgba(255, 255, 255, 0.09); }
+        .fsx-opp td { background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--fn-line); }
+        .fsx-table td.sep, .fsx-table th.sep { border-left: 1px solid rgba(255, 255, 255, 0.09); }
+        .fsx-table tfoot td { background: #22222a; border-top: 2px solid var(--accent); }
+        .fsx-table tfoot tr.opp td { background: var(--fn-card-2); border-top: 1px dashed rgba(255, 255, 255, 0.16); }
+        .fxm-card { background: var(--bg-card); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .fxm-bar { background: #2a2a33; border-radius: 4px; }
+        .fxm-bar b { background: #55545f; }
+
+        /* ---------- visitor gate ---------- */
+        #visitor-gate .vg-card {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--accent);
+        }
+        #visitor-gate input { border-radius: 12px; }
+        #visitor-gate button {
+            background: var(--fn-grad);
+            color: #180a02;
+            border-radius: 999px;
+            box-shadow: 0 6px 22px rgba(var(--a-rgb), 0.45);
+        }
+
+        /* ---------- hand builder ---------- */
+        .hb-meter { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.09); border-top: 3px solid var(--accent); border-radius: 16px; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45); }
+        .hb-total { font-weight: 900; letter-spacing: 0.5px; }
+        .hb-total .cap { color: var(--text-secondary); }
+        .hb-bar { background: #2a2a33; border-radius: 99px; }
+        .hb-bar-fill { background: linear-gradient(90deg, var(--accent-hi), var(--accent)); border-radius: 99px; }
+        .hb-count { border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; }
+        .hb-count.full { background: var(--accent-green); color: #06341c; }
+        .hb-slot { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; }
+        .hb-slot.empty { border-style: dashed; border-color: rgba(255, 255, 255, 0.16); background: transparent; }
+        .hb-search, .hb-sort { border-radius: 12px; }
+        .hb-pool { border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; overflow-x: hidden; background: var(--bg-card); }
+        .hb-row { background: transparent; border-bottom: 1px solid var(--fn-line); }
+        .hb-row:hover { background: var(--bg-hover); }
+        .hb-row.picked { background: rgba(var(--a-rgb), 0.12); }
+        .hb-name { font-weight: 700; }
+        .hb-sal { font-family: var(--fn-mono); font-weight: 700; }
+        .hb-add { border-radius: 10px; color: #180a02; box-shadow: none; }
+        .hb-add:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
+        .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #06341c; }
+        .hb-saved-row { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; }
+        .hb-saved-row:hover { background: var(--bg-hover); }
+
+        /* ---------- JS-drawn SVG charts ----------
+           the pairing/leverage charts hardcode fills as SVG presentation
+           attributes; CSS fill wins over those, so retint by attr value */
+        .chart-card svg text[fill="#4a453d"] { fill: #b9b8c4; }
+        .chart-card svg rect[fill="#ece6dd"] { fill: #26262e; }
+
+        /* native form widgets pick up the brand */
+        input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
+        select { color-scheme: dark; }
+
+        /* ---------- mobile polish ---------- */
+        @media (max-width: 768px) {
+            .lnav-tab { padding: 12px 20px; border-radius: 12px; }
+            .quick-search-bar { border-radius: 14px; }
+            .contest-table-wrapper, .table-container, .sdb-card { border-radius: 14px; }
+        }
+        @media (max-width: 640px) {
+            .opt-grid tr { background: var(--fn-card-2) !important; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 3px solid var(--accent); border-radius: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -2751,6 +3203,7 @@
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
             <button class="lnav-tab" data-view="lookup"><span>Fighter Stats</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
+            <button class="lnav-tab" data-view="builder"><span>Hand Builder</span></button>
         </div>
 
         <div id="contests-view">
@@ -2872,7 +3325,7 @@
                             <thead>
                                 <tr>
                                     <th class="l">Fighter</th><th class="l">Matchup</th><th>Salary</th>
-                                    <th>Projection</th><th>Own %</th><th>Max Exp %</th><th>Lock</th><th>Excl</th>
+                                    <th>Projection</th><th>Own %</th><th>Max Exposure %</th><th>Lock</th><th>Exclude</th>
                                 </tr>
                             </thead>
                             <tbody id="optGridBody"></tbody>
@@ -2892,6 +3345,51 @@
                             </table>
                         </div>
                         <div id="optExposure" class="opt-exposure"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="builder-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Hand Builder</div>
+
+                <div id="hbLoading" class="sdb-loading">Loading this week's slate…</div>
+
+                <div id="hbWrap" class="hb-wrap" style="display:none;">
+                    <div class="hb-side">
+                        <div class="hb-meter" id="hbMeter">
+                            <div class="hb-meter-top">
+                                <div class="hb-total"><span id="hbTotal">$0</span> <span class="cap">/ $50,000</span></div>
+                                <div class="hb-count" id="hbCount">0/6</div>
+                            </div>
+                            <div class="hb-bar"><div class="hb-bar-fill" id="hbBarFill"></div></div>
+                            <div class="hb-meter-sub"><span id="hbLeft">$50,000 left</span><span id="hbPerSlot">$8,333/slot</span></div>
+                            <div class="hb-status wip" id="hbStatus">Add 6 fighters</div>
+                            <div class="hb-dup" id="hbDup" style="display:none;"></div>
+                        </div>
+                        <div class="hb-slots" id="hbSlots"></div>
+                        <div class="hb-actions">
+                            <button class="opt-btn" id="hbClear">Clear</button>
+                            <button class="opt-btn opt-btn-primary" id="hbSave" disabled>Save Lineup</button>
+                        </div>
+                        <div class="hb-saved" id="hbSavedWrap" style="display:none;">
+                            <div class="hb-saved-head" id="hbSavedCount">Saved lineups (0)</div>
+                            <div class="hb-saved-list" id="hbSavedList"></div>
+                            <button class="opt-btn opt-btn-primary" id="hbExport">Export lineups</button>
+                        </div>
+                    </div>
+                    <div class="hb-main">
+                        <div class="hb-tools">
+                            <input class="hb-search" id="hbSearch" type="text" placeholder="Search fighter or matchup…" autocomplete="off">
+                            <select class="hb-sort" id="hbSort">
+                                <option value="sal-desc">Salary: high → low</option>
+                                <option value="sal-asc">Salary: low → high</option>
+                                <option value="name">Name A → Z</option>
+                                <option value="fight">Matchup</option>
+                            </select>
+                        </div>
+                        <div class="hb-pool" id="hbPool"></div>
                     </div>
                 </div>
             </div>
@@ -4855,11 +5353,10 @@
                 const color = lev > 3 ? C.green : (lev < -3 ? C.red : C.grey);
                 const c = svgEl('circle', { cx: x(p.draft), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
                 c.style.cursor = 'pointer';
+                // Names live in the hover tooltip only — permanent labels overlapped
+                // badly on crowded slates.
                 bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
                 svg.appendChild(c);
-                if (p.draft >= maxV * 0.35 || Math.abs(lev) >= 6) {
-                    const t = svgEl('text', { x: x(p.draft) + 9, y: y(p.win) + 4, fill: '#4a453d', 'font-size': 10.5 }); t.textContent = p.name; svg.appendChild(t);
-                }
             });
         }
 
@@ -6091,12 +6588,13 @@
             let insightsSub = 'ladder';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sn) sn.style.display = view === 'insights' ? '' : 'none';
                 if (sv) sv.style.display = view === 'insights' && insightsSub === 'database' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
+                if (bv) bv.style.display = view === 'builder' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
                 if (view === 'insights') {
                     document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.isub === insightsSub));
@@ -6105,6 +6603,7 @@
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
+                if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
             document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { insightsSub = b.dataset.isub; showLandingView('insights'); }));
@@ -6497,6 +6996,159 @@
             }
             initOptimizer();
             window.__openOptimizer = openOptimizer;
+
+            // ===== Hand Builder (reuses FIGHTERS / ensureSalary from above) =====
+            let hbPicks = [];                 // fighter object references from FIGHTERS
+            let hbSaved = [];                 // list of saved lineups (each an array of 6 fighters)
+            let hbSortKey = 'sal-desc', hbSearchStr = '', hbWired = false;
+            const hbKey = f => (f.id || '') + '|' + f.name;
+            const hbInPicks = f => hbPicks.some(p => hbKey(p) === hbKey(f));
+            const hbTotal = () => hbPicks.reduce((s, f) => s + (f.salary || 0), 0);
+
+            function hbAddOrRemove(f) {
+                if (hbInPicks(f)) hbPicks = hbPicks.filter(p => hbKey(p) !== hbKey(f));
+                else if (hbPicks.length < ROSTER) hbPicks.push(f);
+                else return;
+                hbRender();
+            }
+
+            function hbRenderMeter() {
+                const total = hbTotal(), remaining = SALARY_CAP - total;
+                const count = hbPicks.length, slotsLeft = ROSTER - count, over = total > SALARY_CAP;
+                const meter = document.getElementById('hbMeter');
+                meter.classList.toggle('over', over);
+                document.getElementById('hbTotal').textContent = '$' + total.toLocaleString();
+                const cnt = document.getElementById('hbCount');
+                cnt.textContent = count + '/' + ROSTER;
+                cnt.classList.toggle('full', count === ROSTER && !over);
+                document.getElementById('hbBarFill').style.width = Math.min(100, total / SALARY_CAP * 100) + '%';
+                document.getElementById('hbLeft').textContent =
+                    (remaining < 0 ? '-$' + Math.abs(remaining).toLocaleString() : '$' + remaining.toLocaleString()) + ' left';
+                document.getElementById('hbPerSlot').textContent =
+                    slotsLeft > 0 ? '$' + Math.floor(remaining / slotsLeft).toLocaleString() + '/slot' : '—';
+                const st = document.getElementById('hbStatus');
+                if (over) { st.className = 'hb-status over'; st.textContent = 'Over the cap by $' + (total - SALARY_CAP).toLocaleString(); }
+                else if (count < ROSTER) { st.className = 'hb-status wip'; st.textContent = 'Add ' + slotsLeft + ' more fighter' + (slotsLeft === 1 ? '' : 's'); }
+                else { st.className = 'hb-status ok'; st.textContent = 'Valid lineup — $' + remaining.toLocaleString() + ' to spare'; }
+                const seen = {}, dups = [];
+                hbPicks.forEach(f => { const m = f.matchup || ''; if (m) { if (seen[m] && dups.indexOf(m) < 0) dups.push(m); seen[m] = 1; } });
+                const dupEl = document.getElementById('hbDup');
+                if (dups.length) { dupEl.style.display = ''; dupEl.textContent = '⚠ Both sides of a fight: ' + dups.join(', '); }
+                else dupEl.style.display = 'none';
+                document.getElementById('hbSave').disabled = !(count === ROSTER && !over);
+            }
+
+            const hbSig = picks => picks.map(hbKey).sort().join('|');
+
+            function hbSaveLineup() {
+                if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
+                const btn = document.getElementById('hbSave');
+                const flash = msg => { btn.textContent = msg; setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300); };
+                if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { flash('Already saved'); return; }
+                hbSaved.push(hbPicks.slice());
+                hbRenderSaved();
+                flash('Saved ✓');
+            }
+
+            function hbRenderSaved() {
+                const wrap = document.getElementById('hbSavedWrap');
+                if (!hbSaved.length) { wrap.style.display = 'none'; return; }
+                wrap.style.display = '';
+                document.getElementById('hbSavedCount').textContent = 'Saved lineups (' + hbSaved.length + ')';
+                document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
+                    const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
+                    return `<div class="hb-saved-row" data-i="${i}" title="Load into builder">
+                        <div class="hb-saved-info"><div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
+                        <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
+                    </div>`;
+                }).join('');
+            }
+
+            function hbExportSaved() {
+                if (!hbSaved.length) return;
+                let out = 'Rank,F1,F2,F3,F4,F5,F6,Salary\n';
+                hbSaved.forEach((lu, i) => {
+                    const players = lu.slice().sort((a, b) => b.salary - a.salary);
+                    const ids = players.map(p => p.id || '');
+                    while (ids.length < ROSTER) ids.push('');
+                    const sal = players.reduce((s, f) => s + (f.salary || 0), 0);
+                    out += `${i + 1},${ids.join(',')},${sal}\n`;
+                });
+                downloadCSV('mmalivesim_handbuilt_lineups.csv', out);
+            }
+
+            function hbRenderSlots() {
+                let html = '';
+                for (let i = 0; i < ROSTER; i++) {
+                    const f = hbPicks[i];
+                    if (f) html += `<div class="hb-slot"><span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
+                    else html += `<div class="hb-slot empty">Slot ${i + 1}</div>`;
+                }
+                document.getElementById('hbSlots').innerHTML = html;
+            }
+
+            function hbRenderPool() {
+                const remaining = SALARY_CAP - hbTotal(), full = hbPicks.length >= ROSTER;
+                let list = FIGHTERS.slice();
+                const q = hbSearchStr.trim().toLowerCase();
+                if (q) list = list.filter(f => (f.name || '').toLowerCase().includes(q) || (f.matchup || '').toLowerCase().includes(q));
+                const cmp = {
+                    'sal-desc': (a, b) => b.salary - a.salary || a.name.localeCompare(b.name),
+                    'sal-asc': (a, b) => a.salary - b.salary || a.name.localeCompare(b.name),
+                    'name': (a, b) => a.name.localeCompare(b.name),
+                    'fight': (a, b) => (a.matchup || '').localeCompare(b.matchup || '') || b.salary - a.salary,
+                }[hbSortKey];
+                list.sort(cmp);
+                const pool = document.getElementById('hbPool');
+                if (!list.length) { pool.innerHTML = '<div class="hb-empty-msg">No fighters match your search.</div>'; return; }
+                pool.innerHTML = list.map(f => {
+                    const picked = hbInPicks(f);
+                    const cant = !picked && (full || f.salary > remaining);
+                    return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}" data-k="${oEsc(hbKey(f))}">
+                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}</div></div>
+                        <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
+                        <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
+                    </div>`;
+                }).join('');
+            }
+
+            function hbRender() { hbRenderMeter(); hbRenderSlots(); hbRenderPool(); hbRenderSaved(); }
+
+            function hbWire() {
+                if (hbWired) return; hbWired = true;
+                document.getElementById('hbPool').addEventListener('click', e => {
+                    const row = e.target.closest('.hb-row'); if (!row) return;
+                    const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (f) hbAddOrRemove(f);
+                });
+                document.getElementById('hbSlots').addEventListener('click', e => {
+                    const btn = e.target.closest('.rm'); if (!btn) return;
+                    const f = FIGHTERS.find(x => hbKey(x) === btn.dataset.k); if (f) hbAddOrRemove(f);
+                });
+                document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
+                document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
+                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbRender(); });
+                document.getElementById('hbSave').addEventListener('click', hbSaveLineup);
+                document.getElementById('hbExport').addEventListener('click', hbExportSaved);
+                document.getElementById('hbSavedList').addEventListener('click', e => {
+                    const rm = e.target.closest('.rm');
+                    if (rm) { hbSaved.splice(+rm.dataset.i, 1); hbRenderSaved(); return; }
+                    const row = e.target.closest('.hb-saved-row');
+                    if (row) { hbPicks = hbSaved[+row.dataset.i].slice(); hbRender(); }
+                });
+            }
+
+            async function openHandBuilder() {
+                hbWire();
+                try { await ensureSalary(); }
+                catch (e) {
+                    document.getElementById('hbLoading').textContent = 'This week\'s slate hasn\'t been posted yet — check back soon.';
+                    return;
+                }
+                document.getElementById('hbLoading').style.display = 'none';
+                document.getElementById('hbWrap').style.display = '';
+                hbRender();
+            }
+            window.__openHandBuilder = openHandBuilder;
         })();
     </script>
 </body>

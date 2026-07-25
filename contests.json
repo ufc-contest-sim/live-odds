@@ -9,12 +9,44 @@
       "entrants": 200
     },
     {
+      "id": "100k_mega_mini-max",
+      "name": "100K MEGA mini-MAX",
+      "file": "100K_MEGA_mini-MAX.json",
+      "entryFee": 3.0,
+      "totalPrizes": 100000,
+      "entrants": 39260
+    },
+    {
+      "id": "10k_jab",
+      "name": "10K Jab",
+      "file": "10K_Jab.json",
+      "entryFee": 1.0,
+      "totalPrizes": 10000,
+      "entrants": 11890
+    },
+    {
       "id": "12k_title_fight",
       "name": "12K Title Fight",
       "file": "12K_Title_Fight.json",
       "entryFee": 1060.0,
       "totalPrizes": 12000,
       "entrants": 12
+    },
+    {
+      "id": "15k_mini-max",
+      "name": "15K mini-MAX",
+      "file": "15K_mini-MAX.json",
+      "entryFee": 0.5,
+      "totalPrizes": 15000,
+      "entrants": 35671
+    },
+    {
+      "id": "1k_quarter_jukebox",
+      "name": "1K Quarter Jukebox",
+      "file": "1K_Quarter_Jukebox.json",
+      "entryFee": 0.25,
+      "totalPrizes": 1000,
+      "entrants": 4756
     },
     {
       "id": "20k_double_champ",
@@ -33,12 +65,28 @@
       "entrants": 111
     },
     {
+      "id": "2k_guillotine",
+      "name": "2K Guillotine",
+      "file": "2K_Guillotine.json",
+      "entryFee": 2.0,
+      "totalPrizes": 2000,
+      "entrants": 1189
+    },
+    {
+      "id": "2k_sprawl",
+      "name": "2K Sprawl",
+      "file": "2K_Sprawl.json",
+      "entryFee": 4.0,
+      "totalPrizes": 2000,
+      "entrants": 594
+    },
+    {
       "id": "300k_throwdown",
       "name": "300K Throwdown",
       "file": "300K_Throwdown.json",
-      "entryFee": 20.0,
+      "entryFee": 18.0,
       "totalPrizes": 300000,
-      "entrants": 17647
+      "entrants": 19607
     },
     {
       "id": "30k_arm_bar",
@@ -49,20 +97,28 @@
       "entrants": 7134
     },
     {
-      "id": "40k_hook",
-      "name": "40K Hook",
-      "file": "40K_Hook.json",
+      "id": "30k_hook",
+      "name": "30K Hook",
+      "file": "30K_Hook.json",
       "entryFee": 8.0,
-      "totalPrizes": 40000,
-      "entrants": 5882
+      "totalPrizes": 30000,
+      "entrants": 4411
     },
     {
-      "id": "40k_throwdown",
-      "name": "40K Throwdown",
-      "file": "40K_Throwdown.json",
-      "entryFee": 20.0,
-      "totalPrizes": 40000,
-      "entrants": 2352
+      "id": "5k_clinch",
+      "name": "5K Clinch",
+      "file": "5K_Clinch.json",
+      "entryFee": 5.0,
+      "totalPrizes": 5000,
+      "entrants": 1189
+    },
+    {
+      "id": "5k_flying_knee",
+      "name": "5K Flying Knee",
+      "file": "5K_Flying_Knee.json",
+      "entryFee": 12.0,
+      "totalPrizes": 5000,
+      "entrants": 490
     },
     {
       "id": "5k_wall_crawler",
@@ -73,6 +129,14 @@
       "entrants": 103
     },
     {
+      "id": "6k_tap_out",
+      "name": "6K Tap Out",
+      "file": "6K_Tap_Out.json",
+      "entryFee": 333.0,
+      "totalPrizes": 6000,
+      "entrants": 20
+    },
+    {
       "id": "75k_contender",
       "name": "75K Contender",
       "file": "75K_Contender.json",
@@ -81,28 +145,12 @@
       "entrants": 83
     },
     {
-      "id": "85k_interim_champ",
-      "name": "85K Interim Champ",
-      "file": "85K_Interim_Champ.json",
-      "entryFee": 1500.0,
-      "totalPrizes": 8500,
-      "entrants": 6
-    },
-    {
       "id": "8k_counter_punch",
       "name": "8K Counter Punch",
       "file": "8K_Counter_Punch.json",
       "entryFee": 40.0,
       "totalPrizes": 8000,
       "entrants": 233
-    },
-    {
-      "id": "8k_flying_knee",
-      "name": "8K Flying Knee",
-      "file": "8K_Flying_Knee.json",
-      "entryFee": 12.0,
-      "totalPrizes": 8000,
-      "entrants": 784
     }
   ]
 }

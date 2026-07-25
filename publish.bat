@@ -9,7 +9,11 @@ cd /d "%~dp0"
 
 :: Stage, commit, and push. The stats CSV is only staged when it exists
 :: locally, so a missing local copy never deletes it from the site.
-git add *.json DKSalaries.csv
+git add *.json
+:: Salary file staged only when present under its exact name, so a
+:: missing/misnamed DKSalaries.csv cannot abort staging everything else.
+if exist DKSalaries.csv git add DKSalaries.csv
+if not exist DKSalaries.csv echo NOTE: DKSalaries.csv not found - check the filename has no spaces.
 if exist ufc_fight_stats.csv git add ufc_fight_stats.csv
 :: Site icons (favicon), when present
 if exist favicon.ico git add favicon.ico

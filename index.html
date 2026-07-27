@@ -4785,12 +4785,19 @@
         }
         
         let fighterExposureSort = { key: 'draft', asc: false };
+        // The rows the exposure table was last rendered from. On the lineup view
+        // filteredData is intentionally NOT username-filtered (so expanded dupe
+        // tiles list everyone) while the stats/exposure panel gets a separate
+        // username-filtered set — so re-sorting must reuse that same set, or the
+        // sort silently drops the user filter and shows the whole field.
+        let lastExposureData = null;
         function sortFighterExposure(key) {
             if (fighterExposureSort.key === key) fighterExposureSort.asc = !fighterExposureSort.asc;
             else fighterExposureSort = { key, asc: key === 'fighter' };
-            updateFighterDraftTable(filteredData);
+            updateFighterDraftTable(lastExposureData || filteredData);
         }
         function updateFighterDraftTable(data) {
+            lastExposureData = data;
             const fighterStats = calculateFighterDraftPct(data);
             const winMap = calculateWinningLineupPct();
             const optMap = contestOptimalMap || {};

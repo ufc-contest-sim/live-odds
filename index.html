@@ -3975,6 +3975,7 @@
             const input = document.getElementById('quick-search-input');
             input.value = username;
             document.getElementById('username-dropdown').classList.remove('visible');
+            logSearchQuery(username, true);   // favorite taps count as searches in the log
             searchAllContests(username);
         }
 

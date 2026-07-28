@@ -3194,6 +3194,9 @@
         /* Portfolio distribution: labels hidden when they repeat the previous
            bar's amount (runs of "-$5" label once)… */
         .pq-val.pq-dup { display: none; }
+        /* …and a label wider than its bar must paint over the neighboring
+           bars, not slide behind them. */
+        .pq-val { position: relative; z-index: 1; }
 
         @media (max-width: 900px) {
             /* Nothing may drag the page sideways on a phone: all wide data
@@ -3244,11 +3247,15 @@
                 background-attachment: local, local, scroll, scroll;
             }
 
-            /* …and on phones (~16px bars) only the landmark labels survive:
-               first bar, median, the loss->profit flip, and the best outcome.
+            /* …and on phones (~16px bars) every other bar keeps its label —
+               the alternating set lands on the median (p50) and best (p100)
+               bars, and no two shown labels are ever adjacent. Slightly
+               smaller type so six-char amounts clear their neighbors.
                Ticks thin to every 25th percentile. */
             .pq-val { display: none; }
-            .pq-val.pq-keep { display: block; }
+            .pq-bars .pq-col:nth-child(odd) .pq-val:not(.pq-dup) {
+                display: block; font-size: 0.56rem;
+            }
             .pq-axis span { visibility: hidden; }
             .pq-axis span:nth-child(5n) { visibility: visible; }
             /* Edge labels overhang narrow bars: pin the first bar's label to

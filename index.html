@@ -3181,6 +3181,33 @@
     <style id="mobile-polish">
         /* ============ Mobile polish (iOS + Android) ============ */
 
+        /* iOS Safari inflates text on its own judgement, which widens layouts
+           in ways desktop testing never sees — pin rendering to spec size. */
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+        @media (max-width: 900px) {
+            /* Nothing may drag the page sideways on a phone: all wide data
+               lives in inner scroll containers, so page-level horizontal
+               scroll is always a layout bug leaking through (seen on real
+               iPhones in the Hand Builder). clip, unlike hidden, creates no
+               scroll container, so sticky elements keep working. */
+            html, body { overflow-x: clip; }
+
+            /* Hand Builder: dissolve the two-column wrappers on phones so the
+               salary meter's sticky scope becomes the whole card — it used to
+               stop sticking once you scrolled past the sidebar, i.e. exactly
+               when the fighter pool (the part you scroll) began. */
+            .hb-wrap, .hb-side, .hb-main { display: contents; }
+            .hb-slots { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin: 12px 0; }
+            .hb-actions { margin: 0 0 14px; }
+            .hb-tools { margin: 0 0 10px; }
+            .hb-saved { margin: 0 0 14px; }
+            .hb-meter-top, .hb-meter-sub { flex-wrap: wrap; }
+        }
+        @media (max-width: 420px) {
+            .hb-slots { grid-template-columns: minmax(0, 1fr); }
+        }
+
         /* iOS zooms the whole page when a focused input's font-size is under
            16px — force 16px on every text-entry control on phones. */
         @media (max-width: 768px) {
@@ -3829,6 +3856,9 @@
                 const v = input.value.trim();
                 if (v.length < 2) { err.textContent = 'Please enter your DraftKings username.'; input.focus(); return; }
                 try { localStorage.setItem(VISITOR_KEY, v); } catch (e) {}
+                // First visit: their own username is the one they'll always
+                // want to track — seed the favorites list with it.
+                try { addFavoriteUser(v); } catch (e) {}
                 logEvent('arrived', '');
                 gate.remove();
             };
@@ -3867,6 +3897,20 @@
         }
 
         initVisitorGate();
+
+        // One-time backfill: visitors who passed the gate before usernames
+        // were auto-favorited get their stored name seeded into favorites on
+        // their next visit. The flag makes it truly once — if they later
+        // remove themselves from favorites, we never force it back.
+        (function seedVisitorFavoriteOnce() {
+            try {
+                const v = getVisitor();
+                if (v && !localStorage.getItem('mmaLiveSim_favSeeded')) {
+                    addFavoriteUser(v);
+                    localStorage.setItem('mmaLiveSim_favSeeded', '1');
+                }
+            } catch (e) {}
+        })();
 
         function loadFavorites() {
             try {
@@ -3931,6 +3975,7 @@
             const input = document.getElementById('quick-search-input');
             input.value = username;
             document.getElementById('username-dropdown').classList.remove('visible');
+            logSearchQuery(username, true);   // favorite taps count as searches in the log
             searchAllContests(username);
         }
 

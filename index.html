@@ -3181,6 +3181,33 @@
     <style id="mobile-polish">
         /* ============ Mobile polish (iOS + Android) ============ */
 
+        /* iOS Safari inflates text on its own judgement, which widens layouts
+           in ways desktop testing never sees — pin rendering to spec size. */
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+        @media (max-width: 900px) {
+            /* Nothing may drag the page sideways on a phone: all wide data
+               lives in inner scroll containers, so page-level horizontal
+               scroll is always a layout bug leaking through (seen on real
+               iPhones in the Hand Builder). clip, unlike hidden, creates no
+               scroll container, so sticky elements keep working. */
+            html, body { overflow-x: clip; }
+
+            /* Hand Builder: dissolve the two-column wrappers on phones so the
+               salary meter's sticky scope becomes the whole card — it used to
+               stop sticking once you scrolled past the sidebar, i.e. exactly
+               when the fighter pool (the part you scroll) began. */
+            .hb-wrap, .hb-side, .hb-main { display: contents; }
+            .hb-slots { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin: 12px 0; }
+            .hb-actions { margin: 0 0 14px; }
+            .hb-tools { margin: 0 0 10px; }
+            .hb-saved { margin: 0 0 14px; }
+            .hb-meter-top, .hb-meter-sub { flex-wrap: wrap; }
+        }
+        @media (max-width: 420px) {
+            .hb-slots { grid-template-columns: minmax(0, 1fr); }
+        }
+
         /* iOS zooms the whole page when a focused input's font-size is under
            16px — force 16px on every text-entry control on phones. */
         @media (max-width: 768px) {

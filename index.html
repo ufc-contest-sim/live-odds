@@ -3178,6 +3178,95 @@
             .opt-grid tr { background: var(--fn-card-2) !important; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 3px solid var(--accent); border-radius: 12px; }
         }
     </style>
+    <style id="mobile-polish">
+        /* ============ Mobile polish (iOS + Android) ============ */
+
+        /* iOS zooms the whole page when a focused input's font-size is under
+           16px — force 16px on every text-entry control on phones. */
+        @media (max-width: 768px) {
+            input[type="text"], input[type="number"], input[type="search"], select {
+                font-size: 16px !important;
+            }
+
+            /* Every horizontally-scrollable data surface gets edge shadows so
+               it's obvious more columns exist: card-colored covers travel with
+               the content (background-attachment: local) and reveal the fixed
+               dark edge shadows only when there is more to scroll that way. */
+            .contest-table-wrapper, .table-container, .sdb-scroll,
+            .whatif-table-scroll, .opt-grid-scroll, .opt-results-scroll,
+            .fsx-scroll, .hb-pool {
+                background-color: var(--bg-card);
+                background-image:
+                    linear-gradient(90deg, var(--bg-card) 40%, rgba(22,22,27,0)),
+                    linear-gradient(270deg, var(--bg-card) 40%, rgba(22,22,27,0)),
+                    linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0)),
+                    linear-gradient(270deg, rgba(0,0,0,0.6), rgba(0,0,0,0));
+                background-position: left center, right center, left center, right center;
+                background-size: 36px 100%, 36px 100%, 14px 100%, 14px 100%;
+                background-repeat: no-repeat;
+                background-attachment: local, local, scroll, scroll;
+            }
+
+            /* Expanded-row content (fighter chips, dupe tiles) lives in a td as
+               wide as the scrolled table — pin it to the visible viewport so all
+               six fighters show without horizontal hunting. */
+            .lineup-container, .username-tiles {
+                position: sticky;
+                left: 0;
+                max-width: calc(100vw - 44px);
+                box-sizing: border-box;
+            }
+        }
+
+        @media (max-width: 600px) {
+            /* Landing nav: tidy two-per-row grid instead of ragged wrapping */
+            .landing-nav {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .landing-nav .lnav-tab { width: 100%; padding: 12px 8px; text-align: center; }
+
+            /* Landing contest table: fit all four columns on a phone —
+               tighter cells, wrapping contest names, shrink-to-fit numerics. */
+            .contest-table th, .contest-table td {
+                padding: 10px 5px;
+                font-size: 0.74rem;
+                letter-spacing: 0;
+            }
+            .contest-table th:not(:first-child), .contest-table td:not(:first-child) {
+                width: 1%;
+                white-space: nowrap;
+            }
+            /* let two-word headers (TOTAL PRIZES / ENTRY FEE) wrap to two
+               lines so the columns shrink to their numeric content */
+            .contest-table th:not(:first-child) { white-space: normal; line-height: 1.2; min-width: 52px; }
+            .contest-table th:first-child, .contest-table td:first-child {
+                white-space: normal;
+                overflow-wrap: anywhere;
+                min-width: 92px;
+                padding-left: 12px;
+            }
+            .contest-table-name { font-size: 0.8rem; letter-spacing: 0.3px; }
+            .contest-table th { letter-spacing: 0.3px; }
+            .contest-table th.sortable::after { font-size: 0.62em; margin-left: 2px; }
+
+            /* What If fight card: the two 1fr name columns refuse to shrink
+               below their longest word, pushing the right-side inputs off
+               screen — minmax(0,1fr) + wrapping makes the card fit 360px. */
+            .whatif-left .fight-card-container { padding: 14px 10px; }
+            .fight-row {
+                grid-template-columns: minmax(0, 1fr) 56px 18px minmax(0, 1fr) 56px;
+                gap: 4px;
+            }
+            .fighter-name-label { font-size: 0.76rem; overflow-wrap: anywhere; }
+            .fight-score-input { width: 100%; max-width: 56px; padding: 8px 2px; }
+            /* the 1fr track honors the card's min-content width (its header
+               row is ~405px), pushing the page wide — allow shrink + wrap */
+            .whatif-layout.active { grid-template-columns: minmax(0, 1fr); }
+            .fight-card-header { flex-wrap: wrap; gap: 8px; }
+        }
+    </style>
 </head>
 <body>
     <div class="live-ticker" id="live-ticker" style="display: none;">
@@ -3211,7 +3300,7 @@
                 <div class="quick-search-wrapper">
                     <div class="quick-search-bar">
                         <span class="quick-search-icon">&#128269;</span>
-                        <input type="text" id="quick-search-input" placeholder="Search your username across all contests..." autocomplete="off">
+                        <input type="text" id="quick-search-input" placeholder="Search your username..." autocomplete="off">
                     </div>
                     <div id="username-dropdown" class="username-dropdown"></div>
                 </div>

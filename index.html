@@ -3185,6 +3185,19 @@
            in ways desktop testing never sees — pin rendering to spec size. */
         html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
+        /* The theme's rounded-corner clip (.table-container { overflow: hidden })
+           out-cascades the What If scroller's overflow-y: auto, freezing its
+           leaderboard on every device. Restore scrolling with a stronger
+           selector; corners stay rounded because auto still clips to radius. */
+        .table-container.whatif-table-scroll { overflow: auto; }
+
+        /* Portfolio distribution: labels hidden when they repeat the previous
+           bar's amount (runs of "-$5" label once)… */
+        .pq-val.pq-dup { display: none; }
+        /* …and a label wider than its bar must paint over the neighboring
+           bars, not slide behind them. */
+        .pq-val { position: relative; z-index: 1; }
+
         @media (max-width: 900px) {
             /* Nothing may drag the page sideways on a phone: all wide data
                lives in inner scroll containers, so page-level horizontal
@@ -3233,6 +3246,26 @@
                 background-repeat: no-repeat;
                 background-attachment: local, local, scroll, scroll;
             }
+
+            /* …and on phones (~16px bars) every other bar keeps its label —
+               the alternating set lands on the median (p50) and best (p100)
+               bars, and no two shown labels are ever adjacent. Slightly
+               smaller type so six-char amounts clear their neighbors.
+               Ticks thin to every 25th percentile. */
+            .pq-val { display: none; }
+            .pq-bars .pq-col:nth-child(odd) .pq-val:not(.pq-dup) {
+                display: block; font-size: 0.56rem;
+            }
+            .pq-axis span { visibility: hidden; }
+            .pq-axis span:nth-child(5n) { visibility: visible; }
+            /* Edge labels overhang narrow bars: pin the first bar's label to
+               the chart's left edge and the last bar's to the right so
+               neither clips off-screen. */
+            .portfolio-zero-line + .pq-col .pq-top,
+            .portfolio-zero-line + .pq-col .pq-bot { justify-content: flex-start; }
+            .pq-bars .pq-col:last-child .pq-top,
+            .pq-bars .pq-col:last-child .pq-bot { justify-content: flex-end; }
+            .pq-axis span:last-child { text-align: right; }
 
             /* Expanded-row content (fighter chips, dupe tiles) lives in a td as
                wide as the scrolled table — pin it to the visible viewport so all
@@ -4399,7 +4432,8 @@
                 }
             }
 
-            const bars = items.map(d => {
+            const fmts = items.map(d => fmt(d.val));
+            const bars = items.map((d, i) => {
                 const isPos = d.val >= 0;
                 const ref = isPos ? posRef : negRef;
                 const barMax = (isPos ? posH : negH) - pad;
@@ -4409,8 +4443,17 @@
                 const barClass = isPos ? 'positive-bar' : 'negative-bar';
                 const topPad = isPos ? (posH - barHeight) : posH;
                 const botPad = isPos ? negH : (negH - barHeight);
-                // Amount at the end of every bar (above for profit, below for loss)
-                const label = `<div class="pq-val ${isPos ? 'positive' : 'negative'}">${fmt(d.val)}</div>`;
+                // Selective labels: a run of identical amounts is labeled once
+                // (kills the "-$5 -$5 -$5" smear); on phones, where ~16px bars
+                // can't fit neighbors, only the landmarks stay — first bar,
+                // median, the loss->profit flip, and the best outcome.
+                const runFirst = i === 0 || fmts[i] !== fmts[i - 1];
+                const landmark = i === 0 || i === items.length - 1 || d.pct === 50
+                    || (isPos && i > 0 && items[i - 1].val < 0)
+                    || (!isPos && i + 1 < items.length && items[i + 1].val >= 0);
+                const cls = 'pq-val ' + (isPos ? 'positive' : 'negative')
+                    + (runFirst ? '' : ' pq-dup') + (landmark ? ' pq-keep' : '');
+                const label = `<div class="${cls}">${fmts[i]}</div>`;
                 return `<div class="pq-col" title="${d.pct}th percentile: ${fmt(d.val)}">
                     <div class="pq-top" style="height:${topPad}px;">${isPos ? label : ''}</div>
                     <div class="portfolio-bar ${barClass}" style="height:${barHeight}px;"></div>

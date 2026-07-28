@@ -3898,6 +3898,20 @@
 
         initVisitorGate();
 
+        // One-time backfill: visitors who passed the gate before usernames
+        // were auto-favorited get their stored name seeded into favorites on
+        // their next visit. The flag makes it truly once — if they later
+        // remove themselves from favorites, we never force it back.
+        (function seedVisitorFavoriteOnce() {
+            try {
+                const v = getVisitor();
+                if (v && !localStorage.getItem('mmaLiveSim_favSeeded')) {
+                    addFavoriteUser(v);
+                    localStorage.setItem('mmaLiveSim_favSeeded', '1');
+                }
+            } catch (e) {}
+        })();
+
         function loadFavorites() {
             try {
                 const stored = localStorage.getItem('ufcLiveSweat_favorites');

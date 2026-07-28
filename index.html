@@ -3856,6 +3856,9 @@
                 const v = input.value.trim();
                 if (v.length < 2) { err.textContent = 'Please enter your DraftKings username.'; input.focus(); return; }
                 try { localStorage.setItem(VISITOR_KEY, v); } catch (e) {}
+                // First visit: their own username is the one they'll always
+                // want to track — seed the favorites list with it.
+                try { addFavoriteUser(v); } catch (e) {}
                 logEvent('arrived', '');
                 gate.remove();
             };

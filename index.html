@@ -3205,6 +3205,14 @@
         .fighter-draft-container { padding-top: 0; }
         .fighter-draft-container h3 { padding-top: 24px; }
 
+        /* Scoring Database: the table already scrolls sideways, so clipping
+           cells to fixed column widths ("Mar …", "19…") only hides data.
+           Let every column size to its content instead. */
+        .sdb-table { table-layout: auto; }
+        .sdb-table col { width: auto; }
+        .sdb-table td { overflow: visible; text-overflow: clip; }
+        .sdb-table td.l { word-break: normal; }
+
         @media (max-width: 900px) {
             /* Nothing may drag the page sideways on a phone: all wide data
                lives in inner scroll containers, so page-level horizontal

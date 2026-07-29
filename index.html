@@ -6745,6 +6745,15 @@
             function closeFightModal() { const m = document.getElementById('fsxModal'); if (m) { m.style.display = 'none'; m.innerHTML = ''; } }
             function wireLookup() {
                 const body = document.getElementById('fluBody');
+                // Open the box score on MOUSEDOWN, exactly like the Score DB
+                // rows: right after a search the input is still focused, and a
+                // plain click can be eaten by its blur (or by a phone keyboard
+                // dismissing). A mousedown always lands on the first press.
+                body.addEventListener('mousedown', e => {
+                    if (e.target.closest('.fsx-link')) return;   // opponent link navigates on click
+                    const row = e.target.closest('.fsx-main, .fsx-opp');
+                    if (row && row.dataset.fi != null) { e.preventDefault(); openFightModal(+row.dataset.fi); }
+                });
                 body.addEventListener('click', e => {
                     const lk = e.target.closest('.fsx-link');
                     if (lk) { document.getElementById('fluInput').value = lk.dataset.nm; renderFighter(lk.dataset.nm); logSearchQuery(lk.dataset.nm, true, 'looked_up'); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }

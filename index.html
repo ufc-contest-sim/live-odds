@@ -3198,6 +3198,13 @@
            bars, not slide behind them. */
         .pq-val { position: relative; z-index: 1; }
 
+        /* Fighter Exposure card: padding-top on the scroll container makes the
+           sticky header pin 24px below the card's visible top, so scrolled
+           rows paint in the strip above it ("floating header"). Move the top
+           inset into the title so the header pins at the card's true edge. */
+        .fighter-draft-container { padding-top: 0; }
+        .fighter-draft-container h3 { padding-top: 24px; }
+
         @media (max-width: 900px) {
             /* Nothing may drag the page sideways on a phone: all wide data
                lives in inner scroll containers, so page-level horizontal
@@ -3276,6 +3283,16 @@
                 max-width: calc(100vw - 44px);
                 box-sizing: border-box;
             }
+
+            /* Fighter Exposure: all four columns fit the phone screen — table
+               goes edge-to-edge inside the card and cells tighten so nothing
+               scrolls sideways. */
+            .fighter-draft-container { padding-left: 0; padding-right: 0; }
+            .fighter-draft-container h3 { padding-left: 14px; padding-right: 14px; }
+            .fighter-draft-table th { padding: 8px 6px; font-size: 0.56rem; letter-spacing: 0.2px; }
+            .fighter-draft-table td { padding: 8px 6px; font-size: 0.76rem; }
+            .fighter-draft-table th:first-child, .fighter-draft-table td:first-child { padding-left: 14px; }
+            .fighter-draft-table th:last-child, .fighter-draft-table td:last-child { padding-right: 14px; }
         }
 
         @media (max-width: 600px) {

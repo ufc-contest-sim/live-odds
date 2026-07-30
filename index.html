@@ -2461,6 +2461,55 @@
 
         /* Scoring Insights */
         .sdb-insight-note { color: var(--text-secondary); font-size: 0.82rem; margin: 12px 0 4px; }
+
+        /* Scoring ladder "since" date filter */
+        .ins-since { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .ins-since label { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .ins-since input[type="date"] {
+            background: transparent; border: 1px solid var(--glass-border); color: var(--text-primary);
+            padding: 6px 10px; border-radius: 8px; font-family: 'Chakra Petch', monospace; font-size: 0.8rem;
+        }
+        .ins-since .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+        .ins-since .chips button {
+            background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary);
+            font-family: 'Chakra Petch', monospace; font-size: 0.64rem; letter-spacing: 0.5px;
+            padding: 5px 10px; border-radius: 999px; cursor: pointer;
+        }
+        .ins-since .chips button:hover { color: var(--accent-lo); border-color: var(--accent); }
+        .ins-since .chips button.sel { background: var(--accent); border-color: var(--accent); color: #180a02; font-weight: 700; }
+
+        /* Scoring Trends (config-driven cards; each .tr-card is one chart) */
+        .tr-note { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.55; }
+        /* minmax(0,1fr) + min-width:0 so a long nowrap hover readout can never
+           widen the cards past the viewport (overflow-x:clip would make the
+           overflow unreachable on phones) */
+        .tr-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+        .tr-card { border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px 16px 10px; background: rgba(255, 255, 255, 0.02); min-width: 0; }
+        .tr-card.wide { grid-column: 1 / -1; }
+        .tr-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 2px; flex-wrap: wrap; min-width: 0; }
+        .tr-title { font-family: 'Chakra Petch', monospace; font-size: 0.74rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); font-weight: 700; }
+        .tr-readout { margin-left: auto; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); white-space: nowrap; }
+        .tr-sub { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.45; }
+        .tr-svg { width: 100%; height: auto; display: block; }
+        .tr-svg text { font-family: 'Chakra Petch', monospace; font-size: 11px; fill: var(--text-secondary); }
+        .tr-svg .tr-endlbl { fill: var(--text-primary); font-weight: 700; }
+        .tr-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+        .tr-area { fill: rgba(255, 106, 18, 0.10); }
+        .tr-gridline { stroke: rgba(120, 120, 130, 0.18); }
+        .tr-cross { stroke: rgba(150, 150, 160, 0.45); stroke-width: 1; }
+        .tr-dot { fill: var(--accent); }
+        .tr-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+        .tr-legend span { display: inline-flex; align-items: center; gap: 6px; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); }
+        .tr-legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+        @media (max-width: 900px) {
+            .tr-grid { grid-template-columns: minmax(0, 1fr); }
+            .tr-svg text { font-size: 15px; }
+        }
+        @media (max-width: 600px) {
+            .tr-svg text { font-size: 17px; }
+            .ins-since { justify-content: flex-start; }
+            .tr-readout { white-space: normal; text-align: right; }
+        }
         .sdb-ladder-title { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; margin-bottom: 4px; }
         .sdb-ladder-sub { color: var(--text-secondary); font-size: 0.78rem; margin-bottom: 10px; }
         .sdb-ladder-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -3403,6 +3452,7 @@
         <div id="insightsSubnav" class="view-tabs" style="display:none; justify-content: flex-start;">
             <button class="tab-btn active" data-isub="ladder"><span>Scoring Ladder</span></button>
             <button class="tab-btn" data-isub="database"><span>Score Database</span></button>
+            <button class="tab-btn" data-isub="trends"><span>Scoring Trends</span></button>
         </div>
 
         <div id="scoringdb-view" style="display:none;">
@@ -3448,10 +3498,32 @@
                 <div class="sdb-title">Scoring Insights</div>
                 <div id="sdbInsightLoading" class="sdb-loading">Loading fight database…</div>
                 <div id="sdbInsightBody" style="display:none;">
+                    <div class="ins-since" id="insSinceBar">
+                        <label for="insSince">Scores since</label>
+                        <input type="date" id="insSince">
+                        <div class="chips">
+                            <button type="button" data-back="all" class="sel">All time</button>
+                            <button type="button" data-back="10">10 yrs</button>
+                            <button type="button" data-back="5">5 yrs</button>
+                            <button type="button" data-back="3">3 yrs</button>
+                            <button type="button" data-back="1">1 yr</button>
+                        </div>
+                    </div>
                     <div id="sdbInsightThresh"></div>
                     <div class="sdb-insight-note">Click a tile to focus the scoring ladder above on that outcome. Win/loss averages and fight counts are shown on each tile.</div>
                     <div id="sdbInsightAll"></div>
                     <div id="sdbInsightTiles" class="sdb-tiles"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scoringtrends-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Scoring Trends</div>
+                <div id="trLoading" class="sdb-loading">Loading fight database&hellip;</div>
+                <div id="trBody" style="display:none;">
+                    <div class="tr-note">How the sport itself is drifting &mdash; each chart is a <strong>rolling 12-month average</strong> over every UFC performance since July 16, 1999 (when control-time tracking began). Hover any chart to read exact values.</div>
+                    <div id="trGrid" class="tr-grid"></div>
                 </div>
             </div>
         </div>
@@ -6462,10 +6534,23 @@
             // scoring ladder and tiles exclude them. (event_date is ISO, so >= compares.)
             const CTRL_SINCE = '1999-07-16';
             const CTRL_SINCE_LABEL = 'July 16, 1999';
-            let INSIGHT_ROWS = null;
+            // The ladder's "since" date filter: CTRL_SINCE is the floor, the date
+            // control can only raise it. Cache keyed by the active date so
+            // re-renders (tile clicks) stay free.
+            let insightSince = CTRL_SINCE;
+            let INSIGHT_ROWS = null, INSIGHT_ROWS_KEY = '';
             function insightRows() {
-                if (!INSIGHT_ROWS) INSIGHT_ROWS = ROWS.filter(r => (r.event_date || '') >= CTRL_SINCE);
+                const since = insightSince > CTRL_SINCE ? insightSince : CTRL_SINCE;
+                if (!INSIGHT_ROWS || INSIGHT_ROWS_KEY !== since) {
+                    INSIGHT_ROWS = ROWS.filter(r => (r.event_date || '') >= since);
+                    INSIGHT_ROWS_KEY = since;
+                }
                 return INSIGHT_ROWS;
+            }
+            function fmtSinceLabel(iso) {
+                const MO = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                const p = (iso || '').split('-');
+                return p.length === 3 ? `${MO[+p[1] - 1]} ${+p[2]}, ${p[0]}` : iso;
             }
 
             function schedRounds(r) { const m = (r.time_format || '').match(/^\s*(\d+)/); return m ? parseInt(m[1], 10) : Math.round(num(r.round)); }
@@ -6516,9 +6601,12 @@
                 const head = `<th class="l">Scope</th><th>Fights</th>` + THRESHOLDS.map(t => `<th>${t}+</th>`).join('') + `<th>Avg DK</th>`;
                 let rows = threshRow(subsetLabel(insightSubset), computeThresh(sel), true);
                 if (insightSubset !== 'all') rows += threshRow('League (all fighters)', computeThresh(insightRows()), true);
+                const sinceNote = insightSince > CTRL_SINCE
+                    ? `<strong>Scores since ${fmtSinceLabel(insightSince)}</strong> — date filter applied (${insightRows().length.toLocaleString()} fights in range).`
+                    : `<strong>Scores since ${CTRL_SINCE_LABEL}</strong> — the UFC began tracking control time then, so earlier fights are excluded to keep DK totals accurate.`;
                 document.getElementById('sdbInsightThresh').innerHTML =
                     `<div class="sdb-ladder-title">Scoring ladder — ${esc(subsetLabel(insightSubset))}</div>` +
-                    `<div class="sdb-ladder-sub">Each cell: % of these fights scoring at that DK total or higher, with the raw count beneath. <strong>Scores since ${CTRL_SINCE_LABEL}</strong> — the UFC began tracking control time then, so earlier fights are excluded to keep DK totals accurate.</div>` +
+                    `<div class="sdb-ladder-sub">Each cell: % of these fights scoring at that DK total or higher, with the raw count beneath. ${sinceNote}</div>` +
                     `<div class="sdb-ladder-scroll"><table class="sdb-ladder"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
                 // conclusion tiles (also the ladder filters)
                 const g = {}; for (const c of CONCL_ORDER) g[c] = { W: [], L: [] };
@@ -6547,12 +6635,268 @@
                     const onTile = (e) => { const t = e.target.closest('.sdb-tile'); if (!t) return; insightSubset = t.dataset.key; renderInsights(); };
                     document.getElementById('sdbInsightAll').addEventListener('click', onTile);
                     document.getElementById('sdbInsightTiles').addEventListener('click', onTile);
+                    // "since" date filter: free-form date input + quick-range chips
+                    const sinceInp = document.getElementById('insSince');
+                    const sinceBar = document.getElementById('insSinceBar');
+                    sinceInp.min = CTRL_SINCE;
+                    sinceInp.max = new Date().toISOString().slice(0, 10);
+                    const applySince = (iso, chip) => {
+                        insightSince = iso && iso > CTRL_SINCE ? iso : CTRL_SINCE;
+                        sinceBar.querySelectorAll('.chips button').forEach(b => b.classList.toggle('sel', b.dataset.back === chip));
+                        renderInsights();
+                    };
+                    sinceInp.addEventListener('change', () => applySince(sinceInp.value, sinceInp.value ? null : 'all'));
+                    sinceBar.querySelector('.chips').addEventListener('click', e => {
+                        const b = e.target.closest('button[data-back]'); if (!b) return;
+                        if (b.dataset.back === 'all') { sinceInp.value = ''; applySince('', 'all'); return; }
+                        const d = new Date(); d.setFullYear(d.getFullYear() - parseInt(b.dataset.back, 10));
+                        const iso = d.toISOString().slice(0, 10);
+                        sinceInp.value = iso;
+                        applySince(iso, b.dataset.back);
+                    });
                 }
                 try { await ensureData(); }
                 catch (e) { document.getElementById('sdbInsightLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
                 document.getElementById('sdbInsightLoading').style.display = 'none';
                 document.getElementById('sdbInsightBody').style.display = '';
                 renderInsights();
+            }
+
+            // ---------- SCORING TRENDS ----------
+            // How the sport drifts over time: rolling 12-month averages over every
+            // performance since control tracking began. Config-driven — each entry
+            // in TREND_CHARTS is one self-contained card; delete an entry to remove
+            // its chart, nothing else references it.
+            const TREND_WINDOW = 12;   // rolling window, months
+            // Stack colors are CVD-checked against the dark surface; blue sits
+            // between red and green on purpose (deutan-safe adjacency).
+            const TREND_STACK = [
+                { key: 'ko', label: 'KO/TKO', color: '#d92e44' },
+                { key: 'dec', label: 'Decision', color: '#5b7fe8' },
+                { key: 'sub', label: 'Submission', color: '#0fa862' },
+            ];
+            const TREND_CHARTS = [
+                { id: 'dk', title: 'Avg DK score', sub: 'Mean DraftKings total per performance.', dec: 1, calc: w => w.dk / w.n },
+                { id: 'dk100', title: '100+ DK rate', sub: 'Share of performances scoring 100+ DK — how often slate-breaking scores happen.', dec: 1, unit: '%', calc: w => 100 * w.dk100 / w.n },
+                { id: 'sig', title: 'Sig strikes / min', sub: 'Significant strikes landed per fighter per minute of cage time.', dec: 2, calc: w => w.sig / (w.sec / 60) },
+                { id: 'td', title: 'Takedowns / 15 min', sub: 'Takedowns landed per fighter per 15 minutes of cage time.', dec: 2, calc: w => w.td * 900 / w.sec },
+                { id: 'ctrl', title: 'Control share', sub: 'Share of cage time the average fighter spends in control position.', dec: 1, unit: '%', calc: w => 100 * w.ctrl / w.sec },
+                { id: 'kd', title: 'Knockdowns / fight', sub: 'Knockdowns scored per fighter per fight.', dec: 2, calc: w => w.kd / w.n },
+                { id: 'fin', title: 'Finish rate', sub: 'Share of fights ending inside the distance (KO/TKO or submission).', dec: 1, unit: '%', calc: w => 100 * w.fin / w.n },
+                { id: 'mix', title: 'How fights end', sub: 'Method mix over time — share of fights ending by KO/TKO, decision, or submission (DQ/NC excluded).', type: 'stack' },
+            ];
+            let TREND_MONTHS = null, TREND_ROLL = null;
+            const TREND_SCALES = {};   // per-line-chart y scale, for hover dot placement
+            function trendBlank() { return { n: 0, sec: 0, sig: 0, td: 0, kd: 0, ctrl: 0, dk: 0, dk100: 0, fin: 0, ko: 0, sub: 0, dec: 0 }; }
+            function trendMonths() {
+                if (TREND_MONTHS) return TREND_MONTHS;
+                const by = new Map();
+                for (const r of ROWS) {
+                    const d = r.event_date || '';
+                    if (d < CTRL_SINCE) continue;
+                    const sec = num(r.fight_time_seconds);
+                    if (!(sec > 0)) continue;
+                    const k = d.slice(0, 7);
+                    let a = by.get(k); if (!a) by.set(k, a = trendBlank());
+                    a.n++; a.sec += sec; a.sig += num(r.sig_str_landed); a.td += num(r.td_landed);
+                    a.kd += num(r.kd); a.ctrl += num(r.ctrl_sec);
+                    const t = dkPoints(r).total; a.dk += t; if (t >= 100) a.dk100++;
+                    const g = methodGroup(r.method);
+                    if (g === 'KO/TKO') { a.ko++; a.fin++; }
+                    else if (g === 'Submission') { a.sub++; a.fin++; }
+                    else if (g === 'Decision') a.dec++;
+                }
+                const keys = [...by.keys()].sort();
+                if (!keys.length) return TREND_MONTHS = [];   // degenerate CSV — fall through to the empty-state note
+                // fill calendar gaps so a window is always 12 real months
+                const out = [];
+                let [y, m] = keys[0].split('-').map(Number);
+                const [ly, lm] = keys[keys.length - 1].split('-').map(Number);
+                while (y < ly || (y === ly && m <= lm)) {
+                    const k = `${y}-${String(m).padStart(2, '0')}`;
+                    out.push({ k, a: by.get(k) || trendBlank() });
+                    m++; if (m > 12) { m = 1; y++; }
+                }
+                return TREND_MONTHS = out;
+            }
+            function trendRolling() {
+                if (TREND_ROLL) return TREND_ROLL;
+                const months = trendMonths(), out = [];
+                for (let i = TREND_WINDOW - 1; i < months.length; i++) {
+                    const w = trendBlank();
+                    for (let j = i - TREND_WINDOW + 1; j <= i; j++) {
+                        const a = months[j].a;
+                        for (const key in w) w[key] += a[key];
+                    }
+                    // skip too-thin windows (early gaps) — they'd just be noise
+                    if (w.n >= 40 && w.sec > 0) out.push({ k: months[i].k, w });
+                }
+                return TREND_ROLL = out;
+            }
+            const TR_W = 560, TR_H = 230, TR_ML = 50, TR_MR = 14, TR_MT = 14, TR_MB = 26;
+            function trX(i, len) { return TR_ML + (TR_W - TR_ML - TR_MR) * (len < 2 ? 0.5 : i / (len - 1)); }
+            const TR_MO = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            function trMonthLabel(k) { const p = k.split('-'); return `${TR_MO[+p[1] - 1]} ${p[0]}`; }
+            function trendTicks(lo, hi, n) {
+                const span = (hi - lo) || 1, step0 = span / n;
+                const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+                const step = [1, 2, 2.5, 5, 10].map(x => x * mag).find(s => s >= step0) || mag * 10;
+                const out = [];
+                for (let v = Math.ceil(lo / step) * step; v <= hi + step / 1e6; v += step) out.push(v);
+                return out;
+            }
+            // x-axis: a tick at each January of a year divisible by 5
+            function trendXTicks(roll) {
+                const out = [];
+                for (let i = 0; i < roll.length; i++) {
+                    const [y, m] = roll[i].k.split('-').map(Number);
+                    if (m === 1 && y % 5 === 0) out.push({ i, label: String(y) });
+                }
+                return out;
+            }
+            function trendFmt(cfg, v) { return v.toFixed(cfg.dec) + (cfg.unit || ''); }
+            // axis ticks drop trailing zeros ("20.0%" -> "20%") so they fit the
+            // margin at phone sizes, where the svg text is bumped larger
+            function trendTickFmt(cfg, v) { return (+v.toFixed(cfg.dec)).toString() + (cfg.unit || ''); }
+            // integer shares that always total exactly 100 (largest remainder)
+            function roundShares(vals) {
+                const fl = vals.map(v => Math.floor(v));
+                let rem = 100 - fl.reduce((a, b) => a + b, 0);
+                const order = vals.map((v, i) => [v - fl[i], i]).sort((a, b) => b[0] - a[0]);
+                for (let j = 0; j < order.length && rem > 0; j++, rem--) fl[order[j][1]]++;
+                return fl;
+            }
+            function trendLineCard(cfg, roll) {
+                const vals = roll.map(p => cfg.calc(p.w));
+                let lo = Math.min(...vals), hi = Math.max(...vals);
+                const pad = (hi - lo || Math.abs(hi) || 1) * 0.10;
+                lo -= pad; hi += pad;
+                if (cfg.unit === '%' && lo < 0) lo = 0;
+                TREND_SCALES[cfg.id] = { lo, hi };
+                const y = v => TR_MT + (TR_H - TR_MT - TR_MB) * (1 - (v - lo) / (hi - lo));
+                let g = '';
+                for (const t of trendTicks(lo, hi, 4)) {
+                    const ty = y(t);
+                    g += `<line class="tr-gridline" x1="${TR_ML}" x2="${TR_W - TR_MR}" y1="${ty.toFixed(1)}" y2="${ty.toFixed(1)}"></line>`;
+                    g += `<text x="${TR_ML - 7}" y="${(ty + 3.5).toFixed(1)}" text-anchor="end">${trendTickFmt(cfg, t)}</text>`;
+                }
+                for (const t of trendXTicks(roll)) {
+                    g += `<text x="${trX(t.i, roll.length).toFixed(1)}" y="${TR_H - 8}" text-anchor="middle">${t.label}</text>`;
+                }
+                const pts = vals.map((v, i) => `${trX(i, vals.length).toFixed(1)},${y(v).toFixed(1)}`);
+                const line = 'M' + pts.join('L');
+                const area = line + `L${trX(vals.length - 1, vals.length).toFixed(1)},${TR_H - TR_MB}L${trX(0, vals.length).toFixed(1)},${TR_H - TR_MB}Z`;
+                const lx = trX(vals.length - 1, vals.length), lv = vals[vals.length - 1], ly = y(lv);
+                return `<div class="tr-card${cfg.wide ? ' wide' : ''}">
+                    <div class="tr-head"><span class="tr-title">${cfg.title}</span><span class="tr-readout" id="trRead-${cfg.id}"></span></div>
+                    <div class="tr-sub">${cfg.sub}</div>
+                    <svg class="tr-svg" viewBox="0 0 ${TR_W} ${TR_H}" data-tid="${cfg.id}" role="img" aria-label="${cfg.title} over time">
+                        ${g}
+                        <path class="tr-area" d="${area}"></path>
+                        <path class="tr-line" d="${line}"></path>
+                        <circle class="tr-dot" cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.5"></circle>
+                        <text class="tr-endlbl" x="${(lx - 7).toFixed(1)}" y="${(ly - 8).toFixed(1)}" text-anchor="end">${trendFmt(cfg, lv)}</text>
+                        <line class="tr-cross" y1="${TR_MT}" y2="${TR_H - TR_MB}" style="display:none"></line>
+                        <circle class="tr-hoverdot tr-dot" r="3.5" style="display:none"></circle>
+                    </svg>
+                </div>`;
+            }
+            function trendStackCard(cfg, roll) {
+                const H = 260;
+                const shares = roll.map(p => {
+                    const t = p.w.ko + p.w.dec + p.w.sub || 1;
+                    return { ko: 100 * p.w.ko / t, dec: 100 * p.w.dec / t, sub: 100 * p.w.sub / t };
+                });
+                const y = v => TR_MT + (H - TR_MT - TR_MB) * (1 - v / 100);
+                let g = '';
+                for (const t of [0, 25, 50, 75, 100]) {
+                    const ty = y(t);
+                    g += `<line class="tr-gridline" x1="${TR_ML}" x2="${TR_W - TR_MR}" y1="${ty.toFixed(1)}" y2="${ty.toFixed(1)}"></line>`;
+                    g += `<text x="${TR_ML - 7}" y="${(ty + 3.5).toFixed(1)}" text-anchor="end">${t}%</text>`;
+                }
+                for (const t of trendXTicks(roll)) {
+                    g += `<text x="${trX(t.i, roll.length).toFixed(1)}" y="${H - 8}" text-anchor="middle">${t.label}</text>`;
+                }
+                // stacked areas, bottom → top in TREND_STACK order, with a 2px
+                // surface gap drawn on each internal boundary
+                const cum = shares.map(s => { const c = {}; let a = 0; for (const b of TREND_STACK) { c[b.key] = [a, a + s[b.key]]; a += s[b.key]; } return c; });
+                let areas = '', bounds = '';
+                for (let bi = 0; bi < TREND_STACK.length; bi++) {
+                    const band = TREND_STACK[bi];
+                    const top = cum.map((c, i) => `${trX(i, cum.length).toFixed(1)},${y(c[band.key][1]).toFixed(1)}`);
+                    const bot = cum.map((c, i) => `${trX(i, cum.length).toFixed(1)},${y(c[band.key][0]).toFixed(1)}`).reverse();
+                    areas += `<path d="M${top.join('L')}L${bot.join('L')}Z" fill="${band.color}" fill-opacity="0.85"></path>`;
+                    if (bi < TREND_STACK.length - 1) bounds += `<path d="M${top.join('L')}" fill="none" stroke="var(--bg-card-solid, #16161b)" stroke-width="2"></path>`;
+                }
+                // selective direct labels at the right edge: band value at the last month
+                let lbls = '';
+                const lastC = cum[cum.length - 1], lastS = shares[shares.length - 1];
+                const lastR = roundShares(TREND_STACK.map(b => lastS[b.key]));
+                TREND_STACK.forEach((band, bi) => {
+                    if (lastS[band.key] < 7) return;   // too thin to label in place — legend + hover cover it
+                    const my = (y(lastC[band.key][0]) + y(lastC[band.key][1])) / 2;
+                    lbls += `<text class="tr-endlbl" x="${(TR_W - TR_MR - 6).toFixed(1)}" y="${(my + 4).toFixed(1)}" text-anchor="end">${band.label} ${lastR[bi]}%</text>`;
+                });
+                const legend = TREND_STACK.map(b => `<span><i style="background:${b.color}"></i>${b.label}</span>`).join('');
+                return `<div class="tr-card${cfg.wide ? ' wide' : ''}">
+                    <div class="tr-head"><span class="tr-title">${cfg.title}</span><span class="tr-readout" id="trRead-${cfg.id}"></span></div>
+                    <div class="tr-sub">${cfg.sub}</div>
+                    <div class="tr-legend">${legend}</div>
+                    <svg class="tr-svg" viewBox="0 0 ${TR_W} ${H}" data-tid="${cfg.id}" data-h="${H}" role="img" aria-label="${cfg.title} over time">
+                        ${g}${areas}${bounds}${lbls}
+                        <line class="tr-cross" y1="${TR_MT}" y2="${H - TR_MB}" style="display:none"></line>
+                    </svg>
+                </div>`;
+            }
+            function renderTrends() {
+                const roll = trendRolling();
+                if (!roll.length) { document.getElementById('trGrid').innerHTML = '<div class="sdb-loading">Not enough dated fights to chart.</div>'; return; }
+                document.getElementById('trGrid').innerHTML =
+                    TREND_CHARTS.map(c => c.type === 'stack' ? trendStackCard(c, roll) : trendLineCard(c, roll)).join('');
+            }
+            function wireTrendHover() {
+                const grid = document.getElementById('trGrid');
+                const hideAll = () => grid.querySelectorAll('.tr-cross, .tr-hoverdot').forEach(el => { el.style.display = 'none'; });
+                grid.addEventListener('mousemove', e => {
+                    const svg = e.target.closest('svg.tr-svg');
+                    if (!svg) { hideAll(); return; }
+                    const cfg = TREND_CHARTS.find(c => c.id === svg.dataset.tid);
+                    const roll = trendRolling();
+                    if (!cfg || !roll.length) return;
+                    const rect = svg.getBoundingClientRect();
+                    const px = (e.clientX - rect.left) / rect.width * TR_W;
+                    let i = Math.round((px - TR_ML) / (TR_W - TR_ML - TR_MR) * (roll.length - 1));
+                    i = Math.max(0, Math.min(roll.length - 1, i));
+                    const x = trX(i, roll.length);
+                    const cross = svg.querySelector('.tr-cross');
+                    if (cross) { cross.setAttribute('x1', x); cross.setAttribute('x2', x); cross.style.display = ''; }
+                    const read = document.getElementById('trRead-' + cfg.id);
+                    if (cfg.type === 'stack') {
+                        const w = roll[i].w, t = w.ko + w.dec + w.sub || 1;
+                        const sh = roundShares([100 * w.ko / t, 100 * w.dec / t, 100 * w.sub / t]);
+                        read.textContent = `${trMonthLabel(roll[i].k)} · KO ${sh[0]}% · Dec ${sh[1]}% · Sub ${sh[2]}%`;
+                    } else {
+                        const v = cfg.calc(roll[i].w);
+                        read.textContent = `${trMonthLabel(roll[i].k)} · ${trendFmt(cfg, v)}`;
+                        const sc = TREND_SCALES[cfg.id], dot = svg.querySelector('.tr-hoverdot');
+                        if (sc && dot) {
+                            const dy = TR_MT + (TR_H - TR_MT - TR_MB) * (1 - (v - sc.lo) / (sc.hi - sc.lo));
+                            dot.setAttribute('cx', x); dot.setAttribute('cy', dy.toFixed(1)); dot.style.display = '';
+                        }
+                    }
+                });
+                grid.addEventListener('mouseleave', () => {
+                    hideAll();
+                    grid.querySelectorAll('.tr-readout').forEach(el => { el.textContent = ''; });
+                });
+            }
+            let trendsBuilt = false;
+            async function openTrends() {
+                try { await ensureData(); }
+                catch (e) { document.getElementById('trLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
+                document.getElementById('trLoading').style.display = 'none';
+                document.getElementById('trBody').style.display = '';
+                if (!trendsBuilt) { trendsBuilt = true; renderTrends(); wireTrendHover(); }
             }
 
             // ---------- FIGHTER STATS ----------
@@ -6806,17 +7150,19 @@
             let insightsSub = 'ladder';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (sn) sn.style.display = view === 'insights' ? '' : 'none';
                 if (sv) sv.style.display = view === 'insights' && insightsSub === 'database' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
+                if (tv) tv.style.display = view === 'insights' && insightsSub === 'trends' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (bv) bv.style.display = view === 'builder' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
                 if (view === 'insights') {
                     document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.isub === insightsSub));
                     if (insightsSub === 'database') { logTabOpen('opened_database'); openBoard(); }
+                    else if (insightsSub === 'trends') { logTabOpen('opened_trends'); openTrends(); }
                     else { logTabOpen('opened_insights'); openInsights(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }

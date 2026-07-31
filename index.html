@@ -2665,6 +2665,30 @@
         .fsx-hero .rec { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.95rem; color: var(--accent-lo); }
         .fsx-hero .wc { font-family: 'Chakra Petch', monospace; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
         .fsx-hero .meta { margin-left: auto; font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); text-align: right; line-height: 1.55; }
+        /* This week's card: clickable fighter tiles under the Fighter Stats search */
+        .flu-slate { margin: 14px 0 6px; }
+        .flu-slate-title { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; }
+        .flu-slate-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; }
+        .flu-bout { display: flex; align-items: center; gap: 4px; border: 1px solid var(--glass-border); border-radius: 10px; padding: 4px 6px; background: rgba(255, 255, 255, 0.02); }
+        .flu-bout button {
+            flex: 1; min-width: 0; background: none; border: none; color: var(--text-primary);
+            font-family: inherit; font-size: 0.82rem; font-weight: 600; line-height: 1.25;
+            padding: 7px 6px; cursor: pointer; border-radius: 7px;
+        }
+        .flu-bout button:hover { background: var(--bg-hover); color: var(--accent-lo); }
+        .flu-bout button:first-child { text-align: right; }
+        .flu-bout button:last-child { text-align: left; }
+        .flu-bout .vs { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--accent); font-weight: 700; flex: 0 0 auto; }
+        @media (max-width: 600px) {
+            /* one horizontally-scrollable row so the card doesn't push the
+               profile far down the page; a peek of the next tile hints scroll */
+            .flu-slate-grid {
+                grid-auto-flow: column; grid-auto-columns: 82%;
+                grid-template-columns: none;
+                overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px;
+            }
+        }
+
         .fsx-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
         .fsx-tile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); background: #fbf8f2; padding: 12px 14px; }
         .fsx-tile .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
@@ -3536,6 +3560,7 @@
                     <input id="fluInput" type="text" placeholder="Search a fighter&hellip;" autocomplete="off">
                     <div id="fluSuggest" class="flu-suggest"></div>
                 </div>
+                <div id="fluSlate"></div>
                 <div id="fluLoading" class="sdb-loading">Loading fight database&hellip;</div>
                 <div id="fluBody" style="display:none;"></div>
             </div>
@@ -6905,10 +6930,11 @@
             // AVG / OPP AVG career rows pinned to the bottom of the log.
             let fluNames = null, fluWired = false, fluCurrent = null, fluShowOpp = true, fsxState = null;
             const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
-            // Normalize a fighter name for matching: lowercase and drop a trailing
-            // generational suffix (Jr/Sr/II/III/IV) so slate spellings like "Kai Kamaka III"
-            // match database rows stored as "Kai Kamaka".
-            const normName = s => (s || '').toLowerCase().trim().replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').trim();
+            // Normalize a fighter name for matching: lowercase, fold accents (DK
+            // salary files use plain ASCII, the stats DB keeps "José"), and drop a
+            // trailing generational suffix (Jr/Sr/II/III/IV) so slate spellings
+            // like "Kai Kamaka III" match database rows stored as "Kai Kamaka".
+            const normName = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').trim();
             function fighterFights(name) {
                 const key = normName(name);
                 return ROWS.filter(r => normName(r.fighter) === key && num(r.fight_time_seconds) > 0)
@@ -7087,7 +7113,50 @@
                 m.style.display = 'flex';
             }
             function closeFightModal() { const m = document.getElementById('fsxModal'); if (m) { m.style.display = 'none'; m.innerHTML = ''; } }
+            // This week's bouts, from the same DKSalaries.csv that feeds the
+            // Optimizer and Hand Builder — most lookups are for this week's card,
+            // so surface every matchup as clickable tiles under the search box.
+            let fluSlatePromise = null;
+            function loadSlateBouts() {
+                if (fluSlatePromise) return fluSlatePromise;
+                return fluSlatePromise = fetch('DKSalaries.csv?v=' + Date.now())
+                    .then(r => { if (!r.ok) throw new Error('no slate'); return r.text(); })
+                    .then(t => {
+                        const byGame = new Map();
+                        for (const r of parseCSV(t)) {
+                            const name = (r['Name'] || '').trim();
+                            if (!name) continue;
+                            const g = (r['Game Info'] || '').trim() || name;
+                            let arr = byGame.get(g); if (!arr) byGame.set(g, arr = []);
+                            if (!arr.some(f => f.name === name)) arr.push({ name, salary: parseFloat(String(r['Salary'] || '').replace(/[^0-9.]/g, '')) || 0 });
+                        }
+                        const bouts = [...byGame.values()];
+                        // favorite on the left; marquee fights (top salaries) first
+                        bouts.forEach(b => b.sort((a, z) => z.salary - a.salary));
+                        bouts.sort((a, z) => Math.max(...z.map(f => f.salary)) - Math.max(...a.map(f => f.salary)));
+                        return bouts;
+                    });
+            }
+            function renderSlateTiles() {
+                loadSlateBouts().then(bouts => {
+                    const el = document.getElementById('fluSlate');
+                    if (!el || !bouts.length || el.childElementCount) return;
+                    el.innerHTML = `<div class="flu-slate-title">This week's card — tap a fighter</div>` +
+                        `<div class="flu-slate-grid">` + bouts.map(b =>
+                            `<div class="flu-bout">` +
+                            `<button type="button" data-nm="${esc(b[0].name)}">${esc(b[0].name)}</button>` +
+                            (b[1] ? `<span class="vs">VS</span><button type="button" data-nm="${esc(b[1].name)}">${esc(b[1].name)}</button>` : '') +
+                            `</div>`).join('') + `</div>`;
+                }).catch(() => { /* slate not posted yet — tiles simply don't render */ });
+            }
             function wireLookup() {
+                const slate = document.getElementById('fluSlate');
+                slate.addEventListener('click', e => {
+                    const btn = e.target.closest('button[data-nm]'); if (!btn) return;
+                    document.getElementById('fluInput').value = btn.dataset.nm;
+                    renderFighter(btn.dataset.nm);
+                    logSearchQuery(btn.dataset.nm, true, 'looked_up');
+                });
                 const body = document.getElementById('fluBody');
                 // Open the box score on MOUSEDOWN, exactly like the Score DB
                 // rows: right after a search the input is still focused, and a
@@ -7134,6 +7203,7 @@
             }
             async function openLookup() {
                 if (!fluWired) { fluWired = true; wireLookup(); }
+                renderSlateTiles();   // independent of the stats CSV — shows immediately
                 try { await ensureData(); }
                 catch (e) { document.getElementById('fluLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
                 if (!fluNames) fluNames = [...new Set(ROWS.map(r => r.fighter).filter(Boolean))].sort();

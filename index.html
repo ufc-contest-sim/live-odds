@@ -2668,7 +2668,7 @@
         /* This week's card: clickable fighter tiles under the Fighter Stats search */
         .flu-slate { margin: 14px 0 6px; }
         .flu-slate-title { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; }
-        .flu-slate-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; }
+        .flu-slate-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 8px; }
         .flu-bout { display: flex; align-items: center; gap: 4px; border: 1px solid var(--glass-border); border-radius: 10px; padding: 4px 6px; background: rgba(255, 255, 255, 0.02); }
         .flu-bout button {
             flex: 1; min-width: 0; background: none; border: none; color: var(--text-primary);
@@ -2679,16 +2679,6 @@
         .flu-bout button:first-child { text-align: right; }
         .flu-bout button:last-child { text-align: left; }
         .flu-bout .vs { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--accent); font-weight: 700; flex: 0 0 auto; }
-        @media (max-width: 600px) {
-            /* one horizontally-scrollable row so the card doesn't push the
-               profile far down the page; a peek of the next tile hints scroll */
-            .flu-slate-grid {
-                grid-auto-flow: column; grid-auto-columns: 82%;
-                grid-template-columns: none;
-                overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px;
-            }
-        }
-
         .fsx-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
         .fsx-tile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); background: #fbf8f2; padding: 12px 14px; }
         .fsx-tile .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
@@ -3560,7 +3550,7 @@
                     <input id="fluInput" type="text" placeholder="Search a fighter&hellip;" autocomplete="off">
                     <div id="fluSuggest" class="flu-suggest"></div>
                 </div>
-                <div id="fluSlate"></div>
+                <div id="fluSlate" class="flu-slate"></div>
                 <div id="fluLoading" class="sdb-loading">Loading fight database&hellip;</div>
                 <div id="fluBody" style="display:none;"></div>
             </div>

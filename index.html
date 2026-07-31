@@ -4362,8 +4362,12 @@
             renderLiveTicker();
         }
 
-        // Broadcast ticker along the top — fighters in fight-card order,
-        // with their locked score or TBD if they haven't fought yet
+        // Broadcast ticker along the top. Names come from THIS week's salary
+        // sheet (the same DKSalaries.csv the Optimizer and Hand Builder read),
+        // so the ticker is never a week behind; each fighter shows TBD until a
+        // locked sim score for that exact name appears in the contest data,
+        // then the score takes over. If the salary sheet isn't posted, fall
+        // back to the contest fight card, then to a contest summary.
         let tickerLoaded = false;
         async function renderLiveTicker() {
             if (tickerLoaded) return;
@@ -4372,28 +4376,70 @@
             if (!ticker || !track || CONTESTS.length === 0) return;
             tickerLoaded = true;
 
-            let items = '';
+            // lowercase + fold accents + strip Jr/III so DK spellings match sim names
+            const tnorm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').trim();
+
+            // Locked sim scores from the contest data. When that data is last
+            // week's card, none of this week's names match — everything TBD.
+            const scores = new Map();
+            let cardFighters = [];
             try {
-                const resp = await fetch(CONTESTS[0].file);
-                const data = await resp.json();
-                const fights = (data.fight_card || []).slice()
-                    .sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0));
-                const fighters = fights.flatMap(f => [
-                    [f.fighter1, f.fighter1_score],
-                    [f.fighter2, f.fighter2_score]
-                ]).filter(([name]) => name);
+                const data = await (await fetch(CONTESTS[0].file)).json();
+                const fights = (data.fight_card || []).slice().sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0));
+                cardFighters = fights.flatMap(f => [[f.fighter1, f.fighter1_score], [f.fighter2, f.fighter2_score]]).filter(([n]) => n);
+                for (const [n, s] of cardFighters) if (s != null) scores.set(tnorm(n), s);
+            } catch (e) { /* contest data unavailable */ }
+
+            // This week's names from the salary sheet, marquee bouts first,
+            // favorite before underdog — same ordering as the Fighter Stats tiles.
+            let fighters = [];   // [name, score|null]
+            try {
+                const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                if (resp.ok) {
+                    const txt = await resp.text();
+                    const rows = []; let row = [], field = '', q = false;
+                    for (let i = 0; i < txt.length; i++) {
+                        const c = txt[i];
+                        if (q) { if (c === '"') { if (txt[i + 1] === '"') { field += '"'; i++; } else q = false; } else field += c; }
+                        else if (c === '"') q = true;
+                        else if (c === ',') { row.push(field); field = ''; }
+                        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+                        else if (c !== '\r') field += c;
+                    }
+                    if (field || row.length) { row.push(field); rows.push(row); }
+                    const head = (rows.shift() || []).map(h => h.trim().toLowerCase());
+                    const iN = head.indexOf('name'), iG = head.indexOf('game info'), iS = head.indexOf('salary');
+                    if (iN >= 0) {
+                        const byGame = new Map();
+                        for (const r of rows) {
+                            const name = (r[iN] || '').trim();
+                            if (!name) continue;
+                            const g = (iG >= 0 && (r[iG] || '').trim()) || name;
+                            let arr = byGame.get(g); if (!arr) byGame.set(g, arr = []);
+                            if (!arr.some(f => f.name === name)) arr.push({ name, salary: iS >= 0 ? parseFloat(String(r[iS] || '').replace(/[^0-9.]/g, '')) || 0 : 0 });
+                        }
+                        const bouts = [...byGame.values()];
+                        bouts.forEach(b => b.sort((a, z) => z.salary - a.salary));
+                        bouts.sort((a, z) => Math.max(...z.map(f => f.salary)) - Math.max(...a.map(f => f.salary)));
+                        fighters = bouts.flat().map(f => [f.name, scores.has(tnorm(f.name)) ? scores.get(tnorm(f.name)) : null]);
+                    }
+                }
+            } catch (e) { /* slate not posted — fall back to the fight card */ }
+
+            if (!fighters.length) fighters = cardFighters;
+
+            let items = '';
+            if (fighters.length) {
                 items = fighters.map(([name, score]) =>
                     `<span><b>${name}</b>: ${score == null ? '<i class="tbd">TBD</i>' : `<b class="am">${Number(score).toFixed(2)}</b>`}</span>`
                 ).join('');
                 // keep the scroll speed steady regardless of card size
                 track.style.animationDuration = Math.max(60, fighters.length * 7) + 's';
 
-                // Mode label: once any fighter score is locked in, we're live
-                const anyLocked = fights.some(f => f.fighter1_score != null || f.fighter2_score != null);
+                // Mode label: live once any listed fighter has a locked score
+                const anyLocked = fighters.some(([, s]) => s != null);
                 const modeLabel = document.getElementById('sim-mode-label');
                 if (modeLabel) modeLabel.textContent = anyLocked ? 'Live Sim Mode' : 'Post Contest Sim Mode';
-            } catch (e) {
-                // fall through to the contest summary below
             }
 
             // fallback if the fight card isn't available

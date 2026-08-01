@@ -143,6 +143,14 @@
       "entryFee": 333.0,
       "totalPrizes": 6000,
       "entrants": 20
+    },
+    {
+      "id": "single_entry_5_double_up",
+      "name": "Single Entry 5 Double Up",
+      "file": "Single_Entry_5_Double_Up.json",
+      "entryFee": 5.0,
+      "totalPrizes": 1000,
+      "entrants": 229
     }
   ]
 }

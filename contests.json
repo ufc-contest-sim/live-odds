@@ -14,7 +14,15 @@
       "file": "100K_MEGA_mini-MAX.json",
       "entryFee": 3.0,
       "totalPrizes": 100000,
-      "entrants": 39260
+      "entrants": 39280
+    },
+    {
+      "id": "10k_counter_punch",
+      "name": "10K Counter Punch",
+      "file": "10K_Counter_Punch.json",
+      "entryFee": 40.0,
+      "totalPrizes": 10000,
+      "entrants": 291
     },
     {
       "id": "10k_jab",
@@ -25,44 +33,44 @@
       "entrants": 11890
     },
     {
-      "id": "12k_title_fight",
-      "name": "12K Title Fight",
-      "file": "12K_Title_Fight.json",
-      "entryFee": 1060.0,
-      "totalPrizes": 12000,
-      "entrants": 12
-    },
-    {
-      "id": "15k_mini-max",
-      "name": "15K mini-MAX",
-      "file": "15K_mini-MAX.json",
-      "entryFee": 0.5,
-      "totalPrizes": 15000,
-      "entrants": 35671
-    },
-    {
-      "id": "1k_quarter_jukebox",
-      "name": "1K Quarter Jukebox",
-      "file": "1K_Quarter_Jukebox.json",
-      "entryFee": 0.25,
-      "totalPrizes": 1000,
-      "entrants": 4756
-    },
-    {
-      "id": "20k_double_champ",
-      "name": "20K Double Champ",
-      "file": "20K_Double_Champ.json",
-      "entryFee": 2120.0,
-      "totalPrizes": 20000,
-      "entrants": 10
-    },
-    {
-      "id": "20k_ground_pound",
-      "name": "20K Ground  Pound",
-      "file": "20K_Ground_Pound.json",
-      "entryFee": 200.0,
-      "totalPrizes": 20000,
+      "id": "10k_uppercut",
+      "name": "10K Uppercut",
+      "file": "10K_Uppercut.json",
+      "entryFee": 100.0,
+      "totalPrizes": 10000,
       "entrants": 111
+    },
+    {
+      "id": "15k_title_fight",
+      "name": "15K Title Fight",
+      "file": "15K_Title_Fight.json",
+      "entryFee": 1060.0,
+      "totalPrizes": 15000,
+      "entrants": 15
+    },
+    {
+      "id": "20k_mini-max",
+      "name": "20K mini-MAX",
+      "file": "20K_mini-MAX.json",
+      "entryFee": 0.5,
+      "totalPrizes": 20000,
+      "entrants": 47562
+    },
+    {
+      "id": "25k_triangle",
+      "name": "25K Triangle",
+      "file": "25K_Triangle.json",
+      "entryFee": 200.0,
+      "totalPrizes": 25000,
+      "entrants": 138
+    },
+    {
+      "id": "26k_double_champ",
+      "name": "26K Double Champ",
+      "file": "26K_Double_Champ.json",
+      "entryFee": 2120.0,
+      "totalPrizes": 26000,
+      "entrants": 13
     },
     {
       "id": "2k_guillotine",
@@ -89,20 +97,20 @@
       "entrants": 19607
     },
     {
-      "id": "30k_arm_bar",
-      "name": "30K Arm Bar",
-      "file": "30K_Arm_Bar.json",
+      "id": "40k_arm_bar",
+      "name": "40K Arm Bar",
+      "file": "40K_Arm_Bar.json",
       "entryFee": 5.0,
-      "totalPrizes": 30000,
-      "entrants": 7134
+      "totalPrizes": 40000,
+      "entrants": 9512
     },
     {
-      "id": "30k_hook",
-      "name": "30K Hook",
-      "file": "30K_Hook.json",
+      "id": "40k_hook",
+      "name": "40K Hook",
+      "file": "40K_Hook.json",
       "entryFee": 8.0,
-      "totalPrizes": 30000,
-      "entrants": 4411
+      "totalPrizes": 40000,
+      "entrants": 5882
     },
     {
       "id": "5k_clinch",
@@ -113,14 +121,6 @@
       "entrants": 1189
     },
     {
-      "id": "5k_flying_knee",
-      "name": "5K Flying Knee",
-      "file": "5K_Flying_Knee.json",
-      "entryFee": 12.0,
-      "totalPrizes": 5000,
-      "entrants": 490
-    },
-    {
       "id": "5k_wall_crawler",
       "name": "5K Wall Crawler",
       "file": "5K_Wall_Crawler.json",
@@ -129,28 +129,20 @@
       "entrants": 103
     },
     {
+      "id": "6k_flying_knee",
+      "name": "6K Flying Knee",
+      "file": "6K_Flying_Knee.json",
+      "entryFee": 12.0,
+      "totalPrizes": 6000,
+      "entrants": 588
+    },
+    {
       "id": "6k_tap_out",
       "name": "6K Tap Out",
       "file": "6K_Tap_Out.json",
       "entryFee": 333.0,
       "totalPrizes": 6000,
       "entrants": 20
-    },
-    {
-      "id": "75k_contender",
-      "name": "75K Contender",
-      "file": "75K_Contender.json",
-      "entryFee": 100.0,
-      "totalPrizes": 7500,
-      "entrants": 83
-    },
-    {
-      "id": "8k_counter_punch",
-      "name": "8K Counter Punch",
-      "file": "8K_Counter_Punch.json",
-      "entryFee": 40.0,
-      "totalPrizes": 8000,
-      "entrants": 233
     }
   ]
 }

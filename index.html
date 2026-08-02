@@ -6806,9 +6806,9 @@
             const TREND_CHARTS = [
                 { id: 'dk', title: 'Avg DK score', sub: 'Mean DraftKings total per performance.', dec: 1, calc: w => w.dk / w.n },
                 { id: 'dk100', title: '100+ DK rate', sub: 'Share of performances scoring 100+ DK — how often slate-breaking scores happen.', dec: 1, unit: '%', calc: w => 100 * w.dk100 / w.n },
-                { id: 'sig', title: 'Sig strikes / min', sub: 'Significant strikes landed per fighter per minute of cage time.', dec: 2, calc: w => w.sig / (w.sec / 60) },
-                { id: 'td', title: 'Takedowns / 15 min', sub: 'Takedowns landed per fighter per 15 minutes of cage time.', dec: 2, calc: w => w.td * 900 / w.sec },
-                { id: 'ctrl', title: 'Control share', sub: 'Share of cage time the average fighter spends in control position.', dec: 1, unit: '%', calc: w => 100 * w.ctrl / w.sec },
+                { id: 'sig', title: 'Sig strikes / min', sub: 'Significant strikes landed per fighter per minute of octagon time.', dec: 2, calc: w => w.sig / (w.sec / 60) },
+                { id: 'td', title: 'Takedowns / 15 min', sub: 'Takedowns landed per fighter per 15 minutes of octagon time.', dec: 2, calc: w => w.td * 900 / w.sec },
+                { id: 'ctrl', title: 'Control share', sub: 'Share of octagon time the average fighter spends in control position.', dec: 1, unit: '%', calc: w => 100 * w.ctrl / w.sec },
                 { id: 'kd', title: 'Knockdowns / fight', sub: 'Knockdowns scored per fighter per fight.', dec: 2, calc: w => w.kd / w.n },
                 { id: 'fin', title: 'Finish rate', sub: 'Share of fights ending inside the distance (KO/TKO or submission).', dec: 1, unit: '%', calc: w => 100 * w.fin / w.n },
                 { id: 'mix', title: 'How fights end', sub: 'Method mix over time — share of fights ending by KO/TKO, decision, or submission (DQ/NC excluded).', type: 'stack' },
@@ -7119,12 +7119,12 @@
                 heroEl.innerHTML = `<div class="fsx-hero"><span class="nm">${esc(canonical)}</span>` +
                         `<span class="rec">${wins}&ndash;${losses}${other ? '&ndash;' + other : ''} in UFC</span>` +
                         `<span class="wc">${esc(weightOf(fights[n - 1].weight_class))}</span>` +
-                        `<span class="meta">${n} fight${n === 1 ? '' : 's'} &middot; ${timeStr} cage time &middot; avg ${(totSec / n / 60).toFixed(1)}m<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
+                        `<span class="meta">${n} fight${n === 1 ? '' : 's'} &middot; ${timeStr} octagon time &middot; avg ${(totSec / n / 60).toFixed(1)}m<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
 
                 html += `<div class="fsx-secbar"><span class="t">Fight by fight &middot; newest first</span>` +
                         `<label class="fsx-toggle"><input type="checkbox" id="fsxOppTgl"${fluShowOpp ? ' checked' : ''}> Opponent stats</label></div>`;
                 html += `<div class="fsx-scroll"><table class="fsx-table${fluShowOpp ? '' : ' no-opp'}" id="fsxTable"><thead>`;
-                html += `<tr class="grp"><th colspan="4">Fight</th><th colspan="6" class="sep">In the cage</th><th colspan="1" class="sep pts">DK</th></tr>`;
+                html += `<tr class="grp"><th colspan="4">Fight</th><th colspan="6" class="sep">In the octagon</th><th colspan="1" class="sep pts">DK</th></tr>`;
                 html += `<tr class="cols"><th class="l">Date</th><th class="l">Opponent</th><th class="l">Res</th><th class="l">Method</th>` +
                         `<th class="sep">KD</th><th>Sig str</th><th>Str</th><th>TD</th><th>Rev</th><th>Ctrl</th>` +
                         `<th class="sep">Total</th></tr></thead><tbody>`;
@@ -7161,7 +7161,7 @@
             }
             // ==================== FIGHTER STATS PANEL (fs2) ====================
             // Career rate stats derived from the fight database, each ranked
-            // against every UFC fighter with 3+ fights and 30+ minutes of cage
+            // against every UFC fighter with 3+ fights and 30+ minutes of octagon
             // time. Entirely config-driven: FS2_SECTIONS below defines what is
             // shown, so deleting a row (or a whole section) removes that stat
             // and nothing else has to change.
@@ -7209,7 +7209,7 @@
                 p.sub_def = O.length ? pctOf(OS('sub_att') - subbed, OS('sub_att')) : null;
                 p._subbed = subbed; p._subFaced = OS('sub_att');
                 // per minute and volume only, to mirror DK points / min: what
-                // their defense concedes per minute of cage time, not the
+                // their defense concedes per minute of octagon time, not the
                 // lump-sum bonus the opponent gets for winning
                 p.opp_dk = O.length ? rate(O.reduce((s, r) => { const x = dkPoints(r); return s + x.str + x.kd + x.td + x.rev + x.ctrl; }, 0), mins) : null;
 
@@ -7365,7 +7365,7 @@
                     { k: 'td15', label: 'Takedowns landed / 15 min', fmt: 2, dir: 1 },
                     { k: 'td_att_15', label: 'Takedowns attempted / 15 min', fmt: 2, dir: 1 },
                     { k: 'td_succ', label: 'Takedown accuracy', fmt: 1, unit: '%', dir: 1, raw: p => `${f0(p._tdLanded)}/${f0(p._tdTried)}` },
-                    { k: 'ctrl_pct', label: 'Control time share', sub: 'Percent of cage time in control position', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'ctrl_pct', label: 'Control time share', sub: 'Percent of octagon time in control position', fmt: 1, unit: '%', dir: 1 },
                     // descriptive, not good/bad: a high-volume takedown artist
                     // banks less control per takedown than someone who takes a
                     // fight down once and rides out the round
@@ -7474,7 +7474,7 @@
                 const qualified = p._n >= 3 && p._sec >= 1800;
                 let h = `<div class="fs2-note">Career rates across ${p._n} UFC fight${p._n === 1 ? '' : 's'}` +
                     (qualified
-                        ? `, ranked against every fighter with 3+ fights and 30+ minutes of cage time. A longer bar is always better.`
+                        ? `, ranked against every fighter with 3+ fights and 30+ minutes of octagon time. A longer bar is always better.`
                         : `. Percentile ranks are hidden — this sample is under the 3-fight / 30-minute threshold.`) + `</div>`;
                 h += `<div class="fs2-key">` + FS2_KEY.map(t => {
                     const v = p[t.k];

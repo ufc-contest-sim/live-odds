@@ -2741,6 +2741,59 @@
             .fs2-row.wide { grid-template-columns: minmax(0, 1fr); grid-template-areas: none; }
         }
 
+        /* ---------- Weekly Matchups (fmx-*) ---------- */
+        .fmx-note { font-size: 0.82rem; color: var(--text-secondary); margin: 4px 0 14px; line-height: 1.55; }
+        .fmx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 10px; }
+        .fmx-card {
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px;
+            border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.02); cursor: pointer; text-align: left; width: 100%;
+            font-family: inherit; color: var(--text-primary);
+        }
+        .fmx-card:hover { background: var(--bg-hover); border-color: var(--accent); }
+        .fmx-card .nm { font-weight: 700; font-size: 0.9rem; line-height: 1.25; min-width: 0; }
+        .fmx-card .rt { text-align: right; }
+        .fmx-card .sal { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); display: block; font-weight: 400; }
+        .fmx-card .vs { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--accent); font-weight: 700; flex: none; }
+        .fmx-card .edge { grid-column: 1 / -1; font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); border-top: 1px solid var(--glass-border); padding-top: 7px; margin-top: 3px; }
+        .fmx-wide { max-width: 860px; }
+        /* body heat maps */
+        .fmx-bodies { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; margin: 4px 0 6px; }
+        .fmx-zname { font-family: 'Chakra Petch', monospace; font-size: 0.5rem; letter-spacing: 0.5px; fill: rgba(255, 255, 255, 0.62); }
+        .fmx-fig { text-align: center; min-width: 0; }
+        .fmx-fig svg { width: 100%; max-width: 150px; height: auto; }
+        .fmx-fig .who { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .fmx-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding-top: 30px; }
+        .fmx-mid .zl { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+        .fmx-zpct { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; font-weight: 700; fill: #ffffff; }
+        .fmx-toggle { display: flex; gap: 6px; justify-content: center; margin: 8px 0 4px; flex-wrap: wrap; }
+        .fmx-toggle button {
+            background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary);
+            font-family: 'Chakra Petch', monospace; font-size: 0.62rem; letter-spacing: 0.5px;
+            padding: 5px 11px; border-radius: 999px; cursor: pointer;
+        }
+        .fmx-toggle button.sel { background: var(--accent); border-color: var(--accent); color: #180a02; font-weight: 700; }
+        .fmx-legend { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; }
+        .fmx-legend .bar { width: 110px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, #2b2118, #a34608, #ff9d3d); }
+        .fmx-legend span { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); }
+        .fmx-sec { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); font-weight: 700; margin: 16px 0 4px; padding-top: 12px; border-top: 1px solid var(--glass-border); }
+        .fmx-sec:first-of-type { border-top: none; padding-top: 0; }
+        .fmx-x2 { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--glass-border); font-variant-numeric: tabular-nums; }
+        .fmx-x2:last-child { border-bottom: none; }
+        .fmx-x2 .l, .fmx-x2 .r { min-width: 0; }
+        .fmx-x2 .r { text-align: right; }
+        .fmx-x2 .v { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.88rem; }
+        .fmx-x2 .k { display: block; font-size: 0.66rem; color: var(--text-secondary); line-height: 1.3; }
+        .fmx-x2 .mid { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; text-align: center; white-space: nowrap; }
+        .fmx-open { display: block; width: 100%; margin-top: 14px; background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; padding: 9px; border-radius: 8px; cursor: pointer; }
+        .fmx-open:hover { color: var(--accent-lo); border-color: var(--accent); }
+        .fmx-empty { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); padding: 30px 0; text-align: center; }
+        @media (max-width: 600px) {
+            .fmx-bodies { gap: 4px; }
+            .fmx-fig svg { max-width: 108px; }
+            .fmx-mid { padding-top: 22px; }
+        }
+
         .fsx-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
         .fsx-tile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); background: #fbf8f2; padding: 12px 14px; }
         .fsx-tile .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
@@ -3612,18 +3665,20 @@
                     <input id="fluInput" type="text" placeholder="Search a fighter&hellip;" autocomplete="off">
                     <div id="fluSuggest" class="flu-suggest"></div>
                 </div>
-                <div id="fluSlate" class="flu-slate"></div>
                 <div id="fluLoading" class="sdb-loading">Loading fight database&hellip;</div>
-                <div id="fluHero"></div>
                 <div id="fluSubnav" class="view-tabs" style="display:none; justify-content: flex-start;">
-                    <button class="tab-btn active" data-fsub="record"><span>Record</span></button>
+                    <button class="tab-btn" data-fsub="record"><span>Record</span></button>
                     <button class="tab-btn" data-fsub="stats"><span>Stats</span></button>
+                    <button class="tab-btn active" data-fsub="matchups"><span>Weekly Matchups</span></button>
                 </div>
+                <div id="fluHero"></div>
                 <div id="fluBody" style="display:none;"></div>
                 <div id="fluStats" style="display:none;"></div>
+                <div id="fluMatchups" style="display:none;"></div>
             </div>
         </div>
         <div id="fsxModal" class="fsx-modal" style="display:none;"></div>
+        <div id="fmxModal" class="fsx-modal" style="display:none;"></div>
 
         <div id="optimizer-view" style="display:none;">
             <div class="sdb-card">
@@ -7101,10 +7156,11 @@
                 const n = fights.length;
                 if (!n) {
                     heroEl.innerHTML = '';
-                    subEl.style.display = 'none';
-                    document.getElementById('fluStats').style.display = 'none';
-                    body.style.display = '';
+                    fsxState = null;
                     body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`;
+                    body.style.display = '';
+                    document.getElementById('fluStats').style.display = 'none';
+                    document.getElementById('fluMatchups').style.display = 'none';
                     return;
                 }
                 const canonical = fights[n - 1].fighter;
@@ -7146,19 +7202,25 @@
                 fsxState = { name: canonical, fights, oppRows };
                 subEl.style.display = '';
                 fs2Built = false;          // stats panel rebuilds lazily on first view
-                showFighterSub(fluSub);
+                // a fresh search lands on the record unless the stats tab is open
+                showFighterSub(fluSub === 'stats' ? 'stats' : 'record');
             }
 
             // Record / Stats sub-tabs. The record log and the stats panel are
             // fully independent renders over the same fsxState.
-            let fluSub = 'record', fs2Built = false;
+            let fluSub = 'matchups', fs2Built = false, fmxBuilt = false;
             function showFighterSub(which) {
+                // Record and Stats need a fighter; fall back to Matchups until one
+                // has been searched.
+                if ((which === 'record' || which === 'stats') && !fsxState) which = 'matchups';
                 fluSub = which;
                 document.querySelectorAll('#fluSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.fsub === which));
-                const body = document.getElementById('fluBody'), stats = document.getElementById('fluStats');
-                body.style.display = which === 'record' ? '' : 'none';
-                stats.style.display = which === 'stats' ? '' : 'none';
+                document.getElementById('fluBody').style.display = which === 'record' ? '' : 'none';
+                document.getElementById('fluStats').style.display = which === 'stats' ? '' : 'none';
+                document.getElementById('fluMatchups').style.display = which === 'matchups' ? '' : 'none';
+                document.getElementById('fluHero').style.display = which === 'matchups' ? 'none' : '';
                 if (which === 'stats' && !fs2Built) { fs2Built = true; renderFighterStats(); }
+                if (which === 'matchups' && !fmxBuilt) { fmxBuilt = true; renderMatchups(); }
             }
             // ==================== FIGHTER STATS PANEL (fs2) ====================
             // Career rate stats derived from the fight database, each ranked
@@ -7248,6 +7310,12 @@
                 p.leg_min = rate(S('ss_leg_landed'), mins);
                 const hl = S('ss_head_landed'), bl = S('ss_body_landed'), ll = S('ss_leg_landed'), tl = hl + bl + ll;
                 p.target_mix = tl ? { Head: 100 * hl / tl, Body: 100 * bl / tl, Legs: 100 * ll / tl } : null;
+                // flat copies so the league index ranks them — the matchup heat
+                // maps shade each zone by how heavily it's targeted vs the league
+                if (tl) { p.tgt_head = 100 * hl / tl; p.tgt_body = 100 * bl / tl; p.tgt_leg = 100 * ll / tl; }
+                const ohl = OS('ss_head_landed'), obl = OS('ss_body_landed'), oll = OS('ss_leg_landed'), otl = ohl + obl + oll;
+                p.absorb_mix = otl ? { Head: 100 * ohl / otl, Body: 100 * obl / otl, Legs: 100 * oll / otl } : null;
+                if (otl) { p.abs_head = 100 * ohl / otl; p.abs_body = 100 * obl / otl; p.abs_leg = 100 * oll / otl; }
 
                 // --- grappling ---
                 const tdL = S('td_landed');
@@ -7583,30 +7651,169 @@
                         return bouts;
                     });
             }
-            function renderSlateTiles() {
-                loadSlateBouts().then(bouts => {
-                    const el = document.getElementById('fluSlate');
-                    if (!el || !bouts.length || el.childElementCount) return;
-                    el.innerHTML = `<div class="flu-slate-title">This week's card — tap a fighter</div>` +
-                        `<div class="flu-slate-grid">` + bouts.map(b =>
-                            `<div class="flu-bout">` +
-                            `<button type="button" data-nm="${esc(b[0].name)}">${esc(b[0].name)}</button>` +
-                            (b[1] ? `<span class="vs">VS</span><button type="button" data-nm="${esc(b[1].name)}">${esc(b[1].name)}</button>` : '') +
-                            `</div>`).join('') + `</div>`;
-                }).catch(() => { /* slate not posted yet — tiles simply don't render */ });
+            // ==================== WEEKLY MATCHUPS (fmx) ====================
+            // Every bout on the slate as a card; tapping one opens a head-to-head
+            // card with body heat maps and the crossed offense-vs-defense reads.
+            let FMX_BOUTS = null;
+            function fmxProfileFor(name) {
+                const fights = (fs2ByName().get(normName(name)) || []);
+                if (!fights.length) return null;
+                return fs2Profile(fights, fights.map(r => oppRowOf(r)));
             }
+            function renderMatchups() {
+                const el = document.getElementById('fluMatchups');
+                loadSlateBouts().then(bouts => {
+                    FMX_BOUTS = bouts;
+                    if (!bouts.length) { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; return; }
+                    el.innerHTML = `<div class="fmx-note">Every bout on this week's DraftKings slate. Tap a matchup for body heat maps and how each fighter's offense lines up against the other's defense.</div>` +
+                        `<div class="fmx-grid">` + bouts.map((b, i) => {
+                            const a = b[0], z = b[1];
+                            if (!z) return '';
+                            const pa = fmxProfileFor(a.name), pz = fmxProfileFor(z.name);
+                            const bits = [];
+                            if (pa && pz) {
+                                const pace = (pa.sig_min != null && pz.sig_min != null) ? (pa.sig_min + pz.sig_min).toFixed(1) + ' sig/min combined' : null;
+                                const grap = Math.max(pa.td_att_15 || 0, pz.td_att_15 || 0);
+                                if (pace) bits.push(pace);
+                                if (grap >= 3) bits.push('grappling-heavy');
+                            } else bits.push('limited UFC data');
+                            return `<button type="button" class="fmx-card" data-bout="${i}">` +
+                                `<span class="nm">${esc(a.name)}<span class="sal">$${a.salary.toLocaleString()}</span></span>` +
+                                `<span class="vs">VS</span>` +
+                                `<span class="nm rt">${esc(z.name)}<span class="sal">$${z.salary.toLocaleString()}</span></span>` +
+                                `<span class="edge">${esc(bits.join(' · '))}</span></button>`;
+                        }).join('') + `</div>`;
+                }).catch(() => { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; });
+            }
+
+            // --- body heat map ---
+            // Stylised front-on fighter. Head / torso / legs are the three scored
+            // zones (they map to the DB's head/body/leg strike columns); arms are
+            // drawn neutral because strikes to them aren't tracked separately.
+            const FMX_FIG = {
+                head: 'M60 6a15 15 0 1 1 0 30 15 15 0 0 1 0-30z',
+                torso: 'M38 50Q38 42 46 41H74Q82 42 82 50L73 104L76 124H44L47 104Z',
+                legs: 'M45 126H58L57 168 54 214H44L46 168Zm17 0H75L74 168 76 214H66L63 168Z',
+                arms: 'M37 51Q29 55 28 65L25 105Q24 112 30 112Q35 112 36 106L39 72Q40 61 44 55Z' +
+                      'M83 51Q91 55 92 65L95 105Q96 112 90 112Q85 112 84 106L81 72Q80 61 76 55Z',
+                lbl: { head: 26, body: 86, leg: 176 },   // y of each zone's % label
+            };
+            function fmxHeat(t) {   // t: 0..1 -> dim ember to hot amber
+                const stops = [[0, [43, 33, 24]], [0.5, [163, 70, 8]], [1, [255, 157, 61]]];
+                t = Math.max(0, Math.min(1, t));
+                let a = stops[0], b = stops[stops.length - 1];
+                for (let i = 0; i < stops.length - 1; i++) if (t >= stops[i][0] && t <= stops[i + 1][0]) { a = stops[i]; b = stops[i + 1]; break; }
+                const f = (t - a[0]) / ((b[0] - a[0]) || 1);
+                return 'rgb(' + a[1].map((c, i) => Math.round(c + (b[1][i] - c) * f)).join(',') + ')';
+            }
+            function fmxBodySVG(p, mode) {
+                const pre = mode === 'absorb' ? 'abs_' : 'tgt_';
+                const zone = z => {
+                    const v = p ? p[pre + z] : null;
+                    // colour by league rank for that zone, so a leg-kicker's legs
+                    // glow instead of every fighter reading "head hot, legs cold"
+                    const pc = (v != null) ? fs2Pct(pre + z, v, 1) : null;
+                    return { v, fill: v == null ? '#26242b' : fmxHeat(pc == null ? 0.5 : pc / 100) };
+                };
+                const H = zone('head'), B = zone('body'), L = zone('leg');
+                const lab = (v, y) => v == null ? '' :
+                    `<text class="fmx-zpct" x="60" y="${y}" text-anchor="middle">${Math.round(v)}%</text>`;
+                const aria = `${mode === 'absorb' ? 'Strikes absorbed' : 'Strikes landed'} by target — head ${Math.round(H.v || 0)}%, body ${Math.round(B.v || 0)}%, legs ${Math.round(L.v || 0)}%`;
+                return `<svg viewBox="0 0 120 220" role="img" aria-label="${aria}">` +
+                    `<path d="${FMX_FIG.arms}" fill="#33313a" stroke="rgba(255,255,255,.09)" stroke-width="1"></path>` +
+                    `<path d="${FMX_FIG.head}" fill="${H.fill}" stroke="rgba(255,255,255,.16)" stroke-width="1"></path>` +
+                    `<path d="${FMX_FIG.torso}" fill="${B.fill}" stroke="rgba(255,255,255,.16)" stroke-width="1"></path>` +
+                    `<path d="${FMX_FIG.legs}" fill="${L.fill}" stroke="rgba(255,255,255,.16)" stroke-width="1"></path>` +
+                    lab(H.v, FMX_FIG.lbl.head) + lab(B.v, FMX_FIG.lbl.body) + lab(L.v, FMX_FIG.lbl.leg) + `</svg>`;
+            }
+            // one crossed read: attacker's offensive rate beside the defender's
+            // matching defensive rate
+            function fmxCross(label, aTxt, aSub, bTxt, bSub) {
+                return `<div class="fmx-x2"><span class="l"><span class="v">${aTxt}</span><span class="k">${aSub}</span></span>` +
+                    `<span class="mid">${label}</span>` +
+                    `<span class="r"><span class="v">${bTxt}</span><span class="k">${bSub}</span></span></div>`;
+            }
+            let fmxState = null, fmxMode = 'target';
+            function fmxNum(v, d, unit) { return (v == null || !isFinite(v)) ? '&mdash;' : v.toFixed(d) + (unit || ''); }
+            function openMatchupModal(i) {
+                const bout = FMX_BOUTS && FMX_BOUTS[i];
+                if (!bout || !bout[1]) return;
+                fmxState = { a: bout[0], z: bout[1], pa: fmxProfileFor(bout[0].name), pz: fmxProfileFor(bout[1].name) };
+                document.getElementById('fmxModal').style.display = 'flex';
+                paintMatchupModal();
+            }
+            function paintMatchupModal() {
+                const { a, z, pa, pz } = fmxState;
+                const m = document.getElementById('fmxModal');
+                const fmt = (p, k, d, u) => fmtOr(p, k, d, u);
+                let h = `<div class="fxm-card fmx-wide" role="dialog" aria-modal="true">`;
+                h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
+                h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(a.name)}</span><span class="vs">vs</span><span class="op">${esc(z.name)}</span></div>` +
+                    `<div class="fxm-sub" style="display:flex;justify-content:space-between">` +
+                    `<span>$${a.salary.toLocaleString()}${pa ? ' &middot; ' + pa._n + ' UFC fights' : ' &middot; no UFC data'}</span>` +
+                    `<span>$${z.salary.toLocaleString()}${pz ? ' &middot; ' + pz._n + ' UFC fights' : ' &middot; no UFC data'}</span></div></div>`;
+
+                h += `<div class="fmx-toggle">` +
+                    `<button type="button" data-mode="target" class="${fmxMode === 'target' ? 'sel' : ''}">Where they strike</button>` +
+                    `<button type="button" data-mode="absorb" class="${fmxMode === 'absorb' ? 'sel' : ''}">Where they get hit</button></div>`;
+                h += `<div class="fmx-bodies">` +
+                    `<div class="fmx-fig"><div class="who">${esc(a.name)}</div>${fmxBodySVG(pa, fmxMode)}</div>` +
+                    `<div class="fmx-fig"><div class="who">${esc(z.name)}</div>${fmxBodySVG(pz, fmxMode)}</div></div>`;
+                h += `<div class="fmx-legend"><span>less</span><span class="bar"></span><span>more than league</span></div>`;
+
+                if (pa && pz) {
+                    h += `<div class="fmx-sec">${esc(a.name.split(' ').pop())} attacking &mdash; his offense vs their defense</div>`;
+                    h += fmxCross('striking', fmtOr(pa, 'sig_min', 2), 'sig strikes landed / min', fmtOr(pz, 'absorbed_min', 2), 'sig strikes they absorb / min');
+                    h += fmxCross('accuracy', fmtOr(pa, 'sig_acc', 1, '%'), 'strike accuracy', fmtOr(pz, 'str_def', 1, '%'), 'striking defense');
+                    h += fmxCross('takedowns', fmtOr(pa, 'td_att_15', 2), 'attempts / 15 min', fmtOr(pz, 'td_def', 1, '%'), 'takedown defense');
+                    h += fmxCross('control', fmtOr(pa, 'ctrl_pct', 1, '%'), 'share of time controlling', fmtOr(pz, 'ctrl_conceded_15', 1, ' min'), 'control conceded / 15 min');
+                    h += `<div class="fmx-sec">${esc(z.name.split(' ').pop())} attacking &mdash; his offense vs their defense</div>`;
+                    h += fmxCross('striking', fmtOr(pz, 'sig_min', 2), 'sig strikes landed / min', fmtOr(pa, 'absorbed_min', 2), 'sig strikes they absorb / min');
+                    h += fmxCross('accuracy', fmtOr(pz, 'sig_acc', 1, '%'), 'strike accuracy', fmtOr(pa, 'str_def', 1, '%'), 'striking defense');
+                    h += fmxCross('takedowns', fmtOr(pz, 'td_att_15', 2), 'attempts / 15 min', fmtOr(pa, 'td_def', 1, '%'), 'takedown defense');
+                    h += fmxCross('control', fmtOr(pz, 'ctrl_pct', 1, '%'), 'share of time controlling', fmtOr(pa, 'ctrl_conceded_15', 1, ' min'), 'control conceded / 15 min');
+                    h += `<div class="fmx-sec">DFS profile</div>`;
+                    h += fmxCross('avg DK', fmtOr(pa, 'avg_dk', 1), 'career average', fmtOr(pz, 'avg_dk', 1), 'career average');
+                    h += fmxCross('DK / min', fmtOr(pa, 'dk_min_vol', 2), 'volume only', fmtOr(pz, 'dk_min_vol', 2), 'volume only');
+                    h += fmxCross('floor &ndash; ceiling', `${fmtOr(pa, 'dk_floor', 0)}&ndash;${fmtOr(pa, 'dk_ceil', 0)}`, '20th to 80th percentile', `${fmtOr(pz, 'dk_floor', 0)}&ndash;${fmtOr(pz, 'dk_ceil', 0)}`, '20th to 80th percentile');
+                    h += fmxCross('finish rate', fmtOr(pa, 'finish_rate', 0, '%'), 'of wins', fmtOr(pz, 'finish_rate', 0, '%'), 'of wins');
+                } else {
+                    h += `<div class="fmx-empty">Not enough UFC history on one of these fighters for a head-to-head read.</div>`;
+                }
+                h += `<button type="button" class="fmx-open" data-open="${esc(a.name)}">Open ${esc(a.name)}'s full profile</button>`;
+                h += `<button type="button" class="fmx-open" data-open="${esc(z.name)}">Open ${esc(z.name)}'s full profile</button>`;
+                h += `</div>`;
+                m.innerHTML = h;
+            }
+            function fmtOr(p, k, d, u) {
+                const v = p ? p[k] : null;
+                return (v == null || !isFinite(v)) ? '&mdash;' : v.toFixed(d) + (u || '');
+            }
+            function closeMatchupModal() { const m = document.getElementById('fmxModal'); if (m) { m.style.display = 'none'; m.innerHTML = ''; } }
             function wireLookup() {
                 document.getElementById('fluSubnav').addEventListener('click', e => {
                     const b = e.target.closest('button[data-fsub]'); if (!b) return;
                     showFighterSub(b.dataset.fsub);
                 });
-                const slate = document.getElementById('fluSlate');
-                slate.addEventListener('click', e => {
-                    const btn = e.target.closest('button[data-nm]'); if (!btn) return;
-                    document.getElementById('fluInput').value = btn.dataset.nm;
-                    renderFighter(btn.dataset.nm);
-                    logSearchQuery(btn.dataset.nm, true, 'looked_up');
+                document.getElementById('fluMatchups').addEventListener('click', e => {
+                    const card = e.target.closest('.fmx-card'); if (!card) return;
+                    openMatchupModal(+card.dataset.bout);
                 });
+                const fmx = document.getElementById('fmxModal');
+                fmx.addEventListener('click', e => {
+                    if (e.target === fmx || e.target.closest('.fxm-x')) { closeMatchupModal(); return; }
+                    const md = e.target.closest('button[data-mode]');
+                    if (md) { fmxMode = md.dataset.mode; paintMatchupModal(); return; }
+                    const op = e.target.closest('button[data-open]');
+                    if (op) {
+                        closeMatchupModal();
+                        document.getElementById('fluInput').value = op.dataset.open;
+                        renderFighter(op.dataset.open);
+                        logSearchQuery(op.dataset.open, true, 'looked_up');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+                document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMatchupModal(); });
                 const body = document.getElementById('fluBody');
                 // Open the box score on MOUSEDOWN, exactly like the Score DB
                 // rows: right after a search the input is still focused, and a
@@ -7653,16 +7860,16 @@
             }
             async function openLookup() {
                 if (!fluWired) { fluWired = true; wireLookup(); }
-                renderSlateTiles();   // independent of the stats CSV — shows immediately
                 try { await ensureData(); }
                 catch (e) { document.getElementById('fluLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
                 if (!fluNames) fluNames = [...new Set(ROWS.map(r => r.fighter).filter(Boolean))].sort();
                 document.getElementById('fluLoading').style.display = 'none';
+                document.getElementById('fluSubnav').style.display = '';
                 if (!fluCurrent) {
-                    const body = document.getElementById('fluBody');
-                    body.style.display = '';
-                    body.innerHTML = `<div class="flu-empty">Search any UFC fighter to pull their full fight-by-fight DK sheet.</div>`;
+                    document.getElementById('fluBody').innerHTML =
+                        `<div class="flu-empty">Search any UFC fighter to pull their full fight-by-fight DK sheet.</div>`;
                 }
+                showFighterSub(fluSub);
             }
 
             // Scoring Insights hosts two sub-tabs: the ladder (default) and the

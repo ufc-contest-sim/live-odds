@@ -7205,7 +7205,10 @@
                 p.kd_absorbed = O.length ? rate(OS('kd'), n) : null;
                 const subbed = fights.filter(r => r.result === 'L' && (r.method || '') === 'Submission').length;
                 p.sub_def = O.length ? pctOf(OS('sub_att') - subbed, OS('sub_att')) : null;
-                p.opp_dk = O.length ? O.reduce((s, r) => s + dkPoints(r).total, 0) / O.length : null;
+                // volume only, to match DK points / min: what their defense
+                // actually concedes, not the lump-sum bonus the opponent gets
+                // for winning
+                p.opp_dk = O.length ? O.reduce((s, r) => { const x = dkPoints(r); return s + x.str + x.kd + x.td + x.rev + x.ctrl; }, 0) / O.length : null;
 
                 // --- pacing (the per-round columns) ---
                 const paceS = [], paceC = [];
@@ -7390,7 +7393,7 @@
                     { k: 'bust_rate', label: 'Bust rate', sub: 'Share of fights scoring under 20 DK', fmt: 0, unit: '%', dir: -1 },
                     { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1 },
                     { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', dir: 1 },
-                    { k: 'opp_dk', label: 'Opponent DK allowed', sub: 'What the fighters across from them average — low means their opponent is a bad play', fmt: 1, dir: -1 },
+                    { k: 'opp_dk', label: 'Opponent DK allowed', sub: 'Volume scoring the fighters across from them average, win bonuses excluded — low means their opponent is a bad play', fmt: 1, dir: -1 },
                     { k: 'dk_win', label: 'DK in wins', fmt: 1, dir: 1 },
                     { k: 'dk_loss', label: 'DK in losses', fmt: 1, dir: 1 },
                     { k: 'dk_finwin', label: 'DK in finish wins', fmt: 1, dir: 0 },
@@ -7403,7 +7406,7 @@
             const FS2_KEY = [
                 { k: 'avg_dk', label: 'Avg DK', fmt: 1 },
                 { k: 'dk_min_vol', label: 'DK / min', fmt: 2, sub: 'volume only' },
-                { k: 'opp_dk', label: 'Opp DK allowed', fmt: 1, dir: -1 },
+                { k: 'opp_dk', label: 'Opp DK allowed', fmt: 1, dir: -1, sub: 'volume only' },
                 { k: 'str_diff_min', label: 'Strike diff / min', fmt: 2, sign: true },
                 { k: 'td_def', label: 'TD defense', fmt: 0, unit: '%' },
                 { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%' },
@@ -7467,9 +7470,13 @@
                         : `. Percentile ranks are hidden — this sample is under the 3-fight / 30-minute threshold.`) + `</div>`;
                 h += `<div class="fs2-key">` + FS2_KEY.map(t => {
                     const v = p[t.k];
+                    const bits = [];
+                    if (t.sub) bits.push(t.sub);
+                    const med = qualified ? fs2Median(t.k) : null;
+                    if (med != null) bits.push('league med ' + fs2Fmt(t, med));
                     return `<div class="fs2-ktile"><div class="l">${t.label}</div>` +
                         `<div class="v">${fs2Fmt(t, v)}</div>` +
-                        `<div class="s">${t.sub || (qualified && t.k in (fs2League() || {}) ? 'league med ' + fs2Fmt(t, fs2Median(t.k)) : '&nbsp;')}</div></div>`;
+                        `<div class="s">${bits.join(' &middot; ') || '&nbsp;'}</div></div>`;
                 }).join('') + `</div>`;
                 for (const sec of FS2_SECTIONS) {
                     const rows = sec.rows.filter(r => r.type || (p[r.k] != null && isFinite(p[r.k])));

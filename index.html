@@ -2679,6 +2679,66 @@
         .flu-bout button:first-child { text-align: right; }
         .flu-bout button:last-child { text-align: left; }
         .flu-bout .vs { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--accent); font-weight: 700; flex: 0 0 auto; }
+        /* ---------- Fighter Stats panel (fs2-*) ----------
+           Self-contained: every rule below is namespaced fs2-, and the whole
+           panel is driven by the FS2_SECTIONS config in JS, so a stat or a
+           whole section can be removed by deleting its config entry. */
+        .fs2-note { font-size: 0.78rem; color: var(--text-secondary); margin: 2px 0 14px; line-height: 1.5; }
+        .fs2-key { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
+        .fs2-ktile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); border-radius: 10px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); min-width: 0; }
+        .fs2-ktile .l { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-secondary); }
+        .fs2-ktile .v { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.5rem; line-height: 1.15; }
+        .fs2-ktile .s { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; color: var(--text-secondary); }
+        .fs2-sec { border: 1px solid var(--glass-border); border-radius: 10px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.015); overflow: hidden; }
+        .fs2-sec > summary {
+            cursor: pointer; padding: 11px 14px; list-style: none;
+            font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 1.2px;
+            text-transform: uppercase; color: var(--accent-lo); font-weight: 700;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .fs2-sec > summary::-webkit-details-marker { display: none; }
+        .fs2-sec > summary::before { content: '▸'; font-size: 0.8rem; transition: transform 0.15s; }
+        .fs2-sec[open] > summary::before { transform: rotate(90deg); }
+        .fs2-sec > summary:hover { background: var(--bg-hover); }
+        .fs2-sec .cnt { margin-left: auto; color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; }
+        .fs2-rows { padding: 4px 14px 12px; }
+        .fs2-row { display: grid; grid-template-columns: minmax(0, 1.6fr) 74px minmax(80px, 1.1fr) 46px; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--glass-border); }
+        .fs2-row:last-child { border-bottom: none; }
+        .fs2-row .lbl { font-size: 0.8rem; min-width: 0; }
+        .fs2-row .lbl small { display: block; font-size: 0.68rem; color: var(--text-secondary); line-height: 1.3; }
+        .fs2-row .val { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.88rem; text-align: right; white-space: nowrap; }
+        .fs2-bar { height: 6px; border-radius: 3px; background: rgba(140, 140, 150, 0.22); overflow: hidden; }
+        .fs2-bar i { display: block; height: 100%; border-radius: 3px; background: var(--accent); }
+        .fs2-bar i.hi { background: #2fe08a; }
+        .fs2-bar i.lo { background: #ff5d6e; }
+        .fs2-row .pct { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); text-align: right; white-space: nowrap; }
+        .fs2-row.wide { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+        .fs2-stack { display: flex; height: 22px; border-radius: 5px; overflow: hidden; background: rgba(140, 140, 150, 0.18); }
+        .fs2-stack span {
+            display: flex; align-items: center; justify-content: center; min-width: 0;
+            font-family: 'Chakra Petch', monospace; font-size: 0.62rem; font-weight: 700; color: #180a02;
+            white-space: nowrap; overflow: hidden;
+        }
+        .fs2-slegend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 5px; }
+        .fs2-slegend span { display: inline-flex; align-items: center; gap: 5px; font-family: 'Chakra Petch', monospace; font-size: 0.64rem; color: var(--text-secondary); }
+        .fs2-slegend i { width: 9px; height: 9px; border-radius: 2px; }
+        .fs2-pace { display: flex; align-items: flex-end; gap: 8px; height: 96px; padding-top: 4px; }
+        .fs2-pace > div { flex: 1 1 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 3px; height: 100%; min-width: 0; }
+        /* flex:none — otherwise flex-shrink collapses every bar to the same
+           leftover height and the whole curve reads flat */
+        .fs2-pace .b { flex: none; width: 100%; background: linear-gradient(to top, #e04d0a, #ff8a2b); border-radius: 3px 3px 0 0; min-height: 2px; }
+        .fs2-pace .n, .fs2-pace .r { flex: none; }
+        .fs2-pace .n { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; font-weight: 700; }
+        .fs2-pace .r { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--text-secondary); }
+        @media (max-width: 700px) {
+            .fs2-row { grid-template-columns: minmax(0, 1fr) 68px; grid-template-areas: 'lbl val' 'bar pct'; }
+            .fs2-row .lbl { grid-area: lbl; }
+            .fs2-row .val { grid-area: val; }
+            .fs2-bar { grid-area: bar; }
+            .fs2-row .pct { grid-area: pct; }
+            .fs2-row.wide { grid-template-columns: minmax(0, 1fr); grid-template-areas: none; }
+        }
+
         .fsx-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
         .fsx-tile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); background: #fbf8f2; padding: 12px 14px; }
         .fsx-tile .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
@@ -3545,14 +3605,20 @@
         <div id="lookup-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Fighter Stats</div>
-                <p class="fsx-intro">Search any UFC fighter for their career DFS profile: every fight with the full stat line and DraftKings scoring breakdown, what each opponent did back, and career averages.</p>
+                <p class="fsx-intro">Search any UFC fighter for their career DFS profile. <strong>Record</strong> is the fight-by-fight log — every bout with the full stat line, what the opponent did back, and a tap-through DraftKings scoring breakdown. <strong>Stats</strong> is the career profile: striking, grappling, defense, pacing and DK scoring rates, each ranked against the rest of the UFC.</p>
                 <div class="flu-search">
                     <input id="fluInput" type="text" placeholder="Search a fighter&hellip;" autocomplete="off">
                     <div id="fluSuggest" class="flu-suggest"></div>
                 </div>
                 <div id="fluSlate" class="flu-slate"></div>
                 <div id="fluLoading" class="sdb-loading">Loading fight database&hellip;</div>
+                <div id="fluHero"></div>
+                <div id="fluSubnav" class="view-tabs" style="display:none; justify-content: flex-start;">
+                    <button class="tab-btn active" data-fsub="record"><span>Record</span></button>
+                    <button class="tab-btn" data-fsub="stats"><span>Stats</span></button>
+                </div>
                 <div id="fluBody" style="display:none;"></div>
+                <div id="fluStats" style="display:none;"></div>
             </div>
         </div>
         <div id="fsxModal" class="fsx-modal" style="display:none;"></div>
@@ -7025,44 +7091,32 @@
             function renderFighter(name) {
                 fluCurrent = name;
                 const body = document.getElementById('fluBody');
-                body.style.display = '';
+                const heroEl = document.getElementById('fluHero');
+                const subEl = document.getElementById('fluSubnav');
                 const fights = fighterFights(name);
                 const n = fights.length;
-                if (!n) { body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`; return; }
+                if (!n) {
+                    heroEl.innerHTML = '';
+                    subEl.style.display = 'none';
+                    document.getElementById('fluStats').style.display = 'none';
+                    body.style.display = '';
+                    body.innerHTML = `<div class="flu-empty">No UFC fights on record for ${esc(name)}.</div>`;
+                    return;
+                }
                 const canonical = fights[n - 1].fighter;
                 const wins = fights.filter(r => r.result === 'W').length, losses = fights.filter(r => r.result === 'L').length;
                 const other = n - wins - losses;
                 const totSec = fights.reduce((s, r) => s + num(r.fight_time_seconds), 0);
                 const hrs = Math.floor(totSec / 3600), mm = Math.round((totSec % 3600) / 60);
                 const timeStr = hrs > 0 ? `${hrs}h ${mm}m` : `${mm}m`;
-                const dks = fights.map(r => dkPoints(r).total);
-                const games100 = dks.filter(v => v >= 100).length;
-                const finishes = fights.filter(r => r.result === 'W' && methodGroup(r.method) !== 'Decision' && methodGroup(r.method) !== 'Other').length;
-                const sumOf = k => fights.reduce((s, r) => s + num(r[k]), 0);
-                const sigMin = sumOf('sig_str_landed') / (totSec / 60);
-                const td15 = sumOf('td_landed') * 900 / totSec;
-                const tdL = sumOf('td_landed'), tdA = sumOf('td_attempted');
-                const ctrlPct = sumOf('ctrl_sec') / totSec * 100;
-                const kdTot = sumOf('kd');
                 const oppRows = fights.map(r => oppRowOf(r));
                 const haveOpp = oppRows.filter(Boolean).length;
 
                 let html = '';
-                html += `<div class="fsx-hero"><span class="nm">${esc(canonical)}</span>` +
+                heroEl.innerHTML = `<div class="fsx-hero"><span class="nm">${esc(canonical)}</span>` +
                         `<span class="rec">${wins}&ndash;${losses}${other ? '&ndash;' + other : ''} in UFC</span>` +
                         `<span class="wc">${esc(weightOf(fights[n - 1].weight_class))}</span>` +
                         `<span class="meta">${n} fight${n === 1 ? '' : 's'} &middot; ${timeStr} cage time &middot; avg ${(totSec / n / 60).toFixed(1)}m<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
-
-                html += `<div class="fsx-tiles">`;
-                html += `<div class="fsx-tile"><div class="lbl">Avg DK score</div><div class="big">${f1(mean(dks))}</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">100+ DK scores</div><div class="big">${games100}<small> of ${n}</small></div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Finish rate</div><div class="big">${wins ? Math.round(100 * finishes / wins) : 0}<small>%</small></div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Sig strikes / min</div><div class="big">${f1(sigMin)}</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Takedowns / 15 min</div><div class="big">${f1(td15)}</div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Takedown success</div><div class="big">${f0(tdL)}/${f0(tdA)}<small> (${tdA ? Math.round(100 * tdL / tdA) : 0}%)</small></div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Control</div><div class="big">${ctrlPct.toFixed(0)}<small>%</small></div></div>`;
-                html += `<div class="fsx-tile"><div class="lbl">Knockdowns</div><div class="big">${f1(kdTot / n)}<small> / fight</small></div></div>`;
-                html += `</div>`;
 
                 html += `<div class="fsx-secbar"><span class="t">Fight by fight &middot; newest first</span>` +
                         `<label class="fsx-toggle"><input type="checkbox" id="fsxOppTgl"${fluShowOpp ? ' checked' : ''}> Opponent stats</label></div>`;
@@ -7086,7 +7140,344 @@
                 html += `<div class="fsx-hint">Tap any fight for the full head-to-head breakdown.</div>`;
                 body.innerHTML = html;
                 fsxState = { name: canonical, fights, oppRows };
+                subEl.style.display = '';
+                fs2Built = false;          // stats panel rebuilds lazily on first view
+                showFighterSub(fluSub);
             }
+
+            // Record / Stats sub-tabs. The record log and the stats panel are
+            // fully independent renders over the same fsxState.
+            let fluSub = 'record', fs2Built = false;
+            function showFighterSub(which) {
+                fluSub = which;
+                document.querySelectorAll('#fluSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.fsub === which));
+                const body = document.getElementById('fluBody'), stats = document.getElementById('fluStats');
+                body.style.display = which === 'record' ? '' : 'none';
+                stats.style.display = which === 'stats' ? '' : 'none';
+                if (which === 'stats' && !fs2Built) { fs2Built = true; renderFighterStats(); }
+            }
+            // ==================== FIGHTER STATS PANEL (fs2) ====================
+            // Career rate stats derived from the fight database, each ranked
+            // against every UFC fighter with 3+ fights and 30+ minutes of cage
+            // time. Entirely config-driven: FS2_SECTIONS below defines what is
+            // shown, so deleting a row (or a whole section) removes that stat
+            // and nothing else has to change.
+
+            // fighter -> their fights, built once (fighterFights() rescans ROWS
+            // per call, which is fine for one fighter but not for 2,700).
+            let FS2_BYNAME = null;
+            function fs2ByName() {
+                if (FS2_BYNAME) return FS2_BYNAME;
+                const m = new Map();
+                for (const r of ROWS) {
+                    if (!r.fighter || !(num(r.fight_time_seconds) > 0)) continue;
+                    const k = normName(r.fighter);
+                    let a = m.get(k); if (!a) m.set(k, a = []);
+                    a.push(r);
+                }
+                return FS2_BYNAME = m;
+            }
+
+            // Every rate stat for one fighter. Returns plain numbers (null when
+            // the denominator is empty) plus a few array/object shapes used by
+            // the stacked-bar and pace visuals.
+            function fs2Profile(fights, oppRows) {
+                const n = fights.length;
+                const O = (oppRows || []).filter(Boolean);
+                const sec = fights.reduce((s, r) => s + num(r.fight_time_seconds), 0);
+                const mins = sec / 60;
+                const S = k => fights.reduce((s, r) => s + num(r[k]), 0);
+                const OS = k => O.reduce((s, r) => s + num(r[k]), 0);
+                const rate = (a, b) => (b > 0 ? a / b : null);
+                const pctOf = (a, b) => (b > 0 ? 100 * a / b : null);
+                const p = { _n: n, _sec: sec, _opp: O.length };
+
+                // --- defense & durability (opponent's own stat line) ---
+                p.str_def = O.length ? pctOf(OS('sig_str_attempted') - OS('sig_str_landed'), OS('sig_str_attempted')) : null;
+                p.absorbed_min = O.length ? rate(OS('sig_str_landed'), mins) : null;
+                p.str_diff_min = O.length ? rate(S('sig_str_landed') - OS('sig_str_landed'), mins) : null;
+                p.td_def = O.length ? pctOf(OS('td_attempted') - OS('td_landed'), OS('td_attempted')) : null;
+                p.td_absorbed_15 = O.length ? rate(OS('td_landed') * 900, sec) : null;
+                p.ctrl_conceded_15 = O.length ? rate(OS('ctrl_sec') * 900, sec * 60) : null;
+                p.ctrl_diff_15 = O.length ? rate((S('ctrl_sec') - OS('ctrl_sec')) * 900, sec * 60) : null;
+                p.kd_absorbed = O.length ? rate(OS('kd'), n) : null;
+                const subbed = fights.filter(r => r.result === 'L' && (r.method || '') === 'Submission').length;
+                p.sub_def = O.length ? pctOf(OS('sub_att') - subbed, OS('sub_att')) : null;
+                p.opp_dk = O.length ? O.reduce((s, r) => s + dkPoints(r).total, 0) / O.length : null;
+
+                // --- pacing (the per-round columns) ---
+                const paceS = [], paceC = [];
+                for (let rd = 1; rd <= 5; rd++) {
+                    const got = fights.filter(r => num(r[`r${rd}_sig_str_attempted`]) > 0 || num(r[`r${rd}_ctrl_sec`]) > 0);
+                    paceS.push(got.length ? got.reduce((s, r) => s + num(r[`r${rd}_sig_str_landed`]), 0) / got.length : null);
+                    paceC.push(got.length ? got.reduce((s, r) => s + num(r[`r${rd}_ctrl_sec`]), 0) / got.length / 60 : null);
+                }
+                p.pace = paceS; p.paceCtrl = paceC;
+                p.r1_sig = paceS[0];
+                const late = paceS.slice(2).filter(v => v != null);
+                p.fade_surge = (late.length && paceS[0]) ? (late.reduce((a, b) => a + b, 0) / late.length) / paceS[0] : null;
+                p.r1_kd_rate = pctOf(fights.filter(r => num(r.r1_kd) > 0).length, n);
+
+                // --- striking position ---
+                const d = S('ss_distance_landed'), c = S('ss_clinch_landed'), g = S('ss_ground_landed'), tp = d + c + g;
+                p.pos_mix = tp ? { Distance: 100 * d / tp, Clinch: 100 * c / tp, Ground: 100 * g / tp } : null;
+                p.dist_min = rate(d, mins); p.clinch_min = rate(c, mins);
+                const ctrl = S('ctrl_sec');
+                p.gnp_per_ctrl_min = ctrl >= 60 ? rate(g, ctrl / 60) : null;
+                const od = OS('ss_distance_landed'), oc = OS('ss_clinch_landed'), og = OS('ss_ground_landed'), ot = od + oc + og;
+                p.pos_absorbed = ot ? { Distance: 100 * od / ot, Clinch: 100 * oc / ot, Ground: 100 * og / ot } : null;
+
+                // --- target & accuracy ---
+                const sa = S('sig_str_attempted');
+                p.sig_min = rate(S('sig_str_landed'), mins);
+                p.vol_min = rate(sa, mins);
+                p.sig_acc = pctOf(S('sig_str_landed'), sa);
+                p.head_acc = pctOf(S('ss_head_landed'), S('ss_head_attempted'));
+                p.body_acc = pctOf(S('ss_body_landed'), S('ss_body_attempted'));
+                p.leg_acc = pctOf(S('ss_leg_landed'), S('ss_leg_attempted'));
+                p.head_hunt = pctOf(S('ss_head_attempted'), sa);
+                p.body_min = rate(S('ss_body_landed'), mins);
+                p.leg_min = rate(S('ss_leg_landed'), mins);
+                const hl = S('ss_head_landed'), bl = S('ss_body_landed'), ll = S('ss_leg_landed'), tl = hl + bl + ll;
+                p.target_mix = tl ? { Head: 100 * hl / tl, Body: 100 * bl / tl, Legs: 100 * ll / tl } : null;
+
+                // --- grappling ---
+                const tdL = S('td_landed');
+                p.td15 = rate(tdL * 900, sec);
+                p.td_att_15 = rate(S('td_attempted') * 900, sec);
+                p.td_succ = pctOf(tdL, S('td_attempted'));
+                p.ctrl_pct = pctOf(ctrl, sec);
+                p.ctrl_per_td = tdL > 0 ? ctrl / tdL : null;
+                p.sub_att_15 = rate(S('sub_att') * 900, sec);
+                p.sub_per_ctrl_min = ctrl >= 60 ? rate(S('sub_att'), ctrl / 60) : null;
+                p.rev_15 = rate(S('rev') * 900, sec);
+                p.kd_per_fight = rate(S('kd'), n);
+
+                // --- DFS scoring profile ---
+                const pts = fights.map(r => dkPoints(r));
+                const tots = pts.map(x => x.total);
+                const volPts = pts.reduce((s, x) => s + x.str + x.kd + x.td + x.rev + x.ctrl, 0);
+                p.avg_dk = tots.reduce((a, b) => a + b, 0) / n;
+                p.dk_min_vol = rate(volPts, mins);
+                const sorted = tots.slice().sort((a, b) => a - b);
+                const q = f => sorted[Math.max(0, Math.min(sorted.length - 1, Math.round(f * (sorted.length - 1))))];
+                p.dk_floor = q(0.2); p.dk_ceil = q(0.8);
+                p.bust_rate = pctOf(tots.filter(v => v < 20).length, n);
+                p.hundred_rate = pctOf(tots.filter(v => v >= 100).length, n);
+                const wins = fights.filter(r => r.result === 'W').length;
+                const fin = fights.filter(r => r.result === 'W' && methodGroup(r.method) !== 'Decision' && methodGroup(r.method) !== 'Other').length;
+                p.finish_rate = pctOf(fin, wins);
+                const pick = f => tots.filter((_, i) => f(fights[i]));
+                const avg = a => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
+                p.dk_win = avg(pick(r => r.result === 'W'));
+                p.dk_loss = avg(pick(r => r.result === 'L'));
+                p.dk_decwin = avg(pick(r => r.result === 'W' && (r.method || '').startsWith('Decision')));
+                p.dk_finwin = avg(pick(r => r.result === 'W' && !(r.method || '').startsWith('Decision')));
+                p.dk_dist = avg(pick(r => (r.method || '').startsWith('Decision')));
+                p.dk_early = avg(pick(r => !(r.method || '').startsWith('Decision')));
+                const src = {
+                    Strikes: pts.reduce((s, x) => s + x.str, 0), Control: pts.reduce((s, x) => s + x.ctrl, 0),
+                    Takedowns: pts.reduce((s, x) => s + x.td, 0), Knockdowns: pts.reduce((s, x) => s + x.kd, 0),
+                    'Win bonus': pts.reduce((s, x) => s + x.win + x.quick, 0),
+                };
+                const st = Object.values(src).reduce((a, b) => a + b, 0);
+                p.src_mix = st > 0 ? Object.fromEntries(Object.entries(src).map(([k, v]) => [k, 100 * v / st])) : null;
+                return p;
+            }
+
+            // League distribution for percentile ranking. Qualified = 3+ fights
+            // and 30+ minutes, so a one-fight sample can't distort the scale.
+            let FS2_LEAGUE = null;
+            function fs2League() {
+                if (FS2_LEAGUE) return FS2_LEAGUE;
+                const cols = {};
+                for (const fights of fs2ByName().values()) {
+                    if (fights.length < 3) continue;
+                    if (fights.reduce((s, r) => s + num(r.fight_time_seconds), 0) < 1800) continue;
+                    const p = fs2Profile(fights, fights.map(r => oppRowOf(r)));
+                    for (const k in p) {
+                        if (k.charAt(0) === '_') continue;
+                        const v = p[k];
+                        if (typeof v !== 'number' || !isFinite(v)) continue;
+                        (cols[k] || (cols[k] = [])).push(v);
+                    }
+                }
+                for (const k in cols) cols[k].sort((a, b) => a - b);
+                return FS2_LEAGUE = cols;
+            }
+            // Percentile is always "better than X% of the league": for stats
+            // where lower is better (strikes absorbed, bust rate) it's flipped,
+            // so a long bar always reads as good.
+            function fs2Pct(key, v, dir) {
+                const arr = fs2League()[key];
+                if (!arr || arr.length < 20 || typeof v !== 'number' || !isFinite(v)) return null;
+                let lo = 0, hi = arr.length;
+                while (lo < hi) { const mid = (lo + hi) >> 1; if (arr[mid] < v) lo = mid + 1; else hi = mid; }
+                const pct = 100 * lo / arr.length;
+                return dir < 0 ? 100 - pct : pct;
+            }
+            function fs2Median(key) {
+                const arr = fs2League()[key];
+                return arr && arr.length ? arr[arr.length >> 1] : null;
+            }
+
+            // ---- display config: this drives the whole panel ----
+            const FS2_RAMP = [
+                { bg: '#ffb066', ink: '#180a02' }, { bg: '#ff8a2b', ink: '#180a02' },
+                { bg: '#ef6a12', ink: '#180a02' }, { bg: '#bf450a', ink: '#ffffff' },
+                { bg: '#8a3007', ink: '#ffffff' },
+            ];
+            // fmt: decimals, or a function. unit appended. dir: 1 higher-better,
+            // -1 lower-better, 0 descriptive (no percentile bar).
+            const FS2_SECTIONS = [
+                { title: 'Striking — offense', open: true, rows: [
+                    { k: 'sig_min', label: 'Sig strikes landed / min', fmt: 2, dir: 1 },
+                    { k: 'vol_min', label: 'Sig strikes thrown / min', sub: 'Workrate, independent of whether they land', fmt: 2, dir: 1 },
+                    { k: 'sig_acc', label: 'Sig strike accuracy', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'dist_min', label: 'Distance strikes / min', fmt: 2, dir: 1 },
+                    { k: 'clinch_min', label: 'Clinch strikes / min', fmt: 2, dir: 0 },
+                    { k: 'body_min', label: 'Body strikes / min', fmt: 2, dir: 1 },
+                    { k: 'leg_min', label: 'Leg kicks / min', fmt: 2, dir: 1 },
+                    { k: 'head_acc', label: 'Head accuracy', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'body_acc', label: 'Body accuracy', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'leg_acc', label: 'Leg accuracy', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'head_hunt', label: 'Head-hunting index', sub: 'Share of all strikes thrown that were aimed at the head', fmt: 0, unit: '%', dir: 0 },
+                    { type: 'stack', k: 'target_mix', label: 'Where the strikes go' },
+                    { type: 'stack', k: 'pos_mix', label: 'Position the strikes land from' },
+                ] },
+                { title: 'Striking — defense & durability', rows: [
+                    { k: 'str_def', label: 'Striking defense', sub: 'Share of opponent strikes that miss', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'absorbed_min', label: 'Sig strikes absorbed / min', fmt: 2, dir: -1 },
+                    { k: 'str_diff_min', label: 'Strike differential / min', sub: 'Landed minus absorbed', fmt: 2, dir: 1, sign: true },
+                    { k: 'kd_absorbed', label: 'Knockdowns absorbed / fight', fmt: 2, dir: -1 },
+                    { type: 'stack', k: 'pos_absorbed', label: 'Where they get hit from' },
+                ] },
+                { title: 'Grappling — offense', rows: [
+                    { k: 'td15', label: 'Takedowns landed / 15 min', fmt: 2, dir: 1 },
+                    { k: 'td_att_15', label: 'Takedowns attempted / 15 min', fmt: 2, dir: 1 },
+                    { k: 'td_succ', label: 'Takedown accuracy', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'ctrl_pct', label: 'Control time share', sub: 'Percent of cage time in control position', fmt: 1, unit: '%', dir: 1 },
+                    // descriptive, not good/bad: a high-volume takedown artist
+                    // banks less control per takedown than someone who takes a
+                    // fight down once and rides out the round
+                    { k: 'ctrl_per_td', label: 'Control held per takedown', sub: 'Control time earned by each takedown landed', fmt: v => fmtCtrl(v), dir: 0 },
+                    { k: 'gnp_per_ctrl_min', label: 'Ground strikes / control min', sub: 'How well control converts into damage', fmt: 1, dir: 1 },
+                    { k: 'sub_att_15', label: 'Submission attempts / 15 min', fmt: 2, dir: 1 },
+                    { k: 'sub_per_ctrl_min', label: 'Sub attempts / control min', sub: 'Threat density once the fight hits the mat', fmt: 2, dir: 1 },
+                    { k: 'rev_15', label: 'Reversals / 15 min', fmt: 2, dir: 1 },
+                ] },
+                { title: 'Grappling — defense', rows: [
+                    { k: 'td_def', label: 'Takedown defense', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'sub_def', label: 'Submission defense', sub: 'Share of submission attempts faced that were survived', fmt: 1, unit: '%', dir: 1 },
+                    { k: 'td_absorbed_15', label: 'Takedowns conceded / 15 min', fmt: 2, dir: -1 },
+                    { k: 'ctrl_conceded_15', label: 'Control conceded / 15 min', fmt: 1, unit: ' min', dir: -1 },
+                    { k: 'ctrl_diff_15', label: 'Control differential / 15 min', fmt: 1, unit: ' min', dir: 1, sign: true },
+                ] },
+                { title: 'Pacing & rounds', rows: [
+                    { type: 'pace', k: 'pace', label: 'Sig strikes landed by round' },
+                    { k: 'fade_surge', label: 'Fade / surge index', sub: 'Late-round output vs round 1 — above 1.00 means they grow into fights', fmt: 2, dir: 1 },
+                    { k: 'r1_sig', label: 'Round 1 output', sub: 'Average sig strikes landed in the opening round', fmt: 1, dir: 1 },
+                    { k: 'r1_kd_rate', label: 'Round 1 knockdown rate', sub: 'Share of fights with a knockdown in round 1', fmt: 0, unit: '%', dir: 1 },
+                    { type: 'pace', k: 'paceCtrl', label: 'Control minutes by round', dec: 1 },
+                ] },
+                { title: 'DFS scoring profile', open: true, rows: [
+                    { k: 'avg_dk', label: 'Average DK score', fmt: 1, dir: 1 },
+                    { k: 'dk_min_vol', label: 'DK points / min', sub: 'Volume scoring only — win and finish bonuses excluded', fmt: 2, dir: 1 },
+                    { k: 'dk_floor', label: 'Floor (20th percentile)', fmt: 1, dir: 1 },
+                    { k: 'dk_ceil', label: 'Ceiling (80th percentile)', fmt: 1, dir: 1 },
+                    { k: 'bust_rate', label: 'Bust rate', sub: 'Share of fights scoring under 20 DK', fmt: 0, unit: '%', dir: -1 },
+                    { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1 },
+                    { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', dir: 1 },
+                    { k: 'opp_dk', label: 'Opponent DK allowed', sub: 'What the fighters across from them average — low means their opponent is a bad play', fmt: 1, dir: -1 },
+                    { k: 'dk_win', label: 'DK in wins', fmt: 1, dir: 1 },
+                    { k: 'dk_loss', label: 'DK in losses', fmt: 1, dir: 1 },
+                    { k: 'dk_finwin', label: 'DK in finish wins', fmt: 1, dir: 0 },
+                    { k: 'dk_decwin', label: 'DK in decision wins', fmt: 1, dir: 0 },
+                    { k: 'dk_early', label: 'DK when the fight ends early', fmt: 1, dir: 0 },
+                    { k: 'dk_dist', label: 'DK when it goes the distance', fmt: 1, dir: 0 },
+                    { type: 'stack', k: 'src_mix', label: 'Where their DK points come from' },
+                ] },
+            ];
+            const FS2_KEY = [
+                { k: 'avg_dk', label: 'Avg DK', fmt: 1 },
+                { k: 'dk_min_vol', label: 'DK / min', fmt: 2, sub: 'volume only' },
+                { k: 'opp_dk', label: 'Opp DK allowed', fmt: 1, dir: -1 },
+                { k: 'str_diff_min', label: 'Strike diff / min', fmt: 2, sign: true },
+                { k: 'td_def', label: 'TD defense', fmt: 0, unit: '%' },
+                { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%' },
+            ];
+
+            function fs2Fmt(row, v) {
+                if (v == null || !isFinite(v)) return '&mdash;';
+                if (typeof row.fmt === 'function') return row.fmt(v);
+                const s = v.toFixed(row.fmt == null ? 1 : row.fmt);
+                return (row.sign && v > 0 ? '+' : '') + s + (row.unit || '');
+            }
+            function fs2StackHTML(mix) {
+                if (!mix) return '<div class="fs2-stack"></div>';
+                const ent = Object.entries(mix);
+                const segs = ent.map(([k, v], i) => {
+                    const c = FS2_RAMP[i % FS2_RAMP.length];
+                    return `<span style="width:${v.toFixed(2)}%;background:${c.bg};color:${c.ink}">${Math.round(v) >= 10 ? Math.round(v) + '%' : ''}</span>`;
+                }).join('');
+                const leg = ent.map(([k, v], i) =>
+                    `<span><i style="background:${FS2_RAMP[i % FS2_RAMP.length].bg}"></i>${esc(k)} ${Math.round(v)}%</span>`).join('');
+                return `<div class="fs2-stack">${segs}</div><div class="fs2-slegend">${leg}</div>`;
+            }
+            function fs2PaceHTML(arr, dec) {
+                const vals = (arr || []).map(v => (v == null || !isFinite(v)) ? null : v);
+                const mx = Math.max(...vals.filter(v => v != null), 0.0001);
+                const cols = vals.map((v, i) => {
+                    if (v == null) return `<div><div class="n">&mdash;</div><div class="b" style="height:2px;opacity:.25"></div><div class="r">R${i + 1}</div></div>`;
+                    return `<div><div class="n">${v.toFixed(dec == null ? 0 : dec)}</div>` +
+                        `<div class="b" style="height:${Math.max(3, 100 * v / mx * 0.7).toFixed(1)}%"></div><div class="r">R${i + 1}</div></div>`;
+                }).join('');
+                return `<div class="fs2-pace">${cols}</div>`;
+            }
+            function fs2RowHTML(row, p, ranked) {
+                if (row.type === 'stack') {
+                    return `<div class="fs2-row wide"><span class="lbl">${row.label}</span>${fs2StackHTML(p[row.k])}</div>`;
+                }
+                if (row.type === 'pace') {
+                    return `<div class="fs2-row wide"><span class="lbl">${row.label}</span>${fs2PaceHTML(p[row.k], row.dec)}</div>`;
+                }
+                const v = p[row.k];
+                const lbl = `<span class="lbl">${row.label}${row.sub ? `<small>${row.sub}</small>` : ''}</span>`;
+                const val = `<span class="val">${fs2Fmt(row, v)}</span>`;
+                if (!ranked || !row.dir || v == null || !isFinite(v)) return `<div class="fs2-row">${lbl}${val}<span></span><span></span></div>`;
+                const pc = fs2Pct(row.k, v, row.dir);
+                if (pc == null) return `<div class="fs2-row">${lbl}${val}<span></span><span></span></div>`;
+                const cls = pc >= 70 ? ' hi' : pc <= 30 ? ' lo' : '';
+                const ord = ['th', 'st', 'nd', 'rd'], r = Math.round(pc);
+                const suf = ord[(r % 100 - r % 10 !== 10) ? (r % 10 < 4 ? r % 10 : 0) : 0] || 'th';
+                return `<div class="fs2-row">${lbl}${val}` +
+                    `<span class="fs2-bar" title="${r}${suf} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
+                    `<span class="pct">${r}${suf}</span></div>`;
+            }
+            function renderFighterStats() {
+                const el = document.getElementById('fluStats');
+                if (!fsxState) { el.innerHTML = ''; return; }
+                const p = fs2Profile(fsxState.fights, fsxState.oppRows);
+                const qualified = p._n >= 3 && p._sec >= 1800;
+                let h = `<div class="fs2-note">Career rates across ${p._n} UFC fight${p._n === 1 ? '' : 's'}` +
+                    (qualified
+                        ? `, ranked against every fighter with 3+ fights and 30+ minutes of cage time. A longer bar is always better.`
+                        : `. Percentile ranks are hidden — this sample is under the 3-fight / 30-minute threshold.`) + `</div>`;
+                h += `<div class="fs2-key">` + FS2_KEY.map(t => {
+                    const v = p[t.k];
+                    return `<div class="fs2-ktile"><div class="l">${t.label}</div>` +
+                        `<div class="v">${fs2Fmt(t, v)}</div>` +
+                        `<div class="s">${t.sub || (qualified && t.k in (fs2League() || {}) ? 'league med ' + fs2Fmt(t, fs2Median(t.k)) : '&nbsp;')}</div></div>`;
+                }).join('') + `</div>`;
+                for (const sec of FS2_SECTIONS) {
+                    const rows = sec.rows.filter(r => r.type || (p[r.k] != null && isFinite(p[r.k])));
+                    if (!rows.length) continue;
+                    h += `<details class="fs2-sec"${sec.open ? ' open' : ''}><summary>${sec.title}<span class="cnt">${rows.length}</span></summary>` +
+                        `<div class="fs2-rows">${rows.map(r => fs2RowHTML(r, p, qualified)).join('')}</div></details>`;
+                }
+                el.innerHTML = h;
+            }
+
             // ---- per-fight head-to-head modal ----
             function fightMetrics(r) {
                 const p = dkPoints(r);
@@ -7186,6 +7577,10 @@
                 }).catch(() => { /* slate not posted yet — tiles simply don't render */ });
             }
             function wireLookup() {
+                document.getElementById('fluSubnav').addEventListener('click', e => {
+                    const b = e.target.closest('button[data-fsub]'); if (!b) return;
+                    showFighterSub(b.dataset.fsub);
+                });
                 const slate = document.getElementById('fluSlate');
                 slate.addEventListener('click', e => {
                     const btn = e.target.closest('button[data-nm]'); if (!btn) return;

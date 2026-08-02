@@ -7736,6 +7736,13 @@
                     `<span class="mid">${label}</span>` +
                     `<span class="r"><span class="v">${bTxt}</span><span class="k">${bSub}</span></span></div>`;
             }
+            // "· 4 UFC fights · 49m octagon time", or a note when there's no history
+            function fmxMeta(p) {
+                if (!p) return ' &middot; no UFC data';
+                const hrs = Math.floor(p._sec / 3600), mm = Math.round((p._sec % 3600) / 60);
+                const t = hrs > 0 ? `${hrs}h ${mm}m` : `${mm}m`;
+                return ` &middot; ${p._n} UFC fight${p._n === 1 ? '' : 's'} &middot; ${t} octagon time`;
+            }
             let fmxState = null, fmxMode = 'target';
             function fmxNum(v, d, unit) { return (v == null || !isFinite(v)) ? '&mdash;' : v.toFixed(d) + (unit || ''); }
             function openMatchupModal(i) {
@@ -7753,8 +7760,8 @@
                 h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
                 h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(a.name)}</span><span class="vs">vs</span><span class="op">${esc(z.name)}</span></div>` +
                     `<div class="fxm-sub" style="display:flex;justify-content:space-between">` +
-                    `<span>$${a.salary.toLocaleString()}${pa ? ' &middot; ' + pa._n + ' UFC fights' : ' &middot; no UFC data'}</span>` +
-                    `<span>$${z.salary.toLocaleString()}${pz ? ' &middot; ' + pz._n + ' UFC fights' : ' &middot; no UFC data'}</span></div></div>`;
+                    `<span>$${a.salary.toLocaleString()}${fmxMeta(pa)}</span>` +
+                    `<span>$${z.salary.toLocaleString()}${fmxMeta(pz)}</span></div></div>`;
 
                 h += `<div class="fmx-toggle">` +
                     `<button type="button" data-mode="target" class="${fmxMode === 'target' ? 'sel' : ''}">Where they strike</button>` +

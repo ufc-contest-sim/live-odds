@@ -57,6 +57,14 @@
       "entrants": 47562
     },
     {
+      "id": "250_double_up",
+      "name": "250 Double Up",
+      "file": "250_Double_Up.json",
+      "entryFee": 250.0,
+      "totalPrizes": 2500,
+      "entrants": 11
+    },
+    {
       "id": "25k_triangle",
       "name": "25K Triangle",
       "file": "25K_Triangle.json",

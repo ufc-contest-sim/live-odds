@@ -7030,7 +7030,9 @@
             // Search-first career sheet: every fight as a full DK stat line, the
             // opponent's line in that same fight underneath (toggleable), and
             // AVG / OPP AVG career rows pinned to the bottom of the log.
-            let fluNames = null, fluWired = false, fluCurrent = null, fluShowOpp = true, fsxState = null;
+            // opponent lines start hidden — the log reads as one fighter's
+            // career until you ask for the other side
+            let fluNames = null, fluWired = false, fluCurrent = null, fluShowOpp = false, fsxState = null;
             const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
             // Normalize a fighter name for matching: lowercase, fold accents (DK
             // salary files use plain ASCII, the stats DB keeps "José"), and drop a
@@ -7330,7 +7332,7 @@
             // fmt: decimals, or a function. unit appended. dir: 1 higher-better,
             // -1 lower-better, 0 descriptive (no percentile bar).
             const FS2_SECTIONS = [
-                { title: 'Striking — offense', open: true, rows: [
+                { title: 'Striking — offense', rows: [
                     { k: 'sig_min', label: 'Sig strikes landed / min', fmt: 2, dir: 1 },
                     { k: 'vol_min', label: 'Sig strikes thrown / min', sub: 'Workrate, independent of whether they land', fmt: 2, dir: 1 },
                     { k: 'sig_acc', label: 'Sig strike accuracy', fmt: 1, unit: '%', dir: 1 },
@@ -7380,7 +7382,7 @@
                     { k: 'r1_kd_rate', label: 'Round 1 knockdown rate', sub: 'Share of fights with a knockdown in round 1', fmt: 0, unit: '%', dir: 1 },
                     { type: 'pace', k: 'paceCtrl', label: 'Control minutes by round', dec: 1 },
                 ] },
-                { title: 'DFS scoring profile', open: true, rows: [
+                { title: 'DFS scoring profile', rows: [
                     { k: 'avg_dk', label: 'Average DK score', fmt: 1, dir: 1 },
                     { k: 'dk_min_vol', label: 'DK points / min', sub: 'Volume scoring only — win and finish bonuses excluded', fmt: 2, dir: 1 },
                     { k: 'dk_floor', label: 'Floor (20th percentile)', fmt: 1, dir: 1 },

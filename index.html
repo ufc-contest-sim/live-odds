@@ -7225,7 +7225,6 @@
                 p.r1_sig = paceS[0];
                 const late = paceS.slice(2).filter(v => v != null);
                 p.fade_surge = (late.length && paceS[0]) ? (late.reduce((a, b) => a + b, 0) / late.length) / paceS[0] : null;
-                p.r1_kd_rate = pctOf(fights.filter(r => num(r.r1_kd) > 0).length, n);
 
                 // --- striking position ---
                 const d = S('ss_distance_landed'), c = S('ss_clinch_landed'), g = S('ss_ground_landed'), tp = d + c + g;
@@ -7388,7 +7387,6 @@
                     { type: 'pace', k: 'pace', label: 'Sig strikes landed by round' },
                     { k: 'fade_surge', label: 'Fade / surge index', sub: 'Late-round output vs round 1 — above 1.00 means they grow into fights', fmt: 2, dir: 1 },
                     { k: 'r1_sig', label: 'Round 1 output', sub: 'Average sig strikes landed in the opening round', fmt: 1, dir: 1 },
-                    { k: 'r1_kd_rate', label: 'Round 1 knockdown rate', sub: 'Share of fights with a knockdown in round 1', fmt: 0, unit: '%', dir: 1 },
                     { type: 'pace', k: 'paceCtrl', label: 'Control minutes by round', dec: 1 },
                 ] },
                 { title: 'DFS scoring profile', rows: [
@@ -7399,7 +7397,7 @@
                     { k: 'bust_rate', label: 'Bust rate', sub: 'Share of fights scoring under 20 DK', fmt: 0, unit: '%', dir: -1 },
                     { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1 },
                     { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', dir: 1 },
-                    { k: 'opp_dk', label: 'Opponent DK allowed / min', sub: 'Volume scoring the fighters across from them earn per minute, win bonuses excluded — low means their opponent is a bad play', fmt: 2, dir: -1 },
+                    { k: 'opp_dk', label: 'Opponent DK allowed / min', sub: 'Volume scoring the fighters across from them earn per minute, win bonuses excluded', fmt: 2, dir: -1 },
                     { k: 'dk_win', label: 'DK in wins', fmt: 1, dir: 1 },
                     { k: 'dk_loss', label: 'DK in losses', fmt: 1, dir: 1 },
                     { k: 'dk_finwin', label: 'DK in finish wins', fmt: 1, dir: 0 },

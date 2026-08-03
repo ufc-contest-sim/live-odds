@@ -2690,6 +2690,10 @@
         .fs2-ktile .v { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.5rem; line-height: 1.15; }
         .fs2-ktile .v .raw { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 400; font-size: 0.66rem; color: var(--text-secondary); margin-left: 5px; }
         .fs2-ktile .s { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; color: var(--text-secondary); }
+        .fs2-kbar { height: 5px; border-radius: 3px; background: rgba(140, 140, 150, 0.22); overflow: hidden; margin-top: 8px; }
+        .fs2-kbar i { display: block; height: 100%; border-radius: 3px; background: var(--accent); }
+        .fs2-kbar i.hi { background: #2fe08a; }
+        .fs2-kbar i.lo { background: #ff5d6e; }
         .fs2-sec { border: 1px solid var(--glass-border); border-radius: 10px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.015); overflow: hidden; }
         .fs2-sec > summary {
             cursor: pointer; padding: 11px 14px; list-style: none;
@@ -2742,6 +2746,7 @@
         }
 
         /* ---------- Weekly Matchups (fmx-*) ---------- */
+        :root { --fmx-mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAOfCAQAAABBTe+5AAANSElEQVR42u3dwXYbObJAQQKH///L6FUf27IsQSQKhcyMu3iLeTNumRVMJGhZ3cZDj8fj8fj/hWheir9rmDz+9RIAg8lj/jeOS0Emr/yGGyaIwPJtvRCRcSsy0yT5FDFTCkyTsXgKDEzMkTvgOXSSASl7+ORksus3VYZKT0hkpOOISfAHNzCBxEKbkMko+E/GJNR7emBijpSvewlUg8nwVWDiwMHEdRwTjwYTVULbPRZQTBOVZ2IvwQReTISJMDHcSx47pokwMU8wObeGiRw6xrpME4iLMfETjDARJsJEmAgTuetgIkyEiTARJpVrmLhJmCberXLoCBNhYnfCxE0HE2EiTCRMhIkKMxk+psfkeyS//q829gyHBBTTJEn+qrkcOjGOnFhfb8NEOUg7dISJyYKJMHE5xkSmiTCRMBEmwkSYCJNV+VvDmAgTYeLYqXBUmiZKx8Qai4kwqTlPGiYyTbxDzZLo06T5KjFx48GkTH722iGPoUGyr2f4d6yfTmCafNs4lm+uMzT8m3EAYpoIE2EiTFRpM8FEmAgTYSJMLLCYCBOVnCWYCBNh4sjBRJhkeyc3TCRMhIkjBxNh8pP8BQxMhIkwESY2k1L3HNNEmAgTl2FMhIlZgkkpJA0TKTwTBw4mkGACCSaQ5OyJiHtOrmlijmACiUMHEdMEEkwg0fGHzslESv07fTokijtNEDFNIInWef+ilEhEfL8JJKbemUxGwJd9YOIFB+UoJiP0iz0w8TLnZx6ASZ4XeGDipS0O5b7PTbK+qCk/S+mQ+J2dyiT3wpdwoe1eRG+E83aTan+o1zBBpAyXfUx8c0BgLHuYIBKcytVMAEkBpV9KBJIkb52rpgkgqWbKeiaAJKSylgkiSal0SGwq+6YJIqlnygomiKSn0iFx/FzPBJISUDokoFzJxGeshaD0XOpBOXWFVQEoPYt3UE5jAkm5OiTmyXomkJgmMk9WMDFLTBNIzBOHjrYwMUswkVYwMUswkSUWE21i4sjBRFrBxCzBxEsgTLSJiSNHpsnxDUxkmqgOE5uJTBNhIkyEiTARJsJEmHyWT01kmggTYSJMhIkwESbC5LN8aiLTRCuYmCUyTYSJNjFx5Mg0ESbaxMSRI9NEmGgTE0eOTJNgNUwUdpo4cmSaCBNhIkx08D3nbyYWWJkmwkSYCBMdvcB+ZGKBlWkiTISJMBEmwkSYSJ8x8amJTBNhIkyEiTARJsJEwiRGAxOZJsJEmEiYCBNhIkyEiV5vYCLTRJgIE+krJs3LIdNEmLgSYyJMhIkwESYSJsJEmJRrYCLTRJgIE9lOMBEmwkSYCBNhotx3HUyEiTARJjppO8FEmAgTYSJMFGyJxUSYCBNhIkwUbInFRJhoPZPh5ZBpIkwssZiozDTxw4kxASX3sePQAQUTxWLSHDs5mPhwzbFz8zQxRRw6wOSfJx0NuemYJ0GYmCWmCTY15kmHQvNMfGqi26aJWZLk2LnjpgOPaYJDxnnSIdGZh46CMtl9zzFpgh07HQQ5dMwTTBR7mrQF/w0dNE/6wwf1cugIE206du5jYjsxTYSJyh07mGiKyX3XYduJQ0eZjh1MhIlOZjI7/mwnpokyMfGOlmniroOJikwTRx4mwkSYSGcxsZ1gohxX4h7ry5VpIkyEiSUWE6l7N8s0ESb6pIGJ0k0TH7Bh4kqMiYSJMBEmuuvy0K2QMk2EiTARJsLkiN1cpok2v+0w0Q+Y+OTkvlocJjYTHc0EkgDzpEOi05lActU8GXmYQBJwmjRI7CenTRNI7CZ6aYo0TMyS0K9xh+Sgx3nsPHHoJHvfX8+keVHcd0wTYWKeXDm3dzNx5CSYJr7rxH5ywDQxS4LObruJeYKJ4jFx5OyfJ+MaJpZYOXTsJ6czceQEvu2YJuYJJrqKiSX2nIOhXfqrmyZy6JgnmOjE204//cZe/lZzxNMwTcwTTJJPGtNEFW86PqoPPU+e//iyPNas28lL5Bw6MVbMm7/fHhNhYj9ZM0/6uZcwmSYKdd/BxMKMiXlimugAJpbYzPNkrGKiw/cFh44O208wMb0mel78hbTzB6qj6b1p0uL+tiBx6AgTbVtfByYKNk1sJ5ioxkrcv/glxu4vRpu3k7eniUerb5lAcvQRcAYTSFyKrbBy0xEmuuu24+ebyDTRmsmEiWMHE7kQaxsUTBw7E396h4kmZko/5Wauk9dY00QT8wQT88Q0yXk93R8mmkDqh2o5dkwTUNbME0xAmYCCCSgfoQxMQHmJih+qBcrE8WOaaAIKJpqAgokmwkQT8wQTTUDBRA4dV2JMtO3Y6Xf5lENHpZiYJzJNNLudYKK3p4kfr3XDrcKho4TTxCyJVbuDCSRy6GgFE7PEsfNbT0T0yjSBxDyxm4CygolZAoppohVMzBLzxDQRJsJE9x5imMg0ESbCRCddrzGRaVK0gYn2ImmYaAoJJmaJQweSNbMEE00gwUQTSDDRBJKPTPygCpvJpw6eXls4vkPi0IHEhRiSNbMEE0gmkGCiqSvM86//or+EgYdpUuvxTv0aE7+KCzFkL910fMQmh45eGQeY1LwQ//DM6BctRkq1+pomOR73V/eVP/9/7ZUx4KaTfS60FSdFv+w+rr37xvjySbb3nqtpUmXOvPXW76uWHB21pyx+fqZJ4fvLipuOeaKpCzEommAiTTExTzQ1TUDR1KEDil7cTRo8xe7ab3zrq++aveiZ5LrpmClFkLz/KWz7bao0k8ah40gqPE16rd+uTmNid8HETMEEFG1nIkyEiYSJMFEwJj6NxUSYmCUyTYSJMFEuJjYTTISJtImJIwcTYSJtYuLIwUSYSJgIE4ViYoHFRJhImAgThWJigcVEmEiYCBNhomxM3HMwESYSJsJEmAgTYSJMhMmL+XANE2EiYRKiholME2EiTCRMhIkwESbCRJgIEwkTYSJMhIkw0XQNE5kmwkSY1DlfZZoIE2EiTISJMJEw0c1M/OAKTISJhIkwESZFOvgPTZ+eDiKYIIIJIJjggQkcmCgJDkzg+FGrPzfxB38Jkfh4TZjoVCb+lg4mwmTdPDFR0nXNhbi59SS7um17lnXQJJymdhMdxcTGgokwUfmpiYkwESbCxGaCiTARJsJENhNMhIlZkoOJ7z7BRJio+JGDiTAxSzARJmYJJsLELMHk9Xy4holZgomEiVlyDhObCSbCRI4cTISJWRKKiQUWE7MEE2kTE0cOJsJEwkTnMLGZYCJMJEx0DhObCSaH5YedYzKFBBRMJiaJIy4kE48NE1sJJlIyJs0RF5lJ7sfWMJGSMbG+YuKIy87EY8NEmEjJmFhgQzOxmWDinlNvitlNhIkwUWgmuzYF9xzTRJjErmEibWHiozVMhImUjkkr9s/FRNWYDO9wTISJzC1MhIkwESbCJNtq2TCRNjHxp8OYCBPbiUwTEDERJsJEmNhMMBEmEibCRJhYYDERJsJEmMifPmMiTISJMLGZYCJMhIkwkTCxwGIiTJSLiQGNic0EEwkTYSJMbt0ZbCamiTDR0UyMaUyEiUxGTISJMBEmNpOiTJpHiIkwkTARJrYfTGby7/LBxDsdExBLMvEiYyJMpCRMHGmYgIiJMBEmwiTU6X793mAzSTxN/IkOJsJEmNhMMBEm0vVMDG9MhEnEBXZc/k/ARMJEmAgTe0MBJh4rJkflT4cxESbCxKaDiTApusCaWKaJTmXi3YmJBRaTmvmYLi0TjxYTYSJMhIl7DiahHrAF1jQRJq7XmAgT731MHDtegphMGiiYCJNLZ8EI+CtjYkPBBBRMBAom70BBJTiTkeyfU55Ju/F/DYpDBxRMQMEk4GMrvs6aJmYKJqDEYdJSQRmYCJU0TIavARMzBRMrLSZmCiaqTOXpKS88ftL+bec906SVwTIwsTaWpeLQcQRhAgsmEQ/Jhonm0QTjEm+FbUm4DEyUjEo//qVEBZPCx04oKj3ko833qe7AxEQJDyXuCtscPvuK/blJS7fkHvrJbfyP19pLI7sdPfzHaVTa2Ps+2bWFjCW/zjjgDYBJoBdr1IZyPpOzxu+oCcWH9WffrwYmqIQJk/gHISYnDd7KUHrpRw3KZL577V0oowLEXRfikfqdO/ICMU1WP9SRFckuJqMQlvdei0On5p5DZ2R8hy1+RY7+/Tl03JIOuhArdDuY+GHemAS+dMqhI0yUjonDAhNhYomVaSJMhIkwESbCRJgIkytb+Z0VPjkxTYSJeYLJxmNHpokwcexg4tjBRJgE/JodO5gIE/MEE2EiTBw7Mk1UmIl5gokwESaOHUyEiXmie5l4nJgIE8eOTBNVYWKepGHie2ExMU8wiQIFFUxQwcTxg4mZgomZggkoys4EFExAwUSYCBNhYjvBRMJEmDh2MFE1Jnd9/5p5sqRn+t/huJWpaRJknpgqdhNQ8jEx+DERJvYTTApBUZhD504o5kmg3cREwQSUjN31KWxzCGACCyaHhFj63WTdpmLLKcNk38OGKvih8+cDHJCYJj9/oO3HD799+M8bJG89kIN3wPHFstq+nD1IFGLyLzjtW1Ja3H+3NvoXrUzWaQAAAABJRU5ErkJggg==); }
         .fmx-note { font-size: 0.82rem; color: var(--text-secondary); margin: 4px 0 14px; line-height: 1.55; }
         .fmx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 10px; }
         .fmx-card {
@@ -2759,13 +2764,18 @@
         .fmx-wide { max-width: 860px; }
         /* body heat maps */
         .fmx-bodies { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; margin: 4px 0 6px; }
-        .fmx-zname { font-family: 'Chakra Petch', monospace; font-size: 0.5rem; letter-spacing: 0.5px; fill: rgba(255, 255, 255, 0.62); }
         .fmx-fig { text-align: center; min-width: 0; }
-        .fmx-fig svg { width: 100%; max-width: 150px; height: auto; }
+        /* Real fighter silhouette used as an alpha mask; the three zone
+           colours are painted behind it and the mask cuts them to the body. */
+        .fmx-body { position: relative; width: 100%; max-width: 122px; aspect-ratio: 275 / 927; margin: 0 auto; }
+        .fmx-sil { position: absolute; inset: 0;
+            -webkit-mask: var(--fmx-mask) center / contain no-repeat; mask: var(--fmx-mask) center / contain no-repeat; }
+        .fmx-body b { position: absolute; left: 50%; transform: translateX(-50%);
+            font-family: 'Chakra Petch', monospace; font-size: 0.72rem; font-weight: 700;
+            color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.92); }
         .fmx-fig .who { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .fmx-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding-top: 30px; }
         .fmx-mid .zl { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-        .fmx-zpct { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; font-weight: 700; fill: #ffffff; }
         .fmx-toggle { display: flex; gap: 6px; justify-content: center; margin: 8px 0 4px; flex-wrap: wrap; }
         .fmx-toggle button {
             background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary);
@@ -2790,7 +2800,7 @@
         .fmx-empty { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); padding: 30px 0; text-align: center; }
         @media (max-width: 600px) {
             .fmx-bodies { gap: 4px; }
-            .fmx-fig svg { max-width: 108px; }
+            .fmx-body { max-width: 96px; }
             .fmx-mid { padding-top: 22px; }
         }
 
@@ -7484,6 +7494,10 @@
                 { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', raw: p => `${f0(p._finishes)}/${f0(p._wins)}` },
             ];
 
+            function fs2Ord(pc) {
+                const ord = ['th', 'st', 'nd', 'rd'], r = Math.round(pc);
+                return r + (ord[(r % 100 - r % 10 !== 10) ? (r % 10 < 4 ? r % 10 : 0) : 0] || 'th');
+            }
             function fs2Fmt(row, v) {
                 if (v == null || !isFinite(v)) return '&mdash;';
                 if (typeof row.fmt === 'function') return row.fmt(v);
@@ -7529,11 +7543,9 @@
                 const pc = fs2Pct(row.k, v, row.dir);
                 if (pc == null) return `<div class="fs2-row">${lbl}${val}<span></span><span></span></div>`;
                 const cls = pc >= 70 ? ' hi' : pc <= 30 ? ' lo' : '';
-                const ord = ['th', 'st', 'nd', 'rd'], r = Math.round(pc);
-                const suf = ord[(r % 100 - r % 10 !== 10) ? (r % 10 < 4 ? r % 10 : 0) : 0] || 'th';
                 return `<div class="fs2-row">${lbl}${val}` +
-                    `<span class="fs2-bar" title="${r}${suf} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
-                    `<span class="pct">${r}${suf}</span></div>`;
+                    `<span class="fs2-bar" title="${fs2Ord(pc)} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
+                    `<span class="pct">${fs2Ord(pc)}</span></div>`;
             }
             function renderFighterStats() {
                 const el = document.getElementById('fluStats');
@@ -7552,9 +7564,16 @@
                     if (t.sub) bits.push(t.sub);
                     const med = qualified ? fs2Median(t.k) : null;
                     if (med != null) bits.push('league med ' + fs2Fmt(t, med));
+                    // same league ranking the section rows use, so a headline
+                    // number reads as good or bad on sight
+                    const pc = qualified ? fs2Pct(t.k, v, t.dir == null ? 1 : t.dir) : null;
+                    if (pc != null) bits.push(fs2Ord(pc));
+                    const bar = pc == null ? '' :
+                        `<div class="fs2-kbar" title="${fs2Ord(pc)} percentile in the UFC">` +
+                        `<i class="${pc >= 70 ? 'hi' : pc <= 30 ? 'lo' : ''}" style="width:${pc.toFixed(1)}%"></i></div>`;
                     return `<div class="fs2-ktile"><div class="l">${t.label}</div>` +
                         `<div class="v">${fs2Fmt(t, v)}${rawTxt ? `<i class="raw">${rawTxt}</i>` : ''}</div>` +
-                        `<div class="s">${bits.join(' &middot; ') || '&nbsp;'}</div></div>`;
+                        `<div class="s">${bits.join(' &middot; ') || '&nbsp;'}</div>${bar}</div>`;
                 }).join('') + `</div>`;
                 for (const sec of FS2_SECTIONS) {
                     const rows = sec.rows.filter(r => r.type || (p[r.k] != null && isFinite(p[r.k])));
@@ -7690,14 +7709,10 @@
             // Stylised front-on fighter. Head / torso / legs are the three scored
             // zones (they map to the DB's head/body/leg strike columns); arms are
             // drawn neutral because strikes to them aren't tracked separately.
-            const FMX_FIG = {
-                head: 'M60 6a15 15 0 1 1 0 30 15 15 0 0 1 0-30z',
-                torso: 'M38 50Q38 42 46 41H74Q82 42 82 50L73 104L76 124H44L47 104Z',
-                legs: 'M45 126H58L57 168 54 214H44L46 168Zm17 0H75L74 168 76 214H66L63 168Z',
-                arms: 'M37 51Q29 55 28 65L25 105Q24 112 30 112Q35 112 36 106L39 72Q40 61 44 55Z' +
-                      'M83 51Q91 55 92 65L95 105Q96 112 90 112Q85 112 84 106L81 72Q80 61 76 55Z',
-                lbl: { head: 26, body: 86, leg: 176 },   // y of each zone's % label
-            };
+            // The figure is a real fighter silhouette (committed to the repo,
+            // traced to an alpha mask). The three zone colours are painted as a
+            // soft vertical blend behind it and the mask cuts them to the body,
+            // so nothing here is hand-drawn anatomy.
             function fmxHeat(t) {   // t: 0..1 -> dim ember to hot amber
                 const stops = [[0, [43, 33, 24]], [0.5, [163, 70, 8]], [1, [255, 157, 61]]];
                 t = Math.max(0, Math.min(1, t));
@@ -7706,7 +7721,7 @@
                 const f = (t - a[0]) / ((b[0] - a[0]) || 1);
                 return 'rgb(' + a[1].map((c, i) => Math.round(c + (b[1][i] - c) * f)).join(',') + ')';
             }
-            function fmxBodySVG(p, mode) {
+            function fmxBodyHTML(p, mode) {
                 const pre = mode === 'absorb' ? 'abs_' : 'tgt_';
                 const zone = z => {
                     const v = p ? p[pre + z] : null;
@@ -7716,15 +7731,16 @@
                     return { v, fill: v == null ? '#26242b' : fmxHeat(pc == null ? 0.5 : pc / 100) };
                 };
                 const H = zone('head'), B = zone('body'), L = zone('leg');
-                const lab = (v, y) => v == null ? '' :
-                    `<text class="fmx-zpct" x="60" y="${y}" text-anchor="middle">${Math.round(v)}%</text>`;
-                const aria = `${mode === 'absorb' ? 'Strikes absorbed' : 'Strikes landed'} by target — head ${Math.round(H.v || 0)}%, body ${Math.round(B.v || 0)}%, legs ${Math.round(L.v || 0)}%`;
-                return `<svg viewBox="0 0 120 220" role="img" aria-label="${aria}">` +
-                    `<path d="${FMX_FIG.arms}" fill="#33313a" stroke="rgba(255,255,255,.09)" stroke-width="1"></path>` +
-                    `<path d="${FMX_FIG.head}" fill="${H.fill}" stroke="rgba(255,255,255,.16)" stroke-width="1"></path>` +
-                    `<path d="${FMX_FIG.torso}" fill="${B.fill}" stroke="rgba(255,255,255,.16)" stroke-width="1"></path>` +
-                    `<path d="${FMX_FIG.legs}" fill="${L.fill}" stroke="rgba(255,255,255,.16)" stroke-width="1"></path>` +
-                    lab(H.v, FMX_FIG.lbl.head) + lab(B.v, FMX_FIG.lbl.body) + lab(L.v, FMX_FIG.lbl.leg) + `</svg>`;
+                // stops sit either side of the neck and hip so the zones read
+                // distinctly but bleed into each other rather than banding hard
+                const bg = `linear-gradient(180deg,${H.fill} 0%,${H.fill} 7%,${B.fill} 20%,` +
+                    `${B.fill} 42%,${L.fill} 58%,${L.fill} 100%)`;
+                const lab = (v, top) => v == null ? '' : `<b style="top:${top}%">${Math.round(v)}%</b>`;
+                const aria = `${mode === 'absorb' ? 'Strikes absorbed' : 'Strikes landed'} by target — ` +
+                    `head ${Math.round(H.v || 0)}%, body ${Math.round(B.v || 0)}%, legs ${Math.round(L.v || 0)}%`;
+                return `<div class="fmx-body" role="img" aria-label="${aria}">` +
+                    `<div class="fmx-sil" style="background:${bg}"></div>` +
+                    lab(H.v, 5.5) + lab(B.v, 29) + lab(L.v, 72) + `</div>`;
             }
             // one crossed read: attacker's offensive rate beside the defender's
             // matching defensive rate
@@ -7732,6 +7748,13 @@
                 return `<div class="fmx-x2"><span class="l"><span class="v">${aTxt}</span><span class="k">${aSub}</span></span>` +
                     `<span class="mid">${label}</span>` +
                     `<span class="r"><span class="v">${bTxt}</span><span class="k">${bSub}</span></span></div>`;
+            }
+            // "· 4 UFC fights · 49m octagon time", or a note when there's no history
+            function fmxMeta(p) {
+                if (!p) return ' &middot; no UFC data';
+                const hrs = Math.floor(p._sec / 3600), mm = Math.round((p._sec % 3600) / 60);
+                const t = hrs > 0 ? `${hrs}h ${mm}m` : `${mm}m`;
+                return ` &middot; ${p._n} UFC fight${p._n === 1 ? '' : 's'} &middot; ${t} octagon time`;
             }
             let fmxState = null, fmxMode = 'target';
             function fmxNum(v, d, unit) { return (v == null || !isFinite(v)) ? '&mdash;' : v.toFixed(d) + (unit || ''); }
@@ -7750,15 +7773,15 @@
                 h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
                 h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(a.name)}</span><span class="vs">vs</span><span class="op">${esc(z.name)}</span></div>` +
                     `<div class="fxm-sub" style="display:flex;justify-content:space-between">` +
-                    `<span>$${a.salary.toLocaleString()}${pa ? ' &middot; ' + pa._n + ' UFC fights' : ' &middot; no UFC data'}</span>` +
-                    `<span>$${z.salary.toLocaleString()}${pz ? ' &middot; ' + pz._n + ' UFC fights' : ' &middot; no UFC data'}</span></div></div>`;
+                    `<span>$${a.salary.toLocaleString()}${fmxMeta(pa)}</span>` +
+                    `<span>$${z.salary.toLocaleString()}${fmxMeta(pz)}</span></div></div>`;
 
                 h += `<div class="fmx-toggle">` +
                     `<button type="button" data-mode="target" class="${fmxMode === 'target' ? 'sel' : ''}">Where they strike</button>` +
                     `<button type="button" data-mode="absorb" class="${fmxMode === 'absorb' ? 'sel' : ''}">Where they get hit</button></div>`;
                 h += `<div class="fmx-bodies">` +
-                    `<div class="fmx-fig"><div class="who">${esc(a.name)}</div>${fmxBodySVG(pa, fmxMode)}</div>` +
-                    `<div class="fmx-fig"><div class="who">${esc(z.name)}</div>${fmxBodySVG(pz, fmxMode)}</div></div>`;
+                    `<div class="fmx-fig"><div class="who">${esc(a.name)}</div>${fmxBodyHTML(pa, fmxMode)}</div>` +
+                    `<div class="fmx-fig"><div class="who">${esc(z.name)}</div>${fmxBodyHTML(pz, fmxMode)}</div></div>`;
                 h += `<div class="fmx-legend"><span>less</span><span class="bar"></span><span>more than league</span></div>`;
 
                 if (pa && pz) {

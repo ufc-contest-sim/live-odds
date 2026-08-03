@@ -3729,7 +3729,7 @@
                     <div id="optResults" style="display:none;">
                         <div class="opt-results-head">
                             <div class="sdb-ladder-title" id="optResultsTitle">Top lineups</div>
-                            <button class="opt-btn" id="optExportBtn">Export CSV</button>
+                            <button class="opt-btn" id="optExportBtn">Export for DraftKings</button>
                         </div>
                         <div class="opt-note" id="optResultsNote"></div>
                         <div class="sdb-scroll opt-results-scroll">
@@ -3770,7 +3770,8 @@
                         <div class="hb-saved" id="hbSavedWrap" style="display:none;">
                             <div class="hb-saved-head" id="hbSavedCount">Saved lineups (0)</div>
                             <div class="hb-saved-list" id="hbSavedList"></div>
-                            <button class="opt-btn opt-btn-primary" id="hbExport">Export lineups</button>
+                            <button class="opt-btn opt-btn-primary" id="hbExport">Export for DraftKings</button>
+                            <div class="opt-err" id="hbErr"></div>
                         </div>
                     </div>
                     <div class="hb-main">
@@ -8225,17 +8226,40 @@
                 el.innerHTML = `<div class="opt-exposure-title">Portfolio exposure — how many of the ${n} lineups each fighter appears in</div><div class="exp-chips">${chips}</div>`;
             }
 
+            // ---- DraftKings bulk-upload format ----
+            // DK's own template is one file with the six roster slots in columns
+            // 1-6 and its instructions/player pool parked from column 8 on — you
+            // fill the slots and upload that same file back. So DK reads only
+            // the first six columns and ignores the rest, which lets us keep our
+            // own detail alongside without breaking the upload.
+            const DK_MAX_LINEUPS = 500;   // DK's stated per-file limit
+            const dkHeader = extra => `F,F,F,F,F,F,,${extra}\n`;
+            function dkRow(players) {
+                const ids = players.map(p => p.id || '');
+                while (ids.length < ROSTER) ids.push('');
+                return ids.join(',') + ',';   // trailing comma leaves column 7 blank
+            }
+            // A lineup with no DK ID uploads as a blank slot and DK rejects the
+            // file, so say so rather than letting it fail at the contest.
+            function dkExportWarning(lineups, written) {
+                const missing = new Set();
+                for (const lu of lineups) for (const p of lu) if (!p.id) missing.add(p.name);
+                const bits = [];
+                if (missing.size) bits.push(`No DraftKings ID for ${[...missing].slice(0, 3).map(oEsc).join(', ')}${missing.size > 3 ? ` and ${missing.size - 3} more` : ''} — re-download this week's salary file, those slots will upload blank.`);
+                if (lineups.length > written) bits.push(`Exported the first ${written} of ${lineups.length} lineups (DraftKings accepts ${DK_MAX_LINEUPS} per file).`);
+                return bits.join(' ');
+            }
+
             function exportResultsCSV() {
                 if (!lastLineups.length) return;
-                let out = 'Rank,F1,F2,F3,F4,F5,F6,Projection,Salary,Ownership,Stacked\n';
-                lastLineups.forEach((lu, i) => {
+                const rows = lastLineups.slice(0, DK_MAX_LINEUPS);
+                let out = dkHeader('Lineup,Projection,Salary,Ownership,Stacked');
+                rows.forEach((lu, i) => {
                     const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
-                    // Export DraftKings player IDs so the file can be uploaded straight to a contest.
-                    const ids = players.map(p => p.id || '');
-                    while (ids.length < ROSTER) ids.push('');
-                    out += `${i + 1},${ids.join(',')},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                    out += dkRow(players) + `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
                 });
-                downloadCSV('mmalivesim_top_lineups.csv', out);
+                downloadCSV('mmalivesim_dk_upload.csv', out);
+                document.getElementById('optErr').textContent = dkExportWarning(lastLineups.map(l => l.players), rows.length);
             }
 
             // The DraftKings salary file is committed to the repo (owner refreshes it each
@@ -8380,15 +8404,17 @@
 
             function hbExportSaved() {
                 if (!hbSaved.length) return;
-                let out = 'Rank,F1,F2,F3,F4,F5,F6,Salary\n';
-                hbSaved.forEach((lu, i) => {
+                const rows = hbSaved.slice(0, DK_MAX_LINEUPS);
+                let out = dkHeader('Lineup,Salary');
+                rows.forEach((lu, i) => {
                     const players = lu.slice().sort((a, b) => b.salary - a.salary);
-                    const ids = players.map(p => p.id || '');
-                    while (ids.length < ROSTER) ids.push('');
                     const sal = players.reduce((s, f) => s + (f.salary || 0), 0);
-                    out += `${i + 1},${ids.join(',')},${sal}\n`;
+                    out += dkRow(players) + `,${i + 1},${sal}\n`;
                 });
-                downloadCSV('mmalivesim_handbuilt_lineups.csv', out);
+                downloadCSV('mmalivesim_dk_upload.csv', out);
+                const warn = dkExportWarning(hbSaved, rows.length);
+                const el = document.getElementById('hbErr');
+                if (el) el.textContent = warn;
             }
 
             function hbRenderSlots() {

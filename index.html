@@ -2964,6 +2964,19 @@
         .hb-saved-list { display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; }
         .hb-saved-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); cursor: pointer; }
         .hb-saved-row:hover { background: var(--bg-hover); border-color: var(--border-accent); }
+        /* naming prompt shown after Save Lineup */
+        .hb-name-card { max-width: 420px; padding: 22px 22px 18px; }
+        .hb-name-title { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.25rem; letter-spacing: 0.5px; }
+        .hb-name-sub { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45; margin: 6px 0 14px; }
+        #hbNameInput {
+            width: 100%; background: var(--bg-card-solid, #16161b); border: 1px solid var(--glass-border);
+            border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 1rem;
+            font-weight: 600; padding: 10px 12px; outline: none;
+        }
+        #hbNameInput:focus { border-color: var(--accent); }
+        .hb-name-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+        .hb-name-btns .opt-btn { min-width: 104px; }
+
         .hb-saved-info { flex: 1; min-width: 0; }
         .hb-nm {
             width: 100%; background: transparent; border: none; border-bottom: 1px dashed var(--glass-border);
@@ -3697,6 +3710,17 @@
         </div>
         <div id="fsxModal" class="fsx-modal" style="display:none;"></div>
         <div id="fmxModal" class="fsx-modal" style="display:none;"></div>
+        <div id="hbNameModal" class="fsx-modal" style="display:none;">
+            <div class="fxm-card hb-name-card" role="dialog" aria-modal="true" aria-labelledby="hbNameTitle">
+                <div class="hb-name-title" id="hbNameTitle">Name this lineup</div>
+                <div class="hb-name-sub" id="hbNameRoster"></div>
+                <input id="hbNameInput" type="text" maxlength="40" autocomplete="off" aria-label="Lineup name">
+                <div class="hb-name-btns">
+                    <button type="button" class="opt-btn" id="hbNameCancel">Cancel</button>
+                    <button type="button" class="opt-btn opt-btn-primary" id="hbNameOk">Save lineup</button>
+                </div>
+            </div>
+        </div>
 
         <div id="optimizer-view" style="display:none;">
             <div class="sdb-card">
@@ -8392,15 +8416,38 @@
 
             const hbSig = picks => picks.map(hbKey).sort().join('|');
 
+            function hbFlash(msg) {
+                const btn = document.getElementById('hbSave');
+                btn.textContent = msg;
+                setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300);
+            }
+            // Saving opens a naming prompt pre-filled with "Lineup N", so a
+            // lineup is always identifiable even if the name is left alone.
+            let hbPending = null;
             function hbSaveLineup() {
                 if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
-                const btn = document.getElementById('hbSave');
-                const flash = msg => { btn.textContent = msg; setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300); };
-                if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { flash('Already saved'); return; }
-                hbSaved.push(hbPicks.slice());
-                hbNames.push('');
+                if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { hbFlash('Already saved'); return; }
+                hbPending = hbPicks.slice();
+                const inp = document.getElementById('hbNameInput');
+                inp.value = `Lineup ${hbSaved.length + 1}`;
+                document.getElementById('hbNameRoster').textContent =
+                    hbPending.map(f => f.name).join(', ') + ' · $' + hbPending.reduce((s, f) => s + (f.salary || 0), 0).toLocaleString();
+                document.getElementById('hbNameModal').style.display = 'flex';
+                // select the default so typing replaces it in one go
+                setTimeout(() => { inp.focus(); inp.select(); }, 30);
+            }
+            function hbCloseName() {
+                document.getElementById('hbNameModal').style.display = 'none';
+                hbPending = null;
+            }
+            function hbConfirmName() {
+                if (!hbPending) return;
+                const nm = document.getElementById('hbNameInput').value.trim();
+                hbSaved.push(hbPending);
+                hbNames.push(nm || `Lineup ${hbSaved.length}`);
+                hbCloseName();
                 hbRenderSaved();
-                flash('Saved ✓');
+                hbFlash('Saved ✓');
             }
 
             function hbRenderSaved() {
@@ -8499,6 +8546,15 @@
                 document.getElementById('hbSavedList').addEventListener('input', e => {
                     const inp = e.target.closest('.hb-nm');
                     if (inp) hbNames[+inp.dataset.i] = inp.value;
+                });
+                // naming prompt: Enter confirms, Escape or a click outside cancels
+                const nameModal = document.getElementById('hbNameModal');
+                document.getElementById('hbNameOk').addEventListener('click', hbConfirmName);
+                document.getElementById('hbNameCancel').addEventListener('click', hbCloseName);
+                nameModal.addEventListener('click', e => { if (e.target === nameModal) hbCloseName(); });
+                document.getElementById('hbNameInput').addEventListener('keydown', e => {
+                    if (e.key === 'Enter') { e.preventDefault(); hbConfirmName(); }
+                    else if (e.key === 'Escape') { e.preventDefault(); hbCloseName(); }
                 });
             }
 

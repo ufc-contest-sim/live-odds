@@ -144,6 +144,88 @@ def fetch_payouts(cid):
     return per_rank, last_paid, float(sum(per_rank))
 
 
+def _xlsx_rows(path):
+    """Read the first worksheet of an .xlsx with the standard library only, so
+    this works on a plain Python install with no openpyxl. An xlsx is a zip of
+    XML: shared strings live in one part, the sheet references them by index."""
+    import zipfile
+    import xml.etree.ElementTree as ET
+    NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+    with zipfile.ZipFile(path) as z:
+        shared = []
+        if "xl/sharedStrings.xml" in z.namelist():
+            root = ET.fromstring(z.read("xl/sharedStrings.xml"))
+            for si in root.findall(f"{NS}si"):
+                shared.append("".join(t.text or "" for t in si.iter(f"{NS}t")))
+        sheets = sorted(n for n in z.namelist()
+                        if n.startswith("xl/worksheets/sheet") and n.endswith(".xml"))
+        if not sheets:
+            return []
+        root = ET.fromstring(z.read(sheets[0]))
+        rows = []
+        for row in root.iter(f"{NS}row"):
+            cells = {}
+            for c in row.findall(f"{NS}c"):
+                ref = c.get("r") or ""
+                col = 0
+                for ch in ref:
+                    if not ch.isalpha():
+                        break
+                    col = col * 26 + (ord(ch.upper()) - 64)
+                v = c.find(f"{NS}v")
+                if c.get("t") == "s" and v is not None:
+                    try:
+                        val = shared[int(v.text)]
+                    except (ValueError, IndexError):
+                        val = ""
+                elif c.get("t") == "inlineStr":
+                    val = "".join(t.text or "" for t in c.iter(f"{NS}t"))
+                else:
+                    val = v.text if v is not None else ""
+                if col:
+                    cells[col - 1] = val or ""
+            if cells:
+                rows.append([cells.get(i, "") for i in range(max(cells) + 1)])
+    return rows
+
+
+def ids_from_entries(path):
+    """Contest ids from DraftKings' "My Contests" / entries export (.csv or
+    .xlsx). That file lists every contest you're entered in — including the
+    ones that filled up and dropped out of the lobby feed — so it is the
+    reliable way to pull payouts for a full slate of entries."""
+    ext = os.path.splitext(path)[1].lower()
+    if ext in (".xlsx", ".xlsm"):
+        rows = _xlsx_rows(path)
+    else:
+        import csv as _csv
+        with open(path, newline="", encoding="utf-8-sig", errors="replace") as f:
+            rows = [r for r in _csv.reader(f)]
+    if not rows:
+        return []
+    # find the header row that carries a Contest ID column
+    col = None
+    for r in rows[:10]:
+        for i, cell in enumerate(r):
+            if str(cell).strip().lower() in ("contest id", "contestid", "contest_id"):
+                col, start = i, rows.index(r) + 1
+                break
+        if col is not None:
+            break
+    if col is None:
+        raise SystemExit(
+            f"{path}: no 'Contest ID' column found. Use the entries file DraftKings "
+            "gives you under My Contests > Export, not the salary file.")
+    out = []
+    for r in rows[start:]:
+        if col >= len(r):
+            continue
+        m = re.search(r"(\d{5,})", str(r[col]))
+        if m and m.group(1) not in out:
+            out.append(m.group(1))
+    return out
+
+
 def fetch_contest_by_id(cid):
     """Normalize one contest straight from the detail endpoint. Works even when
     the contest has left the lobby — a contest that FILLED to capacity is hidden
@@ -214,6 +296,9 @@ def main():
     ap.add_argument("--ids", help="comma-separated contest IDs (or draft/gamecenter URLs). "
                     "IDs not in the lobby (contests that filled to capacity and got hidden) "
                     "are fetched directly by id.")
+    ap.add_argument("--from-entries", metavar="FILE",
+                    help="read contest ids from DraftKings' My Contests export (.csv or "
+                         ".xlsx). Covers contests that already filled and left the lobby.")
     ap.add_argument("--guaranteed", action="store_true", help="only guaranteed (GPP) contests")
     ap.add_argument("--limit", type=int, default=None, help="keep at most N (after sorting by entry fee)")
     ap.add_argument("--out-dir", default="dk_payouts", help="folder for per-contest payout files")
@@ -229,6 +314,16 @@ def main():
             m = re.search(r"(\d{5,})", tok)
             if m and m.group(1) not in requested_ids:
                 requested_ids.append(m.group(1))
+    if args.from_entries:
+        found = ids_from_entries(args.from_entries)
+        print(f"{os.path.basename(args.from_entries)}: {len(found)} contest id(s)")
+        for cid in found:
+            if cid not in requested_ids:
+                requested_ids.append(cid)
+    # Ids from either source also narrow the lobby, so we never fetch payouts
+    # for the whole slate just because --from-entries was used.
+    if requested_ids:
+        args.ids = ",".join(requested_ids)
 
     try:
         lobby = fetch_lobby(args.sport)

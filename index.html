@@ -2965,6 +2965,14 @@
         .hb-saved-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); cursor: pointer; }
         .hb-saved-row:hover { background: var(--bg-hover); border-color: var(--border-accent); }
         .hb-saved-info { flex: 1; min-width: 0; }
+        .hb-nm {
+            width: 100%; background: transparent; border: none; border-bottom: 1px dashed var(--glass-border);
+            color: var(--text-primary); font-family: inherit; font-size: 0.8rem; font-weight: 700;
+            padding: 1px 0 3px; margin-bottom: 3px; outline: none; cursor: text;
+        }
+        .hb-nm::placeholder { color: var(--text-secondary); font-weight: 400; font-style: italic; }
+        .hb-nm:hover { border-bottom-color: var(--accent); }
+        .hb-nm:focus { border-bottom-style: solid; border-bottom-color: var(--accent); }
         .hb-saved-names { font-size: 0.78rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .hb-saved-sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
         .hb-saved-row .rm { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 0 4px; }
@@ -8234,6 +8242,11 @@
             // own detail alongside without breaking the upload.
             const DK_MAX_LINEUPS = 500;   // DK's stated per-file limit
             const dkHeader = extra => `F,F,F,F,F,F,,${extra}\n`;
+            // lineup names are free text, so a comma or quote must not split the row
+            const csvCell = v => {
+                const s = String(v == null ? '' : v);
+                return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+            };
             function dkRow(players) {
                 const ids = players.map(p => p.id || '');
                 while (ids.length < ROSTER) ids.push('');
@@ -8338,6 +8351,7 @@
             // ===== Hand Builder (reuses FIGHTERS / ensureSalary from above) =====
             let hbPicks = [];                 // fighter object references from FIGHTERS
             let hbSaved = [];                 // list of saved lineups (each an array of 6 fighters)
+            let hbNames = [];                 // optional label per saved lineup, index-aligned
             let hbSortKey = 'sal-desc', hbSearchStr = '', hbWired = false;
             const hbKey = f => (f.id || '') + '|' + f.name;
             const hbInPicks = f => hbPicks.some(p => hbKey(p) === hbKey(f));
@@ -8384,6 +8398,7 @@
                 const flash = msg => { btn.textContent = msg; setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300); };
                 if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { flash('Already saved'); return; }
                 hbSaved.push(hbPicks.slice());
+                hbNames.push('');
                 hbRenderSaved();
                 flash('Saved ✓');
             }
@@ -8396,7 +8411,9 @@
                 document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
                     return `<div class="hb-saved-row" data-i="${i}" title="Load into builder">
-                        <div class="hb-saved-info"><div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
+                        <div class="hb-saved-info">
+                            <input class="hb-nm" data-i="${i}" value="${oEsc(hbNames[i] || '')}" placeholder="Lineup ${i + 1}" maxlength="40" aria-label="Name for lineup ${i + 1}">
+                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
                 }).join('');
@@ -8405,11 +8422,12 @@
             function hbExportSaved() {
                 if (!hbSaved.length) return;
                 const rows = hbSaved.slice(0, DK_MAX_LINEUPS);
-                let out = dkHeader('Lineup,Salary');
+                let out = dkHeader('Lineup,Name,Salary');
                 rows.forEach((lu, i) => {
                     const players = lu.slice().sort((a, b) => b.salary - a.salary);
                     const sal = players.reduce((s, f) => s + (f.salary || 0), 0);
-                    out += dkRow(players) + `,${i + 1},${sal}\n`;
+                    const nm = (hbNames[i] || '').trim() || `Lineup ${i + 1}`;
+                    out += dkRow(players) + `,${i + 1},${csvCell(nm)},${sal}\n`;
                 });
                 downloadCSV('mmalivesim_dk_upload.csv', out);
                 const warn = dkExportWarning(hbSaved, rows.length);
@@ -8471,9 +8489,16 @@
                 document.getElementById('hbExport').addEventListener('click', hbExportSaved);
                 document.getElementById('hbSavedList').addEventListener('click', e => {
                     const rm = e.target.closest('.rm');
-                    if (rm) { hbSaved.splice(+rm.dataset.i, 1); hbRenderSaved(); return; }
+                    if (rm) { const i = +rm.dataset.i; hbSaved.splice(i, 1); hbNames.splice(i, 1); hbRenderSaved(); return; }
+                    if (e.target.closest('.hb-nm')) return;   // naming a lineup shouldn't load it
                     const row = e.target.closest('.hb-saved-row');
                     if (row) { hbPicks = hbSaved[+row.dataset.i].slice(); hbRender(); }
+                });
+                // store the name as it's typed; deliberately no re-render, which
+                // would rebuild the input and drop the caret mid-word
+                document.getElementById('hbSavedList').addEventListener('input', e => {
+                    const inp = e.target.closest('.hb-nm');
+                    if (inp) hbNames[+inp.dataset.i] = inp.value;
                 });
             }
 

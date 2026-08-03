@@ -2690,6 +2690,10 @@
         .fs2-ktile .v { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.5rem; line-height: 1.15; }
         .fs2-ktile .v .raw { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 400; font-size: 0.66rem; color: var(--text-secondary); margin-left: 5px; }
         .fs2-ktile .s { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; color: var(--text-secondary); }
+        .fs2-kbar { height: 5px; border-radius: 3px; background: rgba(140, 140, 150, 0.22); overflow: hidden; margin-top: 8px; }
+        .fs2-kbar i { display: block; height: 100%; border-radius: 3px; background: var(--accent); }
+        .fs2-kbar i.hi { background: #2fe08a; }
+        .fs2-kbar i.lo { background: #ff5d6e; }
         .fs2-sec { border: 1px solid var(--glass-border); border-radius: 10px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.015); overflow: hidden; }
         .fs2-sec > summary {
             cursor: pointer; padding: 11px 14px; list-style: none;
@@ -7490,6 +7494,10 @@
                 { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', raw: p => `${f0(p._finishes)}/${f0(p._wins)}` },
             ];
 
+            function fs2Ord(pc) {
+                const ord = ['th', 'st', 'nd', 'rd'], r = Math.round(pc);
+                return r + (ord[(r % 100 - r % 10 !== 10) ? (r % 10 < 4 ? r % 10 : 0) : 0] || 'th');
+            }
             function fs2Fmt(row, v) {
                 if (v == null || !isFinite(v)) return '&mdash;';
                 if (typeof row.fmt === 'function') return row.fmt(v);
@@ -7535,11 +7543,9 @@
                 const pc = fs2Pct(row.k, v, row.dir);
                 if (pc == null) return `<div class="fs2-row">${lbl}${val}<span></span><span></span></div>`;
                 const cls = pc >= 70 ? ' hi' : pc <= 30 ? ' lo' : '';
-                const ord = ['th', 'st', 'nd', 'rd'], r = Math.round(pc);
-                const suf = ord[(r % 100 - r % 10 !== 10) ? (r % 10 < 4 ? r % 10 : 0) : 0] || 'th';
                 return `<div class="fs2-row">${lbl}${val}` +
-                    `<span class="fs2-bar" title="${r}${suf} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
-                    `<span class="pct">${r}${suf}</span></div>`;
+                    `<span class="fs2-bar" title="${fs2Ord(pc)} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
+                    `<span class="pct">${fs2Ord(pc)}</span></div>`;
             }
             function renderFighterStats() {
                 const el = document.getElementById('fluStats');
@@ -7558,9 +7564,16 @@
                     if (t.sub) bits.push(t.sub);
                     const med = qualified ? fs2Median(t.k) : null;
                     if (med != null) bits.push('league med ' + fs2Fmt(t, med));
+                    // same league ranking the section rows use, so a headline
+                    // number reads as good or bad on sight
+                    const pc = qualified ? fs2Pct(t.k, v, t.dir == null ? 1 : t.dir) : null;
+                    if (pc != null) bits.push(fs2Ord(pc));
+                    const bar = pc == null ? '' :
+                        `<div class="fs2-kbar" title="${fs2Ord(pc)} percentile in the UFC">` +
+                        `<i class="${pc >= 70 ? 'hi' : pc <= 30 ? 'lo' : ''}" style="width:${pc.toFixed(1)}%"></i></div>`;
                     return `<div class="fs2-ktile"><div class="l">${t.label}</div>` +
                         `<div class="v">${fs2Fmt(t, v)}${rawTxt ? `<i class="raw">${rawTxt}</i>` : ''}</div>` +
-                        `<div class="s">${bits.join(' &middot; ') || '&nbsp;'}</div></div>`;
+                        `<div class="s">${bits.join(' &middot; ') || '&nbsp;'}</div>${bar}</div>`;
                 }).join('') + `</div>`;
                 for (const sec of FS2_SECTIONS) {
                     const rows = sec.rows.filter(r => r.type || (p[r.k] != null && isFinite(p[r.k])));

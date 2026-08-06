@@ -2600,6 +2600,7 @@
         .opt-results-table td.lu-proj { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent-lo); }
         .opt-results-table td.lu-rank { color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.78rem; }
         .opt-results-table td.lu-over { color: var(--accent-red); font-weight: 700; }
+        .opt-results-table td.lu-lev { font-family: 'Chakra Petch', monospace; color: var(--accent-lo); font-weight: 700; }
         @media (max-width: 720px) { .opt-toolbar { flex-direction: column; align-items: stretch; } .opt-cap input { width: 100%; } }
 
         /* Mobile: turn the 8-column entry grid into a stacked card per fighter. */
@@ -2964,7 +2965,28 @@
         .hb-saved-list { display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; }
         .hb-saved-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); cursor: pointer; }
         .hb-saved-row:hover { background: var(--bg-hover); border-color: var(--border-accent); }
+        /* naming prompt shown after Save Lineup */
+        .hb-name-card { max-width: 420px; padding: 22px 22px 18px; }
+        .hb-name-title { font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.25rem; letter-spacing: 0.5px; }
+        .hb-name-sub { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45; margin: 6px 0 14px; }
+        #hbNameInput {
+            width: 100%; background: var(--bg-card-solid, #16161b); border: 1px solid var(--glass-border);
+            border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 1rem;
+            font-weight: 600; padding: 10px 12px; outline: none;
+        }
+        #hbNameInput:focus { border-color: var(--accent); }
+        .hb-name-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+        .hb-name-btns .opt-btn { min-width: 104px; }
+
         .hb-saved-info { flex: 1; min-width: 0; }
+        .hb-nm {
+            width: 100%; background: transparent; border: none; border-bottom: 1px dashed var(--glass-border);
+            color: var(--text-primary); font-family: inherit; font-size: 0.8rem; font-weight: 700;
+            padding: 1px 0 3px; margin-bottom: 3px; outline: none; cursor: text;
+        }
+        .hb-nm::placeholder { color: var(--text-secondary); font-weight: 400; font-style: italic; }
+        .hb-nm:hover { border-bottom-color: var(--accent); }
+        .hb-nm:focus { border-bottom-style: solid; border-bottom-color: var(--accent); }
         .hb-saved-names { font-size: 0.78rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .hb-saved-sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
         .hb-saved-row .rm { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 0 4px; }
@@ -3689,6 +3711,17 @@
         </div>
         <div id="fsxModal" class="fsx-modal" style="display:none;"></div>
         <div id="fmxModal" class="fsx-modal" style="display:none;"></div>
+        <div id="hbNameModal" class="fsx-modal" style="display:none;">
+            <div class="fxm-card hb-name-card" role="dialog" aria-modal="true" aria-labelledby="hbNameTitle">
+                <div class="hb-name-title" id="hbNameTitle">Name this lineup</div>
+                <div class="hb-name-sub" id="hbNameRoster"></div>
+                <input id="hbNameInput" type="text" maxlength="40" autocomplete="off" aria-label="Lineup name">
+                <div class="hb-name-btns">
+                    <button type="button" class="opt-btn" id="hbNameCancel">Cancel</button>
+                    <button type="button" class="opt-btn opt-btn-primary" id="hbNameOk">Save lineup</button>
+                </div>
+            </div>
+        </div>
 
         <div id="optimizer-view" style="display:none;">
             <div class="sdb-card">
@@ -3729,7 +3762,7 @@
                     <div id="optResults" style="display:none;">
                         <div class="opt-results-head">
                             <div class="sdb-ladder-title" id="optResultsTitle">Top lineups</div>
-                            <button class="opt-btn" id="optExportBtn">Export CSV</button>
+                            <button class="opt-btn" id="optExportBtn">Export for DraftKings</button>
                         </div>
                         <div class="opt-note" id="optResultsNote"></div>
                         <div class="sdb-scroll opt-results-scroll">
@@ -3770,7 +3803,8 @@
                         <div class="hb-saved" id="hbSavedWrap" style="display:none;">
                             <div class="hb-saved-head" id="hbSavedCount">Saved lineups (0)</div>
                             <div class="hb-saved-list" id="hbSavedList"></div>
-                            <button class="opt-btn opt-btn-primary" id="hbExport">Export lineups</button>
+                            <button class="opt-btn opt-btn-primary" id="hbExport">Export for DraftKings</button>
+                            <div class="opt-err" id="hbErr"></div>
                         </div>
                     </div>
                     <div class="hb-main">
@@ -8168,6 +8202,27 @@
                 return { lineups: picked, total: results.length, stackAllowed: !!stackAllowed, capped, exposure };
             }
 
+            // Fighter -> the fighter across from them, paired by DK's Game Info.
+            // Built per render; the recursion is far too hot to carry this.
+            function oppMap() {
+                const byGame = new Map();
+                for (const f of FIGHTERS) {
+                    const g = f.gameInfo || f.name;
+                    let a = byGame.get(g); if (!a) byGame.set(g, a = []);
+                    a.push(f);
+                }
+                const m = new Map();
+                for (const arr of byGame.values()) {
+                    if (arr.length === 2) { m.set(arr[0], arr[1]); m.set(arr[1], arr[0]); }
+                }
+                return m;
+            }
+            // Total projected ownership of the six fighters this lineup is
+            // fighting against — how much of the field it beats when its picks win.
+            function oppLeverage(players, m) {
+                return players.reduce((s, p) => { const o = m.get(p); return s + (o ? (o.own || 0) : 0); }, 0);
+            }
+
             function renderResults(res, ownCap) {
                 const wrap = document.getElementById('optResults');
                 if (res.error) {
@@ -8184,9 +8239,11 @@
                     wrap.style.display = '';
                     return;
                 }
-                const head = ['#', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'Proj', 'Salary', 'Own %'];
-                document.getElementById('optResultsHead').innerHTML = head.map((h, i) => `<th class="${i === 0 || i > 6 ? '' : 'l'}">${h}</th>`).join('');
+                const head = ['#', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'Proj', 'Salary', 'Own %', 'Opp. Leverage'];
+                document.getElementById('optResultsHead').innerHTML = head.map((h, i) =>
+                    `<th class="${i === 0 || i > 6 ? '' : 'l'}"${h === 'Opp. Leverage' ? ' title="Combined ownership of the fighters this lineup is up against"' : ''}>${h}</th>`).join('');
                 const hasCap = ownCap != null && !isNaN(ownCap);
+                const om = oppMap();
                 document.getElementById('optResultsBody').innerHTML = res.lineups.map((lu, i) => {
                     const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
                     const cells = players.map(p => `<td class="lu-fighter">${oEsc(p.name)}</td>`).join('');
@@ -8198,6 +8255,7 @@
                         <td class="lu-proj">${lu.proj.toFixed(1)}</td>
                         <td class="lu-num">$${lu.salary.toLocaleString()}</td>
                         <td class="${ownCls}">${lu.own.toFixed(1)}%</td>
+                        <td class="lu-lev">${oppLeverage(players, om).toFixed(1)}%</td>
                     </tr>`;
                 }).join('');
                 const shown = res.lineups.length;
@@ -8225,17 +8283,46 @@
                 el.innerHTML = `<div class="opt-exposure-title">Portfolio exposure — how many of the ${n} lineups each fighter appears in</div><div class="exp-chips">${chips}</div>`;
             }
 
+            // ---- DraftKings bulk-upload format ----
+            // DK's own template is one file with the six roster slots in columns
+            // 1-6 and its instructions/player pool parked from column 8 on — you
+            // fill the slots and upload that same file back. So DK reads only
+            // the first six columns and ignores the rest, which lets us keep our
+            // own detail alongside without breaking the upload.
+            const DK_MAX_LINEUPS = 500;   // DK's stated per-file limit
+            const dkHeader = extra => `F,F,F,F,F,F,,${extra}\n`;
+            // lineup names are free text, so a comma or quote must not split the row
+            const csvCell = v => {
+                const s = String(v == null ? '' : v);
+                return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+            };
+            function dkRow(players) {
+                const ids = players.map(p => p.id || '');
+                while (ids.length < ROSTER) ids.push('');
+                return ids.join(',') + ',';   // trailing comma leaves column 7 blank
+            }
+            // A lineup with no DK ID uploads as a blank slot and DK rejects the
+            // file, so say so rather than letting it fail at the contest.
+            function dkExportWarning(lineups, written) {
+                const missing = new Set();
+                for (const lu of lineups) for (const p of lu) if (!p.id) missing.add(p.name);
+                const bits = [];
+                if (missing.size) bits.push(`No DraftKings ID for ${[...missing].slice(0, 3).map(oEsc).join(', ')}${missing.size > 3 ? ` and ${missing.size - 3} more` : ''} — re-download this week's salary file, those slots will upload blank.`);
+                if (lineups.length > written) bits.push(`Exported the first ${written} of ${lineups.length} lineups (DraftKings accepts ${DK_MAX_LINEUPS} per file).`);
+                return bits.join(' ');
+            }
+
             function exportResultsCSV() {
                 if (!lastLineups.length) return;
-                let out = 'Rank,F1,F2,F3,F4,F5,F6,Projection,Salary,Ownership,Stacked\n';
-                lastLineups.forEach((lu, i) => {
+                const rows = lastLineups.slice(0, DK_MAX_LINEUPS);
+                let out = dkHeader('Lineup,Projection,Salary,Ownership,OppLeverage,Stacked');
+                const om = oppMap();
+                rows.forEach((lu, i) => {
                     const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
-                    // Export DraftKings player IDs so the file can be uploaded straight to a contest.
-                    const ids = players.map(p => p.id || '');
-                    while (ids.length < ROSTER) ids.push('');
-                    out += `${i + 1},${ids.join(',')},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                    out += dkRow(players) + `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${oppLeverage(players, om).toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
                 });
-                downloadCSV('mmalivesim_top_lineups.csv', out);
+                downloadCSV('mmalivesim_dk_upload.csv', out);
+                document.getElementById('optErr').textContent = dkExportWarning(lastLineups.map(l => l.players), rows.length);
             }
 
             // The DraftKings salary file is committed to the repo (owner refreshes it each
@@ -8314,6 +8401,7 @@
             // ===== Hand Builder (reuses FIGHTERS / ensureSalary from above) =====
             let hbPicks = [];                 // fighter object references from FIGHTERS
             let hbSaved = [];                 // list of saved lineups (each an array of 6 fighters)
+            let hbNames = [];                 // optional label per saved lineup, index-aligned
             let hbSortKey = 'sal-desc', hbSearchStr = '', hbWired = false;
             const hbKey = f => (f.id || '') + '|' + f.name;
             const hbInPicks = f => hbPicks.some(p => hbKey(p) === hbKey(f));
@@ -8354,14 +8442,38 @@
 
             const hbSig = picks => picks.map(hbKey).sort().join('|');
 
+            function hbFlash(msg) {
+                const btn = document.getElementById('hbSave');
+                btn.textContent = msg;
+                setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300);
+            }
+            // Saving opens a naming prompt pre-filled with "Lineup N", so a
+            // lineup is always identifiable even if the name is left alone.
+            let hbPending = null;
             function hbSaveLineup() {
                 if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
-                const btn = document.getElementById('hbSave');
-                const flash = msg => { btn.textContent = msg; setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300); };
-                if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { flash('Already saved'); return; }
-                hbSaved.push(hbPicks.slice());
+                if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { hbFlash('Already saved'); return; }
+                hbPending = hbPicks.slice();
+                const inp = document.getElementById('hbNameInput');
+                inp.value = `Lineup ${hbSaved.length + 1}`;
+                document.getElementById('hbNameRoster').textContent =
+                    hbPending.map(f => f.name).join(', ') + ' · $' + hbPending.reduce((s, f) => s + (f.salary || 0), 0).toLocaleString();
+                document.getElementById('hbNameModal').style.display = 'flex';
+                // select the default so typing replaces it in one go
+                setTimeout(() => { inp.focus(); inp.select(); }, 30);
+            }
+            function hbCloseName() {
+                document.getElementById('hbNameModal').style.display = 'none';
+                hbPending = null;
+            }
+            function hbConfirmName() {
+                if (!hbPending) return;
+                const nm = document.getElementById('hbNameInput').value.trim();
+                hbSaved.push(hbPending);
+                hbNames.push(nm || `Lineup ${hbSaved.length}`);
+                hbCloseName();
                 hbRenderSaved();
-                flash('Saved ✓');
+                hbFlash('Saved ✓');
             }
 
             function hbRenderSaved() {
@@ -8372,7 +8484,9 @@
                 document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
                     return `<div class="hb-saved-row" data-i="${i}" title="Load into builder">
-                        <div class="hb-saved-info"><div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
+                        <div class="hb-saved-info">
+                            <input class="hb-nm" data-i="${i}" value="${oEsc(hbNames[i] || '')}" placeholder="Lineup ${i + 1}" maxlength="40" aria-label="Name for lineup ${i + 1}">
+                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
                 }).join('');
@@ -8380,15 +8494,18 @@
 
             function hbExportSaved() {
                 if (!hbSaved.length) return;
-                let out = 'Rank,F1,F2,F3,F4,F5,F6,Salary\n';
-                hbSaved.forEach((lu, i) => {
+                const rows = hbSaved.slice(0, DK_MAX_LINEUPS);
+                let out = dkHeader('Lineup,Name,Salary');
+                rows.forEach((lu, i) => {
                     const players = lu.slice().sort((a, b) => b.salary - a.salary);
-                    const ids = players.map(p => p.id || '');
-                    while (ids.length < ROSTER) ids.push('');
                     const sal = players.reduce((s, f) => s + (f.salary || 0), 0);
-                    out += `${i + 1},${ids.join(',')},${sal}\n`;
+                    const nm = (hbNames[i] || '').trim() || `Lineup ${i + 1}`;
+                    out += dkRow(players) + `,${i + 1},${csvCell(nm)},${sal}\n`;
                 });
-                downloadCSV('mmalivesim_handbuilt_lineups.csv', out);
+                downloadCSV('mmalivesim_dk_upload.csv', out);
+                const warn = dkExportWarning(hbSaved, rows.length);
+                const el = document.getElementById('hbErr');
+                if (el) el.textContent = warn;
             }
 
             function hbRenderSlots() {
@@ -8445,9 +8562,25 @@
                 document.getElementById('hbExport').addEventListener('click', hbExportSaved);
                 document.getElementById('hbSavedList').addEventListener('click', e => {
                     const rm = e.target.closest('.rm');
-                    if (rm) { hbSaved.splice(+rm.dataset.i, 1); hbRenderSaved(); return; }
+                    if (rm) { const i = +rm.dataset.i; hbSaved.splice(i, 1); hbNames.splice(i, 1); hbRenderSaved(); return; }
+                    if (e.target.closest('.hb-nm')) return;   // naming a lineup shouldn't load it
                     const row = e.target.closest('.hb-saved-row');
                     if (row) { hbPicks = hbSaved[+row.dataset.i].slice(); hbRender(); }
+                });
+                // store the name as it's typed; deliberately no re-render, which
+                // would rebuild the input and drop the caret mid-word
+                document.getElementById('hbSavedList').addEventListener('input', e => {
+                    const inp = e.target.closest('.hb-nm');
+                    if (inp) hbNames[+inp.dataset.i] = inp.value;
+                });
+                // naming prompt: Enter confirms, Escape or a click outside cancels
+                const nameModal = document.getElementById('hbNameModal');
+                document.getElementById('hbNameOk').addEventListener('click', hbConfirmName);
+                document.getElementById('hbNameCancel').addEventListener('click', hbCloseName);
+                nameModal.addEventListener('click', e => { if (e.target === nameModal) hbCloseName(); });
+                document.getElementById('hbNameInput').addEventListener('keydown', e => {
+                    if (e.key === 'Enter') { e.preventDefault(); hbConfirmName(); }
+                    else if (e.key === 'Escape') { e.preventDefault(); hbCloseName(); }
                 });
             }
 

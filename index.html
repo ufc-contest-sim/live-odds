@@ -3741,6 +3741,14 @@
                             <label>Max total ownership %</label>
                             <input type="number" id="optOwnCap" placeholder="no cap" min="0" step="1">
                         </div>
+                        <div class="opt-cap">
+                            <label>Min salary</label>
+                            <input type="number" id="optMinSal" placeholder="no min" min="0" max="50000" step="100">
+                        </div>
+                        <div class="opt-cap">
+                            <label>Max salary</label>
+                            <input type="number" id="optMaxSal" placeholder="50000" min="0" max="50000" step="100">
+                        </div>
                         <label class="opt-toggle"><input type="checkbox" id="optStack"> Allow fight stacking</label>
                         <button class="opt-btn opt-btn-primary" id="optRunBtn">Build lineups</button>
                     </div>
@@ -8104,7 +8112,9 @@
             }
 
             // Enumerate every legal lineup, keep the top 500 by projection.
-            function optimize(ownCap, stackAllowed) {
+            function optimize(ownCap, stackAllowed, minSal, maxSal) {
+                if (minSal == null) minSal = 0;
+                if (maxSal == null || isNaN(maxSal)) maxSal = SALARY_CAP;
                 // group eligible fighters by fight
                 const fightsMap = {};
                 for (const f of FIGHTERS) {
@@ -8131,14 +8141,16 @@
                 const maxPer = stackAllowed ? 2 : 1;   // most fighters one fight can contribute
 
                 (function recurse(idx, count, salary, own, proj, stacks) {
-                    if (salary > SALARY_CAP) return;
+                    if (salary > maxSal) return;
                     if (hasCap && own > ownCap) return;
                     if (count > ROSTER) return;
                     const remaining = fights.length - idx;
                     if (count + maxPer * remaining < ROSTER) return;     // can't reach 6
                     if (count + forcedSuffix[idx] > ROSTER) return;      // too many forced left
                     if (idx === fights.length) {
-                        if (count === ROSTER) results.push({ players: chosen.slice(), salary, own, proj, stacked: stacks > 0 });
+                        // the salary floor is a completed-lineup test, not a prune —
+                        // a partial lineup below the floor can still climb above it
+                        if (count === ROSTER && salary >= minSal) results.push({ players: chosen.slice(), salary, own, proj, stacked: stacks > 0 });
                         return;
                     }
                     const ft = fights[idx];
@@ -8199,6 +8211,11 @@
                     .filter(x => x.count > 0)
                     .sort((a, b) => b.count - a.count);
 
+                // annotate for the sortable table: projection rank is the lineup's
+                // identity, leverage is fixed per lineup — compute both once here
+                const om = oppMap();
+                picked.forEach((lu, i) => { lu.projRank = i + 1; lu.lev = oppLeverage(lu.players, om); });
+
                 return { lineups: picked, total: results.length, stackAllowed: !!stackAllowed, capped, exposure };
             }
 
@@ -8223,6 +8240,48 @@
                 return players.reduce((s, p) => { const o = m.get(p); return s + (o ? (o.own || 0) : 0); }, 0);
             }
 
+            // The generated set is re-sortable without rebuilding: the optimizer
+            // always hands over the top-by-projection portfolio, and these sorts
+            // just reorder that same set (pOwn to see what the field plays,
+            // salary to find the builds that leave money on the table).
+            let optSort = { key: 'proj', asc: false };
+            let lastOwnCap = null;
+            const OPT_SORT_COLS = [
+                { key: 'proj', label: 'Proj' },
+                { key: 'salary', label: 'Salary' },
+                { key: 'own', label: 'Own %' },
+                { key: 'lev', label: 'Opp. Own Sum', title: 'Combined ownership of the fighters this lineup is up against' },
+            ];
+            function renderResultRows() {
+                const { key, asc } = optSort;
+                lastLineups.sort((a, b) => {
+                    const d = (a[key] || 0) - (b[key] || 0);
+                    if (d) return asc ? d : -d;
+                    return a.projRank - b.projRank;   // stable, meaningful tiebreak
+                });
+                const head = ['<th>#</th>'];
+                for (let i = 1; i <= 6; i++) head.push(`<th class="l">F${i}</th>`);
+                for (const c of OPT_SORT_COLS) {
+                    const arrow = c.key === key ? (asc ? ' ▴' : ' ▾') : '';
+                    head.push(`<th class="sortable" data-key="${c.key}"${c.title ? ` title="${c.title}"` : ''}>${c.label}${arrow}</th>`);
+                }
+                document.getElementById('optResultsHead').innerHTML = head.join('');
+                const hasCap = lastOwnCap != null && !isNaN(lastOwnCap);
+                document.getElementById('optResultsBody').innerHTML = lastLineups.map(lu => {
+                    const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
+                    const cells = players.map(p => `<td class="lu-fighter">${oEsc(p.name)}</td>`).join('');
+                    const ownCls = hasCap && lu.own > lastOwnCap ? 'lu-over' : 'lu-num';
+                    const tag = lu.stacked ? '<span class="lu-stack-tag">stack</span>' : '';
+                    return `<tr class="${lu.stacked ? 'lu-stacked' : ''}">
+                        <td class="lu-rank">${lu.projRank}${tag}</td>
+                        ${cells}
+                        <td class="lu-proj">${lu.proj.toFixed(1)}</td>
+                        <td class="lu-num">$${lu.salary.toLocaleString()}</td>
+                        <td class="${ownCls}">${lu.own.toFixed(1)}%</td>
+                        <td class="lu-lev">${(lu.lev || 0).toFixed(1)}%</td>
+                    </tr>`;
+                }).join('');
+            }
             function renderResults(res, ownCap) {
                 const wrap = document.getElementById('optResults');
                 if (res.error) {
@@ -8232,6 +8291,8 @@
                 }
                 document.getElementById('optErr').textContent = '';
                 lastLineups = res.lineups;
+                lastOwnCap = ownCap;
+                optSort = { key: 'proj', asc: false };   // every new build starts in projection order
                 if (!res.total) {
                     document.getElementById('optResultsNote').textContent = 'No valid lineups — check that projections are entered and your locks/cap aren\'t too restrictive.';
                     document.getElementById('optResultsBody').innerHTML = '';
@@ -8239,25 +8300,7 @@
                     wrap.style.display = '';
                     return;
                 }
-                const head = ['#', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'Proj', 'Salary', 'Own %', 'Opp. Leverage'];
-                document.getElementById('optResultsHead').innerHTML = head.map((h, i) =>
-                    `<th class="${i === 0 || i > 6 ? '' : 'l'}"${h === 'Opp. Leverage' ? ' title="Combined ownership of the fighters this lineup is up against"' : ''}>${h}</th>`).join('');
-                const hasCap = ownCap != null && !isNaN(ownCap);
-                const om = oppMap();
-                document.getElementById('optResultsBody').innerHTML = res.lineups.map((lu, i) => {
-                    const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
-                    const cells = players.map(p => `<td class="lu-fighter">${oEsc(p.name)}</td>`).join('');
-                    const ownCls = hasCap && lu.own > ownCap ? 'lu-over' : 'lu-num';
-                    const tag = lu.stacked ? '<span class="lu-stack-tag">stack</span>' : '';
-                    return `<tr class="${lu.stacked ? 'lu-stacked' : ''}">
-                        <td class="lu-rank">${i + 1}${tag}</td>
-                        ${cells}
-                        <td class="lu-proj">${lu.proj.toFixed(1)}</td>
-                        <td class="lu-num">$${lu.salary.toLocaleString()}</td>
-                        <td class="${ownCls}">${lu.own.toFixed(1)}%</td>
-                        <td class="lu-lev">${oppLeverage(players, om).toFixed(1)}%</td>
-                    </tr>`;
-                }).join('');
+                renderResultRows();
                 const shown = res.lineups.length;
                 document.getElementById('optResultsTitle').textContent = `Your ${shown}-lineup portfolio`;
                 const stackedCount = res.lineups.filter(l => l.stacked).length;
@@ -8315,11 +8358,10 @@
             function exportResultsCSV() {
                 if (!lastLineups.length) return;
                 const rows = lastLineups.slice(0, DK_MAX_LINEUPS);
-                let out = dkHeader('Lineup,Projection,Salary,Ownership,OppLeverage,Stacked');
-                const om = oppMap();
+                let out = dkHeader('Lineup,Projection,Salary,Ownership,OppOwnSum,Stacked');
                 rows.forEach((lu, i) => {
                     const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
-                    out += dkRow(players) + `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${oppLeverage(players, om).toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                    out += dkRow(players) + `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${(lu.lev || 0).toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
                 });
                 downloadCSV('mmalivesim_dk_upload.csv', out);
                 document.getElementById('optErr').textContent = dkExportWarning(lastLineups.map(l => l.players), rows.length);
@@ -8382,18 +8424,36 @@
                     MAX_RESULTS = Math.max(1, Math.min(1000, isNaN(cntRaw) ? 150 : cntRaw));
                     const capRaw = document.getElementById('optOwnCap').value.trim();
                     const ownCap = capRaw === '' ? null : oNum(capRaw);
+                    const minRaw = document.getElementById('optMinSal').value.trim();
+                    const maxRaw = document.getElementById('optMaxSal').value.trim();
+                    const minSal = minRaw === '' ? 0 : oNum(minRaw);
+                    const maxSal = maxRaw === '' ? SALARY_CAP : Math.min(SALARY_CAP, oNum(maxRaw));
+                    if (minSal > maxSal) {
+                        document.getElementById('optErr').textContent = `Min salary ($${minSal.toLocaleString()}) is above max salary ($${maxSal.toLocaleString()}).`;
+                        return;
+                    }
                     if (!FIGHTERS.some(f => !f.exclude && f.proj > 0)) {
                         document.getElementById('optErr').textContent = 'Enter at least one projection first.';
                         return;
                     }
                     const stackAllowed = document.getElementById('optStack').checked;
-                    const res = optimize(ownCap, stackAllowed);
+                    const res = optimize(ownCap, stackAllowed, minSal, maxSal);
                     renderResults(res, ownCap);
                     if (!res.error) logTabOpen('built_lineups');
                     if (!res.error) document.getElementById('optResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 });
 
                 document.getElementById('optExportBtn').addEventListener('click', exportResultsCSV);
+                // re-sort the built portfolio in place; the # column keeps each
+                // lineup's projection rank so identity survives any ordering
+                document.getElementById('optResultsHead').addEventListener('click', e => {
+                    const th = e.target.closest('th.sortable');
+                    if (!th || !lastLineups.length) return;
+                    const k = th.dataset.key;
+                    if (optSort.key === k) optSort.asc = !optSort.asc;
+                    else optSort = { key: k, asc: false };
+                    renderResultRows();
+                });
             }
             initOptimizer();
             window.__openOptimizer = openOptimizer;

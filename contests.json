@@ -1,20 +1,60 @@
 {
   "contests": [
     {
-      "id": "100k_knockout",
-      "name": "100K Knockout",
-      "file": "100K_Knockout.json",
-      "entryFee": 555.0,
-      "totalPrizes": 100000,
-      "entrants": 200
-    },
-    {
       "id": "100k_mega_mini-max",
       "name": "100K MEGA mini-MAX",
       "file": "100K_MEGA_mini-MAX.json",
       "entryFee": 3.0,
       "totalPrizes": 100000,
-      "entrants": 39280
+      "entrants": 39635
+    },
+    {
+      "id": "100_double_up",
+      "name": "100 Double Up",
+      "file": "100_Double_Up.json",
+      "entryFee": 100.0,
+      "totalPrizes": 1000,
+      "entrants": 11
+    },
+    {
+      "id": "100_double_up_2",
+      "name": "100 Double Up 2",
+      "file": "100_Double_Up_2.json",
+      "entryFee": 100.0,
+      "totalPrizes": 1000,
+      "entrants": 11
+    },
+    {
+      "id": "100_double_up_3",
+      "name": "100 Double Up 3",
+      "file": "100_Double_Up_3.json",
+      "entryFee": 100.0,
+      "totalPrizes": 1000,
+      "entrants": 11
+    },
+    {
+      "id": "100_double_up_4",
+      "name": "100 Double Up 4",
+      "file": "100_Double_Up_4.json",
+      "entryFee": 100.0,
+      "totalPrizes": 1000,
+      "entrants": 11
+    },
+    {
+      "id": "100_double_up_5",
+      "name": "100 Double Up 5",
+      "file": "100_Double_Up_5.json",
+      "entryFee": 100.0,
+      "totalPrizes": 1000,
+      "entrants": 11
+    },
+    {
+      "id": "100_double_up_6",
+      "name": "100 Double Up 6",
+      "file": "100_Double_Up_6.json",
+      "entryFee": 100.0,
+      "totalPrizes": 1000,
+      "entrants": 11
     },
     {
       "id": "10k_counter_punch",
@@ -25,20 +65,36 @@
       "entrants": 291
     },
     {
-      "id": "10k_jab",
-      "name": "10K Jab",
-      "file": "10K_Jab.json",
-      "entryFee": 1.0,
+      "id": "10k_throwdown",
+      "name": "10K Throwdown",
+      "file": "10K_Throwdown.json",
+      "entryFee": 15.0,
       "totalPrizes": 10000,
-      "entrants": 11890
+      "entrants": 678
     },
     {
-      "id": "10k_uppercut",
-      "name": "10K Uppercut",
-      "file": "10K_Uppercut.json",
+      "id": "120k_knockout",
+      "name": "120K Knockout",
+      "file": "120K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 120000,
+      "entrants": 240
+    },
+    {
+      "id": "12k_jab",
+      "name": "12K Jab",
+      "file": "12K_Jab.json",
+      "entryFee": 1.0,
+      "totalPrizes": 12000,
+      "entrants": 14268
+    },
+    {
+      "id": "15k_contender",
+      "name": "15K Contender",
+      "file": "15K_Contender.json",
       "entryFee": 100.0,
-      "totalPrizes": 10000,
-      "entrants": 111
+      "totalPrizes": 15000,
+      "entrants": 166
     },
     {
       "id": "15k_title_fight",
@@ -49,12 +105,12 @@
       "entrants": 15
     },
     {
-      "id": "20k_mini-max",
-      "name": "20K mini-MAX",
-      "file": "20K_mini-MAX.json",
+      "id": "21k_mini-max",
+      "name": "21K mini-MAX",
+      "file": "21K_mini-MAX.json",
       "entryFee": 0.5,
-      "totalPrizes": 20000,
-      "entrants": 47562
+      "totalPrizes": 2150,
+      "entrants": 5112
     },
     {
       "id": "250_double_up",
@@ -65,44 +121,172 @@
       "entrants": 11
     },
     {
-      "id": "25k_triangle",
-      "name": "25K Triangle",
-      "file": "25K_Triangle.json",
-      "entryFee": 200.0,
-      "totalPrizes": 25000,
-      "entrants": 138
+      "id": "25_double_up",
+      "name": "25 Double Up",
+      "file": "25_Double_Up.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
     },
     {
-      "id": "26k_double_champ",
-      "name": "26K Double Champ",
-      "file": "26K_Double_Champ.json",
+      "id": "25_double_up_10",
+      "name": "25 Double Up 10",
+      "file": "25_Double_Up_10.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_11",
+      "name": "25 Double Up 11",
+      "file": "25_Double_Up_11.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_12",
+      "name": "25 Double Up 12",
+      "file": "25_Double_Up_12.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_13",
+      "name": "25 Double Up 13",
+      "file": "25_Double_Up_13.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_14",
+      "name": "25 Double Up 14",
+      "file": "25_Double_Up_14.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_15",
+      "name": "25 Double Up 15",
+      "file": "25_Double_Up_15.json",
+      "entryFee": 25.0,
+      "totalPrizes": 500,
+      "entrants": 22
+    },
+    {
+      "id": "25_double_up_16",
+      "name": "25 Double Up 16",
+      "file": "25_Double_Up_16.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_17",
+      "name": "25 Double Up 17",
+      "file": "25_Double_Up_17.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_2",
+      "name": "25 Double Up 2",
+      "file": "25_Double_Up_2.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_3",
+      "name": "25 Double Up 3",
+      "file": "25_Double_Up_3.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_4",
+      "name": "25 Double Up 4",
+      "file": "25_Double_Up_4.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_5",
+      "name": "25 Double Up 5",
+      "file": "25_Double_Up_5.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_6",
+      "name": "25 Double Up 6",
+      "file": "25_Double_Up_6.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_7",
+      "name": "25 Double Up 7",
+      "file": "25_Double_Up_7.json",
+      "entryFee": 25.0,
+      "totalPrizes": 500,
+      "entrants": 22
+    },
+    {
+      "id": "25_double_up_8",
+      "name": "25 Double Up 8",
+      "file": "25_Double_Up_8.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "25_double_up_9",
+      "name": "25 Double Up 9",
+      "file": "25_Double_Up_9.json",
+      "entryFee": 25.0,
+      "totalPrizes": 250,
+      "entrants": 11
+    },
+    {
+      "id": "30k_double_champ",
+      "name": "30K Double Champ",
+      "file": "30K_Double_Champ.json",
       "entryFee": 2120.0,
-      "totalPrizes": 26000,
-      "entrants": 13
+      "totalPrizes": 30000,
+      "entrants": 15
     },
     {
-      "id": "2k_guillotine",
-      "name": "2K Guillotine",
-      "file": "2K_Guillotine.json",
-      "entryFee": 2.0,
-      "totalPrizes": 2000,
-      "entrants": 1189
+      "id": "30k_triangle",
+      "name": "30K Triangle",
+      "file": "30K_Triangle.json",
+      "entryFee": 200.0,
+      "totalPrizes": 30200,
+      "entrants": 167
     },
     {
-      "id": "2k_sprawl",
-      "name": "2K Sprawl",
-      "file": "2K_Sprawl.json",
-      "entryFee": 4.0,
-      "totalPrizes": 2000,
-      "entrants": 594
-    },
-    {
-      "id": "300k_throwdown",
-      "name": "300K Throwdown",
-      "file": "300K_Throwdown.json",
+      "id": "333k_throwdown",
+      "name": "333K Throwdown",
+      "file": "333K_Throwdown.json",
       "entryFee": 18.0,
-      "totalPrizes": 300000,
-      "entrants": 19607
+      "totalPrizes": 333000,
+      "entrants": 21764
+    },
+    {
+      "id": "3k_arm_bar",
+      "name": "3K Arm Bar",
+      "file": "3K_Arm_Bar.json",
+      "entryFee": 5.0,
+      "totalPrizes": 3000,
+      "entrants": 713
     },
     {
       "id": "40k_arm_bar",
@@ -121,28 +305,116 @@
       "entrants": 5882
     },
     {
-      "id": "5k_clinch",
-      "name": "5K Clinch",
-      "file": "5K_Clinch.json",
+      "id": "4k_triangle",
+      "name": "4K Triangle",
+      "file": "4K_Triangle.json",
+      "entryFee": 200.0,
+      "totalPrizes": 4000,
+      "entrants": 19
+    },
+    {
+      "id": "50_double_up",
+      "name": "50 Double Up",
+      "file": "50_Double_Up.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "50_double_up_10",
+      "name": "50 Double Up 10",
+      "file": "50_Double_Up_10.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "50_double_up_11",
+      "name": "50 Double Up 11",
+      "file": "50_Double_Up_11.json",
+      "entryFee": 50.0,
+      "totalPrizes": 1000,
+      "entrants": 20
+    },
+    {
+      "id": "50_double_up_2",
+      "name": "50 Double Up 2",
+      "file": "50_Double_Up_2.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "50_double_up_3",
+      "name": "50 Double Up 3",
+      "file": "50_Double_Up_3.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "50_double_up_4",
+      "name": "50 Double Up 4",
+      "file": "50_Double_Up_4.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "50_double_up_5",
+      "name": "50 Double Up 5",
+      "file": "50_Double_Up_5.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "50_double_up_6",
+      "name": "50 Double Up 6",
+      "file": "50_Double_Up_6.json",
+      "entryFee": 50.0,
+      "totalPrizes": 1000,
+      "entrants": 22
+    },
+    {
+      "id": "50_double_up_7",
+      "name": "50 Double Up 7",
+      "file": "50_Double_Up_7.json",
+      "entryFee": 50.0,
+      "totalPrizes": 2000,
+      "entrants": 45
+    },
+    {
+      "id": "50_double_up_8",
+      "name": "50 Double Up 8",
+      "file": "50_Double_Up_8.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "50_double_up_9",
+      "name": "50 Double Up 9",
+      "file": "50_Double_Up_9.json",
+      "entryFee": 50.0,
+      "totalPrizes": 500,
+      "entrants": 11
+    },
+    {
+      "id": "6k_clinch",
+      "name": "6K Clinch",
+      "file": "6K_Clinch.json",
       "entryFee": 5.0,
-      "totalPrizes": 5000,
-      "entrants": 1189
-    },
-    {
-      "id": "5k_wall_crawler",
-      "name": "5K Wall Crawler",
-      "file": "5K_Wall_Crawler.json",
-      "entryFee": 55.0,
-      "totalPrizes": 5000,
-      "entrants": 103
-    },
-    {
-      "id": "6k_flying_knee",
-      "name": "6K Flying Knee",
-      "file": "6K_Flying_Knee.json",
-      "entryFee": 12.0,
       "totalPrizes": 6000,
-      "entrants": 588
+      "entrants": 1426
+    },
+    {
+      "id": "6k_hook",
+      "name": "6K Hook",
+      "file": "6K_Hook.json",
+      "entryFee": 8.0,
+      "totalPrizes": 6000,
+      "entrants": 882
     },
     {
       "id": "6k_tap_out",
@@ -153,12 +425,44 @@
       "entrants": 20
     },
     {
-      "id": "single_entry_5_double_up",
-      "name": "Single Entry 5 Double Up",
-      "file": "Single_Entry_5_Double_Up.json",
-      "entryFee": 5.0,
+      "id": "8k_fifth_round",
+      "name": "8K Fifth Round",
+      "file": "8K_Fifth_Round.json",
+      "entryFee": 55.0,
+      "totalPrizes": 8000,
+      "entrants": 165
+    },
+    {
+      "id": "single_entry_25_double_up",
+      "name": "Single Entry 25 Double Up",
+      "file": "Single_Entry_25_Double_Up.json",
+      "entryFee": 25.0,
       "totalPrizes": 1000,
-      "entrants": 229
+      "entrants": 45
+    },
+    {
+      "id": "single_entry_25_double_up_2",
+      "name": "Single Entry 25 Double Up 2",
+      "file": "Single_Entry_25_Double_Up_2.json",
+      "entryFee": 25.0,
+      "totalPrizes": 2000,
+      "entrants": 91
+    },
+    {
+      "id": "single_entry_25_double_up_3",
+      "name": "Single Entry 25 Double Up 3",
+      "file": "Single_Entry_25_Double_Up_3.json",
+      "entryFee": 25.0,
+      "totalPrizes": 1000,
+      "entrants": 45
+    },
+    {
+      "id": "single_entry_25_double_up_4",
+      "name": "Single Entry 25 Double Up 4",
+      "file": "Single_Entry_25_Double_Up_4.json",
+      "entryFee": 25.0,
+      "totalPrizes": 500,
+      "entrants": 22
     }
   ]
 }

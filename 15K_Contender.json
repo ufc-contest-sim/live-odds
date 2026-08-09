@@ -1,6 +1,6 @@
 {
   "contest_name": "15K Contender",
-  "last_updated": "2026-08-08T21:41:26.966451",
+  "last_updated": "2026-08-09T12:53:30.817811",
   "total_lineups": 166,
   "summary": {
     "top_win_pct": 100.0,
@@ -83,10 +83,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 583.1500244140625,
+      "MeanScore": 583.1499633789062,
       "SDScore": 0.0,
-      "P99Score": 583.1500244140625,
-      "TotalPayout": 300.0,
+      "P99Score": 583.1499633789062,
+      "TotalPayout": 30000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -110,9 +110,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 331.5800170898437,
+      "MeanScore": 331.5799865722656,
       "SDScore": 0.0,
-      "P99Score": 331.5800170898437,
+      "P99Score": 331.5799865722656,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -140,7 +140,7 @@
       "MeanScore": 545.1799926757812,
       "SDScore": 0.0,
       "P99Score": 545.1799926757812,
-      "TotalPayout": 200.0,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -191,10 +191,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 546.6800537109375,
+      "MeanScore": 546.6799926757812,
       "SDScore": 0.0,
-      "P99Score": 546.6800537109375,
-      "TotalPayout": 200.0,
+      "P99Score": 546.6799926757812,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -275,7 +275,7 @@
       "MeanScore": 523.2100219726562,
       "SDScore": 0.0,
       "P99Score": 523.2100219726562,
-      "TotalPayout": 150.0,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -299,9 +299,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 481.16998291015625,
-      "SDScore": 0.0,
-      "P99Score": 481.16998291015625,
+      "MeanScore": 481.1700134277344,
+      "SDScore": 3.454372564469409e-05,
+      "P99Score": 481.1700937884571,
       "TotalPayout": 0.0,
       "TotalSalary": 49700.0
     },
@@ -327,8 +327,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 518.5899658203125,
-      "SDScore": 0.0,
-      "P99Score": 518.5899658203125,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 518.5900013177414,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -353,10 +353,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 532.8400268554688,
-      "SDScore": 0.0,
-      "P99Score": 532.8400268554688,
-      "TotalPayout": 150.0,
+      "MeanScore": 532.8399658203125,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 532.8400013177414,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -410,7 +410,7 @@
       "MeanScore": 606.4299926757812,
       "SDScore": 0.0,
       "P99Score": 606.4299926757812,
-      "TotalPayout": 1000.0,
+      "TotalPayout": 100000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -491,7 +491,7 @@
       "MeanScore": 585.0700073242188,
       "SDScore": 0.0,
       "P99Score": 585.0700073242188,
-      "TotalPayout": 300.0,
+      "TotalPayout": 30000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -515,10 +515,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 530.8400268554688,
-      "SDScore": 0.0,
-      "P99Score": 530.8400268554688,
-      "TotalPayout": 150.0,
+      "MeanScore": 530.8399658203125,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 530.8400013177414,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -626,7 +626,7 @@
       "MeanScore": 586.5800170898438,
       "SDScore": 0.0,
       "P99Score": 586.5800170898438,
-      "TotalPayout": 325.0,
+      "TotalPayout": 32500000.0,
       "TotalSalary": 49700.0
     },
     {
@@ -677,10 +677,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 530.8400268554688,
-      "SDScore": 0.0,
-      "P99Score": 530.8400268554688,
-      "TotalPayout": 150.0,
+      "MeanScore": 530.8399658203125,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 530.8400013177414,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -704,9 +704,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 362.8399658203125,
+      "MeanScore": 362.8399963378906,
       "SDScore": 0.0,
-      "P99Score": 362.8399658203125,
+      "P99Score": 362.8399963378906,
       "TotalPayout": 0.0,
       "TotalSalary": 49700.0
     },
@@ -734,7 +734,7 @@
       "MeanScore": 606.1600341796875,
       "SDScore": 0.0,
       "P99Score": 606.1600341796875,
-      "TotalPayout": 750.0,
+      "TotalPayout": 75000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -842,7 +842,7 @@
       "MeanScore": 525.2100219726562,
       "SDScore": 0.0,
       "P99Score": 525.2100219726562,
-      "TotalPayout": 150.0,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -893,9 +893,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 481.16998291015625,
-      "SDScore": 0.0,
-      "P99Score": 481.16998291015625,
+      "MeanScore": 481.1700134277344,
+      "SDScore": 3.454372564469409e-05,
+      "P99Score": 481.1700937884571,
       "TotalPayout": 0.0,
       "TotalSalary": 49700.0
     },
@@ -920,10 +920,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 603.2500610351562,
+      "MeanScore": 603.25,
       "SDScore": 0.0,
-      "P99Score": 603.2500610351562,
-      "TotalPayout": 600.0,
+      "P99Score": 603.25,
+      "TotalPayout": 60000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -947,10 +947,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 530.8400268554688,
-      "SDScore": 0.0,
-      "P99Score": 530.8400268554688,
-      "TotalPayout": 150.0,
+      "MeanScore": 530.8399658203125,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 530.8400013177414,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -1028,9 +1028,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 507.0999755859375,
+      "MeanScore": 507.10003662109375,
       "SDScore": 0.0,
-      "P99Score": 507.0999755859375,
+      "P99Score": 507.10003662109375,
       "TotalPayout": 0.0,
       "TotalSalary": 49600.0
     },
@@ -1085,7 +1085,7 @@
       "MeanScore": 586.5800170898438,
       "SDScore": 0.0,
       "P99Score": 586.5800170898438,
-      "TotalPayout": 325.0,
+      "TotalPayout": 32500000.0,
       "TotalSalary": 49700.0
     },
     {
@@ -1109,9 +1109,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 490.9100341796875,
+      "MeanScore": 490.9099731445313,
       "SDScore": 0.0,
-      "P99Score": 490.9100341796875,
+      "P99Score": 490.9099731445313,
       "TotalPayout": 0.0,
       "TotalSalary": 49000.0
     },
@@ -1163,9 +1163,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 471.469970703125,
+      "MeanScore": 471.4700317382813,
       "SDScore": 0.0,
-      "P99Score": 471.469970703125,
+      "P99Score": 471.4700317382813,
       "TotalPayout": 0.0,
       "TotalSalary": 49800.0
     },
@@ -1220,7 +1220,7 @@
       "MeanScore": 611.9600219726562,
       "SDScore": 0.0,
       "P99Score": 611.9600219726562,
-      "TotalPayout": 1500.0,
+      "TotalPayout": 150000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -1244,9 +1244,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 472.3499755859375,
-      "SDScore": 0.0,
-      "P99Score": 472.3499755859375,
+      "MeanScore": 472.3500061035156,
+      "SDScore": 3.0037106492410505e-05,
+      "P99Score": 472.3500759802745,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -1271,9 +1271,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 354.1900329589844,
+      "MeanScore": 354.19000244140625,
       "SDScore": 0.0,
-      "P99Score": 354.1900329589844,
+      "P99Score": 354.19000244140625,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -1299,9 +1299,9 @@
       "ThirdPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 569.219970703125,
-      "SDScore": 0.0,
-      "P99Score": 569.219970703125,
-      "TotalPayout": 250.0,
+      "SDScore": 1.7059930098903888e-05,
+      "P99Score": 569.2200103904571,
+      "TotalPayout": 25000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -1326,8 +1326,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 499.8299865722656,
-      "SDScore": 0.0,
-      "P99Score": 499.8299865722656,
+      "SDScore": 3.6589473744584514e-05,
+      "P99Score": 499.8300716921101,
       "TotalPayout": 0.0,
       "TotalSalary": 49700.0
     },
@@ -1353,8 +1353,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 500.5799865722656,
-      "SDScore": 0.0,
-      "P99Score": 500.5799865722656,
+      "SDScore": 3.7376434178524e-05,
+      "P99Score": 500.5800735228538,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -1436,7 +1436,7 @@
       "MeanScore": 587.77001953125,
       "SDScore": 0.0,
       "P99Score": 587.77001953125,
-      "TotalPayout": 350.0,
+      "TotalPayout": 35000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -1460,10 +1460,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 552.219970703125,
+      "MeanScore": 552.2200317382812,
       "SDScore": 0.0,
-      "P99Score": 552.219970703125,
-      "TotalPayout": 250.0,
+      "P99Score": 552.2200317382812,
+      "TotalPayout": 25000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -1490,7 +1490,7 @@
       "MeanScore": 550.7799682617188,
       "SDScore": 0.0,
       "P99Score": 550.7799682617188,
-      "TotalPayout": 200.0,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 49800.0
     },
     {
@@ -1517,7 +1517,7 @@
       "MeanScore": 571.4199829101562,
       "SDScore": 0.0,
       "P99Score": 571.4199829101562,
-      "TotalPayout": 250.0,
+      "TotalPayout": 25000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -1541,10 +1541,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 537.7000122070312,
-      "SDScore": 0.0,
-      "P99Score": 537.7000122070312,
-      "TotalPayout": 200.0,
+      "MeanScore": 537.699951171875,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 537.6999866693039,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 49600.0
     },
     {
@@ -1568,9 +1568,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 393.2400207519531,
+      "MeanScore": 393.239990234375,
       "SDScore": 0.0,
-      "P99Score": 393.2400207519531,
+      "P99Score": 393.239990234375,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -1706,7 +1706,7 @@
       "MeanScore": 595.510009765625,
       "SDScore": 0.0,
       "P99Score": 595.510009765625,
-      "TotalPayout": 400.0,
+      "TotalPayout": 40000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -1730,9 +1730,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 505.72998046875,
+      "MeanScore": 505.7300109863281,
       "SDScore": 0.0,
-      "P99Score": 505.72998046875,
+      "P99Score": 505.7300109863281,
       "TotalPayout": 0.0,
       "TotalSalary": 49600.0
     },
@@ -1757,9 +1757,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 391.1600036621094,
+      "MeanScore": 391.1599731445313,
       "SDScore": 0.0,
-      "P99Score": 391.1600036621094,
+      "P99Score": 391.1599731445313,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -1784,9 +1784,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 467.260009765625,
+      "MeanScore": 467.2599792480469,
       "SDScore": 0.0,
-      "P99Score": 467.260009765625,
+      "P99Score": 467.2599792480469,
       "TotalPayout": 0.0,
       "TotalSalary": 49500.0
     },
@@ -1892,9 +1892,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 340.5400085449219,
+      "MeanScore": 340.5399780273437,
       "SDScore": 0.0,
-      "P99Score": 340.5400085449219,
+      "P99Score": 340.5399780273437,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -2030,7 +2030,7 @@
       "MeanScore": 523.2100219726562,
       "SDScore": 0.0,
       "P99Score": 523.2100219726562,
-      "TotalPayout": 150.0,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -2111,7 +2111,7 @@
       "MeanScore": 614.0599975585938,
       "SDScore": 0.0,
       "P99Score": 614.0599975585938,
-      "TotalPayout": 2500.0,
+      "TotalPayout": 250000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -2136,8 +2136,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 453.0899963378906,
-      "SDScore": 0.0,
-      "P99Score": 453.0899963378906,
+      "SDScore": 1.2063192259503427e-05,
+      "P99Score": 453.0900244010723,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -2192,7 +2192,7 @@
       "MeanScore": 592.77001953125,
       "SDScore": 0.0,
       "P99Score": 592.77001953125,
-      "TotalPayout": 400.0,
+      "TotalPayout": 40000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -2351,10 +2351,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 541.3099975585938,
-      "SDScore": 0.0,
-      "P99Score": 541.3099975585938,
-      "TotalPayout": 200.0,
+      "MeanScore": 541.3099365234375,
+      "SDScore": 1.078964716715958e-05,
+      "P99Score": 541.3099616239102,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -2533,17 +2533,17 @@
       "F6": "Gigi Canuto",
       "EntryFee": 100.0,
       "AvgWinPayout": 0.0,
-      "EV": 533.3333333333334,
-      "NetEV": 433.33333333333337,
-      "ROI%": 433.33333333333337,
+      "EV": 533.3333333333352,
+      "NetEV": 433.3333333333352,
+      "ROI%": 433.3333333333352,
       "WinPct": 0.0,
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 600.4000244140625,
+      "MeanScore": 600.3999633789062,
       "SDScore": 0.0,
-      "P99Score": 600.4000244140625,
-      "TotalPayout": 533.3333333333334,
+      "P99Score": 600.3999633789062,
+      "TotalPayout": 53333333.33333352,
       "TotalSalary": 49900.0
     },
     {
@@ -2648,9 +2648,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 467.260009765625,
+      "MeanScore": 467.2599792480469,
       "SDScore": 0.0,
-      "P99Score": 467.260009765625,
+      "P99Score": 467.2599792480469,
       "TotalPayout": 0.0,
       "TotalSalary": 49500.0
     },
@@ -2730,8 +2730,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 518.5899658203125,
-      "SDScore": 0.0,
-      "P99Score": 518.5899658203125,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 518.5900013177414,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -2783,9 +2783,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 477.8599853515625,
-      "SDScore": 0.0,
-      "P99Score": 477.8599853515625,
+      "MeanScore": 477.8600158691406,
+      "SDScore": 3.369066248116826e-05,
+      "P99Score": 477.86009424534166,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -2838,8 +2838,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 404.0999755859375,
-      "SDScore": 0.0,
-      "P99Score": 404.0999755859375,
+      "SDScore": 1.078964716715958e-05,
+      "P99Score": 404.1000006864102,
       "TotalPayout": 0.0,
       "TotalSalary": 49700.0
     },
@@ -2864,9 +2864,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 351.3499755859375,
+      "MeanScore": 351.3500061035156,
       "SDScore": 0.0,
-      "P99Score": 351.3499755859375,
+      "P99Score": 351.3500061035156,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -2918,9 +2918,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 370.72998046875,
+      "MeanScore": 370.7300109863281,
       "SDScore": 0.0,
-      "P99Score": 370.72998046875,
+      "P99Score": 370.7300109863281,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -2999,9 +2999,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 368.5999755859375,
+      "MeanScore": 368.6000061035156,
       "SDScore": 0.0,
-      "P99Score": 368.5999755859375,
+      "P99Score": 368.6000061035156,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -3080,9 +3080,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 504.5700073242188,
-      "SDScore": 0.0,
-      "P99Score": 504.5700073242188,
+      "MeanScore": 504.5699768066406,
+      "SDScore": 3.698504711912083e-05,
+      "P99Score": 504.5700628467264,
       "TotalPayout": 0.0,
       "TotalSalary": 49800.0
     },
@@ -3100,17 +3100,17 @@
       "F6": "Gigi Canuto",
       "EntryFee": 100.0,
       "AvgWinPayout": 0.0,
-      "EV": 533.3333333333334,
-      "NetEV": 433.33333333333337,
-      "ROI%": 433.33333333333337,
+      "EV": 533.3333333333352,
+      "NetEV": 433.3333333333352,
+      "ROI%": 433.3333333333352,
       "WinPct": 0.0,
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 600.4000244140625,
+      "MeanScore": 600.3999633789062,
       "SDScore": 0.0,
-      "P99Score": 600.4000244140625,
-      "TotalPayout": 533.3333333333334,
+      "P99Score": 600.3999633789062,
+      "TotalPayout": 53333333.33333352,
       "TotalSalary": 49900.0
     },
     {
@@ -3189,8 +3189,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 473.1000061035156,
-      "SDScore": 0.0,
-      "P99Score": 473.1000061035156,
+      "SDScore": 3.0037106492410505e-05,
+      "P99Score": 473.1000759802745,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -3215,9 +3215,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 381.6499938964844,
+      "MeanScore": 381.6499633789063,
       "SDScore": 0.0,
-      "P99Score": 381.6499938964844,
+      "P99Score": 381.6499633789063,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -3242,10 +3242,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 552.2099609375,
+      "MeanScore": 552.2100219726562,
       "SDScore": 0.0,
-      "P99Score": 552.2099609375,
-      "TotalPayout": 200.0,
+      "P99Score": 552.2100219726562,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -3297,9 +3297,9 @@
       "ThirdPct": 0.0,
       "CashPct": 100.0,
       "MeanScore": 552.530029296875,
-      "SDScore": 0.0,
-      "P99Score": 552.530029296875,
-      "TotalPayout": 250.0,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 552.5300647943039,
+      "TotalPayout": 25000000.0,
       "TotalSalary": 49600.0
     },
     {
@@ -3323,9 +3323,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 505.0,
+      "MeanScore": 504.9999694824219,
       "SDScore": 0.0,
-      "P99Score": 505.0,
+      "P99Score": 504.9999694824219,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -3353,7 +3353,7 @@
       "MeanScore": 547.4700317382812,
       "SDScore": 0.0,
       "P99Score": 547.4700317382812,
-      "TotalPayout": 200.0,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -3380,7 +3380,7 @@
       "MeanScore": 523.2100219726562,
       "SDScore": 0.0,
       "P99Score": 523.2100219726562,
-      "TotalPayout": 150.0,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -3404,9 +3404,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 484.510009765625,
+      "MeanScore": 484.5099792480469,
       "SDScore": 0.0,
-      "P99Score": 484.510009765625,
+      "P99Score": 484.5099792480469,
       "TotalPayout": 0.0,
       "TotalSalary": 49400.0
     },
@@ -3486,8 +3486,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 365.0999755859375,
-      "SDScore": 0.0,
-      "P99Score": 365.0999755859375,
+      "SDScore": 1.078964716715958e-05,
+      "P99Score": 365.1000006864102,
       "TotalPayout": 0.0,
       "TotalSalary": 49600.0
     },
@@ -3593,9 +3593,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 376.6999816894531,
+      "MeanScore": 376.7000122070313,
       "SDScore": 0.0,
-      "P99Score": 376.6999816894531,
+      "P99Score": 376.7000122070313,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -3621,8 +3621,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 473.1000061035156,
-      "SDScore": 0.0,
-      "P99Score": 473.1000061035156,
+      "SDScore": 3.0037106492410505e-05,
+      "P99Score": 473.1000759802745,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -3647,10 +3647,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 532.8400268554688,
-      "SDScore": 0.0,
-      "P99Score": 532.8400268554688,
-      "TotalPayout": 150.0,
+      "MeanScore": 532.8399658203125,
+      "SDScore": 1.525886535701752e-05,
+      "P99Score": 532.8400013177414,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -3694,17 +3694,17 @@
       "F6": "Gigi Canuto",
       "EntryFee": 100.0,
       "AvgWinPayout": 0.0,
-      "EV": 533.3333333333334,
-      "NetEV": 433.33333333333337,
-      "ROI%": 433.33333333333337,
+      "EV": 533.3333333333352,
+      "NetEV": 433.3333333333352,
+      "ROI%": 433.3333333333352,
       "WinPct": 0.0,
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 600.4000244140625,
+      "MeanScore": 600.3999633789062,
       "SDScore": 0.0,
-      "P99Score": 600.4000244140625,
-      "TotalPayout": 533.3333333333334,
+      "P99Score": 600.3999633789062,
+      "TotalPayout": 53333333.33333352,
       "TotalSalary": 49900.0
     },
     {
@@ -3809,10 +3809,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 552.219970703125,
+      "MeanScore": 552.2200317382812,
       "SDScore": 0.0,
-      "P99Score": 552.219970703125,
-      "TotalPayout": 250.0,
+      "P99Score": 552.2200317382812,
+      "TotalPayout": 25000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -3917,9 +3917,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 512.4600219726562,
+      "MeanScore": 512.4599609375,
       "SDScore": 0.0,
-      "P99Score": 512.4600219726562,
+      "P99Score": 512.4599609375,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -4001,7 +4001,7 @@
       "MeanScore": 529.52001953125,
       "SDScore": 0.0,
       "P99Score": 529.52001953125,
-      "TotalPayout": 150.0,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 49800.0
     },
     {
@@ -4082,7 +4082,7 @@
       "MeanScore": 525.2100219726562,
       "SDScore": 0.0,
       "P99Score": 525.2100219726562,
-      "TotalPayout": 150.0,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -4109,7 +4109,7 @@
       "MeanScore": 543.1500244140625,
       "SDScore": 0.0,
       "P99Score": 543.1500244140625,
-      "TotalPayout": 200.0,
+      "TotalPayout": 20000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -4133,9 +4133,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 487.53997802734375,
+      "MeanScore": 487.5400390625,
       "SDScore": 0.0,
-      "P99Score": 487.53997802734375,
+      "P99Score": 487.5400390625,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -4241,9 +4241,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 446.510009765625,
+      "MeanScore": 446.5099792480469,
       "SDScore": 0.0,
-      "P99Score": 446.510009765625,
+      "P99Score": 446.5099792480469,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -4325,7 +4325,7 @@
       "MeanScore": 521.25,
       "SDScore": 0.0,
       "P99Score": 521.25,
-      "TotalPayout": 150.0,
+      "TotalPayout": 15000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -4349,9 +4349,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 456.8299865722656,
+      "MeanScore": 456.83001708984375,
       "SDScore": 0.0,
-      "P99Score": 456.8299865722656,
+      "P99Score": 456.83001708984375,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -4457,9 +4457,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 467.0299682617188,
+      "MeanScore": 467.0299987792969,
       "SDScore": 0.0,
-      "P99Score": 467.0299682617188,
+      "P99Score": 467.0299987792969,
       "TotalPayout": 0.0,
       "TotalSalary": 42400.0
     },

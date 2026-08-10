@@ -2998,6 +2998,10 @@
         .hb-expo-pct { position: relative; min-width: 64px; }
         .hb-expo-bar { position: absolute; inset: 0 0 0 auto; background: var(--accent); opacity: 0.16; }
         .hb-expo-pct span { position: relative; font-family: 'Chakra Petch', monospace; }
+        .hb-clearall { display: flex; align-items: center; gap: 12px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+        .hb-clearall .hb-danger { border-color: var(--accent-red); color: var(--accent-red); flex: none; }
+        .hb-clearall .hb-danger:hover, .hb-clearall .hb-danger.armed { background: var(--accent-red); color: #fff; }
+        .hb-clearall-note { font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4; }
         @media (max-width: 900px) {
             .hb-wrap { grid-template-columns: 1fr; }
             .hb-meter { position: sticky; top: 0; z-index: 20; box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); }
@@ -3839,6 +3843,10 @@
                             </select>
                         </div>
                         <div class="hb-pool" id="hbPool"></div>
+                        <div class="hb-clearall" id="hbClearAllWrap" style="display:none;">
+                            <button class="opt-btn hb-danger" id="hbClearAll">Clear Portfolio</button>
+                            <div class="hb-clearall-note">Deletes <strong>all</strong> your saved lineups. Only click this if you want to start over or you're moving on to next week's slate.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -8597,6 +8605,8 @@
 
             function hbRenderSaved() {
                 const wrap = document.getElementById('hbSavedWrap');
+                const clearWrap = document.getElementById('hbClearAllWrap');
+                clearWrap.style.display = hbSaved.length ? '' : 'none';
                 if (!hbSaved.length) { wrap.style.display = 'none'; return; }
                 wrap.style.display = '';
                 document.getElementById('hbSavedCount').textContent = 'Saved lineups (' + hbSaved.length + ')';
@@ -8689,6 +8699,31 @@
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
                 document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
                 document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbRender(); });
+                // Clear Portfolio wipes every saved lineup, so it takes two
+                // clicks: the first arms the button, the second confirms.
+                let hbClearArm = null;
+                document.getElementById('hbClearAll').addEventListener('click', () => {
+                    const btn = document.getElementById('hbClearAll');
+                    if (!hbClearArm) {
+                        btn.textContent = `Really delete all ${hbSaved.length} lineup${hbSaved.length === 1 ? '' : 's'}?`;
+                        btn.classList.add('armed');
+                        hbClearArm = setTimeout(() => {
+                            hbClearArm = null;
+                            btn.textContent = 'Clear Portfolio';
+                            btn.classList.remove('armed');
+                        }, 5000);
+                        return;
+                    }
+                    clearTimeout(hbClearArm);
+                    hbClearArm = null;
+                    btn.textContent = 'Clear Portfolio';
+                    btn.classList.remove('armed');
+                    hbSaved = [];
+                    hbNames = [];
+                    hbPersist();
+                    hbRenderSaved();
+                    hbSetErr('');
+                });
                 document.getElementById('hbSave').addEventListener('click', hbSaveLineup);
                 document.getElementById('hbExport').addEventListener('click', hbExportSaved);
                 document.getElementById('hbSavedList').addEventListener('click', e => {

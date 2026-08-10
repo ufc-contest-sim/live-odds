@@ -2959,6 +2959,10 @@
         .hb-add { min-width: 40px; height: 36px; border: 1px solid var(--accent); background: var(--accent); color: #000; font-weight: 800; font-size: 1.2rem; line-height: 1; cursor: pointer; clip-path: var(--chamfer-sm); }
         .hb-add:hover { background: var(--accent-hi); }
         .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
+        .hb-lockbtn { min-width: 34px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; clip-path: var(--chamfer-sm); display: flex; align-items: center; justify-content: center; }
+        .hb-lockbtn:hover { border-color: var(--accent); color: var(--accent); }
+        .hb-lockbtn.on { background: var(--accent); border-color: var(--accent); color: #000; }
+        .hb-slot .lk { color: var(--accent); display: flex; flex: none; }
         .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
         .hb-saved { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
         .hb-saved-head { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
@@ -2990,6 +2994,18 @@
         .hb-saved-names { font-size: 0.78rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .hb-saved-sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
         .hb-saved-row .rm { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 0 4px; }
+        .hb-expo-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+        .hb-expo-table th { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); font-weight: 600; text-align: right; padding: 2px 6px; }
+        .hb-expo-table th.l, .hb-expo-table td.l { text-align: left; }
+        .hb-expo-table td { padding: 4px 6px; border-top: 1px solid var(--border); text-align: right; }
+        .hb-expo-table td.n { font-family: 'Chakra Petch', monospace; color: var(--text-secondary); }
+        .hb-expo-pct { position: relative; min-width: 64px; }
+        .hb-expo-bar { position: absolute; inset: 0 0 0 auto; background: var(--accent); opacity: 0.16; }
+        .hb-expo-pct span { position: relative; font-family: 'Chakra Petch', monospace; }
+        .hb-clearall { display: flex; align-items: center; gap: 12px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+        .hb-clearall .hb-danger { border-color: var(--accent-red); color: var(--accent-red); flex: none; }
+        .hb-clearall .hb-danger:hover, .hb-clearall .hb-danger.armed { background: var(--accent-red); color: #fff; }
+        .hb-clearall-note { font-size: 0.74rem; color: var(--text-secondary); line-height: 1.4; }
         @media (max-width: 900px) {
             .hb-wrap { grid-template-columns: 1fr; }
             .hb-meter { position: sticky; top: 0; z-index: 20; box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); }
@@ -3363,6 +3379,7 @@
         .hb-name { font-weight: 700; }
         .hb-sal { font-family: var(--fn-mono); font-weight: 700; }
         .hb-add { border-radius: 10px; color: #180a02; box-shadow: none; }
+        .hb-lockbtn { border-radius: 10px; }
         .hb-add:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
         .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #06341c; }
         .hb-saved-row { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; }
@@ -3811,6 +3828,11 @@
                         <div class="hb-saved" id="hbSavedWrap" style="display:none;">
                             <div class="hb-saved-head" id="hbSavedCount">Saved lineups (0)</div>
                             <div class="hb-saved-list" id="hbSavedList"></div>
+                            <div class="hb-saved-head">Fighter exposure</div>
+                            <table class="hb-expo-table" aria-label="Fighter exposure across saved lineups">
+                                <thead><tr><th class="l">Fighter</th><th>Lineups</th><th>Exp %</th></tr></thead>
+                                <tbody id="hbExpoBody"></tbody>
+                            </table>
                             <button class="opt-btn opt-btn-primary" id="hbExport">Export for DraftKings</button>
                             <div class="opt-err" id="hbErr"></div>
                         </div>
@@ -3826,6 +3848,10 @@
                             </select>
                         </div>
                         <div class="hb-pool" id="hbPool"></div>
+                        <div class="hb-clearall" id="hbClearAllWrap" style="display:none;">
+                            <button class="opt-btn hb-danger" id="hbClearAll">Clear Portfolio</button>
+                            <div class="hb-clearall-note">Deletes <strong>all</strong> your saved lineups. Only click this if you want to start over or you're moving on to next week's slate.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -8468,10 +8494,39 @@
             const hbTotal = () => hbPicks.reduce((s, f) => s + (f.salary || 0), 0);
 
             function hbAddOrRemove(f) {
-                if (hbInPicks(f)) hbPicks = hbPicks.filter(p => hbKey(p) !== hbKey(f));
-                else if (hbPicks.length < ROSTER) hbPicks.push(f);
+                if (hbInPicks(f)) {
+                    hbPicks = hbPicks.filter(p => hbKey(p) !== hbKey(f));
+                    // dropping a locked fighter also unlocks them, otherwise
+                    // they'd bounce straight back on the next board reset
+                    if (hbLocks.delete(hbKey(f))) hbPersist();
+                } else if (hbPicks.length < ROSTER) hbPicks.push(f);
                 else return;
                 hbRender();
+            }
+
+            // Locked fighters form a "core" the builder always starts with:
+            // they're re-added whenever the board resets (save or Clear).
+            let hbLocks = new Set();
+            const HB_LOCK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
+            const HB_UNLOCK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.7"/></svg>';
+            function hbToggleLock(f) {
+                const k = hbKey(f);
+                if (hbLocks.has(k)) hbLocks.delete(k);
+                else {
+                    hbLocks.add(k);
+                    if (!hbInPicks(f) && hbPicks.length < ROSTER) hbPicks.push(f);
+                }
+                hbPersist();
+                hbRender();
+            }
+            function hbApplyLocks() {
+                hbLocks.forEach(k => {
+                    if (hbPicks.length >= ROSTER) return;
+                    if (!hbPicks.some(p => hbKey(p) === k)) {
+                        const f = FIGHTERS.find(x => hbKey(x) === k);
+                        if (f) hbPicks.push(f);
+                    }
+                });
             }
 
             function hbRenderMeter() {
@@ -8502,6 +8557,44 @@
 
             const hbSig = picks => picks.map(hbKey).sort().join('|');
 
+            function hbSetErr(msg) {
+                const el = document.getElementById('hbErr');
+                if (el) el.textContent = msg;
+            }
+
+            // Saved lineups persist per browser via localStorage. Only fighter
+            // keys are stored; on restore they're resolved against the current
+            // slate, so lineups from a previous week silently drop off.
+            const HB_STORE = 'mmaLiveSim_hbSaved';
+            function hbPersist() {
+                try {
+                    localStorage.setItem(HB_STORE, JSON.stringify({
+                        lineups: hbSaved.map(l => l.map(hbKey)),
+                        names: hbNames,
+                        locks: [...hbLocks],
+                    }));
+                } catch (e) { /* storage full or blocked — saving stays session-only */ }
+            }
+            let hbRestored = false;
+            function hbRestore() {
+                if (hbRestored) return;
+                hbRestored = true;
+                let data = null;
+                try { data = JSON.parse(localStorage.getItem(HB_STORE)); } catch (e) { return; }
+                if (!data || !Array.isArray(data.lineups)) return;
+                const byKey = new Map(FIGHTERS.map(f => [hbKey(f), f]));
+                data.lineups.forEach((keys, i) => {
+                    if (!Array.isArray(keys) || keys.length !== ROSTER) return;
+                    const players = keys.map(k => byKey.get(k));
+                    if (players.some(p => !p)) return;   // slate changed
+                    hbSaved.push(players);
+                    hbNames.push(String((data.names || [])[i] || ''));
+                });
+                (data.locks || []).forEach(k => { if (byKey.has(k)) hbLocks.add(k); });
+                hbApplyLocks();
+                hbPersist();   // prune anything that didn't survive
+            }
+
             function hbFlash(msg) {
                 const btn = document.getElementById('hbSave');
                 btn.textContent = msg;
@@ -8512,7 +8605,15 @@
             let hbPending = null;
             function hbSaveLineup() {
                 if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
-                if (hbSaved.some(l => hbSig(l) === hbSig(hbPicks))) { hbFlash('Already saved'); return; }
+                const sig = hbSig(hbPicks);
+                const dup = hbSaved.findIndex(l => hbSig(l) === sig);
+                if (dup >= 0) {
+                    hbFlash('Already saved');
+                    const nm = (hbNames[dup] || '').trim() || `Lineup ${dup + 1}`;
+                    hbSetErr(`You've already saved this exact lineup — it's “${nm}” in your saved list.`);
+                    return;
+                }
+                hbSetErr('');
                 hbPending = hbPicks.slice();
                 const inp = document.getElementById('hbNameInput');
                 inp.value = `Lineup ${hbSaved.length + 1}`;
@@ -8532,12 +8633,18 @@
                 hbSaved.push(hbPending);
                 hbNames.push(nm || `Lineup ${hbSaved.length}`);
                 hbCloseName();
-                hbRenderSaved();
+                hbPicks = [];        // clear the board for the next build
+                hbApplyLocks();      // …except the locked core stays
+                hbRender();
+                hbPersist();
+                hbSetErr('');
                 hbFlash('Saved ✓');
             }
 
             function hbRenderSaved() {
                 const wrap = document.getElementById('hbSavedWrap');
+                const clearWrap = document.getElementById('hbClearAllWrap');
+                clearWrap.style.display = hbSaved.length ? '' : 'none';
                 if (!hbSaved.length) { wrap.style.display = 'none'; return; }
                 wrap.style.display = '';
                 document.getElementById('hbSavedCount').textContent = 'Saved lineups (' + hbSaved.length + ')';
@@ -8549,6 +8656,18 @@
                             <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
+                }).join('');
+                const expo = new Map();
+                hbSaved.forEach(lu => lu.forEach(f => {
+                    const k = hbKey(f);
+                    if (!expo.has(k)) expo.set(k, { f, n: 0 });
+                    expo.get(k).n++;
+                }));
+                const rows = [...expo.values()].sort((a, b) => b.n - a.n || a.f.name.localeCompare(b.f.name));
+                document.getElementById('hbExpoBody').innerHTML = rows.map(e => {
+                    const pct = Math.round(e.n / hbSaved.length * 100);
+                    return `<tr><td class="l">${oEsc(e.f.name)}</td><td class="n">${e.n}</td>
+                        <td><div class="hb-expo-pct"><div class="hb-expo-bar" style="width:${pct}%"></div><span>${pct}%</span></div></td></tr>`;
                 }).join('');
             }
 
@@ -8572,7 +8691,10 @@
                 let html = '';
                 for (let i = 0; i < ROSTER; i++) {
                     const f = hbPicks[i];
-                    if (f) html += `<div class="hb-slot"><span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
+                    if (f) {
+                        const lk = hbLocks.has(hbKey(f)) ? `<span class="lk" title="Locked into every lineup">${HB_LOCK_SVG}</span>` : '';
+                        html += `<div class="hb-slot">${lk}<span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
+                    }
                     else html += `<div class="hb-slot empty">Slot ${i + 1}</div>`;
                 }
                 document.getElementById('hbSlots').innerHTML = html;
@@ -8595,9 +8717,11 @@
                 pool.innerHTML = list.map(f => {
                     const picked = hbInPicks(f);
                     const cant = !picked && (full || f.salary > remaining);
+                    const locked = hbLocks.has(hbKey(f));
                     return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}" data-k="${oEsc(hbKey(f))}">
                         <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}</div></div>
                         <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
+                        <button class="hb-lockbtn${locked ? ' on' : ''}" tabindex="-1" title="${locked ? 'Unlock' : 'Lock into every lineup'}" aria-label="${locked ? 'Unlock' : 'Lock'} ${oEsc(f.name)}">${locked ? HB_LOCK_SVG : HB_UNLOCK_SVG}</button>
                         <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
                     </div>`;
                 }).join('');
@@ -8609,7 +8733,9 @@
                 if (hbWired) return; hbWired = true;
                 document.getElementById('hbPool').addEventListener('click', e => {
                     const row = e.target.closest('.hb-row'); if (!row) return;
-                    const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (f) hbAddOrRemove(f);
+                    const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (!f) return;
+                    if (e.target.closest('.hb-lockbtn')) hbToggleLock(f);
+                    else hbAddOrRemove(f);
                 });
                 document.getElementById('hbSlots').addEventListener('click', e => {
                     const btn = e.target.closest('.rm'); if (!btn) return;
@@ -8617,12 +8743,37 @@
                 });
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
                 document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
-                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbRender(); });
+                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbApplyLocks(); hbRender(); });
+                // Clear Portfolio wipes every saved lineup, so it takes two
+                // clicks: the first arms the button, the second confirms.
+                let hbClearArm = null;
+                document.getElementById('hbClearAll').addEventListener('click', () => {
+                    const btn = document.getElementById('hbClearAll');
+                    if (!hbClearArm) {
+                        btn.textContent = `Really delete all ${hbSaved.length} lineup${hbSaved.length === 1 ? '' : 's'}?`;
+                        btn.classList.add('armed');
+                        hbClearArm = setTimeout(() => {
+                            hbClearArm = null;
+                            btn.textContent = 'Clear Portfolio';
+                            btn.classList.remove('armed');
+                        }, 5000);
+                        return;
+                    }
+                    clearTimeout(hbClearArm);
+                    hbClearArm = null;
+                    btn.textContent = 'Clear Portfolio';
+                    btn.classList.remove('armed');
+                    hbSaved = [];
+                    hbNames = [];
+                    hbPersist();
+                    hbRenderSaved();
+                    hbSetErr('');
+                });
                 document.getElementById('hbSave').addEventListener('click', hbSaveLineup);
                 document.getElementById('hbExport').addEventListener('click', hbExportSaved);
                 document.getElementById('hbSavedList').addEventListener('click', e => {
                     const rm = e.target.closest('.rm');
-                    if (rm) { const i = +rm.dataset.i; hbSaved.splice(i, 1); hbNames.splice(i, 1); hbRenderSaved(); return; }
+                    if (rm) { const i = +rm.dataset.i; hbSaved.splice(i, 1); hbNames.splice(i, 1); hbRenderSaved(); hbPersist(); hbSetErr(''); return; }
                     if (e.target.closest('.hb-nm')) return;   // naming a lineup shouldn't load it
                     const row = e.target.closest('.hb-saved-row');
                     if (row) { hbPicks = hbSaved[+row.dataset.i].slice(); hbRender(); }
@@ -8631,7 +8782,7 @@
                 // would rebuild the input and drop the caret mid-word
                 document.getElementById('hbSavedList').addEventListener('input', e => {
                     const inp = e.target.closest('.hb-nm');
-                    if (inp) hbNames[+inp.dataset.i] = inp.value;
+                    if (inp) { hbNames[+inp.dataset.i] = inp.value; hbPersist(); }
                 });
                 // naming prompt: Enter confirms, Escape or a click outside cancels
                 const nameModal = document.getElementById('hbNameModal');
@@ -8653,6 +8804,7 @@
                 }
                 document.getElementById('hbLoading').style.display = 'none';
                 document.getElementById('hbWrap').style.display = '';
+                hbRestore();
                 hbRender();
             }
             window.__openHandBuilder = openHandBuilder;

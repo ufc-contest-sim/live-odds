@@ -2959,6 +2959,10 @@
         .hb-add { min-width: 40px; height: 36px; border: 1px solid var(--accent); background: var(--accent); color: #000; font-weight: 800; font-size: 1.2rem; line-height: 1; cursor: pointer; clip-path: var(--chamfer-sm); }
         .hb-add:hover { background: var(--accent-hi); }
         .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
+        .hb-lockbtn { min-width: 34px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; clip-path: var(--chamfer-sm); display: flex; align-items: center; justify-content: center; }
+        .hb-lockbtn:hover { border-color: var(--accent); color: var(--accent); }
+        .hb-lockbtn.on { background: var(--accent); border-color: var(--accent); color: #000; }
+        .hb-slot .lk { color: var(--accent); display: flex; flex: none; }
         .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
         .hb-saved { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
         .hb-saved-head { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
@@ -3375,6 +3379,7 @@
         .hb-name { font-weight: 700; }
         .hb-sal { font-family: var(--fn-mono); font-weight: 700; }
         .hb-add { border-radius: 10px; color: #180a02; box-shadow: none; }
+        .hb-lockbtn { border-radius: 10px; }
         .hb-add:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
         .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #06341c; }
         .hb-saved-row { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; }
@@ -8489,10 +8494,39 @@
             const hbTotal = () => hbPicks.reduce((s, f) => s + (f.salary || 0), 0);
 
             function hbAddOrRemove(f) {
-                if (hbInPicks(f)) hbPicks = hbPicks.filter(p => hbKey(p) !== hbKey(f));
-                else if (hbPicks.length < ROSTER) hbPicks.push(f);
+                if (hbInPicks(f)) {
+                    hbPicks = hbPicks.filter(p => hbKey(p) !== hbKey(f));
+                    // dropping a locked fighter also unlocks them, otherwise
+                    // they'd bounce straight back on the next board reset
+                    if (hbLocks.delete(hbKey(f))) hbPersist();
+                } else if (hbPicks.length < ROSTER) hbPicks.push(f);
                 else return;
                 hbRender();
+            }
+
+            // Locked fighters form a "core" the builder always starts with:
+            // they're re-added whenever the board resets (save or Clear).
+            let hbLocks = new Set();
+            const HB_LOCK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
+            const HB_UNLOCK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.7"/></svg>';
+            function hbToggleLock(f) {
+                const k = hbKey(f);
+                if (hbLocks.has(k)) hbLocks.delete(k);
+                else {
+                    hbLocks.add(k);
+                    if (!hbInPicks(f) && hbPicks.length < ROSTER) hbPicks.push(f);
+                }
+                hbPersist();
+                hbRender();
+            }
+            function hbApplyLocks() {
+                hbLocks.forEach(k => {
+                    if (hbPicks.length >= ROSTER) return;
+                    if (!hbPicks.some(p => hbKey(p) === k)) {
+                        const f = FIGHTERS.find(x => hbKey(x) === k);
+                        if (f) hbPicks.push(f);
+                    }
+                });
             }
 
             function hbRenderMeter() {
@@ -8537,6 +8571,7 @@
                     localStorage.setItem(HB_STORE, JSON.stringify({
                         lineups: hbSaved.map(l => l.map(hbKey)),
                         names: hbNames,
+                        locks: [...hbLocks],
                     }));
                 } catch (e) { /* storage full or blocked — saving stays session-only */ }
             }
@@ -8555,6 +8590,8 @@
                     hbSaved.push(players);
                     hbNames.push(String((data.names || [])[i] || ''));
                 });
+                (data.locks || []).forEach(k => { if (byKey.has(k)) hbLocks.add(k); });
+                hbApplyLocks();
                 hbPersist();   // prune anything that didn't survive
             }
 
@@ -8597,6 +8634,7 @@
                 hbNames.push(nm || `Lineup ${hbSaved.length}`);
                 hbCloseName();
                 hbPicks = [];        // clear the board for the next build
+                hbApplyLocks();      // …except the locked core stays
                 hbRender();
                 hbPersist();
                 hbSetErr('');
@@ -8653,7 +8691,10 @@
                 let html = '';
                 for (let i = 0; i < ROSTER; i++) {
                     const f = hbPicks[i];
-                    if (f) html += `<div class="hb-slot"><span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
+                    if (f) {
+                        const lk = hbLocks.has(hbKey(f)) ? `<span class="lk" title="Locked into every lineup">${HB_LOCK_SVG}</span>` : '';
+                        html += `<div class="hb-slot">${lk}<span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
+                    }
                     else html += `<div class="hb-slot empty">Slot ${i + 1}</div>`;
                 }
                 document.getElementById('hbSlots').innerHTML = html;
@@ -8676,9 +8717,11 @@
                 pool.innerHTML = list.map(f => {
                     const picked = hbInPicks(f);
                     const cant = !picked && (full || f.salary > remaining);
+                    const locked = hbLocks.has(hbKey(f));
                     return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}" data-k="${oEsc(hbKey(f))}">
                         <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}</div></div>
                         <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
+                        <button class="hb-lockbtn${locked ? ' on' : ''}" tabindex="-1" title="${locked ? 'Unlock' : 'Lock into every lineup'}" aria-label="${locked ? 'Unlock' : 'Lock'} ${oEsc(f.name)}">${locked ? HB_LOCK_SVG : HB_UNLOCK_SVG}</button>
                         <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
                     </div>`;
                 }).join('');
@@ -8690,7 +8733,9 @@
                 if (hbWired) return; hbWired = true;
                 document.getElementById('hbPool').addEventListener('click', e => {
                     const row = e.target.closest('.hb-row'); if (!row) return;
-                    const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (f) hbAddOrRemove(f);
+                    const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (!f) return;
+                    if (e.target.closest('.hb-lockbtn')) hbToggleLock(f);
+                    else hbAddOrRemove(f);
                 });
                 document.getElementById('hbSlots').addEventListener('click', e => {
                     const btn = e.target.closest('.rm'); if (!btn) return;
@@ -8698,7 +8743,7 @@
                 });
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
                 document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
-                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbRender(); });
+                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbApplyLocks(); hbRender(); });
                 // Clear Portfolio wipes every saved lineup, so it takes two
                 // clicks: the first arms the button, the second confirms.
                 let hbClearArm = null;

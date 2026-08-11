@@ -4042,10 +4042,10 @@
                                 <th class="sortable" onclick="setSort('WinPct')">Win %</th>
                                 <th class="sortable" onclick="setSort('SecondPct')">2nd %</th>
                                 <th class="sortable" onclick="setSort('ThirdPct')">3rd %</th>
-                                <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
+                                <th class="sortable" onclick="setSort('Top3Pct')">Top 3 %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
-                                <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
+                                <th class="sortable" onclick="setSort('AvgSalary')">Avg Salary</th>
                             </tr>
                         </thead>
                         <tbody id="portfolio-leaderboard"></tbody>
@@ -6223,9 +6223,11 @@
                 SecondPct: p.hasSecondPct ? p.TotalSecondPct : null,
                 ThirdPct: p.hasThirdPct ? p.TotalThirdPct : null,
                 CashPct: p.hasCashPct ? p.TotalCashPct : null,
+                Top3Pct: (p.hasSecondPct && p.hasThirdPct) ? p.TotalWinPct + p.TotalSecondPct + p.TotalThirdPct : null,
                 NetEV: p.TotalNetEV,
                 'ROI%': p.TotalCost > 0 ? (p.TotalNetEV / p.TotalCost) * 100 : 0,
-                TotalSalary: p.TotalSalary
+                TotalSalary: p.TotalSalary,
+                AvgSalary: p.Entries > 0 ? p.TotalSalary / p.Entries : 0
             }));
 
             // Sort
@@ -6283,14 +6285,14 @@
                         <td>${portfolio.WinPct.toFixed(2)}%</td>
                         <td>${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(2) + '%' : '--'}</td>
                         <td>${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(2) + '%' : '--'}</td>
-                        <td>${portfolio.CashPct != null ? portfolio.CashPct.toFixed(2) + '%' : '--'}</td>
+                        <td>${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(2) + '%' : '--'}</td>
                         <td class="${portfolio.NetEV >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(portfolio.NetEV)}
                         </td>
                         <td class="${portfolio['ROI%'] >= 0 ? 'positive' : 'negative'}">
                             ${formatROI(portfolio['ROI%'])}
                         </td>
-                        <td>${portfolio.TotalSalary ? '$' + Number(portfolio.TotalSalary).toLocaleString() : '--'}</td>
+                        <td>${portfolio.AvgSalary ? '$' + Math.round(portfolio.AvgSalary).toLocaleString() : '--'}</td>
                     </tr>
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
                         <td colspan="10">

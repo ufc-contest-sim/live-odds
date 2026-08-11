@@ -2124,7 +2124,12 @@
         .fighter-draft-table .draft-pct { color: var(--accent-lo); }
 
         @media (max-width: 600px) {
-            .landing-page { padding-top: 70px; }
+            /* tighter vertical rhythm: less dead space under the ticker and
+               between the hero and the tab buttons */
+            .landing-page { padding-top: 34px; }
+            .landing-header { padding-top: 10px; margin-bottom: 26px; }
+            .landing-kicker { margin-bottom: 10px; }
+            .hero-badges { margin-top: 14px; }
             .oct-mark { width: 300px; height: 300px; top: calc(42% + 20px); }
             .landing-kicker { letter-spacing: 3px; }
             .landing-kicker::before, .landing-kicker::after { margin: 0 6px; }

@@ -5125,6 +5125,7 @@
                         entries: entries.length,
                         winPct: totalWinPct,
                         netEV: totalNetEV,
+                        cost: totalCost,
                         roi: roi
                     });
                 }
@@ -5140,6 +5141,9 @@
 
             const totalEntries = results.reduce((sum, r) => sum + r.entries, 0);
             const totalNetEV = results.reduce((sum, r) => sum + r.netEV, 0);
+            const totalCost = results.reduce((sum, r) => sum + (r.cost || 0), 0);
+            const portfolioROI = totalCost > 0 ? (totalNetEV / totalCost) * 100 : null;
+            const fmtROI = v => (v < 0 ? '-' : '') + Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
 
             const alreadySaved = isFavorite(query);
             resultsContainer.innerHTML = `
@@ -5149,7 +5153,7 @@
                             ${alreadySaved ? '&#9733;' : '&#9734;'}
                         </button>
                     </h3>
-                    <span class="search-results-summary">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''} &middot; Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>
+                    <span class="search-results-summary">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''} &middot; Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span>${portfolioROI != null ? ` &middot; ROI: <span class="${portfolioROI >= 0 ? 'positive' : 'negative'}">${fmtROI(portfolioROI)}</span>` : ''}</span>
                 </div>
                 <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
                     <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>

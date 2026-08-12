@@ -2994,6 +2994,15 @@
         .hb-lockbtn:hover { border-color: var(--accent); color: var(--accent); }
         .hb-lockbtn.on { background: var(--accent); border-color: var(--accent); color: #000; }
         .hb-slot .lk { color: var(--accent); display: flex; flex: none; }
+        .hb-saved-row.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.10); }
+        .hb-saved-row.dead:hover { background: rgba(229, 72, 77, 0.18); border-color: var(--accent-red); }
+        .dead-tag { color: var(--accent-red); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
+        .hb-row.cx { background: rgba(229, 72, 77, 0.07); }
+        .hb-cancel-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 2px; }
+        .hb-cx-chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px; border: 1px solid var(--accent-red); color: var(--accent-red); font-family: 'Chakra Petch', monospace; font-size: 0.72rem; font-weight: 600; clip-path: var(--chamfer-sm); }
+        .hb-cx-chip .undo { background: none; border: none; color: var(--text-secondary); font-size: 0.7rem; text-decoration: underline; cursor: pointer; padding: 0; }
+        .hb-cx-chip .undo:hover { color: var(--text-primary); }
+        .hb-cx-note { color: var(--text-secondary); font-size: 0.74rem; }
         .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
         .hb-saved { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
         .hb-saved-head { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
@@ -3871,6 +3880,7 @@
                     <div class="hb-main">
                         <div class="hb-tools">
                             <input class="hb-search" id="hbSearch" type="text" placeholder="Search fighter or matchup…" autocomplete="off">
+                            <select class="hb-sort" id="hbCancelSel" title="Mark a fight as cancelled to flag affected lineups"></select>
                             <select class="hb-sort" id="hbSort">
                                 <option value="sal-desc">Salary: high → low</option>
                                 <option value="sal-asc">Salary: low → high</option>
@@ -3878,6 +3888,7 @@
                                 <option value="fight">Matchup</option>
                             </select>
                         </div>
+                        <div class="hb-cancel-chips" id="hbCancelChips" style="display:none;"></div>
                         <div class="hb-pool" id="hbPool"></div>
                         <div class="hb-clearall" id="hbClearAllWrap" style="display:none;">
                             <button class="opt-btn hb-danger" id="hbClearAll">Clear Portfolio</button>
@@ -8570,6 +8581,23 @@
                 });
             }
 
+            // Fights marked cancelled: saved lineups containing either fighter
+            // are flagged red so they're easy to find and rebuild.
+            let hbCancelled = new Set();
+            const hbLineupDead = lu => lu.some(f => f.matchup && hbCancelled.has(f.matchup));
+            function hbRenderCancel() {
+                const sel = document.getElementById('hbCancelSel');
+                const matchups = [...new Set(FIGHTERS.map(f => f.matchup).filter(Boolean))].sort();
+                sel.innerHTML = '<option value="">Cancelled fight…</option>' +
+                    matchups.filter(m => !hbCancelled.has(m)).map(m => `<option>${oEsc(m)}</option>`).join('');
+                const chips = document.getElementById('hbCancelChips');
+                if (!hbCancelled.size) { chips.style.display = 'none'; chips.innerHTML = ''; return; }
+                chips.style.display = '';
+                chips.innerHTML = [...hbCancelled].map(m =>
+                    `<span class="hb-cx-chip">✕ ${oEsc(m)} cancelled <button class="undo" data-m="${oEsc(m)}" title="Un-cancel this fight">undo</button></span>`).join('') +
+                    '<span class="hb-cx-note">Lineups with these fighters are flagged red below.</span>';
+            }
+
             function hbRenderMeter() {
                 const total = hbTotal(), remaining = SALARY_CAP - total;
                 const count = hbPicks.length, slotsLeft = ROSTER - count, over = total > SALARY_CAP;
@@ -8613,6 +8641,7 @@
                         lineups: hbSaved.map(l => l.map(hbKey)),
                         names: hbNames,
                         locks: [...hbLocks],
+                        cancelled: [...hbCancelled],
                     }));
                 } catch (e) { /* storage full or blocked — saving stays session-only */ }
             }
@@ -8632,6 +8661,8 @@
                     hbNames.push(String((data.names || [])[i] || ''));
                 });
                 (data.locks || []).forEach(k => { if (byKey.has(k)) hbLocks.add(k); });
+                const slateMatchups = new Set(FIGHTERS.map(f => f.matchup).filter(Boolean));
+                (data.cancelled || []).forEach(m => { if (slateMatchups.has(m)) hbCancelled.add(m); });
                 hbApplyLocks();
                 hbPersist();   // prune anything that didn't survive
             }
@@ -8691,10 +8722,11 @@
                 document.getElementById('hbSavedCount').textContent = 'Saved lineups (' + hbSaved.length + ')';
                 document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
-                    return `<div class="hb-saved-row" data-i="${i}" title="Load into builder">
+                    const dead = hbLineupDead(lu);
+                    return `<div class="hb-saved-row${dead ? ' dead' : ''}" data-i="${i}" title="${dead ? 'Contains a fighter from a cancelled fight — load and rebuild' : 'Load into builder'}">
                         <div class="hb-saved-info">
                             <input class="hb-nm" data-i="${i}" value="${oEsc(hbNames[i] || '')}" placeholder="Lineup ${i + 1}" maxlength="40" aria-label="Name for lineup ${i + 1}">
-                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
+                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${dead ? ' · <span class="dead-tag">cancelled fight</span>' : ''}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
                 }).join('');
@@ -8759,8 +8791,9 @@
                     const picked = hbInPicks(f);
                     const cant = !picked && (full || f.salary > remaining);
                     const locked = hbLocks.has(hbKey(f));
-                    return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}" data-k="${oEsc(hbKey(f))}">
-                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}</div></div>
+                    const cx = f.matchup && hbCancelled.has(f.matchup);
+                    return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}${cx ? ' cx' : ''}" data-k="${oEsc(hbKey(f))}">
+                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}${cx ? ' · <span class="dead-tag">cancelled</span>' : ''}</div></div>
                         <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
                         <button class="hb-lockbtn${locked ? ' on' : ''}" tabindex="-1" title="${locked ? 'Unlock' : 'Lock into every lineup'}" aria-label="${locked ? 'Unlock' : 'Lock'} ${oEsc(f.name)}">${locked ? HB_LOCK_SVG : HB_UNLOCK_SVG}</button>
                         <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
@@ -8783,6 +8816,16 @@
                     const f = FIGHTERS.find(x => hbKey(x) === btn.dataset.k); if (f) hbAddOrRemove(f);
                 });
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
+                document.getElementById('hbCancelSel').addEventListener('change', e => {
+                    if (!e.target.value) return;
+                    hbCancelled.add(e.target.value);
+                    hbPersist(); hbRenderCancel(); hbRender();
+                });
+                document.getElementById('hbCancelChips').addEventListener('click', e => {
+                    const u = e.target.closest('.undo'); if (!u) return;
+                    hbCancelled.delete(u.dataset.m);
+                    hbPersist(); hbRenderCancel(); hbRender();
+                });
                 document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
                 document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbApplyLocks(); hbRender(); });
                 // Clear Portfolio wipes every saved lineup, so it takes two
@@ -8846,6 +8889,7 @@
                 document.getElementById('hbLoading').style.display = 'none';
                 document.getElementById('hbWrap').style.display = '';
                 hbRestore();
+                hbRenderCancel();
                 hbRender();
             }
             window.__openHandBuilder = openHandBuilder;

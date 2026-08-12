@@ -2994,6 +2994,9 @@
         .hb-lockbtn:hover { border-color: var(--accent); color: var(--accent); }
         .hb-lockbtn.on { background: var(--accent); border-color: var(--accent); color: #000; }
         .hb-slot .lk { color: var(--accent); display: flex; flex: none; }
+        .hb-cxbtn { min-width: 34px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; clip-path: var(--chamfer-sm); font-size: 0.85rem; line-height: 1; }
+        .hb-cxbtn:hover { border-color: var(--accent-red); color: var(--accent-red); }
+        .hb-cxbtn.on { background: var(--accent-red); border-color: var(--accent-red); color: #fff; }
         .hb-saved-row.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.10); }
         .hb-saved-row.dead:hover { background: rgba(229, 72, 77, 0.18); border-color: var(--accent-red); }
         .dead-tag { color: var(--accent-red); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
@@ -3419,7 +3422,7 @@
         .hb-name { font-weight: 700; }
         .hb-sal { font-family: var(--fn-mono); font-weight: 700; }
         .hb-add { border-radius: 10px; color: #180a02; box-shadow: none; }
-        .hb-lockbtn { border-radius: 10px; }
+        .hb-lockbtn, .hb-cxbtn { border-radius: 10px; }
         .hb-add:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
         .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #06341c; }
         .hb-saved-row { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; }
@@ -3880,7 +3883,6 @@
                     <div class="hb-main">
                         <div class="hb-tools">
                             <input class="hb-search" id="hbSearch" type="text" placeholder="Search fighter or matchup…" autocomplete="off">
-                            <select class="hb-sort" id="hbCancelSel" title="Mark a fight as cancelled to flag affected lineups"></select>
                             <select class="hb-sort" id="hbSort">
                                 <option value="sal-desc">Salary: high → low</option>
                                 <option value="sal-asc">Salary: low → high</option>
@@ -8586,10 +8588,6 @@
             let hbCancelled = new Set();
             const hbLineupDead = lu => lu.some(f => f.matchup && hbCancelled.has(f.matchup));
             function hbRenderCancel() {
-                const sel = document.getElementById('hbCancelSel');
-                const matchups = [...new Set(FIGHTERS.map(f => f.matchup).filter(Boolean))].sort();
-                sel.innerHTML = '<option value="">Cancelled fight…</option>' +
-                    matchups.filter(m => !hbCancelled.has(m)).map(m => `<option>${oEsc(m)}</option>`).join('');
                 const chips = document.getElementById('hbCancelChips');
                 if (!hbCancelled.size) { chips.style.display = 'none'; chips.innerHTML = ''; return; }
                 chips.style.display = '';
@@ -8795,6 +8793,7 @@
                     return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}${cx ? ' cx' : ''}" data-k="${oEsc(hbKey(f))}">
                         <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}${cx ? ' · <span class="dead-tag">cancelled</span>' : ''}</div></div>
                         <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
+                        <button class="hb-cxbtn${cx ? ' on' : ''}" tabindex="-1" title="${cx ? 'Un-cancel this fight' : 'Mark this fight cancelled'}" aria-label="${cx ? 'Un-cancel' : 'Mark cancelled:'} ${oEsc(f.matchup || f.name)}">✕</button>
                         <button class="hb-lockbtn${locked ? ' on' : ''}" tabindex="-1" title="${locked ? 'Unlock' : 'Lock into every lineup'}" aria-label="${locked ? 'Unlock' : 'Lock'} ${oEsc(f.name)}">${locked ? HB_LOCK_SVG : HB_UNLOCK_SVG}</button>
                         <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
                     </div>`;
@@ -8808,7 +8807,13 @@
                 document.getElementById('hbPool').addEventListener('click', e => {
                     const row = e.target.closest('.hb-row'); if (!row) return;
                     const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (!f) return;
-                    if (e.target.closest('.hb-lockbtn')) hbToggleLock(f);
+                    if (e.target.closest('.hb-cxbtn')) {
+                        if (!f.matchup) return;
+                        if (hbCancelled.has(f.matchup)) hbCancelled.delete(f.matchup);
+                        else hbCancelled.add(f.matchup);
+                        hbPersist(); hbRenderCancel(); hbRender();
+                    }
+                    else if (e.target.closest('.hb-lockbtn')) hbToggleLock(f);
                     else hbAddOrRemove(f);
                 });
                 document.getElementById('hbSlots').addEventListener('click', e => {
@@ -8816,11 +8821,6 @@
                     const f = FIGHTERS.find(x => hbKey(x) === btn.dataset.k); if (f) hbAddOrRemove(f);
                 });
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
-                document.getElementById('hbCancelSel').addEventListener('change', e => {
-                    if (!e.target.value) return;
-                    hbCancelled.add(e.target.value);
-                    hbPersist(); hbRenderCancel(); hbRender();
-                });
                 document.getElementById('hbCancelChips').addEventListener('click', e => {
                     const u = e.target.closest('.undo'); if (!u) return;
                     hbCancelled.delete(u.dataset.m);

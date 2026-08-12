@@ -7481,6 +7481,11 @@
                 p.dk_floor = q(0.2); p.dk_ceil = q(0.8);
                 p.bust_rate = pctOf(tots.filter(v => v < 20).length, n);
                 p.hundred_rate = pctOf(tots.filter(v => v >= 100).length, n);
+                p._hundred = tots.filter(v => v >= 100).length; p._nFights = n;
+                // how often the fighter across from them posts a 100+ total
+                const oTots = O.map(r => dkPoints(r).total);
+                p.opp_hundred_rate = oTots.length ? pctOf(oTots.filter(v => v >= 100).length, oTots.length) : null;
+                p._oppHundred = oTots.filter(v => v >= 100).length; p._oppN = oTots.length;
                 const wins = fights.filter(r => r.result === 'W').length;
                 const fin = fights.filter(r => r.result === 'W' && methodGroup(r.method) !== 'Decision' && methodGroup(r.method) !== 'Other').length;
                 p.finish_rate = pctOf(fin, wins);
@@ -7603,7 +7608,8 @@
                     { k: 'dk_floor', label: 'Floor (20th percentile)', fmt: 1, dir: 1 },
                     { k: 'dk_ceil', label: 'Ceiling (80th percentile)', fmt: 1, dir: 1 },
                     { k: 'bust_rate', label: 'Bust rate', sub: 'Share of fights scoring under 20 DK', fmt: 0, unit: '%', dir: -1 },
-                    { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1 },
+                    { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1, raw: p => `${f0(p._hundred)}/${f0(p._nFights)}` },
+                    { k: 'opp_hundred_rate', label: 'Opponent 100+ DK rate', sub: 'How often the fighter across from them scores 100+ DK', fmt: 0, unit: '%', dir: -1, raw: p => `${f0(p._oppHundred)}/${f0(p._oppN)}` },
                     { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', dir: 1 },
                     { k: 'opp_dk', label: 'Opponent DK allowed / min', sub: 'Volume scoring the fighters across from them earn per minute, win bonuses excluded', fmt: 2, dir: -1 },
                     { k: 'dk_win', label: 'DK in wins', fmt: 1, dir: 1 },

@@ -538,7 +538,9 @@
 
         .site-footer {
             position: relative;
-            z-index: 1;
+            /* below #landing-page (z-index 1): the footer must never paint
+               over modals that live inside the page containers */
+            z-index: 0;
             max-width: 860px;
             margin: 30px auto 0;
             padding: 18px 20px 30px;
@@ -7486,6 +7488,7 @@
                 const oTots = O.map(r => dkPoints(r).total);
                 p.opp_hundred_rate = oTots.length ? pctOf(oTots.filter(v => v >= 100).length, oTots.length) : null;
                 p._oppHundred = oTots.filter(v => v >= 100).length; p._oppN = oTots.length;
+                p.opp_avg_dk = oTots.length ? oTots.reduce((a, b) => a + b, 0) / oTots.length : null;
                 const wins = fights.filter(r => r.result === 'W').length;
                 const fin = fights.filter(r => r.result === 'W' && methodGroup(r.method) !== 'Decision' && methodGroup(r.method) !== 'Other').length;
                 p.finish_rate = pctOf(fin, wins);
@@ -7610,6 +7613,7 @@
                     { k: 'bust_rate', label: 'Bust rate', sub: 'Share of fights scoring under 20 DK', fmt: 0, unit: '%', dir: -1 },
                     { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1, raw: p => `${f0(p._hundred)}/${f0(p._nFights)}` },
                     { k: 'opp_hundred_rate', label: 'Opponent 100+ DK rate', sub: 'How often the fighter across from them scores 100+ DK', fmt: 0, unit: '%', dir: -1, raw: p => `${f0(p._oppHundred)}/${f0(p._oppN)}` },
+                    { k: 'opp_avg_dk', label: 'Opponent avg DK score', sub: 'Average DK total the fighter across from them puts up, win bonuses included', fmt: 1, dir: -1 },
                     { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', dir: 1 },
                     { k: 'opp_dk', label: 'Opponent DK allowed / min', sub: 'Volume scoring the fighters across from them earn per minute, win bonuses excluded', fmt: 2, dir: -1 },
                     { k: 'dk_win', label: 'DK in wins', fmt: 1, dir: 1 },
@@ -7726,10 +7730,15 @@
                         `<div class="v">${fs2Fmt(t, v)}${rawTxt ? `<i class="raw">${rawTxt}</i>` : ''}</div>` +
                         `<div class="s">${bits.join(' &middot; ') || '&nbsp;'}</div>${bar}</div>`;
                 }).join('') + `</div>`;
+                // keep whatever sections the user has open across re-renders
+                // (the wins/losses toggle rebuilds this whole panel)
+                const openBy = {};
+                el.querySelectorAll('details.fs2-sec').forEach(d => { openBy[d.dataset.t] = d.open; });
                 for (const sec of FS2_SECTIONS) {
                     const rows = sec.rows.filter(r => r.type || (p[r.k] != null && isFinite(p[r.k])));
                     if (!rows.length) continue;
-                    h += `<details class="fs2-sec"${sec.open ? ' open' : ''}><summary>${sec.title}<span class="cnt">${rows.length}</span></summary>` +
+                    const isOpen = sec.title in openBy ? openBy[sec.title] : sec.open;
+                    h += `<details class="fs2-sec" data-t="${esc(sec.title)}"${isOpen ? ' open' : ''}><summary>${sec.title}<span class="cnt">${rows.length}</span></summary>` +
                         `<div class="fs2-rows">${rows.map(r => fs2RowHTML(r, p, qualified)).join('')}</div></details>`;
                 }
                 el.innerHTML = h;
@@ -7951,6 +7960,8 @@
                     h += fmxCross('DK / min', fmtOr(pa, 'dk_min_vol', 2), 'volume only', fmtOr(pz, 'dk_min_vol', 2), 'volume only');
                     h += fmxCross('floor &ndash; ceiling', `${fmtOr(pa, 'dk_floor', 0)}&ndash;${fmtOr(pa, 'dk_ceil', 0)}`, '20th to 80th percentile', `${fmtOr(pz, 'dk_floor', 0)}&ndash;${fmtOr(pz, 'dk_ceil', 0)}`, '20th to 80th percentile');
                     h += fmxCross('finish rate', fmtOr(pa, 'finish_rate', 0, '%'), 'of wins', fmtOr(pz, 'finish_rate', 0, '%'), 'of wins');
+                    h += fmxCross('100+ DK rate', fmtOr(pa, 'hundred_rate', 0, '%'), `${f0(pa._hundred)}/${f0(pa._nFights)} fights`, fmtOr(pz, 'hundred_rate', 0, '%'), `${f0(pz._hundred)}/${f0(pz._nFights)} fights`);
+                    h += fmxCross('100+ DK allowed', fmtOr(pa, 'opp_hundred_rate', 0, '%'), `${f0(pa._oppHundred)}/${f0(pa._oppN)} opponents hit 100+`, fmtOr(pz, 'opp_hundred_rate', 0, '%'), `${f0(pz._oppHundred)}/${f0(pz._oppN)} opponents hit 100+`);
                 } else {
                     h += `<div class="fmx-empty">Not enough UFC history on one of these fighters for a head-to-head read.</div>`;
                 }

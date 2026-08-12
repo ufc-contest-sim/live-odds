@@ -8583,16 +8583,20 @@
                 });
             }
 
-            // Fights marked cancelled: saved lineups containing either fighter
-            // are flagged red so they're easy to find and rebuild.
-            let hbCancelled = new Set();
-            const hbLineupDead = lu => lu.some(f => f.matchup && hbCancelled.has(f.matchup));
+            // Fighters marked out (cancelled fight, replaced, pulled): saved
+            // lineups containing them are flagged red so they're easy to find
+            // and rebuild. Per fighter, not per fight — replacements happen.
+            let hbCancelled = new Set();   // hbKey strings
+            const hbLineupDead = lu => lu.some(f => hbCancelled.has(hbKey(f)));
             function hbRenderCancel() {
                 const chips = document.getElementById('hbCancelChips');
                 if (!hbCancelled.size) { chips.style.display = 'none'; chips.innerHTML = ''; return; }
                 chips.style.display = '';
-                chips.innerHTML = [...hbCancelled].map(m =>
-                    `<span class="hb-cx-chip">✕ ${oEsc(m)} cancelled <button class="undo" data-m="${oEsc(m)}" title="Un-cancel this fight">undo</button></span>`).join('') +
+                chips.innerHTML = [...hbCancelled].map(k => {
+                    const f = FIGHTERS.find(x => hbKey(x) === k);
+                    const nm = f ? f.name : k.split('|')[1] || k;
+                    return `<span class="hb-cx-chip">✕ ${oEsc(nm)} out <button class="undo" data-m="${oEsc(k)}" title="Undo — mark ${oEsc(nm)} back in">undo</button></span>`;
+                }).join('') +
                     '<span class="hb-cx-note">Lineups with these fighters are flagged red below.</span>';
             }
 
@@ -8659,8 +8663,7 @@
                     hbNames.push(String((data.names || [])[i] || ''));
                 });
                 (data.locks || []).forEach(k => { if (byKey.has(k)) hbLocks.add(k); });
-                const slateMatchups = new Set(FIGHTERS.map(f => f.matchup).filter(Boolean));
-                (data.cancelled || []).forEach(m => { if (slateMatchups.has(m)) hbCancelled.add(m); });
+                (data.cancelled || []).forEach(k => { if (byKey.has(k)) hbCancelled.add(k); });
                 hbApplyLocks();
                 hbPersist();   // prune anything that didn't survive
             }
@@ -8721,10 +8724,10 @@
                 document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
                     const dead = hbLineupDead(lu);
-                    return `<div class="hb-saved-row${dead ? ' dead' : ''}" data-i="${i}" title="${dead ? 'Contains a fighter from a cancelled fight — load and rebuild' : 'Load into builder'}">
+                    return `<div class="hb-saved-row${dead ? ' dead' : ''}" data-i="${i}" title="${dead ? 'Contains a fighter marked out — load and rebuild' : 'Load into builder'}">
                         <div class="hb-saved-info">
                             <input class="hb-nm" data-i="${i}" value="${oEsc(hbNames[i] || '')}" placeholder="Lineup ${i + 1}" maxlength="40" aria-label="Name for lineup ${i + 1}">
-                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${dead ? ' · <span class="dead-tag">cancelled fight</span>' : ''}</div></div>
+                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${dead ? ' · <span class="dead-tag">fighter out</span>' : ''}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
                 }).join('');
@@ -8789,11 +8792,11 @@
                     const picked = hbInPicks(f);
                     const cant = !picked && (full || f.salary > remaining);
                     const locked = hbLocks.has(hbKey(f));
-                    const cx = f.matchup && hbCancelled.has(f.matchup);
+                    const cx = hbCancelled.has(hbKey(f));
                     return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}${cx ? ' cx' : ''}" data-k="${oEsc(hbKey(f))}">
-                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}${cx ? ' · <span class="dead-tag">cancelled</span>' : ''}</div></div>
+                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}${cx ? ' · <span class="dead-tag">out</span>' : ''}</div></div>
                         <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
-                        <button class="hb-cxbtn${cx ? ' on' : ''}" tabindex="-1" title="${cx ? 'Un-cancel this fight' : 'Mark this fight cancelled'}" aria-label="${cx ? 'Un-cancel' : 'Mark cancelled:'} ${oEsc(f.matchup || f.name)}">✕</button>
+                        <button class="hb-cxbtn${cx ? ' on' : ''}" tabindex="-1" title="${cx ? 'Mark back in' : 'Mark this fighter out — flags lineups with them'}" aria-label="${cx ? 'Mark in:' : 'Mark out:'} ${oEsc(f.name)}">✕</button>
                         <button class="hb-lockbtn${locked ? ' on' : ''}" tabindex="-1" title="${locked ? 'Unlock' : 'Lock into every lineup'}" aria-label="${locked ? 'Unlock' : 'Lock'} ${oEsc(f.name)}">${locked ? HB_LOCK_SVG : HB_UNLOCK_SVG}</button>
                         <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
                     </div>`;
@@ -8808,9 +8811,9 @@
                     const row = e.target.closest('.hb-row'); if (!row) return;
                     const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (!f) return;
                     if (e.target.closest('.hb-cxbtn')) {
-                        if (!f.matchup) return;
-                        if (hbCancelled.has(f.matchup)) hbCancelled.delete(f.matchup);
-                        else hbCancelled.add(f.matchup);
+                        const k = hbKey(f);
+                        if (hbCancelled.has(k)) hbCancelled.delete(k);
+                        else hbCancelled.add(k);
                         hbPersist(); hbRenderCancel(); hbRender();
                     }
                     else if (e.target.closest('.hb-lockbtn')) hbToggleLock(f);

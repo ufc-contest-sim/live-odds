@@ -2716,6 +2716,10 @@
            panel is driven by the FS2_SECTIONS config in JS, so a stat or a
            whole section can be removed by deleting its config entry. */
         .fs2-note { font-size: 0.78rem; color: var(--text-secondary); margin: 2px 0 14px; line-height: 1.5; }
+        .fs2-filter { display: flex; gap: 8px; margin: 2px 0 12px; }
+        .fs2-fbtn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 14px; cursor: pointer; clip-path: var(--chamfer-sm); }
+        .fs2-fbtn:hover { color: var(--text-primary); border-color: var(--border-accent); }
+        .fs2-fbtn.active { background: var(--accent); border-color: var(--accent); color: #1a0d02; }
         .fs2-key { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
         .fs2-ktile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); border-radius: 10px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); min-width: 0; }
         .fs2-ktile .l { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-secondary); }
@@ -7342,17 +7346,21 @@
             // fully independent renders over the same fsxState.
             let fluSub = 'matchups', fs2Built = false, fmxBuilt = false;
             function showFighterSub(which) {
-                // Record and Stats need a fighter; fall back to Matchups until one
-                // has been searched.
-                if ((which === 'record' || which === 'stats') && !fsxState) which = 'matchups';
                 fluSub = which;
                 document.querySelectorAll('#fluSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.fsub === which));
                 document.getElementById('fluBody').style.display = which === 'record' ? '' : 'none';
                 document.getElementById('fluStats').style.display = which === 'stats' ? '' : 'none';
                 document.getElementById('fluMatchups').style.display = which === 'matchups' ? '' : 'none';
-                document.getElementById('fluHero').style.display = which === 'matchups' ? 'none' : '';
+                document.getElementById('fluHero').style.display = which === 'matchups' || !fsxState ? 'none' : '';
                 if (which === 'stats' && !fs2Built) { fs2Built = true; renderFighterStats(); }
                 if (which === 'matchups' && !fmxBuilt) { fmxBuilt = true; renderMatchups(); }
+                // No fighter yet: the tab still switches — show a search prompt
+                // and put the caret in the box so the next step is obvious.
+                if ((which === 'record' || which === 'stats') && !fsxState) {
+                    if (which === 'record') document.getElementById('fluBody').innerHTML =
+                        '<div class="flu-empty">Search a fighter above to see their fight-by-fight record.</div>';
+                    document.getElementById('fluInput').focus();
+                }
             }
             // ==================== FIGHTER STATS PANEL (fs2) ====================
             // Career rate stats derived from the fight database, each ranked
@@ -7669,14 +7677,29 @@
                     `<span class="fs2-bar" title="${fs2Ord(pc)} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
                     `<span class="pct">${fs2Ord(pc)}</span></div>`;
             }
+            let fs2Filter = 'all';   // 'all' | 'wins' | 'losses'
             function renderFighterStats() {
                 const el = document.getElementById('fluStats');
-                if (!fsxState) { el.innerHTML = ''; return; }
-                const p = fs2Profile(fsxState.fights, fsxState.oppRows);
+                if (!fsxState) {
+                    el.innerHTML = '<div class="flu-empty">Search a fighter above to see their career stats profile.</div>';
+                    return;
+                }
+                const fbar = `<div class="fs2-filter">` +
+                    [['all', 'All fights'], ['wins', 'Wins'], ['losses', 'Losses']].map(([k, l]) =>
+                        `<button class="fs2-fbtn${fs2Filter === k ? ' active' : ''}" data-fs2f="${k}">${l}</button>`).join('') + `</div>`;
+                const want = fs2Filter === 'wins' ? 'W' : 'L';
+                const idx = fsxState.fights.map((r, i) => i).filter(i =>
+                    fs2Filter === 'all' || fsxState.fights[i].result === want);
+                if (!idx.length) {
+                    el.innerHTML = fbar + `<div class="flu-empty">No ${fs2Filter} on record for ${esc(fsxState.name)}.</div>`;
+                    return;
+                }
+                const p = fs2Profile(idx.map(i => fsxState.fights[i]), idx.map(i => fsxState.oppRows[i]));
                 const qualified = p._n >= 3 && p._sec >= 1800;
-                let h = `<div class="fs2-note">Career rates across ${p._n} UFC fight${p._n === 1 ? '' : 's'}` +
+                const noun = fs2Filter === 'all' ? 'fight' : fs2Filter === 'wins' ? 'win' : 'loss';
+                let h = fbar + `<div class="fs2-note">Career rates across ${p._n} UFC ${noun}${p._n === 1 ? '' : noun === 'loss' ? 'es' : 's'}` +
                     (qualified
-                        ? `, ranked against every fighter with 3+ fights and 30+ minutes of octagon time. A longer bar is always better.`
+                        ? `, ranked against every fighter with 3+ fights and 30+ minutes of octagon time (all fights). A longer bar is always better.`
                         : `. Percentile ranks are hidden — this sample is under the 3-fight / 30-minute threshold.`) + `</div>`;
                 h += `<div class="fs2-key">` + FS2_KEY.map(t => {
                     const v = p[t.k];
@@ -7939,6 +7962,11 @@
                 document.getElementById('fluSubnav').addEventListener('click', e => {
                     const b = e.target.closest('button[data-fsub]'); if (!b) return;
                     showFighterSub(b.dataset.fsub);
+                });
+                document.getElementById('fluStats').addEventListener('click', e => {
+                    const b = e.target.closest('.fs2-fbtn'); if (!b || b.dataset.fs2f === fs2Filter) return;
+                    fs2Filter = b.dataset.fs2f;
+                    renderFighterStats();
                 });
                 document.getElementById('fluMatchups').addEventListener('click', e => {
                     const card = e.target.closest('.fmx-card'); if (!card) return;

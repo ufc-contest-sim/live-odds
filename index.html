@@ -3003,6 +3003,8 @@
         .hb-cxbtn { min-width: 34px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; clip-path: var(--chamfer-sm); font-size: 0.85rem; line-height: 1; }
         .hb-cxbtn:hover { border-color: var(--accent-red); color: var(--accent-red); }
         .hb-cxbtn.on { background: var(--accent-red); border-color: var(--accent-red); color: #fff; }
+        .hb-saved-row.editing { border-color: var(--accent); background: rgba(var(--a-rgb), 0.10); }
+        .edit-tag { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
         .hb-saved-row.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.10); }
         .hb-saved-row.dead:hover { background: rgba(229, 72, 77, 0.18); border-color: var(--accent-red); }
         .dead-tag { color: var(--accent-red); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
@@ -8669,7 +8671,9 @@
                 const dupEl = document.getElementById('hbDup');
                 if (dups.length) { dupEl.style.display = ''; dupEl.textContent = '⚠ Both sides of a fight: ' + dups.join(', '); }
                 else dupEl.style.display = 'none';
-                document.getElementById('hbSave').disabled = !(count === ROSTER && !over);
+                const saveBtn = document.getElementById('hbSave');
+                saveBtn.disabled = !(count === ROSTER && !over);
+                saveBtn.textContent = hbSaveBtnText();
             }
 
             const hbSig = picks => picks.map(hbKey).sort().join('|');
@@ -8717,21 +8721,25 @@
             function hbFlash(msg) {
                 const btn = document.getElementById('hbSave');
                 btn.textContent = msg;
-                setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300);
+                setTimeout(() => { btn.textContent = hbSaveBtnText(); }, 1300);
             }
             // Saving opens a naming prompt pre-filled with "Lineup N", so a
             // lineup is always identifiable even if the name is left alone.
             let hbPending = null;
+            // Index of the saved lineup loaded for editing; saving then updates
+            // that lineup in place instead of appending a new one.
+            let hbEditing = null;
             const HB_MAX_SAVED = 150;   // DK's entry max for a single contest
+            const hbSaveBtnText = () => hbEditing != null ? 'Update Lineup' : 'Save Lineup';
             function hbSaveLineup() {
                 if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
-                if (hbSaved.length >= HB_MAX_SAVED) {
+                if (hbEditing == null && hbSaved.length >= HB_MAX_SAVED) {
                     hbFlash('150 max');
                     hbSetErr(`You're at the ${HB_MAX_SAVED}-lineup max (DK's entry cap for a single contest). Delete a lineup to save another.`);
                     return;
                 }
                 const sig = hbSig(hbPicks);
-                const dup = hbSaved.findIndex(l => hbSig(l) === sig);
+                const dup = hbSaved.findIndex((l, j) => j !== hbEditing && hbSig(l) === sig);
                 if (dup >= 0) {
                     hbFlash('Already saved');
                     const nm = (hbNames[dup] || '').trim() || `Lineup ${dup + 1}`;
@@ -8741,7 +8749,12 @@
                 hbSetErr('');
                 hbPending = hbPicks.slice();
                 const inp = document.getElementById('hbNameInput');
-                inp.value = `Lineup ${hbSaved.length + 1}`;
+                inp.value = hbEditing != null
+                    ? ((hbNames[hbEditing] || '').trim() || `Lineup ${hbEditing + 1}`)
+                    : `Lineup ${hbSaved.length + 1}`;
+                document.getElementById('hbNameTitle').textContent =
+                    hbEditing != null ? `Update “${(hbNames[hbEditing] || '').trim() || `Lineup ${hbEditing + 1}`}”` : 'Name this lineup';
+                document.getElementById('hbNameOk').textContent = hbEditing != null ? 'Update lineup' : 'Save lineup';
                 document.getElementById('hbNameRoster').textContent =
                     hbPending.map(f => f.name).join(', ') + ' · $' + hbPending.reduce((s, f) => s + (f.salary || 0), 0).toLocaleString();
                 document.getElementById('hbNameModal').style.display = 'flex';
@@ -8755,15 +8768,22 @@
             function hbConfirmName() {
                 if (!hbPending) return;
                 const nm = document.getElementById('hbNameInput').value.trim();
-                hbSaved.push(hbPending);
-                hbNames.push(nm || `Lineup ${hbSaved.length}`);
+                const editing = hbEditing != null;
+                if (editing) {
+                    hbSaved[hbEditing] = hbPending;
+                    hbNames[hbEditing] = nm || (hbNames[hbEditing] || `Lineup ${hbEditing + 1}`);
+                    hbEditing = null;
+                } else {
+                    hbSaved.push(hbPending);
+                    hbNames.push(nm || `Lineup ${hbSaved.length}`);
+                }
                 hbCloseName();
                 hbPicks = [];        // clear the board for the next build
                 hbApplyLocks();      // …except the locked core stays
                 hbRender();
                 hbPersist();
                 hbSetErr('');
-                hbFlash('Saved ✓');
+                hbFlash(editing ? 'Updated ✓' : 'Saved ✓');
             }
 
             function hbRenderSaved() {
@@ -8778,10 +8798,11 @@
                 document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
                     const dead = hbLineupDead(lu);
-                    return `<div class="hb-saved-row${dead ? ' dead' : ''}" data-i="${i}" title="${dead ? 'Contains a fighter marked out — load and rebuild' : 'Load into builder'}">
+                    const editing = i === hbEditing;
+                    return `<div class="hb-saved-row${dead ? ' dead' : ''}${editing ? ' editing' : ''}" data-i="${i}" title="${editing ? 'Loaded in the builder — Save updates this lineup' : dead ? 'Contains a fighter marked out — load and rebuild' : 'Load into builder'}">
                         <div class="hb-saved-info">
                             <input class="hb-nm" data-i="${i}" value="${oEsc(hbNames[i] || '')}" placeholder="Lineup ${i + 1}" maxlength="40" aria-label="Name for lineup ${i + 1}">
-                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${dead ? ' · <span class="dead-tag">fighter out</span>' : ''}</div></div>
+                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${editing ? ' · <span class="edit-tag">editing</span>' : ''}${dead ? ' · <span class="dead-tag">fighter out</span>' : ''}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
                 }).join('');
@@ -8884,7 +8905,7 @@
                     hbPersist(); hbRenderCancel(); hbRender();
                 });
                 document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
-                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbApplyLocks(); hbRender(); });
+                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbEditing = null; hbApplyLocks(); hbRender(); });
                 // Clear Portfolio wipes every saved lineup, so it takes two
                 // clicks: the first arms the button, the second confirms.
                 let hbClearArm = null;
@@ -8906,6 +8927,7 @@
                     btn.classList.remove('armed');
                     hbSaved = [];
                     hbNames = [];
+                    hbEditing = null;
                     hbPersist();
                     hbRenderSaved();
                     hbSetErr('');
@@ -8914,10 +8936,16 @@
                 document.getElementById('hbExport').addEventListener('click', hbExportSaved);
                 document.getElementById('hbSavedList').addEventListener('click', e => {
                     const rm = e.target.closest('.rm');
-                    if (rm) { const i = +rm.dataset.i; hbSaved.splice(i, 1); hbNames.splice(i, 1); hbRenderSaved(); hbPersist(); hbSetErr(''); return; }
+                    if (rm) {
+                        const i = +rm.dataset.i;
+                        hbSaved.splice(i, 1); hbNames.splice(i, 1);
+                        if (hbEditing === i) hbEditing = null;
+                        else if (hbEditing != null && hbEditing > i) hbEditing--;
+                        hbRender(); hbPersist(); hbSetErr(''); return;
+                    }
                     if (e.target.closest('.hb-nm')) return;   // naming a lineup shouldn't load it
                     const row = e.target.closest('.hb-saved-row');
-                    if (row) { hbPicks = hbSaved[+row.dataset.i].slice(); hbRender(); }
+                    if (row) { hbEditing = +row.dataset.i; hbPicks = hbSaved[hbEditing].slice(); hbRender(); }
                 });
                 // store the name as it's typed; deliberately no re-render, which
                 // would rebuild the input and drop the caret mid-word

@@ -8930,8 +8930,9 @@
                     hbNames.push(nm || `Lineup ${hbSaved.length}`);
                 }
                 hbCloseName();
-                hbPicks = [];        // clear the board for the next build
-                hbApplyLocks();      // …except the locked core stays
+                // The board deliberately keeps the just-saved lineup: tweak a
+                // fighter or two and save again for the next variation. The
+                // duplicate check stops an unchanged immediate re-save.
                 hbRender();
                 hbPersist();
                 hbSetErr('');

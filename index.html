@@ -3018,12 +3018,26 @@
         .hbp-f .sc { font-family: 'Chakra Petch', monospace; font-weight: 600; min-width: 44px; text-align: right; }
         .hbp-f.out .nm { color: var(--accent-red); text-decoration: line-through; }
         .hbp-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; color: var(--text-secondary); }
-        /* What If score entry */
+        /* What If score entry — one row per bout, opponents side by side */
         .hbw-tools { margin-bottom: 12px; }
-        .hbw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 6px 18px; }
-        .hbw-row { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--border); }
+        .hbw-bouts { max-width: 860px; }
+        .hbw-bout { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px solid var(--border); }
+        .hbw-bout .vs { flex: none; font-family: 'Chakra Petch', monospace; font-size: 0.7rem; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+        .hbw-cell { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 10px; }
+        .hbw-cell .hb-info { min-width: 0; }
+        .hbw-cell .hb-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hbw-cell.r { flex-direction: row-reverse; text-align: right; }
+        .hbw-cell .hb-info { flex: 1; }
         .hbw-in { width: 84px; flex: none; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: 'Chakra Petch', monospace; font-weight: 600; font-size: 0.9rem; padding: 8px 9px; text-align: right; clip-path: var(--chamfer-sm); }
         .hbw-in:focus { outline: none; border-color: var(--accent); }
+        .hbw-in { -moz-appearance: textfield; appearance: textfield; }
+        .hbw-in::-webkit-outer-spin-button, .hbw-in::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        @media (max-width: 600px) {
+            .hbw-bout { gap: 8px; }
+            .hbw-cell { gap: 7px; }
+            .hbw-cell .hb-name { font-size: 0.8rem; }
+            .hbw-in { width: 70px; padding: 8px 6px; font-size: 0.82rem; }
+        }
         .hb-saved-row.editing { border-color: var(--accent); background: rgba(var(--a-rgb), 0.10); }
         .edit-tag { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
         .hb-saved-row.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.10); }
@@ -8716,13 +8730,26 @@
                     (a.matchup || '').localeCompare(b.matchup || '') || (b.salary || 0) - (a.salary || 0));
                 let h = `<div class="fs2-note">Type a projected DK score for any fighter &mdash; the <strong>Portfolio</strong> tab sorts your saved lineups by these scores. Scores stick around like your lineups do.</div>`;
                 h += `<div class="hbw-tools"><button class="opt-btn" id="hbwClear">Clear all scores</button></div>`;
-                h += '<div class="hbw-grid">' + list.map(f => {
-                    const k = hbKey(f);
-                    const v = hbWhatIf[k];
-                    return `<div class="hbw-row"><div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div>` +
-                        `<div class="hb-match">${oEsc(f.matchup || '')}</div></div>` +
+                // one row per bout, opponents side by side (favorite on the left)
+                const byBout = new Map();
+                list.forEach(f => {
+                    const m = f.matchup || hbKey(f);
+                    if (!byBout.has(m)) byBout.set(m, []);
+                    byBout.get(m).push(f);
+                });
+                const bouts = [...byBout.values()].sort((x, y) =>
+                    Math.max(...y.map(f => f.salary || 0)) - Math.max(...x.map(f => f.salary || 0)));
+                const cell = (f, right) => {
+                    const k = hbKey(f), v = hbWhatIf[k];
+                    return `<div class="hbw-cell${right ? ' r' : ''}"><div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div>` +
+                        `<div class="hb-match">$${(f.salary || 0).toLocaleString()}</div></div>` +
                         `<input class="hbw-in" type="number" inputmode="decimal" step="0.1" placeholder="&mdash;"` +
                         ` data-k="${oEsc(k)}" value="${v != null ? v : ''}" aria-label="What-if score for ${oEsc(f.name)}"></div>`;
+                };
+                h += '<div class="hbw-bouts">' + bouts.map(pair => {
+                    pair.sort((x, y) => (y.salary || 0) - (x.salary || 0));
+                    if (pair.length === 2) return `<div class="hbw-bout">${cell(pair[0])}<span class="vs">vs</span>${cell(pair[1], true)}</div>`;
+                    return `<div class="hbw-bout">${pair.map(f => cell(f)).join('')}</div>`;
                 }).join('') + '</div>';
                 el.innerHTML = h;
             }

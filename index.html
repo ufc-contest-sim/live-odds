@@ -3004,6 +3004,26 @@
         .hb-cxbtn:hover { border-color: var(--accent-red); color: var(--accent-red); }
         .hb-cxbtn.on { background: var(--accent-red); border-color: var(--accent-red); color: #fff; }
         .hb-editnote { font-family: 'Chakra Petch', monospace; font-size: 0.74rem; font-weight: 600; color: var(--accent); margin-top: 6px; }
+        /* Hand Builder portfolio cards */
+        .hbp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+        .hbp-card { background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); padding: 12px 14px; }
+        .hbp-card.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.08); }
+        .hbp-head { display: flex; align-items: baseline; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 8px; }
+        .hbp-head .rk { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent); }
+        .hbp-head .nm { flex: 1; min-width: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hbp-head .tot { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 1.05rem; color: var(--accent); }
+        .hbp-f { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 0.85rem; }
+        .hbp-f .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hbp-f .sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
+        .hbp-f .sc { font-family: 'Chakra Petch', monospace; font-weight: 600; min-width: 44px; text-align: right; }
+        .hbp-f.out .nm { color: var(--accent-red); text-decoration: line-through; }
+        .hbp-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; color: var(--text-secondary); }
+        /* What If score entry */
+        .hbw-tools { margin-bottom: 12px; }
+        .hbw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 6px 18px; }
+        .hbw-row { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--border); }
+        .hbw-in { width: 84px; flex: none; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: 'Chakra Petch', monospace; font-weight: 600; font-size: 0.9rem; padding: 8px 9px; text-align: right; clip-path: var(--chamfer-sm); }
+        .hbw-in:focus { outline: none; border-color: var(--accent); }
         .hb-saved-row.editing { border-color: var(--accent); background: rgba(var(--a-rgb), 0.10); }
         .edit-tag { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
         .hb-saved-row.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.10); }
@@ -3860,6 +3880,15 @@
                 <div class="sdb-title">Hand Builder</div>
 
                 <div id="hbLoading" class="sdb-loading">Loading this week's slate…</div>
+
+                <div class="view-tabs" id="hbSubnav" style="display:none; justify-content: flex-start;">
+                    <button class="tab-btn active" data-hbsub="build"><span>Builder</span></button>
+                    <button class="tab-btn" data-hbsub="portfolio"><span>Portfolio</span></button>
+                    <button class="tab-btn" data-hbsub="whatif"><span>What If</span></button>
+                </div>
+
+                <div id="hbPortfolio" style="display:none;"></div>
+                <div id="hbWhatIf" style="display:none;"></div>
 
                 <div id="hbWrap" class="hb-wrap" style="display:none;">
                     <div class="hb-side">
@@ -8633,6 +8662,71 @@
                 });
             }
 
+            // ---- Hand Builder sub-views: Builder / Portfolio / What If ----
+            // What-if scores: fighter key -> projected DK score. The Portfolio
+            // tab sums them per lineup and sorts highest first.
+            let hbWhatIf = {};
+            let hbSub = 'build';
+            function showHbSub(which) {
+                hbSub = which;
+                document.querySelectorAll('#hbSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.hbsub === which));
+                document.getElementById('hbWrap').style.display = which === 'build' ? '' : 'none';
+                document.getElementById('hbPortfolio').style.display = which === 'portfolio' ? '' : 'none';
+                document.getElementById('hbWhatIf').style.display = which === 'whatif' ? '' : 'none';
+                if (which === 'portfolio') hbRenderPortfolio();
+                if (which === 'whatif') hbRenderWhatIf();
+            }
+            const hbLineupScore = lu => lu.reduce((s, f) => s + (+hbWhatIf[hbKey(f)] || 0), 0);
+            function hbRenderPortfolio() {
+                const el = document.getElementById('hbPortfolio');
+                if (!hbSaved.length) {
+                    el.innerHTML = '<div class="flu-empty">No saved lineups yet — build some in the Builder tab.</div>';
+                    return;
+                }
+                const scored = Object.keys(hbWhatIf).length > 0;
+                const order = hbSaved.map((_, i) => i);
+                if (scored) order.sort((a, b) => hbLineupScore(hbSaved[b]) - hbLineupScore(hbSaved[a]) || a - b);
+                let h = `<div class="fs2-note">${hbSaved.length} saved lineup${hbSaved.length === 1 ? '' : 's'}` +
+                    (scored ? ' &middot; sorted by your What If scores, highest first.'
+                        : '. Type scores in the <strong>What If</strong> tab to rank these by projected total.') + '</div>';
+                h += '<div class="hbp-grid">' + order.map((i, rank) => {
+                    const lu = hbSaved[i];
+                    const nm = (hbNames[i] || '').trim() || `Lineup ${i + 1}`;
+                    const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
+                    const tot = hbLineupScore(lu);
+                    const dead = hbLineupDead(lu);
+                    const rows = lu.slice().sort((a, b) => (b.salary || 0) - (a.salary || 0)).map(f => {
+                        const v = hbWhatIf[hbKey(f)];
+                        return `<div class="hbp-f${hbCancelled.has(hbKey(f)) ? ' out' : ''}"><span class="nm">${oEsc(f.name)}</span>` +
+                            `<span class="sal">$${(f.salary || 0).toLocaleString()}</span>` +
+                            `<span class="sc">${v != null ? (+v).toFixed(1) : '&mdash;'}</span></div>`;
+                    }).join('');
+                    return `<div class="hbp-card${dead ? ' dead' : ''}">
+                        <div class="hbp-head"><span class="rk">${scored ? '#' + (rank + 1) : ''}</span><span class="nm">${oEsc(nm)}</span>` +
+                        `<span class="tot">${scored ? tot.toFixed(1) : ''}</span></div>
+                        ${rows}
+                        <div class="hbp-foot"><span>$${sal.toLocaleString()}</span>${dead ? '<span class="dead-tag">fighter out</span>' : ''}</div>
+                    </div>`;
+                }).join('') + '</div>';
+                el.innerHTML = h;
+            }
+            function hbRenderWhatIf() {
+                const el = document.getElementById('hbWhatIf');
+                const list = FIGHTERS.slice().sort((a, b) =>
+                    (a.matchup || '').localeCompare(b.matchup || '') || (b.salary || 0) - (a.salary || 0));
+                let h = `<div class="fs2-note">Type a projected DK score for any fighter &mdash; the <strong>Portfolio</strong> tab sorts your saved lineups by these scores. Scores stick around like your lineups do.</div>`;
+                h += `<div class="hbw-tools"><button class="opt-btn" id="hbwClear">Clear all scores</button></div>`;
+                h += '<div class="hbw-grid">' + list.map(f => {
+                    const k = hbKey(f);
+                    const v = hbWhatIf[k];
+                    return `<div class="hbw-row"><div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div>` +
+                        `<div class="hb-match">${oEsc(f.matchup || '')}</div></div>` +
+                        `<input class="hbw-in" type="number" inputmode="decimal" step="0.1" placeholder="&mdash;"` +
+                        ` data-k="${oEsc(k)}" value="${v != null ? v : ''}" aria-label="What-if score for ${oEsc(f.name)}"></div>`;
+                }).join('') + '</div>';
+                el.innerHTML = h;
+            }
+
             // Fighters marked out (cancelled fight, replaced, pulled): saved
             // lineups containing them are flagged red so they're easy to find
             // and rebuild. Per fighter, not per fight — replacements happen.
@@ -8704,6 +8798,7 @@
                         names: hbNames,
                         locks: [...hbLocks],
                         cancelled: [...hbCancelled],
+                        whatif: hbWhatIf,
                     }));
                 } catch (e) { /* storage full or blocked — saving stays session-only */ }
             }
@@ -8724,6 +8819,9 @@
                 });
                 (data.locks || []).forEach(k => { if (byKey.has(k)) hbLocks.add(k); });
                 (data.cancelled || []).forEach(k => { if (byKey.has(k)) hbCancelled.add(k); });
+                Object.entries(data.whatif || {}).forEach(([k, v]) => {
+                    if (byKey.has(k) && isFinite(+v)) hbWhatIf[k] = +v;
+                });
                 hbApplyLocks();
                 hbPersist();   // prune anything that didn't survive
             }
@@ -8909,6 +9007,25 @@
                     const f = FIGHTERS.find(x => hbKey(x) === btn.dataset.k); if (f) hbAddOrRemove(f);
                 });
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
+                document.getElementById('hbSubnav').addEventListener('click', e => {
+                    const b = e.target.closest('button[data-hbsub]'); if (!b) return;
+                    showHbSub(b.dataset.hbsub);
+                });
+                // store what-if scores as they're typed; no re-render so the
+                // caret stays put mid-number
+                document.getElementById('hbWhatIf').addEventListener('input', e => {
+                    const inp = e.target.closest('.hbw-in'); if (!inp) return;
+                    const v = parseFloat(inp.value);
+                    if (isFinite(v)) hbWhatIf[inp.dataset.k] = v;
+                    else delete hbWhatIf[inp.dataset.k];
+                    hbPersist();
+                });
+                document.getElementById('hbWhatIf').addEventListener('click', e => {
+                    if (!e.target.closest('#hbwClear')) return;
+                    hbWhatIf = {};
+                    hbPersist();
+                    hbRenderWhatIf();
+                });
                 document.getElementById('hbCancelChips').addEventListener('click', e => {
                     const u = e.target.closest('.undo'); if (!u) return;
                     hbCancelled.delete(u.dataset.m);
@@ -8982,10 +9099,11 @@
                     return;
                 }
                 document.getElementById('hbLoading').style.display = 'none';
-                document.getElementById('hbWrap').style.display = '';
+                document.getElementById('hbSubnav').style.display = '';
                 hbRestore();
                 hbRenderCancel();
                 hbRender();
+                showHbSub(hbSub);
             }
             window.__openHandBuilder = openHandBuilder;
         })();

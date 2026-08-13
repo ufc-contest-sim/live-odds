@@ -3545,12 +3545,24 @@
             /* Hand Builder: dissolve the two-column wrappers on phones so the
                salary meter's sticky scope becomes the whole card — it used to
                stop sticking once you scrolled past the sidebar, i.e. exactly
-               when the fighter pool (the part you scroll) began. */
-            .hb-wrap, .hb-side, .hb-main { display: contents; }
+               when the fighter pool (the part you scroll) began. The wrap
+               itself turns into a flex column so the flattened pieces can be
+               reordered: saved lineups sit BELOW the fighter pool, out of the
+               way while building. */
+            .hb-wrap { display: flex; flex-direction: column; }
+            .hb-side, .hb-main { display: contents; }
+            .hb-meter { order: 1; }
+            .hb-slots { order: 2; }
+            .hb-actions { order: 3; }
+            .hb-tools { order: 4; }
+            .hb-cancel-chips { order: 5; }
+            .hb-pool { order: 6; }
+            .hb-saved { order: 7; }
+            .hb-clearall { order: 8; }
             .hb-slots { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin: 12px 0; }
             .hb-actions { margin: 0 0 14px; }
             .hb-tools { margin: 0 0 10px; }
-            .hb-saved { margin: 0 0 14px; }
+            .hb-saved { margin: 14px 0 0; }
             .hb-meter-top, .hb-meter-sub { flex-wrap: wrap; }
         }
         @media (max-width: 420px) {

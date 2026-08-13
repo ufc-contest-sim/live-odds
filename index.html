@@ -3015,6 +3015,7 @@
         .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
         .hb-saved { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
         .hb-saved-head { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-saved-head.at-max { color: var(--accent-red); font-weight: 700; }
         .hb-saved-list { display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; }
         .hb-saved-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); cursor: pointer; }
         .hb-saved-row:hover { background: var(--bg-hover); border-color: var(--border-accent); }
@@ -8721,8 +8722,14 @@
             // Saving opens a naming prompt pre-filled with "Lineup N", so a
             // lineup is always identifiable even if the name is left alone.
             let hbPending = null;
+            const HB_MAX_SAVED = 150;   // DK's entry max for a single contest
             function hbSaveLineup() {
                 if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
+                if (hbSaved.length >= HB_MAX_SAVED) {
+                    hbFlash('150 max');
+                    hbSetErr(`You're at the ${HB_MAX_SAVED}-lineup max (DK's entry cap for a single contest). Delete a lineup to save another.`);
+                    return;
+                }
                 const sig = hbSig(hbPicks);
                 const dup = hbSaved.findIndex(l => hbSig(l) === sig);
                 if (dup >= 0) {
@@ -8765,7 +8772,9 @@
                 clearWrap.style.display = hbSaved.length ? '' : 'none';
                 if (!hbSaved.length) { wrap.style.display = 'none'; return; }
                 wrap.style.display = '';
-                document.getElementById('hbSavedCount').textContent = 'Saved lineups (' + hbSaved.length + ')';
+                const cnt = document.getElementById('hbSavedCount');
+                cnt.textContent = `Saved lineups — ${hbSaved.length} of ${HB_MAX_SAVED}`;
+                cnt.classList.toggle('at-max', hbSaved.length >= HB_MAX_SAVED);
                 document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
                     const dead = hbLineupDead(lu);

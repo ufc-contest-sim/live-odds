@@ -3003,6 +3003,7 @@
         .hb-cxbtn { min-width: 34px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; clip-path: var(--chamfer-sm); font-size: 0.85rem; line-height: 1; }
         .hb-cxbtn:hover { border-color: var(--accent-red); color: var(--accent-red); }
         .hb-cxbtn.on { background: var(--accent-red); border-color: var(--accent-red); color: #fff; }
+        .hb-editnote { font-family: 'Chakra Petch', monospace; font-size: 0.74rem; font-weight: 600; color: var(--accent); margin-top: 6px; }
         .hb-saved-row.editing { border-color: var(--accent); background: rgba(var(--a-rgb), 0.10); }
         .edit-tag { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
         .hb-saved-row.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.10); }
@@ -3870,6 +3871,7 @@
                             <div class="hb-bar"><div class="hb-bar-fill" id="hbBarFill"></div></div>
                             <div class="hb-meter-sub"><span id="hbLeft">$50,000 left</span><span id="hbPerSlot">$8,333/slot</span></div>
                             <div class="hb-status wip" id="hbStatus">Add 6 fighters</div>
+                            <div class="hb-editnote" id="hbEditNote" style="display:none;"></div>
                             <div class="hb-dup" id="hbDup" style="display:none;"></div>
                         </div>
                         <div class="hb-slots" id="hbSlots"></div>
@@ -8674,6 +8676,14 @@
                 const saveBtn = document.getElementById('hbSave');
                 saveBtn.disabled = !(count === ROSTER && !over);
                 saveBtn.textContent = hbSaveBtnText();
+                const en = document.getElementById('hbEditNote');
+                if (hbEditing != null) {
+                    const nm = (hbNames[hbEditing] || '').trim();
+                    const label = nm && nm.toLowerCase() !== `lineup ${hbEditing + 1}`
+                        ? `lineup ${hbEditing + 1} — “${oEsc(nm)}”` : `lineup ${hbEditing + 1}`;
+                    en.style.display = '';
+                    en.innerHTML = `✎ Editing ${label} · saving updates it, Clear cancels`;
+                } else en.style.display = 'none';
             }
 
             const hbSig = picks => picks.map(hbKey).sort().join('|');

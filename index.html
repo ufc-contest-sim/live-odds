@@ -3551,6 +3551,14 @@
                way while building. */
             .hb-wrap { display: flex; flex-direction: column; }
             .hb-side, .hb-main { display: contents; }
+            /* flattened pieces are flex items now: keep them viewport-width,
+               never their min-content width (the pool scrolls inside itself) */
+            .hb-meter, .hb-slots, .hb-actions, .hb-tools, .hb-cancel-chips,
+            .hb-pool, .hb-saved, .hb-clearall { min-width: 0; width: 100%; max-width: 100%; }
+            /* pool rows keep full fighter names and swipe sideways when the
+               buttons don't fit; the single grid column sizes every row to the
+               widest one so borders stay aligned */
+            .hb-pool { overflow-x: auto; display: grid; grid-template-columns: minmax(max-content, 1fr); }
             .hb-meter { order: 1; }
             .hb-slots { order: 2; }
             .hb-actions { order: 3; }

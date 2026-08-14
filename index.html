@@ -533,6 +533,34 @@
         .search-results-summary {
             color: var(--text-secondary);
             font-size: 0.85rem;
+            text-align: right;
+        }
+
+        .site-footer {
+            position: relative;
+            /* below #landing-page (z-index 1): the footer must never paint
+               over modals that live inside the page containers */
+            z-index: 0;
+            max-width: 860px;
+            margin: 30px auto 0;
+            padding: 18px 20px 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            text-align: center;
+            color: var(--text-secondary);
+            opacity: 0.75;
+            font-size: 0.72rem;
+            line-height: 1.6;
+        }
+        .site-footer p { margin: 0 0 6px; }
+        /* Each metric is an unbreakable unit; on desktop they read as one
+           dot-separated line, on mobile each gets its own line. */
+        .srs-part { white-space: nowrap; }
+        .srs-part + .srs-part::before { content: ' \00b7 '; white-space: normal; }
+        @media (max-width: 600px) {
+            .search-results-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .search-results-summary { text-align: left; }
+            .srs-part { display: block; }
+            .srs-part + .srs-part::before { content: ''; }
         }
 
         .portfolio-chart-container {
@@ -2113,7 +2141,12 @@
         .fighter-draft-table .draft-pct { color: var(--accent-lo); }
 
         @media (max-width: 600px) {
-            .landing-page { padding-top: 70px; }
+            /* tighter vertical rhythm: less dead space under the ticker and
+               between the hero and the tab buttons */
+            .landing-page { padding-top: 34px; }
+            .landing-header { padding-top: 10px; margin-bottom: 26px; }
+            .landing-kicker { margin-bottom: 10px; }
+            .hero-badges { margin-top: 14px; }
             .oct-mark { width: 300px; height: 300px; top: calc(42% + 20px); }
             .landing-kicker { letter-spacing: 3px; }
             .landing-kicker::before, .landing-kicker::after { margin: 0 6px; }
@@ -2685,6 +2718,10 @@
            panel is driven by the FS2_SECTIONS config in JS, so a stat or a
            whole section can be removed by deleting its config entry. */
         .fs2-note { font-size: 0.78rem; color: var(--text-secondary); margin: 2px 0 14px; line-height: 1.5; }
+        .fs2-filter { display: flex; gap: 8px; margin: 2px 0 12px; }
+        .fs2-fbtn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); font-family: 'Chakra Petch', monospace; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 7px 14px; cursor: pointer; clip-path: var(--chamfer-sm); }
+        .fs2-fbtn:hover { color: var(--text-primary); border-color: var(--border-accent); }
+        .fs2-fbtn.active { background: var(--accent); border-color: var(--accent); color: #1a0d02; }
         .fs2-key { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
         .fs2-ktile { border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); border-radius: 10px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); min-width: 0; }
         .fs2-ktile .l { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-secondary); }
@@ -2749,19 +2786,26 @@
         /* ---------- Weekly Matchups (fmx-*) ---------- */
         :root { --fmx-mask: url(data:image/png;base64,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); }
         .fmx-note { font-size: 0.82rem; color: var(--text-secondary); margin: 4px 0 14px; line-height: 1.55; }
-        .fmx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 10px; }
+        .fmx-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 720px; margin: 0 auto; }
         .fmx-card {
-            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px;
-            border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 14px;
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px;
+            border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px 18px;
             background: rgba(255, 255, 255, 0.02); cursor: pointer; text-align: left; width: 100%;
             font-family: inherit; color: var(--text-primary);
         }
         .fmx-card:hover { background: var(--bg-hover); border-color: var(--accent); }
-        .fmx-card .nm { font-weight: 700; font-size: 0.9rem; line-height: 1.25; min-width: 0; }
+        .fmx-card .fno { grid-column: 1 / -1; font-family: 'Chakra Petch', monospace; font-size: 0.66rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); }
+        .fmx-card .nm { font-weight: 700; font-size: 1.05rem; line-height: 1.25; min-width: 0; }
         .fmx-card .rt { text-align: right; }
-        .fmx-card .sal { font-family: 'Chakra Petch', monospace; font-size: 0.68rem; color: var(--text-secondary); display: block; font-weight: 400; }
-        .fmx-card .vs { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--accent); font-weight: 700; flex: none; }
-        .fmx-card .edge { grid-column: 1 / -1; font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); border-top: 1px solid var(--glass-border); padding-top: 7px; margin-top: 3px; }
+        .fmx-card .sal { font-family: 'Chakra Petch', monospace; font-size: 0.78rem; color: var(--text-secondary); display: block; font-weight: 400; margin-top: 2px; }
+        .fmx-card .vs { font-family: 'Chakra Petch', monospace; font-size: 0.7rem; color: var(--accent); font-weight: 700; flex: none; }
+        .fmx-card .edge { grid-column: 1 / -1; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); border-top: 1px solid var(--glass-border); padding-top: 8px; margin-top: 3px; }
+        @media (max-width: 600px) {
+            .fmx-card { padding: 12px 13px; gap: 8px; }
+            .fmx-card .nm { font-size: 0.9rem; }
+            .fmx-card .sal { font-size: 0.7rem; }
+            .fmx-card .edge { font-size: 0.66rem; }
+        }
         .fmx-wide { max-width: 860px; }
         /* body heat maps */
         .fmx-bodies { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; margin: 4px 0 6px; }
@@ -2963,9 +3007,59 @@
         .hb-lockbtn:hover { border-color: var(--accent); color: var(--accent); }
         .hb-lockbtn.on { background: var(--accent); border-color: var(--accent); color: #000; }
         .hb-slot .lk { color: var(--accent); display: flex; flex: none; }
+        .hb-cxbtn { min-width: 34px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text-secondary); cursor: pointer; clip-path: var(--chamfer-sm); font-size: 0.85rem; line-height: 1; }
+        .hb-cxbtn:hover { border-color: var(--accent-red); color: var(--accent-red); }
+        .hb-cxbtn.on { background: var(--accent-red); border-color: var(--accent-red); color: #fff; }
+        .hb-editnote { font-family: 'Chakra Petch', monospace; font-size: 0.74rem; font-weight: 600; color: var(--accent); margin-top: 6px; }
+        /* Hand Builder portfolio cards */
+        .hbp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+        .hbp-card { background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); padding: 12px 14px; }
+        .hbp-card.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.08); }
+        .hbp-head { display: flex; align-items: baseline; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 8px; }
+        .hbp-head .rk { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent); }
+        .hbp-head .nm { flex: 1; min-width: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hbp-head .tot { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 1.05rem; color: var(--accent); }
+        .hbp-f { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 0.85rem; }
+        .hbp-f .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hbp-f .sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
+        .hbp-f .sc { font-family: 'Chakra Petch', monospace; font-weight: 600; min-width: 44px; text-align: right; }
+        .hbp-f.out .nm { color: var(--accent-red); text-decoration: line-through; }
+        .hbp-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; color: var(--text-secondary); }
+        /* What If score entry — one row per bout, opponents side by side */
+        .hbw-tools { margin-bottom: 12px; }
+        .hbw-bouts { max-width: 860px; }
+        .hbw-bout { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px solid var(--border); }
+        .hbw-bout .vs { flex: none; font-family: 'Chakra Petch', monospace; font-size: 0.7rem; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+        .hbw-cell { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 10px; }
+        .hbw-cell .hb-info { min-width: 0; }
+        .hbw-cell .hb-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .hbw-cell.r { flex-direction: row-reverse; text-align: right; }
+        .hbw-cell .hb-info { flex: 1; }
+        .hbw-in { width: 84px; flex: none; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); font-family: 'Chakra Petch', monospace; font-weight: 600; font-size: 0.9rem; padding: 8px 9px; text-align: right; clip-path: var(--chamfer-sm); }
+        .hbw-in:focus { outline: none; border-color: var(--accent); }
+        .hbw-in { -moz-appearance: textfield; appearance: textfield; }
+        .hbw-in::-webkit-outer-spin-button, .hbw-in::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        @media (max-width: 600px) {
+            .hbw-bout { gap: 8px; }
+            .hbw-cell { gap: 7px; }
+            .hbw-cell .hb-name { font-size: 0.8rem; }
+            .hbw-in { width: 70px; padding: 8px 6px; font-size: 0.82rem; }
+        }
+        .hb-saved-row.editing { border-color: var(--accent); background: rgba(var(--a-rgb), 0.10); }
+        .edit-tag { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
+        .hb-saved-row.dead { border-color: var(--accent-red); background: rgba(229, 72, 77, 0.10); }
+        .hb-saved-row.dead:hover { background: rgba(229, 72, 77, 0.18); border-color: var(--accent-red); }
+        .dead-tag { color: var(--accent-red); font-weight: 700; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.5px; }
+        .hb-row.cx { background: rgba(229, 72, 77, 0.07); }
+        .hb-cancel-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 2px; }
+        .hb-cx-chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px; border: 1px solid var(--accent-red); color: var(--accent-red); font-family: 'Chakra Petch', monospace; font-size: 0.72rem; font-weight: 600; clip-path: var(--chamfer-sm); }
+        .hb-cx-chip .undo { background: none; border: none; color: var(--text-secondary); font-size: 0.7rem; text-decoration: underline; cursor: pointer; padding: 0; }
+        .hb-cx-chip .undo:hover { color: var(--text-primary); }
+        .hb-cx-note { color: var(--text-secondary); font-size: 0.74rem; }
         .hb-empty-msg { padding: 22px; text-align: center; color: var(--text-secondary); }
         .hb-saved { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
         .hb-saved-head { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+        .hb-saved-head.at-max { color: var(--accent-red); font-weight: 700; }
         .hb-saved-list { display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; }
         .hb-saved-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-card); border: 1px solid var(--border); clip-path: var(--chamfer-sm); cursor: pointer; }
         .hb-saved-row:hover { background: var(--bg-hover); border-color: var(--border-accent); }
@@ -3379,7 +3473,7 @@
         .hb-name { font-weight: 700; }
         .hb-sal { font-family: var(--fn-mono); font-weight: 700; }
         .hb-add { border-radius: 10px; color: #180a02; box-shadow: none; }
-        .hb-lockbtn { border-radius: 10px; }
+        .hb-lockbtn, .hb-cxbtn { border-radius: 10px; }
         .hb-add:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
         .hb-row.picked .hb-add { background: var(--accent-green); border-color: var(--accent-green); color: #06341c; }
         .hb-saved-row { background: var(--fn-card-2); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; }
@@ -3451,12 +3545,32 @@
             /* Hand Builder: dissolve the two-column wrappers on phones so the
                salary meter's sticky scope becomes the whole card — it used to
                stop sticking once you scrolled past the sidebar, i.e. exactly
-               when the fighter pool (the part you scroll) began. */
-            .hb-wrap, .hb-side, .hb-main { display: contents; }
+               when the fighter pool (the part you scroll) began. The wrap
+               itself turns into a flex column so the flattened pieces can be
+               reordered: saved lineups sit BELOW the fighter pool, out of the
+               way while building. */
+            .hb-wrap { display: flex; flex-direction: column; }
+            .hb-side, .hb-main { display: contents; }
+            /* flattened pieces are flex items now: keep them viewport-width,
+               never their min-content width (the pool scrolls inside itself) */
+            .hb-meter, .hb-slots, .hb-actions, .hb-tools, .hb-cancel-chips,
+            .hb-pool, .hb-saved, .hb-clearall { min-width: 0; width: 100%; max-width: 100%; }
+            /* pool rows keep full fighter names and swipe sideways when the
+               buttons don't fit; the single grid column sizes every row to the
+               widest one so borders stay aligned */
+            .hb-pool { overflow-x: auto; display: grid; grid-template-columns: minmax(max-content, 1fr); }
+            .hb-meter { order: 1; }
+            .hb-slots { order: 2; }
+            .hb-actions { order: 3; }
+            .hb-tools { order: 4; }
+            .hb-cancel-chips { order: 5; }
+            .hb-pool { order: 6; }
+            .hb-saved { order: 7; }
+            .hb-clearall { order: 8; }
             .hb-slots { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin: 12px 0; }
             .hb-actions { margin: 0 0 14px; }
             .hb-tools { margin: 0 0 10px; }
-            .hb-saved { margin: 0 0 14px; }
+            .hb-saved { margin: 14px 0 0; }
             .hb-meter-top, .hb-meter-sub { flex-wrap: wrap; }
         }
         @media (max-width: 420px) {
@@ -3808,6 +3922,15 @@
 
                 <div id="hbLoading" class="sdb-loading">Loading this week's slate…</div>
 
+                <div class="view-tabs" id="hbSubnav" style="display:none; justify-content: flex-start;">
+                    <button class="tab-btn active" data-hbsub="build"><span>Builder</span></button>
+                    <button class="tab-btn" data-hbsub="portfolio"><span>Portfolio</span></button>
+                    <button class="tab-btn" data-hbsub="whatif"><span>What If</span></button>
+                </div>
+
+                <div id="hbPortfolio" style="display:none;"></div>
+                <div id="hbWhatIf" style="display:none;"></div>
+
                 <div id="hbWrap" class="hb-wrap" style="display:none;">
                     <div class="hb-side">
                         <div class="hb-meter" id="hbMeter">
@@ -3818,6 +3941,7 @@
                             <div class="hb-bar"><div class="hb-bar-fill" id="hbBarFill"></div></div>
                             <div class="hb-meter-sub"><span id="hbLeft">$50,000 left</span><span id="hbPerSlot">$8,333/slot</span></div>
                             <div class="hb-status wip" id="hbStatus">Add 6 fighters</div>
+                            <div class="hb-editnote" id="hbEditNote" style="display:none;"></div>
                             <div class="hb-dup" id="hbDup" style="display:none;"></div>
                         </div>
                         <div class="hb-slots" id="hbSlots"></div>
@@ -3847,6 +3971,7 @@
                                 <option value="fight">Matchup</option>
                             </select>
                         </div>
+                        <div class="hb-cancel-chips" id="hbCancelChips" style="display:none;"></div>
                         <div class="hb-pool" id="hbPool"></div>
                         <div class="hb-clearall" id="hbClearAllWrap" style="display:none;">
                             <button class="opt-btn hb-danger" id="hbClearAll">Clear Portfolio</button>
@@ -4042,10 +4167,10 @@
                                 <th class="sortable" onclick="setSort('WinPct')">Win %</th>
                                 <th class="sortable" onclick="setSort('SecondPct')">2nd %</th>
                                 <th class="sortable" onclick="setSort('ThirdPct')">3rd %</th>
-                                <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
+                                <th class="sortable" onclick="setSort('Top3Pct')">Top 3 %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
-                                <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
+                                <th class="sortable" onclick="setSort('AvgSalary')">Avg Salary</th>
                             </tr>
                         </thead>
                         <tbody id="portfolio-leaderboard"></tbody>
@@ -4121,6 +4246,10 @@
         </div>
     </div>
     <div class="chart-tip" id="chart-tip"></div>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 MMA LiveSim. Not affiliated with, endorsed by, or sponsored by the Ultimate Fighting Championship or Zuffa, LLC. All fighter names, marks, and event names are the property of their respective owners.</p>
+    </footer>
 
     <script>
         // Dynamic contest loading - no more hardcoding!
@@ -5125,6 +5254,7 @@
                         entries: entries.length,
                         winPct: totalWinPct,
                         netEV: totalNetEV,
+                        cost: totalCost,
                         roi: roi
                     });
                 }
@@ -5140,6 +5270,9 @@
 
             const totalEntries = results.reduce((sum, r) => sum + r.entries, 0);
             const totalNetEV = results.reduce((sum, r) => sum + r.netEV, 0);
+            const totalCost = results.reduce((sum, r) => sum + (r.cost || 0), 0);
+            const portfolioROI = totalCost > 0 ? (totalNetEV / totalCost) * 100 : null;
+            const fmtROI = v => (v < 0 ? '-' : '') + Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
 
             const alreadySaved = isFavorite(query);
             resultsContainer.innerHTML = `
@@ -5149,7 +5282,7 @@
                             ${alreadySaved ? '&#9733;' : '&#9734;'}
                         </button>
                     </h3>
-                    <span class="search-results-summary">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''} &middot; Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>
+                    <span class="search-results-summary"><span class="srs-part">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''}</span><span class="srs-part">Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>${portfolioROI != null ? `<span class="srs-part">Portfolio ROI: <span class="${portfolioROI >= 0 ? 'positive' : 'negative'}">${fmtROI(portfolioROI)}</span></span>` : ''}</span>
                 </div>
                 <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
                     <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>
@@ -6223,9 +6356,11 @@
                 SecondPct: p.hasSecondPct ? p.TotalSecondPct : null,
                 ThirdPct: p.hasThirdPct ? p.TotalThirdPct : null,
                 CashPct: p.hasCashPct ? p.TotalCashPct : null,
+                Top3Pct: (p.hasSecondPct && p.hasThirdPct) ? p.TotalWinPct + p.TotalSecondPct + p.TotalThirdPct : null,
                 NetEV: p.TotalNetEV,
                 'ROI%': p.TotalCost > 0 ? (p.TotalNetEV / p.TotalCost) * 100 : 0,
-                TotalSalary: p.TotalSalary
+                TotalSalary: p.TotalSalary,
+                AvgSalary: p.Entries > 0 ? p.TotalSalary / p.Entries : 0
             }));
 
             // Sort
@@ -6283,14 +6418,14 @@
                         <td>${portfolio.WinPct.toFixed(2)}%</td>
                         <td>${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(2) + '%' : '--'}</td>
                         <td>${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(2) + '%' : '--'}</td>
-                        <td>${portfolio.CashPct != null ? portfolio.CashPct.toFixed(2) + '%' : '--'}</td>
+                        <td>${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(2) + '%' : '--'}</td>
                         <td class="${portfolio.NetEV >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(portfolio.NetEV)}
                         </td>
                         <td class="${portfolio['ROI%'] >= 0 ? 'positive' : 'negative'}">
                             ${formatROI(portfolio['ROI%'])}
                         </td>
-                        <td>${portfolio.TotalSalary ? '$' + Number(portfolio.TotalSalary).toLocaleString() : '--'}</td>
+                        <td>${portfolio.AvgSalary ? '$' + Math.round(portfolio.AvgSalary).toLocaleString() : '--'}</td>
                     </tr>
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
                         <td colspan="10">
@@ -7288,17 +7423,21 @@
             // fully independent renders over the same fsxState.
             let fluSub = 'matchups', fs2Built = false, fmxBuilt = false;
             function showFighterSub(which) {
-                // Record and Stats need a fighter; fall back to Matchups until one
-                // has been searched.
-                if ((which === 'record' || which === 'stats') && !fsxState) which = 'matchups';
                 fluSub = which;
                 document.querySelectorAll('#fluSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.fsub === which));
                 document.getElementById('fluBody').style.display = which === 'record' ? '' : 'none';
                 document.getElementById('fluStats').style.display = which === 'stats' ? '' : 'none';
                 document.getElementById('fluMatchups').style.display = which === 'matchups' ? '' : 'none';
-                document.getElementById('fluHero').style.display = which === 'matchups' ? 'none' : '';
+                document.getElementById('fluHero').style.display = which === 'matchups' || !fsxState ? 'none' : '';
                 if (which === 'stats' && !fs2Built) { fs2Built = true; renderFighterStats(); }
                 if (which === 'matchups' && !fmxBuilt) { fmxBuilt = true; renderMatchups(); }
+                // No fighter yet: the tab still switches — show a search prompt
+                // and put the caret in the box so the next step is obvious.
+                if ((which === 'record' || which === 'stats') && !fsxState) {
+                    if (which === 'record') document.getElementById('fluBody').innerHTML =
+                        '<div class="flu-empty">Search a fighter above to see their fight-by-fight record.</div>';
+                    document.getElementById('fluInput').focus();
+                }
             }
             // ==================== FIGHTER STATS PANEL (fs2) ====================
             // Career rate stats derived from the fight database, each ranked
@@ -7419,6 +7558,12 @@
                 p.dk_floor = q(0.2); p.dk_ceil = q(0.8);
                 p.bust_rate = pctOf(tots.filter(v => v < 20).length, n);
                 p.hundred_rate = pctOf(tots.filter(v => v >= 100).length, n);
+                p._hundred = tots.filter(v => v >= 100).length; p._nFights = n;
+                // how often the fighter across from them posts a 100+ total
+                const oTots = O.map(r => dkPoints(r).total);
+                p.opp_hundred_rate = oTots.length ? pctOf(oTots.filter(v => v >= 100).length, oTots.length) : null;
+                p._oppHundred = oTots.filter(v => v >= 100).length; p._oppN = oTots.length;
+                p.opp_avg_dk = oTots.length ? oTots.reduce((a, b) => a + b, 0) / oTots.length : null;
                 const wins = fights.filter(r => r.result === 'W').length;
                 const fin = fights.filter(r => r.result === 'W' && methodGroup(r.method) !== 'Decision' && methodGroup(r.method) !== 'Other').length;
                 p.finish_rate = pctOf(fin, wins);
@@ -7541,7 +7686,9 @@
                     { k: 'dk_floor', label: 'Floor (20th percentile)', fmt: 1, dir: 1 },
                     { k: 'dk_ceil', label: 'Ceiling (80th percentile)', fmt: 1, dir: 1 },
                     { k: 'bust_rate', label: 'Bust rate', sub: 'Share of fights scoring under 20 DK', fmt: 0, unit: '%', dir: -1 },
-                    { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1 },
+                    { k: 'hundred_rate', label: '100+ DK rate', fmt: 0, unit: '%', dir: 1, raw: p => `${f0(p._hundred)}/${f0(p._nFights)}` },
+                    { k: 'opp_hundred_rate', label: 'Opponent 100+ DK rate', sub: 'How often the fighter across from them scores 100+ DK', fmt: 0, unit: '%', dir: -1, raw: p => `${f0(p._oppHundred)}/${f0(p._oppN)}` },
+                    { k: 'opp_avg_dk', label: 'Opponent avg DK score', sub: 'Average DK total the fighter across from them puts up, win bonuses included', fmt: 1, dir: -1 },
                     { k: 'finish_rate', label: 'Finish rate', fmt: 0, unit: '%', dir: 1 },
                     { k: 'opp_dk', label: 'Opponent DK allowed / min', sub: 'Volume scoring the fighters across from them earn per minute, win bonuses excluded', fmt: 2, dir: -1 },
                     { k: 'dk_win', label: 'DK in wins', fmt: 1, dir: 1 },
@@ -7615,14 +7762,29 @@
                     `<span class="fs2-bar" title="${fs2Ord(pc)} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
                     `<span class="pct">${fs2Ord(pc)}</span></div>`;
             }
+            let fs2Filter = 'all';   // 'all' | 'wins' | 'losses'
             function renderFighterStats() {
                 const el = document.getElementById('fluStats');
-                if (!fsxState) { el.innerHTML = ''; return; }
-                const p = fs2Profile(fsxState.fights, fsxState.oppRows);
+                if (!fsxState) {
+                    el.innerHTML = '<div class="flu-empty">Search a fighter above to see their career stats profile.</div>';
+                    return;
+                }
+                const fbar = `<div class="fs2-filter">` +
+                    [['all', 'All fights'], ['wins', 'Wins'], ['losses', 'Losses']].map(([k, l]) =>
+                        `<button class="fs2-fbtn${fs2Filter === k ? ' active' : ''}" data-fs2f="${k}">${l}</button>`).join('') + `</div>`;
+                const want = fs2Filter === 'wins' ? 'W' : 'L';
+                const idx = fsxState.fights.map((r, i) => i).filter(i =>
+                    fs2Filter === 'all' || fsxState.fights[i].result === want);
+                if (!idx.length) {
+                    el.innerHTML = fbar + `<div class="flu-empty">No ${fs2Filter} on record for ${esc(fsxState.name)}.</div>`;
+                    return;
+                }
+                const p = fs2Profile(idx.map(i => fsxState.fights[i]), idx.map(i => fsxState.oppRows[i]));
                 const qualified = p._n >= 3 && p._sec >= 1800;
-                let h = `<div class="fs2-note">Career rates across ${p._n} UFC fight${p._n === 1 ? '' : 's'}` +
+                const noun = fs2Filter === 'all' ? 'fight' : fs2Filter === 'wins' ? 'win' : 'loss';
+                let h = fbar + `<div class="fs2-note">Career rates across ${p._n} UFC ${noun}${p._n === 1 ? '' : noun === 'loss' ? 'es' : 's'}` +
                     (qualified
-                        ? `, ranked against every fighter with 3+ fights and 30+ minutes of octagon time. A longer bar is always better.`
+                        ? `, ranked against every fighter with 3+ fights and 30+ minutes of octagon time (all fights). A longer bar is always better.`
                         : `. Percentile ranks are hidden — this sample is under the 3-fight / 30-minute threshold.`) + `</div>`;
                 h += `<div class="fs2-key">` + FS2_KEY.map(t => {
                     const v = p[t.k];
@@ -7643,10 +7805,15 @@
                         `<div class="v">${fs2Fmt(t, v)}${rawTxt ? `<i class="raw">${rawTxt}</i>` : ''}</div>` +
                         `<div class="s">${bits.join(' &middot; ') || '&nbsp;'}</div>${bar}</div>`;
                 }).join('') + `</div>`;
+                // keep whatever sections the user has open across re-renders
+                // (the wins/losses toggle rebuilds this whole panel)
+                const openBy = {};
+                el.querySelectorAll('details.fs2-sec').forEach(d => { openBy[d.dataset.t] = d.open; });
                 for (const sec of FS2_SECTIONS) {
                     const rows = sec.rows.filter(r => r.type || (p[r.k] != null && isFinite(p[r.k])));
                     if (!rows.length) continue;
-                    h += `<details class="fs2-sec"${sec.open ? ' open' : ''}><summary>${sec.title}<span class="cnt">${rows.length}</span></summary>` +
+                    const isOpen = sec.title in openBy ? openBy[sec.title] : sec.open;
+                    h += `<details class="fs2-sec" data-t="${esc(sec.title)}"${isOpen ? ' open' : ''}><summary>${sec.title}<span class="cnt">${rows.length}</span></summary>` +
                         `<div class="fs2-rows">${rows.map(r => fs2RowHTML(r, p, qualified)).join('')}</div></details>`;
                 }
                 el.innerHTML = h;
@@ -7731,10 +7898,19 @@
                             let arr = byGame.get(g); if (!arr) byGame.set(g, arr = []);
                             if (!arr.some(f => f.name === name)) arr.push({ name, salary: parseFloat(String(r['Salary'] || '').replace(/[^0-9.]/g, '')) || 0 });
                         }
-                        const bouts = [...byGame.values()];
-                        // favorite on the left; marquee fights (top salaries) first
+                        // fight order comes from each bout's start time in Game Info
+                        // ("Orolbai@Wells 08/15/2026 05:30PM ET") — earliest = fight 1
+                        const timeOf = g => {
+                            const m = (g || '').match(/(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(AM|PM)/);
+                            if (!m) return Infinity;
+                            const h = (+m[4] % 12) + (m[6] === 'PM' ? 12 : 0);
+                            return Date.UTC(+m[3], +m[1] - 1, +m[2], h, +m[5]);
+                        };
+                        const bouts = [...byGame.entries()].map(([g, b]) => { b.time = timeOf(g); return b; });
+                        // favorite on the left; fight 1 (earliest start) first
                         bouts.forEach(b => b.sort((a, z) => z.salary - a.salary));
-                        bouts.sort((a, z) => Math.max(...z.map(f => f.salary)) - Math.max(...a.map(f => f.salary)));
+                        bouts.sort((a, z) => a.time - z.time ||
+                            Math.max(...z.map(f => f.salary)) - Math.max(...a.map(f => f.salary)));
                         return bouts;
                     });
             }
@@ -7765,6 +7941,7 @@
                                 if (grap >= 3) bits.push('grappling-heavy');
                             } else bits.push('limited UFC data');
                             return `<button type="button" class="fmx-card" data-bout="${i}">` +
+                                `<span class="fno">Fight ${i + 1}</span>` +
                                 `<span class="nm">${esc(a.name)}<span class="sal">$${a.salary.toLocaleString()}</span></span>` +
                                 `<span class="vs">VS</span>` +
                                 `<span class="nm rt">${esc(z.name)}<span class="sal">$${z.salary.toLocaleString()}</span></span>` +
@@ -7868,6 +8045,8 @@
                     h += fmxCross('DK / min', fmtOr(pa, 'dk_min_vol', 2), 'volume only', fmtOr(pz, 'dk_min_vol', 2), 'volume only');
                     h += fmxCross('floor &ndash; ceiling', `${fmtOr(pa, 'dk_floor', 0)}&ndash;${fmtOr(pa, 'dk_ceil', 0)}`, '20th to 80th percentile', `${fmtOr(pz, 'dk_floor', 0)}&ndash;${fmtOr(pz, 'dk_ceil', 0)}`, '20th to 80th percentile');
                     h += fmxCross('finish rate', fmtOr(pa, 'finish_rate', 0, '%'), 'of wins', fmtOr(pz, 'finish_rate', 0, '%'), 'of wins');
+                    h += fmxCross('100+ DK rate', fmtOr(pa, 'hundred_rate', 0, '%'), `${f0(pa._hundred)}/${f0(pa._nFights)} fights`, fmtOr(pz, 'hundred_rate', 0, '%'), `${f0(pz._hundred)}/${f0(pz._nFights)} fights`);
+                    h += fmxCross('100+ DK allowed', fmtOr(pa, 'opp_hundred_rate', 0, '%'), `${f0(pa._oppHundred)}/${f0(pa._oppN)} opponents hit 100+`, fmtOr(pz, 'opp_hundred_rate', 0, '%'), `${f0(pz._oppHundred)}/${f0(pz._oppN)} opponents hit 100+`);
                 } else {
                     h += `<div class="fmx-empty">Not enough UFC history on one of these fighters for a head-to-head read.</div>`;
                 }
@@ -7885,6 +8064,11 @@
                 document.getElementById('fluSubnav').addEventListener('click', e => {
                     const b = e.target.closest('button[data-fsub]'); if (!b) return;
                     showFighterSub(b.dataset.fsub);
+                });
+                document.getElementById('fluStats').addEventListener('click', e => {
+                    const b = e.target.closest('.fs2-fbtn'); if (!b || b.dataset.fs2f === fs2Filter) return;
+                    fs2Filter = b.dataset.fs2f;
+                    renderFighterStats();
                 });
                 document.getElementById('fluMatchups').addEventListener('click', e => {
                     const card = e.target.closest('.fmx-card'); if (!card) return;
@@ -8529,6 +8713,101 @@
                 });
             }
 
+            // ---- Hand Builder sub-views: Builder / Portfolio / What If ----
+            // What-if scores: fighter key -> projected DK score. The Portfolio
+            // tab sums them per lineup and sorts highest first.
+            let hbWhatIf = {};
+            let hbSub = 'build';
+            function showHbSub(which) {
+                hbSub = which;
+                document.querySelectorAll('#hbSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.hbsub === which));
+                document.getElementById('hbWrap').style.display = which === 'build' ? '' : 'none';
+                document.getElementById('hbPortfolio').style.display = which === 'portfolio' ? '' : 'none';
+                document.getElementById('hbWhatIf').style.display = which === 'whatif' ? '' : 'none';
+                if (which === 'portfolio') hbRenderPortfolio();
+                if (which === 'whatif') hbRenderWhatIf();
+            }
+            const hbLineupScore = lu => lu.reduce((s, f) => s + (+hbWhatIf[hbKey(f)] || 0), 0);
+            function hbRenderPortfolio() {
+                const el = document.getElementById('hbPortfolio');
+                if (!hbSaved.length) {
+                    el.innerHTML = '<div class="flu-empty">No saved lineups yet — build some in the Builder tab.</div>';
+                    return;
+                }
+                const scored = Object.keys(hbWhatIf).length > 0;
+                const order = hbSaved.map((_, i) => i);
+                if (scored) order.sort((a, b) => hbLineupScore(hbSaved[b]) - hbLineupScore(hbSaved[a]) || a - b);
+                let h = `<div class="fs2-note">${hbSaved.length} saved lineup${hbSaved.length === 1 ? '' : 's'}` +
+                    (scored ? ' &middot; sorted by your What If scores, highest first.'
+                        : '. Type scores in the <strong>What If</strong> tab to rank these by projected total.') + '</div>';
+                h += '<div class="hbp-grid">' + order.map((i, rank) => {
+                    const lu = hbSaved[i];
+                    const nm = (hbNames[i] || '').trim() || `Lineup ${i + 1}`;
+                    const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
+                    const tot = hbLineupScore(lu);
+                    const dead = hbLineupDead(lu);
+                    const rows = lu.slice().sort((a, b) => (b.salary || 0) - (a.salary || 0)).map(f => {
+                        const v = hbWhatIf[hbKey(f)];
+                        return `<div class="hbp-f${hbCancelled.has(hbKey(f)) ? ' out' : ''}"><span class="nm">${oEsc(f.name)}</span>` +
+                            `<span class="sal">$${(f.salary || 0).toLocaleString()}</span>` +
+                            `<span class="sc">${v != null ? (+v).toFixed(1) : '&mdash;'}</span></div>`;
+                    }).join('');
+                    return `<div class="hbp-card${dead ? ' dead' : ''}">
+                        <div class="hbp-head"><span class="rk">${scored ? '#' + (rank + 1) : ''}</span><span class="nm">${oEsc(nm)}</span>` +
+                        `<span class="tot">${scored ? tot.toFixed(1) : ''}</span></div>
+                        ${rows}
+                        <div class="hbp-foot"><span>$${sal.toLocaleString()}</span>${dead ? '<span class="dead-tag">fighter out</span>' : ''}</div>
+                    </div>`;
+                }).join('') + '</div>';
+                el.innerHTML = h;
+            }
+            function hbRenderWhatIf() {
+                const el = document.getElementById('hbWhatIf');
+                const list = FIGHTERS.slice().sort((a, b) =>
+                    (a.matchup || '').localeCompare(b.matchup || '') || (b.salary || 0) - (a.salary || 0));
+                let h = `<div class="fs2-note">Type a projected DK score for any fighter &mdash; the <strong>Portfolio</strong> tab sorts your saved lineups by these scores. Scores stick around like your lineups do.</div>`;
+                h += `<div class="hbw-tools"><button class="opt-btn" id="hbwClear">Clear all scores</button></div>`;
+                // one row per bout, opponents side by side (favorite on the left)
+                const byBout = new Map();
+                list.forEach(f => {
+                    const m = f.matchup || hbKey(f);
+                    if (!byBout.has(m)) byBout.set(m, []);
+                    byBout.get(m).push(f);
+                });
+                const bouts = [...byBout.values()].sort((x, y) =>
+                    Math.max(...y.map(f => f.salary || 0)) - Math.max(...x.map(f => f.salary || 0)));
+                const cell = (f, right) => {
+                    const k = hbKey(f), v = hbWhatIf[k];
+                    return `<div class="hbw-cell${right ? ' r' : ''}"><div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div>` +
+                        `<div class="hb-match">$${(f.salary || 0).toLocaleString()}</div></div>` +
+                        `<input class="hbw-in" type="number" inputmode="decimal" step="0.1" placeholder="&mdash;"` +
+                        ` data-k="${oEsc(k)}" value="${v != null ? v : ''}" aria-label="What-if score for ${oEsc(f.name)}"></div>`;
+                };
+                h += '<div class="hbw-bouts">' + bouts.map(pair => {
+                    pair.sort((x, y) => (y.salary || 0) - (x.salary || 0));
+                    if (pair.length === 2) return `<div class="hbw-bout">${cell(pair[0])}<span class="vs">vs</span>${cell(pair[1], true)}</div>`;
+                    return `<div class="hbw-bout">${pair.map(f => cell(f)).join('')}</div>`;
+                }).join('') + '</div>';
+                el.innerHTML = h;
+            }
+
+            // Fighters marked out (cancelled fight, replaced, pulled): saved
+            // lineups containing them are flagged red so they're easy to find
+            // and rebuild. Per fighter, not per fight — replacements happen.
+            let hbCancelled = new Set();   // hbKey strings
+            const hbLineupDead = lu => lu.some(f => hbCancelled.has(hbKey(f)));
+            function hbRenderCancel() {
+                const chips = document.getElementById('hbCancelChips');
+                if (!hbCancelled.size) { chips.style.display = 'none'; chips.innerHTML = ''; return; }
+                chips.style.display = '';
+                chips.innerHTML = [...hbCancelled].map(k => {
+                    const f = FIGHTERS.find(x => hbKey(x) === k);
+                    const nm = f ? f.name : k.split('|')[1] || k;
+                    return `<span class="hb-cx-chip">✕ ${oEsc(nm)} out <button class="undo" data-m="${oEsc(k)}" title="Undo — mark ${oEsc(nm)} back in">undo</button></span>`;
+                }).join('') +
+                    '<span class="hb-cx-note">Lineups with these fighters are flagged red below.</span>';
+            }
+
             function hbRenderMeter() {
                 const total = hbTotal(), remaining = SALARY_CAP - total;
                 const count = hbPicks.length, slotsLeft = ROSTER - count, over = total > SALARY_CAP;
@@ -8552,7 +8831,17 @@
                 const dupEl = document.getElementById('hbDup');
                 if (dups.length) { dupEl.style.display = ''; dupEl.textContent = '⚠ Both sides of a fight: ' + dups.join(', '); }
                 else dupEl.style.display = 'none';
-                document.getElementById('hbSave').disabled = !(count === ROSTER && !over);
+                const saveBtn = document.getElementById('hbSave');
+                saveBtn.disabled = !(count === ROSTER && !over);
+                saveBtn.textContent = hbSaveBtnText();
+                const en = document.getElementById('hbEditNote');
+                if (hbEditing != null) {
+                    const nm = (hbNames[hbEditing] || '').trim();
+                    const label = nm && nm.toLowerCase() !== `lineup ${hbEditing + 1}`
+                        ? `lineup ${hbEditing + 1} — “${oEsc(nm)}”` : `lineup ${hbEditing + 1}`;
+                    en.style.display = '';
+                    en.innerHTML = `✎ Editing ${label} · saving updates it, Clear cancels`;
+                } else en.style.display = 'none';
             }
 
             const hbSig = picks => picks.map(hbKey).sort().join('|');
@@ -8572,6 +8861,8 @@
                         lineups: hbSaved.map(l => l.map(hbKey)),
                         names: hbNames,
                         locks: [...hbLocks],
+                        cancelled: [...hbCancelled],
+                        whatif: hbWhatIf,
                     }));
                 } catch (e) { /* storage full or blocked — saving stays session-only */ }
             }
@@ -8591,6 +8882,10 @@
                     hbNames.push(String((data.names || [])[i] || ''));
                 });
                 (data.locks || []).forEach(k => { if (byKey.has(k)) hbLocks.add(k); });
+                (data.cancelled || []).forEach(k => { if (byKey.has(k)) hbCancelled.add(k); });
+                Object.entries(data.whatif || {}).forEach(([k, v]) => {
+                    if (byKey.has(k) && isFinite(+v)) hbWhatIf[k] = +v;
+                });
                 hbApplyLocks();
                 hbPersist();   // prune anything that didn't survive
             }
@@ -8598,15 +8893,25 @@
             function hbFlash(msg) {
                 const btn = document.getElementById('hbSave');
                 btn.textContent = msg;
-                setTimeout(() => { btn.textContent = 'Save Lineup'; }, 1300);
+                setTimeout(() => { btn.textContent = hbSaveBtnText(); }, 1300);
             }
             // Saving opens a naming prompt pre-filled with "Lineup N", so a
             // lineup is always identifiable even if the name is left alone.
             let hbPending = null;
+            // Index of the saved lineup loaded for editing; saving then updates
+            // that lineup in place instead of appending a new one.
+            let hbEditing = null;
+            const HB_MAX_SAVED = 150;   // DK's entry max for a single contest
+            const hbSaveBtnText = () => hbEditing != null ? 'Update Lineup' : 'Save Lineup';
             function hbSaveLineup() {
                 if (hbPicks.length !== ROSTER || hbTotal() > SALARY_CAP) return;
+                if (hbEditing == null && hbSaved.length >= HB_MAX_SAVED) {
+                    hbFlash('150 max');
+                    hbSetErr(`You're at the ${HB_MAX_SAVED}-lineup max (DK's entry cap for a single contest). Delete a lineup to save another.`);
+                    return;
+                }
                 const sig = hbSig(hbPicks);
-                const dup = hbSaved.findIndex(l => hbSig(l) === sig);
+                const dup = hbSaved.findIndex((l, j) => j !== hbEditing && hbSig(l) === sig);
                 if (dup >= 0) {
                     hbFlash('Already saved');
                     const nm = (hbNames[dup] || '').trim() || `Lineup ${dup + 1}`;
@@ -8616,7 +8921,12 @@
                 hbSetErr('');
                 hbPending = hbPicks.slice();
                 const inp = document.getElementById('hbNameInput');
-                inp.value = `Lineup ${hbSaved.length + 1}`;
+                inp.value = hbEditing != null
+                    ? ((hbNames[hbEditing] || '').trim() || `Lineup ${hbEditing + 1}`)
+                    : `Lineup ${hbSaved.length + 1}`;
+                document.getElementById('hbNameTitle').textContent =
+                    hbEditing != null ? `Update “${(hbNames[hbEditing] || '').trim() || `Lineup ${hbEditing + 1}`}”` : 'Name this lineup';
+                document.getElementById('hbNameOk').textContent = hbEditing != null ? 'Update lineup' : 'Save lineup';
                 document.getElementById('hbNameRoster').textContent =
                     hbPending.map(f => f.name).join(', ') + ' · $' + hbPending.reduce((s, f) => s + (f.salary || 0), 0).toLocaleString();
                 document.getElementById('hbNameModal').style.display = 'flex';
@@ -8630,15 +8940,23 @@
             function hbConfirmName() {
                 if (!hbPending) return;
                 const nm = document.getElementById('hbNameInput').value.trim();
-                hbSaved.push(hbPending);
-                hbNames.push(nm || `Lineup ${hbSaved.length}`);
+                const editing = hbEditing != null;
+                if (editing) {
+                    hbSaved[hbEditing] = hbPending;
+                    hbNames[hbEditing] = nm || (hbNames[hbEditing] || `Lineup ${hbEditing + 1}`);
+                    hbEditing = null;
+                } else {
+                    hbSaved.push(hbPending);
+                    hbNames.push(nm || `Lineup ${hbSaved.length}`);
+                }
                 hbCloseName();
-                hbPicks = [];        // clear the board for the next build
-                hbApplyLocks();      // …except the locked core stays
+                // The board deliberately keeps the just-saved lineup: tweak a
+                // fighter or two and save again for the next variation. The
+                // duplicate check stops an unchanged immediate re-save.
                 hbRender();
                 hbPersist();
                 hbSetErr('');
-                hbFlash('Saved ✓');
+                hbFlash(editing ? 'Updated ✓' : 'Saved ✓');
             }
 
             function hbRenderSaved() {
@@ -8647,13 +8965,17 @@
                 clearWrap.style.display = hbSaved.length ? '' : 'none';
                 if (!hbSaved.length) { wrap.style.display = 'none'; return; }
                 wrap.style.display = '';
-                document.getElementById('hbSavedCount').textContent = 'Saved lineups (' + hbSaved.length + ')';
+                const cnt = document.getElementById('hbSavedCount');
+                cnt.textContent = `Saved lineups — ${hbSaved.length} of ${HB_MAX_SAVED}`;
+                cnt.classList.toggle('at-max', hbSaved.length >= HB_MAX_SAVED);
                 document.getElementById('hbSavedList').innerHTML = hbSaved.map((lu, i) => {
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
-                    return `<div class="hb-saved-row" data-i="${i}" title="Load into builder">
+                    const dead = hbLineupDead(lu);
+                    const editing = i === hbEditing;
+                    return `<div class="hb-saved-row${dead ? ' dead' : ''}${editing ? ' editing' : ''}" data-i="${i}" title="${editing ? 'Loaded in the builder — Save updates this lineup' : dead ? 'Contains a fighter marked out — load and rebuild' : 'Load into builder'}">
                         <div class="hb-saved-info">
                             <input class="hb-nm" data-i="${i}" value="${oEsc(hbNames[i] || '')}" placeholder="Lineup ${i + 1}" maxlength="40" aria-label="Name for lineup ${i + 1}">
-                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}</div></div>
+                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${editing ? ' · <span class="edit-tag">editing</span>' : ''}${dead ? ' · <span class="dead-tag">fighter out</span>' : ''}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
                 }).join('');
@@ -8718,9 +9040,11 @@
                     const picked = hbInPicks(f);
                     const cant = !picked && (full || f.salary > remaining);
                     const locked = hbLocks.has(hbKey(f));
-                    return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}" data-k="${oEsc(hbKey(f))}">
-                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}</div></div>
+                    const cx = hbCancelled.has(hbKey(f));
+                    return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}${cx ? ' cx' : ''}" data-k="${oEsc(hbKey(f))}">
+                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}${cx ? ' · <span class="dead-tag">out</span>' : ''}</div></div>
                         <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
+                        <button class="hb-cxbtn${cx ? ' on' : ''}" tabindex="-1" title="${cx ? 'Mark back in' : 'Mark this fighter out — flags lineups with them'}" aria-label="${cx ? 'Mark in:' : 'Mark out:'} ${oEsc(f.name)}">✕</button>
                         <button class="hb-lockbtn${locked ? ' on' : ''}" tabindex="-1" title="${locked ? 'Unlock' : 'Lock into every lineup'}" aria-label="${locked ? 'Unlock' : 'Lock'} ${oEsc(f.name)}">${locked ? HB_LOCK_SVG : HB_UNLOCK_SVG}</button>
                         <button class="hb-add" tabindex="-1">${picked ? '✓' : '+'}</button>
                     </div>`;
@@ -8734,7 +9058,13 @@
                 document.getElementById('hbPool').addEventListener('click', e => {
                     const row = e.target.closest('.hb-row'); if (!row) return;
                     const f = FIGHTERS.find(x => hbKey(x) === row.dataset.k); if (!f) return;
-                    if (e.target.closest('.hb-lockbtn')) hbToggleLock(f);
+                    if (e.target.closest('.hb-cxbtn')) {
+                        const k = hbKey(f);
+                        if (hbCancelled.has(k)) hbCancelled.delete(k);
+                        else hbCancelled.add(k);
+                        hbPersist(); hbRenderCancel(); hbRender();
+                    }
+                    else if (e.target.closest('.hb-lockbtn')) hbToggleLock(f);
                     else hbAddOrRemove(f);
                 });
                 document.getElementById('hbSlots').addEventListener('click', e => {
@@ -8742,8 +9072,32 @@
                     const f = FIGHTERS.find(x => hbKey(x) === btn.dataset.k); if (f) hbAddOrRemove(f);
                 });
                 document.getElementById('hbSearch').addEventListener('input', e => { hbSearchStr = e.target.value; hbRenderPool(); });
+                document.getElementById('hbSubnav').addEventListener('click', e => {
+                    const b = e.target.closest('button[data-hbsub]'); if (!b) return;
+                    showHbSub(b.dataset.hbsub);
+                });
+                // store what-if scores as they're typed; no re-render so the
+                // caret stays put mid-number
+                document.getElementById('hbWhatIf').addEventListener('input', e => {
+                    const inp = e.target.closest('.hbw-in'); if (!inp) return;
+                    const v = parseFloat(inp.value);
+                    if (isFinite(v)) hbWhatIf[inp.dataset.k] = v;
+                    else delete hbWhatIf[inp.dataset.k];
+                    hbPersist();
+                });
+                document.getElementById('hbWhatIf').addEventListener('click', e => {
+                    if (!e.target.closest('#hbwClear')) return;
+                    hbWhatIf = {};
+                    hbPersist();
+                    hbRenderWhatIf();
+                });
+                document.getElementById('hbCancelChips').addEventListener('click', e => {
+                    const u = e.target.closest('.undo'); if (!u) return;
+                    hbCancelled.delete(u.dataset.m);
+                    hbPersist(); hbRenderCancel(); hbRender();
+                });
                 document.getElementById('hbSort').addEventListener('change', e => { hbSortKey = e.target.value; hbRenderPool(); });
-                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbApplyLocks(); hbRender(); });
+                document.getElementById('hbClear').addEventListener('click', () => { hbPicks = []; hbEditing = null; hbApplyLocks(); hbRender(); });
                 // Clear Portfolio wipes every saved lineup, so it takes two
                 // clicks: the first arms the button, the second confirms.
                 let hbClearArm = null;
@@ -8765,6 +9119,7 @@
                     btn.classList.remove('armed');
                     hbSaved = [];
                     hbNames = [];
+                    hbEditing = null;
                     hbPersist();
                     hbRenderSaved();
                     hbSetErr('');
@@ -8773,10 +9128,16 @@
                 document.getElementById('hbExport').addEventListener('click', hbExportSaved);
                 document.getElementById('hbSavedList').addEventListener('click', e => {
                     const rm = e.target.closest('.rm');
-                    if (rm) { const i = +rm.dataset.i; hbSaved.splice(i, 1); hbNames.splice(i, 1); hbRenderSaved(); hbPersist(); hbSetErr(''); return; }
+                    if (rm) {
+                        const i = +rm.dataset.i;
+                        hbSaved.splice(i, 1); hbNames.splice(i, 1);
+                        if (hbEditing === i) hbEditing = null;
+                        else if (hbEditing != null && hbEditing > i) hbEditing--;
+                        hbRender(); hbPersist(); hbSetErr(''); return;
+                    }
                     if (e.target.closest('.hb-nm')) return;   // naming a lineup shouldn't load it
                     const row = e.target.closest('.hb-saved-row');
-                    if (row) { hbPicks = hbSaved[+row.dataset.i].slice(); hbRender(); }
+                    if (row) { hbEditing = +row.dataset.i; hbPicks = hbSaved[hbEditing].slice(); hbRender(); }
                 });
                 // store the name as it's typed; deliberately no re-render, which
                 // would rebuild the input and drop the caret mid-word
@@ -8803,9 +9164,11 @@
                     return;
                 }
                 document.getElementById('hbLoading').style.display = 'none';
-                document.getElementById('hbWrap').style.display = '';
+                document.getElementById('hbSubnav').style.display = '';
                 hbRestore();
+                hbRenderCancel();
                 hbRender();
+                showHbSub(hbSub);
             }
             window.__openHandBuilder = openHandBuilder;
         })();

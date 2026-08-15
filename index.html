@@ -4022,6 +4022,11 @@
                     </div>
                     <div id="selected-fighters" class="selected-fighters"></div>
                 </div>
+                <div class="filter-group" id="dead-filter">
+                    <label for="hide-dead" style="cursor:pointer;">
+                        <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.00% win)
+                    </label>
+                </div>
                 <div class="filter-group">
                     <label for="sort-by">Sort:</label>
                     <select id="sort-by">
@@ -4566,6 +4571,10 @@
             document.getElementById('username-table').style.display = 'none';
             document.getElementById('lineup-table').style.display = 'none';
             document.getElementById('portfolio-table').style.display = 'none';
+
+            // dead-lineup filter only means something where rows are lineups
+            document.getElementById('dead-filter').style.display =
+                (view === 'username' || view === 'lineup') ? 'flex' : 'none';
 
             // Show/hide What If layout and normal stats
             const whatifLayout = document.getElementById('whatif-layout');
@@ -5633,6 +5642,15 @@
             document.getElementById('sort-by').value = 'NetEV';
             currentSort = 'NetEV';
             sortAscending = false;
+            hideDead = false;
+            document.getElementById('hide-dead').checked = false;
+            filterAndRender();
+        }
+
+        // "Dead" = won zero sims. Applies to the By Username and By Lineup views.
+        let hideDead = false;
+        function toggleHideDead(on) {
+            hideDead = on;
             filterAndRender();
         }
         
@@ -5649,7 +5667,11 @@
             const searchUser = document.getElementById('search-user').value.toLowerCase();
             
             // Filter
+            const dead = row => hideDead &&
+                (currentView === 'username' || currentView === 'lineup') &&
+                !((row.WinPct || 0) > 0);
             filteredData = allData.filter(row => {
+                if (dead(row)) return false;
                 if (currentView === 'username' || currentView === 'portfolio') {
                     const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
                     return userMatch;

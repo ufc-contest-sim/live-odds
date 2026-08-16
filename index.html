@@ -1071,60 +1071,6 @@
             margin: 0 auto;
         }
 
-        /* Smash Score diverging bars */
-        .smash-note { font-size: 0.78rem; color: var(--text-secondary); margin: 4px 0 14px; line-height: 1.55; }
-        .sm-row { display: grid; grid-template-columns: minmax(110px, 1fr) minmax(0, 3fr) minmax(110px, 1fr); gap: 10px; align-items: center; padding: 5px 4px; border-bottom: 1px solid var(--glass-border); }
-        .sm-name { font-size: 0.82rem; font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .sm-track { position: relative; height: 14px; min-width: 0; }
-        .sm-zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--text-secondary); opacity: 0.5; }
-        .sm-bar { position: absolute; top: 1px; bottom: 1px; border-radius: 3px; }
-        .sm-bar.good { background: var(--accent-green); opacity: 0.85; }
-        .sm-bar.bad { background: var(--accent-red); opacity: 0.8; }
-        .sm-bar.mid { background: var(--text-secondary); opacity: 0.5; }
-        .sm-val { position: absolute; top: 50%; transform: translateY(-50%); font-family: 'Chakra Petch', monospace; font-size: 0.68rem; font-weight: 700; }
-        .sm-sub { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); text-align: right; white-space: nowrap; }
-        @media (max-width: 600px) {
-            .sm-row { grid-template-columns: minmax(84px, 1fr) minmax(0, 2.2fr); }
-            .sm-sub { display: none; }
-            .sm-name { font-size: 0.72rem; }
-        }
-        /* Opp-own × quality ROI grid */
-        .og-grid { display: grid; grid-template-columns: minmax(120px, auto) repeat(3, minmax(70px, 1fr)); gap: 6px; max-width: 640px; }
-        .og-corner {}
-        .og-col { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); text-align: center; align-self: end; }
-        .og-rowlab { font-size: 0.76rem; color: var(--text-secondary); white-space: nowrap; align-self: center; }
-        .og-cell { font-family: 'Chakra Petch', monospace; font-size: 0.82rem; font-weight: 700; text-align: center; padding: 12px 4px; border-radius: 6px; }
-        .og-cap { font-size: 0.72rem; color: var(--text-secondary); margin-top: 10px; }
-        @media (max-width: 600px) {
-            .og-grid { grid-template-columns: minmax(64px, auto) repeat(3, minmax(0, 1fr)); }
-            .og-rowlab { font-size: 0.64rem; white-space: normal; }
-            .og-cell { font-size: 0.72rem; padding: 10px 2px; }
-        }
-
-        /* Leverage "by fight" rows: mirrored draft/optimal bars per bout */
-        .lvf-note { font-size: 0.78rem; color: var(--text-secondary); margin: 6px 0 14px; line-height: 1.5; }
-        .lvf-row { display: grid; grid-template-columns: minmax(90px, 1fr) minmax(0, 2fr) 34px minmax(0, 2fr) minmax(90px, 1fr); gap: 8px; align-items: center; padding: 9px 6px; border-bottom: 1px solid var(--glass-border); }
-        .lvf-row.wrong { background: rgba(var(--a-rgb), 0.06); }
-        .lvf-name { font-size: 0.82rem; font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .lvf-name.r { text-align: right; }
-        .lvf-vs { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; font-weight: 700; color: var(--text-secondary); text-align: center; text-transform: uppercase; }
-        .lvf-flip { color: var(--accent); font-size: 1rem; }
-        .lvf-bars { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-        .lvf-track { position: relative; height: 11px; background: rgba(127, 127, 127, 0.12); border-radius: 3px; overflow: hidden; }
-        .lvf-track i { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
-        .lvf-track.l i { right: 0; }
-        .lvf-track.r i { left: 0; }
-        .lvf-track i.d { background: var(--text-secondary); opacity: 0.55; }
-        .lvf-track i.o { background: var(--accent-green); opacity: 0.85; }
-        .lvf-track span { position: absolute; top: 50%; transform: translateY(-50%); font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--text-primary); }
-        .lvf-track.l span { left: 4px; }
-        .lvf-track.r span { right: 4px; }
-        .lvf-tag { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
-        @media (max-width: 600px) {
-            .lvf-row { grid-template-columns: minmax(64px, 1fr) minmax(0, 2fr) 22px minmax(0, 2fr) minmax(64px, 1fr); gap: 5px; }
-            .lvf-name { font-size: 0.7rem; }
-        }
-
         .pair-controls {
             display: flex;
             gap: 10px;
@@ -4237,35 +4183,13 @@
 
             <div id="insights-view" style="display: none;">
                 <div class="chart-card insights-leverage">
-                    <h3 id="lev-title">Leverage — Optimal % vs Draft %</h3>
-                    <div class="pair-controls">
-                        <span class="pair-toggle active" id="lev-t-draft" onclick="setLevMode('draft')">Scatter — Optimal vs Draft</span>
-                        <span class="pair-toggle" id="lev-t-opp" onclick="setLevMode('opp')">By fight — field vs sim</span>
-                    </div>
-                    <div class="chart-legend" id="lev-legend">
+                    <h3>Leverage — Optimal % vs Draft %</h3>
+                    <div class="chart-legend">
                         <span><span class="cdot" style="background:var(--accent-green)"></span>Leverage</span>
                         <span><span class="cdot" style="background:var(--accent-red)"></span>Over-owned</span>
                         <span><span class="cdot" style="background:var(--text-secondary)"></span>Neutral</span>
                     </div>
                     <svg id="chart-leverage" viewBox="0 0 860 470" width="100%"></svg>
-                    <div id="lev-fights" style="display:none;"></div>
-                </div>
-
-                <div class="chart-card insights-smash">
-                    <h3>Smash Score</h3>
-                    <div class="smash-note">Optimal % &minus; &half; Draft % &mdash; the blend of ceiling and ownership that best tracked
-                        actual lineup profitability in the sim (being chalky only costs about half a point per point of ownership).
-                        Green = the field under-values them, red = over-valued.</div>
-                    <div id="smash-bars"></div>
-                </div>
-
-                <div class="chart-card insights-oppgrid">
-                    <h3>Why leverage works &mdash; ROI by lineup quality &times; opponent ownership</h3>
-                    <div class="smash-note">Every entry in this contest, bucketed by lineup quality (summed Optimal %, worst &rarr; best)
-                        and by <b>Opp Own Sum</b> (how owned its fighters' opponents are). Each cell is the median ROI. Read across a row:
-                        at the <i>same</i> quality, lineups whose opponents are heavily owned earn far more &mdash; when your side hits,
-                        the field's lineups die.</div>
-                    <div id="oppown-grid"></div>
                 </div>
 
                 <div class="chart-card insights-pairing">
@@ -4294,7 +4218,6 @@
                                     <th class="sortable num" onclick="sortInsightsFighters('draft')">Draft %</th>
                                     <th class="sortable num" onclick="sortInsightsFighters('win')">Win Lineup %</th>
                                     <th class="sortable num" onclick="sortInsightsFighters('optimal')">Optimal %</th>
-                                    <th class="sortable num" onclick="sortInsightsFighters('smash')" title="Optimal % minus half of Draft % — the combination that best tracked lineup profitability">Smash</th>
                                     <th class="sortable num" onclick="sortInsightsFighters('score')">Score</th>
                                 </tr>
                             </thead>
@@ -5856,8 +5779,6 @@
 
         function renderInsights() {
             renderLeverageChart();
-            renderSmashBars();
-            renderOppOwnGrid();
             renderInsightsFighterTable();
             buildPairingControls();
             renderPairingChart();
@@ -5908,7 +5829,7 @@
                 if (f.fighter2 && f.fighter2_score != null) scoreMap[f.fighter2] = f.fighter2_score;
             });
             if (draftStats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-secondary);">No fighters found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-secondary);">No fighters found</td></tr>';
                 return;
             }
             let rows = draftStats.map(f => ({
@@ -5917,7 +5838,6 @@
                 draft: f.pct,
                 win: winMap[f.fighter] || 0,
                 optimal: optMap[f.fighter] != null ? optMap[f.fighter] : null,
-                smash: optMap[f.fighter] != null ? optMap[f.fighter] - f.pct / 2 : null,
                 score: scoreMap[f.fighter] != null ? scoreMap[f.fighter] : null,
             }));
             const { key, asc } = insightsFighterSort;
@@ -5933,7 +5853,6 @@
                     <td class="draft-pct">${r.draft.toFixed(2)}%</td>
                     <td class="win-pct">${r.win.toFixed(2)}%</td>
                     <td class="win-pct">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
-                    <td class="${r.smash != null && r.smash > 3 ? 'positive' : r.smash != null && r.smash < -3 ? 'negative' : ''}">${r.smash != null ? r.smash.toFixed(1) : '--'}</td>
                     <td>${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
                 </tr>`).join('');
         }
@@ -6106,163 +6025,6 @@
         }
 
         // Chart 1: Win Lineup % vs Draft % (fighter leverage)
-        // Smash Score = Optimal % − ½·Draft %: the linear blend that best fit
-        // per-fighter profitability in the post-contest sims (r ≈ 0.9).
-        // Rendered as a diverging ranked bar list, best first.
-        function renderSmashBars() {
-            const el = document.getElementById('smash-bars');
-            if (!el) return;
-            const draftStats = calculateFighterDraftPct(allData || []);
-            const optMap = contestOptimalMap || {};
-            const rows = draftStats
-                .filter(f => optMap[f.fighter] != null)
-                .map(f => ({ name: f.fighter, draft: f.pct, opt: optMap[f.fighter],
-                             s: optMap[f.fighter] - f.pct / 2 }))
-                .sort((a, b) => b.s - a.s);
-            if (!rows.length) { el.innerHTML = '<div class="fmx-empty">No optimal data for this contest.</div>'; return; }
-            const maxPos = Math.max(1, ...rows.map(r => r.s));
-            const maxNeg = Math.max(1, ...rows.map(r => -r.s));
-            const zero = 100 * maxNeg / (maxNeg + maxPos);   // % position of the 0 line
-            el.innerHTML = rows.map(r => {
-                const w = 100 * Math.abs(r.s) / (maxNeg + maxPos);
-                const pos = r.s >= 0;
-                const cls = r.s > 3 ? 'good' : r.s < -3 ? 'bad' : 'mid';
-                return `<div class="sm-row">
-                    <div class="sm-name">${r.name}</div>
-                    <div class="sm-track"><i class="sm-zero" style="left:${zero.toFixed(2)}%"></i>
-                        <i class="sm-bar ${cls}" style="${pos ? `left:${zero.toFixed(2)}%` : `right:${(100 - zero).toFixed(2)}%`};width:${w.toFixed(2)}%"></i>
-                        <span class="sm-val ${pos ? 'p' : 'n'}" style="${pos ? `left:calc(${(zero + w).toFixed(2)}% + 6px)` : `right:calc(${(100 - zero + w).toFixed(2)}% + 6px)`}">${r.s.toFixed(1)}</span>
-                    </div>
-                    <div class="sm-sub">opt ${r.opt.toFixed(1)} &middot; draft ${r.draft.toFixed(1)}</div>
-                </div>`;
-            }).join('');
-        }
-
-        // Median ROI grid: lineup quality quintiles × Opp Own Sum terciles.
-        // The across-a-row gradient is the empirical case for opponent leverage.
-        function renderOppOwnGrid() {
-            const el = document.getElementById('oppown-grid');
-            if (!el) return;
-            const data = allData || [];
-            const optMap = contestOptimalMap || {};
-            const draftStats = calculateFighterDraftPct(data);
-            const draftPct = {};
-            draftStats.forEach(f => { draftPct[f.fighter] = f.pct; });
-            const opp = {};
-            (contestFightCard || []).forEach(f => {
-                if (f.fighter1 && f.fighter2) { opp[f.fighter1] = f.fighter2; opp[f.fighter2] = f.fighter1; }
-            });
-            const rows = [];
-            for (const r of data) {
-                let sopt = 0, soppd = 0, ok = 0;
-                for (let i = 1; i <= 6; i++) {
-                    const f = r[`F${i}`];
-                    if (!f) continue;
-                    ok++;
-                    sopt += optMap[f] || 0;
-                    soppd += draftPct[opp[f]] || 0;
-                }
-                if (ok === 6) rows.push({ q: sopt, o: soppd, roi: r['ROI%'] || 0 });
-            }
-            if (rows.length < 900) {
-                el.innerHTML = '<div class="fmx-empty">Field too small for this read — needs a big-field contest.</div>';
-                return;
-            }
-            rows.sort((a, b) => a.q - b.q);
-            const Q = 5, T = 3;
-            const med = a => { const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
-            const cells = [];
-            const qn = Math.floor(rows.length / Q);
-            for (let qi = 0; qi < Q; qi++) {
-                const seg = rows.slice(qi * qn, qi === Q - 1 ? rows.length : (qi + 1) * qn)
-                    .slice().sort((a, b) => a.o - b.o);
-                const tn = Math.floor(seg.length / T);
-                const row = [];
-                for (let ti = 0; ti < T; ti++) {
-                    const cell = seg.slice(ti * tn, ti === T - 1 ? seg.length : (ti + 1) * tn);
-                    row.push(med(cell.map(x => x.roi)));
-                }
-                cells.push(row);
-            }
-            const heat = v => {
-                // −60 → red, 0 → neutral, +40 → green
-                const t = Math.max(-1, Math.min(1, v >= 0 ? v / 40 : v / 60));
-                return t >= 0 ? `rgba(63, 179, 122, ${(0.12 + 0.5 * t).toFixed(3)})`
-                              : `rgba(229, 72, 77, ${(0.10 + 0.4 * -t).toFixed(3)})`;
-            };
-            const QL = ['Q1 — weakest lineups', 'Q2', 'Q3', 'Q4', 'Q5 — best lineups'];
-            let h = '<div class="og-grid"><div class="og-corner"></div>' +
-                ['Low Opp Own', 'Mid', 'High Opp Own'].map(c => `<div class="og-col">${c}</div>`).join('');
-            cells.forEach((row, qi) => {
-                h += `<div class="og-rowlab">${QL[qi]}</div>` +
-                    row.map(v => `<div class="og-cell" style="background:${heat(v)}">${v > 0 ? '+' : ''}${v.toFixed(1)}%</div>`).join('');
-            });
-            h += '</div><div class="og-cap">Median ROI of the ' + rows.length.toLocaleString() +
-                ' fully-mapped entries in this contest. Lineup quality = summed Optimal %.</div>';
-            el.innerHTML = h;
-        }
-
-        // 'draft' = classic scatter (optimal vs own ownership).
-        // 'opp' = fight-by-fight rows comparing where the FIELD sits on each
-        // bout vs where the SIM's optimals sit.
-        let levMode = 'draft';
-        function setLevMode(mode) {
-            levMode = mode;
-            document.getElementById('lev-t-draft').classList.toggle('active', mode === 'draft');
-            document.getElementById('lev-t-opp').classList.toggle('active', mode === 'opp');
-            document.getElementById('lev-title').textContent =
-                mode === 'opp' ? 'Leverage — where the field sits vs where the sim sits, fight by fight' : 'Leverage — Optimal % vs Draft %';
-            document.getElementById('chart-leverage').style.display = mode === 'opp' ? 'none' : '';
-            document.getElementById('lev-legend').style.display = mode === 'opp' ? 'none' : '';
-            document.getElementById('lev-fights').style.display = mode === 'opp' ? '' : 'none';
-            if (mode === 'opp') renderLevFights();
-            else renderLeverageChart();
-        }
-
-        // One row per bout: mirrored Draft% / Optimal% bars for each side,
-        // sorted by how strongly the sim disagrees with the field; a tag marks
-        // fights where they lean opposite sides.
-        function renderLevFights() {
-            const el = document.getElementById('lev-fights');
-            if (!el) return;
-            const draftStats = calculateFighterDraftPct(allData || []);
-            const optMap = contestOptimalMap || {};
-            const draftPct = {};
-            draftStats.forEach(f => { draftPct[f.fighter] = f.pct; });
-            const bouts = [];
-            (contestFightCard || []).forEach(f => {
-                const a = f.fighter1, b = f.fighter2;
-                if (!a || !b) return;
-                if (draftPct[a] == null && draftPct[b] == null) return;
-                const row = {
-                    a, b,
-                    ad: draftPct[a] || 0, bd: draftPct[b] || 0,
-                    ao: optMap[a] || 0, bo: optMap[b] || 0,
-                };
-                row.fieldLean = row.ad - row.bd;   // + = field leans fighter A
-                row.simLean = row.ao - row.bo;     // + = sim leans fighter A
-                row.gap = Math.abs(row.simLean - row.fieldLean);
-                row.wrongSide = (row.fieldLean > 3 && row.simLean < -3) || (row.fieldLean < -3 && row.simLean > 3);
-                bouts.push(row);
-            });
-            if (!bouts.length) { el.innerHTML = '<div class="fmx-empty">No fight card data for this contest.</div>'; return; }
-            bouts.sort((x, y) => y.gap - x.gap);
-            const maxV = Math.max(10, ...bouts.flatMap(r => [r.ad, r.bd, r.ao, r.bo]));
-            const bar = (v, cls, side) => {
-                const w = Math.max(0.5, 100 * v / maxV);
-                return `<div class="lvf-track ${side}"><i class="${cls}" style="width:${w.toFixed(1)}%"></i><span>${v.toFixed(1)}%</span></div>`;
-            };
-            el.innerHTML =
-                `<div class="lvf-note">Top bar = <b>Draft %</b> (where the field went) &middot; bottom bar = <b>Optimal %</b> (how often the sim puts them in the perfect lineup). Sorted by the biggest field-vs-sim disagreement.</div>` +
-                bouts.map(r => `
-                <div class="lvf-row${r.wrongSide ? ' wrong' : ''}">
-                    <div class="lvf-name l">${r.a}${r.wrongSide && r.simLean > 0 ? ' <span class="lvf-tag">sim side</span>' : ''}</div>
-                    <div class="lvf-bars l">${bar(r.ad, 'd', 'l')}${bar(r.ao, 'o', 'l')}</div>
-                    <div class="lvf-vs">${r.wrongSide ? '<span class="lvf-flip" title="The field and the sim lean opposite sides of this fight">⇄</span>' : 'vs'}</div>
-                    <div class="lvf-bars r">${bar(r.bd, 'd', 'r')}${bar(r.bo, 'o', 'r')}</div>
-                    <div class="lvf-name r">${r.b}${r.wrongSide && r.simLean < 0 ? ' <span class="lvf-tag">sim side</span>' : ''}</div>
-                </div>`).join('');
-        }
         function renderLeverageChart() {
             const svg = document.getElementById('chart-leverage');
             if (!svg) return;

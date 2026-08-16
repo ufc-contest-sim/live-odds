@@ -1064,15 +1064,10 @@
         /* Insights / charts */
         #insights-view {
             display: grid;
-            grid-template-columns: 3fr 2fr;
+            grid-template-columns: 1fr;
             gap: 24px;
             align-items: start;
         }
-
-        .insights-leverage { grid-column: 1; grid-row: 1; }
-        .insights-pairing  { grid-column: 1; grid-row: 2; }
-        .insights-fighters { grid-column: 2; grid-row: 1; }
-        .insights-table    { grid-column: 2; grid-row: 2; }
 
         .pair-controls {
             display: flex;
@@ -4186,7 +4181,11 @@
 
             <div id="insights-view" style="display: none;">
                 <div class="chart-card insights-leverage">
-                    <h3>Leverage — Optimal % vs Draft %</h3>
+                    <h3 id="lev-title">Leverage — Optimal % vs Draft %</h3>
+                    <div class="pair-controls">
+                        <span class="pair-toggle active" id="lev-t-draft" onclick="setLevMode('draft')">vs their Draft %</span>
+                        <span class="pair-toggle" id="lev-t-opp" onclick="setLevMode('opp')">vs Opponent's Draft %</span>
+                    </div>
                     <div class="chart-legend">
                         <span><span class="cdot" style="background:var(--accent-green)"></span>Leverage</span>
                         <span><span class="cdot" style="background:var(--accent-red)"></span>Over-owned</span>
@@ -5790,22 +5789,14 @@
             requestAnimationFrame(syncInsightsHeight);
         }
 
-        // Match each right-column table to the height of the chart card beside it,
-        // so the charts size to their (shorter) content and there's no dead space.
+        // Single-column layout: every card sizes to its own content.
         function syncInsightsHeight() {
             const view = document.getElementById('insights-view');
             if (!view) return;
-            const lev = view.querySelector('.insights-leverage');
-            const pair = view.querySelector('.insights-pairing');
             const fcard = view.querySelector('.insights-fighters');
             const tbl = view.querySelector('.insights-table');
-            if (window.innerWidth <= 900) {
-                if (fcard) fcard.style.height = '';
-                if (tbl) tbl.style.height = '';
-                return;
-            }
-            if (lev && fcard && lev.offsetHeight > 0) fcard.style.height = lev.offsetHeight + 'px';
-            if (pair && tbl && pair.offsetHeight > 0) tbl.style.height = pair.offsetHeight + 'px';
+            if (fcard) fcard.style.height = '';
+            if (tbl) tbl.style.height = '';
         }
         let insightsRO = null;
         function setupInsightsResizeObserver() {
@@ -6036,6 +6027,18 @@
         }
 
         // Chart 1: Win Lineup % vs Draft % (fighter leverage)
+        // 'draft' = classic view (x: own ownership). 'opp' = x is the ownership
+        // of the fighter across the cage: top-right = often optimal while the
+        // field is heavy on the wrong side of the fight.
+        let levMode = 'draft';
+        function setLevMode(mode) {
+            levMode = mode;
+            document.getElementById('lev-t-draft').classList.toggle('active', mode === 'draft');
+            document.getElementById('lev-t-opp').classList.toggle('active', mode === 'opp');
+            document.getElementById('lev-title').textContent =
+                mode === 'opp' ? "Leverage — Optimal % vs Opponent's Draft %" : 'Leverage — Optimal % vs Draft %';
+            renderLeverageChart();
+        }
         function renderLeverageChart() {
             const svg = document.getElementById('chart-leverage');
             if (!svg) return;
@@ -6043,13 +6046,23 @@
             const C = chartColors();
             const draftStats = calculateFighterDraftPct(allData || []);
             const optMap = contestOptimalMap || {};
-            const pts = draftStats.map(f => ({
+            const oppName = {};
+            (contestFightCard || []).forEach(f => {
+                if (f.fighter1 && f.fighter2) { oppName[f.fighter1] = f.fighter2; oppName[f.fighter2] = f.fighter1; }
+            });
+            const draftPct = {};
+            draftStats.forEach(f => { draftPct[f.fighter] = f.pct; });
+            let pts = draftStats.map(f => ({
                 name: f.fighter, draft: f.pct, win: optMap[f.fighter] || 0,
+                opp: oppName[f.fighter] || null,
+                oppDraft: oppName[f.fighter] != null ? (draftPct[oppName[f.fighter]] || 0) : null,
             }));
+            if (levMode === 'opp') pts = pts.filter(p => p.oppDraft != null);
             if (!pts.length) return;
             const W = 860, H = 470, M = { l: 64, r: 30, t: 20, b: 58 };
             const pw = W - M.l - M.r, ph = H - M.t - M.b;
-            const maxV = niceMax(Math.max(...pts.map(p => Math.max(p.draft, p.win))));
+            const xOf = p => levMode === 'opp' ? p.oppDraft : p.draft;
+            const maxV = niceMax(Math.max(...pts.map(p => Math.max(xOf(p), p.win))));
             const x = v => M.l + (v / maxV) * pw;
             const y = v => M.t + ph - (v / maxV) * ph;
             for (let v = 0; v <= maxV; v += 10) {
@@ -6058,17 +6071,25 @@
                 let t = svgEl('text', { x: x(v), y: M.t + ph + 20, fill: C.grey, 'font-size': 11, 'text-anchor': 'middle' }); t.textContent = v + '%'; svg.appendChild(t);
                 t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = v + '%'; svg.appendChild(t);
             }
-            svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#b8b1a6', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
-            let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' }); xl.textContent = 'Draft % (field ownership)'; svg.appendChild(xl);
+            // the diagonal only means something when both axes are the same
+            // fighter's numbers (optimal = draft)
+            if (levMode === 'draft')
+                svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#b8b1a6', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
+            let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' });
+            xl.textContent = levMode === 'opp' ? "Opponent's Draft % (how owned the other side of the fight is)" : 'Draft % (field ownership)';
+            svg.appendChild(xl);
             let yl = svgEl('text', { x: 18, y: M.t + ph / 2, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle', transform: `rotate(-90 18 ${M.t + ph / 2})` }); yl.textContent = 'Optimal %'; svg.appendChild(yl);
             pts.forEach(p => {
+                // color always encodes true leverage (optimal vs own ownership)
+                // so switching the x-axis never changes what green/red mean
                 const lev = p.win - p.draft;
                 const color = lev > 3 ? C.green : (lev < -3 ? C.red : C.grey);
-                const c = svgEl('circle', { cx: x(p.draft), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
+                const c = svgEl('circle', { cx: x(xOf(p)), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
                 c.style.cursor = 'pointer';
                 // Names live in the hover tooltip only — permanent labels overlapped
                 // badly on crowded slates.
-                bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
+                const oppLine = p.opp ? `<br>vs ${p.opp}: ${p.oppDraft != null ? p.oppDraft.toFixed(1) : '—'}% owned` : '';
+                bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%${oppLine}<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
                 svg.appendChild(c);
             });
         }

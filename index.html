@@ -1067,6 +1067,32 @@
             grid-template-columns: 1fr;
             gap: 24px;
             align-items: start;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* Leverage "by fight" rows: mirrored draft/optimal bars per bout */
+        .lvf-note { font-size: 0.78rem; color: var(--text-secondary); margin: 6px 0 14px; line-height: 1.5; }
+        .lvf-row { display: grid; grid-template-columns: minmax(90px, 1fr) minmax(0, 2fr) 34px minmax(0, 2fr) minmax(90px, 1fr); gap: 8px; align-items: center; padding: 9px 6px; border-bottom: 1px solid var(--glass-border); }
+        .lvf-row.wrong { background: rgba(var(--a-rgb), 0.06); }
+        .lvf-name { font-size: 0.82rem; font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lvf-name.r { text-align: right; }
+        .lvf-vs { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; font-weight: 700; color: var(--text-secondary); text-align: center; text-transform: uppercase; }
+        .lvf-flip { color: var(--accent); font-size: 1rem; }
+        .lvf-bars { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .lvf-track { position: relative; height: 11px; background: rgba(127, 127, 127, 0.12); border-radius: 3px; overflow: hidden; }
+        .lvf-track i { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+        .lvf-track.l i { right: 0; }
+        .lvf-track.r i { left: 0; }
+        .lvf-track i.d { background: var(--text-secondary); opacity: 0.55; }
+        .lvf-track i.o { background: var(--accent-green); opacity: 0.85; }
+        .lvf-track span { position: absolute; top: 50%; transform: translateY(-50%); font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--text-primary); }
+        .lvf-track.l span { left: 4px; }
+        .lvf-track.r span { right: 4px; }
+        .lvf-tag { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+        @media (max-width: 600px) {
+            .lvf-row { grid-template-columns: minmax(64px, 1fr) minmax(0, 2fr) 22px minmax(0, 2fr) minmax(64px, 1fr); gap: 5px; }
+            .lvf-name { font-size: 0.7rem; }
         }
 
         .pair-controls {
@@ -4183,15 +4209,16 @@
                 <div class="chart-card insights-leverage">
                     <h3 id="lev-title">Leverage — Optimal % vs Draft %</h3>
                     <div class="pair-controls">
-                        <span class="pair-toggle active" id="lev-t-draft" onclick="setLevMode('draft')">vs their Draft %</span>
-                        <span class="pair-toggle" id="lev-t-opp" onclick="setLevMode('opp')">vs Opponent's Draft %</span>
+                        <span class="pair-toggle active" id="lev-t-draft" onclick="setLevMode('draft')">Scatter — Optimal vs Draft</span>
+                        <span class="pair-toggle" id="lev-t-opp" onclick="setLevMode('opp')">By fight — field vs sim</span>
                     </div>
-                    <div class="chart-legend">
+                    <div class="chart-legend" id="lev-legend">
                         <span><span class="cdot" style="background:var(--accent-green)"></span>Leverage</span>
                         <span><span class="cdot" style="background:var(--accent-red)"></span>Over-owned</span>
                         <span><span class="cdot" style="background:var(--text-secondary)"></span>Neutral</span>
                     </div>
                     <svg id="chart-leverage" viewBox="0 0 860 470" width="100%"></svg>
+                    <div id="lev-fights" style="display:none;"></div>
                 </div>
 
                 <div class="chart-card insights-pairing">
@@ -6027,17 +6054,66 @@
         }
 
         // Chart 1: Win Lineup % vs Draft % (fighter leverage)
-        // 'draft' = classic view (x: own ownership). 'opp' = x is the ownership
-        // of the fighter across the cage: top-right = often optimal while the
-        // field is heavy on the wrong side of the fight.
+        // 'draft' = classic scatter (optimal vs own ownership).
+        // 'opp' = fight-by-fight rows comparing where the FIELD sits on each
+        // bout vs where the SIM's optimals sit.
         let levMode = 'draft';
         function setLevMode(mode) {
             levMode = mode;
             document.getElementById('lev-t-draft').classList.toggle('active', mode === 'draft');
             document.getElementById('lev-t-opp').classList.toggle('active', mode === 'opp');
             document.getElementById('lev-title').textContent =
-                mode === 'opp' ? "Leverage — Optimal % vs Opponent's Draft %" : 'Leverage — Optimal % vs Draft %';
-            renderLeverageChart();
+                mode === 'opp' ? 'Leverage — where the field sits vs where the sim sits, fight by fight' : 'Leverage — Optimal % vs Draft %';
+            document.getElementById('chart-leverage').style.display = mode === 'opp' ? 'none' : '';
+            document.getElementById('lev-legend').style.display = mode === 'opp' ? 'none' : '';
+            document.getElementById('lev-fights').style.display = mode === 'opp' ? '' : 'none';
+            if (mode === 'opp') renderLevFights();
+            else renderLeverageChart();
+        }
+
+        // One row per bout: mirrored Draft% / Optimal% bars for each side,
+        // sorted by how strongly the sim disagrees with the field; a tag marks
+        // fights where they lean opposite sides.
+        function renderLevFights() {
+            const el = document.getElementById('lev-fights');
+            if (!el) return;
+            const draftStats = calculateFighterDraftPct(allData || []);
+            const optMap = contestOptimalMap || {};
+            const draftPct = {};
+            draftStats.forEach(f => { draftPct[f.fighter] = f.pct; });
+            const bouts = [];
+            (contestFightCard || []).forEach(f => {
+                const a = f.fighter1, b = f.fighter2;
+                if (!a || !b) return;
+                if (draftPct[a] == null && draftPct[b] == null) return;
+                const row = {
+                    a, b,
+                    ad: draftPct[a] || 0, bd: draftPct[b] || 0,
+                    ao: optMap[a] || 0, bo: optMap[b] || 0,
+                };
+                row.fieldLean = row.ad - row.bd;   // + = field leans fighter A
+                row.simLean = row.ao - row.bo;     // + = sim leans fighter A
+                row.gap = Math.abs(row.simLean - row.fieldLean);
+                row.wrongSide = (row.fieldLean > 3 && row.simLean < -3) || (row.fieldLean < -3 && row.simLean > 3);
+                bouts.push(row);
+            });
+            if (!bouts.length) { el.innerHTML = '<div class="fmx-empty">No fight card data for this contest.</div>'; return; }
+            bouts.sort((x, y) => y.gap - x.gap);
+            const maxV = Math.max(10, ...bouts.flatMap(r => [r.ad, r.bd, r.ao, r.bo]));
+            const bar = (v, cls, side) => {
+                const w = Math.max(0.5, 100 * v / maxV);
+                return `<div class="lvf-track ${side}"><i class="${cls}" style="width:${w.toFixed(1)}%"></i><span>${v.toFixed(1)}%</span></div>`;
+            };
+            el.innerHTML =
+                `<div class="lvf-note">Top bar = <b>Draft %</b> (where the field went) &middot; bottom bar = <b>Optimal %</b> (how often the sim puts them in the perfect lineup). Sorted by the biggest field-vs-sim disagreement.</div>` +
+                bouts.map(r => `
+                <div class="lvf-row${r.wrongSide ? ' wrong' : ''}">
+                    <div class="lvf-name l">${r.a}${r.wrongSide && r.simLean > 0 ? ' <span class="lvf-tag">sim side</span>' : ''}</div>
+                    <div class="lvf-bars l">${bar(r.ad, 'd', 'l')}${bar(r.ao, 'o', 'l')}</div>
+                    <div class="lvf-vs">${r.wrongSide ? '<span class="lvf-flip" title="The field and the sim lean opposite sides of this fight">⇄</span>' : 'vs'}</div>
+                    <div class="lvf-bars r">${bar(r.bd, 'd', 'r')}${bar(r.bo, 'o', 'r')}</div>
+                    <div class="lvf-name r">${r.b}${r.wrongSide && r.simLean < 0 ? ' <span class="lvf-tag">sim side</span>' : ''}</div>
+                </div>`).join('');
         }
         function renderLeverageChart() {
             const svg = document.getElementById('chart-leverage');
@@ -6052,16 +6128,15 @@
             });
             const draftPct = {};
             draftStats.forEach(f => { draftPct[f.fighter] = f.pct; });
-            let pts = draftStats.map(f => ({
+            const pts = draftStats.map(f => ({
                 name: f.fighter, draft: f.pct, win: optMap[f.fighter] || 0,
                 opp: oppName[f.fighter] || null,
                 oppDraft: oppName[f.fighter] != null ? (draftPct[oppName[f.fighter]] || 0) : null,
             }));
-            if (levMode === 'opp') pts = pts.filter(p => p.oppDraft != null);
             if (!pts.length) return;
             const W = 860, H = 470, M = { l: 64, r: 30, t: 20, b: 58 };
             const pw = W - M.l - M.r, ph = H - M.t - M.b;
-            const xOf = p => levMode === 'opp' ? p.oppDraft : p.draft;
+            const xOf = p => p.draft;
             const maxV = niceMax(Math.max(...pts.map(p => Math.max(xOf(p), p.win))));
             const x = v => M.l + (v / maxV) * pw;
             const y = v => M.t + ph - (v / maxV) * ph;
@@ -6071,12 +6146,9 @@
                 let t = svgEl('text', { x: x(v), y: M.t + ph + 20, fill: C.grey, 'font-size': 11, 'text-anchor': 'middle' }); t.textContent = v + '%'; svg.appendChild(t);
                 t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = v + '%'; svg.appendChild(t);
             }
-            // the diagonal only means something when both axes are the same
-            // fighter's numbers (optimal = draft)
-            if (levMode === 'draft')
-                svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#b8b1a6', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
+            svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#b8b1a6', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
             let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' });
-            xl.textContent = levMode === 'opp' ? "Opponent's Draft % (how owned the other side of the fight is)" : 'Draft % (field ownership)';
+            xl.textContent = 'Draft % (field ownership)';
             svg.appendChild(xl);
             let yl = svgEl('text', { x: 18, y: M.t + ph / 2, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle', transform: `rotate(-90 18 ${M.t + ph / 2})` }); yl.textContent = 'Optimal %'; svg.appendChild(yl);
             pts.forEach(p => {
@@ -6086,11 +6158,48 @@
                 const color = lev > 3 ? C.green : (lev < -3 ? C.red : C.grey);
                 const c = svgEl('circle', { cx: x(xOf(p)), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
                 c.style.cursor = 'pointer';
-                // Names live in the hover tooltip only — permanent labels overlapped
-                // badly on crowded slates.
                 const oppLine = p.opp ? `<br>vs ${p.opp}: ${p.oppDraft != null ? p.oppDraft.toFixed(1) : '—'}% owned` : '';
                 bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%${oppLine}<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
                 svg.appendChild(c);
+            });
+            // Name callouts with collision avoidance: each label tries eight
+            // spots around its dot and takes the first that overlaps neither a
+            // placed label nor any dot; failing that, the least-bad spot.
+            const FS = 10.5, LH = 12;
+            const estW = s => s.length * FS * 0.56;
+            const dots = pts.map(p => ({ cx: x(xOf(p)), cy: y(p.win) }));
+            const placed = [];
+            const overlapArea = (a, b) => {
+                const w = Math.min(a.x2, b.x2) - Math.max(a.x1, b.x1);
+                const h = Math.min(a.y2, b.y2) - Math.max(a.y1, b.y1);
+                return w > 0 && h > 0 ? w * h : 0;
+            };
+            const CAND = [
+                [9, 4, 'start'], [-9, 4, 'end'], [0, -10, 'middle'], [0, 17, 'middle'],
+                [8, -8, 'start'], [8, 15, 'start'], [-8, -8, 'end'], [-8, 15, 'end'],
+            ];
+            [...pts].sort((a, b) => b.win - a.win).forEach(p => {
+                const cx = x(xOf(p)), cy = y(p.win), w = estW(p.name);
+                let best = null, bestCost = Infinity;
+                for (const [dx, dy, anchor] of CAND) {
+                    const tx = cx + dx, ty = cy + dy;
+                    const x1 = anchor === 'start' ? tx : anchor === 'end' ? tx - w : tx - w / 2;
+                    const box = { x1, y1: ty - LH + 2, x2: x1 + w, y2: ty + 3 };
+                    if (box.x1 < M.l - 4 || box.x2 > M.l + pw + 8 || box.y1 < M.t - 2 || box.y2 > M.t + ph + 16) continue;
+                    let cost = 0;
+                    for (const r of placed) cost += overlapArea(box, r);
+                    for (const d of dots) {
+                        const db = { x1: d.cx - 7, y1: d.cy - 7, x2: d.cx + 7, y2: d.cy + 7 };
+                        if (d.cx !== cx || d.cy !== cy) cost += overlapArea(box, db) * 0.6;
+                    }
+                    if (cost < bestCost) { bestCost = cost; best = { tx, ty, anchor, box }; }
+                    if (cost === 0) break;
+                }
+                if (!best) return;
+                placed.push(best.box);
+                const t = svgEl('text', { x: best.tx, y: best.ty, fill: C.txt, 'font-size': FS, 'text-anchor': best.anchor, 'fill-opacity': 0.85, 'pointer-events': 'none' });
+                t.textContent = p.name;
+                svg.appendChild(t);
             });
         }
 

@@ -4129,6 +4129,7 @@
                                 <th class="sortable" onclick="setSort('CashPct')">Cash %</th>
                                 <th class="sortable" onclick="setSort('NetEV')">Net EV</th>
                                 <th class="sortable" onclick="setSort('ROI%')">ROI %</th>
+                                <th class="sortable" onclick="setSort('OwnSum')">Own Sum</th>
                                 <th class="sortable" onclick="setSort('MeanScore')">Proj Score</th>
                                 <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
                                 <th style="width: 80px;">Copies</th>
@@ -5394,6 +5395,20 @@
                     'Last updated: ' + new Date(data.last_updated).toLocaleString();
                 
                 allData = data.leaderboard;
+                // contest-wide draft % per fighter -> per-entry ownership sum,
+                // precomputed so the Own Sum column can render and sort cheaply
+                (function annotateOwnSum(rows) {
+                    const counts = {};
+                    for (const r of rows)
+                        for (let i = 1; i <= 6; i++) { const f = r[`F${i}`]; if (f) counts[f] = (counts[f] || 0) + 1; }
+                    const pct = {};
+                    for (const f in counts) pct[f] = 100 * counts[f] / rows.length;
+                    for (const r of rows) {
+                        let s = 0;
+                        for (let i = 1; i <= 6; i++) { const f = r[`F${i}`]; if (f) s += pct[f]; }
+                        r.OwnSum = s;
+                    }
+                })(allData);
                 contestFightCard = data.fight_card || null;
                 contestPayouts = data.payouts || null;
                 contestOptimalMap = data.optimal_map || null;
@@ -6068,7 +6083,7 @@
             const tbody = document.getElementById('leaderboard');
             
             if (displayData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="12" class="no-results">No lineups match your filters</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="13" class="no-results">No lineups match your filters</td></tr>';
                 return;
             }
 
@@ -6122,12 +6137,13 @@
                         <td class="${(row['ROI%'] || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatROI(row['ROI%'] || 0)}
                         </td>
+                        <td>${(row.OwnSum || 0).toFixed(1)}%</td>
                         <td>${projScore.toFixed(2)}</td>
                         <td>${row.TotalSalary ? '$' + Number(row.TotalSalary).toLocaleString() : '--'}</td>
                         <td>${row.Copies || 0}</td>
                     </tr>
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
-                        <td colspan="12">
+                        <td colspan="13">
                             <div class="lineup-container">
                                 ${fighters.map(f => `
                                     <div class="fighter-chip">

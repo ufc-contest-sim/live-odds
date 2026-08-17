@@ -1,0 +1,13 @@
+# Local pipeline files - keep them in the repo but OUT of the website
+# deployment, so mmalivesim.com never serves them.
+PostContestSim.py
+Post Contest Sim.xlsm
+publish_results.py
+scrape_dk_contests.py
+scrape_ufc_stats.py
+scrape_actuals.py
+payouts.bat
+publish.bat
+sync.bat
+make_favicons.py
+ufc_scrape_cache.zip

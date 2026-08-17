@@ -318,6 +318,9 @@ def read_fighter_map(xl: pd.ExcelFile):
     # Columns: Fighter (A), FightID (B), optional Score (C), optional Salary (D)
     df = pd.read_excel(xl, sheet_name="DraftKings Fighter Pool", engine="openpyxl")
     ncols = df.shape[1]
+    # Column H (index 7) holds the actual DK scores typed in after the event;
+    # captured before truncation for the site's What If "Actuals" toggle.
+    actual_col = df.iloc[:, 7] if ncols >= 8 else None
     if ncols >= 4:
         df = df.iloc[:, :4]
         df.columns = ["Fighter", "FightID", "Score", "Salary"]
@@ -332,12 +335,15 @@ def read_fighter_map(xl: pd.ExcelFile):
         df["Salary"] = np.nan
     keep = ~(df["Fighter"].isna() & df["FightID"].isna())
     df = df.loc[keep].reset_index(drop=True)
+    if actual_col is not None:
+        actual_col = actual_col.loc[keep].reset_index(drop=True)
     seen = {}
     fmap = {}
     fixed_scores = {}  # fighter_name -> fixed DK score (float)
     salary_map = {}    # fighter_name -> salary (float)
+    actuals_map = {}   # fighter_name -> actual DK score from column H
     fighter_order = []  # ordered list of (name, fid, slot) for fight card
-    for _, row in df.iterrows():
+    for ridx, row in df.iterrows():
         name = norm_name_fighter(row["Fighter"])
         if not name:
             continue
@@ -359,8 +365,12 @@ def read_fighter_map(xl: pd.ExcelFile):
         sal_val = pd.to_numeric(row["Salary"], errors="coerce")
         if not (sal_val is None or (isinstance(sal_val, float) and math.isnan(sal_val))):
             salary_map[name] = float(sal_val)
+        if actual_col is not None:
+            act_val = pd.to_numeric(actual_col.iloc[int(ridx)], errors="coerce")
+            if not (act_val is None or (isinstance(act_val, float) and math.isnan(act_val))):
+                actuals_map[name] = float(act_val)
         fighter_order.append({"name": name, "fight_id": fid, "slot": slot})
-    return fmap, fixed_scores, fighter_order, salary_map
+    return fmap, fixed_scores, fighter_order, salary_map, actuals_map
 def read_lineups_sheet(xl: pd.ExcelFile, sheet_name: str):
     # columns A:G => F1..F6 + Username
     df = pd.read_excel(xl, sheet_name=sheet_name, engine="openpyxl", usecols="A:G")
@@ -470,16 +480,10 @@ def discover_contests(wb_path: str):
                         name = prec.get("name")
                 except Exception:
                     pass
-        # Skip a contest we can't sim rather than aborting the whole run:
-        #  - fee is None  -> no source had it (not scraped / stale lobby)
-        #  - fee <= 0      -> a FREE contest (nothing to sim: no entry, no prize)
-        if fee is None:
-            log(f"[skip] {fname}: no entry fee for contest {cid} — scrape it with "
-                f"'python scrape_dk_contests.py --payouts --ids {cid}' (skipping this one).")
-            continue
-        if float(fee) <= 0:
-            log(f"[skip] {fname}: contest {cid} is free ($0 entry) — nothing to sim.")
-            continue
+        if not fee or float(fee) <= 0:
+            raise ValueError(
+                f"Found {fname} but no entry fee for contest {cid}. "
+                f"Refresh the lobby:  python scrape_dk_contests.py")
         contests.append({
             "ContestName": _tidy_contest_name(name, cid),
             "LineupsSheet": fname,        # read_lineups handles .csv and .zip
@@ -910,7 +914,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     # Prefer the DraftKings standings files dropped next to the workbook
     # (contest-standings-<id>.csv/zip); fall back to the Excel 'Contests' sheet.
     contests = discover_contests(wb_path) or read_contests(xl, wb_path)
-    fmap, fixed_scores, fighter_order, salary_map = read_fighter_map(xl)
+    fmap, fixed_scores, fighter_order, salary_map, actuals_map = read_fighter_map(xl)
     # Build fight_card from fighter_order (preserves DK Fighter Pool sheet order)
     fight_card_map = {}
     fight_card_order = []
@@ -1140,7 +1144,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
         user_total_fees=user_total_fees,
         user_contest_fees=user_contest_fees,
     )
-    return str(npz_path), contest_meta, fight_card, user_display_names, salary_map, opt_names
+    return str(npz_path), contest_meta, fight_card, user_display_names, salary_map, opt_names, actuals_map
 # -------------------- Main --------------------
 def ask_int(prompt: str, default: int, min_val: int = 1) -> int:
     while True:
@@ -1209,7 +1213,7 @@ def main():
     base_stem = Path(out_path).stem
     t0 = time.time()
     with tempfile.TemporaryDirectory() as td:
-        bundle, contest_meta, fight_card, user_display_names, salary_map, opt_names = pack_npz_multi(wb, Path(td))
+        bundle, contest_meta, fight_card, user_display_names, salary_map, opt_names, actuals_map = pack_npz_multi(wb, Path(td))
         opt_counts_total = np.zeros(len(opt_names), dtype=np.int64)
         K = len(contest_meta)
         log(f"[info] contests={K} | workers={workers} | batch={batch}")
@@ -1346,6 +1350,7 @@ def main():
                 "entry_fee": float(entry),
                 "salary_map": salary_map,
                 "optimal_map": optimal_map,
+                "actuals_map": actuals_map,
             }
             with open(meta_json_path, 'w', encoding='utf-8') as mf:
                 json.dump(meta_json, mf, indent=2)

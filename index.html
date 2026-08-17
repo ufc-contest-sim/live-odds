@@ -1717,6 +1717,11 @@
             font-family: inherit;
             transition: all 0.2s;
         }
+        .whatif-reset-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
 
         .whatif-reset-btn:hover {
             border-color: var(--accent-red);
@@ -4132,6 +4137,7 @@
                     <div class="fight-card-container">
                         <div class="fight-card-header">
                             <h3>Fight Card - Enter Scores</h3>
+                            <button class="whatif-reset-btn" id="whatif-actuals-btn" style="display:none;" onclick="toggleWhatIfActuals()">Actuals</button>
                             <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
                         </div>
                         <div id="fight-card-inputs"></div>
@@ -4329,6 +4335,8 @@
         let contestOptimalMap = null; // fighter -> optimal% from JSON (if available)
         let contestSalaryMap = null;  // fighter -> salary from JSON (if available)
         let whatIfScores = {};         // fighter name -> score (user input)
+        let contestActualsMap = null;  // fighter name -> actual DK score (post-event, What If only)
+        let whatIfActualsOn = false;   // "Actuals" toggle state on the What If page
         let whatIfResults = null;      // calculated What If leaderboard
         let whatIfDebounceTimer = null;
 
@@ -5439,6 +5447,8 @@
             contestPayouts = null;
             contestOptimalMap = null;
             contestSalaryMap = null;
+            contestActualsMap = null;
+            whatIfActualsOn = false;
         }
         
         function showLeaderboard() {
@@ -5483,6 +5493,8 @@
                 contestPayouts = data.payouts || null;
                 contestOptimalMap = data.optimal_map || null;
                 contestSalaryMap = data.salary_map || null;
+                contestActualsMap = data.actuals_map || null;
+                whatIfActualsOn = false;
                 whatIfScores = {};
                 whatIfResults = null;
 
@@ -6617,6 +6629,15 @@
         function initWhatIfPanel() {
             const container = document.getElementById('fight-card-inputs');
 
+            // "Actuals" toggle: only offered when the contest JSON carries the
+            // post-event scores, and only ever touches the What If inputs.
+            const actualsBtn = document.getElementById('whatif-actuals-btn');
+            if (actualsBtn) {
+                const hasActuals = contestActualsMap && Object.keys(contestActualsMap).length > 0;
+                actualsBtn.style.display = hasActuals ? '' : 'none';
+                actualsBtn.classList.toggle('active', whatIfActualsOn);
+            }
+
             if (contestFightCard && contestFightCard.length > 0) {
                 // Render fight card from JSON data (proper fight pairings)
                 container.innerHTML = contestFightCard.map((fight, idx) => {
@@ -6705,7 +6726,23 @@
         function resetWhatIfScores() {
             whatIfScores = {};
             whatIfResults = null;
+            whatIfActualsOn = false;
             // Re-populate with prefilled scores from fight_card
+            initWhatIfPanel();
+        }
+
+        // Fill the What If inputs with the event's actual DK scores (post
+        // contest sim mode convenience). Toggling off clears back to blank.
+        function toggleWhatIfActuals() {
+            whatIfActualsOn = !whatIfActualsOn;
+            whatIfScores = {};
+            whatIfResults = null;
+            if (whatIfActualsOn && contestActualsMap) {
+                for (const [name, sc] of Object.entries(contestActualsMap)) {
+                    const v = parseFloat(sc);
+                    if (!isNaN(v)) whatIfScores[name] = v;
+                }
+            }
             initWhatIfPanel();
         }
 

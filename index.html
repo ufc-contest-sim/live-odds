@@ -1064,15 +1064,12 @@
         /* Insights / charts */
         #insights-view {
             display: grid;
-            grid-template-columns: 3fr 2fr;
+            grid-template-columns: 1fr;
             gap: 24px;
             align-items: start;
+            max-width: 1270px;
+            margin: 0 auto;
         }
-
-        .insights-leverage { grid-column: 1; grid-row: 1; }
-        .insights-pairing  { grid-column: 1; grid-row: 2; }
-        .insights-fighters { grid-column: 2; grid-row: 1; }
-        .insights-table    { grid-column: 2; grid-row: 2; }
 
         .pair-controls {
             display: flex;
@@ -4379,6 +4376,10 @@
 
         initVisitorGate();
 
+        // Returning visitors: 'arrived' only ever fires once (at the gate), so
+        // log every subsequent page load too — this is what shows repeat visits.
+        if (getVisitor()) logEvent('visited', '');
+
         // One-time backfill: visitors who passed the gate before usernames
         // were auto-favorited get their stored name seeded into favorites on
         // their next visit. The flag makes it truly once — if they later
@@ -4559,6 +4560,16 @@
         
         function switchView(view) {
             currentView = view;
+
+            // Log which contest views people actually use, once per
+            // contest+view per session so tab-flipping doesn't spam the sheet.
+            if (currentContest) {
+                const vk = 'view::' + currentContest.name + '::' + view;
+                if (!_loggedOpens.has(vk)) {
+                    _loggedOpens.add(vk);
+                    logEvent('viewed_' + view, currentContest.name);
+                }
+            }
 
             // Update tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -5380,6 +5391,7 @@
         async function loadContest(contestIndex) {
             const contest = CONTESTS[contestIndex];
             currentContest = contest;
+            logEvent('opened_contest', contest.name);
             showLeaderboard();
             
             document.getElementById('leaderboard').innerHTML =
@@ -5734,6 +5746,17 @@
                 const q = searchUser.trim();
                 statsData = filteredData.filter(row =>
                     row.Username && row.Username.toLowerCase().includes(q));
+            } else if (currentView === 'lineup') {
+                // The lineup view shows unique lineups, so its stats dedupe too:
+                // per-entry WinPct is the lineup's win prob repeated on every
+                // copy, and summing per entry made Win % read >100%.
+                const seen = new Set();
+                statsData = filteredData.filter(row => {
+                    const k = row.LineupKey || '';
+                    if (!k || seen.has(k)) return false;
+                    seen.add(k);
+                    return true;
+                });
             }
             updateStats(statsData);
 
@@ -5790,22 +5813,14 @@
             requestAnimationFrame(syncInsightsHeight);
         }
 
-        // Match each right-column table to the height of the chart card beside it,
-        // so the charts size to their (shorter) content and there's no dead space.
+        // Single-column layout: every card sizes to its own content.
         function syncInsightsHeight() {
             const view = document.getElementById('insights-view');
             if (!view) return;
-            const lev = view.querySelector('.insights-leverage');
-            const pair = view.querySelector('.insights-pairing');
             const fcard = view.querySelector('.insights-fighters');
             const tbl = view.querySelector('.insights-table');
-            if (window.innerWidth <= 900) {
-                if (fcard) fcard.style.height = '';
-                if (tbl) tbl.style.height = '';
-                return;
-            }
-            if (lev && fcard && lev.offsetHeight > 0) fcard.style.height = lev.offsetHeight + 'px';
-            if (pair && tbl && pair.offsetHeight > 0) tbl.style.height = pair.offsetHeight + 'px';
+            if (fcard) fcard.style.height = '';
+            if (tbl) tbl.style.height = '';
         }
         let insightsRO = null;
         function setupInsightsResizeObserver() {
@@ -6043,13 +6058,22 @@
             const C = chartColors();
             const draftStats = calculateFighterDraftPct(allData || []);
             const optMap = contestOptimalMap || {};
+            const oppName = {};
+            (contestFightCard || []).forEach(f => {
+                if (f.fighter1 && f.fighter2) { oppName[f.fighter1] = f.fighter2; oppName[f.fighter2] = f.fighter1; }
+            });
+            const draftPct = {};
+            draftStats.forEach(f => { draftPct[f.fighter] = f.pct; });
             const pts = draftStats.map(f => ({
                 name: f.fighter, draft: f.pct, win: optMap[f.fighter] || 0,
+                opp: oppName[f.fighter] || null,
+                oppDraft: oppName[f.fighter] != null ? (draftPct[oppName[f.fighter]] || 0) : null,
             }));
             if (!pts.length) return;
             const W = 860, H = 470, M = { l: 64, r: 30, t: 20, b: 58 };
             const pw = W - M.l - M.r, ph = H - M.t - M.b;
-            const maxV = niceMax(Math.max(...pts.map(p => Math.max(p.draft, p.win))));
+            const xOf = p => p.draft;
+            const maxV = niceMax(Math.max(...pts.map(p => Math.max(xOf(p), p.win))));
             const x = v => M.l + (v / maxV) * pw;
             const y = v => M.t + ph - (v / maxV) * ph;
             for (let v = 0; v <= maxV; v += 10) {
@@ -6059,17 +6083,59 @@
                 t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = v + '%'; svg.appendChild(t);
             }
             svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#b8b1a6', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
-            let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' }); xl.textContent = 'Draft % (field ownership)'; svg.appendChild(xl);
+            let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' });
+            xl.textContent = 'Draft % (field ownership)';
+            svg.appendChild(xl);
             let yl = svgEl('text', { x: 18, y: M.t + ph / 2, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle', transform: `rotate(-90 18 ${M.t + ph / 2})` }); yl.textContent = 'Optimal %'; svg.appendChild(yl);
             pts.forEach(p => {
+                // color always encodes true leverage (optimal vs own ownership)
+                // so switching the x-axis never changes what green/red mean
                 const lev = p.win - p.draft;
                 const color = lev > 3 ? C.green : (lev < -3 ? C.red : C.grey);
-                const c = svgEl('circle', { cx: x(p.draft), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
+                const c = svgEl('circle', { cx: x(xOf(p)), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
                 c.style.cursor = 'pointer';
-                // Names live in the hover tooltip only — permanent labels overlapped
-                // badly on crowded slates.
-                bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
+                const oppLine = p.opp ? `<br>vs ${p.opp}: ${p.oppDraft != null ? p.oppDraft.toFixed(1) : '—'}% owned` : '';
+                bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%${oppLine}<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
                 svg.appendChild(c);
+            });
+            // Name callouts with collision avoidance: each label tries eight
+            // spots around its dot and takes the first that overlaps neither a
+            // placed label nor any dot; failing that, the least-bad spot.
+            const FS = 10.5, LH = 12;
+            const estW = s => s.length * FS * 0.56;
+            const dots = pts.map(p => ({ cx: x(xOf(p)), cy: y(p.win) }));
+            const placed = [];
+            const overlapArea = (a, b) => {
+                const w = Math.min(a.x2, b.x2) - Math.max(a.x1, b.x1);
+                const h = Math.min(a.y2, b.y2) - Math.max(a.y1, b.y1);
+                return w > 0 && h > 0 ? w * h : 0;
+            };
+            const CAND = [
+                [9, 4, 'start'], [-9, 4, 'end'], [0, -10, 'middle'], [0, 17, 'middle'],
+                [8, -8, 'start'], [8, 15, 'start'], [-8, -8, 'end'], [-8, 15, 'end'],
+            ];
+            [...pts].sort((a, b) => b.win - a.win).forEach(p => {
+                const cx = x(xOf(p)), cy = y(p.win), w = estW(p.name);
+                let best = null, bestCost = Infinity;
+                for (const [dx, dy, anchor] of CAND) {
+                    const tx = cx + dx, ty = cy + dy;
+                    const x1 = anchor === 'start' ? tx : anchor === 'end' ? tx - w : tx - w / 2;
+                    const box = { x1, y1: ty - LH + 2, x2: x1 + w, y2: ty + 3 };
+                    if (box.x1 < M.l - 4 || box.x2 > M.l + pw + 8 || box.y1 < M.t - 2 || box.y2 > M.t + ph + 16) continue;
+                    let cost = 0;
+                    for (const r of placed) cost += overlapArea(box, r);
+                    for (const d of dots) {
+                        const db = { x1: d.cx - 7, y1: d.cy - 7, x2: d.cx + 7, y2: d.cy + 7 };
+                        if (d.cx !== cx || d.cy !== cy) cost += overlapArea(box, db) * 0.6;
+                    }
+                    if (cost < bestCost) { bestCost = cost; best = { tx, ty, anchor, box }; }
+                    if (cost === 0) break;
+                }
+                if (!best) return;
+                placed.push(best.box);
+                const t = svgEl('text', { x: best.tx, y: best.ty, fill: C.txt, 'font-size': FS, 'text-anchor': best.anchor, 'fill-opacity': 0.85, 'pointer-events': 'none' });
+                t.textContent = p.name;
+                svg.appendChild(t);
             });
         }
 

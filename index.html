@@ -4376,6 +4376,10 @@
 
         initVisitorGate();
 
+        // Returning visitors: 'arrived' only ever fires once (at the gate), so
+        // log every subsequent page load too — this is what shows repeat visits.
+        if (getVisitor()) logEvent('visited', '');
+
         // One-time backfill: visitors who passed the gate before usernames
         // were auto-favorited get their stored name seeded into favorites on
         // their next visit. The flag makes it truly once — if they later
@@ -4556,6 +4560,16 @@
         
         function switchView(view) {
             currentView = view;
+
+            // Log which contest views people actually use, once per
+            // contest+view per session so tab-flipping doesn't spam the sheet.
+            if (currentContest) {
+                const vk = 'view::' + currentContest.name + '::' + view;
+                if (!_loggedOpens.has(vk)) {
+                    _loggedOpens.add(vk);
+                    logEvent('viewed_' + view, currentContest.name);
+                }
+            }
 
             // Update tab buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -5377,6 +5391,7 @@
         async function loadContest(contestIndex) {
             const contest = CONTESTS[contestIndex];
             currentContest = contest;
+            logEvent('opened_contest', contest.name);
             showLeaderboard();
             
             document.getElementById('leaderboard').innerHTML =

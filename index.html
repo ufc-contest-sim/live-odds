@@ -5731,6 +5731,17 @@
                 const q = searchUser.trim();
                 statsData = filteredData.filter(row =>
                     row.Username && row.Username.toLowerCase().includes(q));
+            } else if (currentView === 'lineup') {
+                // The lineup view shows unique lineups, so its stats dedupe too:
+                // per-entry WinPct is the lineup's win prob repeated on every
+                // copy, and summing per entry made Win % read >100%.
+                const seen = new Set();
+                statsData = filteredData.filter(row => {
+                    const k = row.LineupKey || '';
+                    if (!k || seen.has(k)) return false;
+                    seen.add(k);
+                    return true;
+                });
             }
             updateStats(statsData);
 

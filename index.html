@@ -2426,10 +2426,18 @@
         .about-card { max-width: 820px; margin: 0 auto; }
         .about-card p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px; max-width: 74ch; }
         .about-card p:last-child { margin-bottom: 0; }
-        .about-card .about-sign {
-            font-family: 'Saira Condensed', sans-serif; font-weight: 700;
-            font-size: 1.05rem; text-transform: uppercase; letter-spacing: 1px;
+        .about-card a { color: var(--accent); }
+        .about-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+        .about-btn {
+            display: inline-block; padding: 10px 20px; border-radius: 10px;
+            font-family: 'Chakra Petch', monospace; font-weight: 700;
+            font-size: 0.82rem; letter-spacing: 1px; text-transform: uppercase;
+            text-decoration: none;
         }
+        .about-btn.discord { background: #5865F2; color: #fff; }
+        .about-btn.discord:hover { background: #4752c4; }
+        .about-btn.xlink { border: 1px solid var(--glass-border); color: var(--text-primary); }
+        .about-btn.xlink:hover { background: var(--bg-hover); }
         .sdb-filters {
             display: flex; flex-wrap: wrap; gap: 14px 18px;
             align-items: flex-end; margin-bottom: 16px;
@@ -3767,12 +3775,15 @@
         <div id="about-view" style="display:none;">
             <div class="sdb-card about-card">
                 <div class="sdb-title">About MMA LiveSim</div>
-                <p>During the week leading up to a contest, you'll see last event's post-contest simulated ROI. These results come straight from the same personal simulator I use to set my own lineups every week. I can't promise that simming positive means you'll be a long-term winner in MMA DFS &mdash; but it's a good indicator, and it's worth using alongside other tools out there to see if they agree.</p>
-                <p>Once lineups lock for the new week's contest, the site moves into what I call <strong>live-sim mode</strong>. After each fight, I update the simulated ROI and win probabilities with that fight's completed score. By the time we reach the main card each night, you'll have a pretty good idea of where you stand &mdash; and whether you're still alive for a win.</p>
-                <p>Once the event concludes &mdash; either that night or the following day &mdash; I remove the fighter scores and put the site back into <strong>post-contest sim mode</strong>, where you can view your own ROI or browse other players' portfolios.</p>
+                <p>During the week leading up to a contest, you'll see last event's post-contest simulated ROI. These results come straight from the same personal simulator I use to set my own lineups every week. I can't promise that simming positive means you'll be a long-term winner in MMA DFS, but it's a good indicator, and it's worth using alongside other tools out there to see if they agree.</p>
+                <p>Once lineups lock for the new week's contest, the site moves into what I call <strong>live-sim mode</strong>. After each fight, I update the simulated ROI and win probabilities with that fight's completed score. By the time we reach the main card each night, you'll have a pretty good idea of where you stand and whether you're still alive for a win.</p>
+                <p>Once the event concludes, either that night or the following day, I remove the fighter scores and put the site back into <strong>post-contest sim mode</strong>, where you can view your own ROI or browse other players' portfolios.</p>
                 <p>You'll also find an abundance of fighter stats and historical scoring trends across the site. I try to keep the database updated after every card wraps.</p>
-                <p>Lastly, there's a lineup optimizer and a hand builder &mdash; totally free, along with everything else on the site. I encourage you to share it with your friends, and please consider joining the Discord. Thanks for being a user!</p>
-                <p class="about-sign">&mdash; DHollis24</p>
+                <p>Lastly, there's a lineup optimizer and a hand builder, totally free along with everything else on the site. I encourage you to share it with your friends, and please consider <a href="https://discord.gg/4ydFv6pjv" target="_blank" rel="noopener">joining the Discord</a>. Thanks for being a user!</p>
+                <div class="about-links">
+                    <a class="about-btn discord" href="https://discord.gg/4ydFv6pjv" target="_blank" rel="noopener">Join the Discord</a>
+                    <a class="about-btn xlink" href="https://x.com/dhollis24_" target="_blank" rel="noopener">Follow me on X</a>
+                </div>
             </div>
         </div>
 

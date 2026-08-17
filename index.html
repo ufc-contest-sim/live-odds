@@ -1701,6 +1701,7 @@
             align-items: center;
             margin-bottom: 20px;
         }
+        .whatif-hdr-btns { display: flex; gap: 8px; flex-shrink: 0; }
 
         .fight-card-header h3 {
             margin-bottom: 0;
@@ -4137,8 +4138,10 @@
                     <div class="fight-card-container">
                         <div class="fight-card-header">
                             <h3>Fight Card - Enter Scores</h3>
-                            <button class="whatif-reset-btn" id="whatif-actuals-btn" style="display:none;" onclick="toggleWhatIfActuals()">Actuals</button>
-                            <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+                            <div class="whatif-hdr-btns">
+                                <button class="whatif-reset-btn" id="whatif-actuals-btn" style="display:none;" onclick="toggleWhatIfActuals()">Actuals</button>
+                                <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+                            </div>
                         </div>
                         <div id="fight-card-inputs"></div>
                     </div>

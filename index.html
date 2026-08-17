@@ -2422,6 +2422,14 @@
             text-transform: uppercase; color: var(--accent-lo);
             margin-bottom: 16px;
         }
+        /* About tab */
+        .about-card { max-width: 820px; margin: 0 auto; }
+        .about-card p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px; max-width: 74ch; }
+        .about-card p:last-child { margin-bottom: 0; }
+        .about-card .about-sign {
+            font-family: 'Saira Condensed', sans-serif; font-weight: 700;
+            font-size: 1.05rem; text-transform: uppercase; letter-spacing: 1px;
+        }
         .sdb-filters {
             display: flex; flex-wrap: wrap; gap: 14px 18px;
             align-items: flex-end; margin-bottom: 16px;
@@ -3733,6 +3741,7 @@
             <button class="lnav-tab" data-view="lookup"><span>Fighter Stats</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
             <button class="lnav-tab" data-view="builder"><span>Hand Builder</span></button>
+            <button class="lnav-tab" data-view="about"><span>About</span></button>
         </div>
 
         <div id="contests-view">
@@ -3753,6 +3762,18 @@
                 <div id="quick-search-results" class="quick-search-results"></div>
             </div>
             <div id="contests-list"></div>
+        </div>
+
+        <div id="about-view" style="display:none;">
+            <div class="sdb-card about-card">
+                <div class="sdb-title">About MMA LiveSim</div>
+                <p>During the week leading up to a contest, you'll see last event's post-contest simulated ROI. These results come straight from the same personal simulator I use to set my own lineups every week. I can't promise that simming positive means you'll be a long-term winner in MMA DFS &mdash; but it's a good indicator, and it's worth using alongside other tools out there to see if they agree.</p>
+                <p>Once lineups lock for the new week's contest, the site moves into what I call <strong>live-sim mode</strong>. After each fight, I update the simulated ROI and win probabilities with that fight's completed score. By the time we reach the main card each night, you'll have a pretty good idea of where you stand &mdash; and whether you're still alive for a win.</p>
+                <p>Once the event concludes &mdash; either that night or the following day &mdash; I remove the fighter scores and put the site back into <strong>post-contest sim mode</strong>, where you can view your own ROI or browse other players' portfolios.</p>
+                <p>You'll also find an abundance of fighter stats and historical scoring trends across the site. I try to keep the database updated after every card wraps.</p>
+                <p>Lastly, there's a lineup optimizer and a hand builder &mdash; totally free, along with everything else on the site. I encourage you to share it with your friends, and please consider joining the Discord. Thanks for being a user!</p>
+                <p class="about-sign">&mdash; DHollis24</p>
+            </div>
         </div>
 
         <div id="insightsSubnav" class="view-tabs" style="display:none; justify-content: flex-start;">
@@ -8273,8 +8294,9 @@
             let insightsSub = 'ladder';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
+                if (av) av.style.display = view === 'about' ? '' : 'none';
                 if (sn) sn.style.display = view === 'insights' ? '' : 'none';
                 if (sv) sv.style.display = view === 'insights' && insightsSub === 'database' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
@@ -8291,6 +8313,7 @@
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
                 if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
+                if (view === 'about') logTabOpen('opened_about');
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
             document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { insightsSub = b.dataset.isub; showLandingView('insights'); }));

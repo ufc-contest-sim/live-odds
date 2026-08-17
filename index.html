@@ -2438,6 +2438,9 @@
         .about-btn.discord:hover { background: #4752c4; }
         .about-btn.xlink { border: 1px solid var(--glass-border); color: var(--text-primary); }
         .about-btn.xlink:hover { background: var(--bg-hover); }
+        .about-card .about-disclaim {
+            margin-top: 18px; font-size: 0.78rem; color: var(--text-secondary); opacity: 0.8;
+        }
         .sdb-filters {
             display: flex; flex-wrap: wrap; gap: 14px 18px;
             align-items: flex-end; margin-bottom: 16px;
@@ -3776,14 +3779,18 @@
             <div class="sdb-card about-card">
                 <div class="sdb-title">About MMA LiveSim</div>
                 <p>During the week leading up to a contest, you'll see last event's post-contest simulated ROI. These results come straight from the same personal simulator I use to set my own lineups every week. I can't promise that simming positive means you'll be a long-term winner in MMA DFS, but it's a good indicator, and it's worth using alongside other tools out there to see if they agree.</p>
+                <p>Each week's salaries and matchups go up shortly after DraftKings posts the new slate, so you can get a head start on planning your builds.</p>
                 <p>Once lineups lock for the new week's contest, the site moves into what I call <strong>live-sim mode</strong>. After each fight, I update the simulated ROI and win probabilities with that fight's completed score. By the time we reach the main card each night, you'll have a pretty good idea of where you stand and whether you're still alive for a win.</p>
                 <p>Once the event concludes, either that night or the following day, I remove the fighter scores and put the site back into <strong>post-contest sim mode</strong>, where you can view your own ROI or browse other players' portfolios.</p>
+                <p>I track all the major contests every event. If there's a contest you'd like to see tracked, just ask in the Discord and I'm happy to add it.</p>
                 <p>You'll also find an abundance of fighter stats and historical scoring trends across the site. I try to keep the database updated after every card wraps.</p>
-                <p>Lastly, there's a lineup optimizer and a hand builder, totally free along with everything else on the site. I encourage you to share it with your friends, and please consider <a href="https://discord.gg/4ydFv6pjv" target="_blank" rel="noopener">joining the Discord</a>. Thanks for being a user!</p>
+                <p>Lastly, there's a lineup optimizer and a hand builder, totally free along with everything else on the site. Lineups you save in the hand builder are stored in your own browser on your device, so they're private to you. Just know that clearing your browser data will clear them too.</p>
+                <p>I encourage you to share the site with your friends, and please consider <a href="https://discord.gg/4ydFv6pjv" target="_blank" rel="noopener">joining the Discord</a>. Thanks for being a user!</p>
                 <div class="about-links">
                     <a class="about-btn discord" href="https://discord.gg/4ydFv6pjv" target="_blank" rel="noopener">Join the Discord</a>
                     <a class="about-btn xlink" href="https://x.com/dhollis24_" target="_blank" rel="noopener">Follow me on X</a>
                 </div>
+                <p class="about-disclaim">MMA LiveSim is not affiliated with, endorsed by, or sponsored by DraftKings.</p>
             </div>
         </div>
 

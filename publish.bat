@@ -7,6 +7,12 @@ echo.
 
 cd /d "%~dp0"
 
+:: Browsers save repeat downloads as "DKSalaries (1).csv" instead of
+:: replacing DKSalaries.csv. If a stray copy like that is NEWER than the
+:: current DKSalaries.csv, adopt it automatically so dropping the fresh
+:: download anywhere in this folder is enough.
+powershell -NoProfile -Command "$c = Get-Item 'DKSalaries.csv' -ErrorAction SilentlyContinue; $s = Get-ChildItem 'DKSalaries*.csv' -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne 'DKSalaries.csv' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if ($s -and (-not $c -or $s.LastWriteTime -gt $c.LastWriteTime)) { Move-Item -LiteralPath $s.FullName -Destination 'DKSalaries.csv' -Force; Write-Host ('Found newer download ' + $s.Name + ' - using it as DKSalaries.csv') }" 2>nul
+
 :: Stage only the files this script manages. A file that is missing
 :: locally is simply not staged, so it can never be deleted from the site.
 git add *.json >nul 2>&1

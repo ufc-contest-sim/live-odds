@@ -3598,10 +3598,16 @@
                never their min-content width (the pool scrolls inside itself) */
             .hb-meter, .hb-slots, .hb-actions, .hb-tools, .hb-cancel-chips,
             .hb-pool, .hb-saved, .hb-clearall { min-width: 0; width: 100%; max-width: 100%; }
-            /* pool rows keep full fighter names and swipe sideways when the
-               buttons don't fit; the single grid column sizes every row to the
-               widest one so borders stay aligned */
-            .hb-pool { overflow-x: auto; display: grid; grid-template-columns: minmax(max-content, 1fr); }
+            /* pool rows must fit the viewport with the add button always
+               visible: no sideways scrolling — smaller type, tighter buttons,
+               and names wrap to a second line rather than pushing width */
+            .hb-pool { overflow-x: hidden; }
+            .hb-row { gap: 6px; padding: 8px 8px; }
+            .hb-name { font-size: 0.82rem; white-space: normal; line-height: 1.25; }
+            .hb-match { font-size: 0.62rem; }
+            .hb-sal { font-size: 0.76rem; }
+            .hb-add { min-width: 34px; height: 32px; font-size: 1.05rem; }
+            .hb-lockbtn, .hb-cxbtn { min-width: 30px; height: 32px; }
             .hb-meter { order: 1; }
             .hb-slots { order: 2; }
             .hb-actions { order: 3; }

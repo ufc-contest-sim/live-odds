@@ -111,6 +111,14 @@
       "entryFee": 333.0,
       "totalPrizes": 8700,
       "entrants": 28
+    },
+    {
+      "id": "1m_fantasy_mma_world_championship",
+      "name": "1M Fantasy MMA World Championship",
+      "file": "1M_Fantasy_MMA_World_Championship.json",
+      "entryFee": 10000.0,
+      "totalPrizes": 625000,
+      "entrants": 15
     }
   ]
 }

@@ -8764,6 +8764,14 @@
                 while (ids.length < ROSTER) ids.push('');
                 return ids.join(',') + ',';   // trailing comma leaves column 7 blank
             }
+            // Companion readable export: same rows, fighter NAMES instead of DK
+            // IDs. Not for uploading to DK — for humans and spreadsheets.
+            const nameHeader = extra => `Fighter 1,Fighter 2,Fighter 3,Fighter 4,Fighter 5,Fighter 6,,${extra}\n`;
+            function nameRow(players) {
+                const names = players.map(p => csvCell(p.name || ''));
+                while (names.length < ROSTER) names.push('');
+                return names.join(',') + ',';
+            }
             // A lineup with no DK ID uploads as a blank slot and DK rejects the
             // file, so say so rather than letting it fail at the contest.
             function dkExportWarning(lineups, written) {
@@ -8779,11 +8787,15 @@
                 if (!lastLineups.length) return;
                 const rows = lastLineups.slice(0, DK_MAX_LINEUPS);
                 let out = dkHeader('Lineup,Projection,Salary,Ownership,OppOwnSum,Stacked');
+                let outNames = nameHeader('Lineup,Projection,Salary,Ownership,OppOwnSum,Stacked');
                 rows.forEach((lu, i) => {
                     const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
-                    out += dkRow(players) + `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${(lu.lev || 0).toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                    const extra = `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${(lu.lev || 0).toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                    out += dkRow(players) + extra;
+                    outNames += nameRow(players) + extra;
                 });
                 downloadCSV('mmalivesim_dk_upload.csv', out);
+                downloadCSV('mmalivesim_lineups_names.csv', outNames);
                 document.getElementById('optErr').textContent = dkExportWarning(lastLineups.map(l => l.players), rows.length);
             }
 
@@ -9207,13 +9219,17 @@
                 if (!hbSaved.length) return;
                 const rows = hbSaved.slice(0, DK_MAX_LINEUPS);
                 let out = dkHeader('Lineup,Name,Salary');
+                let outNames = nameHeader('Lineup,Name,Salary');
                 rows.forEach((lu, i) => {
                     const players = lu.slice().sort((a, b) => b.salary - a.salary);
                     const sal = players.reduce((s, f) => s + (f.salary || 0), 0);
                     const nm = (hbNames[i] || '').trim() || `Lineup ${i + 1}`;
-                    out += dkRow(players) + `,${i + 1},${csvCell(nm)},${sal}\n`;
+                    const extra = `,${i + 1},${csvCell(nm)},${sal}\n`;
+                    out += dkRow(players) + extra;
+                    outNames += nameRow(players) + extra;
                 });
                 downloadCSV('mmalivesim_dk_upload.csv', out);
+                downloadCSV('mmalivesim_lineups_names.csv', outNames);
                 const warn = dkExportWarning(hbSaved, rows.length);
                 const el = document.getElementById('hbErr');
                 if (el) el.textContent = warn;

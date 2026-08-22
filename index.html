@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMA LiveSim — Real-Time UFC DFS Win Probabilities</title>
+    <title>MMA LiveSim — UFC &amp; MMA DFS Optimizer, Simulator &amp; Live Sweat</title>
 
     <!-- SEO -->
-    <meta name="description" content="MMA LiveSim gives real-time, simulation-based win probabilities for UFC DFS contests on DraftKings — live leaderboards, lineup EV, fighter exposure, and what-if scenarios. Built by DHollis24.">
+    <meta name="description" content="Free UFC DFS optimizer and MMA fight simulator for DraftKings. Build and optimize lineups, sweat live win probabilities for every entry, and break down each contest with post-contest sim EV, ownership, and optimal lineups.">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#ff6a12">
     <link rel="canonical" href="https://mmalivesim.com/">
@@ -20,8 +20,8 @@
     <!-- Open Graph (Discord, iMessage, Facebook) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="MMA LiveSim">
-    <meta property="og:title" content="MMA LiveSim — Real-Time UFC DFS Win Probabilities">
-    <meta property="og:description" content="Real-time, simulation-based win probabilities for UFC DFS contests on DraftKings. Live leaderboards, lineup EV, fighter exposure, and what-if scenarios.">
+    <meta property="og:title" content="MMA LiveSim — UFC &amp; MMA DFS Optimizer, Simulator &amp; Live Sweat">
+    <meta property="og:description" content="Free UFC DFS optimizer and MMA fight simulator for DraftKings. Live win probabilities for every lineup, plus post-contest EV, ownership, and optimal lineups.">
     <meta property="og:url" content="https://mmalivesim.com/">
     <meta property="og:image" content="https://mmalivesim.com/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -29,8 +29,8 @@
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MMA LiveSim — Real-Time UFC DFS Win Probabilities">
-    <meta name="twitter:description" content="Real-time, simulation-based win probabilities for UFC DFS contests on DraftKings.">
+    <meta name="twitter:title" content="MMA LiveSim — UFC &amp; MMA DFS Optimizer, Simulator &amp; Live Sweat">
+    <meta name="twitter:description" content="Free UFC DFS optimizer and MMA fight simulator for DraftKings — live win probabilities, EV, ownership, and optimal lineups.">
     <meta name="twitter:image" content="https://mmalivesim.com/og-image.png">
 
     <!-- Structured data: help Google associate the brand name + logo -->
@@ -57,7 +57,24 @@
           "alternateName": ["MMA Live Sim", "MMALiveSim"],
           "url": "https://mmalivesim.com/",
           "publisher": { "@id": "https://mmalivesim.com/#org" },
-          "description": "Real-time, simulation-based win probabilities for UFC DFS contests on DraftKings."
+          "description": "Free UFC DFS optimizer and MMA fight simulator for DraftKings — live win probabilities, EV, ownership, and optimal lineups."
+        },
+        {
+          "@type": "WebApplication",
+          "name": "MMA LiveSim",
+          "url": "https://mmalivesim.com/",
+          "applicationCategory": "SportsApplication",
+          "operatingSystem": "Web",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "publisher": { "@id": "https://mmalivesim.com/#org" },
+          "description": "UFC and MMA DFS optimizer, fight simulator, and live contest sweat for DraftKings — lineup optimizer, hand builder, live win probabilities, post-contest sim EV, ownership, and optimal lineups.",
+          "featureList": [
+            "UFC DFS lineup optimizer for DraftKings",
+            "MMA fight simulator with live win probabilities",
+            "Hand builder with saved lineups and exposure tracking",
+            "Post-contest sim: lineup EV, ROI, ownership, optimal lineup rates",
+            "Fighter stats and DraftKings scoring database"
+          ]
         }
       ]
     }
@@ -1684,6 +1701,7 @@
             align-items: center;
             margin-bottom: 20px;
         }
+        .whatif-hdr-btns { display: flex; gap: 8px; flex-shrink: 0; }
 
         .fight-card-header h3 {
             margin-bottom: 0;
@@ -1699,6 +1717,11 @@
             font-size: 0.85rem;
             font-family: inherit;
             transition: all 0.2s;
+        }
+        .whatif-reset-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
         }
 
         .whatif-reset-btn:hover {
@@ -2370,6 +2393,8 @@
            Landing nav (Contests / Scoring Database) + DB board
            ═══════════════════════════════════════════════════ */
         .landing-nav { display: flex; gap: 8px; margin: 0 0 24px; flex-wrap: wrap; }
+        /* Tabs stretch to fill the row so they sit flush with the content below */
+        .landing-nav .lnav-tab { flex: 1 1 0; text-align: center; padding-left: 8px; padding-right: 8px; }
         .lnav-tab {
             transform: skewX(-12deg);
             border: 1px solid var(--glass-border);
@@ -2404,6 +2429,33 @@
             font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
             text-transform: uppercase; color: var(--accent-lo);
             margin-bottom: 16px;
+        }
+        /* About tab */
+        .about-card p { font-size: 1.05rem; line-height: 1.65; margin: 0 auto 15px; max-width: 82ch; }
+        .about-card .sdb-title { text-align: center; }
+        .about-links { justify-content: center; }
+        .about-card .about-disclaim { text-align: center; }
+        .about-card p:last-child { margin-bottom: 0; }
+        .lock-note {
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.74rem; letter-spacing: 0.6px;
+            color: var(--text-on-dark-mute, var(--text-secondary));
+            text-align: center; margin-top: 10px;
+        }
+        .about-card a { color: var(--accent); }
+        .about-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+        .about-btn {
+            display: inline-block; padding: 10px 20px; border-radius: 10px;
+            font-family: 'Chakra Petch', monospace; font-weight: 700;
+            font-size: 0.82rem; letter-spacing: 1px; text-transform: uppercase;
+            text-decoration: none;
+        }
+        .about-btn.discord { background: #5865F2; color: #fff; }
+        .about-btn.discord:hover { background: #4752c4; }
+        .about-btn.xlink { border: 1px solid var(--glass-border); color: var(--text-primary); }
+        .about-btn.xlink:hover { background: var(--bg-hover); }
+        .about-card .about-disclaim {
+            margin-top: 18px; font-size: 0.78rem; color: var(--text-secondary); opacity: 0.8;
         }
         .sdb-filters {
             display: flex; flex-wrap: wrap; gap: 14px 18px;
@@ -2783,7 +2835,7 @@
         /* ---------- Weekly Matchups (fmx-*) ---------- */
         :root { --fmx-mask: url(data:image/png;base64,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); }
         .fmx-note { font-size: 0.82rem; color: var(--text-secondary); margin: 4px 0 14px; line-height: 1.55; }
-        .fmx-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 720px; margin: 0 auto; }
+        .fmx-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
         .fmx-card {
             display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px;
             border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px 18px;
@@ -3552,10 +3604,16 @@
                never their min-content width (the pool scrolls inside itself) */
             .hb-meter, .hb-slots, .hb-actions, .hb-tools, .hb-cancel-chips,
             .hb-pool, .hb-saved, .hb-clearall { min-width: 0; width: 100%; max-width: 100%; }
-            /* pool rows keep full fighter names and swipe sideways when the
-               buttons don't fit; the single grid column sizes every row to the
-               widest one so borders stay aligned */
-            .hb-pool { overflow-x: auto; display: grid; grid-template-columns: minmax(max-content, 1fr); }
+            /* pool rows must fit the viewport with the add button always
+               visible: no sideways scrolling — smaller type, tighter buttons,
+               and names wrap to a second line rather than pushing width */
+            .hb-pool { overflow-x: hidden; }
+            .hb-row { gap: 6px; padding: 8px 8px; }
+            .hb-name { font-size: 0.82rem; white-space: normal; line-height: 1.25; }
+            .hb-match { font-size: 0.62rem; }
+            .hb-sal { font-size: 0.76rem; }
+            .hb-add { min-width: 34px; height: 32px; font-size: 1.05rem; }
+            .hb-lockbtn, .hb-cxbtn { min-width: 30px; height: 32px; }
             .hb-meter { order: 1; }
             .hb-slots { order: 2; }
             .hb-actions { order: 3; }
@@ -3701,13 +3759,13 @@
                 <polygon points="30,3 70,3 97,30 97,70 70,97 30,97 3,70 3,30"/>
                 <polygon class="spin" points="30,10 70,10 90,30 90,70 70,90 30,90 10,70 10,30"/>
             </svg>
-            <div class="landing-kicker">Every fight &middot; every lineup &middot; simulated live</div>
             <h1>MMA <span>LiveSim</span></h1>
-            <p>Real-time win probabilities for UFC DFS contests — by DHollis24</p>
             <div class="hero-badges">
                 <div class="pill live"><span class="dot"></span><i id="sim-mode-label">Post Contest Sim Mode</i></div>
+                <div class="pill live" id="lock-countdown-pill" style="display:none;"><span class="dot"></span><i id="lock-countdown-label"></i></div>
                 <div class="pill" id="hero-contest-pill" style="display: none;"><i id="hero-contest-count"></i></div>
             </div>
+            <div id="lock-note" class="lock-note" style="display:none;">Live sim starts at lock. Please allow up to 10 minutes after lock for the site to update.</div>
         </div>
 
         <div class="landing-nav">
@@ -3716,6 +3774,7 @@
             <button class="lnav-tab" data-view="lookup"><span>Fighter Stats</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
             <button class="lnav-tab" data-view="builder"><span>Hand Builder</span></button>
+            <button class="lnav-tab" data-view="about"><span>About</span></button>
         </div>
 
         <div id="contests-view">
@@ -3736,6 +3795,25 @@
                 <div id="quick-search-results" class="quick-search-results"></div>
             </div>
             <div id="contests-list"></div>
+        </div>
+
+        <div id="about-view" style="display:none;">
+            <div class="sdb-card about-card">
+                <div class="sdb-title">About MMA LiveSim</div>
+                <p>During the week leading up to a contest, you'll see last event's post-contest simulated ROI. These results come straight from the same personal simulator I use to set my own lineups every week. I can't promise that simming positive means you'll be a long-term winner in MMA DFS, but it's a good indicator, and it's worth using alongside other tools out there to see if they agree.</p>
+                <p>Each week's salaries and matchups go up shortly after DraftKings posts the new slate, so you can get a head start on planning your builds.</p>
+                <p>Once lineups lock for the new week's contest, the site moves into what I call <strong>live-sim mode</strong>. After each fight, I update the simulated ROI and win probabilities with that fight's completed score. By the time we reach the main card each night, you'll have a pretty good idea of where you stand and whether you're still alive for a win.</p>
+                <p>Once the event concludes, either that night or the following day, I remove the fighter scores and put the site back into <strong>post-contest sim mode</strong>, where you can view your own ROI or browse other players' portfolios.</p>
+                <p>I track all the major contests every event. If there's a contest you'd like to see tracked, just ask in the Discord and I'm happy to add it.</p>
+                <p>You'll also find an abundance of fighter stats and historical scoring trends across the site. I try to keep the database updated after every card wraps.</p>
+                <p>Lastly, there's a lineup optimizer and a hand builder, totally free along with everything else on the site. Lineups you save in the hand builder are stored in your own browser on your device, so they're private to you. Just know that clearing your browser data will clear them too.</p>
+                <p>I encourage you to share the site with your friends, and please consider <a href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">joining the Discord</a>. Thanks for being a user!</p>
+                <div class="about-links">
+                    <a class="about-btn discord" href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">Join the Discord</a>
+                    <a class="about-btn xlink" href="https://x.com/dhollis24_" target="_blank" rel="noopener">Follow me on X</a>
+                </div>
+                <p class="about-disclaim">MMA LiveSim is not affiliated with, endorsed by, or sponsored by DraftKings.</p>
+            </div>
         </div>
 
         <div id="insightsSubnav" class="view-tabs" style="display:none; justify-content: flex-start;">
@@ -4074,7 +4152,10 @@
                     <div class="fight-card-container">
                         <div class="fight-card-header">
                             <h3>Fight Card - Enter Scores</h3>
-                            <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+                            <div class="whatif-hdr-btns">
+                                <button class="whatif-reset-btn" id="whatif-actuals-btn" style="display:none;" onclick="toggleWhatIfActuals()">Actuals</button>
+                                <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+                            </div>
                         </div>
                         <div id="fight-card-inputs"></div>
                     </div>
@@ -4271,6 +4352,8 @@
         let contestOptimalMap = null; // fighter -> optimal% from JSON (if available)
         let contestSalaryMap = null;  // fighter -> salary from JSON (if available)
         let whatIfScores = {};         // fighter name -> score (user input)
+        let contestActualsMap = null;  // fighter name -> actual DK score (post-event, What If only)
+        let whatIfActualsOn = false;   // "Actuals" toggle state on the What If page
         let whatIfResults = null;      // calculated What If leaderboard
         let whatIfDebounceTimer = null;
 
@@ -4375,6 +4458,140 @@
         }
 
         initVisitorGate();
+
+        // ---- Lineup-lock countdown ----
+        // Lock time is derived from DKSalaries.csv (earliest Game Info start),
+        // so the landing flips to countdown mode automatically as soon as the
+        // new week's salary file is published. No extra publish steps.
+        function _etOffsetHours(utcGuess) {
+            try {
+                const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', timeZoneName: 'shortOffset' })
+                    .formatToParts(utcGuess).find(x => x.type === 'timeZoneName').value;
+                const n = parseFloat(p.replace('GMT', ''));
+                return isNaN(n) ? -4 : n;
+            } catch (e) { return -4; }
+        }
+        function _etToUtc(y, mo, d, H, mi) {
+            const guess = new Date(Date.UTC(y, mo - 1, d, H, mi));
+            return Date.UTC(y, mo - 1, d, H - _etOffsetHours(guess), mi);
+        }
+        async function initLockCountdown() {
+            let lock = null;
+            const slateNames = new Set();
+            try {
+                // a transient failure (e.g. mid-reload) must not kill the
+                // countdown for the whole session - retry a few times
+                let text = null;
+                for (let attempt = 0; attempt < 4 && text === null; attempt++) {
+                    if (attempt) await new Promise(r => setTimeout(r, 3000));
+                    try {
+                        const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                        if (resp.ok) text = await resp.text();
+                    } catch (e) { /* retry */ }
+                }
+                if (text === null) return;
+                const re = /(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(AM|PM)\s+ET/g;
+                let m, min = Infinity;
+                while ((m = re.exec(text)) !== null) {
+                    const H = (parseInt(m[4], 10) % 12) + (m[6] === 'PM' ? 12 : 0);
+                    const t = _etToUtc(+m[3], +m[1], +m[2], H, +m[5]);
+                    if (t < min) min = t;
+                }
+                if (!isFinite(min)) return;
+                lock = min;
+                // slate fighter names (column 3), used post-lock to detect
+                // whether the published contests are for THIS card yet
+                for (const line of text.split('\n').slice(1)) {
+                    const cols = line.split(',');
+                    if (cols.length > 2 && cols[2].trim()) slateNames.add(cols[2].trim().toLowerCase());
+                }
+            } catch (e) { return; }
+
+            const pill = document.getElementById('lock-countdown-pill');
+            const label = document.getElementById('lock-countdown-label');
+            const note = document.getElementById('lock-note');
+            const modeEl = document.getElementById('sim-mode-label');
+            const modePill = modeEl && modeEl.closest('.pill');
+            if (!pill || !label || !modePill) return;
+
+            function fmt(ms) {
+                const s = Math.floor(ms / 1000), d = Math.floor(s / 86400),
+                      h = Math.floor((s % 86400) / 3600), mi = Math.floor((s % 3600) / 60), ss = s % 60;
+                if (d > 0) return `${d}d ${h}h ${String(mi).padStart(2, '0')}m`;
+                if (h > 0) return `${h}h ${String(mi).padStart(2, '0')}m ${String(ss).padStart(2, '0')}s`;
+                return `${mi}m ${String(ss).padStart(2, '0')}s`;
+            }
+            // Post-lock, "Live Sim Mode" must wait for TODAY'S contests to be
+            // published: the label only flips once the tracked contests' fight
+            // card overlaps the current slate. Checked once a minute.
+            let dataFresh = false, lastCheck = 0, checking = false;
+            async function checkFresh(initial) {
+                if (checking) return;
+                checking = true;
+                try {
+                    const cj = await (await fetch('contests.json?v=' + Date.now())).json();
+                    const first = cj && cj.contests && cj.contests[0];
+                    if (first) {
+                        const d = await (await fetch(first.file + '?v=' + Date.now())).json();
+                        let hits = 0;
+                        for (const f of (d.fight_card || [])) {
+                            if (f.fighter1 && slateNames.has(String(f.fighter1).trim().toLowerCase())) hits++;
+                            if (f.fighter2 && slateNames.has(String(f.fighter2).trim().toLowerCase())) hits++;
+                        }
+                        if (hits >= 6) {
+                            dataFresh = true;
+                            // a tab that was parked through the stale window gets
+                            // one automatic refresh to pick up the new slate; a
+                            // page that loaded already-fresh never reloads
+                            if (!initial) {
+                                const key = 'mmaLiveSim_lockReload_' + lock;
+                                try {
+                                    if (!sessionStorage.getItem(key)) {
+                                        sessionStorage.setItem(key, '1');
+                                        location.reload();
+                                    }
+                                } catch (e) {}
+                            }
+                        }
+                    }
+                } catch (e) { /* stay stale, retry next minute */ }
+                checking = false;
+            }
+            function tick() {
+                const diff = lock - Date.now();
+                if (diff > 0) {
+                    label.textContent = 'Lineup lock in ' + fmt(diff);
+                    pill.style.display = '';
+                    note.style.display = '';
+                    modePill.style.display = 'none';
+                } else if (!dataFresh) {
+                    // locked, but today's contests aren't up yet
+                    label.textContent = 'Contests locked';
+                    pill.style.display = '';
+                    note.style.display = '';
+                    modePill.style.display = 'none';
+                    if (Date.now() - lastCheck > 60000) { lastCheck = Date.now(); checkFresh(false); }
+                } else if (-diff < 12 * 3600 * 1000) {
+                    // today's contests are live: hand back to the mode pill
+                    window.__lockLiveOverride = true;
+                    pill.style.display = 'none';
+                    note.style.display = 'none';
+                    modePill.style.display = '';
+                    if (modeEl.textContent !== 'Live Sim Mode') modeEl.textContent = 'Live Sim Mode';
+                } else {
+                    // old slate: normal post-contest behavior
+                    window.__lockLiveOverride = false;
+                    pill.style.display = 'none';
+                    note.style.display = 'none';
+                    modePill.style.display = '';
+                }
+            }
+            // if the page loads after lock, resolve freshness immediately
+            if (lock - Date.now() <= 0) { lastCheck = Date.now(); checkFresh(true); }
+            tick();
+            setInterval(tick, 1000);
+        }
+        initLockCountdown();
 
         // Returning visitors: 'arrived' only ever fires once (at the gate), so
         // log every subsequent page load too — this is what shows repeat visits.
@@ -4790,7 +5007,7 @@
                 // Mode label: live once any listed fighter has a locked score
                 const anyLocked = fighters.some(([, s]) => s != null);
                 const modeLabel = document.getElementById('sim-mode-label');
-                if (modeLabel) modeLabel.textContent = anyLocked ? 'Live Sim Mode' : 'Post Contest Sim Mode';
+                if (modeLabel) modeLabel.textContent = (anyLocked || window.__lockLiveOverride) ? 'Live Sim Mode' : 'Post Contest Sim Mode';
             }
 
             // fallback if the fight card isn't available
@@ -5381,6 +5598,8 @@
             contestPayouts = null;
             contestOptimalMap = null;
             contestSalaryMap = null;
+            contestActualsMap = null;
+            whatIfActualsOn = false;
         }
         
         function showLeaderboard() {
@@ -5425,6 +5644,8 @@
                 contestPayouts = data.payouts || null;
                 contestOptimalMap = data.optimal_map || null;
                 contestSalaryMap = data.salary_map || null;
+                contestActualsMap = data.actuals_map || null;
+                whatIfActualsOn = false;
                 whatIfScores = {};
                 whatIfResults = null;
 
@@ -6559,6 +6780,15 @@
         function initWhatIfPanel() {
             const container = document.getElementById('fight-card-inputs');
 
+            // "Actuals" toggle: only offered when the contest JSON carries the
+            // post-event scores, and only ever touches the What If inputs.
+            const actualsBtn = document.getElementById('whatif-actuals-btn');
+            if (actualsBtn) {
+                const hasActuals = contestActualsMap && Object.keys(contestActualsMap).length > 0;
+                actualsBtn.style.display = hasActuals ? '' : 'none';
+                actualsBtn.classList.toggle('active', whatIfActualsOn);
+            }
+
             if (contestFightCard && contestFightCard.length > 0) {
                 // Render fight card from JSON data (proper fight pairings)
                 container.innerHTML = contestFightCard.map((fight, idx) => {
@@ -6647,7 +6877,23 @@
         function resetWhatIfScores() {
             whatIfScores = {};
             whatIfResults = null;
+            whatIfActualsOn = false;
             // Re-populate with prefilled scores from fight_card
+            initWhatIfPanel();
+        }
+
+        // Fill the What If inputs with the event's actual DK scores (post
+        // contest sim mode convenience). Toggling off clears back to blank.
+        function toggleWhatIfActuals() {
+            whatIfActualsOn = !whatIfActualsOn;
+            whatIfScores = {};
+            whatIfResults = null;
+            if (whatIfActualsOn && contestActualsMap) {
+                for (const [name, sc] of Object.entries(contestActualsMap)) {
+                    const v = parseFloat(sc);
+                    if (!isNaN(v)) whatIfScores[name] = v;
+                }
+            }
             initWhatIfPanel();
         }
 
@@ -8256,8 +8502,9 @@
             let insightsSub = 'ladder';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
+                if (av) av.style.display = view === 'about' ? '' : 'none';
                 if (sn) sn.style.display = view === 'insights' ? '' : 'none';
                 if (sv) sv.style.display = view === 'insights' && insightsSub === 'database' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
@@ -8274,6 +8521,7 @@
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
                 if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
+                if (view === 'about') logTabOpen('opened_about');
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
             document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { insightsSub = b.dataset.isub; showLandingView('insights'); }));
@@ -8658,6 +8906,14 @@
                 while (ids.length < ROSTER) ids.push('');
                 return ids.join(',') + ',';   // trailing comma leaves column 7 blank
             }
+            // Companion readable export: same rows, fighter NAMES instead of DK
+            // IDs. Not for uploading to DK — for humans and spreadsheets.
+            const nameHeader = extra => `Fighter 1,Fighter 2,Fighter 3,Fighter 4,Fighter 5,Fighter 6,,${extra}\n`;
+            function nameRow(players) {
+                const names = players.map(p => csvCell(p.name || ''));
+                while (names.length < ROSTER) names.push('');
+                return names.join(',') + ',';
+            }
             // A lineup with no DK ID uploads as a blank slot and DK rejects the
             // file, so say so rather than letting it fail at the contest.
             function dkExportWarning(lineups, written) {
@@ -8673,11 +8929,15 @@
                 if (!lastLineups.length) return;
                 const rows = lastLineups.slice(0, DK_MAX_LINEUPS);
                 let out = dkHeader('Lineup,Projection,Salary,Ownership,OppOwnSum,Stacked');
+                let outNames = nameHeader('Lineup,Projection,Salary,Ownership,OppOwnSum,Stacked');
                 rows.forEach((lu, i) => {
                     const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
-                    out += dkRow(players) + `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${(lu.lev || 0).toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                    const extra = `,${i + 1},${lu.proj.toFixed(1)},${lu.salary},${lu.own.toFixed(1)},${(lu.lev || 0).toFixed(1)},${lu.stacked ? 'Yes' : 'No'}\n`;
+                    out += dkRow(players) + extra;
+                    outNames += nameRow(players) + extra;
                 });
                 downloadCSV('mmalivesim_dk_upload.csv', out);
+                downloadCSV('mmalivesim_lineups_names.csv', outNames);
                 document.getElementById('optErr').textContent = dkExportWarning(lastLineups.map(l => l.players), rows.length);
             }
 
@@ -9101,13 +9361,17 @@
                 if (!hbSaved.length) return;
                 const rows = hbSaved.slice(0, DK_MAX_LINEUPS);
                 let out = dkHeader('Lineup,Name,Salary');
+                let outNames = nameHeader('Lineup,Name,Salary');
                 rows.forEach((lu, i) => {
                     const players = lu.slice().sort((a, b) => b.salary - a.salary);
                     const sal = players.reduce((s, f) => s + (f.salary || 0), 0);
                     const nm = (hbNames[i] || '').trim() || `Lineup ${i + 1}`;
-                    out += dkRow(players) + `,${i + 1},${csvCell(nm)},${sal}\n`;
+                    const extra = `,${i + 1},${csvCell(nm)},${sal}\n`;
+                    out += dkRow(players) + extra;
+                    outNames += nameRow(players) + extra;
                 });
                 downloadCSV('mmalivesim_dk_upload.csv', out);
+                downloadCSV('mmalivesim_lineups_names.csv', outNames);
                 const warn = dkExportWarning(hbSaved, rows.length);
                 const el = document.getElementById('hbErr');
                 if (el) el.textContent = warn;

@@ -2436,6 +2436,12 @@
         .about-links { justify-content: center; }
         .about-card .about-disclaim { text-align: center; }
         .about-card p:last-child { margin-bottom: 0; }
+        .lock-note {
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.74rem; letter-spacing: 0.6px;
+            color: var(--text-on-dark-mute, var(--text-secondary));
+            text-align: center; margin-top: 10px;
+        }
         .about-card a { color: var(--accent); }
         .about-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
         .about-btn {
@@ -3756,8 +3762,10 @@
             <h1>MMA <span>LiveSim</span></h1>
             <div class="hero-badges">
                 <div class="pill live"><span class="dot"></span><i id="sim-mode-label">Post Contest Sim Mode</i></div>
+                <div class="pill live" id="lock-countdown-pill" style="display:none;"><span class="dot"></span><i id="lock-countdown-label"></i></div>
                 <div class="pill" id="hero-contest-pill" style="display: none;"><i id="hero-contest-count"></i></div>
             </div>
+            <div id="lock-note" class="lock-note" style="display:none;">Live sim starts at lock. Please allow up to 10 minutes after lock for the site to update.</div>
         </div>
 
         <div class="landing-nav">
@@ -4450,6 +4458,83 @@
         }
 
         initVisitorGate();
+
+        // ---- Lineup-lock countdown ----
+        // Lock time is derived from DKSalaries.csv (earliest Game Info start),
+        // so the landing flips to countdown mode automatically as soon as the
+        // new week's salary file is published. No extra publish steps.
+        function _etOffsetHours(utcGuess) {
+            try {
+                const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', timeZoneName: 'shortOffset' })
+                    .formatToParts(utcGuess).find(x => x.type === 'timeZoneName').value;
+                const n = parseFloat(p.replace('GMT', ''));
+                return isNaN(n) ? -4 : n;
+            } catch (e) { return -4; }
+        }
+        function _etToUtc(y, mo, d, H, mi) {
+            const guess = new Date(Date.UTC(y, mo - 1, d, H, mi));
+            return Date.UTC(y, mo - 1, d, H - _etOffsetHours(guess), mi);
+        }
+        async function initLockCountdown() {
+            let lock = null;
+            try {
+                const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                if (!resp.ok) return;
+                const text = await resp.text();
+                const re = /(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(AM|PM)\s+ET/g;
+                let m, min = Infinity;
+                while ((m = re.exec(text)) !== null) {
+                    const H = (parseInt(m[4], 10) % 12) + (m[6] === 'PM' ? 12 : 0);
+                    const t = _etToUtc(+m[3], +m[1], +m[2], H, +m[5]);
+                    if (t < min) min = t;
+                }
+                if (!isFinite(min)) return;
+                lock = min;
+            } catch (e) { return; }
+
+            const pill = document.getElementById('lock-countdown-pill');
+            const label = document.getElementById('lock-countdown-label');
+            const note = document.getElementById('lock-note');
+            const modeEl = document.getElementById('sim-mode-label');
+            const modePill = modeEl && modeEl.closest('.pill');
+            if (!pill || !label || !modePill) return;
+
+            function fmt(ms) {
+                const s = Math.floor(ms / 1000), d = Math.floor(s / 86400),
+                      h = Math.floor((s % 86400) / 3600), mi = Math.floor((s % 3600) / 60), ss = s % 60;
+                if (d > 0) return `${d}d ${h}h ${String(mi).padStart(2, '0')}m`;
+                if (h > 0) return `${h}h ${String(mi).padStart(2, '0')}m ${String(ss).padStart(2, '0')}s`;
+                return `${mi}m ${String(ss).padStart(2, '0')}s`;
+            }
+            function tick() {
+                const diff = lock - Date.now();
+                if (diff > 0) {
+                    label.textContent = 'Lineup lock in ' + fmt(diff);
+                    pill.style.display = '';
+                    note.style.display = '';
+                    modePill.style.display = 'none';
+                } else if (-diff < 15 * 60 * 1000) {
+                    label.textContent = 'Contests locked';
+                    pill.style.display = '';
+                    note.style.display = '';
+                    modePill.style.display = 'none';
+                } else if (-diff < 12 * 3600 * 1000) {
+                    // fight night: hand back to the mode pill as Live Sim
+                    pill.style.display = 'none';
+                    note.style.display = 'none';
+                    modePill.style.display = '';
+                    if (modeEl.textContent !== 'Live Sim Mode') modeEl.textContent = 'Live Sim Mode';
+                } else {
+                    // old slate: normal post-contest behavior
+                    pill.style.display = 'none';
+                    note.style.display = 'none';
+                    modePill.style.display = '';
+                }
+            }
+            tick();
+            setInterval(tick, 1000);
+        }
+        initLockCountdown();
 
         // Returning visitors: 'arrived' only ever fires once (at the gate), so
         // log every subsequent page load too — this is what shows repeat visits.

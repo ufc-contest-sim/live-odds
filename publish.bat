@@ -31,7 +31,7 @@ git diff --cached --quiet
 if %errorlevel% equ 0 goto nothingnew
 
 echo Publishing these files:
-git diff --cached --name-only
+git --no-pager diff --cached --name-only
 echo.
 git commit -m "Update contest and salary files" >nul
 

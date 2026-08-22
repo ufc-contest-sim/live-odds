@@ -4477,10 +4477,19 @@
         }
         async function initLockCountdown() {
             let lock = null;
+            const slateNames = new Set();
             try {
-                const resp = await fetch('DKSalaries.csv?v=' + Date.now());
-                if (!resp.ok) return;
-                const text = await resp.text();
+                // a transient failure (e.g. mid-reload) must not kill the
+                // countdown for the whole session - retry a few times
+                let text = null;
+                for (let attempt = 0; attempt < 4 && text === null; attempt++) {
+                    if (attempt) await new Promise(r => setTimeout(r, 3000));
+                    try {
+                        const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                        if (resp.ok) text = await resp.text();
+                    } catch (e) { /* retry */ }
+                }
+                if (text === null) return;
                 const re = /(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(AM|PM)\s+ET/g;
                 let m, min = Infinity;
                 while ((m = re.exec(text)) !== null) {
@@ -4490,6 +4499,12 @@
                 }
                 if (!isFinite(min)) return;
                 lock = min;
+                // slate fighter names (column 3), used post-lock to detect
+                // whether the published contests are for THIS card yet
+                for (const line of text.split('\n').slice(1)) {
+                    const cols = line.split(',');
+                    if (cols.length > 2 && cols[2].trim()) slateNames.add(cols[2].trim().toLowerCase());
+                }
             } catch (e) { return; }
 
             const pill = document.getElementById('lock-countdown-pill');
@@ -4506,6 +4521,42 @@
                 if (h > 0) return `${h}h ${String(mi).padStart(2, '0')}m ${String(ss).padStart(2, '0')}s`;
                 return `${mi}m ${String(ss).padStart(2, '0')}s`;
             }
+            // Post-lock, "Live Sim Mode" must wait for TODAY'S contests to be
+            // published: the label only flips once the tracked contests' fight
+            // card overlaps the current slate. Checked once a minute.
+            let dataFresh = false, lastCheck = 0, checking = false;
+            async function checkFresh(initial) {
+                if (checking) return;
+                checking = true;
+                try {
+                    const cj = await (await fetch('contests.json?v=' + Date.now())).json();
+                    const first = cj && cj.contests && cj.contests[0];
+                    if (first) {
+                        const d = await (await fetch(first.file + '?v=' + Date.now())).json();
+                        let hits = 0;
+                        for (const f of (d.fight_card || [])) {
+                            if (f.fighter1 && slateNames.has(String(f.fighter1).trim().toLowerCase())) hits++;
+                            if (f.fighter2 && slateNames.has(String(f.fighter2).trim().toLowerCase())) hits++;
+                        }
+                        if (hits >= 6) {
+                            dataFresh = true;
+                            // a tab that was parked through the stale window gets
+                            // one automatic refresh to pick up the new slate; a
+                            // page that loaded already-fresh never reloads
+                            if (!initial) {
+                                const key = 'mmaLiveSim_lockReload_' + lock;
+                                try {
+                                    if (!sessionStorage.getItem(key)) {
+                                        sessionStorage.setItem(key, '1');
+                                        location.reload();
+                                    }
+                                } catch (e) {}
+                            }
+                        }
+                    }
+                } catch (e) { /* stay stale, retry next minute */ }
+                checking = false;
+            }
             function tick() {
                 const diff = lock - Date.now();
                 if (diff > 0) {
@@ -4513,24 +4564,30 @@
                     pill.style.display = '';
                     note.style.display = '';
                     modePill.style.display = 'none';
-                } else if (-diff < 15 * 60 * 1000) {
+                } else if (!dataFresh) {
+                    // locked, but today's contests aren't up yet
                     label.textContent = 'Contests locked';
                     pill.style.display = '';
                     note.style.display = '';
                     modePill.style.display = 'none';
+                    if (Date.now() - lastCheck > 60000) { lastCheck = Date.now(); checkFresh(false); }
                 } else if (-diff < 12 * 3600 * 1000) {
-                    // fight night: hand back to the mode pill as Live Sim
+                    // today's contests are live: hand back to the mode pill
+                    window.__lockLiveOverride = true;
                     pill.style.display = 'none';
                     note.style.display = 'none';
                     modePill.style.display = '';
                     if (modeEl.textContent !== 'Live Sim Mode') modeEl.textContent = 'Live Sim Mode';
                 } else {
                     // old slate: normal post-contest behavior
+                    window.__lockLiveOverride = false;
                     pill.style.display = 'none';
                     note.style.display = 'none';
                     modePill.style.display = '';
                 }
             }
+            // if the page loads after lock, resolve freshness immediately
+            if (lock - Date.now() <= 0) { lastCheck = Date.now(); checkFresh(true); }
             tick();
             setInterval(tick, 1000);
         }
@@ -4950,7 +5007,7 @@
                 // Mode label: live once any listed fighter has a locked score
                 const anyLocked = fighters.some(([, s]) => s != null);
                 const modeLabel = document.getElementById('sim-mode-label');
-                if (modeLabel) modeLabel.textContent = anyLocked ? 'Live Sim Mode' : 'Post Contest Sim Mode';
+                if (modeLabel) modeLabel.textContent = (anyLocked || window.__lockLiveOverride) ? 'Live Sim Mode' : 'Post Contest Sim Mode';
             }
 
             // fallback if the fight card isn't available

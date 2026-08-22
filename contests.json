@@ -121,6 +121,14 @@
       "entrants": 20
     },
     {
+      "id": "750k_fantasy_mma_world_championship_qualifier_3",
+      "name": "750K Fantasy MMA World Championship Qualifier 3",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_3.json",
+      "entryFee": 1000.0,
+      "totalPrizes": 8600,
+      "entrants": 10
+    },
+    {
       "id": "750k_fantasy_mma_world_championship_qualifier_4",
       "name": "750K Fantasy MMA World Championship Qualifier 4",
       "file": "750K_Fantasy_MMA_World_Championship_Qualifier_4.json",

@@ -1,6 +1,6 @@
 {
   "contest_name": "20K Double Champ",
-  "last_updated": "2026-08-29T07:54:56.607760",
+  "last_updated": "2026-08-29T17:13:38.170223",
   "total_lineups": 10,
   "summary": {
     "top_win_pct": 100.0,
@@ -57,8 +57,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 249.1300048828125,
-      "SDScore": 0.0,
-      "P99Score": 249.1300048828125,
+      "SDScore": 1.4273325885591457e-05,
+      "P99Score": 249.13003808753385,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -113,7 +113,7 @@
       "MeanScore": 559.3999633789062,
       "SDScore": 0.0,
       "P99Score": 559.3999633789062,
-      "TotalPayout": 10000.0,
+      "TotalPayout": 2000000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -221,7 +221,7 @@
       "MeanScore": 447.83001708984375,
       "SDScore": 0.0,
       "P99Score": 447.83001708984375,
-      "TotalPayout": 6000.0,
+      "TotalPayout": 1200000000.0,
       "TotalSalary": 49600.0
     },
     {
@@ -248,7 +248,7 @@
       "MeanScore": 369.4599914550781,
       "SDScore": 0.0,
       "P99Score": 369.4599914550781,
-      "TotalPayout": 4000.0,
+      "TotalPayout": 800000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -272,9 +272,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 364.4099731445313,
+      "MeanScore": 364.4100036621094,
       "SDScore": 0.0,
-      "P99Score": 364.4099731445313,
+      "P99Score": 364.4100036621094,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     }

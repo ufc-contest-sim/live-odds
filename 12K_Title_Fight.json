@@ -1,6 +1,6 @@
 {
   "contest_name": "12K Title Fight",
-  "last_updated": "2026-08-29T07:54:56.588712",
+  "last_updated": "2026-08-29T17:13:38.150415",
   "total_lineups": 11,
   "summary": {
     "top_win_pct": 100.0,
@@ -30,8 +30,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 392.989990234375,
-      "SDScore": 0.0,
-      "P99Score": 392.989990234375,
+      "SDScore": 2.0894009659450333e-05,
+      "P99Score": 392.99003884110994,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -59,7 +59,7 @@
       "MeanScore": 547.5899658203125,
       "SDScore": 0.0,
       "P99Score": 547.5899658203125,
-      "TotalPayout": 3000.0,
+      "TotalPayout": 600000000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -86,7 +86,7 @@
       "MeanScore": 559.3999633789062,
       "SDScore": 0.0,
       "P99Score": 559.3999633789062,
-      "TotalPayout": 7000.0,
+      "TotalPayout": 1400000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -221,7 +221,7 @@
       "MeanScore": 466.97998046875,
       "SDScore": 0.0,
       "P99Score": 466.97998046875,
-      "TotalPayout": 2000.0,
+      "TotalPayout": 400000000.0,
       "TotalSalary": 49900.0
     },
     {
@@ -246,8 +246,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 202.1800079345703,
-      "SDScore": 0.0,
-      "P99Score": 202.1800079345703,
+      "SDScore": 1.595806347259494e-05,
+      "P99Score": 202.18004505857732,
       "TotalPayout": 0.0,
       "TotalSalary": 49700.0
     },
@@ -273,8 +273,8 @@
       "ThirdPct": 0.0,
       "CashPct": 0.0,
       "MeanScore": 328.3599853515625,
-      "SDScore": 0.0,
-      "P99Score": 328.3599853515625,
+      "SDScore": 9.344085184213637e-06,
+      "P99Score": 328.3600070891552,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },

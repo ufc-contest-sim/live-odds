@@ -1,6 +1,6 @@
 {
   "contest_name": "750K Fantasy MMA World Championship Qualifier 6",
-  "last_updated": "2026-08-29T07:54:57.867293",
+  "last_updated": "2026-08-29T17:13:39.432270",
   "total_lineups": 10,
   "summary": {
     "top_win_pct": 100.0,
@@ -86,7 +86,7 @@
       "MeanScore": 437.30999755859375,
       "SDScore": 0.0,
       "P99Score": 437.30999755859375,
-      "TotalPayout": 1100.0,
+      "TotalPayout": 220000000.0,
       "TotalSalary": 49600.0
     },
     {
@@ -218,9 +218,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 100.0,
       "CashPct": 0.0,
-      "MeanScore": 392.8700256347656,
+      "MeanScore": 392.8699951171875,
       "SDScore": 0.0,
-      "P99Score": 392.8700256347656,
+      "P99Score": 392.8699951171875,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -272,10 +272,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 452.3400268554688,
-      "SDScore": 0.0,
-      "P99Score": 452.3400268554688,
-      "TotalPayout": 7500.0,
+      "MeanScore": 452.3399963378906,
+      "SDScore": 3.927481033385801e-05,
+      "P99Score": 452.3400877047621,
+      "TotalPayout": 1500000000.0,
       "TotalSalary": 49800.0
     }
   ],

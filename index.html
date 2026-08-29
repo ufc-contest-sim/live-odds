@@ -2436,6 +2436,8 @@
         .about-links { justify-content: center; }
         .about-card .about-disclaim { text-align: center; }
         .about-card p:last-child { margin-bottom: 0; }
+        /* A bar whose value exceeds the chart scale: dashed top edge = "keeps going" */
+        .portfolio-bar.pq-clip { border-top: 2px dashed rgba(255, 255, 255, 0.85); }
         .lock-note {
             font-family: 'Chakra Petch', monospace;
             font-size: 0.74rem; letter-spacing: 0.6px;
@@ -5122,9 +5124,21 @@
             const negRef = Math.max(...items.filter(d => d.val < 0).map(d => -d.val), 1);
             const posRef = Math.max(...items.filter(d => d.val > 0 && d.pct < 100).map(d => d.val), 1);
 
+            // Each side gets space proportional to its reference, but never less
+            // than a quarter of the chart while it has any bar to show — a lone
+            // jackpot at p100 (everything else red) must still read as a spike,
+            // not a sliver.
+            const hasPos = items.some(d => d.val > 0);
+            const hasNeg = items.some(d => d.val < 0);
+            let posShare = posRef / (posRef + negRef);
+            if (hasPos && hasNeg) posShare = Math.min(0.75, Math.max(0.25, posShare));
+            else if (hasPos) posShare = 1; else if (hasNeg) posShare = 0;
+
             const H = 300, pad = 18;
-            const posH = Math.round((posRef / (posRef + negRef)) * (H - pad * 2)) + pad;
-            const negH = Math.round((negRef / (posRef + negRef)) * (H - pad * 2)) + pad;
+            const inner = H - pad * 2;
+            const posInner = Math.round(posShare * inner);
+            const posH = posInner + pad;
+            const negH = (inner - posInner) + pad;
             const totalH = posH + negH;
 
             // The honest headline: how often you actually profit, and the typical result.
@@ -5167,7 +5181,7 @@
                 const clamped = Math.abs(d.val) > ref;
                 const barHeight = d.val === 0 ? 0
                     : Math.max(Math.min(Math.abs(d.val) / ref, 1) * barMax, 2);
-                const barClass = isPos ? 'positive-bar' : 'negative-bar';
+                const barClass = (isPos ? 'positive-bar' : 'negative-bar') + (clamped ? ' pq-clip' : '');
                 const topPad = isPos ? (posH - barHeight) : posH;
                 const botPad = isPos ? negH : (negH - barHeight);
                 // Selective labels: a run of identical amounts is labeled once
@@ -5181,7 +5195,7 @@
                 const cls = 'pq-val ' + (isPos ? 'positive' : 'negative')
                     + (runFirst ? '' : ' pq-dup') + (landmark ? ' pq-keep' : '');
                 const label = `<div class="${cls}">${fmts[i]}</div>`;
-                return `<div class="pq-col" title="${d.pct}th percentile: ${fmt(d.val)}">
+                return `<div class="pq-col" title="${d.pct}th percentile: ${fmt(d.val)}${clamped ? ' (beyond chart scale)' : ''}">
                     <div class="pq-top" style="height:${topPad}px;">${isPos ? label : ''}</div>
                     <div class="portfolio-bar ${barClass}" style="height:${barHeight}px;"></div>
                     <div class="pq-bot" style="height:${botPad}px;">${!isPos ? label : ''}</div>

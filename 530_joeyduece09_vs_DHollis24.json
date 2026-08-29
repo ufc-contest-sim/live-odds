@@ -1,6 +1,6 @@
 {
   "contest_name": "530 joeyduece09 vs DHollis24",
-  "last_updated": "2026-08-29T07:16:22.666372",
+  "last_updated": "2026-08-29T07:20:06.095218",
   "total_lineups": 2,
   "summary": {
     "top_win_pct": 100.0,
@@ -29,9 +29,9 @@
       "SecondPct": 100.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 387.9219683544922,
-      "SDScore": 34.72179327109553,
-      "P99Score": 468.6969383121728,
+      "MeanScore": 388.6720808984375,
+      "SDScore": 34.55684616897558,
+      "P99Score": 469.0633265157789,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -56,9 +56,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 421.4419739599609,
-      "SDScore": 34.72179733137435,
-      "P99Score": 502.2169533632625,
+      "MeanScore": 422.1920866955567,
+      "SDScore": 34.55684995229284,
+      "P99Score": 502.58334111421016,
       "TotalPayout": 25000000.0,
       "TotalSalary": 49900.0
     }
@@ -75,8 +75,8 @@
       "fight_id": 2,
       "fighter1": "Yan Xiaonan",
       "fighter2": "Denise Gomes",
-      "fighter1_score": 8.4,
-      "fighter2_score": 106.8
+      "fighter1_score": 7.6,
+      "fighter2_score": 107.6
     },
     {
       "fight_id": 3,
@@ -189,8 +189,8 @@
     "Cam Nelson": 7900.0
   },
   "optimal_map": {
-    "Umar Nurmagomedov": 29.64,
-    "Yadong Song": 12.0,
+    "Umar Nurmagomedov": 29.39,
+    "Yadong Song": 12.24,
     "Yan Xiaonan": 0.0,
     "Denise Gomes": 100.0,
     "Kai Asakura": 0.0,
@@ -199,19 +199,19 @@
     "Alex Perez": 0.0,
     "Liu Ce": 100.0,
     "Levi Rodrigues Jr.": 0.0,
-    "Bilal Hasan": 9.76,
+    "Bilal Hasan": 9.88,
     "Nilson Rojas": 0.0,
     "Andre Lima": 0.0,
     "Namsrai Batbayar": 0.0,
-    "Rei Tsuruya": 72.6,
+    "Rei Tsuruya": 72.97,
     "Kevin Borjas": 0.0,
     "Sean Woodson": 0.0,
     "Jack Jenkins": 0.0,
     "Xiao Long": 0.0,
     "Francesco Nuzzi": 100.0,
     "Lawrence Lui": 0.0,
-    "Hector Santiago": 88.0,
-    "Julia Polastri": 88.0,
+    "Hector Santiago": 87.76,
+    "Julia Polastri": 87.76,
     "Xiong Jingnan": 0.0,
     "Ding Meng": 0.0,
     "Cam Nelson": 0.0

@@ -1,11 +1,11 @@
 {
   "contest_name": "530 joeyduece09 vs DHollis24",
-  "last_updated": "2026-08-29T17:13:39.385529",
+  "last_updated": "2026-08-29T17:29:50.674902",
   "total_lineups": 2,
   "summary": {
-    "top_win_pct": 100.0,
-    "top_netev": 470.0,
-    "top_roi": 88.68
+    "top_win_pct": 55.58,
+    "top_netev": 25.81,
+    "top_roi": 4.87
   },
   "leaderboard": [
     {
@@ -21,18 +21,18 @@
       "F5": "Bilal Hasan",
       "F6": "Lawrence Lui",
       "EntryFee": 530.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -530.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 100.0,
+      "AvgWinPayout": 999.943721157093,
+      "EV": 444.19166666666666,
+      "NetEV": -85.80833333333334,
+      "ROI%": -16.190251572327043,
+      "WinPct": 44.42166666666667,
+      "SecondPct": 55.57833333333333,
       "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 338.32000732421875,
-      "SDScore": 0.0,
-      "P99Score": 338.32000732421875,
-      "TotalPayout": 0.0,
+      "CashPct": 44.42166666666667,
+      "MeanScore": 438.456338287913,
+      "SDScore": 77.10410720994544,
+      "P99Score": 617.8273141724377,
+      "TotalPayout": 133257500.0,
       "TotalSalary": 49900.0
     },
     {
@@ -48,18 +48,18 @@
       "F5": "Lawrence Lui",
       "F6": "Cam Nelson",
       "EntryFee": 530.0,
-      "AvgWinPayout": 1000.0,
-      "EV": 1000.0,
-      "NetEV": 470.0,
-      "ROI%": 88.67924528301887,
-      "WinPct": 100.0,
-      "SecondPct": 0.0,
+      "AvgWinPayout": 999.9550224887556,
+      "EV": 555.8083333333333,
+      "NetEV": 25.80833333333328,
+      "ROI%": 4.869496855345902,
+      "WinPct": 55.58333333333333,
+      "SecondPct": 44.41666666666666,
       "ThirdPct": 0.0,
-      "CashPct": 100.0,
-      "MeanScore": 371.8400268554688,
-      "SDScore": 0.0,
-      "P99Score": 371.8400268554688,
-      "TotalPayout": 200000000.0,
+      "CashPct": 55.58333333333333,
+      "MeanScore": 448.820279432373,
+      "SDScore": 87.02249988079593,
+      "P99Score": 651.2648870202279,
+      "TotalPayout": 166742500.0,
       "TotalSalary": 49900.0
     }
   ],
@@ -68,92 +68,92 @@
       "fight_id": 1,
       "fighter1": "Umar Nurmagomedov",
       "fighter2": "Yadong Song",
-      "fighter1_score": 15.74,
-      "fighter2_score": 87.06
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 2,
       "fighter1": "Yan Xiaonan",
       "fighter2": "Denise Gomes",
-      "fighter1_score": 7.6,
-      "fighter2_score": 107.6
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 3,
       "fighter1": "Kai Asakura",
       "fighter2": "Aori Aoriqileng",
-      "fighter1_score": 92.37,
-      "fighter2_score": 6.4
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 4,
       "fighter1": "Su Sumudaerji",
       "fighter2": "Alex Perez",
-      "fighter1_score": 55.62,
-      "fighter2_score": 45.6
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 5,
       "fighter1": "Liu Ce",
       "fighter2": "Levi Rodrigues Jr.",
-      "fighter1_score": 133.92,
-      "fighter2_score": 12.52
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 6,
       "fighter1": "Bilal Hasan",
       "fighter2": "Nilson Rojas",
-      "fighter1_score": 108.69,
-      "fighter2_score": 14.09
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 7,
       "fighter1": "Andre Lima",
       "fighter2": "Namsrai Batbayar",
-      "fighter1_score": 69.19,
-      "fighter2_score": 20.64
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 8,
       "fighter1": "Rei Tsuruya",
       "fighter2": "Kevin Borjas",
-      "fighter1_score": 129.14,
-      "fighter2_score": 0.2
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 9,
       "fighter1": "Sean Woodson",
       "fighter2": "Jack Jenkins",
-      "fighter1_score": 69.73,
-      "fighter2_score": 36.61
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 10,
       "fighter1": "Xiao Long",
       "fighter2": "Francesco Nuzzi",
-      "fighter1_score": 1.6,
-      "fighter2_score": 129.66
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 11,
       "fighter1": "Lawrence Lui",
       "fighter2": "Hector Santiago",
-      "fighter1_score": 12.83,
-      "fighter2_score": 92.61
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 12,
       "fighter1": "Julia Polastri",
       "fighter2": "Xiong Jingnan",
-      "fighter1_score": 106.4,
-      "fighter2_score": 6.4
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 13,
       "fighter1": "Ding Meng",
       "fighter2": "Cam Nelson",
-      "fighter1_score": 24.3,
-      "fighter2_score": 79.42
+      "fighter1_score": null,
+      "fighter2_score": null
     }
   ],
   "payouts": [
@@ -189,31 +189,59 @@
     "Cam Nelson": 7900.0
   },
   "optimal_map": {
-    "Umar Nurmagomedov": 0.0,
-    "Yadong Song": 0.0,
-    "Yan Xiaonan": 0.0,
-    "Denise Gomes": 100.0,
-    "Kai Asakura": 0.0,
-    "Aori Aoriqileng": 0.0,
-    "Su Sumudaerji": 0.0,
-    "Alex Perez": 0.0,
-    "Liu Ce": 100.0,
-    "Levi Rodrigues Jr.": 0.0,
-    "Bilal Hasan": 0.0,
-    "Nilson Rojas": 0.0,
-    "Andre Lima": 0.0,
-    "Namsrai Batbayar": 0.0,
-    "Rei Tsuruya": 100.0,
-    "Kevin Borjas": 0.0,
-    "Sean Woodson": 0.0,
-    "Jack Jenkins": 0.0,
-    "Xiao Long": 0.0,
-    "Francesco Nuzzi": 100.0,
-    "Lawrence Lui": 0.0,
-    "Hector Santiago": 100.0,
-    "Julia Polastri": 100.0,
-    "Xiong Jingnan": 0.0,
-    "Ding Meng": 0.0,
-    "Cam Nelson": 0.0
+    "Umar Nurmagomedov": 48.12,
+    "Yadong Song": 18.88,
+    "Yan Xiaonan": 14.61,
+    "Denise Gomes": 28.6,
+    "Kai Asakura": 15.86,
+    "Aori Aoriqileng": 11.04,
+    "Su Sumudaerji": 21.07,
+    "Alex Perez": 27.16,
+    "Liu Ce": 28.08,
+    "Levi Rodrigues Jr.": 29.33,
+    "Bilal Hasan": 13.9,
+    "Nilson Rojas": 7.6,
+    "Andre Lima": 29.72,
+    "Namsrai Batbayar": 23.45,
+    "Rei Tsuruya": 15.18,
+    "Kevin Borjas": 5.42,
+    "Sean Woodson": 18.34,
+    "Jack Jenkins": 25.63,
+    "Xiao Long": 30.42,
+    "Francesco Nuzzi": 26.1,
+    "Lawrence Lui": 42.93,
+    "Hector Santiago": 18.88,
+    "Julia Polastri": 14.32,
+    "Xiong Jingnan": 17.24,
+    "Ding Meng": 32.66,
+    "Cam Nelson": 35.46
+  },
+  "actuals_map": {
+    "Umar Nurmagomedov": 15.74,
+    "Yadong Song": 87.06,
+    "Yan Xiaonan": 7.6,
+    "Denise Gomes": 107.6,
+    "Kai Asakura": 92.37,
+    "Aori Aoriqileng": 6.4,
+    "Su Sumudaerji": 55.62,
+    "Alex Perez": 45.6,
+    "Liu Ce": 133.92,
+    "Levi Rodrigues Jr.": 12.52,
+    "Bilal Hasan": 108.69,
+    "Nilson Rojas": 14.09,
+    "Andre Lima": 69.19,
+    "Namsrai Batbayar": 20.64,
+    "Rei Tsuruya": 129.14,
+    "Kevin Borjas": 0.2,
+    "Sean Woodson": 69.73,
+    "Jack Jenkins": 36.61,
+    "Xiao Long": 1.6,
+    "Francesco Nuzzi": 129.66,
+    "Lawrence Lui": 12.83,
+    "Hector Santiago": 92.61,
+    "Julia Polastri": 106.4,
+    "Xiong Jingnan": 6.4,
+    "Ding Meng": 24.3,
+    "Cam Nelson": 79.42
   }
 }

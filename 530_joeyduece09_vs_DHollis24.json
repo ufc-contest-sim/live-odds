@@ -1,6 +1,6 @@
 {
   "contest_name": "530 joeyduece09 vs DHollis24",
-  "last_updated": "2026-08-29T05:36:39.470556",
+  "last_updated": "2026-08-29T05:55:41.421145",
   "total_lineups": 2,
   "summary": {
     "top_win_pct": 100.0,
@@ -29,9 +29,9 @@
       "SecondPct": 100.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 342.0782604309082,
-      "SDScore": 49.68028060445162,
-      "P99Score": 457.6518755947976,
+      "MeanScore": 342.3906833251953,
+      "SDScore": 49.91277756673338,
+      "P99Score": 458.5051673030004,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -56,9 +56,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 375.5982627600098,
-      "SDScore": 49.68028453426995,
-      "P99Score": 491.17188706602377,
+      "MeanScore": 375.9106853479004,
+      "SDScore": 49.91278155023625,
+      "P99Score": 492.0251785927189,
       "TotalPayout": 25000000.0,
       "TotalSalary": 49900.0
     }
@@ -96,8 +96,8 @@
       "fight_id": 5,
       "fighter1": "Liu Ce",
       "fighter2": "Levi Rodrigues Jr.",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 130.0,
+      "fighter2_score": 10.0
     },
     {
       "fight_id": 6,
@@ -189,31 +189,31 @@
     "Cam Nelson": 7900.0
   },
   "optimal_map": {
-    "Umar Nurmagomedov": 44.65,
-    "Yadong Song": 16.19,
-    "Yan Xiaonan": 14.15,
-    "Denise Gomes": 27.83,
-    "Kai Asakura": 13.1,
-    "Aori Aoriqileng": 10.94,
-    "Su Sumudaerji": 21.78,
-    "Alex Perez": 28.08,
-    "Liu Ce": 30.43,
-    "Levi Rodrigues Jr.": 30.07,
-    "Bilal Hasan": 19.64,
+    "Umar Nurmagomedov": 38.63,
+    "Yadong Song": 14.12,
+    "Yan Xiaonan": 6.34,
+    "Denise Gomes": 28.74,
+    "Kai Asakura": 8.28,
+    "Aori Aoriqileng": 11.06,
+    "Su Sumudaerji": 15.86,
+    "Alex Perez": 28.72,
+    "Liu Ce": 99.99,
+    "Levi Rodrigues Jr.": 0.0,
+    "Bilal Hasan": 9.26,
     "Nilson Rojas": 0.0,
     "Andre Lima": 0.0,
     "Namsrai Batbayar": 0.0,
-    "Rei Tsuruya": 87.6,
+    "Rei Tsuruya": 82.31,
     "Kevin Borjas": 0.0,
-    "Sean Woodson": 0.06,
+    "Sean Woodson": 0.0,
     "Jack Jenkins": 0.0,
     "Xiao Long": 0.0,
     "Francesco Nuzzi": 100.0,
     "Lawrence Lui": 0.0,
-    "Hector Santiago": 85.21,
-    "Julia Polastri": 48.1,
+    "Hector Santiago": 87.03,
+    "Julia Polastri": 41.4,
     "Xiong Jingnan": 0.0,
     "Ding Meng": 0.0,
-    "Cam Nelson": 22.18
+    "Cam Nelson": 28.25
   }
 }

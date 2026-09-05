@@ -137,6 +137,14 @@
       "entrants": 170
     },
     {
+      "id": "8k_fifth_round",
+      "name": "8K Fifth Round",
+      "file": "8K_Fifth_Round.json",
+      "entryFee": 55.0,
+      "totalPrizes": 8000,
+      "entrants": 165
+    },
+    {
       "id": "satellite_to_1k_fmwc_qualifier",
       "name": "Satellite to 1K FMWC Qualifier",
       "file": "Satellite_to_1K_FMWC_Qualifier.json",

@@ -1,92 +1,52 @@
 {
   "contests": [
     {
-      "id": "100_double_up",
-      "name": "100 Double Up",
-      "file": "100_Double_Up.json",
-      "entryFee": 100.0,
-      "totalPrizes": 1000,
-      "entrants": 9
+      "id": "100k_knockout",
+      "name": "100K Knockout",
+      "file": "100K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 100000,
+      "entrants": 200
     },
     {
-      "id": "100_double_up_2",
-      "name": "100 Double Up 2",
-      "file": "100_Double_Up_2.json",
-      "entryFee": 100.0,
-      "totalPrizes": 1000,
-      "entrants": 10
-    },
-    {
-      "id": "100_double_up_3",
-      "name": "100 Double Up 3",
-      "file": "100_Double_Up_3.json",
-      "entryFee": 100.0,
-      "totalPrizes": 1000,
-      "entrants": 9
-    },
-    {
-      "id": "10k_title_fight",
-      "name": "10K Title Fight",
-      "file": "10K_Title_Fight.json",
-      "entryFee": 1060.0,
+      "id": "10k_jab",
+      "name": "10K Jab",
+      "file": "10K_Jab.json",
+      "entryFee": 1.0,
       "totalPrizes": 10000,
-      "entrants": 10
+      "entrants": 11890
     },
     {
-      "id": "15k_clinch",
-      "name": "15K Clinch",
-      "file": "15K_Clinch.json",
-      "entryFee": 5.0,
-      "totalPrizes": 1500,
-      "entrants": 356
+      "id": "12k_title_fight",
+      "name": "12K Title Fight",
+      "file": "12K_Title_Fight.json",
+      "entryFee": 1060.0,
+      "totalPrizes": 12000,
+      "entrants": 12
     },
     {
-      "id": "15k_triangle",
-      "name": "15K Triangle",
-      "file": "15K_Triangle.json",
-      "entryFee": 200.0,
-      "totalPrizes": 15000,
-      "entrants": 83
-    },
-    {
-      "id": "1k_counter_punch",
-      "name": "1K Counter Punch",
-      "file": "1K_Counter_Punch.json",
-      "entryFee": 40.0,
-      "totalPrizes": 1000,
-      "entrants": 27
-    },
-    {
-      "id": "1k_flying_knee",
-      "name": "1K Flying Knee",
-      "file": "1K_Flying_Knee.json",
-      "entryFee": 12.0,
-      "totalPrizes": 1000,
-      "entrants": 98
-    },
-    {
-      "id": "20k_double_champ",
-      "name": "20K Double Champ",
-      "file": "20K_Double_Champ.json",
-      "entryFee": 2120.0,
+      "id": "20k_mini-max",
+      "name": "20K mini-MAX",
+      "file": "20K_mini-MAX.json",
+      "entryFee": 0.5,
       "totalPrizes": 20000,
-      "entrants": 10
+      "entrants": 47562
     },
     {
-      "id": "250k_throwdown",
-      "name": "250K Throwdown",
-      "file": "250K_Throwdown.json",
+      "id": "26k_double_champ",
+      "name": "26K Double Champ",
+      "file": "26K_Double_Champ.json",
+      "entryFee": 2120.0,
+      "totalPrizes": 26000,
+      "entrants": 13
+    },
+    {
+      "id": "300k_throwdown",
+      "name": "300K Throwdown",
+      "file": "300K_Throwdown.json",
       "entryFee": 20.0,
-      "totalPrizes": 250000,
-      "entrants": 14705
-    },
-    {
-      "id": "250_double_up",
-      "name": "250 Double Up",
-      "file": "250_Double_Up.json",
-      "entryFee": 250.0,
-      "totalPrizes": 2500,
-      "entrants": 11
+      "totalPrizes": 300000,
+      "entrants": 17647
     },
     {
       "id": "30k_hook",
@@ -97,14 +57,6 @@
       "entrants": 4411
     },
     {
-      "id": "3k_jab",
-      "name": "3K Jab",
-      "file": "3K_Jab.json",
-      "entryFee": 1.0,
-      "totalPrizes": 3000,
-      "entrants": 2895
-    },
-    {
       "id": "40k_arm_bar",
       "name": "40K Arm Bar",
       "file": "40K_Arm_Bar.json",
@@ -113,100 +65,28 @@
       "entrants": 9512
     },
     {
-      "id": "50_double_up",
-      "name": "50 Double Up",
-      "file": "50_Double_Up.json",
-      "entryFee": 50.0,
-      "totalPrizes": 500,
-      "entrants": 9
+      "id": "5k_clinch",
+      "name": "5K Clinch",
+      "file": "5K_Clinch.json",
+      "entryFee": 5.0,
+      "totalPrizes": 5000,
+      "entrants": 1189
     },
     {
-      "id": "50_double_up_2",
-      "name": "50 Double Up 2",
-      "file": "50_Double_Up_2.json",
-      "entryFee": 50.0,
-      "totalPrizes": 500,
-      "entrants": 9
-    },
-    {
-      "id": "50_double_up_3",
-      "name": "50 Double Up 3",
-      "file": "50_Double_Up_3.json",
-      "entryFee": 50.0,
-      "totalPrizes": 500,
-      "entrants": 9
-    },
-    {
-      "id": "50_double_up_4",
-      "name": "50 Double Up 4",
-      "file": "50_Double_Up_4.json",
-      "entryFee": 50.0,
-      "totalPrizes": 500,
-      "entrants": 9
-    },
-    {
-      "id": "50_double_up_5",
-      "name": "50 Double Up 5",
-      "file": "50_Double_Up_5.json",
-      "entryFee": 50.0,
-      "totalPrizes": 500,
-      "entrants": 11
-    },
-    {
-      "id": "50_double_up_6",
-      "name": "50 Double Up 6",
-      "file": "50_Double_Up_6.json",
-      "entryFee": 50.0,
-      "totalPrizes": 1000,
-      "entrants": 19
-    },
-    {
-      "id": "50_double_up_7",
-      "name": "50 Double Up 7",
-      "file": "50_Double_Up_7.json",
-      "entryFee": 50.0,
-      "totalPrizes": 2000,
-      "entrants": 45
-    },
-    {
-      "id": "6k_tap_out",
-      "name": "6K Tap Out",
-      "file": "6K_Tap_Out.json",
-      "entryFee": 333.0,
-      "totalPrizes": 6000,
-      "entrants": 20
-    },
-    {
-      "id": "6k_throwdown",
-      "name": "6K Throwdown",
-      "file": "6K_Throwdown.json",
-      "entryFee": 20.0,
-      "totalPrizes": 6000,
-      "entrants": 352
-    },
-    {
-      "id": "750k_fantasy_mma_world_championship_qualifier_7",
-      "name": "750K Fantasy MMA World Championship Qualifier 7",
-      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_7.json",
-      "entryFee": 1000.0,
-      "totalPrizes": 8600,
-      "entrants": 10
-    },
-    {
-      "id": "750k_fantasy_mma_world_championship_qualifier_8",
-      "name": "750K Fantasy MMA World Championship Qualifier 8",
-      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_8.json",
+      "id": "750k_fantasy_mma_world_championship_qualifier_10",
+      "name": "750K Fantasy MMA World Championship Qualifier 10",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_10.json",
       "entryFee": 150.0,
       "totalPrizes": 8800,
       "entrants": 69
     },
     {
-      "id": "75k_contender",
-      "name": "75K Contender",
-      "file": "75K_Contender.json",
-      "entryFee": 100.0,
-      "totalPrizes": 7500,
-      "entrants": 83
+      "id": "750k_fantasy_mma_world_championship_qualifier_9",
+      "name": "750K Fantasy MMA World Championship Qualifier 9",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_9.json",
+      "entryFee": 1000.0,
+      "totalPrizes": 8600,
+      "entrants": 10
     },
     {
       "id": "80k_mega_mini-max",
@@ -217,12 +97,20 @@
       "entrants": 31708
     },
     {
-      "id": "85k_knockout",
-      "name": "85K Knockout",
-      "file": "85K_Knockout.json",
-      "entryFee": 555.0,
-      "totalPrizes": 85000,
-      "entrants": 170
+      "id": "87k_tapout",
+      "name": "87K Tapout",
+      "file": "87K_Tapout.json",
+      "entryFee": 333.0,
+      "totalPrizes": 8700,
+      "entrants": 28
+    },
+    {
+      "id": "8k_counter_punch",
+      "name": "8K Counter Punch",
+      "file": "8K_Counter_Punch.json",
+      "entryFee": 40.0,
+      "totalPrizes": 8000,
+      "entrants": 233
     },
     {
       "id": "8k_fifth_round",
@@ -233,20 +121,12 @@
       "entrants": 165
     },
     {
-      "id": "satellite_to_1k_fmwc_qualifier",
-      "name": "Satellite to 1K FMWC Qualifier",
-      "file": "Satellite_to_1K_FMWC_Qualifier.json",
-      "entryFee": 17.0,
-      "totalPrizes": 1000,
-      "entrants": 55
-    },
-    {
-      "id": "satellite_to_600_fmwc_qualifier",
-      "name": "Satellite to 600 FMWC Qualifier",
-      "file": "Satellite_to_600_FMWC_Qualifier.json",
-      "entryFee": 7.0,
-      "totalPrizes": 600,
-      "entrants": 82
+      "id": "8k_flying_knee",
+      "name": "8K Flying Knee",
+      "file": "8K_Flying_Knee.json",
+      "entryFee": 12.0,
+      "totalPrizes": 8000,
+      "entrants": 784
     }
   ]
 }

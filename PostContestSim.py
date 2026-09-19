@@ -371,6 +371,60 @@ def read_fighter_map(xl: pd.ExcelFile):
                 actuals_map[name] = float(act_val)
         fighter_order.append({"name": name, "fight_id": fid, "slot": slot})
     return fmap, fixed_scores, fighter_order, salary_map, actuals_map
+def _loose_name_key(s: str) -> str:
+    return re.sub(r'[^a-z0-9]+', '', safe_str(s).casefold())
+
+def apply_dk_salaries(salary_map: dict, fmap: dict, wb_path: str) -> dict:
+    """DKSalaries.csv (the DraftKings export) is the source of truth for
+    salaries. When it sits next to the workbook, use it for every fighter in
+    the pool instead of column D of the Fighter Pool sheet, which is easy to
+    paste one row off. Column D is still the fallback for anyone the CSV
+    does not list."""
+    csv_path = Path(wb_path).resolve().parent / "DKSalaries.csv"
+    if not csv_path.exists():
+        return salary_map
+    try:
+        df = pd.read_csv(csv_path, encoding="utf-8-sig")
+    except Exception as e:
+        log(f"[salaries] could not read {csv_path.name}: {e} - using Fighter Pool column D")
+        return salary_map
+    if "Name" not in df.columns or "Salary" not in df.columns:
+        log(f"[salaries] {csv_path.name} has no Name/Salary columns - using Fighter Pool column D")
+        return salary_map
+    exact, loose = {}, {}
+    for _, row in df.iterrows():
+        sal = pd.to_numeric(row["Salary"], errors="coerce")
+        if sal is None or (isinstance(sal, float) and math.isnan(sal)):
+            continue
+        name = norm_name_fighter(row["Name"])
+        if not name:
+            continue
+        exact[name] = float(sal)
+        loose.setdefault(_loose_name_key(name), float(sal))
+    out = dict(salary_map)
+    matched, changed, unmatched = 0, [], []
+    for name in fmap.keys():
+        sal = exact.get(name)
+        if sal is None:
+            sal = loose.get(_loose_name_key(name))
+        if sal is None:
+            unmatched.append(name)
+            continue
+        matched += 1
+        old = salary_map.get(name)
+        if old is None or abs(old - sal) > 0.5:
+            changed.append((name, old, sal))
+        out[name] = sal
+    log(f"[salaries] {csv_path.name}: matched {matched}/{len(fmap)} pool fighters")
+    if changed:
+        log(f"[salaries] WARNING: {len(changed)} salaries in Fighter Pool column D differ from "
+            f"{csv_path.name} (using the CSV). Column D is probably pasted one row off.")
+        for name, old, sal in changed[:8]:
+            log(f"[salaries]   {name}: sheet {old if old is None else int(old)} -> csv {int(sal)}")
+    if unmatched:
+        log(f"[salaries] not in {csv_path.name} (kept column D): {', '.join(unmatched)}")
+    return out
+
 def read_lineups_sheet(xl: pd.ExcelFile, sheet_name: str):
     # columns A:G => F1..F6 + Username
     df = pd.read_excel(xl, sheet_name=sheet_name, engine="openpyxl", usecols="A:G")
@@ -915,6 +969,7 @@ def pack_npz_multi(wb_path: str, temp_dir: Path):
     # (contest-standings-<id>.csv/zip); fall back to the Excel 'Contests' sheet.
     contests = discover_contests(wb_path) or read_contests(xl, wb_path)
     fmap, fixed_scores, fighter_order, salary_map, actuals_map = read_fighter_map(xl)
+    salary_map = apply_dk_salaries(salary_map, fmap, wb_path)
     # Build fight_card from fighter_order (preserves DK Fighter Pool sheet order)
     fight_card_map = {}
     fight_card_order = []

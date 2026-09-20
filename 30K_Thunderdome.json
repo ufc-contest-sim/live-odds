@@ -1,6 +1,6 @@
 {
   "contest_name": "30K Thunderdome",
-  "last_updated": "2026-09-19T22:09:06.671679",
+  "last_updated": "2026-09-19T23:12:04.584727",
   "total_lineups": 6,
   "summary": {
     "top_win_pct": 100.0,
@@ -29,9 +29,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 288.58203880645755,
-      "SDScore": 42.03135539313893,
-      "P99Score": 386.3615930666247,
+      "MeanScore": 368.260009765625,
+      "SDScore": 0.0,
+      "P99Score": 368.260009765625,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -56,9 +56,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 100.0,
       "CashPct": 0.0,
-      "MeanScore": 465.6320363079834,
-      "SDScore": 42.03135402447326,
-      "P99Score": 563.4115873841581,
+      "MeanScore": 545.3099975585938,
+      "SDScore": 0.0,
+      "P99Score": 545.3099975585938,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -83,9 +83,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 100.0,
       "CashPct": 0.0,
-      "MeanScore": 465.6320363079834,
-      "SDScore": 42.03135402447326,
-      "P99Score": 563.4115873841581,
+      "MeanScore": 545.3099975585938,
+      "SDScore": 0.0,
+      "P99Score": 545.3099975585938,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -110,10 +110,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 497.3620440246582,
-      "SDScore": 42.03135499245669,
-      "P99Score": 595.1415973526991,
-      "TotalPayout": 1000000000.0,
+      "MeanScore": 577.0400390625,
+      "SDScore": 0.0,
+      "P99Score": 577.0400390625,
+      "TotalPayout": 20000.0,
       "TotalSalary": 50000.0
     },
     {
@@ -137,9 +137,9 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 436.9720447399902,
-      "SDScore": 42.03135380231603,
-      "P99Score": 534.7515952993499,
+      "MeanScore": 516.6500244140625,
+      "SDScore": 0.0,
+      "P99Score": 516.6500244140625,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -164,10 +164,10 @@
       "SecondPct": 100.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 472.9420441955567,
-      "SDScore": 42.03135382064957,
-      "P99Score": 570.7215947975666,
-      "TotalPayout": 500000000.0,
+      "MeanScore": 552.6199951171875,
+      "SDScore": 0.0,
+      "P99Score": 552.6199951171875,
+      "TotalPayout": 10000.0,
       "TotalSalary": 49700.0
     }
   ],
@@ -176,8 +176,8 @@
       "fight_id": 1,
       "fighter1": "Joshua Van",
       "fighter2": "Alexandre Pantoja",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 136.99,
+      "fighter2_score": 102.73
     },
     {
       "fight_id": 2,
@@ -289,8 +289,8 @@
     "Giga Chikadze": 7000.0
   },
   "optimal_map": {
-    "Joshua Van": 40.98,
-    "Alexandre Pantoja": 38.12,
+    "Joshua Van": 100.0,
+    "Alexandre Pantoja": 0.0,
     "Arman Tsarukyan": 100.0,
     "Mauricio Ruffy": 0.0,
     "Dooho Choi": 0.0,
@@ -305,13 +305,13 @@
     "Tai Tuivasa": 0.0,
     "JooSang Yoo": 0.0,
     "Michael Aswell Jr.": 0.0,
-    "Ryan Gandra": 97.88,
+    "Ryan Gandra": 100.0,
     "Ozzy Diaz": 0.0,
     "Edmen Shahbazyan": 0.0,
     "Brunno Ferreira": 0.0,
     "Casey O'Neill": 0.0,
     "Eduarda Moura": 0.0,
-    "Joanderson Brito": 23.02,
+    "Joanderson Brito": 0.0,
     "Giga Chikadze": 0.0
   }
 }

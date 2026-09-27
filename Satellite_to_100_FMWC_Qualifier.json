@@ -1,6 +1,6 @@
 {
   "contest_name": "Satellite to 100 FMWC Qualifier",
-  "last_updated": "2026-09-26T20:57:11.115405",
+  "last_updated": "2026-09-26T21:50:10.742167",
   "total_lineups": 4,
   "summary": {
     "top_win_pct": 100.0,
@@ -26,12 +26,12 @@
       "NetEV": -29.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "SecondPct": 69.07799999999999,
-      "ThirdPct": 28.544000000000004,
+      "SecondPct": 100.0,
+      "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 359.0330118762207,
-      "SDScore": 39.5358262427415,
-      "P99Score": 451.0070972028558,
+      "MeanScore": 411.5899963378906,
+      "SDScore": 0.0,
+      "P99Score": 411.5899963378906,
       "TotalPayout": 0.0,
       "TotalSalary": 49900.0
     },
@@ -56,10 +56,10 @@
       "SecondPct": 0.0,
       "ThirdPct": 0.0,
       "CashPct": 100.0,
-      "MeanScore": 507.7361959094238,
-      "SDScore": 32.92903882672996,
-      "P99Score": 584.3405953768505,
-      "TotalPayout": 5000000.0,
+      "MeanScore": 580.0599975585938,
+      "SDScore": 0.0,
+      "P99Score": 580.0599975585938,
+      "TotalPayout": 100.0,
       "TotalSalary": 49900.0
     },
     {
@@ -80,12 +80,12 @@
       "NetEV": -29.0,
       "ROI%": -100.0,
       "WinPct": 0.0,
-      "SecondPct": 30.928,
-      "ThirdPct": 69.072,
+      "SecondPct": 0.0,
+      "ThirdPct": 100.0,
       "CashPct": 0.0,
-      "MeanScore": 303.6231841882324,
-      "SDScore": 41.40582224339539,
-      "P99Score": 399.9475307353772,
+      "MeanScore": 323.3899841308594,
+      "SDScore": 0.0,
+      "P99Score": 323.3899841308594,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     },
@@ -108,11 +108,11 @@
       "ROI%": -100.0,
       "WinPct": 0.0,
       "SecondPct": 0.0,
-      "ThirdPct": 2.384,
+      "ThirdPct": 0.0,
       "CashPct": 0.0,
-      "MeanScore": 254.95318214508055,
-      "SDScore": 41.405825332815816,
-      "P99Score": 351.277535879292,
+      "MeanScore": 274.7200012207031,
+      "SDScore": 0.0,
+      "P99Score": 274.7200012207031,
       "TotalPayout": 0.0,
       "TotalSalary": 50000.0
     }
@@ -122,8 +122,8 @@
       "fight_id": 1,
       "fighter1": "Raul Rosas Jr.",
       "fighter2": "Raoni Barcelos",
-      "fighter1_score": null,
-      "fighter2_score": null
+      "fighter1_score": 98.54,
+      "fighter2_score": 113.58
     },
     {
       "fight_id": 2,
@@ -234,8 +234,8 @@
     "Vanessa Demopoulos": 6400.0
   },
   "optimal_map": {
-    "Raul Rosas Jr.": 25.79,
-    "Raoni Barcelos": 25.87,
+    "Raul Rosas Jr.": 0.0,
+    "Raoni Barcelos": 100.0,
     "Ailin Perez": 0.0,
     "Norma Dumont": 0.0,
     "Luis Hernandez": 100.0,
@@ -245,18 +245,18 @@
     "Tina Black": 100.0,
     "Melissa Amaya": 0.0,
     "Rinya Nakamura": 0.0,
-    "Brady Hiestand": 48.63,
+    "Brady Hiestand": 0.0,
     "Rodolfo Vieira": 0.0,
     "Robert Bryczek": 0.0,
     "Rodolfo Bellato": 0.0,
-    "Christian Edwards": 25.5,
+    "Christian Edwards": 0.0,
     "Josiah Harrell": 0.0,
     "Elves Brener": 100.0,
-    "Montel Jackson": 25.58,
+    "Montel Jackson": 100.0,
     "Ricky Simon": 0.0,
     "John Castaneda": 0.0,
     "Heili Alatengheili": 0.0,
-    "Yazmin Jauregui": 48.63,
+    "Yazmin Jauregui": 0.0,
     "Vanessa Demopoulos": 0.0
   }
 }

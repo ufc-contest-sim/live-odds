@@ -17,6 +17,14 @@
       "entrants": 39635
     },
     {
+      "id": "10k_jab",
+      "name": "10K Jab",
+      "file": "10K_Jab.json",
+      "entryFee": 1.0,
+      "totalPrizes": 10000,
+      "entrants": 11890
+    },
+    {
       "id": "12k_title_fight",
       "name": "12K Title Fight",
       "file": "12K_Title_Fight.json",

@@ -1,11 +1,11 @@
 {
   "contest_name": "Satellite to 100 FMWC Qualifier",
-  "last_updated": "2026-09-26T21:50:10.742167",
+  "last_updated": "2026-09-27T21:21:01.116335",
   "total_lineups": 4,
   "summary": {
-    "top_win_pct": 100.0,
-    "top_netev": 71.0,
-    "top_roi": 244.83
+    "top_win_pct": 28.81,
+    "top_netev": -0.19,
+    "top_roi": -0.66
   },
   "leaderboard": [
     {
@@ -21,18 +21,18 @@
       "F5": "Ailin Perez",
       "F6": "Yazmin Jauregui",
       "EntryFee": 29.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -29.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 100.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 411.5899963378906,
-      "SDScore": 0.0,
-      "P99Score": 411.5899963378906,
-      "TotalPayout": 0.0,
+      "AvgWinPayout": 99.99350470097266,
+      "EV": 24.6316,
+      "NetEV": -4.368400000000001,
+      "ROI%": -15.063448275862074,
+      "WinPct": 24.6332,
+      "SecondPct": 23.624,
+      "ThirdPct": 22.9508,
+      "CashPct": 24.6332,
+      "MeanScore": 415.5966075421295,
+      "SDScore": 91.77069964054375,
+      "P99Score": 629.0871795464011,
+      "TotalPayout": 6157900.0,
       "TotalSalary": 49900.0
     },
     {
@@ -48,18 +48,18 @@
       "F5": "Ailin Perez",
       "F6": "Luis Hernandez",
       "EntryFee": 29.0,
-      "AvgWinPayout": 100.0,
-      "EV": 100.0,
-      "NetEV": 71.0,
-      "ROI%": 244.8275862068965,
-      "WinPct": 100.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 100.0,
-      "MeanScore": 580.0599975585938,
-      "SDScore": 0.0,
-      "P99Score": 580.0599975585938,
-      "TotalPayout": 100.0,
+      "AvgWinPayout": 99.99503894428734,
+      "EV": 24.1872,
+      "NetEV": -4.812799999999999,
+      "ROI%": -16.595862068965513,
+      "WinPct": 24.1884,
+      "SecondPct": 26.8076,
+      "ThirdPct": 27.8568,
+      "CashPct": 24.1884,
+      "MeanScore": 420.4813521391296,
+      "SDScore": 88.34211259720267,
+      "P99Score": 625.9958379643007,
+      "TotalPayout": 6046800.0,
       "TotalSalary": 49900.0
     },
     {
@@ -75,18 +75,18 @@
       "F5": "Ailin Perez",
       "F6": "Luis Hernandez",
       "EntryFee": 29.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -29.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 100.0,
-      "CashPct": 0.0,
-      "MeanScore": 323.3899841308594,
-      "SDScore": 0.0,
-      "P99Score": 323.3899841308594,
-      "TotalPayout": 0.0,
+      "AvgWinPayout": 99.99374262523688,
+      "EV": 22.3722,
+      "NetEV": -6.627800000000001,
+      "ROI%": -22.85448275862069,
+      "WinPct": 22.3736,
+      "SecondPct": 24.6128,
+      "ThirdPct": 25.156,
+      "CashPct": 22.3736,
+      "MeanScore": 412.3284241388397,
+      "SDScore": 94.93345945729332,
+      "P99Score": 633.1766757187792,
+      "TotalPayout": 5593050.0,
       "TotalSalary": 50000.0
     },
     {
@@ -102,18 +102,18 @@
       "F5": "Josiah Harrell",
       "F6": "Ailin Perez",
       "EntryFee": 29.0,
-      "AvgWinPayout": 0.0,
-      "EV": 0.0,
-      "NetEV": -29.0,
-      "ROI%": -100.0,
-      "WinPct": 0.0,
-      "SecondPct": 0.0,
-      "ThirdPct": 0.0,
-      "CashPct": 0.0,
-      "MeanScore": 274.7200012207031,
-      "SDScore": 0.0,
-      "P99Score": 274.7200012207031,
-      "TotalPayout": 0.0,
+      "AvgWinPayout": 99.99791736087973,
+      "EV": 28.809,
+      "NetEV": -0.1909999999999989,
+      "ROI%": -0.6586206896551687,
+      "WinPct": 28.809600000000003,
+      "SecondPct": 24.9616,
+      "ThirdPct": 24.0396,
+      "CashPct": 28.809600000000003,
+      "MeanScore": 424.2329666493072,
+      "SDScore": 96.70822278326064,
+      "P99Score": 649.209935119464,
+      "TotalPayout": 7202250.0,
       "TotalSalary": 50000.0
     }
   ],
@@ -122,85 +122,85 @@
       "fight_id": 1,
       "fighter1": "Raul Rosas Jr.",
       "fighter2": "Raoni Barcelos",
-      "fighter1_score": 98.54,
-      "fighter2_score": 113.58
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 2,
       "fighter1": "Ailin Perez",
       "fighter2": "Norma Dumont",
-      "fighter1_score": 58.43,
-      "fighter2_score": 35.8
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 3,
       "fighter1": "Luis Hernandez",
       "fighter2": "Sedriques Dumas",
-      "fighter1_score": 116.2,
-      "fighter2_score": 0.0
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 4,
       "fighter1": "Mahammadali Osmanli",
       "fighter2": "Ilimbek Akylbek",
-      "fighter1_score": 10.4,
-      "fighter2_score": 101.45
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 5,
       "fighter1": "Tina Black",
       "fighter2": "Melissa Amaya",
-      "fighter1_score": 112.63,
-      "fighter2_score": 10.2
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 6,
       "fighter1": "Rinya Nakamura",
       "fighter2": "Brady Hiestand",
-      "fighter1_score": 21.56,
-      "fighter2_score": 88.53
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 7,
       "fighter1": "Rodolfo Vieira",
       "fighter2": "Robert Bryczek",
-      "fighter1_score": 82.56,
-      "fighter2_score": 16.8
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 8,
       "fighter1": "Rodolfo Bellato",
       "fighter2": "Christian Edwards",
-      "fighter1_score": 38.16,
-      "fighter2_score": 88.66
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 9,
       "fighter1": "Josiah Harrell",
       "fighter2": "Elves Brener",
-      "fighter1_score": 14.59,
-      "fighter2_score": 110.75
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 10,
       "fighter1": "Montel Jackson",
       "fighter2": "Ricky Simon",
-      "fighter1_score": 103.19,
-      "fighter2_score": 18.46
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 11,
       "fighter1": "John Castaneda",
       "fighter2": "Heili Alatengheili",
-      "fighter1_score": 28.55,
-      "fighter2_score": 70.46
+      "fighter1_score": null,
+      "fighter2_score": null
     },
     {
       "fight_id": 12,
       "fighter1": "Yazmin Jauregui",
       "fighter2": "Vanessa Demopoulos",
-      "fighter1_score": 108.66,
-      "fighter2_score": 2.8
+      "fighter1_score": null,
+      "fighter2_score": null
     }
   ],
   "payouts": [
@@ -234,29 +234,55 @@
     "Vanessa Demopoulos": 6400.0
   },
   "optimal_map": {
-    "Raul Rosas Jr.": 0.0,
-    "Raoni Barcelos": 100.0,
-    "Ailin Perez": 0.0,
-    "Norma Dumont": 0.0,
-    "Luis Hernandez": 100.0,
+    "Raul Rosas Jr.": 35.68,
+    "Raoni Barcelos": 30.98,
+    "Ailin Perez": 31.58,
+    "Norma Dumont": 13.33,
+    "Luis Hernandez": 40.21,
+    "Sedriques Dumas": 21.63,
+    "Mahammadali Osmanli": 34.5,
+    "Ilimbek Akylbek": 28.68,
+    "Tina Black": 17.68,
+    "Melissa Amaya": 22.14,
+    "Rinya Nakamura": 23.65,
+    "Brady Hiestand": 19.0,
+    "Rodolfo Vieira": 38.67,
+    "Robert Bryczek": 23.79,
+    "Rodolfo Bellato": 35.37,
+    "Christian Edwards": 21.39,
+    "Josiah Harrell": 36.49,
+    "Elves Brener": 29.45,
+    "Montel Jackson": 21.35,
+    "Ricky Simon": 23.79,
+    "John Castaneda": 15.86,
+    "Heili Alatengheili": 9.31,
+    "Yazmin Jauregui": 16.86,
+    "Vanessa Demopoulos": 8.61
+  },
+  "actuals_map": {
+    "Raul Rosas Jr.": 98.54,
+    "Raoni Barcelos": 113.58,
+    "Ailin Perez": 58.43,
+    "Norma Dumont": 35.8,
+    "Luis Hernandez": 116.2,
     "Sedriques Dumas": 0.0,
-    "Mahammadali Osmanli": 0.0,
-    "Ilimbek Akylbek": 100.0,
-    "Tina Black": 100.0,
-    "Melissa Amaya": 0.0,
-    "Rinya Nakamura": 0.0,
-    "Brady Hiestand": 0.0,
-    "Rodolfo Vieira": 0.0,
-    "Robert Bryczek": 0.0,
-    "Rodolfo Bellato": 0.0,
-    "Christian Edwards": 0.0,
-    "Josiah Harrell": 0.0,
-    "Elves Brener": 100.0,
-    "Montel Jackson": 100.0,
-    "Ricky Simon": 0.0,
-    "John Castaneda": 0.0,
-    "Heili Alatengheili": 0.0,
-    "Yazmin Jauregui": 0.0,
-    "Vanessa Demopoulos": 0.0
+    "Mahammadali Osmanli": 10.4,
+    "Ilimbek Akylbek": 101.45,
+    "Tina Black": 112.63,
+    "Melissa Amaya": 10.2,
+    "Rinya Nakamura": 21.56,
+    "Brady Hiestand": 88.53,
+    "Rodolfo Vieira": 82.56,
+    "Robert Bryczek": 16.8,
+    "Rodolfo Bellato": 38.16,
+    "Christian Edwards": 88.66,
+    "Josiah Harrell": 14.59,
+    "Elves Brener": 110.75,
+    "Montel Jackson": 103.19,
+    "Ricky Simon": 18.46,
+    "John Castaneda": 28.55,
+    "Heili Alatengheili": 70.46,
+    "Yazmin Jauregui": 108.66,
+    "Vanessa Demopoulos": 2.8
   }
 }

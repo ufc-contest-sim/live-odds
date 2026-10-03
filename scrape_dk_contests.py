@@ -54,29 +54,52 @@ import requests
 LOBBY_URL = "https://www.draftkings.com/lobby/getcontests?sport={sport}"
 DETAIL_URL = "https://api.draftkings.com/contests/v1/contests/{cid}?format=json"
 
-# A normal browser UA keeps the endpoints happy.
-HEADERS = {
-    "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                   "AppleWebKit/537.36 (KHTML, like Gecko) "
-                   "Chrome/124.0 Safari/537.36"),
-    "Accept": "application/json, text/plain, */*",
-}
+# DraftKings' edge has started answering "403 Access Denied" to requests that
+# carry a browser User-Agent but don't come from a real browser, while a plain
+# client identity still gets JSON back. Try the browser profile first (it has
+# always worked for the lobby) and fall back to the plain profiles on a 403.
+# The profile that works is remembered so later requests don't re-trip it.
+HEADER_PROFILES = [
+    {   # browser-like
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                       "AppleWebKit/537.36 (KHTML, like Gecko) "
+                       "Chrome/124.0 Safari/537.36"),
+        "Accept": "application/json, text/plain, */*",
+    },
+    {   # plain python-requests identity
+        "Accept": "application/json, text/plain, */*",
+    },
+    {   # plain curl identity
+        "User-Agent": "curl/8.5.0",
+        "Accept": "application/json",
+    },
+]
+HEADERS = HEADER_PROFILES[0]
+_profile_idx = 0
 
 MONEY_RE = re.compile(r"[-+]?[\d,]*\.?\d+")
 
 
 def get_json(url, tries=3, pause=1.5):
-    """GET with a couple of polite retries; returns parsed JSON or raises."""
+    """GET with a couple of polite retries; returns parsed JSON or raises.
+    A 403 switches to the next header profile instead of burning a retry."""
+    global _profile_idx
     last = None
-    for attempt in range(tries):
+    attempt = 0
+    while attempt < tries:
+        headers = HEADER_PROFILES[_profile_idx]
         try:
-            r = requests.get(url, headers=HEADERS, timeout=30)
+            r = requests.get(url, headers=headers, timeout=30)
+            if r.status_code == 403 and _profile_idx < len(HEADER_PROFILES) - 1:
+                _profile_idx += 1
+                continue            # same attempt, different identity
             r.raise_for_status()
             return r.json()
         except Exception as e:  # noqa: BLE001 - surface after retries
             last = e
-            if attempt < tries - 1:
-                time.sleep(pause * (attempt + 1))
+            attempt += 1
+            if attempt < tries:
+                time.sleep(pause * attempt)
     raise RuntimeError(f"GET failed after {tries} tries: {url}\n  {last}")
 
 

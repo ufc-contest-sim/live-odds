@@ -36,9 +36,11 @@ v2 performance/stability release — identical outputs, faster engine:
     (np.add.reduceat) instead of one bincount per iteration.
   * Optimal-lineup tally: iterations where the plain top-6 scorers fit
     the salary cap (the common case) skip the brute-force combo matmul.
-  * WinPct/SecondPct/ThirdPct semantics unchanged: ties at the top all
-    count as wins (matches DK displayed rank). Payout tie-splitting
-    unchanged (dead-heat).
+  * WinPct: ties at the top all count as wins (matches DK displayed rank).
+    SecondPct/ThirdPct now also follow DK displayed rank: exactly one
+    (resp. two) entries strictly ahead, duplicates included, so a lineup
+    behind 8 tied winners is 9th, not 2nd. Payout tie-splitting unchanged
+    (dead-heat).
   * Fixed: double "Press Enter to close" prompt; lineup-sheet padding
     crash when a header cell isn't text.
 
@@ -890,16 +892,11 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                     is_win = Lw == 0
                     wins[k] += is_win.sum(axis=0)[inv]
                     win_total[k] += (payout * is_win).sum(axis=0)[inv]
-                    # 2nd/3rd place: the tie groups whose left rank equals the
-                    # previous group's right rank (verified identical to the
-                    # legacy masked-max computation)
-                    rows_i = np.arange(m)
-                    wr = Rw[rows_i, np.argmax(is_win, axis=1)]
-                    is_second = Lw == wr[:, None]
-                    seconds[k] += is_second.sum(axis=0)[inv]
-                    has2 = is_second.any(axis=1)
-                    r2 = np.where(has2, Rw[rows_i, np.argmax(is_second, axis=1)], -1)
-                    thirds[k] += (Lw == r2[:, None]).sum(axis=0)[inv]
+                    # 2nd/3rd place by DK displayed rank: exactly one entry
+                    # (resp. two entries) strictly ahead, dupes included. A
+                    # lineup sitting behind 8 tied winners is 9th, not 2nd.
+                    seconds[k] += (Lw == 1).sum(axis=0)[inv]
+                    thirds[k] += (Lw == 2).sum(axis=0)[inv]
                     # per-entry payouts in user-sorted order, gathered straight
                     # from the unique payouts (same values the legacy
                     # payout[:, perm] copy would hold)
@@ -932,15 +929,10 @@ def worker_run(idx: int, npz_path: str, iters: int, batch: int, seed: int,
                     is_win = sc == top[:, None]
                     wins[k] += is_win.sum(axis=0)
                     win_total[k] += (payout * is_win).sum(axis=0)
-                    sc_m = np.where(is_win, -np.inf, sc)
-                    val2 = sc_m.max(axis=1)
-                    has2 = np.isfinite(val2)
-                    is_second = (sc == val2[:, None]) & has2[:, None]
-                    seconds[k] += is_second.sum(axis=0)
-                    sc_m = np.where(is_second, -np.inf, sc_m)
-                    val3 = sc_m.max(axis=1)
-                    has3 = np.isfinite(val3)
-                    thirds[k] += ((sc == val3[:, None]) & has3[:, None]).sum(axis=0)
+                    # 2nd/3rd place by DK displayed rank: `left` is the number
+                    # of entries strictly ahead, so rank 2 is left == 1.
+                    seconds[k] += (left == 1).sum(axis=0)
+                    thirds[k] += (left == 2).sum(axis=0)
                     payout_perm = payout[:, user_perm_list[k]]
                 # Portfolio: per-user payouts via grouped reduce (one call per batch)
                 starts = user_starts_list[k]

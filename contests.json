@@ -41,6 +41,14 @@
       "entrants": 12
     },
     {
+      "id": "20k_ground_pound",
+      "name": "20K Ground  Pound",
+      "file": "20K_Ground_Pound.json",
+      "entryFee": 200.0,
+      "totalPrizes": 20000,
+      "entrants": 111
+    },
+    {
       "id": "26k_double_champ",
       "name": "26K Double Champ",
       "file": "26K_Double_Champ.json",

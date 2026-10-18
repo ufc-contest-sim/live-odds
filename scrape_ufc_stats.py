@@ -66,17 +66,75 @@ def _is_complete(detail) -> bool:
     return bool(detail and detail.get("totals"))
 
 
-def load_cache() -> dict:
-    if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE) as f:
-            return json.load(f)
+def _empty_cache() -> dict:
     return {"events": {}, "fights": {}, "meta": {"last_updated": None}}
 
 
+def _salvage_cache(text: str) -> dict:
+    """Recover every intact entry from a damaged cache file.
+
+    The cache is written with indent=2, so the two big sections start at
+    '\n  "events": {' / '\n  "fights": {' and each entry inside them starts
+    at '\n    "<key>": '. Each entry is decoded on its own; the ones that
+    fail to parse are dropped and simply get re-scraped on the next run.
+    """
+    cache = _empty_cache()
+    dec = json.JSONDecoder()
+    marks = {}
+    for sec in ("events", "fights", "meta"):
+        m = re.search(r'\n  "%s": \{' % sec, text)
+        if m:
+            marks[sec] = m
+    order = sorted(marks.items(), key=lambda kv: kv[1].start())
+    for i, (sec, m) in enumerate(order):
+        if sec == "meta":
+            continue
+        start = m.end()
+        end = order[i + 1][1].start() if i + 1 < len(order) else len(text)
+        body = text[start:end]
+        entries = list(re.finditer(r'\n    "([^"\n]+)": ', body))
+        for j, em in enumerate(entries):
+            key = em.group(1)
+            vstart = em.end()
+            vend = entries[j + 1].start() if j + 1 < len(entries) else len(body)
+            chunk = body[vstart:vend]
+            try:
+                val, _ = dec.raw_decode(chunk.lstrip())
+            except ValueError:
+                continue
+            cache[sec][key] = val
+    return cache
+
+
+def load_cache() -> dict:
+    if not os.path.exists(CACHE_FILE):
+        return _empty_cache()
+    try:
+        with open(CACHE_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except (ValueError, UnicodeDecodeError) as e:
+        print(f"WARNING: {CACHE_FILE} is damaged ({e}).")
+        print("  Recovering every intact event and fight from it...")
+        with open(CACHE_FILE, encoding="utf-8", errors="replace") as f:
+            text = f.read()
+        cache = _salvage_cache(text)
+        backup = CACHE_FILE.replace(".json", "") + f".corrupt-{datetime.now():%Y%m%d-%H%M%S}.json"
+        os.replace(CACHE_FILE, backup)
+        n_fights_ok = sum(1 for v in cache["fights"].values() if _is_complete(v))
+        print(f"  Recovered {len(cache['events'])} events and {n_fights_ok} fights with stats.")
+        print(f"  Damaged file kept as {backup}. Anything lost is re-scraped below.")
+        save_cache(cache)
+        return cache
+
+
 def save_cache(cache: dict):
+    """Write to a temp file and swap it in, so an interrupted save can never
+    leave a half-written cache behind."""
     cache["meta"]["last_updated"] = datetime.now().isoformat()
-    with open(CACHE_FILE, "w") as f:
+    tmp = CACHE_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(cache, f, indent=2)
+    os.replace(tmp, CACHE_FILE)
 
 
 # ── HTTP helpers ─────────────────────────────────────────────────────

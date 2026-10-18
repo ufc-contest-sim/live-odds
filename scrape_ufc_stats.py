@@ -29,8 +29,19 @@ import sys
 import time
 from datetime import datetime
 
-import requests
-from bs4 import BeautifulSoup
+try:
+    import requests
+    from bs4 import BeautifulSoup
+except ImportError as _e:
+    print(f"Missing Python package: {_e.name}")
+    print("Install both packages from a command prompt, then run this again:")
+    print("    pip install requests beautifulsoup4")
+    print("(if 'pip' is not recognized, try:  py -m pip install requests beautifulsoup4)")
+    try:
+        input("\nPress Enter to close...")
+    except EOFError:
+        pass
+    sys.exit(1)
 
 BASE_URL = "http://ufcstats.com"
 CACHE_FILE = "ufc_scrape_cache.json"
@@ -764,6 +775,8 @@ def main():
                         help="Output CSV path")
     parser.add_argument("--delay", type=float, default=0.0,
                         help="Seconds between requests (default: 0)")
+    parser.add_argument("--no-pause", action="store_true",
+                        help="Don't wait for Enter before closing (for scripted runs)")
     args = parser.parse_args()
 
     global REQUEST_DELAY
@@ -869,5 +882,26 @@ def main():
     export_csv(cache, args.output)
 
 
+def _pause():
+    """Keep the console open when launched by double-click so errors stay visible."""
+    if "--no-pause" in sys.argv:
+        return
+    try:
+        input("\nPress Enter to close...")
+    except EOFError:
+        pass
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except KeyboardInterrupt:
+        print("\nStopped. Progress so far is saved in the cache; run again to resume.")
+    except Exception:
+        import traceback
+        print("\nThe scraper hit an error:\n")
+        traceback.print_exc()
+    finally:
+        _pause()

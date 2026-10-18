@@ -47,6 +47,14 @@ REQUEST_DELAY = 0.0
 
 # ── Cache ────────────────────────────────────────────────────────────
 
+def _is_complete(detail) -> bool:
+    """A fight counts as scraped only once ufcstats has posted its stats.
+    Right after an event the fight pages exist but show just the tale of the
+    tape (no totals table). Those used to be cached as done and never
+    re-fetched, so the main-card fights stayed missing from the CSV."""
+    return bool(detail and detail.get("totals"))
+
+
 def load_cache() -> dict:
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE) as f:
@@ -794,7 +802,7 @@ def main():
         cached_event = cache["events"].get(eid, {})
         cached_fights = cached_event.get("fights", [])
         all_cached = all(
-            cache["fights"].get(f["fight_id"]) is not None
+            _is_complete(cache["fights"].get(f["fight_id"]))
             for f in cached_fights
         ) if cached_fights else False
 
@@ -823,7 +831,7 @@ def main():
         new_count = 0
         for fi, fight in enumerate(fight_list):
             fid = fight["fight_id"]
-            if fid in cache["fights"] and cache["fights"][fid] is not None:
+            if _is_complete(cache["fights"].get(fid)):
                 continue
 
             detail = scrape_fight_detail(fight["url"])
@@ -838,6 +846,9 @@ def main():
             status += f" ({new_count} new)"
         else:
             status += " (all cached)"
+        pending = [f for f in fight_list if not _is_complete(cache["fights"].get(f["fight_id"]))]
+        if pending:
+            status += f" - {len(pending)} without stats yet on ufcstats (will retry next run)"
         print(status)
 
         # Save cache periodically (every event)

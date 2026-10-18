@@ -29,8 +29,19 @@ import sys
 import time
 from datetime import datetime
 
-import requests
-from bs4 import BeautifulSoup
+try:
+    import requests
+    from bs4 import BeautifulSoup
+except ImportError as _e:
+    print(f"Missing Python package: {_e.name}")
+    print("Install both packages from a command prompt, then run this again:")
+    print("    pip install requests beautifulsoup4")
+    print("(if 'pip' is not recognized, try:  py -m pip install requests beautifulsoup4)")
+    try:
+        input("\nPress Enter to close...")
+    except EOFError:
+        pass
+    sys.exit(1)
 
 BASE_URL = "http://ufcstats.com"
 CACHE_FILE = "ufc_scrape_cache.json"
@@ -47,17 +58,83 @@ REQUEST_DELAY = 0.0
 
 # ── Cache ────────────────────────────────────────────────────────────
 
-def load_cache() -> dict:
-    if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE) as f:
-            return json.load(f)
+def _is_complete(detail) -> bool:
+    """A fight counts as scraped only once ufcstats has posted its stats.
+    Right after an event the fight pages exist but show just the tale of the
+    tape (no totals table). Those used to be cached as done and never
+    re-fetched, so the main-card fights stayed missing from the CSV."""
+    return bool(detail and detail.get("totals"))
+
+
+def _empty_cache() -> dict:
     return {"events": {}, "fights": {}, "meta": {"last_updated": None}}
 
 
+def _salvage_cache(text: str) -> dict:
+    """Recover every intact entry from a damaged cache file.
+
+    The cache is written with indent=2, so the two big sections start at
+    '\n  "events": {' / '\n  "fights": {' and each entry inside them starts
+    at '\n    "<key>": '. Each entry is decoded on its own; the ones that
+    fail to parse are dropped and simply get re-scraped on the next run.
+    """
+    cache = _empty_cache()
+    dec = json.JSONDecoder()
+    marks = {}
+    for sec in ("events", "fights", "meta"):
+        m = re.search(r'\n  "%s": \{' % sec, text)
+        if m:
+            marks[sec] = m
+    order = sorted(marks.items(), key=lambda kv: kv[1].start())
+    for i, (sec, m) in enumerate(order):
+        if sec == "meta":
+            continue
+        start = m.end()
+        end = order[i + 1][1].start() if i + 1 < len(order) else len(text)
+        body = text[start:end]
+        entries = list(re.finditer(r'\n    "([^"\n]+)": ', body))
+        for j, em in enumerate(entries):
+            key = em.group(1)
+            vstart = em.end()
+            vend = entries[j + 1].start() if j + 1 < len(entries) else len(body)
+            chunk = body[vstart:vend]
+            try:
+                val, _ = dec.raw_decode(chunk.lstrip())
+            except ValueError:
+                continue
+            cache[sec][key] = val
+    return cache
+
+
+def load_cache() -> dict:
+    if not os.path.exists(CACHE_FILE):
+        return _empty_cache()
+    try:
+        with open(CACHE_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except (ValueError, UnicodeDecodeError) as e:
+        print(f"WARNING: {CACHE_FILE} is damaged ({e}).")
+        print("  Recovering every intact event and fight from it...")
+        with open(CACHE_FILE, encoding="utf-8", errors="replace") as f:
+            text = f.read()
+        cache = _salvage_cache(text)
+        backup = CACHE_FILE.replace(".json", "") + f".corrupt-{datetime.now():%Y%m%d-%H%M%S}.json"
+        os.replace(CACHE_FILE, backup)
+        n_fights_ok = sum(1 for v in cache["fights"].values() if _is_complete(v))
+        print(f"  Recovered {len(cache['events'])} events and {n_fights_ok} fights with stats.")
+        print(f"  Damaged file kept as {backup}. Anything lost is re-scraped below.")
+        save_cache(cache)
+        return cache
+
+
 def save_cache(cache: dict):
+    """Write to a temp file and swap it in, so an interrupted save can never
+    leave a half-written cache behind."""
     cache["meta"]["last_updated"] = datetime.now().isoformat()
-    with open(CACHE_FILE, "w") as f:
+    tmp = CACHE_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(cache, f, indent=2)
+    os.replace(tmp, CACHE_FILE)
 
 
 # ── HTTP helpers ─────────────────────────────────────────────────────
@@ -756,6 +833,8 @@ def main():
                         help="Output CSV path")
     parser.add_argument("--delay", type=float, default=0.0,
                         help="Seconds between requests (default: 0)")
+    parser.add_argument("--no-pause", action="store_true",
+                        help="Don't wait for Enter before closing (for scripted runs)")
     args = parser.parse_args()
 
     global REQUEST_DELAY
@@ -794,7 +873,7 @@ def main():
         cached_event = cache["events"].get(eid, {})
         cached_fights = cached_event.get("fights", [])
         all_cached = all(
-            cache["fights"].get(f["fight_id"]) is not None
+            _is_complete(cache["fights"].get(f["fight_id"]))
             for f in cached_fights
         ) if cached_fights else False
 
@@ -823,7 +902,7 @@ def main():
         new_count = 0
         for fi, fight in enumerate(fight_list):
             fid = fight["fight_id"]
-            if fid in cache["fights"] and cache["fights"][fid] is not None:
+            if _is_complete(cache["fights"].get(fid)):
                 continue
 
             detail = scrape_fight_detail(fight["url"])
@@ -838,6 +917,9 @@ def main():
             status += f" ({new_count} new)"
         else:
             status += " (all cached)"
+        pending = [f for f in fight_list if not _is_complete(cache["fights"].get(f["fight_id"]))]
+        if pending:
+            status += f" - {len(pending)} without stats yet on ufcstats (will retry next run)"
         print(status)
 
         # Save cache periodically (every event)
@@ -858,5 +940,26 @@ def main():
     export_csv(cache, args.output)
 
 
+def _pause():
+    """Keep the console open when launched by double-click so errors stay visible."""
+    if "--no-pause" in sys.argv:
+        return
+    try:
+        input("\nPress Enter to close...")
+    except EOFError:
+        pass
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except KeyboardInterrupt:
+        print("\nStopped. Progress so far is saved in the cache; run again to resume.")
+    except Exception:
+        import traceback
+        print("\nThe scraper hit an error:\n")
+        traceback.print_exc()
+    finally:
+        _pause()

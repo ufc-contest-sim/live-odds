@@ -317,12 +317,16 @@
         .fav-item .fav-remove { flex: none; padding: 0 4px; color: var(--text-secondary); opacity: 0.6; font-size: 1rem; line-height: 1; }
         .fav-item .fav-remove:hover { color: var(--accent-red); opacity: 1; }
         .quick-search-bar .pfd-btn { white-space: nowrap; }
-        .quick-search-bar input { min-width: 0; }
-        .fav-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; padding: 6px 8px 10px; border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--text-secondary); }
-        .fav-foot b { color: var(--text-primary); font-weight: 600; }
-        .fav-foot button { font: inherit; font-size: 0.7rem; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); cursor: pointer; }
-        .fav-foot button:hover { color: var(--text-primary); border-color: var(--accent); }
-        .fav-foot input { flex: 1; min-width: 0; font: inherit; font-size: 0.82rem; padding: 4px 8px; border-radius: 3px; background: var(--fn-inset, var(--bg-card)); border: 1px solid var(--glass-border); color: var(--text-primary); }
+        .quick-search-bar input { min-width: 0; align-self: stretch; padding: 10px 0; }
+        .quick-search-bar { cursor: text; }
+        .fav-me { margin-bottom: 4px; padding-bottom: 9px; border-bottom: 1px solid var(--border); border-radius: 6px 6px 0 0; }
+        .fav-me .fav-name { font-weight: 600; }
+        .fav-you { margin-left: 8px; font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        .fav-actions { display: flex; align-items: center; gap: 12px; flex: none; }
+        .fav-me button { font: inherit; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); cursor: pointer; }
+        .fav-me button:hover { color: var(--text-primary); border-color: var(--accent); }
+        .fav-me.editing { cursor: default; gap: 8px; }
+        .fav-me input { flex: 1; min-width: 0; font: inherit; font-size: 0.82rem; padding: 4px 8px; border-radius: 3px; background: var(--fn-inset, var(--bg-card)); border: 1px solid var(--glass-border); color: var(--text-primary); }
         .fav-empty { padding: 8px; font-size: 0.78rem; color: var(--text-secondary); }
 
         .favorites-section.visible {
@@ -3927,6 +3931,7 @@
             background: var(--v2-s0);
         }
         body.v2::after { display: none; }                      /* film grain off */
+        body.v2 .live-ticker { display: none !important; }     /* the moving fighter banner is retired (JS still toggles its inline style) */
         body.v2 .landing-page { padding-top: 14px; }
         body.v2 .oct-mark { display: none; }
         /* --- masthead: brand left, lock state right, one hairline --- */
@@ -5041,7 +5046,7 @@
             const closeAll = (except) => {
                 document.querySelectorAll('.pfd.open').forEach(el => {
                     if (except && el.contains(except)) return;
-                    if (except && except.id === 'quick-search-input' && el.classList.contains('fav-dd')) return;
+                    if (except && el.classList.contains('fav-dd') && except.closest && except.closest('.quick-search-bar')) return;
                     el.classList.remove('open');
                     el.querySelector('.pfd-menu').hidden = true;
                     el.querySelector('.pfd-btn').setAttribute('aria-expanded', 'false');
@@ -5063,13 +5068,12 @@
                 return;
             }
 
-            // The visitor's own name first, everyone else alphabetical.
+            // The visitor's own row first (with Change and remove), then
+            // everyone else alphabetical.
             const me = meName.toLowerCase();
-            const ordered = favorites.slice().sort((a, b) => {
-                const am = a.toLowerCase() === me, bm = b.toLowerCase() === me;
-                if (am !== bm) return am ? -1 : 1;
-                return a.localeCompare(b, undefined, { sensitivity: 'base' });
-            });
+            const inFavs = favorites.some(f => f.toLowerCase() === me);
+            const ordered = favorites.filter(f => f.toLowerCase() !== me)
+                .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
             const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
             section.classList.add('visible');
@@ -5077,18 +5081,21 @@
                 <div class="pfd fav-dd">
                     <button type="button" class="pfd-btn" aria-haspopup="true" aria-expanded="false">
                         <span>Favorites</span>
-                        <span class="pfd-count">${ordered.length}</span>
+                        <span class="pfd-count">${ordered.length + (inFavs ? 1 : 0)}</span>
                         <span class="pfd-caret">&#9662;</span>
                     </button>
                     <div class="pfd-menu" hidden>
-                        ${meName ? `<div class="fav-foot" data-fav-foot>
-                            <span>You: <b>${esc(meName)}</b></span>
-                            <button type="button" data-fav-edit>Change</button>
+                        ${meName ? `<div class="pfd-item fav-item fav-me" data-name="${esc(meName)}">
+                            <span class="fav-name">${esc(meName)}<span class="fav-you">you</span></span>
+                            <span class="fav-actions">
+                                <button type="button" data-fav-edit>Change</button>
+                                ${inFavs ? `<span class="fav-remove" title="Remove from favorites" data-remove="${esc(meName)}">&times;</span>` : ''}
+                            </span>
                         </div>` : ''}
                         ${ordered.length ? ordered.map(name => `<div class="pfd-item fav-item" data-name="${esc(name)}">
                             <span class="fav-name">${esc(name)}</span>
                             <span class="fav-remove" title="Remove from favorites" data-remove="${esc(name)}">&times;</span>
-                        </div>`).join('') : '<div class="fav-empty">No favorites yet. Star a username in its results to add it.</div>'}
+                        </div>`).join('') : (meName ? '' : '<div class="fav-empty">No favorites yet. Star a username in its results to add it.</div>')}
                     </div>
                 </div>`;
 
@@ -5108,7 +5115,7 @@
                 if (rm) { removeFavoriteUser(rm.dataset.remove, true); return; }
                 if (e.target.closest('[data-fav-edit]')) { startVisitorRename(menu); return; }
                 if (e.target.closest('[data-fav-save]')) { finishVisitorRename(menu); return; }
-                if (e.target.closest('[data-fav-foot]')) return;
+                if (e.target.closest('.fav-me.editing')) return;   /* typing a new name, not picking */
                 const item = e.target.closest('.fav-item');
                 if (!item) return;
                 setOpen(false);
@@ -5132,12 +5139,13 @@
         // the visitor for logging, replaces the old one in favorites, and
         // moves to the top of the list.
         function startVisitorRename(menu) {
-            const foot = menu.querySelector('[data-fav-foot]');
-            if (!foot) return;
+            const row = menu.querySelector('.fav-me');
+            if (!row) return;
             const cur = getVisitor().trim().replace(/"/g, '&quot;');
-            foot.innerHTML = `<input type="text" data-fav-input value="${cur}" maxlength="40" autocomplete="off" spellcheck="false">
+            row.classList.add('editing');
+            row.innerHTML = `<input type="text" data-fav-input value="${cur}" maxlength="40" autocomplete="off" spellcheck="false">
                 <button type="button" data-fav-save>Save</button>`;
-            const inp = foot.querySelector('input');
+            const inp = row.querySelector('input');
             inp.focus(); inp.select();
         }
         function finishVisitorRename(menu) {
@@ -5147,6 +5155,7 @@
             const prev = getVisitor().trim();
             if (!next || next.toLowerCase() === prev.toLowerCase()) { renderFavorites(true); return; }
             try { localStorage.setItem('mmaLiveSim_visitor', next); } catch (e) { /* private mode */ }
+            logEvent('renamed', 'was ' + prev);   // logged under the new name
             let favorites = loadFavorites().filter(f => f.toLowerCase() !== prev.toLowerCase());
             if (!favorites.some(f => f.toLowerCase() === next.toLowerCase())) favorites.push(next);
             saveFavorites(favorites);
@@ -6108,6 +6117,13 @@
             buildUsernameIndex();
 
             input.addEventListener('focus', () => { if (!input.value.trim()) setFavoritesMenu(true); });
+            // The whole bar is the click target, not just the input's text box.
+            const bar = input.closest('.quick-search-bar');
+            if (bar) bar.addEventListener('click', (e) => {
+                if (e.target.closest('.favorites-section') || e.target === input) return;
+                input.focus();
+                if (!input.value.trim()) setFavoritesMenu(true);
+            });
             input.addEventListener('input', () => {
                 clearTimeout(searchTimeout);
                 const query = input.value.trim();

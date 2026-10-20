@@ -5264,7 +5264,7 @@
             };
 
             // 10 fixed percentile buckets (every 10th percentile; 100 = the max).
-            // Each bar IS that percentile's simulated outcome — no merging, no
+            // Each bar IS that percentile's simulated outcome, no merging, no
             // averaging, no optimistic upper-boundary trick. Ten wider bars leave
             // room for the fighter exposure list beside the chart.
             const pcts = [10,20,30,40,50,60,70,80,90,100];
@@ -5435,7 +5435,6 @@
             // Only show contests the user participates in
             const userContests = contestNames.filter(c => byContest[c]);
             if (userContests.length < 2) { filtersEl.innerHTML = ''; return; }
-            const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
             filtersEl.innerHTML = `
                 <div class="pfd">
                     <button type="button" class="pfd-btn" aria-haspopup="true" aria-expanded="false">
@@ -5448,7 +5447,7 @@
                             <button type="button" data-pfd="all">All</button>
                             <button type="button" data-pfd="none">None</button>
                         </div>
-                        ${userContests.map(c => `<label class="pfd-item"><input type="checkbox" checked data-contest="${esc(c)}"><span>${esc(c)}</span></label>`).join('')}
+                        ${userContests.map(c => `<label class="pfd-item"><input type="checkbox" checked data-contest="${pexEsc(c)}"><span>${pexEsc(c)}</span></label>`).join('')}
                     </div>
                 </div>`;
             // Store data for recomputation
@@ -5507,7 +5506,14 @@
             const btnEl = filtersEl.querySelector('.pfd-btn');
             if (countEl) countEl.textContent = `${selected.length} of ${checkboxes.length}`;
             if (btnEl) btnEl.classList.toggle('filtered', selected.length !== checkboxes.length);
-            if (selected.length === 0) return; // don't render empty
+            if (selected.length === 0) {
+                // "None" leaves nothing to show: say so instead of leaving the
+                // previous selection's numbers on screen.
+                const qp = document.getElementById('portfolio-quintiles');
+                if (qp) qp.innerHTML = '<div class="pq-stats"><span class="pq-stat">No contests selected</span></div>';
+                renderPortfolioExposure([]);
+                return;
+            }
             const allSelected = selected.length === filtersEl._userContests.length;
             // The fighter exposure list follows the same checkboxes: every
             // contest when all are ticked, otherwise only the ticked ones.
@@ -5549,9 +5555,10 @@
             for (const row of entries) {
                 const fee = Number(row.EntryFee) || 0;
                 entryUsd += fee;
-                for (const slot of ['F1', 'F2', 'F3', 'F4', 'F5', 'F6']) {
-                    const nm = row[slot];
-                    if (!nm) continue;
+                // A row contributes its fee once per fighter even if a name
+                // somehow fills two slots, so dedupe the slots first.
+                const held = new Set(['F1', 'F2', 'F3', 'F4', 'F5', 'F6'].map(slot => row[slot]).filter(Boolean));
+                for (const nm of held) {
                     let f = fighters.get(nm);
                     if (!f) { f = { usd: 0, lineups: 0 }; fighters.set(nm, f); }
                     f.usd += fee;

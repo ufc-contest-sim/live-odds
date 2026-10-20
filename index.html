@@ -91,7 +91,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,600;0,800;1,700;1,800;1,900&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,600;0,800;1,700;1,800;1,900&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -3898,9 +3898,193 @@
             .whatif-layout.active { grid-template-columns: minmax(0, 1fr); }
             .fight-card-header { flex-wrap: wrap; gap: 8px; }
         }
+    
+        /* =====================================================================
+           SITE LOOK V2: Box Score shell + Tape content. Scoped to body.v2 so
+           ?skin=classic (or deleting this block) restores the original look.
+           ===================================================================== */
+        body.v2 {
+            --v2-s0: #0b0b0e; --v2-s1: #121318; --v2-s2: #1b1b22; --v2-inset: #101016; --v2-hover: #1f1f27;
+            --v2-l1: rgba(255, 255, 255, 0.06); --v2-l2: rgba(255, 255, 255, 0.12); --v2-l3: rgba(255, 255, 255, 0.18);
+            --v2-ink1: #f5f4f7; --v2-ink2: #a8a7b3; --v2-ink3: #6f7584;
+            --v2-mono: 'IBM Plex Mono', 'Chakra Petch', ui-monospace, Menlo, Consolas, monospace;
+            --bg-card: var(--v2-s1); --glass-bg: var(--v2-s1); --glass-border: var(--v2-l2);
+            --bg-hover: var(--v2-hover); --fn-card-2: var(--v2-s2); --fn-inset: var(--v2-inset); --border: var(--v2-l1);
+            background: var(--v2-s0);
+        }
+        body.v2::after { display: none; }                      /* film grain off */
+        body.v2 .landing-page { padding-top: 14px; }
+        body.v2 .oct-mark { display: none; }
+        /* --- masthead: brand left, lock state right, one hairline --- */
+        body.v2 .landing-header {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px;
+            text-align: left; padding: 6px 0 12px; margin-bottom: 0;
+            border-bottom: 1px solid var(--v2-l2);
+        }
+        body.v2 .landing-header h1 {
+            font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700;
+            font-size: 1.45rem; letter-spacing: 1px; line-height: 1; margin: 0; text-shadow: none;
+        }
+        body.v2 .landing-header h1 span {
+            background: none; -webkit-background-clip: initial; background-clip: initial;
+            -webkit-text-fill-color: var(--accent); color: var(--accent);
+        }
+        body.v2 .hero-badges { margin: 0 0 0 auto; gap: 8px; justify-content: flex-end; }
+        body.v2 .pill, body.v2 .pill > i, body.v2 .pill.live .dot { transform: none; }
+        body.v2 .pill {
+            padding: 6px 10px; font-size: 0.66rem; letter-spacing: 1.2px; border-radius: 3px;
+            border: 1px solid var(--v2-l2); background: var(--v2-s1); color: var(--v2-ink2);
+            animation: none; box-shadow: none;
+        }
+        body.v2 .pill.live { border-color: var(--v2-l2); color: var(--v2-ink1); }
+        body.v2 .pill.live .dot { background: var(--accent); margin-right: 7px; }
+        body.v2 .lock-note { flex-basis: 100%; text-align: left; margin: 0; font-size: 0.7rem; color: var(--v2-ink3); }
+        /* --- landing tabs: underline tabs on the hairline --- */
+        body.v2 .landing-nav { gap: 0; margin: 0 0 18px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; border-bottom: 1px solid var(--v2-l2); }
+        body.v2 .landing-nav::-webkit-scrollbar { display: none; }
+        body.v2 .landing-nav .lnav-tab, body.v2 .lnav-tab {
+            flex: 0 0 auto; width: auto; transform: none; background: transparent; border: 0;
+            border-bottom: 2px solid transparent; border-radius: 0; box-shadow: none; margin-bottom: -1px;
+            padding: 12px 16px; color: var(--v2-ink2); font-size: 0.76rem; letter-spacing: 1.4px;
+        }
+        body.v2 .lnav-tab > span { transform: none; }
+        body.v2 .lnav-tab:hover { background: transparent; color: var(--v2-ink1); }
+        body.v2 .lnav-tab.active { background: transparent; color: var(--v2-ink1); border-bottom-color: var(--accent); box-shadow: none; }
+        /* --- search bar and favorites --- */
+        body.v2 .quick-search-bar { border-radius: 3px; padding: 10px 14px; box-shadow: none; border: 1px solid var(--v2-l2); background: var(--v2-inset); }
+        body.v2 .quick-search-bar:focus-within { border-color: var(--v2-l3); }
+        body.v2 .quick-search-bar input { font-size: 1rem; }
+        body.v2 .favorite-tile { border-radius: 3px; padding: 6px 10px; font-size: 0.84rem; box-shadow: none; background: var(--v2-s2); }
+        body.v2 .favorite-tile:hover { transform: none; box-shadow: none; border-color: var(--v2-l3); }
+        /* --- panels: one radius, flat, hairline borders, no orange caps --- */
+        body.v2 .contest-table-wrapper, body.v2 .table-container, body.v2 .stats-vertical,
+        body.v2 .fighter-draft-container, body.v2 .dupes-container, body.v2 .chart-card,
+        body.v2 .fight-card-container, body.v2 .filters, body.v2 .portfolio-chart-container,
+        body.v2 .search-no-results, body.v2 .sdb-card, body.v2 .quick-search-results, body.v2 .whatif-panel {
+            clip-path: none; border-radius: 4px; box-shadow: none;
+            border: 1px solid var(--v2-l2); border-top: 1px solid var(--v2-l2); background: var(--v2-s1);
+        }
+        body.v2 .quick-search-bar { border-left: 1px solid var(--v2-l2); }
+        /* --- tables: flat header strip, hairline rows, right-aligned mono numerals --- */
+        body.v2 .contest-table thead, body.v2 #username-table thead, body.v2 #lineup-table thead,
+        body.v2 #portfolio-table thead, body.v2 .whatif-table-scroll thead { background: var(--v2-s2); }
+        body.v2 th, body.v2 .contest-table th, body.v2 #username-table thead th, body.v2 #lineup-table thead th,
+        body.v2 #portfolio-table thead th, body.v2 .sdb-table thead th, body.v2 .whatif-table-scroll thead th {
+            background: var(--v2-s2); color: var(--v2-ink3); font-family: 'Chakra Petch', monospace;
+            font-weight: 600; font-size: 0.66rem; letter-spacing: 1.2px; text-transform: uppercase;
+            padding: 9px 12px; border-bottom: 1px solid var(--v2-l2);
+        }
+        body.v2 thead th.sortable:hover, body.v2 .contest-table th.sortable:hover { color: var(--v2-ink1); }
+        body.v2 .sdb-table thead th.sorted { background: var(--v2-s2); color: var(--accent); }
+        body.v2 td { border-bottom: 1px solid var(--v2-l1); }
+        body.v2 .contest-table th { text-align: right; }
+        body.v2 .contest-table th:first-child { text-align: left; }
+        body.v2 .contest-table td { padding: 11px 16px; font-size: 0.9rem; text-align: right; border-bottom: 1px solid var(--v2-l1); }
+        body.v2 .contest-table td:first-child { text-align: left; }
+        body.v2 .contest-table-name { font-family: 'Inter', sans-serif; font-style: normal; font-weight: 600; font-size: 0.95rem; letter-spacing: 0; }
+        body.v2 .contest-table tbody tr:hover .contest-table-name { color: var(--v2-ink1); }
+        body.v2 .contest-table td.col-fee, body.v2 .contest-table td.col-prizes, body.v2 .contest-table td.col-entrants {
+            font-family: var(--v2-mono); font-weight: 500; font-variant-numeric: tabular-nums;
+        }
+        body.v2 .contest-table td.col-prizes { color: var(--v2-ink1); }
+        body.v2 .contest-table td.col-entrants { color: var(--v2-ink2); }
+        body.v2 #username-table td, body.v2 #lineup-table td, body.v2 #portfolio-table td { padding: 9px 12px; font-size: 0.84rem; }
+        body.v2 #username-table td:nth-child(n+4), body.v2 #lineup-table td:nth-child(n+3), body.v2 #portfolio-table td:nth-child(n+3) {
+            font-family: var(--v2-mono); font-weight: 500; font-variant-numeric: tabular-nums;
+        }
+        body.v2 .row-main:nth-child(4n+3) { background: transparent; }
+        body.v2 .row-main:hover, body.v2 .row-main.expanded { background: var(--v2-hover); }
+        body.v2 .fighter-chip { border-radius: 2px; background: var(--v2-s2); border-color: var(--v2-l2); }
+        body.v2 .fighter-chip .slot { background: transparent; border: 1px solid var(--v2-l2); color: var(--v2-ink3); border-radius: 2px; }
+        body.v2 .fighter-chip-selected { clip-path: none; border-radius: 2px; }
+        /* --- search results: KPI strip header, result rows instead of cards --- */
+        body.v2 .search-results-header { padding: 12px 16px 4px; align-items: flex-end; }
+        body.v2 .search-results-header h3 { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; }
+        body.v2 .search-results-summary { display: flex; flex-wrap: wrap; gap: 0; text-align: left; }
+        body.v2 .srs-part { padding: 2px 16px; border-left: 1px solid var(--v2-l2); font-family: 'Chakra Petch', monospace; font-size: 0.64rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--v2-ink3); line-height: 1.4; }
+        body.v2 .srs-part:first-child { border-left: 0; padding-left: 0; }
+        body.v2 .srs-part + .srs-part::before { content: ''; }
+        body.v2 .srs-part .positive, body.v2 .srs-part .negative { display: block; font-family: var(--v2-mono); font-size: 1.05rem; letter-spacing: 0; text-transform: none; }
+        body.v2 .search-result-card {
+            border-radius: 0; margin: 0; border: 0; border-top: 1px solid var(--v2-l1); padding: 11px 16px;
+            background: transparent; box-shadow: none;
+        }
+        body.v2 .search-result-card:hover { transform: none; box-shadow: none; background: var(--v2-hover); border-color: var(--v2-l1); }
+        body.v2 .search-result-contest { font-family: 'Inter', sans-serif; font-style: normal; font-weight: 600; font-size: 0.95rem; letter-spacing: 0; }
+        body.v2 .search-result-entries { font-family: var(--v2-mono); color: var(--v2-ink3); }
+        body.v2 .search-result-stat { min-width: 104px; text-align: right; }
+        body.v2 .search-result-stat .sr-label { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1.2px; color: var(--v2-ink3); }
+        body.v2 .search-result-stat .sr-value { font-family: var(--v2-mono); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+        body.v2 .pfd-btn, body.v2 .pfd-menu { border-radius: 3px; }
+        body.v2 .pex-table th { padding: 6px 8px; font-size: 0.6rem; letter-spacing: 0.8px; }
+        body.v2 .pex-table th:first-child { padding-left: 6px; }
+        body.v2 .pex-table td:first-child { padding-left: 6px; }
+        body.v2 .clear-btn, body.v2 .add-fav-btn, body.v2 .whatif-reset-btn, body.v2 .save-favorite-btn { border-radius: 3px; }
+        body.v2 .pex-table td.n, body.v2 .pq-val, body.v2 .pq-stat b { font-family: var(--v2-mono); font-weight: 500; }
+        /* --- contest page --- */
+        body.v2 .leaderboard-page { padding-top: 22px; }
+        body.v2 #contest-name { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700; font-size: 1.5rem; letter-spacing: 0.5px; text-transform: none; text-shadow: none; }
+        body.v2 .updated { font-family: 'Inter', sans-serif; font-size: 0.78rem; letter-spacing: 0; text-transform: none; color: var(--v2-ink3); }
+        body.v2 .back-btn { background: transparent; border: 0; box-shadow: none; border-radius: 0; color: var(--v2-ink2); font-family: 'Chakra Petch', monospace; font-size: 0.7rem; letter-spacing: 1.2px; text-transform: uppercase; padding: 6px 0; }
+        body.v2 .back-btn:hover { color: var(--v2-ink1); }
+        body.v2 .view-tabs { justify-content: flex-start; gap: 0; margin-bottom: 16px; border-bottom: 1px solid var(--v2-l2); flex-wrap: nowrap; overflow-x: auto; }
+        body.v2 .view-tabs::-webkit-scrollbar { display: none; }
+        body.v2 .tab-btn { transform: none; background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; box-shadow: none; margin-bottom: -1px; padding: 10px 16px; color: var(--v2-ink2); font-size: 0.74rem; letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap; }
+        body.v2 .tab-btn > span { transform: none; }
+        body.v2 .tab-btn:hover { background: transparent; color: var(--v2-ink1); }
+        body.v2 .tab-btn.active { background: transparent; color: var(--v2-ink1); border-bottom-color: var(--accent); box-shadow: none; }
+        body.v2 .filters { background: var(--v2-s2); padding: 8px 12px; gap: 10px; margin-bottom: 16px; }
+        body.v2 .filters input, body.v2 .filters select { border-radius: 2px; background: var(--v2-inset); border-color: var(--v2-l2); font-size: 0.85rem; padding: 6px 10px; }
+        body.v2 .filters label { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1.2px; text-transform: uppercase; }
+        body.v2 .stats-vertical { padding: 16px 18px; }
+        body.v2 .stats-vertical h3, body.v2 .fighter-draft-container h3, body.v2 .dupes-container h3, body.v2 .chart-card h3, body.v2 .fight-card-container h3 {
+            font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 600; font-size: 0.72rem;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--v2-ink2); margin-bottom: 12px;
+        }
+        body.v2 .stat-row { padding: 8px 0; border-bottom: 1px solid var(--v2-l1); }
+        body.v2 .stat-row .label { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; letter-spacing: 1.2px; }
+        body.v2 .stat-row .value { font-family: var(--v2-mono); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+        body.v2 .sdb-title, body.v2 .hb-name-title { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700; letter-spacing: 0.5px; }
+        /* --- About: look switcher --- */
+        .about-look { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 22px; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-secondary); }
+        .about-look button { font: inherit; letter-spacing: inherit; text-transform: inherit; padding: 6px 12px; border-radius: 3px; border: 1px solid var(--glass-border); background: transparent; color: var(--text-secondary); cursor: pointer; }
+        .about-look button:hover, .about-look button.on { color: var(--text-primary); border-color: var(--accent); }
+        @media (max-width: 768px) {
+            body.v2 .landing-page { padding-top: 10px; }
+            body.v2 .landing-header { gap: 8px 12px; padding-bottom: 10px; }
+            body.v2 .landing-header h1 { font-size: 1.25rem; }
+            body.v2 .hero-badges { margin-left: 0; justify-content: flex-start; flex-basis: 100%; }
+            body.v2 .landing-nav .lnav-tab { padding: 11px 12px; font-size: 0.72rem; }
+            body.v2 .contest-table th, body.v2 .contest-table td { padding: 10px 10px; }
+            body.v2 .search-results-header { align-items: flex-start; }
+            body.v2 .srs-part { padding: 2px 10px; }
+            body.v2 .search-result-stat { min-width: 0; text-align: left; }
+            body.v2 .pex-table th { padding: 6px 4px; font-size: 0.56rem; letter-spacing: 0.5px; }
+            body.v2 .pex-table th:first-child, body.v2 .pex-table td:first-child { padding-left: 4px; }
+        }
     </style>
 </head>
 <body>
+    <script>
+        // Site look. The new look ("v2") is the default; ?skin=classic restores the
+        // original and is remembered per browser, ?skin=v2 switches back.
+        (function () {
+            try {
+                var q = new URLSearchParams(location.search).get('skin');
+                if (q === 'classic' || q === 'v2') localStorage.setItem('mmaLiveSim_skin', q);
+                if (localStorage.getItem('mmaLiveSim_skin') !== 'classic') document.body.classList.add('v2');
+            } catch (e) { document.body.classList.add('v2'); }
+            document.addEventListener('DOMContentLoaded', function () {
+                var cur = document.body.classList.contains('v2') ? 'v2' : 'classic';
+                document.querySelectorAll('.about-look button').forEach(function (b) { b.classList.toggle('on', b.dataset.look === cur); });
+            });
+        })();
+        function setSiteLook(look) {
+            try { localStorage.setItem('mmaLiveSim_skin', look); } catch (e) { /* private mode */ }
+            document.body.classList.toggle('v2', look !== 'classic');
+            document.querySelectorAll('.about-look button').forEach(function (b) { b.classList.toggle('on', b.dataset.look === look); });
+        }
+    </script>
     <div class="live-ticker" id="live-ticker" style="display: none;">
         <div class="live-ticker-track" id="live-ticker-track"></div>
     </div>
@@ -3962,6 +4146,11 @@
                 <div class="about-links">
                     <a class="about-btn discord" href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">Join the Discord</a>
                     <a class="about-btn xlink" href="https://x.com/mmalivesim" target="_blank" rel="noopener">Follow me on X</a>
+                </div>
+                <div class="about-look">
+                    <span>Site look</span>
+                    <button type="button" data-look="v2" onclick="setSiteLook('v2')">New</button>
+                    <button type="button" data-look="classic" onclick="setSiteLook('classic')">Classic</button>
                 </div>
                 <p class="about-disclaim">MMA LiveSim is not affiliated with, endorsed by, or sponsored by DraftKings.</p>
             </div>

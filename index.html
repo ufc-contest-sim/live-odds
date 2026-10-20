@@ -572,6 +572,7 @@
         /* Each metric is an unbreakable unit; on desktop they read as one
            dot-separated line, on mobile each gets its own line. */
         .srs-part { white-space: nowrap; }
+        .srs-kpis, .pex-meta { display: none; }   /* only the new look shows these */
         .srs-part + .srs-part::before { content: ' \00b7 '; white-space: normal; }
         @media (max-width: 600px) {
             .search-results-header { flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -4021,6 +4022,49 @@
         body.v2 .pex-table td:first-child { padding-left: 6px; }
         body.v2 .clear-btn, body.v2 .add-fav-btn, body.v2 .whatif-reset-btn, body.v2 .save-favorite-btn { border-radius: 3px; }
         body.v2 .pex-table td.n, body.v2 .pq-val, body.v2 .pq-stat b { font-family: var(--v2-mono); font-weight: 500; }
+        /* --- search results: KPI strip header + two boxed panels (Tape) --- */
+        body.v2 .search-results-header {
+            display: grid; grid-template-columns: minmax(220px, 1fr) auto; grid-template-rows: auto auto;
+            gap: 0; align-items: stretch; padding: 0; margin: 0 0 16px;
+            border: 1px solid var(--v2-l2); border-radius: 4px; background: var(--v2-s1); overflow: hidden;
+        }
+        body.v2 .search-results-header h3 { grid-column: 1; padding: 12px 16px 2px; font-size: 1.1rem; }
+        body.v2 .search-results-summary { grid-column: 1; display: block; padding: 0 16px 12px; }
+        body.v2 .srs-part { display: inline; padding: 0; border: 0; font-family: var(--v2-mono); font-size: 0.74rem; letter-spacing: 0; text-transform: none; color: var(--v2-ink3); }
+        body.v2 .srs-part:not(:first-child) { display: none; }   /* EV and ROI live in the KPI strip */
+        body.v2 .srs-kpis { display: flex; grid-column: 2; grid-row: 1 / 3; }
+        body.v2 .srs-kpi { display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 10px 18px; border-left: 1px solid var(--v2-l2); min-width: 118px; }
+        body.v2 .srs-kpi .k { font-family: 'Chakra Petch', monospace; font-size: 0.62rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--v2-ink3); }
+        body.v2 .srs-kpi .v { font-family: var(--v2-mono); font-weight: 600; font-size: 1.3rem; line-height: 1.1; color: var(--v2-ink1); }
+        body.v2 .srs-kpi .v.positive { color: var(--accent-green); }
+        body.v2 .srs-kpi .v.negative { color: var(--accent-red); }
+        body.v2 .srs-kpi.pending { display: none; }
+        body.v2 .portfolio-chart-container { background: transparent; border: 0; padding: 0; border-radius: 0; }
+        body.v2 .pcw-chart, body.v2 .pcw-exposure { background: var(--v2-s1); border: 1px solid var(--v2-l2); border-radius: 4px; min-width: 0; }
+        body.v2 .pcw-head, body.v2 .pex-title {
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            margin: 0; padding: 0 14px; min-height: 36px;
+            background: var(--v2-s2); border-bottom: 1px solid var(--v2-l2);
+            font-size: 0.68rem; letter-spacing: 1.4px;
+        }
+        body.v2 .pcw-head .portfolio-chart-title { margin: 0; font-size: 0.68rem; letter-spacing: 1.4px; }
+        body.v2 .pcw-head .portfolio-filters { margin: 0; }
+        body.v2 .pcw-head .pfd-btn { padding: 3px 8px; font-size: 0.62rem; background: transparent; }
+        body.v2 .pex-meta { display: inline; font-family: var(--v2-mono); font-size: 0.7rem; letter-spacing: 0; text-transform: none; color: var(--v2-ink3); }
+        body.v2 .portfolio-quintile-panel { padding: 12px 14px 10px; }
+        body.v2 .pq-stats { font-size: 0.78rem; margin-bottom: 10px; gap: 18px; }
+        body.v2 .portfolio-bar-markers { display: none; }   /* worst/best moved to the KPI strip */
+        body.v2 .pq-bars .portfolio-bar { width: 68%; border-radius: 2px 2px 0 0; }
+        body.v2 .pq-bars .portfolio-bar.negative-bar { border-radius: 0 0 2px 2px; }
+        body.v2 .pex-table thead th { background: var(--v2-s1); }
+        body.v2 .pex-table th:first-child, body.v2 .pex-table td:first-child { padding-left: 14px; }
+        body.v2 .pex-table th:last-child, body.v2 .pex-table td:last-child { padding-right: 14px; }
+        body.v2 .pex-foot { margin: 0; padding: 9px 14px; border-top: 1px solid var(--v2-l2); }
+        body.v2 .pcw-exposure { margin-top: 16px; }
+        @media (min-width: 900px) {
+            body.v2 .pcw-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+            body.v2 .pcw-exposure { margin-top: 0; }
+        }
         /* --- contest page --- */
         body.v2 .leaderboard-page { padding-top: 22px; }
         body.v2 #contest-name { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700; font-size: 1.5rem; letter-spacing: 0.5px; text-transform: none; text-shadow: none; }
@@ -4059,6 +4103,11 @@
             body.v2 .search-results-header { align-items: flex-start; }
             body.v2 .srs-part { padding: 2px 10px; }
             body.v2 .search-result-stat { min-width: 0; text-align: left; }
+            body.v2 .search-results-header { grid-template-columns: 1fr; }
+            body.v2 .srs-kpis { grid-column: 1; grid-row: auto; flex-wrap: wrap; border-top: 1px solid var(--v2-l2); }
+            body.v2 .srs-kpi { flex: 1 1 33%; min-width: 0; padding: 8px 12px; border-left: 0; border-right: 1px solid var(--v2-l1); border-bottom: 1px solid var(--v2-l1); }
+            body.v2 .srs-kpi .v { font-size: 1.05rem; }
+            body.v2 .pcw-head { flex-wrap: wrap; padding: 6px 12px; }
             body.v2 .pex-table th { padding: 6px 4px; font-size: 0.56rem; letter-spacing: 0.5px; }
             body.v2 .pex-table th:first-child, body.v2 .pex-table td:first-child { padding-left: 4px; }
         }
@@ -4081,8 +4130,9 @@
         })();
         function setSiteLook(look) {
             try { localStorage.setItem('mmaLiveSim_skin', look); } catch (e) { /* private mode */ }
-            document.body.classList.toggle('v2', look !== 'classic');
-            document.querySelectorAll('.about-look button').forEach(function (b) { b.classList.toggle('on', b.dataset.look === look); });
+            var u = new URL(location.href);
+            u.searchParams.delete('skin');
+            location.replace(u.toString());   /* re-render everything in the chosen look */
         }
     </script>
     <div class="live-ticker" id="live-ticker" style="display: none;">
@@ -5594,6 +5644,20 @@
             const worst = percentileData['min'] !== undefined ? percentileData['min'] : items[0].val;
             const best = percentileData['max'] !== undefined ? percentileData['max'] : items[items.length - 1].val;
 
+            // New look: these four also feed the KPI strip in the results header.
+            const setKpi = (id, text, cls) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.classList.remove('pending');
+                const v = el.querySelector('.v');
+                v.textContent = text;
+                v.className = 'v ' + cls;
+            };
+            setKpi('kpi-profit', profitPct + '%', profitPct > 0 ? 'positive' : 'negative');
+            setKpi('kpi-median', fmt(median), median >= 0 ? 'positive' : 'negative');
+            setKpi('kpi-worst', fmt(worst), worst >= 0 ? 'positive' : 'negative');
+            setKpi('kpi-best', fmt(best), best >= 0 ? 'positive' : 'negative');
+
             panel.innerHTML = `
                 <div class="pq-stats">
                     <span class="pq-stat"><b class="${profitPct > 0 ? 'positive' : 'negative'}">${profitPct}%</b> of simulations profit</span>
@@ -5825,7 +5889,7 @@
             }).join('');
 
             panel.innerHTML = `
-                <div class="portfolio-chart-title pex-title">Fighter Exposure</div>
+                <div class="portfolio-chart-title pex-title">Fighter Exposure<span class="pex-meta">At risk ${usd(totalUsd)} &middot; ${rows.length} fighter${rows.length === 1 ? '' : 's'}</span></div>
                 <div class="pex-body"><div class="pex-scroll">
                     <table class="pex-table${showActual ? ' has-act' : ''}">
                         <thead><tr>
@@ -6112,7 +6176,15 @@
                         </button>
                     </h3>
                     <span class="search-results-summary"><span class="srs-part">${totalEntries} entries across ${results.length} contest${results.length > 1 ? 's' : ''}</span><span class="srs-part">Portfolio EV: <span class="${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</span></span>${portfolioROI != null ? `<span class="srs-part">Portfolio ROI: <span class="${portfolioROI >= 0 ? 'positive' : 'negative'}">${fmtROI(portfolioROI)}</span></span>` : ''}</span>
-                </div>
+                                    <div class="srs-kpis" id="srs-kpis">
+                        <div class="srs-kpi"><span class="k">Portfolio EV</span><b class="v ${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</b></div>
+                        <div class="srs-kpi"><span class="k">ROI</span><b class="v ${(portfolioROI || 0) >= 0 ? 'positive' : 'negative'}">${portfolioROI != null ? fmtROI(portfolioROI) : '--'}</b></div>
+                        <div class="srs-kpi pending" id="kpi-profit"><span class="k">P(profit)</span><b class="v">--</b></div>
+                        <div class="srs-kpi pending" id="kpi-median"><span class="k">Median</span><b class="v">--</b></div>
+                        <div class="srs-kpi pending" id="kpi-worst"><span class="k">Worst</span><b class="v">--</b></div>
+                        <div class="srs-kpi pending" id="kpi-best"><span class="k">Best</span><b class="v">--</b></div>
+                    </div>
+</div>
                 <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
                     <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>
                     <div class="portfolio-filters" id="portfolio-filters"></div>
@@ -6162,6 +6234,20 @@
                 wrapper.classList.add('pcw-nochart');
                 wrapper.style.display = '';
             };
+
+            // New look: the chart box carries the distribution title and the
+            // contest dropdown as its own header strip.
+            if (document.body.classList.contains('v2')) {
+                const wrap = document.getElementById('portfolio-chart-wrapper');
+                const chartCol = wrap && wrap.querySelector('.pcw-chart');
+                if (chartCol) {
+                    const head = document.createElement('div');
+                    head.className = 'pcw-head';
+                    head.appendChild(wrap.querySelector('.portfolio-chart-title'));
+                    head.appendChild(document.getElementById('portfolio-filters'));
+                    chartCol.insertBefore(head, chartCol.firstChild);
+                }
+            }
 
             // Fetch and render portfolio percentile chart. A newer search may
             // have replaced the results box while the file loaded: then this

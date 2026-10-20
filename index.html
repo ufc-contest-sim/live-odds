@@ -4034,6 +4034,16 @@
         body.v2 .search-result-stat { min-width: 104px; text-align: right; }
         body.v2 .search-result-stat .sr-label { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 1.2px; color: var(--v2-ink3); }
         body.v2 .search-result-stat .sr-value { font-family: var(--v2-mono); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+        /* Win % on the search results rows: the same true-share bar (percent of 100
+           over a faint full-width track) as the Win % / Cash % cells in the contest tables. */
+        body.v2 .search-result-stat.sr-share .sr-value {
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16)),
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.05), rgba(var(--a-rgb), 0.05));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 20px, 100% 20px;
+            background-position: 0 50%, 0 50%;
+        }
         body.v2 .pfd-btn, body.v2 .pfd-menu { border-radius: 3px; }
         body.v2 .pex-table th { padding: 6px 8px; font-size: 0.6rem; letter-spacing: 0.8px; }
         body.v2 .pex-table th:first-child { padding-left: 6px; }
@@ -4137,7 +4147,7 @@
         body.v2 .stats-vertical { padding: 16px 18px; }
         body.v2 .stats-vertical h3, body.v2 .fighter-draft-container h3, body.v2 .dupes-container h3, body.v2 .chart-card h3, body.v2 .fight-card-container h3 {
             font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 600; font-size: 0.72rem;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--v2-ink2); margin-bottom: 12px;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
         }
         body.v2 .stat-row { padding: 8px 0; border-bottom: 1px solid var(--v2-l1); }
         body.v2 .stat-row .label { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; letter-spacing: 1.2px; }
@@ -4153,6 +4163,12 @@
             body.v2 .search-results-header { align-items: flex-start; }
             body.v2 .srs-part { padding: 2px 10px; }
             body.v2 .search-result-stat { min-width: 0; text-align: left; }
+            /* Phone: the Win % stat takes the slack and its share bar becomes a thin line under the number. */
+            body.v2 .search-result-stat.sr-share { flex: 1 1 auto; }
+            body.v2 .search-result-stat.sr-share .sr-value {
+                max-width: 132px; padding-bottom: 5px;
+                background-size: calc(var(--p, 0) * 100%) 3px, 100% 3px; background-position: 0 100%, 0 100%;
+            }
             body.v2 .search-results-header { grid-template-columns: 1fr; }
             body.v2 .srs-kpis { grid-column: 1; grid-row: auto; flex-wrap: wrap; border-top: 1px solid var(--v2-l2); }
             body.v2 .srs-kpi { flex: 1 1 33%; min-width: 0; padding: 8px 12px; border-left: 0; border-right: 1px solid var(--v2-l1); border-bottom: 1px solid var(--v2-l1); }
@@ -6334,7 +6350,7 @@
                             <span class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span>
                         </div>
                         <div class="search-result-stats">
-                            <div class="search-result-stat">
+                            <div class="search-result-stat sr-share" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">
                                 <div class="sr-label">Win %</div>
                                 <div class="sr-value">${r.winPct.toFixed(2)}%</div>
                             </div>

@@ -6168,13 +6168,16 @@
             // Start building the username index in the background
             buildUsernameIndex();
 
-            input.addEventListener('focus', () => { if (!input.value.trim()) setFavoritesMenu(true); });
+            // Focusing or clicking the bar opens the favorites list, whether the bar is
+            // empty or still holds the name whose results are on screen.
+            input.addEventListener('focus', () => setFavoritesMenu(true));
+            input.addEventListener('click', () => setFavoritesMenu(true));
             // The whole bar is the click target, not just the input's text box.
             const bar = input.closest('.quick-search-bar');
             if (bar) bar.addEventListener('click', (e) => {
                 if (e.target.closest('.favorites-section') || e.target === input) return;
                 input.focus();
-                if (!input.value.trim()) setFavoritesMenu(true);
+                setFavoritesMenu(true);
             });
             input.addEventListener('input', () => {
                 clearTimeout(searchTimeout);

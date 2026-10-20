@@ -2800,27 +2800,23 @@
         #scenario-view .sx-filters { margin-bottom: 18px; }
         #scenario-view .sx-filters .sdb-fg input[type="date"] { color-scheme: dark; font-family: 'Chakra Petch', monospace; }
         #scenario-view .sx-reset { padding: 9px 14px; }
-        #scenario-view .sx-conds { flex: 1 0 100%; border-top: 1px solid var(--glass-border); padding-top: 12px; }
-        #scenario-view .sx-conds-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 10px; }
-        #scenario-view .sx-conds-head .sx-hint { flex: 1 1 240px; }
-        #scenario-view .sx-conds-head .opt-btn { margin-left: auto; padding: 8px 13px; }
+        #scenario-view .sx-conds { flex: 1 0 100%; }
         #scenario-view .sx-cond-rows { display: flex; flex-direction: column; gap: 8px; }
-        #scenario-view .sx-cond { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-        #scenario-view .sx-cond select, #scenario-view .sx-cond input {
-            background: var(--fn-inset, var(--bg-card)); border: 1px solid var(--glass-border); color: var(--text-primary);
-            padding: 8px 11px; font-size: 0.88rem; font-family: inherit; outline: none; border-radius: 10px; min-height: 38px;
-        }
-        #scenario-view .sx-cond select:focus, #scenario-view .sx-cond input:focus { border-color: var(--accent); }
-        #scenario-view .sx-cond .sx-cstat { flex: 1 1 200px; max-width: 280px; }
-        #scenario-view .sx-cond .sx-cop { flex: 0 1 140px; }
-        #scenario-view .sx-cond input { flex: 0 1 96px; width: 96px; font-family: 'Chakra Petch', monospace; }
-        #scenario-view .sx-cond .sx-cand { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
-        #scenario-view .sx-cond .sx-cand, #scenario-view .sx-cond .sx-cv2 { display: none; }
-        #scenario-view .sx-cond.between .sx-cand { display: inline; }
-        #scenario-view .sx-cond.between .sx-cv2 { display: inline-block; }
-        #scenario-view .sx-cx { background: none; border: 1px solid transparent; color: var(--text-secondary); font-size: 1.15rem; line-height: 1; padding: 4px 9px; cursor: pointer; border-radius: 8px; }
+        /* one stat row: the same labelled fields as the strip above it (labels on the first row only) */
+        #scenario-view .sx-cond { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 14px; }
+        #scenario-view .sx-cond + .sx-cond .sx-cf label { display: none; }
+        #scenario-view .sx-cf select, #scenario-view .sx-cf input { width: 100%; min-width: 0; }
+        #scenario-view .sx-cf-stat { flex: 1 1 200px; max-width: 280px; }
+        #scenario-view .sx-cf-op { flex: 0 1 160px; }
+        #scenario-view .sx-cf-v { flex: 0 1 100px; }
+        #scenario-view .sx-cf-v input { font-family: 'Chakra Petch', monospace; }
+        #scenario-view .sx-cf2 { display: none; }
+        #scenario-view .sx-cond.between .sx-cf2 { display: flex; }
+        #scenario-view .sx-cx { background: none; border: 1px solid transparent; color: var(--text-secondary); font-size: 1.15rem; line-height: 1; padding: 4px 9px; min-height: 38px; cursor: pointer; border-radius: 8px; }
         #scenario-view .sx-cx:hover { color: var(--accent-red); border-color: var(--glass-border); }
-        #scenario-view .sx-cond-empty { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+        #scenario-view .sx-conds-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 10px; }
+        #scenario-view .sx-conds-foot .opt-btn { padding: 8px 13px; }
+        #scenario-view .sx-conds-foot .sx-hint { flex: 1 1 240px; }
         #scenario-view .sx-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; margin-bottom: 18px; }
         /* a flex column so the value sits on one baseline across the strip even when a label wraps */
         #scenario-view .sx-kpi { display: flex; flex-direction: column; border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); border-radius: 10px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); min-width: 0; }
@@ -2851,15 +2847,12 @@
         @media (max-width: 760px) {
             #scenario-view .sdb-table { min-width: 720px; }
             #scenario-view .sx-cond select, #scenario-view .sx-cond input { font-size: 16px; }
-            /* phone: the stat on its own row, then "between [a] and [b] x" fits on one line */
-            #scenario-view .sx-cond .sx-cstat { flex-basis: 100%; max-width: none; }
-            #scenario-view .sx-cond .sx-cop { flex: 0 0 112px; padding-left: 6px; padding-right: 6px; }
-            #scenario-view .sx-cond input { flex: 1 1 56px; width: auto; min-width: 56px; }
+            /* phone: the stat on its own row, then "[condition] [a] and [b] x" on one line */
+            #scenario-view .sx-cf-stat { flex-basis: 100%; max-width: none; }
+            #scenario-view .sx-cf-op { flex: 0 0 120px; }
+            #scenario-view .sx-cf-v { flex: 1 1 56px; }
             #scenario-view .sx-cx { flex: 0 0 36px; }
-            #scenario-view .sx-conds-head .opt-btn { margin-left: 0; }
             #scenario-view .sx-dist-head .sx-sec { flex-basis: 100%; margin-right: 0; }
-            #scenario-view .sx-dist-head .sdb-fg { flex: 1 1 40%; min-width: 0; }
-            #scenario-view .sx-dist-head .sdb-fg select { min-width: 0; width: 100%; }
             #scenario-view .sx-hist text { font-size: 18px; }
         }
         @media (max-width: 600px) {
@@ -4345,8 +4338,8 @@
             display: inline-flex; align-items: center; justify-content: center; line-height: 1;
             transition: border-color 0.12s, background 0.12s, color 0.12s;
         }
-        body.v2 .hb-add { background: var(--v2-s2); border: 1px solid var(--v2-l2); color: var(--v2-ink1); font-family: 'Inter', sans-serif; font-weight: 500; font-size: 1.05rem; }
-        body.v2 .hb-add:hover { background: var(--v2-hover); border-color: var(--v2-l3); }
+        body.v2 .hb-add { background: var(--accent); border: 1px solid var(--accent); color: rgba(0, 0, 0, 0.88); font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1.05rem; }
+        body.v2 .hb-add:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
         body.v2 .hb-row.picked .hb-add { background: transparent; border-color: var(--v2-l3); color: var(--v2-ink1); font-size: 0.9rem; }
         body.v2 .hb-lockbtn, body.v2 .hb-cxbtn { background: transparent; border: 1px solid transparent; color: var(--v2-ink3); font-size: 0.8rem; }
         body.v2 .hb-lockbtn:hover, body.v2 .hb-cxbtn:hover { background: var(--v2-s2); border-color: var(--v2-l2); color: var(--v2-ink1); }
@@ -5375,7 +5368,7 @@
         body.v2 .opt-note.bad { color: var(--accent-red); }
         /* --- projections grid: salary bright; an entered value reads bright on a faint orange wash,
                an empty or zero one stays quiet (the JS toggles .filled on input and after each render) --- */
-        body.v2 .opt-grid td.sal { color: var(--v2-ink1); }
+        body.v2 .opt-grid td.sal { color: var(--accent); }
         body.v2 .opt-grid td.proj-cell input, body.v2 .opt-grid td.own-cell input, body.v2 .opt-grid td.exp-cell input { color: var(--v2-ink3); }
         body.v2 .opt-grid td.proj-cell input:focus, body.v2 .opt-grid td.own-cell input:focus, body.v2 .opt-grid td.exp-cell input:focus { color: var(--v2-ink1); }
         body.v2 .opt-grid td.proj-cell input.filled, body.v2 .opt-grid td.own-cell input.filled, body.v2 .opt-grid td.exp-cell input.filled {
@@ -5466,14 +5459,8 @@
         body.v2 .fmx-card .sal.hi { color: var(--accent); }
         body.v2 .fmx-card .edge { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; border-top: 0; padding-top: 0; margin-top: 2px; }
         body.v2 .fmx-card .fmx-sep { display: none; }
-        /* the favorite's share of the two salaries in orange over a hairline track */
-        body.v2 .fmx-split {
-            flex: 0 0 100%; height: 3px; margin: 0 0 4px;
-            background-image: linear-gradient(90deg, var(--accent), var(--accent)), linear-gradient(90deg, var(--v2-l3), var(--v2-l3));
-            background-repeat: no-repeat;
-            background-size: calc(var(--p, 0) * 100%) 100%, 100% 100%;
-            background-position: 0 50%, 0 50%;
-        }
+        /* a quiet rule under the names (the favorite's salary already carries the accent) */
+        body.v2 .fmx-split { flex: 0 0 100%; height: 2px; margin: 0 0 4px; background: var(--v2-l3); }
         /* combined sig strikes per minute out of 15, drawn with the contest tables' share bar */
         body.v2 .fmx-pace {
             display: inline-block; min-width: 176px; height: 20px; line-height: 20px; padding: 0 8px;
@@ -5488,9 +5475,6 @@
             font-family: 'Chakra Petch', monospace; font-size: 0.6rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
             color: var(--v2-ink3); border: 1px solid var(--v2-l2);
         }
-        /* style chips use the categorical palette (a style is a kind, not good or bad): the two hexes are TREND_STACK colors */
-        body.v2 .fmx-tag.strike { color: #d92e44; border-color: transparent; background: color-mix(in srgb, #d92e44 14%, transparent); }   /* TREND_STACK KO/TKO */
-        body.v2 .fmx-tag.grap { color: #0fa862; border-color: transparent; background: color-mix(in srgb, #0fa862 14%, transparent); }     /* TREND_STACK Submission */
         body.v2 .fmx-card:hover .fno { color: var(--accent-hi); }
         /* --- modals: the subject (the looked-up fighter, or the favorite) in orange, orange
                section eyebrows, the category split bars orange vs hairline, hover orange --- */
@@ -5681,19 +5665,17 @@
         body.v2 #scenario-view .sx-cond input::placeholder { color: var(--v2-ink3); }
         body.v2 #scenario-view .sdb-fg input:focus, body.v2 #scenario-view .sdb-fg select:focus, body.v2 #scenario-view .sx-cond input:focus, body.v2 #scenario-view .sx-cond select:focus { border-color: var(--accent); }
         body.v2 #scenario-view .sx-reset { flex: 0 0 auto; }
-        /* stat conditions: the strip's second row under a hairline */
-        body.v2 #scenario-view .sx-conds { border-top: 1px solid var(--v2-l1); padding-top: 10px; margin-top: 2px; }
-        body.v2 #scenario-view .sx-conds-head { gap: 6px 12px; margin-bottom: 8px; }
-        body.v2 #scenario-view .sx-conds-head .opt-btn { height: 28px; padding: 0 10px; font-size: 0.62rem; }
+        /* stat conditions: the strip's second row, labelled like the fields above it */
+        body.v2 #scenario-view .sx-conds { margin-top: 2px; }
         body.v2 #scenario-view .sx-cond-rows { gap: 6px; }
-        body.v2 #scenario-view .sx-cond { gap: 6px; }
-        body.v2 #scenario-view .sx-cond .sx-cstat { flex: 1 1 200px; max-width: 280px; width: auto; }
-        body.v2 #scenario-view .sx-cond .sx-cop { flex: 0 1 130px; width: auto; }
-        body.v2 #scenario-view .sx-cond input { flex: 0 1 88px; width: 88px; }
-        body.v2 #scenario-view .sx-cond .sx-cand { font-size: 0.62rem; letter-spacing: 1.2px; color: var(--v2-ink3); }
-        body.v2 #scenario-view .sx-cx { height: 32px; width: 32px; padding: 0; border-radius: 2px; color: var(--v2-ink3); font-size: 1.1rem; }
+        body.v2 #scenario-view .sx-cond { gap: 6px 10px; }
+        body.v2 #scenario-view .sx-cf-stat { flex: 1 1 200px; max-width: 280px; }
+        body.v2 #scenario-view .sx-cf-op { flex: 0 1 150px; }
+        body.v2 #scenario-view .sx-cf-v { flex: 0 1 92px; }
+        body.v2 #scenario-view .sx-cx { height: 32px; width: 32px; min-height: 0; padding: 0; border-radius: 2px; color: var(--v2-ink3); font-size: 1.1rem; }
         body.v2 #scenario-view .sx-cx:hover { color: var(--accent-red); border-color: var(--v2-l2); background: var(--v2-hover); }
-        body.v2 #scenario-view .sx-cond-empty { font-family: 'Inter', sans-serif; font-size: 0.76rem; color: var(--v2-ink3); }
+        body.v2 #scenario-view .sx-conds-foot { gap: 6px 12px; margin-top: 8px; }
+        body.v2 #scenario-view .sx-conds-foot .opt-btn { height: 28px; padding: 0 10px; font-size: 0.62rem; }
         /* KPI strip: one bordered row of hairline cells (a flex wrap so phones stack cleanly) */
         body.v2 #scenario-view .sx-kpis {
             display: flex; flex-wrap: wrap; gap: 0; margin: 0 0 16px; overflow: hidden;
@@ -5708,8 +5690,6 @@
         body.v2 #scenario-view .sx-empty { border: 1px dashed var(--v2-l2); border-radius: 3px; font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--v2-ink3); }
         /* distribution: the plot sits on the inset like the trend charts; the bars are orange */
         body.v2 #scenario-view .sx-dist-head { margin: 18px 0 8px; gap: 8px 10px; }
-        body.v2 #scenario-view .sx-dist-head .sdb-fg { flex: 0 1 190px; gap: 5px; }
-        body.v2 #scenario-view .sx-dist-head .sdb-fg select { height: 28px; font-size: 0.8rem; }
         body.v2 #scenario-view .sx-hist-scroll { border: 1px solid var(--v2-l2); border-radius: 3px; background: var(--v2-inset); }
         body.v2 #scenario-view .sx-hist text { font-family: var(--v2-mono); font-size: 12px; fill: var(--v2-ink3); }
         body.v2 #scenario-view .sx-hist .grid { stroke: var(--v2-l1); }
@@ -5757,13 +5737,12 @@
             body.v2 #scenario-view .sdb-card { padding: 14px 12px 16px; }
             body.v2 #scenario-view .sx-filters { padding: 8px 10px; gap: 8px 10px; }
             body.v2 #scenario-view .sdb-fg input, body.v2 #scenario-view .sdb-fg select, body.v2 #scenario-view .sx-cond input, body.v2 #scenario-view .sx-cond select { height: 36px; font-size: 16px; }
-            body.v2 #scenario-view .sx-dist-head .sdb-fg select { height: 36px; }
-            /* phone: "[between] [a] and [b] x" on one line under the stat; the values grow to fill it */
-            body.v2 #scenario-view .sx-cond .sx-cstat { max-width: none; }
-            body.v2 #scenario-view .sx-cond .sx-cop { flex: 0 0 100px; width: 100px; padding: 0 6px; }
-            body.v2 #scenario-view .sx-cond input { flex: 1 1 52px; width: auto; min-width: 52px; }
+            /* phone: "[condition] [a] and [b] x" on one line under the stat; the values grow to fill it */
+            body.v2 #scenario-view .sx-cf-stat { max-width: none; }
+            body.v2 #scenario-view .sx-cf-op { flex: 0 0 110px; }
+            body.v2 #scenario-view .sx-cf-op select { padding: 0 6px; }
+            body.v2 #scenario-view .sx-cf-v { flex: 1 1 52px; min-width: 52px; }
             body.v2 #scenario-view .sx-cx { flex: 0 0 36px; height: 36px; width: 36px; }
-            body.v2 #scenario-view .sx-dist-head .sdb-fg { flex: 1 1 40%; }
             body.v2 #scenario-view .sx-hist text { font-size: 18px; }
         }
         @media (max-width: 600px) {
@@ -5771,7 +5750,7 @@
             body.v2 #insightsSubnav { flex-wrap: wrap; overflow-x: visible; }
             body.v2 #insightsSubnav .tab-btn { flex: 1 1 40%; text-align: center; }
             body.v2 #scenario-view .sx-hist text { font-size: 20px; }
-            body.v2 #scenario-view .sx-presets button, body.v2 #scenario-view .sx-conds-head .opt-btn, body.v2 #scenario-view .sx-reset { height: 36px; }
+            body.v2 #scenario-view .sx-presets button, body.v2 #scenario-view .sx-conds-foot .opt-btn, body.v2 #scenario-view .sx-reset { height: 36px; }
             body.v2 #scenario-view .sx-kpi { flex-basis: 33%; padding: 8px 10px; }
             body.v2 #scenario-view .sx-kpi .v { font-size: 1.05rem; }
             body.v2 #scenario-view .sdb-table thead th { padding: 0 8px; }
@@ -5939,24 +5918,22 @@
                         <div class="sdb-fg"><label for="sxSince">Since</label><input type="date" id="sxSince"></div>
                         <button type="button" class="opt-btn sx-reset" id="sxReset">Reset</button>
                         <div class="sx-conds">
-                            <div class="sx-conds-head">
-                                <span class="sx-sec">Stat conditions</span>
-                                <span class="sx-hint">Control time and fight time accept m:ss or plain seconds. All filters combine with AND.</span>
-                                <button type="button" class="opt-btn" id="sxAddCond">+ Add condition</button>
-                            </div>
                             <div id="sxCondRows" class="sx-cond-rows"></div>
+                            <div class="sx-conds-foot">
+                                <button type="button" class="opt-btn" id="sxAddCond">+ Add another stat</button>
+                                <span class="sx-hint">Control time and fight time accept m:ss or plain seconds. All filters combine with AND.</span>
+                            </div>
                         </div>
                     </div>
                     <div id="sxKpis" class="sx-kpis"></div>
                     <div id="sxLadder"></div>
                     <div class="sx-dist">
                         <div class="sx-dist-head">
-                            <span class="sx-sec">Distribution</span>
-                            <div class="sdb-fg"><label for="sxHistStat">Stat</label><select id="sxHistStat"></select></div>
-                            <div class="sdb-fg"><label for="sxHistBin">Bin size</label><select id="sxHistBin"></select></div>
+                            <span class="sx-sec">DK score distribution</span>
+                            <span class="sx-hint">DK totals of the matching fights. Hover a bar for the count and share.</span>
                         </div>
                         <div id="sxHistEmpty" class="sx-empty" style="display:none;">No fights match this scenario.</div>
-                        <div class="sx-hist-scroll" id="sxHistScroll"><svg id="sxHist" class="sx-hist" viewBox="0 0 1120 340" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Histogram of the selected stat over the matching fights"></svg></div>
+                        <div class="sx-hist-scroll" id="sxHistScroll"><svg id="sxHist" class="sx-hist" viewBox="0 0 1120 340" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Histogram of DK totals over the matching fights"></svg></div>
                         <div id="sxPcts" class="sx-pcts"></div>
                     </div>
                     <div class="sx-fights">
@@ -9990,8 +9967,8 @@
             ];
             const sxStat = k => SX_STATS.find(s => s.k === k) || SX_STATS[0];
             const SX_OPS = [
-                { k: 'gte', label: 'at least' }, { k: 'gt', label: 'more than' }, { k: 'eq', label: 'exactly' },
-                { k: 'lte', label: 'at most' }, { k: 'lt', label: 'less than' }, { k: 'between', label: 'between' },
+                { k: 'eq', label: 'exactly' }, { k: 'gt', label: 'greater than' }, { k: 'gte', label: 'greater or equal' },
+                { k: 'lt', label: 'less than' }, { k: 'lte', label: 'less or equal' }, { k: 'between', label: 'between' },
             ];
             // One-click scenarios. Each is a full filter state: anything not named
             // is reset to Any, so a chip always means exactly what it says.
@@ -10001,9 +9978,6 @@
                 { k: 'sig100', label: '100+ sig strikes', conds: [['sig', 'gte', '100']] },
                 { k: 'dectd', label: 'Decision win, 2+ takedowns', result: 'W', method: 'Decision', conds: [['td', 'gte', '2']] },
             ];
-            // Histogram bin choices: counts for count stats, seconds for time stats.
-            const SX_BINS_COUNT = [['auto', 'Auto'], ['1', '1'], ['2', '2'], ['5', '5'], ['10', '10'], ['20', '20'], ['25', '25'], ['50', '50']];
-            const SX_BINS_TIME = [['auto', 'Auto'], ['15', '0:15'], ['30', '0:30'], ['60', '1:00'], ['120', '2:00'], ['300', '5:00']];
             // SX_ML is the floor of the left margin; the real one is measured per
             // render from the widest y-axis label (phones draw the axis text at 20
             // user units, so a five or six digit count needs more than 54).
@@ -10101,20 +10075,19 @@
             function sxAddCond(statKey, op, v1, v2) {
                 const div = document.createElement('div');
                 div.className = 'sx-cond';
+                // the same labelled fields as the strip above (labels show on the first row only, via CSS)
                 div.innerHTML =
-                    `<select class="sx-cstat" aria-label="Stat">${SX_STATS.map(s => `<option value="${s.k}">${esc(s.label)}</option>`).join('')}</select>` +
-                    `<select class="sx-cop" aria-label="Comparison">${SX_OPS.map(o => `<option value="${o.k}">${o.label}</option>`).join('')}</select>` +
-                    `<input type="text" class="sx-cv1" inputmode="decimal" autocomplete="off" aria-label="Value">` +
-                    `<span class="sx-cand">and</span>` +
-                    `<input type="text" class="sx-cv2" inputmode="decimal" autocomplete="off" aria-label="Second value">` +
-                    `<button type="button" class="sx-cx" title="Remove condition" aria-label="Remove condition">&times;</button>`;
+                    `<div class="sdb-fg sx-cf sx-cf-stat"><label>Stat</label><select class="sx-cstat" aria-label="Stat">${SX_STATS.map(s => `<option value="${s.k}">${esc(s.label)}</option>`).join('')}</select></div>` +
+                    `<div class="sdb-fg sx-cf sx-cf-op"><label>Condition</label><select class="sx-cop" aria-label="Condition">${SX_OPS.map(o => `<option value="${o.k}">${o.label}</option>`).join('')}</select></div>` +
+                    `<div class="sdb-fg sx-cf sx-cf-v"><label>Value</label><input type="text" class="sx-cv1" inputmode="decimal" autocomplete="off" aria-label="Value"></div>` +
+                    `<div class="sdb-fg sx-cf sx-cf-v sx-cf2"><label>And</label><input type="text" class="sx-cv2" inputmode="decimal" autocomplete="off" aria-label="Second value"></div>` +
+                    `<button type="button" class="sx-cx" title="Clear this stat" aria-label="Clear this stat">&times;</button>`;
                 if (statKey) div.querySelector('.sx-cstat').value = statKey;
-                if (op) div.querySelector('.sx-cop').value = op;
+                div.querySelector('.sx-cop').value = op || 'gte';
                 if (v1 != null) div.querySelector('.sx-cv1').value = v1;
                 if (v2 != null) div.querySelector('.sx-cv2').value = v2;
                 sxSyncCond(div);
                 sxEl('sxCondRows').appendChild(div);
-                sxSyncCondEmpty();
                 return div;
             }
             // Between shows its second field; time stats hint at the m:ss format
@@ -10128,27 +10101,23 @@
                     inp.inputMode = stat.time ? 'text' : 'decimal';
                 });
             }
-            function sxSyncCondEmpty() {
-                const host = sxEl('sxCondRows');
-                let note = host.querySelector('.sx-cond-empty');
-                const empty = !host.querySelector('.sx-cond');
-                if (empty && !note) { note = document.createElement('div'); note.className = 'sx-cond-empty'; note.textContent = 'No stat conditions yet. Add one to narrow the scenario by takedowns, strikes, control time, knockdowns and more.'; host.appendChild(note); }
-                else if (!empty && note) note.remove();
-            }
-            function sxClearConds() { sxEl('sxCondRows').innerHTML = ''; sxSyncCondEmpty(); }
+            // the strip always shows one stat row (an empty value means no condition)
+            function sxEnsureCondRow() { if (!sxEl('sxCondRows').querySelector('.sx-cond')) sxAddCond(); }
+            function sxClearConds(keepOne) { sxEl('sxCondRows').innerHTML = ''; if (keepOne !== false) sxAddCond(); }
 
             // ----- presets / reset -----
-            function sxResetFilters() {
+            function sxResetFilters(keepOne) {
                 ['sxResult', 'sxOutcome', 'sxMethod', 'sxWeight'].forEach(id => { sxEl(id).value = ''; });
                 sxEl('sxSince').value = CTRL_SINCE;
-                sxClearConds();
+                sxClearConds(keepOne);
             }
             function sxApplyPreset(p) {
-                sxResetFilters();
+                sxResetFilters(false);
                 if (p.result) sxEl('sxResult').value = p.result;
                 if (p.outcome) sxEl('sxOutcome').value = p.outcome;
                 if (p.method) sxEl('sxMethod').value = p.method;
                 (p.conds || []).forEach(c => sxAddCond(c[0], c[1], c[2], c[3]));
+                sxEnsureCondRow();
                 sxMarkPreset(p.k);
                 sxRender();
             }
@@ -10189,14 +10158,6 @@
                     `<div class="sdb-ladder-title">Scoring ladder</div>` +
                     `<div class="sdb-ladder-sub">Each cell: % of the matching fights scoring at that DK total or higher, with the raw count beneath. The league row is every performance by every fighter since ${fmtSinceLabel(since)} for comparison.</div>` + body;
             }
-            function sxSyncBins() {
-                const sel = sxEl('sxHistBin'), stat = sxStat(sxEl('sxHistStat').value);
-                const opts = stat.time ? SX_BINS_TIME : SX_BINS_COUNT;
-                if (sel.dataset.mode === (stat.time ? 'time' : 'count')) return;
-                sel.dataset.mode = stat.time ? 'time' : 'count';
-                sel.innerHTML = opts.map(o => `<option value="${o[0]}">${o[1]}</option>`).join('');
-                sel.value = 'auto';
-            }
             function sxNiceStep(raw) { const pow = Math.pow(10, Math.floor(Math.log10(raw))); for (const m of [1, 2, 5, 10]) if (m * pow >= raw) return m * pow; return 10 * pow; }
             // Left margin for the y axis: measure the widest tick label in the
             // SVG's own font (12 user units on desktop, 20 on phones). When the
@@ -10214,8 +10175,7 @@
                 return Math.max(SX_ML, Math.ceil(w) + 14);
             }
             function sxRenderHist(rows, dks) {
-                sxSyncBins();
-                const stat = sxStat(sxEl('sxHistStat').value);
+                const stat = sxStat('dk');   // always the DK totals: the question is what scores look like
                 const svg = sxEl('sxHist'), pcts = sxEl('sxPcts');
                 const k = stat.k;
                 // the DK totals are already sorted; every other stat is read off the index
@@ -10233,7 +10193,7 @@
                     return;
                 }
                 const lo = sorted[0], hi = sorted[n - 1];
-                const binSel = sxEl('sxHistBin').value;
+                const binSel = 'auto';
                 let bin;
                 if (binSel === 'auto') {
                     bin = hi === lo ? 1 : (sxNiceStep((hi - lo) / 40) || 1);
@@ -10363,9 +10323,7 @@
             function sxWire() {
                 if (sxWired) return; sxWired = true;
                 sxEl('sxOutcome').innerHTML = '<option value="">Any</option>' + CONCL_ORDER.map(c => `<option>${c}</option>`).join('');
-                sxEl('sxHistStat').innerHTML = SX_STATS.map(s => `<option value="${s.k}">${esc(s.label)}</option>`).join('');
-                sxSyncBins();
-                sxSyncCondEmpty();
+                sxEnsureCondRow();
                 const since = sxEl('sxSince');
                 since.min = CTRL_SINCE; since.max = (d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10))(new Date()); since.value = CTRL_SINCE;
                 ['sxResult', 'sxOutcome', 'sxMethod', 'sxWeight', 'sxSince'].forEach(id => { const el = sxEl(id); el.addEventListener('input', sxUserChange); el.addEventListener('change', sxUserChange); });
@@ -10385,14 +10343,11 @@
                 condHost.addEventListener('change', onCond);
                 condHost.addEventListener('click', e => {
                     const x = e.target.closest('.sx-cx'); if (!x) return;
-                    x.closest('.sx-cond').remove(); sxSyncCondEmpty(); sxUserChange();
+                    x.closest('.sx-cond').remove(); sxEnsureCondRow(); sxUserChange();
                 });
                 const presets = sxEl('sxPresets');
                 presets.insertAdjacentHTML('beforeend', SX_PRESETS.map(p => `<button type="button" data-preset="${p.k}">${esc(p.label)}</button>`).join(''));
                 presets.addEventListener('click', e => { const b = e.target.closest('button[data-preset]'); if (!b) return; const p = SX_PRESETS.find(q => q.k === b.dataset.preset); if (p) sxApplyPreset(p); });
-                // the chart controls only redraw the chart
-                sxEl('sxHistStat').addEventListener('change', () => { if (loaded) sxRenderHist(sxLast, sxLastDks); });
-                sxEl('sxHistBin').addEventListener('change', () => { if (loaded) sxRenderHist(sxLast, sxLastDks); });
                 // the axis text size changes with the viewport (phone vs desktop),
                 // so a width change re-measures the chart margin
                 sxResizeW = window.innerWidth;
@@ -11317,12 +11272,8 @@
                             const bits = [];
                             if (pa && pz) {
                                 const paceV = (pa.sig_min != null && pz.sig_min != null) ? pa.sig_min + pz.sig_min : null;
-                                const grap = Math.max(pa.td_att_15 || 0, pz.td_att_15 || 0);
                                 // the pace line is a meter on the new look: --p is the combined rate out of 15 sig/min
                                 if (paceV != null) bits.push(`<span class="fmx-pace" style="--p:${Math.max(0, Math.min(1, paceV / 15)).toFixed(4)}">${paceV.toFixed(1)} sig/min combined</span>`);
-                                // the striking-heavy chip is new-look only, so the classic card reads exactly as before
-                                if (isV2 && paceV != null && paceV >= 10) bits.push('<span class="fmx-tag strike">striking-heavy</span>');
-                                if (grap >= 3) bits.push('<span class="fmx-tag grap">grappling-heavy</span>');
                             } else bits.push('<span class="fmx-tag thin">limited UFC data</span>');
                             const split = Math.max(0, Math.min(1, a.salary / ((a.salary + z.salary) || 1)));
                             return `<button type="button" class="fmx-card" data-bout="${i}">` +

@@ -309,14 +309,16 @@
         /* Favorites */
         .favorites-section { display: none; margin: 0; flex: none; }
         .favorites-tiles { display: block; }
-        .fav-dd .pfd-menu { left: auto; right: 0; min-width: 230px; max-width: min(92vw, 320px); padding: 6px; }
+        .quick-search-bar { position: relative; }
+        .favorites-tiles .fav-dd { position: static; }   /* the menu anchors to the whole search bar */
+        .favorites-tiles .fav-dd .pfd-menu { left: 0; right: 0; top: calc(100% + 6px); min-width: 0; max-width: none; padding: 6px; }
         .fav-item { justify-content: space-between; }
         .fav-item .fav-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .fav-item .fav-remove { flex: none; padding: 0 4px; color: var(--text-secondary); opacity: 0.6; font-size: 1rem; line-height: 1; }
         .fav-item .fav-remove:hover { color: var(--accent-red); opacity: 1; }
         .quick-search-bar .pfd-btn { white-space: nowrap; }
         .quick-search-bar input { min-width: 0; }
-        .fav-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; padding: 8px 8px 4px; border-top: 1px solid var(--border); font-size: 0.76rem; color: var(--text-secondary); }
+        .fav-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; padding: 6px 8px 10px; border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--text-secondary); }
         .fav-foot b { color: var(--text-primary); font-weight: 600; }
         .fav-foot button { font: inherit; font-size: 0.7rem; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); cursor: pointer; }
         .fav-foot button:hover { color: var(--text-primary); border-color: var(--accent); }
@@ -5039,6 +5041,7 @@
             const closeAll = (except) => {
                 document.querySelectorAll('.pfd.open').forEach(el => {
                     if (except && el.contains(except)) return;
+                    if (except && except.id === 'quick-search-input' && el.classList.contains('fav-dd')) return;
                     el.classList.remove('open');
                     el.querySelector('.pfd-menu').hidden = true;
                     el.querySelector('.pfd-btn').setAttribute('aria-expanded', 'false');
@@ -5078,14 +5081,14 @@
                         <span class="pfd-caret">&#9662;</span>
                     </button>
                     <div class="pfd-menu" hidden>
-                        ${ordered.length ? ordered.map(name => `<div class="pfd-item fav-item" data-name="${esc(name)}">
-                            <span class="fav-name">${esc(name)}</span>
-                            <span class="fav-remove" title="Remove from favorites" data-remove="${esc(name)}">&times;</span>
-                        </div>`).join('') : '<div class="fav-empty">No favorites yet. Star a username in its results to add it.</div>'}
                         ${meName ? `<div class="fav-foot" data-fav-foot>
                             <span>You: <b>${esc(meName)}</b></span>
                             <button type="button" data-fav-edit>Change</button>
                         </div>` : ''}
+                        ${ordered.length ? ordered.map(name => `<div class="pfd-item fav-item" data-name="${esc(name)}">
+                            <span class="fav-name">${esc(name)}</span>
+                            <span class="fav-remove" title="Remove from favorites" data-remove="${esc(name)}">&times;</span>
+                        </div>`).join('') : '<div class="fav-empty">No favorites yet. Star a username in its results to add it.</div>'}
                     </div>
                 </div>`;
 
@@ -5097,6 +5100,7 @@
                 menu.hidden = !open;
                 btn.setAttribute('aria-expanded', open ? 'true' : 'false');
             };
+            dd._setOpen = setOpen;
             btn.addEventListener('click', (e) => { e.stopPropagation(); setOpen(menu.hidden); });
             menu.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -5116,6 +5120,12 @@
             });
             installDropdownClose();
             if (keepOpen) setOpen(true);
+        }
+
+        // Clicking into an empty search box shows the favorites; typing hides them.
+        function setFavoritesMenu(open) {
+            const dd = document.querySelector('#favorites-tiles .fav-dd');
+            if (dd && dd._setOpen) dd._setOpen(open);
         }
 
         // Mistyped the name at the gate? Change it here: the new name becomes
@@ -6097,9 +6107,11 @@
             // Start building the username index in the background
             buildUsernameIndex();
 
+            input.addEventListener('focus', () => { if (!input.value.trim()) setFavoritesMenu(true); });
             input.addEventListener('input', () => {
                 clearTimeout(searchTimeout);
                 const query = input.value.trim();
+                setFavoritesMenu(query.length === 0);
 
                 // Show autocomplete dropdown
                 if (query.length >= 1) {

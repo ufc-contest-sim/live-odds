@@ -307,10 +307,21 @@
 
 
         /* Favorites */
-        .favorites-section {
-            margin-top: 16px;
-            display: none;
-        }
+        .favorites-section { display: none; margin: 0; flex: none; }
+        .favorites-tiles { display: block; }
+        .fav-dd .pfd-menu { left: auto; right: 0; min-width: 230px; max-width: min(92vw, 320px); padding: 6px; }
+        .fav-item { justify-content: space-between; }
+        .fav-item .fav-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .fav-item .fav-remove { flex: none; padding: 0 4px; color: var(--text-secondary); opacity: 0.6; font-size: 1rem; line-height: 1; }
+        .fav-item .fav-remove:hover { color: var(--accent-red); opacity: 1; }
+        .quick-search-bar .pfd-btn { white-space: nowrap; }
+        .quick-search-bar input { min-width: 0; }
+        .fav-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; padding: 8px 8px 4px; border-top: 1px solid var(--border); font-size: 0.76rem; color: var(--text-secondary); }
+        .fav-foot b { color: var(--text-primary); font-weight: 600; }
+        .fav-foot button { font: inherit; font-size: 0.7rem; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); cursor: pointer; }
+        .fav-foot button:hover { color: var(--text-primary); border-color: var(--accent); }
+        .fav-foot input { flex: 1; min-width: 0; font: inherit; font-size: 0.82rem; padding: 4px 8px; border-radius: 3px; background: var(--fn-inset, var(--bg-card)); border: 1px solid var(--glass-border); color: var(--text-primary); }
+        .fav-empty { padding: 8px; font-size: 0.78rem; color: var(--text-secondary); }
 
         .favorites-section.visible {
             display: block;
@@ -4089,10 +4100,6 @@
         body.v2 .stat-row .label { font-family: 'Chakra Petch', monospace; font-size: 0.64rem; letter-spacing: 1.2px; }
         body.v2 .stat-row .value { font-family: var(--v2-mono); font-weight: 500; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
         body.v2 .sdb-title, body.v2 .hb-name-title { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700; letter-spacing: 0.5px; }
-        /* --- About: look switcher --- */
-        .about-look { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 22px; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-secondary); }
-        .about-look button { font: inherit; letter-spacing: inherit; text-transform: inherit; padding: 6px 12px; border-radius: 3px; border: 1px solid var(--glass-border); background: transparent; color: var(--text-secondary); cursor: pointer; }
-        .about-look button:hover, .about-look button.on { color: var(--text-primary); border-color: var(--accent); }
         @media (max-width: 768px) {
             body.v2 .landing-page { padding-top: 10px; }
             body.v2 .landing-header { gap: 8px 12px; padding-bottom: 10px; }
@@ -4123,17 +4130,7 @@
                 if (q === 'classic' || q === 'v2') localStorage.setItem('mmaLiveSim_skin', q);
                 if (localStorage.getItem('mmaLiveSim_skin') !== 'classic') document.body.classList.add('v2');
             } catch (e) { document.body.classList.add('v2'); }
-            document.addEventListener('DOMContentLoaded', function () {
-                var cur = document.body.classList.contains('v2') ? 'v2' : 'classic';
-                document.querySelectorAll('.about-look button').forEach(function (b) { b.classList.toggle('on', b.dataset.look === cur); });
-            });
         })();
-        function setSiteLook(look) {
-            try { localStorage.setItem('mmaLiveSim_skin', look); } catch (e) { /* private mode */ }
-            var u = new URL(location.href);
-            u.searchParams.delete('skin');
-            location.replace(u.toString());   /* re-render everything in the chosen look */
-        }
     </script>
     <div class="live-ticker" id="live-ticker" style="display: none;">
         <div class="live-ticker-track" id="live-ticker-track"></div>
@@ -4168,14 +4165,11 @@
                     <div class="quick-search-bar">
                         <span class="quick-search-icon">&#128269;</span>
                         <input type="text" id="quick-search-input" placeholder="Search your username..." autocomplete="off">
+                        <div id="favorites-section" class="favorites-section">
+                            <div id="favorites-tiles" class="favorites-tiles"></div>
+                        </div>
                     </div>
                     <div id="username-dropdown" class="username-dropdown"></div>
-                </div>
-                <div id="favorites-section" class="favorites-section">
-                    <div class="favorites-header">
-                        <span class="favorites-label">Favorites</span>
-                    </div>
-                    <div id="favorites-tiles" class="favorites-tiles"></div>
                 </div>
                 <div id="quick-search-results" class="quick-search-results"></div>
             </div>
@@ -4196,11 +4190,6 @@
                 <div class="about-links">
                     <a class="about-btn discord" href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">Join the Discord</a>
                     <a class="about-btn xlink" href="https://x.com/mmalivesim" target="_blank" rel="noopener">Follow me on X</a>
-                </div>
-                <div class="about-look">
-                    <span>Site look</span>
-                    <button type="button" data-look="v2" onclick="setSiteLook('v2')">New</button>
-                    <button type="button" data-look="classic" onclick="setSiteLook('classic')">Classic</button>
                 </div>
                 <p class="about-disclaim">MMA LiveSim is not affiliated with, endorsed by, or sponsored by DraftKings.</p>
             </div>
@@ -5030,11 +5019,11 @@
             renderFavorites();
         }
 
-        function removeFavoriteUser(username) {
+        function removeFavoriteUser(username, keepOpen) {
             let favorites = loadFavorites();
             favorites = favorites.filter(f => f.toLowerCase() !== username.toLowerCase());
             saveFavorites(favorites);
-            renderFavorites();
+            renderFavorites(keepOpen);
         }
 
         function isFavorite(username) {
@@ -5042,23 +5031,116 @@
             return favorites.some(f => f.toLowerCase() === username.trim().toLowerCase());
         }
 
-        function renderFavorites() {
+        // One document-level handler closes any open .pfd dropdown (contest
+        // filter, favorites) on an outside click or Escape.
+        function installDropdownClose() {
+            if (document._pfdOutsideClick) return;
+            document._pfdOutsideClick = true;
+            const closeAll = (except) => {
+                document.querySelectorAll('.pfd.open').forEach(el => {
+                    if (except && el.contains(except)) return;
+                    el.classList.remove('open');
+                    el.querySelector('.pfd-menu').hidden = true;
+                    el.querySelector('.pfd-btn').setAttribute('aria-expanded', 'false');
+                });
+            };
+            document.addEventListener('click', (e) => closeAll(e.target));
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(null); });
+        }
+
+        function renderFavorites(keepOpen) {
             const favorites = loadFavorites();
             const section = document.getElementById('favorites-section');
             const tilesContainer = document.getElementById('favorites-tiles');
 
-            if (favorites.length === 0) {
+            const meName = getVisitor().trim();
+            if (favorites.length === 0 && !meName) {
                 section.classList.remove('visible');
+                tilesContainer.innerHTML = '';
                 return;
             }
 
+            // The visitor's own name first, everyone else alphabetical.
+            const me = meName.toLowerCase();
+            const ordered = favorites.slice().sort((a, b) => {
+                const am = a.toLowerCase() === me, bm = b.toLowerCase() === me;
+                if (am !== bm) return am ? -1 : 1;
+                return a.localeCompare(b, undefined, { sensitivity: 'base' });
+            });
+            const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
             section.classList.add('visible');
-            tilesContainer.innerHTML = favorites.map(name => `
-                <div class="favorite-tile" onclick="searchFavorite('${name.replace(/'/g, "\\'")}')">
-                    <span class="fav-name">${name}</span>
-                    <span class="fav-remove" onclick="event.stopPropagation(); removeFavoriteUser('${name.replace(/'/g, "\\'")}')">&times;</span>
-                </div>
-            `).join('');
+            tilesContainer.innerHTML = `
+                <div class="pfd fav-dd">
+                    <button type="button" class="pfd-btn" aria-haspopup="true" aria-expanded="false">
+                        <span>Favorites</span>
+                        <span class="pfd-count">${ordered.length}</span>
+                        <span class="pfd-caret">&#9662;</span>
+                    </button>
+                    <div class="pfd-menu" hidden>
+                        ${ordered.length ? ordered.map(name => `<div class="pfd-item fav-item" data-name="${esc(name)}">
+                            <span class="fav-name">${esc(name)}</span>
+                            <span class="fav-remove" title="Remove from favorites" data-remove="${esc(name)}">&times;</span>
+                        </div>`).join('') : '<div class="fav-empty">No favorites yet. Star a username in its results to add it.</div>'}
+                        ${meName ? `<div class="fav-foot" data-fav-foot>
+                            <span>You: <b>${esc(meName)}</b></span>
+                            <button type="button" data-fav-edit>Change</button>
+                        </div>` : ''}
+                    </div>
+                </div>`;
+
+            const dd = tilesContainer.querySelector('.fav-dd');
+            const btn = dd.querySelector('.pfd-btn');
+            const menu = dd.querySelector('.pfd-menu');
+            const setOpen = (open) => {
+                dd.classList.toggle('open', open);
+                menu.hidden = !open;
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            };
+            btn.addEventListener('click', (e) => { e.stopPropagation(); setOpen(menu.hidden); });
+            menu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rm = e.target.closest('[data-remove]');
+                if (rm) { removeFavoriteUser(rm.dataset.remove, true); return; }
+                if (e.target.closest('[data-fav-edit]')) { startVisitorRename(menu); return; }
+                if (e.target.closest('[data-fav-save]')) { finishVisitorRename(menu); return; }
+                if (e.target.closest('[data-fav-foot]')) return;
+                const item = e.target.closest('.fav-item');
+                if (!item) return;
+                setOpen(false);
+                searchFavorite(item.dataset.name);
+            });
+            menu.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.target.matches('[data-fav-input]')) { e.preventDefault(); finishVisitorRename(menu); }
+                if (e.key === 'Escape' && e.target.matches('[data-fav-input]')) { e.stopPropagation(); renderFavorites(true); }
+            });
+            installDropdownClose();
+            if (keepOpen) setOpen(true);
+        }
+
+        // Mistyped the name at the gate? Change it here: the new name becomes
+        // the visitor for logging, replaces the old one in favorites, and
+        // moves to the top of the list.
+        function startVisitorRename(menu) {
+            const foot = menu.querySelector('[data-fav-foot]');
+            if (!foot) return;
+            const cur = getVisitor().trim().replace(/"/g, '&quot;');
+            foot.innerHTML = `<input type="text" data-fav-input value="${cur}" maxlength="40" autocomplete="off" spellcheck="false">
+                <button type="button" data-fav-save>Save</button>`;
+            const inp = foot.querySelector('input');
+            inp.focus(); inp.select();
+        }
+        function finishVisitorRename(menu) {
+            const inp = menu.querySelector('[data-fav-input]');
+            if (!inp) return;
+            const next = inp.value.trim();
+            const prev = getVisitor().trim();
+            if (!next || next.toLowerCase() === prev.toLowerCase()) { renderFavorites(true); return; }
+            try { localStorage.setItem('mmaLiveSim_visitor', next); } catch (e) { /* private mode */ }
+            let favorites = loadFavorites().filter(f => f.toLowerCase() !== prev.toLowerCase());
+            if (!favorites.some(f => f.toLowerCase() === next.toLowerCase())) favorites.push(next);
+            saveFavorites(favorites);
+            renderFavorites(true);
         }
 
         function searchFavorite(username) {
@@ -5527,8 +5609,15 @@
             // not a sliver.
             const hasPos = items.some(d => d.val > 0);
             const hasNeg = items.some(d => d.val < 0);
-            let posShare = posRef / (posRef + negRef);
-            if (hasPos && hasNeg) posShare = Math.min(0.75, Math.max(0.25, posShare));
+            // Split the chart height between the two sides by the LOG of each
+            // side's largest value, best outcome included. A $115K tail next
+            // to a $600 floor gets most of the height, so the upside reads as
+            // big, while the losses keep enough room to stay readable. Within
+            // each side bars stay linear (p100 still clamps with a dashed cap).
+            const posMaxAll = Math.max(...items.filter(d => d.val > 0).map(d => d.val), 0);
+            const lp = Math.log10(1 + posMaxAll), ln = Math.log10(1 + negRef);
+            let posShare = (lp + ln) > 0 ? lp / (lp + ln) : 0.5;
+            if (hasPos && hasNeg) posShare = Math.min(0.8, Math.max(0.2, posShare));
             else if (hasPos) posShare = 1; else if (hasNeg) posShare = 0;
 
             const H = 300, pad = 18;
@@ -5726,26 +5815,7 @@
                 menu.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = act.dataset.pfd === 'all'; });
                 onPortfolioFilterChange();
             });
-            if (!document._pfdOutsideClick) {
-                document._pfdOutsideClick = true;
-                document.addEventListener('click', (e) => {
-                    document.querySelectorAll('.pfd.open').forEach(el => {
-                        if (!el.contains(e.target)) {
-                            el.classList.remove('open');
-                            el.querySelector('.pfd-menu').hidden = true;
-                            el.querySelector('.pfd-btn').setAttribute('aria-expanded', 'false');
-                        }
-                    });
-                });
-                document.addEventListener('keydown', (e) => {
-                    if (e.key !== 'Escape') return;
-                    document.querySelectorAll('.pfd.open').forEach(el => {
-                        el.classList.remove('open');
-                        el.querySelector('.pfd-menu').hidden = true;
-                        el.querySelector('.pfd-btn').setAttribute('aria-expanded', 'false');
-                    });
-                });
-            }
+            installDropdownClose();
         }
 
         function onPortfolioFilterChange() {

@@ -4083,8 +4083,37 @@
             body.v2 .pcw-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
             body.v2 .pcw-exposure { margin-top: 0; }
         }
+        /* --- scoring insights: picking an outcome tile dims the rest --- */
+        body.v2 #sdbInsightAll .sdb-tile { border: 1px solid var(--v2-l2); border-left: 2px solid var(--v2-ink3); box-shadow: none; }
+        body.v2 #sdbInsightAll .sdb-tile .tlabel { color: var(--v2-ink2); font-size: 0.64rem; }
+        body.v2 #sdbInsightAll .sdb-tile.sel { border-color: var(--accent); background: rgba(var(--a-rgb), 0.07); }
+        body.v2 #sdbInsightAll .sdb-tile.sel .tlabel { color: var(--v2-ink1); }
+        body:has(#sdbInsightTiles .sdb-tile.sel) #sdbInsightAll .sdb-tile:not(.sel),
+        body:has(#sdbInsightTiles .sdb-tile.sel) #sdbInsightTiles .sdb-tile:not(.sel) { opacity: 0.38; filter: saturate(0.3); }
+        body:has(#sdbInsightTiles .sdb-tile.sel) .sdb-tile:not(.sel):hover { opacity: 0.85; filter: none; }
         /* --- contest page --- */
         body.v2 .leaderboard-page { padding-top: 22px; }
+        /* Color that carries information: orange section titles, an orange
+           rule under every table header, orange slot badges on fighter chips,
+           and a depth wash behind Win % and Cash % cells. */
+        body.v2 .stats-vertical h3, body.v2 .fighter-draft-container h3, body.v2 .dupes-container h3,
+        body.v2 .chart-card h3, body.v2 .fight-card-container h3, body.v2 .portfolio-chart-title,
+        body.v2 .pcw-head .portfolio-chart-title, body.v2 .pex-title, body.v2 .sdb-title { color: var(--accent); }
+        body.v2 .pex-title .pex-meta, body.v2 .pcw-head .pfd-btn { color: var(--v2-ink3); }
+        body.v2 th, body.v2 .contest-table th, body.v2 #username-table thead th, body.v2 #lineup-table thead th,
+        body.v2 #portfolio-table thead th, body.v2 .sdb-table thead th, body.v2 .whatif-table-scroll thead th, body.v2 .pex-table th {
+            color: var(--v2-ink2); border-bottom: 2px solid rgba(var(--a-rgb), 0.55);
+        }
+        body.v2 .fighter-chip { border-left: 2px solid var(--accent); }
+        body.v2 .fighter-chip .slot { background: var(--accent); color: #000; border-color: transparent; font-weight: 700; }
+        body.v2 .fighter-chip:has(.slot) { border-left-width: 1px; border-left-color: var(--v2-l2); }
+        body.v2 td.depth {
+            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.22), rgba(var(--a-rgb), 0.22));
+            background-repeat: no-repeat; background-size: calc(var(--p, 0) * 100%) 100%; background-position: right center;
+        }
+        body.v2 .row-main:hover td.depth, body.v2 .row-main.expanded td.depth { background-color: var(--v2-hover); }
+        body.v2 #username-table td.username, body.v2 .row-count { color: var(--v2-ink1); }
+        body.v2 #username-table td:nth-child(2), body.v2 #lineup-table td:first-child { color: var(--accent); font-family: var(--v2-mono); }
         body.v2 #contest-name { font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700; font-size: 1.5rem; letter-spacing: 0.5px; text-transform: none; text-shadow: none; }
         body.v2 .updated { font-family: 'Inter', sans-serif; font-size: 0.78rem; letter-spacing: 0; text-transform: none; color: var(--v2-ink3); }
         body.v2 .back-btn { background: transparent; border: 0; box-shadow: none; border-radius: 0; color: var(--v2-ink2); font-family: 'Chakra Petch', monospace; font-size: 0.7rem; letter-spacing: 1.2px; text-transform: uppercase; padding: 6px 0; }
@@ -7162,6 +7191,23 @@
             });
         }
 
+        // New look: tint Win % and Cash % cells with an orange wash proportional
+        // to the best value in the table, growing from the right edge of the cell.
+        function applyDepthWash(tbody, cols) {
+            if (!tbody || !document.body.classList.contains('v2')) return;
+            const rows = Array.from(tbody.querySelectorAll('tr.row-main'));
+            for (const c of cols) {
+                const vals = rows.map(r => parseFloat((r.children[c] || { textContent: '' }).textContent) || 0);
+                const max = Math.max(...vals, 0);
+                rows.forEach((r, i) => {
+                    const td = r.children[c];
+                    if (!td) return;
+                    td.classList.add('depth');
+                    td.style.setProperty('--p', max > 0 ? (vals[i] / max).toFixed(3) : '0');
+                });
+            }
+        }
+
         function renderUsernameView(data) {
             // Render (show top 1000 for performance)
             const displayData = data.slice(0, 1000);
@@ -7246,6 +7292,7 @@
                     </tr>
                 `;
             }).join('');
+            applyDepthWash(document.getElementById('leaderboard'), [3, 6]);
         }
         
         function renderLineupView(data) {
@@ -7368,6 +7415,7 @@
                     </tr>
                 `;
             }).join('');
+            applyDepthWash(tbody, [2, 5]);
         }
 
         // Populate the "Dupes by User" panel: who shares the most lineups with

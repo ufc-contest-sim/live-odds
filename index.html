@@ -4098,9 +4098,9 @@
         body.v2 #sdbInsightAll .sdb-tile .tlabel { color: var(--v2-ink2); font-size: 0.64rem; }
         body.v2 #sdbInsightAll .sdb-tile.sel { border-color: var(--accent); background: rgba(var(--a-rgb), 0.07); }
         body.v2 #sdbInsightAll .sdb-tile.sel .tlabel { color: var(--v2-ink1); }
-        body:has(#sdbInsightTiles .sdb-tile.sel) #sdbInsightAll .sdb-tile:not(.sel),
-        body:has(#sdbInsightTiles .sdb-tile.sel) #sdbInsightTiles .sdb-tile:not(.sel) { opacity: 0.38; filter: saturate(0.3); }
-        body:has(#sdbInsightTiles .sdb-tile.sel) .sdb-tile:not(.sel):hover { opacity: 0.85; filter: none; }
+        body.v2:has(#sdbInsightTiles .sdb-tile.sel) #sdbInsightAll .sdb-tile:not(.sel),
+        body.v2:has(#sdbInsightTiles .sdb-tile.sel) #sdbInsightTiles .sdb-tile:not(.sel) { opacity: 0.38; filter: saturate(0.3); }
+        body.v2:has(#sdbInsightTiles .sdb-tile.sel) .sdb-tile:not(.sel):hover { opacity: 0.85; filter: none; }
         /* --- contest page --- */
         body.v2 .leaderboard-page { padding-top: 22px; }
         /* Color that carries information: orange section titles, an orange
@@ -4115,7 +4115,7 @@
             color: var(--v2-ink2); border-bottom: 2px solid rgba(var(--a-rgb), 0.55);
         }
         body.v2 .fighter-chip { border-left: 2px solid var(--accent); }
-        body.v2 .fighter-chip .slot { background: var(--accent); color: #000; border-color: transparent; font-weight: 700; }
+        body.v2 .fighter-chip .slot { background: var(--accent); color: rgba(0, 0, 0, 0.88); border-color: transparent; font-weight: 700; }
         body.v2 .fighter-chip:has(.slot) { border-left-width: 1px; border-left-color: var(--v2-l2); }
         /* Share bars behind Win % / Cash %: the same faint fill as the exposure
            table's $ bar, left-aligned and 62% of the row, always out of 100%
@@ -7214,8 +7214,9 @@
             });
         }
 
-        // New look: tint Win % and Cash % cells with an orange wash proportional
-        // to the best value in the table, growing from the right edge of the cell.
+        // New look: draw a share bar behind the Win % and Cash % cells. Each bar
+        // is the cell's own percent of 100 (via --p) over a faint full-width track,
+        // left-aligned like the exposure table's $ bar; see body.v2 td.depth.
         function applyDepthWash(tbody, cols) {
             if (!tbody || !document.body.classList.contains('v2')) return;
             const rows = Array.from(tbody.querySelectorAll('tr.row-main'));

@@ -5195,11 +5195,8 @@
         body.v2 .hb-meter.empty #hbLeft { color: var(--v2-ink3); }
         body.v2 .hb-meter.over #hbLeft { color: var(--accent-red); }
         body.v2 .hb-meter #hbPerSlot { color: var(--v2-ink2); }
-        body.v2 .hb-count.full { border-color: var(--accent-green); color: var(--accent-green); }
+        body.v2 .hb-count.full { border-color: var(--accent-green); }
         body.v2 .hb-meter.over .hb-count { border-color: var(--accent-red); color: var(--accent-red); }
-        body.v2 .hb-status.ok { color: var(--accent-green); }
-        body.v2 .hb-status.over { color: var(--accent-red); }
-        body.v2 .hb-dup { color: var(--accent-red); }
         /* editing a saved lineup is an active state: the note reads orange */
         body.v2 .hb-editnote { color: var(--accent); }
         /* --- slots: filled slots carry a 2px orange rule and an F1..F6 badge, empty slots stay quiet --- */
@@ -5219,29 +5216,26 @@
         body.v2 .hb-row.picked:hover { background: rgba(var(--a-rgb), 0.1); }
         /* a picked fighter who is marked out keeps the wash but the rule goes red */
         body.v2 .hb-row.cx.picked { background: rgba(var(--a-rgb), 0.07); box-shadow: inset 2px 0 0 var(--accent-red); }
-        body.v2 .hb-row.picked .hb-add { background: transparent; border-color: var(--accent); color: var(--accent); }
+        body.v2 .hb-row.picked .hb-add { border-color: var(--accent); color: var(--accent); }
         body.v2 .hb-row.picked .hb-add:hover { background: rgba(var(--a-rgb), 0.16); border-color: var(--accent-hi); color: var(--accent-hi); }
         body.v2 .hb-row:not(.picked) .hb-add:hover { background: var(--accent); border-color: var(--accent); color: rgba(0, 0, 0, 0.88); }
         body.v2 .hb-lockbtn:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
         body.v2 .hb-lockbtn.on { background: rgba(var(--a-rgb), 0.16); border-color: var(--accent); color: var(--accent); }
         body.v2 .hb-lockbtn.on:hover { background: rgba(var(--a-rgb), 0.24); border-color: var(--accent-hi); color: var(--accent-hi); }
         body.v2 .hb-row.cx .hb-name, body.v2 .hb-row.cx .hb-sal { color: var(--v2-ink3); }
-        body.v2 .hb-cxbtn:hover { background: transparent; border-color: var(--accent-red); color: var(--accent-red); }
-        body.v2 .hb-cxbtn.on { background: transparent; border-color: var(--accent-red); color: var(--accent-red); }
+        body.v2 .hb-cxbtn:hover, body.v2 .hb-cxbtn.on { background: transparent; border-color: var(--accent-red); }
         body.v2 .hb-cx-chip .undo:hover { color: var(--accent); }
         /* --- inputs focus orange; Clear and Clear all scores warn in red on hover, Export hovers orange --- */
         body.v2 .hb-search:focus, body.v2 .hb-sort:focus, body.v2 #hbNameInput:focus, body.v2 .hbw-in:focus { border-color: var(--accent); }
-        body.v2 #builder-view #hbClear:hover, body.v2 #builder-view #hbwClear:hover { color: var(--accent-red); border-color: var(--v2-l3); }
+        body.v2 #builder-view #hbClear:hover, body.v2 #builder-view #hbwClear:hover { color: var(--accent-red); }
         body.v2 #builder-view #hbExport:hover { border-color: var(--accent); color: var(--accent); }
         body.v2 .hb-name-title { color: var(--accent); }
         body.v2 #builder-view .fs2-note strong { color: var(--v2-ink1); }
         /* --- saved lineups: orange eyebrows and salary totals, red tags, red remove --- */
         body.v2 .hb-saved-head { color: var(--accent); }
-        body.v2 .hb-saved-head.at-max { color: var(--accent-red); }
         body.v2 .hb-saved-sal { color: var(--accent); }
         body.v2 .hb-saved-row.dead .hb-saved-sal { color: var(--v2-ink3); }
         body.v2 #builder-view .edit-tag { color: var(--accent); }
-        body.v2 #builder-view .dead-tag { color: var(--accent-red); }
         body.v2 .hb-saved-row .rm { color: var(--accent-red); opacity: 0.7; }
         body.v2 .hb-saved-row .rm:hover { color: var(--accent-red); opacity: 1; }
         /* --- exposure %: the Tape's share bar (percent of 100 over a faint track) behind the figure;
@@ -5255,11 +5249,11 @@
             background-size: calc(var(--p, 0) * 100%) 20px, 100% 20px;
             background-position: 0 50%, 0 50%;
         }
-        body.v2 .hb-expo-pct span { color: var(--v2-ink1); padding-right: 4px; }
+        body.v2 .hb-expo-pct span { padding-right: 4px; }
         /* --- portfolio cards: header strip with the site's 2px orange rule, rank and DK total orange,
                each What If score behind a share bar (its share of the slate's best score, --p from hbRenderPortfolio) --- */
         body.v2 .hbp-head { border-bottom: 2px solid rgba(var(--a-rgb), 0.55); }
-        body.v2 .hbp-head .rk { color: var(--accent); font-weight: 700; }
+        body.v2 .hbp-head .rk { color: var(--accent); }
         body.v2 .hbp-head .tot { color: var(--accent); }
         body.v2 .hbp-f .sc { min-width: 56px; padding: 0 4px; }
         body.v2 .hbp-f .sc.share {
@@ -5273,7 +5267,6 @@
         body.v2 .hbp-f.out .nm { color: var(--accent-red); text-decoration: line-through; }
         body.v2 .hbp-f.out .sc { color: var(--v2-ink3); }
         body.v2 .hbp-foot { color: var(--v2-ink2); }
-        body.v2 .hbp-foot .dead-tag { color: var(--accent-red); }
         /* --- What If: a projection reads orange once it is typed, the empty box stays quiet --- */
         body.v2 .hbw-in:not(:placeholder-shown) { color: var(--accent); border-color: rgba(var(--a-rgb), 0.45); }
         body.v2 .hbw-in:not(:placeholder-shown):focus { border-color: var(--accent); }
@@ -5296,7 +5289,7 @@
         /* --- status copy: a success note reads green, errors red --- */
         body.v2 .opt-note { color: var(--v2-ink2); }
         body.v2 .opt-note.ok { color: var(--accent-green); }
-        body.v2 .opt-note.bad, body.v2 .opt-err { color: var(--accent-red); }
+        body.v2 .opt-note.bad { color: var(--accent-red); }
         /* --- projections grid: salary bright; an entered value reads bright on a faint orange wash,
                an empty or zero one stays quiet (the JS toggles .filled on input and after each render) --- */
         body.v2 .opt-grid td.sal { color: var(--v2-ink1); }
@@ -5318,13 +5311,11 @@
             color: var(--v2-ink3); background: var(--v2-inset); border-color: var(--v2-l1);
         }
         body.v2 .opt-grid tr.excluded input[data-k="lock"] { border-color: var(--v2-l2); }
-        /* --- results: projection is the orange key number, salary bright, shares quiet, rank quietest --- */
+        /* --- results: projection is the orange key number, salary bright (shares and rank keep the base look's quiet inks) --- */
         body.v2 .opt-results-head .sdb-ladder-title { color: var(--accent); }
         body.v2 .opt-results-table tbody tr:hover { background: var(--v2-s2); }
         body.v2 .opt-results-table td.lu-proj { color: var(--accent); font-weight: 700; }
         body.v2 .opt-results-table td.lu-proj + td { color: var(--v2-ink1); }
-        body.v2 .opt-results-table td.lu-num, body.v2 .opt-results-table td.lu-lev { color: var(--v2-ink2); }
-        body.v2 .opt-results-table td.lu-rank { color: var(--v2-ink3); }
         body.v2 .opt-results-table th.sortable:hover { color: var(--accent); }
         body.v2 .lu-stack-tag { color: var(--accent); border-color: rgba(var(--a-rgb), 0.5); }
         /* --- exposure chips: the share bar (percent of the portfolio, --p set inline by the
@@ -5360,7 +5351,6 @@
         body.v2 .fsx-hero .rec .rw { color: var(--accent-green); }
         body.v2 .fsx-hero .rec .rl { color: var(--accent-red); }
         body.v2 .fsx-hero .rec .rd { color: var(--v2-ink3); }
-        body.v2 .fsx-hero .wc { color: var(--v2-ink3); }
         /* --- record log: orange eyebrow, the site's orange rule under the column header,
                the subject's DK column, a method dot per fight, the AVG footer --- */
         body.v2 .fsx-secbar .t { color: var(--accent); }
@@ -5373,9 +5363,6 @@
         body.v2 .fsx-mdot.dec { background: #5b7fe8; }    /* TREND_STACK Decision */
         body.v2 .fsx-table tfoot td { border-top: 2px solid rgba(var(--a-rgb), 0.55); }
         body.v2 .fsx-table tfoot td.l, body.v2 .fsx-table tfoot td.dk { color: var(--accent); }
-        body.v2 .fsx-table tfoot tr.opp td { border-top: 1px solid var(--v2-l1); }
-        body.v2 .fsx-table tfoot tr.opp td.l, body.v2 .fsx-table tfoot tr.opp td.dk { color: var(--v2-ink2); }
-        body.v2 .fsx-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
         /* --- stats profile: the headline DK number, green or red ranks (60th and up,
                40th and down), an orange count badge and an orange caret on open sections,
                orange per-round pace bars --- */
@@ -5418,15 +5405,15 @@
             font-family: 'Chakra Petch', monospace; font-size: 0.6rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
             color: var(--v2-ink3); border: 1px solid var(--v2-l2);
         }
-        body.v2 .fmx-tag.strike { color: var(--accent-red); border-color: transparent; background: color-mix(in srgb, var(--accent-red) 14%, transparent); }
-        body.v2 .fmx-tag.grap { color: var(--accent-green); border-color: transparent; background: color-mix(in srgb, var(--accent-green) 14%, transparent); }
+        /* style chips use the categorical palette (a style is a kind, not good or bad): the two hexes are TREND_STACK colors */
+        body.v2 .fmx-tag.strike { color: #d92e44; border-color: transparent; background: color-mix(in srgb, #d92e44 14%, transparent); }   /* TREND_STACK KO/TKO */
+        body.v2 .fmx-tag.grap { color: #0fa862; border-color: transparent; background: color-mix(in srgb, #0fa862 14%, transparent); }     /* TREND_STACK Submission */
         body.v2 .fmx-card:hover .fno { color: var(--accent-hi); }
         /* --- modals: the subject (the looked-up fighter, or the favorite) in orange, orange
                section eyebrows, the category split bars orange vs hairline, hover orange --- */
         body.v2 .fxm-names .me { color: var(--accent); }
         body.v2 .fxm-divlbl, body.v2 .fmx-sec { color: var(--accent); }
         body.v2 .fxm-bar i { background: var(--accent); }
-        body.v2 .fxm-bar b { background: var(--v2-l3); }
         body.v2 .fxm-row.big .fxm-a { color: var(--accent); }
         body.v2 .fxm-sub .fsx-mdot { margin-right: 5px; }
         body.v2 .fxm-x:hover { color: var(--accent); }
@@ -5473,9 +5460,10 @@
         body.v2 #scoringdb-view .sdb-table td.dktot { color: var(--accent); }
         body.v2 #scoringdb-view .sdb-table tbody tr:hover { background: var(--v2-s2); }
         body.v2 #scoringdb-view .sdb-table tbody tr:hover td.fcell { color: var(--accent); }
-        /* the match count: block, not flex, so the orange <b> keeps its spaces */
+        /* the match count: block, not flex, so the orange number keeps its spaces (a plain
+           span, not <b>, so the classic skin keeps its weight) */
         body.v2 #scoringdb-view .sdb-count { display: block; text-align: right; }
-        body.v2 #scoringdb-view .sdb-count b { font-weight: 500; color: var(--accent); }
+        body.v2 #scoringdb-view .sdb-count .n { font-weight: 500; color: var(--accent); }
         /* an active filter shows orange: a typed name, a chosen option, the checked box */
         body.v2 #scoringdb-view .sdb-fg input:not(:placeholder-shown),
         body.v2 #scoringdb-view .sdb-fg select:has(option:checked:not([value=""])) { border-color: var(--accent); color: var(--accent); }
@@ -5492,7 +5480,7 @@
         body.v2 .tr-svg .tr-endval { fill: var(--accent); }
         body.v2 .tr-dot { stroke: var(--v2-inset); stroke-width: 1.5; }
         body.v2 .tr-cross { stroke: var(--accent); stroke-opacity: 0.7; }
-        body.v2 .tr-readout b { font-weight: 500; color: var(--accent); }
+        body.v2 .tr-readout .n { font-weight: 500; color: var(--accent); }
 
         /* --- v2 color: shell --- */
         /* =====================================================================
@@ -5515,19 +5503,17 @@
         body.v2 .pfd-count { color: var(--accent); }
         body.v2 .fav-you { color: var(--accent); }
         body.v2 .fav-item:hover .fav-name { color: var(--accent); }
-        body.v2 .fav-me button:hover { color: var(--accent); border-color: var(--accent); }
+        body.v2 .fav-me button:hover { color: var(--accent); }
         body.v2 .fav-me input:focus { outline: none; border-color: var(--accent); }
         body.v2 .fav-item .fav-remove:hover { color: var(--accent-red); opacity: 1; }
         body.v2 .username-dropdown-item:hover .username-dropdown-name { color: var(--accent); }
         body.v2 .username-dropdown .add-fav-btn:hover { border-color: var(--accent); color: var(--accent); }
         body.v2 .save-favorite-btn:hover, body.v2 .save-favorite-btn.saved { color: var(--accent); }
-        /* --- landing contest list: prizes green (money to win), fee and name ink1, entrants quiet;
+        /* --- landing contest list: prizes green (money to win), fee and name stay bright, entrants quiet;
                hovering a row lifts it to s2 and the name turns orange; the sorted column's
                caret is orange (the .sorted class comes from renderContestTable) --- */
-        body.v2 .contest-table-name { color: var(--v2-ink1); }
         body.v2 .contest-table tbody tr:hover { background: var(--v2-s2); }
         body.v2 .contest-table tbody tr:hover .contest-table-name { color: var(--accent); }
-        body.v2 .contest-table td.col-fee { color: var(--v2-ink1); }
         body.v2 .contest-table td.col-prizes { color: var(--accent-green); }
         body.v2 .contest-table th.sorted { color: var(--v2-ink1); }
         body.v2 .contest-table th.sortable:hover::after, body.v2 .contest-table th.sorted::after { color: var(--accent); opacity: 1; }
@@ -5543,9 +5529,10 @@
                focused filters and the checked hide-dead box are orange --- */
         body.v2 .back-btn:hover { color: var(--accent); }
         body.v2 .row-main:hover .expand-icon { color: var(--accent); }
-        body.v2 .leaderboard-page th.sorted { color: var(--v2-ink1); }
+        body.v2 #username-table thead th.sorted, body.v2 #lineup-table thead th.sorted,
+        body.v2 #portfolio-table thead th.sorted, body.v2 .whatif-table-scroll thead th.sorted { color: var(--v2-ink1); }
         body.v2 .leaderboard-page th.sortable:hover::after, body.v2 .leaderboard-page th.sorted::after { color: var(--accent); opacity: 1; }
-        body.v2 .filters input:focus, body.v2 .filters select:focus { outline: none; border-color: var(--accent); }
+        body.v2 .filters input:focus, body.v2 .filters select:focus { border-color: var(--accent); }
         body.v2 .filters input[type="checkbox"]:checked { background: rgba(var(--a-rgb), 0.16); border-color: var(--accent); }
         body.v2 .filters input[type="checkbox"]:checked::after { border-color: var(--accent); }
         body.v2 .clear-btn:hover { border-color: var(--accent); color: var(--accent); }
@@ -5563,7 +5550,7 @@
         body.v2 #portfolio-table .row-main td:first-child, body.v2 .whatif-table-scroll .row-main td:nth-child(2) { color: var(--accent); }
         /* --- What If: a score reads orange once it is entered (or pulled in from the actuals) --- */
         body.v2 .fight-score-input.has-value { color: var(--accent); border-color: rgba(var(--a-rgb), 0.45); }
-        body.v2 .fight-score-input:focus { outline: none; border-color: var(--accent); }
+        body.v2 .fight-score-input:focus { border-color: var(--accent); }
         /* --- Lineup Uniqueness: unique lineups green, lineups duped 5+ red, zeros quiet --- */
         body.v2 .dupe-table td.u-up { color: var(--accent-green); }
         body.v2 .dupe-table td.u-down { color: var(--accent-red); }
@@ -5573,7 +5560,7 @@
         body.v2 .about-btn.xlink:hover { border-color: var(--accent); color: var(--accent); }
         /* --- visitor gate: the title carries the brand, the field lights up when focused --- */
         body.v2 #visitor-gate h2 { color: var(--accent); }
-        body.v2 #visitor-gate input:focus { outline: none; border-color: var(--accent); }
+        body.v2 #visitor-gate input:focus { border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -9490,8 +9477,8 @@
                         <td class="dktot">${p1(s.dk)}</td>
                     </tr>`;
                 }).join('');
-                // the count is a number, so innerHTML is safe; the v2 look colors the <b>
-                document.getElementById('sdbCount').innerHTML = total > LIMIT ? `Showing top ${LIMIT} of <b>${total.toLocaleString()}</b> matching` : `<b>${total.toLocaleString()}</b> result${total === 1 ? '' : 's'}`;
+                // the count is a number, so innerHTML is safe; the v2 look colors the .n span (a plain span inherits the classic weight)
+                document.getElementById('sdbCount').innerHTML = total > LIMIT ? `Showing top ${LIMIT} of <span class="n">${total.toLocaleString()}</span> matching` : `<span class="n">${total.toLocaleString()}</span> result${total === 1 ? '' : 's'}`;
             }
 
             let filtersWired = false;
@@ -9910,10 +9897,10 @@
                     if (cfg.type === 'stack') {
                         const w = roll[i].w, t = w.ko + w.dec + w.sub || 1;
                         const sh = roundShares([100 * w.ko / t, 100 * w.dec / t, 100 * w.sub / t]);
-                        read.innerHTML = `${trMonthLabel(roll[i].k)} · KO <b>${sh[0]}%</b> · Dec <b>${sh[1]}%</b> · Sub <b>${sh[2]}%</b>`;
+                        read.innerHTML = `${trMonthLabel(roll[i].k)} · KO <span class="n">${sh[0]}%</span> · Dec <span class="n">${sh[1]}%</span> · Sub <span class="n">${sh[2]}%</span>`;
                     } else {
                         const v = cfg.calc(roll[i].w);
-                        read.innerHTML = `${trMonthLabel(roll[i].k)} · <b>${trendFmt(cfg, v)}</b>`;
+                        read.innerHTML = `${trMonthLabel(roll[i].k)} · <span class="n">${trendFmt(cfg, v)}</span>`;
                         const sc = TREND_SCALES[cfg.id], dot = svg.querySelector('.tr-hoverdot');
                         if (sc && dot) {
                             const dy = TR_MT + (TR_H - TR_MT - TR_MB) * (1 - (v - sc.lo) / (sc.hi - sc.lo));
@@ -10575,6 +10562,7 @@
                 loadSlateBouts().then(bouts => {
                     FMX_BOUTS = bouts;
                     if (!bouts.length) { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; return; }
+                    const isV2 = document.body.classList.contains('v2');
                     el.innerHTML = `<div class="fmx-note">Every bout on this week's DraftKings slate. Tap a matchup for body heat maps and how each fighter's offense lines up against the other's defense.</div>` +
                         `<div class="fmx-grid">` + bouts.map((b, i) => {
                             const a = b[0], z = b[1];
@@ -10586,7 +10574,8 @@
                                 const grap = Math.max(pa.td_att_15 || 0, pz.td_att_15 || 0);
                                 // the pace line is a meter on the new look: --p is the combined rate out of 15 sig/min
                                 if (paceV != null) bits.push(`<span class="fmx-pace" style="--p:${Math.max(0, Math.min(1, paceV / 15)).toFixed(4)}">${paceV.toFixed(1)} sig/min combined</span>`);
-                                if (paceV != null && paceV >= 10) bits.push('<span class="fmx-tag strike">striking-heavy</span>');
+                                // the striking-heavy chip is new-look only, so the classic card reads exactly as before
+                                if (isV2 && paceV != null && paceV >= 10) bits.push('<span class="fmx-tag strike">striking-heavy</span>');
                                 if (grap >= 3) bits.push('<span class="fmx-tag grap">grappling-heavy</span>');
                             } else bits.push('<span class="fmx-tag thin">limited UFC data</span>');
                             const split = Math.max(0, Math.min(1, a.salary / ((a.salary + z.salary) || 1)));
@@ -10595,7 +10584,7 @@
                                 `<span class="nm">${esc(a.name)}<span class="sal${a.salary >= z.salary ? ' hi' : ''}">$${a.salary.toLocaleString()}</span></span>` +
                                 `<span class="vs">VS</span>` +
                                 `<span class="nm rt">${esc(z.name)}<span class="sal${z.salary > a.salary ? ' hi' : ''}">$${z.salary.toLocaleString()}</span></span>` +
-                                `<span class="edge"><span class="fmx-split" style="--p:${split.toFixed(4)}"></span>${bits.join('<i class="fmx-sep"> &middot; </i>')}</span></button>`;
+                                `<span class="edge"><span class="fmx-split" style="--p:${split.toFixed(4)}"></span>${bits.join('<span class="fmx-sep"> &middot; </span>')}</span></button>`;
                         }).join('') + `</div>`;
                 }).catch(() => { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; });
             }
@@ -11125,9 +11114,11 @@
                 });
                 const head = ['<th>#</th>'];
                 for (let i = 1; i <= 6; i++) head.push(`<th class="l">F${i}</th>`);
+                // the .sorted class is for the new look only: classic has its own .sdb-table th.sorted rule that would restyle the header cell
+                const isV2 = document.body.classList.contains('v2');
                 for (const c of OPT_SORT_COLS) {
                     const arrow = c.key === key ? (asc ? ' ▴' : ' ▾') : '';
-                    head.push(`<th class="sortable${c.key === key ? ' sorted' : ''}" data-key="${c.key}"${c.title ? ` title="${c.title}"` : ''}>${c.label}${arrow}</th>`);
+                    head.push(`<th class="sortable${isV2 && c.key === key ? ' sorted' : ''}" data-key="${c.key}"${c.title ? ` title="${c.title}"` : ''}>${c.label}${arrow}</th>`);
                 }
                 document.getElementById('optResultsHead').innerHTML = head.join('');
                 const hasCap = lastOwnCap != null && !isNaN(lastOwnCap);
@@ -11256,8 +11247,9 @@
                     FIGHTERS = loadSalaryCSV(await resp.text());
                     renderGrid();
                     const fightCount = new Set(FIGHTERS.map(f => f.gameInfo)).size;
-                    document.getElementById('optSalaryNote').textContent =
-                        `${FIGHTERS.length} fighters across ${fightCount} fights. Enter your projections & ownership, then build.`;
+                    const note = document.getElementById('optSalaryNote');
+                    note.classList.remove('ok');   // a fresh slate note is neutral; the green belongs to an applied projection file
+                    note.textContent = `${FIGHTERS.length} fighters across ${fightCount} fights. Enter your projections & ownership, then build.`;
                 })();
                 return salaryPromise;
             }

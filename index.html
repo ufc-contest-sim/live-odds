@@ -4107,9 +4107,16 @@
         body.v2 .fighter-chip { border-left: 2px solid var(--accent); }
         body.v2 .fighter-chip .slot { background: var(--accent); color: #000; border-color: transparent; font-weight: 700; }
         body.v2 .fighter-chip:has(.slot) { border-left-width: 1px; border-left-color: var(--v2-l2); }
+        /* Share bars behind Win % / Cash %: the same faint fill as the exposure
+           table's $ bar, left-aligned and 62% of the row, always out of 100%
+           (--p is the cell's percent / 100) over a fainter full-width track. */
         body.v2 td.depth {
-            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.22), rgba(var(--a-rgb), 0.22));
-            background-repeat: no-repeat; background-size: calc(var(--p, 0) * 100%) 100%; background-position: right center;
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16)),
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.05), rgba(var(--a-rgb), 0.05));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * (100% - 24px)) min(62%, 20px), calc(100% - 24px) min(62%, 20px);
+            background-position: 12px 50%, 12px 50%;
         }
         body.v2 .row-main:hover td.depth, body.v2 .row-main.expanded td.depth { background-color: var(--v2-hover); }
         body.v2 #username-table td.username, body.v2 .row-count { color: var(--v2-ink1); }
@@ -7198,12 +7205,12 @@
             const rows = Array.from(tbody.querySelectorAll('tr.row-main'));
             for (const c of cols) {
                 const vals = rows.map(r => parseFloat((r.children[c] || { textContent: '' }).textContent) || 0);
-                const max = Math.max(...vals, 0);
                 rows.forEach((r, i) => {
                     const td = r.children[c];
                     if (!td) return;
                     td.classList.add('depth');
-                    td.style.setProperty('--p', max > 0 ? (vals[i] / max).toFixed(3) : '0');
+                    // Bar width is the cell's own percent of 100, not its share of the column max.
+                    td.style.setProperty('--p', Math.max(0, Math.min(1, vals[i] / 100)).toFixed(4));
                 });
             }
         }

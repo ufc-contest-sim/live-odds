@@ -2783,6 +2783,89 @@
         #sdbInsightAll .sdb-tile { border: 2px solid var(--accent); border-left-width: 4px; box-shadow: 0 8px 22px rgba(var(--a-rgb), 0.14); }
         #sdbInsightAll .sdb-tile .tlabel { color: var(--accent-lo); font-size: 0.95rem; }
         @media (max-width: 1050px) { .sdb-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        /* Scenario Explorer (sx-*): the fourth insights sub-tab. Reuses the Score
+           Database sheet, the scoring ladder and the chart tooltip; everything
+           new is namespaced sx- and scoped to #scenario-view. */
+        #scenario-view .sx-sec { font-family: 'Chakra Petch', monospace; font-size: 0.74rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); font-weight: 700; }
+        #scenario-view .sx-hint { font-size: 0.74rem; color: var(--text-secondary); line-height: 1.45; }
+        #scenario-view .sx-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-bottom: 14px; }
+        #scenario-view .sx-presets .lbl { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); margin-right: 4px; }
+        #scenario-view .sx-presets button {
+            background: var(--fn-card-2, var(--bg-card)); border: 1px solid var(--glass-border); color: var(--text-primary);
+            font-family: 'Chakra Petch', monospace; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.4px;
+            padding: 7px 12px; border-radius: 999px; cursor: pointer;
+        }
+        #scenario-view .sx-presets button:hover { color: var(--accent-lo); border-color: var(--accent); }
+        #scenario-view .sx-presets button.sel { background: var(--accent); border-color: var(--accent); color: #180a02; font-weight: 700; }
+        #scenario-view .sx-filters { margin-bottom: 18px; }
+        #scenario-view .sx-filters .sdb-fg input[type="date"] { color-scheme: dark; font-family: 'Chakra Petch', monospace; }
+        #scenario-view .sx-reset { padding: 9px 14px; }
+        #scenario-view .sx-conds { flex: 1 0 100%; border-top: 1px solid var(--glass-border); padding-top: 12px; }
+        #scenario-view .sx-conds-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 10px; }
+        #scenario-view .sx-conds-head .sx-hint { flex: 1 1 240px; }
+        #scenario-view .sx-conds-head .opt-btn { margin-left: auto; padding: 8px 13px; }
+        #scenario-view .sx-cond-rows { display: flex; flex-direction: column; gap: 8px; }
+        #scenario-view .sx-cond { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        #scenario-view .sx-cond select, #scenario-view .sx-cond input {
+            background: var(--fn-inset, var(--bg-card)); border: 1px solid var(--glass-border); color: var(--text-primary);
+            padding: 8px 11px; font-size: 0.88rem; font-family: inherit; outline: none; border-radius: 10px; min-height: 38px;
+        }
+        #scenario-view .sx-cond select:focus, #scenario-view .sx-cond input:focus { border-color: var(--accent); }
+        #scenario-view .sx-cond .sx-cstat { flex: 1 1 200px; max-width: 280px; }
+        #scenario-view .sx-cond .sx-cop { flex: 0 1 140px; }
+        #scenario-view .sx-cond input { flex: 0 1 96px; width: 96px; font-family: 'Chakra Petch', monospace; }
+        #scenario-view .sx-cond .sx-cand { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
+        #scenario-view .sx-cond .sx-cand, #scenario-view .sx-cond .sx-cv2 { display: none; }
+        #scenario-view .sx-cond.between .sx-cand { display: inline; }
+        #scenario-view .sx-cond.between .sx-cv2 { display: inline-block; }
+        #scenario-view .sx-cx { background: none; border: 1px solid transparent; color: var(--text-secondary); font-size: 1.15rem; line-height: 1; padding: 4px 9px; cursor: pointer; border-radius: 8px; }
+        #scenario-view .sx-cx:hover { color: var(--accent-red); border-color: var(--glass-border); }
+        #scenario-view .sx-cond-empty { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+        #scenario-view .sx-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; margin-bottom: 18px; }
+        /* a flex column so the value sits on one baseline across the strip even when a label wraps */
+        #scenario-view .sx-kpi { display: flex; flex-direction: column; border: 1px solid var(--glass-border); border-top: 3px solid var(--accent); border-radius: 10px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); min-width: 0; }
+        #scenario-view .sx-kpi .k { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-secondary); }
+        #scenario-view .sx-kpi .v { margin-top: auto; font-family: 'Saira Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 1.5rem; line-height: 1.15; white-space: nowrap; }
+        #scenario-view .sx-empty { padding: 26px 14px; text-align: center; font-size: 0.88rem; color: var(--text-secondary); border: 1px dashed var(--glass-border); border-radius: 10px; }
+        #scenario-view .sx-dist-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 14px; margin: 22px 0 10px; }
+        #scenario-view .sx-dist-head .sx-sec { margin-right: auto; align-self: center; }
+        #scenario-view .sx-dist-head .sdb-fg select { min-width: 110px; }
+        #scenario-view .sx-hist-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--glass-border); border-radius: 12px; background: rgba(255, 255, 255, 0.02); }
+        #scenario-view .sx-hist { width: 100%; height: auto; display: block; }
+        #scenario-view .sx-hist text { font-family: 'Chakra Petch', monospace; font-size: 12px; fill: var(--text-secondary); }
+        #scenario-view .sx-hist .grid { stroke: var(--glass-border); stroke-width: 1; }
+        #scenario-view .sx-hist .axis { stroke: var(--text-secondary); stroke-opacity: 0.45; stroke-width: 1; }
+        #scenario-view .sx-hist .bar { fill: var(--accent); }
+        #scenario-view .sx-hist .bar.hot { fill: var(--accent-hi); }
+        #scenario-view .sx-hist .hit { fill: transparent; }
+        #scenario-view .sx-pcts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        #scenario-view .sx-pct { background: var(--fn-card-2, var(--bg-card)); border: 1px solid var(--glass-border); border-radius: 8px; padding: 5px 10px; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
+        #scenario-view .sx-pct b { color: var(--accent-lo); font-weight: 700; margin-left: 2px; }
+        #scenario-view .sx-fights-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin: 22px 0 10px; }
+        #scenario-view .sx-fights-head .sdb-count { margin-left: auto; }
+        #scenario-view .sdb-table tbody tr { cursor: default; }
+        #scenario-view .sdb-table tbody tr:hover td.fcell { color: inherit; text-decoration: none; }
+        #scenario-view .sx-fights .sx-empty, #scenario-view .sx-dist .sx-empty { margin-bottom: 4px; }
+        /* the scope label may wrap so the ladder is no wider than the Scoring Ladder view's */
+        #scenario-view .sdb-ladder td.l { white-space: normal; min-width: 150px; }
+        @media (max-width: 760px) {
+            #scenario-view .sdb-table { min-width: 720px; }
+            #scenario-view .sx-cond select, #scenario-view .sx-cond input { font-size: 16px; }
+            /* phone: the stat on its own row, then "between [a] and [b] x" fits on one line */
+            #scenario-view .sx-cond .sx-cstat { flex-basis: 100%; max-width: none; }
+            #scenario-view .sx-cond .sx-cop { flex: 0 0 112px; padding-left: 6px; padding-right: 6px; }
+            #scenario-view .sx-cond input { flex: 1 1 56px; width: auto; min-width: 56px; }
+            #scenario-view .sx-cx { flex: 0 0 36px; }
+            #scenario-view .sx-conds-head .opt-btn { margin-left: 0; }
+            #scenario-view .sx-dist-head .sx-sec { flex-basis: 100%; margin-right: 0; }
+            #scenario-view .sx-dist-head .sdb-fg { flex: 1 1 40%; min-width: 0; }
+            #scenario-view .sx-dist-head .sdb-fg select { min-width: 0; width: 100%; }
+            #scenario-view .sx-hist text { font-size: 18px; }
+        }
+        @media (max-width: 600px) {
+            #scenario-view .sx-hist { min-width: 640px; }
+            #scenario-view .sx-hist text { font-size: 20px; }
+        }
 
         /* Lineup Optimizer */
         .opt-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 18px; max-width: 900px; }
@@ -5561,6 +5644,139 @@
         /* --- visitor gate: the title carries the brand, the field lights up when focused --- */
         body.v2 #visitor-gate h2 { color: var(--accent); }
         body.v2 #visitor-gate input:focus { border-color: var(--accent); }
+        /* --- v2: scenario explorer --- */
+        /* Scenario Explorer: the fourth insights sub-tab, in the same sheet
+           language as the Score Database. One flat filter strip on the header
+           surface (the stat conditions are its second row), a hairline KPI
+           strip, the shared ladder, an inset histogram where the bars are the
+           one orange element, and the database's sheet for the matching fights. */
+        body.v2 #scenario-view .sdb-card { padding: 18px 20px 20px; }
+        body.v2 #scenario-view .sdb-title { font-size: 0.72rem; letter-spacing: 2px; color: var(--accent); margin-bottom: 14px; }
+        body.v2 #scenario-view .sdb-insight-note { margin: 0 0 12px; font-family: 'Inter', sans-serif; font-size: 0.8rem; line-height: 1.5; color: var(--v2-ink3); }
+        body.v2 #scenario-view .sdb-loading { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--v2-ink3); }
+        body.v2 #scenario-view .sx-sec { font-size: 0.64rem; font-weight: 600; letter-spacing: 1.2px; color: var(--v2-ink2); }
+        body.v2 #scenario-view .sx-hint { font-family: 'Inter', sans-serif; font-size: 0.74rem; color: var(--v2-ink3); }
+        /* preset chips: flat hairline buttons; the active one carries the orange hairline */
+        body.v2 #scenario-view .sx-presets { gap: 6px; margin-bottom: 12px; }
+        body.v2 #scenario-view .sx-presets .lbl { font-size: 0.62rem; letter-spacing: 1.2px; color: var(--v2-ink3); }
+        body.v2 #scenario-view .sx-presets button {
+            height: 28px; padding: 0 10px; border-radius: 2px; background: var(--v2-s2); border: 1px solid var(--v2-l2); color: var(--v2-ink2);
+            font-weight: 600; font-size: 0.62rem; letter-spacing: 1.1px; text-transform: uppercase; line-height: 1;
+        }
+        body.v2 #scenario-view .sx-presets button:hover { background: var(--v2-hover); border-color: var(--v2-l3); color: var(--v2-ink1); }
+        body.v2 #scenario-view .sx-presets button.sel { background: rgba(var(--a-rgb), 0.08); border-color: var(--accent); color: var(--accent-lo); font-weight: 700; }
+        /* filter strip, inputs on the inset (same recipe as the Score Database strip) */
+        body.v2 #scenario-view .sx-filters {
+            gap: 8px 12px; padding: 10px 12px; margin-bottom: 12px; align-items: flex-end;
+            background: var(--v2-s2); border: 1px solid var(--v2-l2); border-radius: 3px;
+        }
+        body.v2 #scenario-view .sx-filters .sdb-fg { flex: 1 1 120px; gap: 5px; min-width: 0; }
+        body.v2 #scenario-view .sdb-fg label { font-size: 0.62rem; letter-spacing: 1.2px; line-height: 1; color: var(--v2-ink3); }
+        body.v2 #scenario-view .sdb-fg input, body.v2 #scenario-view .sdb-fg select, body.v2 #scenario-view .sx-cond input, body.v2 #scenario-view .sx-cond select {
+            width: 100%; min-width: 0; height: 32px; padding: 0 10px; border-radius: 2px; color-scheme: dark;
+            background: var(--v2-inset); border: 1px solid var(--v2-l2); color: var(--v2-ink1);
+            font-family: 'Inter', sans-serif; font-size: 0.85rem;
+        }
+        body.v2 #scenario-view .sdb-fg input[type="date"], body.v2 #scenario-view .sx-cond input { font-family: var(--v2-mono); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+        body.v2 #scenario-view .sx-cond input::placeholder { color: var(--v2-ink3); }
+        body.v2 #scenario-view .sdb-fg input:focus, body.v2 #scenario-view .sdb-fg select:focus, body.v2 #scenario-view .sx-cond input:focus, body.v2 #scenario-view .sx-cond select:focus { border-color: var(--accent); }
+        body.v2 #scenario-view .sx-reset { flex: 0 0 auto; }
+        /* stat conditions: the strip's second row under a hairline */
+        body.v2 #scenario-view .sx-conds { border-top: 1px solid var(--v2-l1); padding-top: 10px; margin-top: 2px; }
+        body.v2 #scenario-view .sx-conds-head { gap: 6px 12px; margin-bottom: 8px; }
+        body.v2 #scenario-view .sx-conds-head .opt-btn { height: 28px; padding: 0 10px; font-size: 0.62rem; }
+        body.v2 #scenario-view .sx-cond-rows { gap: 6px; }
+        body.v2 #scenario-view .sx-cond { gap: 6px; }
+        body.v2 #scenario-view .sx-cond .sx-cstat { flex: 1 1 200px; max-width: 280px; width: auto; }
+        body.v2 #scenario-view .sx-cond .sx-cop { flex: 0 1 130px; width: auto; }
+        body.v2 #scenario-view .sx-cond input { flex: 0 1 88px; width: 88px; }
+        body.v2 #scenario-view .sx-cond .sx-cand { font-size: 0.62rem; letter-spacing: 1.2px; color: var(--v2-ink3); }
+        body.v2 #scenario-view .sx-cx { height: 32px; width: 32px; padding: 0; border-radius: 2px; color: var(--v2-ink3); font-size: 1.1rem; }
+        body.v2 #scenario-view .sx-cx:hover { color: var(--accent-red); border-color: var(--v2-l2); background: var(--v2-hover); }
+        body.v2 #scenario-view .sx-cond-empty { font-family: 'Inter', sans-serif; font-size: 0.76rem; color: var(--v2-ink3); }
+        /* KPI strip: one bordered row of hairline cells (a flex wrap so phones stack cleanly) */
+        body.v2 #scenario-view .sx-kpis {
+            display: flex; flex-wrap: wrap; gap: 0; margin: 0 0 16px; overflow: hidden;
+            background: var(--v2-s2); border: 1px solid var(--v2-l2); border-radius: 2px;
+        }
+        body.v2 #scenario-view .sx-kpi {
+            flex: 1 1 110px; min-width: 0; padding: 9px 12px 10px; border: 0; border-radius: 0; background: var(--v2-s2);
+            border-right: 1px solid var(--v2-l1); border-bottom: 1px solid var(--v2-l1); margin: 0 -1px -1px 0;
+        }
+        body.v2 #scenario-view .sx-kpi .k { font-size: 0.6rem; font-weight: 600; letter-spacing: 1.2px; color: var(--v2-ink3); }
+        body.v2 #scenario-view .sx-kpi .v { font-family: var(--v2-mono); font-style: normal; font-weight: 500; font-size: 1.25rem; line-height: 1.25; margin-top: auto; padding-top: 2px; color: var(--v2-ink1); font-variant-numeric: tabular-nums; }
+        body.v2 #scenario-view .sx-empty { border: 1px dashed var(--v2-l2); border-radius: 3px; font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--v2-ink3); }
+        /* distribution: the plot sits on the inset like the trend charts; the bars are orange */
+        body.v2 #scenario-view .sx-dist-head { margin: 18px 0 8px; gap: 8px 10px; }
+        body.v2 #scenario-view .sx-dist-head .sdb-fg { flex: 0 1 190px; gap: 5px; }
+        body.v2 #scenario-view .sx-dist-head .sdb-fg select { height: 28px; font-size: 0.8rem; }
+        body.v2 #scenario-view .sx-hist-scroll { border: 1px solid var(--v2-l2); border-radius: 3px; background: var(--v2-inset); }
+        body.v2 #scenario-view .sx-hist text { font-family: var(--v2-mono); font-size: 12px; fill: var(--v2-ink3); }
+        body.v2 #scenario-view .sx-hist .grid { stroke: var(--v2-l1); }
+        body.v2 #scenario-view .sx-hist .axis { stroke: var(--v2-l3); }
+        body.v2 #scenario-view .sx-hist .bar { fill: var(--accent); }
+        body.v2 #scenario-view .sx-hist .bar.hot { fill: var(--accent-hi); }
+        body.v2 #scenario-view .sx-pcts { gap: 6px; margin-top: 8px; }
+        body.v2 #scenario-view .sx-pct {
+            display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 9px; border-radius: 2px;
+            background: var(--v2-s2); border: 1px solid var(--v2-l2);
+            font-size: 0.6rem; font-weight: 600; letter-spacing: 1.1px; text-transform: uppercase; color: var(--v2-ink3);
+        }
+        body.v2 #scenario-view .sx-pct b { margin: 0; font-family: var(--v2-mono); font-weight: 500; font-size: 0.8rem; letter-spacing: 0; text-transform: none; color: var(--v2-ink1); font-variant-numeric: tabular-nums; }
+        /* the matching-fights sheet: the Score Database recipe, scoped to this view */
+        body.v2 #scenario-view .sx-fights-head { margin: 18px 0 8px; }
+        body.v2 #scenario-view .sdb-count { font-family: var(--v2-mono); font-size: 0.72rem; color: var(--v2-ink3); font-variant-numeric: tabular-nums; }
+        body.v2 #scenario-view .sdb-scroll { border: 1px solid var(--v2-l2); border-radius: 3px; max-height: 70vh; }
+        body.v2 #scenario-view .sdb-table { font-size: 0.82rem; }
+        body.v2 #scenario-view .sdb-table thead th { height: 28px; padding: 0 10px; text-align: right; font-size: 0.62rem; letter-spacing: 1px; white-space: nowrap; }
+        body.v2 #scenario-view .sdb-table thead th.l { text-align: left; }
+        body.v2 #scenario-view .sdb-table th.sortable::after { content: none; }
+        body.v2 #scenario-view .sdb-table td {
+            height: 32px; padding: 0 10px; text-align: right; border-bottom: 1px solid var(--v2-l1);
+            font-family: 'Inter', sans-serif; font-weight: 500; color: var(--v2-ink1);
+        }
+        body.v2 #scenario-view .sdb-table td.l { text-align: left; }
+        body.v2 #scenario-view .sdb-table td:nth-child(3), body.v2 #scenario-view .sdb-table td:nth-child(5) { color: var(--v2-ink2); }
+        body.v2 #scenario-view .sdb-table td.rank, body.v2 #scenario-view .sdb-table td:nth-child(n+6) {
+            font-family: var(--v2-mono); font-weight: 400; font-size: 0.82rem; font-variant-numeric: tabular-nums;
+        }
+        body.v2 #scenario-view .sdb-table td.rank { color: var(--v2-ink3); }
+        body.v2 #scenario-view .sdb-table td.pts { color: var(--v2-ink2); }
+        body.v2 #scenario-view .sdb-table td.dktot { font-size: 0.86rem; font-weight: 600; color: var(--accent); }
+        body.v2 #scenario-view .sdb-table td.fcell { font-weight: 600; color: var(--v2-ink1); }
+        body.v2 #scenario-view .sdb-table td.fcell, body.v2 #scenario-view .sdb-table td:nth-child(3) { white-space: nowrap; }
+        body.v2 #scenario-view .sdb-table .res-w, body.v2 #scenario-view .sdb-table .res-l,
+        body.v2 #scenario-view .sdb-table .res-d, body.v2 #scenario-view .sdb-table .res-nc {
+            font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.5px;
+        }
+        body.v2 #scenario-view .sdb-ladder td.l { white-space: normal; min-width: 150px; }
+        body.v2 #scenario-view .sdb-table tbody tr:nth-child(even) { background: transparent; }
+        body.v2 #scenario-view .sdb-table tbody tr:hover { background: var(--v2-hover); }
+        body.v2 #scenario-view .sdb-table tbody tr:last-child td { border-bottom: 0; }
+        @media (max-width: 760px) {
+            body.v2 #scenario-view .sdb-card { padding: 14px 12px 16px; }
+            body.v2 #scenario-view .sx-filters { padding: 8px 10px; gap: 8px 10px; }
+            body.v2 #scenario-view .sdb-fg input, body.v2 #scenario-view .sdb-fg select, body.v2 #scenario-view .sx-cond input, body.v2 #scenario-view .sx-cond select { height: 36px; font-size: 16px; }
+            body.v2 #scenario-view .sx-dist-head .sdb-fg select { height: 36px; }
+            /* phone: "[between] [a] and [b] x" on one line under the stat; the values grow to fill it */
+            body.v2 #scenario-view .sx-cond .sx-cstat { max-width: none; }
+            body.v2 #scenario-view .sx-cond .sx-cop { flex: 0 0 100px; width: 100px; padding: 0 6px; }
+            body.v2 #scenario-view .sx-cond input { flex: 1 1 52px; width: auto; min-width: 52px; }
+            body.v2 #scenario-view .sx-cx { flex: 0 0 36px; height: 36px; width: 36px; }
+            body.v2 #scenario-view .sx-dist-head .sdb-fg { flex: 1 1 40%; }
+            body.v2 #scenario-view .sx-hist text { font-size: 18px; }
+        }
+        @media (max-width: 600px) {
+            /* four sub-tabs no longer fit the swipeable strip on a phone: wrap them two per row */
+            body.v2 #insightsSubnav { flex-wrap: wrap; overflow-x: visible; }
+            body.v2 #insightsSubnav .tab-btn { flex: 1 1 40%; text-align: center; }
+            body.v2 #scenario-view .sx-hist text { font-size: 20px; }
+            body.v2 #scenario-view .sx-presets button, body.v2 #scenario-view .sx-conds-head .opt-btn, body.v2 #scenario-view .sx-reset { height: 36px; }
+            body.v2 #scenario-view .sx-kpi { flex-basis: 33%; padding: 8px 10px; }
+            body.v2 #scenario-view .sx-kpi .v { font-size: 1.05rem; }
+            body.v2 #scenario-view .sdb-table thead th { padding: 0 8px; }
+            body.v2 #scenario-view .sdb-table td { height: 36px; padding: 0 8px; }
+        }
     </style>
 </head>
 <body>
@@ -5642,6 +5858,7 @@
             <button class="tab-btn active" data-isub="ladder"><span>Scoring Ladder</span></button>
             <button class="tab-btn" data-isub="database"><span>Score Database</span></button>
             <button class="tab-btn" data-isub="trends"><span>Scoring Trends</span></button>
+            <button class="tab-btn" data-isub="explorer"><span>Scenarios</span></button>
         </div>
 
         <div id="scoringdb-view" style="display:none;">
@@ -5707,6 +5924,59 @@
             </div>
         </div>
 
+        <div id="scenario-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Scenario Explorer</div>
+                <div class="sdb-insight-note">Describe a performance and see what DraftKings scores look like when it happens. Pick a result, outcome, method and weight class, then add stat conditions such as 3 to 4 takedowns or 100+ significant strikes. Every panel below updates to the fights that match. Scores since January 1, 2008, the same cutoff as the ladder and the database.</div>
+                <div id="sxLoading" class="sdb-loading">Loading fight database&hellip;</div>
+                <div id="sxPanel" style="display:none;">
+                    <div class="sx-presets" id="sxPresets"><span class="lbl">Try a scenario</span></div>
+                    <div class="sdb-filters sx-filters">
+                        <div class="sdb-fg"><label for="sxResult">Result</label><select id="sxResult"><option value="">Any</option><option value="W">Win</option><option value="L">Loss</option></select></div>
+                        <div class="sdb-fg"><label for="sxOutcome">Outcome</label><select id="sxOutcome"></select></div>
+                        <div class="sdb-fg"><label for="sxMethod">Method</label><select id="sxMethod"><option value="">Any</option><option>KO/TKO</option><option>Submission</option><option>Decision</option></select></div>
+                        <div class="sdb-fg"><label for="sxWeight">Weight class</label><select id="sxWeight"></select></div>
+                        <div class="sdb-fg"><label for="sxSince">Since</label><input type="date" id="sxSince"></div>
+                        <button type="button" class="opt-btn sx-reset" id="sxReset">Reset</button>
+                        <div class="sx-conds">
+                            <div class="sx-conds-head">
+                                <span class="sx-sec">Stat conditions</span>
+                                <span class="sx-hint">Control time and fight time accept m:ss or plain seconds. All filters combine with AND.</span>
+                                <button type="button" class="opt-btn" id="sxAddCond">+ Add condition</button>
+                            </div>
+                            <div id="sxCondRows" class="sx-cond-rows"></div>
+                        </div>
+                    </div>
+                    <div id="sxKpis" class="sx-kpis"></div>
+                    <div id="sxLadder"></div>
+                    <div class="sx-dist">
+                        <div class="sx-dist-head">
+                            <span class="sx-sec">Distribution</span>
+                            <div class="sdb-fg"><label for="sxHistStat">Stat</label><select id="sxHistStat"></select></div>
+                            <div class="sdb-fg"><label for="sxHistBin">Bin size</label><select id="sxHistBin"></select></div>
+                        </div>
+                        <div id="sxHistEmpty" class="sx-empty" style="display:none;">No fights match this scenario.</div>
+                        <div class="sx-hist-scroll" id="sxHistScroll"><svg id="sxHist" class="sx-hist" viewBox="0 0 1120 340" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Histogram of the selected stat over the matching fights"></svg></div>
+                        <div id="sxPcts" class="sx-pcts"></div>
+                    </div>
+                    <div class="sx-fights">
+                        <div class="sx-fights-head"><span class="sx-sec">Matching fights</span><span class="sdb-count" id="sxCount"></span></div>
+                        <div id="sxFightsEmpty" class="sx-empty" style="display:none;">No fights match this scenario.</div>
+                        <div class="sdb-scroll" id="sxScroll">
+                            <table class="sdb-table">
+                                <colgroup>
+                                    <col class="c-rank"><col class="c-fighter"><col class="c-opponent"><col class="c-res">
+                                    <col class="c-method"><col class="c-rd"><col class="c-date"><col class="c-num">
+                                    <col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num">
+                                </colgroup>
+                                <thead><tr id="sxHead"></tr></thead>
+                                <tbody id="sxTBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="scoringtrends-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Scoring Trends</div>
@@ -9682,6 +9952,482 @@
                 renderInsights();
             }
 
+            // ---------- SCENARIO EXPLORER ----------
+            // "I think this guy gets 3 to 4 takedowns: what do scores look like
+            // then?" A condensed take on the standalone DK Explorer page: the
+            // same filters and stat conditions, the shared scoring ladder, a
+            // histogram with percentiles, and the Score Database's sheet. It
+            // works over SCORED (the rows every other insight view uses), so the
+            // CTRL_SINCE cutoff, weight labels and dkPoints are all identical.
+            const sxEl = id => document.getElementById(id);
+            const sxMmss = s => { s = Math.round(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+            // Stat registry: everything a condition can test and the histogram can
+            // chart. Values are read once per row into the index (see sxIndex) as
+            // x.v[k]; `col` names the CSV column, the three without one are taken
+            // from the SCORED entry. `time` stats are in seconds and accept m:ss in
+            // the condition inputs; `int` stats are whole counts, so auto binning
+            // never goes below one per bar.
+            const SX_STATS = [
+                { k: 'dk', label: 'DK total', dec: 1 },
+                { k: 'dkvol', label: 'DK volume pts (no win bonus)', dec: 1 },
+                { k: 'sig', label: 'Sig strikes landed', col: 'sig_str_landed', int: true },
+                { k: 'siga', label: 'Sig strikes attempted', col: 'sig_str_attempted', int: true },
+                { k: 'tot', label: 'Total strikes landed', col: 'total_str_landed', int: true },
+                { k: 'td', label: 'Takedowns landed', col: 'td_landed', int: true },
+                { k: 'tda', label: 'Takedowns attempted', col: 'td_attempted', int: true },
+                { k: 'kd', label: 'Knockdowns', col: 'kd', int: true },
+                { k: 'ctrl', label: 'Control time', col: 'ctrl_sec', time: true },
+                { k: 'sub', label: 'Submission attempts', col: 'sub_att', int: true },
+                { k: 'rev', label: 'Reversals', col: 'rev', int: true },
+                { k: 'ftime', label: 'Fight time', col: 'fight_time_seconds', time: true },
+                { k: 'head', label: 'Head strikes landed', col: 'ss_head_landed', int: true },
+                { k: 'body', label: 'Body strikes landed', col: 'ss_body_landed', int: true },
+                { k: 'leg', label: 'Leg strikes landed', col: 'ss_leg_landed', int: true },
+                { k: 'dist', label: 'Distance strikes landed', col: 'ss_distance_landed', int: true },
+                { k: 'clinch', label: 'Clinch strikes landed', col: 'ss_clinch_landed', int: true },
+                { k: 'ground', label: 'Ground strikes landed', col: 'ss_ground_landed', int: true },
+                { k: 'round', label: 'Last round fought', int: true },
+            ];
+            const sxStat = k => SX_STATS.find(s => s.k === k) || SX_STATS[0];
+            const SX_OPS = [
+                { k: 'gte', label: 'at least' }, { k: 'gt', label: 'more than' }, { k: 'eq', label: 'exactly' },
+                { k: 'lte', label: 'at most' }, { k: 'lt', label: 'less than' }, { k: 'between', label: 'between' },
+            ];
+            // One-click scenarios. Each is a full filter state: anything not named
+            // is reset to Any, so a chip always means exactly what it says.
+            const SX_PRESETS = [
+                { k: 'td34', label: '3 to 4 takedowns', conds: [['td', 'between', '3', '4']] },
+                { k: 'kolate', label: 'KO win late in R1', result: 'W', outcome: 'R1 finish', method: 'KO/TKO', conds: [['ftime', 'between', '3:00', '5:00']] },
+                { k: 'sig100', label: '100+ sig strikes', conds: [['sig', 'gte', '100']] },
+                { k: 'dectd', label: 'Decision win, 2+ takedowns', result: 'W', method: 'Decision', conds: [['td', 'gte', '2']] },
+            ];
+            // Histogram bin choices: counts for count stats, seconds for time stats.
+            const SX_BINS_COUNT = [['auto', 'Auto'], ['1', '1'], ['2', '2'], ['5', '5'], ['10', '10'], ['20', '20'], ['25', '25'], ['50', '50']];
+            const SX_BINS_TIME = [['auto', 'Auto'], ['15', '0:15'], ['30', '0:30'], ['60', '1:00'], ['120', '2:00'], ['300', '5:00']];
+            // SX_ML is the floor of the left margin; the real one is measured per
+            // render from the widest y-axis label (phones draw the axis text at 20
+            // user units, so a five or six digit count needs more than 54).
+            const SX_W = 1120, SX_H = 340, SX_ML = 54, SX_MR = 12, SX_MT = 16, SX_MB = 34;
+
+            let SX_ROWS = null, sxLeague = { key: '', stats: null }, sxLast = [], sxLastDks = [];
+            let sxWired = false, sxPopulated = false, sxSortKey = 'dk', sxSortDir = -1, sxRaf = 0, sxHotBar = null, sxResizeT = 0, sxResizeW = 0;
+
+            // Index built once from SCORED: the scored entry, its raw row, the DK
+            // total, the outcome bucket the ladder tiles use, and every stat in
+            // the registry parsed to a number once (x.v[k]), so a re-render never
+            // goes back through the CSV strings.
+            function sxIndex() {
+                if (SX_ROWS) return SX_ROWS;
+                SX_ROWS = SCORED.map(s => {
+                    const r = s.r, p = s.pts;
+                    const v = { dk: s.dk, dkvol: p.str + p.kd + p.td + p.rev + p.ctrl, round: s.round };
+                    for (const st of SX_STATS) if (st.col) v[st.k] = num(r[st.col]);
+                    return { s, r, dk: s.dk, cat: catOf(r), v };
+                });
+                return SX_ROWS;
+            }
+            function sxSince() { const v = sxEl('sxSince').value; return v && v > CTRL_SINCE ? v : CTRL_SINCE; }
+            function sxParseVal(stat, str) {
+                str = (str || '').trim();
+                if (!str) return null;
+                if (stat.time && str.indexOf(':') >= 0) return timeToSec(str);
+                const v = parseFloat(str);
+                return isNaN(v) ? null : v;
+            }
+            function sxConditions() {
+                return [...document.querySelectorAll('#sxCondRows .sx-cond')].map(div => {
+                    const stat = sxStat(div.querySelector('.sx-cstat').value);
+                    return { stat, op: div.querySelector('.sx-cop').value, v1: sxParseVal(stat, div.querySelector('.sx-cv1').value), v2: sxParseVal(stat, div.querySelector('.sx-cv2').value) };
+                }).filter(c => c.v1 !== null && (c.op !== 'between' || c.v2 !== null));
+            }
+            function sxTest(v, c) {
+                switch (c.op) {
+                    case 'gte': return v >= c.v1;
+                    case 'gt': return v > c.v1;
+                    case 'eq': return c.stat.dec ? Math.round(v * 10) === Math.round(c.v1 * 10) : v === c.v1;
+                    case 'lte': return v <= c.v1;
+                    case 'lt': return v < c.v1;
+                    case 'between': return v >= Math.min(c.v1, c.v2) && v <= Math.max(c.v1, c.v2);
+                }
+                return true;
+            }
+            function sxFiltered() {
+                const since = sxSince();
+                const res = sxEl('sxResult').value, out = sxEl('sxOutcome').value, meth = sxEl('sxMethod').value, wt = sxEl('sxWeight').value;
+                const conds = sxConditions();
+                return sxIndex().filter(x => {
+                    if (since > CTRL_SINCE && (x.r.event_date || '') < since) return false;
+                    if (res && x.r.result !== res) return false;
+                    if (out && x.cat !== out) return false;
+                    if (meth && x.s.mgroup !== meth) return false;
+                    if (wt && x.s.weight !== wt) return false;
+                    for (const c of conds) if (!sxTest(x.v[c.stat.k], c)) return false;
+                    return true;
+                });
+            }
+            // The ladder numbers from an ascending array of DK totals: the same
+            // shape computeThresh returns ({ n, avg, counts, pct }) without
+            // re-scoring any row (SCORED already carries dk). Each threshold is a
+            // binary search for the first total at or above it.
+            function sxThresh(sorted) {
+                const n0 = sorted.length, counts = {}, pct = {};
+                let sum = 0;
+                for (let i = 0; i < n0; i++) sum += sorted[i];
+                for (const t of THRESHOLDS) {
+                    let lo = 0, hi = n0;
+                    while (lo < hi) { const mid = (lo + hi) >> 1; if (sorted[mid] < t) lo = mid + 1; else hi = mid; }
+                    const c = n0 - lo;
+                    counts[t] = c; pct[t] = n0 ? 100 * c / n0 : 0;
+                }
+                return { n: n0, avg: n0 ? sum / n0 : 0, counts, pct };
+            }
+            // League row of the ladder: every performance since the chosen date,
+            // cached per date so typing a condition never recomputes it.
+            function sxLeagueStats(since) {
+                if (sxLeague.key !== since) {
+                    const dks = [];
+                    for (const x of sxIndex()) if ((x.r.event_date || '') >= since) dks.push(x.dk);
+                    sxLeague = { key: since, stats: sxThresh(dks.sort((a, b) => a - b)) };
+                }
+                return sxLeague.stats;
+            }
+            const sxQuantile = (sorted, q) => {
+                if (!sorted.length) return 0;
+                const pos = (sorted.length - 1) * q, lo = Math.floor(pos), hi = Math.ceil(pos);
+                return sorted[lo] + (sorted[hi] - sorted[lo]) * (pos - lo);
+            };
+
+            // ----- condition rows -----
+            function sxAddCond(statKey, op, v1, v2) {
+                const div = document.createElement('div');
+                div.className = 'sx-cond';
+                div.innerHTML =
+                    `<select class="sx-cstat" aria-label="Stat">${SX_STATS.map(s => `<option value="${s.k}">${esc(s.label)}</option>`).join('')}</select>` +
+                    `<select class="sx-cop" aria-label="Comparison">${SX_OPS.map(o => `<option value="${o.k}">${o.label}</option>`).join('')}</select>` +
+                    `<input type="text" class="sx-cv1" inputmode="decimal" autocomplete="off" aria-label="Value">` +
+                    `<span class="sx-cand">and</span>` +
+                    `<input type="text" class="sx-cv2" inputmode="decimal" autocomplete="off" aria-label="Second value">` +
+                    `<button type="button" class="sx-cx" title="Remove condition" aria-label="Remove condition">&times;</button>`;
+                if (statKey) div.querySelector('.sx-cstat').value = statKey;
+                if (op) div.querySelector('.sx-cop').value = op;
+                if (v1 != null) div.querySelector('.sx-cv1').value = v1;
+                if (v2 != null) div.querySelector('.sx-cv2').value = v2;
+                sxSyncCond(div);
+                sxEl('sxCondRows').appendChild(div);
+                sxSyncCondEmpty();
+                return div;
+            }
+            // Between shows its second field; time stats hint at the m:ss format
+            // and switch the phone keyboard to one that has a colon (the decimal
+            // keypad on iOS does not).
+            function sxSyncCond(div) {
+                const stat = sxStat(div.querySelector('.sx-cstat').value);
+                div.classList.toggle('between', div.querySelector('.sx-cop').value === 'between');
+                div.querySelectorAll('.sx-cv1, .sx-cv2').forEach(inp => {
+                    inp.placeholder = stat.time ? 'm:ss' : 'value';
+                    inp.inputMode = stat.time ? 'text' : 'decimal';
+                });
+            }
+            function sxSyncCondEmpty() {
+                const host = sxEl('sxCondRows');
+                let note = host.querySelector('.sx-cond-empty');
+                const empty = !host.querySelector('.sx-cond');
+                if (empty && !note) { note = document.createElement('div'); note.className = 'sx-cond-empty'; note.textContent = 'No stat conditions yet. Add one to narrow the scenario by takedowns, strikes, control time, knockdowns and more.'; host.appendChild(note); }
+                else if (!empty && note) note.remove();
+            }
+            function sxClearConds() { sxEl('sxCondRows').innerHTML = ''; sxSyncCondEmpty(); }
+
+            // ----- presets / reset -----
+            function sxResetFilters() {
+                ['sxResult', 'sxOutcome', 'sxMethod', 'sxWeight'].forEach(id => { sxEl(id).value = ''; });
+                sxEl('sxSince').value = CTRL_SINCE;
+                sxClearConds();
+            }
+            function sxApplyPreset(p) {
+                sxResetFilters();
+                if (p.result) sxEl('sxResult').value = p.result;
+                if (p.outcome) sxEl('sxOutcome').value = p.outcome;
+                if (p.method) sxEl('sxMethod').value = p.method;
+                (p.conds || []).forEach(c => sxAddCond(c[0], c[1], c[2], c[3]));
+                sxMarkPreset(p.k);
+                sxRender();
+            }
+            function sxMarkPreset(k) { document.querySelectorAll('#sxPresets button').forEach(b => b.classList.toggle('sel', b.dataset.preset === k)); }
+
+            // ----- panels -----
+            // dks: the matching DK totals, ascending (sorted once in sxRender and
+            // shared with the ladder and the histogram).
+            function sxRenderKpis(rows, dks) {
+                const n = rows.length;
+                let dk = 0, sig = 0, td = 0, ctrl = 0, kd = 0, ft = 0, wins = 0;
+                for (const x of rows) {
+                    const v = x.v;
+                    dk += v.dk; sig += v.sig; td += v.td; ctrl += v.ctrl; kd += v.kd; ft += v.ftime;
+                    if (x.r.result === 'W') wins++;
+                }
+                const avg = t => n ? t / n : 0;
+                const tile = (k, v) => `<div class="sx-kpi"><div class="k">${k}</div><div class="v">${n ? v : '-'}</div></div>`;
+                sxEl('sxKpis').innerHTML =
+                    `<div class="sx-kpi"><div class="k">Fights</div><div class="v">${n.toLocaleString()}</div></div>` +
+                    tile('Avg DK', avg(dk).toFixed(1)) +
+                    tile('Median DK', sxQuantile(dks, 0.5).toFixed(1)) +
+                    tile('Win rate', Math.round(100 * wins / (n || 1)) + '%') +
+                    tile('Avg sig strikes', avg(sig).toFixed(1)) +
+                    tile('Avg takedowns', avg(td).toFixed(1)) +
+                    tile('Avg control', sxMmss(avg(ctrl))) +
+                    tile('Avg KD', avg(kd).toFixed(2)) +
+                    tile('Avg fight time', sxMmss(avg(ft)));
+            }
+            function sxRenderLadder(rows, dks, since) {
+                const head = `<th class="l">Scope</th><th>Fights</th>` + THRESHOLDS.map(t => `<th>${t}+</th>`).join('') + `<th>Avg DK</th>`;
+                let body = rows.length
+                    ? `<div class="sdb-ladder-scroll"><table class="sdb-ladder"><thead><tr>${head}</tr></thead><tbody>` +
+                      threshRow('This scenario', sxThresh(dks), true) + threshRow(`League since ${fmtSinceLabel(since)}`, sxLeagueStats(since), true) +
+                      `</tbody></table></div>`
+                    : `<div class="sx-empty">No fights match this scenario. Loosen a filter or remove a condition.</div>`;
+                sxEl('sxLadder').innerHTML =
+                    `<div class="sdb-ladder-title">Scoring ladder</div>` +
+                    `<div class="sdb-ladder-sub">Each cell: % of the matching fights scoring at that DK total or higher, with the raw count beneath. The league row is every performance by every fighter since ${fmtSinceLabel(since)} for comparison.</div>` + body;
+            }
+            function sxSyncBins() {
+                const sel = sxEl('sxHistBin'), stat = sxStat(sxEl('sxHistStat').value);
+                const opts = stat.time ? SX_BINS_TIME : SX_BINS_COUNT;
+                if (sel.dataset.mode === (stat.time ? 'time' : 'count')) return;
+                sel.dataset.mode = stat.time ? 'time' : 'count';
+                sel.innerHTML = opts.map(o => `<option value="${o[0]}">${o[1]}</option>`).join('');
+                sel.value = 'auto';
+            }
+            function sxNiceStep(raw) { const pow = Math.pow(10, Math.floor(Math.log10(raw))); for (const m of [1, 2, 5, 10]) if (m * pow >= raw) return m * pow; return 10 * pow; }
+            // Left margin for the y axis: measure the widest tick label in the
+            // SVG's own font (12 user units on desktop, 20 on phones). When the
+            // view is hidden getBBox reports nothing, so fall back to the phone
+            // glyph width; the margin is never below SX_ML.
+            function sxLeftMargin(svg, label) {
+                const probe = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                probe.setAttribute('x', '0'); probe.setAttribute('y', '-100');
+                probe.textContent = label;
+                svg.appendChild(probe);
+                let w = 0;
+                try { w = probe.getBBox().width; } catch (e) { w = 0; }
+                probe.remove();
+                if (!w) w = label.length * 12;
+                return Math.max(SX_ML, Math.ceil(w) + 14);
+            }
+            function sxRenderHist(rows, dks) {
+                sxSyncBins();
+                const stat = sxStat(sxEl('sxHistStat').value);
+                const svg = sxEl('sxHist'), pcts = sxEl('sxPcts');
+                const k = stat.k;
+                // the DK totals are already sorted; every other stat is read off the index
+                const sorted = k === 'dk' ? dks : rows.map(x => x.v[k]).sort((a, b) => a - b);
+                const n = sorted.length;
+                sxHotBar = null;
+                // the empty note is an HTML note outside the chart (SVG text would
+                // scale with the viewBox and shrink to nothing on a phone)
+                sxEl('sxHistScroll').style.display = n ? '' : 'none';
+                sxEl('sxHistEmpty').style.display = n ? 'none' : '';
+                if (!n) {
+                    svg.innerHTML = '';
+                    svg.onmousemove = null; svg.onmouseleave = null;
+                    pcts.innerHTML = '';
+                    return;
+                }
+                const lo = sorted[0], hi = sorted[n - 1];
+                const binSel = sxEl('sxHistBin').value;
+                let bin;
+                if (binSel === 'auto') {
+                    bin = hi === lo ? 1 : (sxNiceStep((hi - lo) / 40) || 1);
+                    if (stat.time) bin = Math.max(bin, 15);
+                    if (stat.int) bin = Math.max(bin, 1);
+                    // DK points carry one decimal: never slice finer than that
+                    if (!stat.int && !stat.time) bin = Math.max(bin, 0.1);
+                } else bin = +binSel || 1;
+                const b0 = Math.floor(lo / bin + 1e-9) * bin;
+                const nb = Math.max(1, Math.floor((hi - b0) / bin + 1e-9) + 1);
+                const bins = new Array(nb).fill(0);
+                for (let i = 0; i < n; i++) bins[Math.min(nb - 1, Math.floor((sorted[i] - b0) / bin + 1e-9))]++;
+                const maxC = Math.max(...bins);
+                const ml = sxLeftMargin(svg, maxC.toLocaleString());
+                const iw = SX_W - ml - SX_MR, ih = SX_H - SX_MT - SX_MB, bw = iw / nb;
+                const fmtV = v => stat.time ? sxMmss(v) : (bin < 1 ? v.toFixed(1) : String(Math.round(v)));
+                let el = '';
+                for (let i = 0; i <= 4; i++) {
+                    const c = Math.round(maxC * i / 4), y = SX_MT + ih - ih * i / 4;
+                    el += `<line class="grid" x1="${ml}" y1="${y.toFixed(1)}" x2="${SX_W - SX_MR}" y2="${y.toFixed(1)}"></line>`;
+                    el += `<text x="${ml - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end">${c.toLocaleString()}</text>`;
+                }
+                bins.forEach((c, i) => {
+                    const h = maxC ? ih * c / maxC : 0;
+                    const x = ml + i * bw + 1, w = Math.max(1, bw - 2);
+                    if (h > 0) el += `<rect class="bar" data-i="${i}" x="${x.toFixed(2)}" y="${(SX_MT + ih - h).toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}"></rect>`;
+                    el += `<rect class="hit" data-i="${i}" x="${(ml + i * bw).toFixed(2)}" y="${SX_MT}" width="${bw.toFixed(2)}" height="${ih}"></rect>`;
+                });
+                const every = Math.ceil(nb / 14);
+                if (stat.int && bin === 1) {
+                    // one bar per whole count: label under the bar, not on its edges
+                    for (let i = 0; i < nb; i += every) el += `<text x="${(ml + (i + 0.5) * bw).toFixed(1)}" y="${SX_H - 10}" text-anchor="middle">${fmtV(b0 + i * bin)}</text>`;
+                } else {
+                    for (let i = 0; i <= nb; i += every) el += `<text x="${(ml + i * bw).toFixed(1)}" y="${SX_H - 10}" text-anchor="middle">${fmtV(b0 + i * bin)}</text>`;
+                }
+                el += `<line class="axis" x1="${ml}" y1="${SX_MT + ih}" x2="${SX_W - SX_MR}" y2="${SX_MT + ih}"></line>`;
+                svg.innerHTML = el;
+                // hover: the shared #chart-tip readout, like the contest charts
+                let cum = 0; const cums = bins.map(c => (cum += c));
+                const tip = sxEl('chart-tip');
+                const rangeOf = i => {
+                    const a = b0 + i * bin;
+                    if (stat.int && bin === 1) return fmtV(a);
+                    if (stat.int) return `${fmtV(a)} to ${fmtV(a + bin - 1)}`;
+                    return `${fmtV(a)} to under ${fmtV(a + bin)}`;
+                };
+                const setHot = i => {
+                    if (sxHotBar !== null) { const old = svg.querySelector(`.bar[data-i="${sxHotBar}"]`); if (old) old.classList.remove('hot'); }
+                    sxHotBar = i;
+                    if (i !== null) { const nu = svg.querySelector(`.bar[data-i="${i}"]`); if (nu) nu.classList.add('hot'); }
+                };
+                svg.onmousemove = e => {
+                    const t = e.target && e.target.getAttribute ? e.target.getAttribute('data-i') : null;
+                    if (t === null || t === undefined) { if (tip) tip.style.opacity = 0; setHot(null); return; }
+                    const i = +t, c = bins[i];
+                    setHot(i);
+                    if (!tip) return;
+                    tip.innerHTML = `<b>${rangeOf(i)}</b><br>${c.toLocaleString()} fight${c === 1 ? '' : 's'} (${(100 * c / n).toFixed(1)}%)<br>${(100 * cums[i] / n).toFixed(1)}% at or below`;
+                    tip.style.opacity = 1;
+                    tip.style.left = Math.min(window.innerWidth - 200, e.clientX + 14) + 'px';
+                    tip.style.top = (e.clientY + 14) + 'px';
+                };
+                svg.onmouseleave = () => { if (tip) tip.style.opacity = 0; setHot(null); };
+                // percentile chips
+                const fmtQ = v => stat.time ? sxMmss(v) : (Number.isInteger(v) ? String(v) : v.toFixed(1));
+                const P = [['Min', 0], ['p10', 0.1], ['p25', 0.25], ['Median', 0.5], ['p75', 0.75], ['p90', 0.9], ['p99', 0.99], ['Max', 1]];
+                let sum = 0; for (let i = 0; i < n; i++) sum += sorted[i];
+                pcts.innerHTML = P.map(([l, q]) => `<span class="sx-pct">${l} <b>${fmtQ(sxQuantile(sorted, q))}</b></span>`).join('') +
+                    `<span class="sx-pct">Avg <b>${fmtQ(sum / n)}</b></span>`;
+            }
+            const SX_STR_KEYS = ['fighter', 'opponent', 'method', 'date', 'result'];
+            function sxRenderTable(rows) {
+                // sort key read once per row, not once per comparison
+                const keyed = rows.map(x => [leadValue(x.s, sxSortKey), x]);
+                if (sxSortKey === 'dk' && sxSortDir < 0) {
+                    // SCORED is already DK-descending and filtering keeps that order
+                } else if (SX_STR_KEYS.indexOf(sxSortKey) >= 0) {
+                    for (const e of keyed) e[0] = String(e[0] || '').toLowerCase();
+                    keyed.sort((a, b) => a[0] < b[0] ? -sxSortDir : a[0] > b[0] ? sxSortDir : 0);
+                } else keyed.sort((a, b) => (a[0] - b[0]) * sxSortDir);
+                const total = keyed.length, show = keyed.slice(0, LIMIT);
+                sxEl('sxHead').innerHTML = LEAD_COLS.map(c => {
+                    const cls = [c.l ? 'l' : '', c.sortable ? 'sortable' : '', c.key === sxSortKey ? 'sorted' : ''].filter(Boolean).join(' ');
+                    const arrow = c.key === sxSortKey ? (sxSortDir < 0 ? ' ▾' : ' ▴') : '';
+                    return `<th class="${cls}" data-key="${c.key}">${c.label}${arrow}</th>`;
+                }).join('');
+                sxEl('sxTBody').innerHTML = show.map((e, i) => {
+                    const x = e[1], r = x.r, p = x.s.pts;
+                    return `<tr>
+                        <td class="rank">${i + 1}</td>
+                        <td class="l fcell">${esc(r.fighter)}</td>
+                        <td class="l">${esc(r.opponent)}</td>
+                        <td><span class="${resClass(r.result)}">${esc(r.result)}</span></td>
+                        <td class="l" title="${esc(r.method)}">${esc(shortMethod(r.method))}${p.quick > 0 ? ' ⚡' : ''}</td>
+                        <td>${x.s.round}</td>
+                        <td>${fmtDate(r.event_date)}</td>
+                        <td class="pts">${p1(p.str)}</td>
+                        <td class="pts">${p0(p.kd)}</td>
+                        <td class="pts">${p0(p.td)}</td>
+                        <td class="pts">${p1(p.ctrl)}</td>
+                        <td class="pts">${p0(p.win + p.quick)}</td>
+                        <td class="dktot">${p1(x.dk)}</td>
+                    </tr>`;
+                }).join('');
+                // the empty note sits outside the sheet so phones can read it without a sideways swipe
+                sxEl('sxScroll').style.display = total ? '' : 'none';
+                sxEl('sxFightsEmpty').style.display = total ? 'none' : '';
+                sxEl('sxCount').textContent = total > LIMIT ? `Showing ${LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} matching fight${total === 1 ? '' : 's'}`;
+            }
+            function sxRender() {
+                if (!loaded) return;
+                const since = sxSince();
+                const rows = sxFiltered();
+                const dks = rows.map(x => x.dk).sort((a, b) => a - b);
+                sxLast = rows; sxLastDks = dks;
+                sxRenderKpis(rows, dks);
+                sxRenderLadder(rows, dks, since);
+                sxRenderHist(rows, dks);
+                sxRenderTable(rows);
+            }
+            // Inputs re-render on every keystroke; one frame coalesces the
+            // input + change pair a select fires.
+            function sxSchedule() { if (sxRaf) return; sxRaf = requestAnimationFrame(() => { sxRaf = 0; sxRender(); }); }
+            function sxUserChange() { sxMarkPreset(null); sxSchedule(); }
+            function sxVisible() { const v = sxEl('scenario-view'); return !!v && v.style.display !== 'none' && loaded; }
+
+            function sxWire() {
+                if (sxWired) return; sxWired = true;
+                sxEl('sxOutcome').innerHTML = '<option value="">Any</option>' + CONCL_ORDER.map(c => `<option>${c}</option>`).join('');
+                sxEl('sxHistStat').innerHTML = SX_STATS.map(s => `<option value="${s.k}">${esc(s.label)}</option>`).join('');
+                sxSyncBins();
+                sxSyncCondEmpty();
+                const since = sxEl('sxSince');
+                since.min = CTRL_SINCE; since.max = (d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10))(new Date()); since.value = CTRL_SINCE;
+                ['sxResult', 'sxOutcome', 'sxMethod', 'sxWeight', 'sxSince'].forEach(id => { const el = sxEl(id); el.addEventListener('input', sxUserChange); el.addEventListener('change', sxUserChange); });
+                sxEl('sxReset').addEventListener('click', () => { sxResetFilters(); sxMarkPreset(null); sxRender(); });
+                sxEl('sxAddCond').addEventListener('click', () => { sxAddCond(); sxMarkPreset(null); sxRender(); });
+                // one listener for every condition row: operator/stat changes
+                // re-sync the row, values re-render, the x removes it. A text
+                // input already rendered on 'input', so its blur 'change' is skipped.
+                const condHost = sxEl('sxCondRows');
+                const onCond = e => {
+                    if (e.type === 'change' && e.target.tagName === 'INPUT') return;
+                    const div = e.target.closest('.sx-cond'); if (!div) return;
+                    if (e.target.classList.contains('sx-cop') || e.target.classList.contains('sx-cstat')) sxSyncCond(div);
+                    sxUserChange();
+                };
+                condHost.addEventListener('input', onCond);
+                condHost.addEventListener('change', onCond);
+                condHost.addEventListener('click', e => {
+                    const x = e.target.closest('.sx-cx'); if (!x) return;
+                    x.closest('.sx-cond').remove(); sxSyncCondEmpty(); sxUserChange();
+                });
+                const presets = sxEl('sxPresets');
+                presets.insertAdjacentHTML('beforeend', SX_PRESETS.map(p => `<button type="button" data-preset="${p.k}">${esc(p.label)}</button>`).join(''));
+                presets.addEventListener('click', e => { const b = e.target.closest('button[data-preset]'); if (!b) return; const p = SX_PRESETS.find(q => q.k === b.dataset.preset); if (p) sxApplyPreset(p); });
+                // the chart controls only redraw the chart
+                sxEl('sxHistStat').addEventListener('change', () => { if (loaded) sxRenderHist(sxLast, sxLastDks); });
+                sxEl('sxHistBin').addEventListener('change', () => { if (loaded) sxRenderHist(sxLast, sxLastDks); });
+                // the axis text size changes with the viewport (phone vs desktop),
+                // so a width change re-measures the chart margin
+                sxResizeW = window.innerWidth;
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth === sxResizeW) return;
+                    sxResizeW = window.innerWidth;
+                    clearTimeout(sxResizeT);
+                    sxResizeT = setTimeout(() => { if (sxVisible()) sxRenderHist(sxLast, sxLastDks); }, 150);
+                });
+                // mousedown, not click, for the same reason as the Score Database:
+                // a blur-triggered re-render would otherwise swallow the click
+                sxEl('sxHead').addEventListener('mousedown', e => {
+                    const th = e.target.closest('th.sortable'); if (!th) return;
+                    const k = th.dataset.key;
+                    if (k === sxSortKey) sxSortDir = -sxSortDir;
+                    else { sxSortKey = k; sxSortDir = SX_STR_KEYS.indexOf(k) >= 0 ? 1 : -1; }
+                    sxRenderTable(sxLast);
+                });
+                window.__scenarioDebug = { filtered: () => sxLast };
+            }
+            async function openExplorer() {
+                sxWire();
+                try { await ensureData(); }
+                catch (e) { sxEl('sxLoading').textContent = 'Could not load the fight database. Try refreshing.'; return; }
+                if (!sxPopulated) {
+                    sxPopulated = true;
+                    // weight classes exactly as the Score Database lists them
+                    const present = new Set(SCORED.map(s => s.weight)), opts = [];
+                    for (const w of [...WEIGHTS, 'Other']) for (const v of (w === 'Other' ? ['Other'] : [w, "Women's " + w])) if (present.has(v)) opts.push(v);
+                    sxEl('sxWeight').innerHTML = '<option value="">Any</option>' + opts.map(w => `<option>${esc(w)}</option>`).join('');
+                }
+                sxEl('sxLoading').style.display = 'none';
+                sxEl('sxPanel').style.display = '';
+                sxRender();
+            }
             // ---------- SCORING TRENDS ----------
             // How the sport drifts over time: rolling 12-month averages over every
             // performance since control tracking began. Config-driven — each entry
@@ -10791,13 +11537,14 @@
             let insightsSub = 'ladder';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), xv = document.getElementById('scenario-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (av) av.style.display = view === 'about' ? '' : 'none';
                 if (sn) sn.style.display = view === 'insights' ? '' : 'none';
                 if (sv) sv.style.display = view === 'insights' && insightsSub === 'database' ? '' : 'none';
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
                 if (tv) tv.style.display = view === 'insights' && insightsSub === 'trends' ? '' : 'none';
+                if (xv) xv.style.display = view === 'insights' && insightsSub === 'explorer' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (bv) bv.style.display = view === 'builder' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
@@ -10805,6 +11552,7 @@
                     document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.isub === insightsSub));
                     if (insightsSub === 'database') { logTabOpen('opened_database'); openBoard(); }
                     else if (insightsSub === 'trends') { logTabOpen('opened_trends'); openTrends(); }
+                    else if (insightsSub === 'explorer') { logTabOpen('opened_explorer'); openExplorer(); }
                     else { logTabOpen('opened_insights'); openInsights(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }

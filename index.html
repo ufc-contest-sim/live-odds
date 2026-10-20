@@ -689,9 +689,57 @@
         .portfolio-filters {
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
             gap: 8px;
             margin-bottom: 14px;
         }
+
+        /* Contest filter: one compact dropdown with the checkboxes inside, so a
+           player in a dozen contests doesn't get a wall of chips. */
+        .pfd { position: relative; }
+        .pfd-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 12px; border-radius: 8px;
+            background: var(--fn-card-2, var(--glass-bg));
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-family: 'Chakra Petch', monospace; font-size: 0.74rem; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+        }
+        .pfd-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .pfd-btn.filtered { border-color: var(--border-accent); color: var(--text-primary); }
+        .pfd-count { font-weight: 700; color: var(--text-primary); }
+        .pfd-caret { font-size: 0.7em; transition: transform 0.15s; }
+        .pfd.open .pfd-caret { transform: rotate(180deg); }
+        .pfd-menu {
+            position: absolute; top: calc(100% + 6px); left: 0; z-index: 40;
+            min-width: 280px; max-width: min(92vw, 440px); max-height: 320px; overflow-y: auto;
+            padding: 8px;
+            background: var(--fn-card-2, var(--bg-card));
+            border: 1px solid var(--glass-border); border-radius: 10px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+        }
+        .pfd-menu[hidden] { display: none; }
+        .pfd-actions {
+            display: flex; gap: 6px; padding: 2px 4px 8px;
+            border-bottom: 1px solid var(--border); margin-bottom: 6px;
+        }
+        .pfd-actions button {
+            font: inherit; font-size: 0.72rem; padding: 3px 10px; border-radius: 6px;
+            background: transparent; border: 1px solid var(--glass-border);
+            color: var(--text-secondary); cursor: pointer;
+        }
+        .pfd-actions button:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .pfd-item {
+            display: flex; align-items: center; gap: 9px;
+            padding: 7px 8px; border-radius: 6px;
+            font-size: 0.8rem; color: var(--text-primary);
+            cursor: pointer; user-select: none;
+        }
+        .pfd-item:hover { background: var(--bg-hover); }
+        .pfd-item input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; flex: none; cursor: pointer; }
+        .pfd-item span { min-width: 0; }
 
         .portfolio-filter-label {
             display: flex;
@@ -735,7 +783,7 @@
         .portfolio-bar-marker.positive { color: var(--accent-green); }
         .portfolio-bar-marker.neutral { color: var(--text-secondary); }
 
-        /* Honest 20-percentile outcome distribution */
+        /* Honest 10-percentile outcome distribution */
         .pq-stats {
             display: flex;
             gap: 26px;
@@ -769,6 +817,93 @@
             text-transform: uppercase; color: var(--text-secondary); margin-top: 2px;
             font-family: 'Chakra Petch', monospace;
         }
+
+        /* Portfolio card body: outcome chart beside the Fighter Exposure list
+           on wide screens, stacked (chart first) on narrow ones. */
+        .pcw-exposure { margin-top: 22px; min-width: 0; }
+        .pcw-chart { min-width: 0; }
+        .pcw-nochart .pcw-chart { display: none; }
+        .pcw-nochart .pcw-exposure { margin-top: 0; }
+        /* no chart to title: the Fighter Exposure heading becomes the card's */
+        .pcw-nochart > .portfolio-chart-title { display: none; }
+        @media (min-width: 900px) {
+            .pcw-grid {
+                display: grid;
+                grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+                gap: 28px;
+                align-items: stretch;
+            }
+            .pcw-nochart .pcw-grid { display: block; }
+            .pcw-exposure { margin-top: 0; display: flex; flex-direction: column; min-height: 0; }
+            /* The list scrolls inside its column instead of stretching the row:
+               an absolutely positioned scroller adds no height of its own, so
+               the chart column alone decides how tall the row is. */
+            .pex-body { position: relative; flex: 1; min-height: 240px; }
+            .pex-scroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; }
+            .pex-table thead th { position: sticky; top: 0; background: var(--bg-card); z-index: 1; }
+            /* soft fade over the last visible row: "there is more below" */
+            .pex-body::after {
+                content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 22px;
+                background: linear-gradient(to bottom, transparent, var(--bg-card)); pointer-events: none;
+            }
+            .pcw-nochart .pex-body { position: static; min-height: 0; }
+            .pcw-nochart .pex-body::after { display: none; }
+            .pcw-nochart .pex-scroll { position: static; overflow: visible; }
+            .pcw-nochart .pex-table thead th { position: static; }
+        }
+
+        /* Fighter Exposure: who the searched user is really betting on.
+           Dollars at risk per fighter (sum of entry fees over the lineups
+           holding them), most to least, with the actual DK score once final. */
+        .pex-title { margin-bottom: 10px; }
+        .pex-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .pex-table th {
+            font-family: 'Chakra Petch', monospace;
+            font-size: 0.64rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-secondary); text-align: left; white-space: nowrap;
+            padding: 0 0 7px 8px; border-bottom: 1px solid var(--border);
+        }
+        .pex-table th:first-child, .pex-table td:first-child { padding-left: 0; }
+        .pex-table th.n, .pex-table td.n { text-align: right; }
+        .pex-table td {
+            padding: 7px 0 7px 8px; font-size: 0.84rem; vertical-align: middle;
+            border-bottom: 1px solid var(--border);
+        }
+        .pex-table tbody tr:hover td { background-color: var(--bg-hover); }
+        /* Long names (Jasmine Jasudavicius) wrap onto a second line rather than
+           truncating: phones have no hover to reveal a title tooltip. */
+        .pex-table td.name { font-weight: 600; overflow-wrap: anywhere; line-height: 1.3; }
+        .pex-table td.n { font-family: 'Chakra Petch', monospace; font-weight: 700; white-space: nowrap; }
+        /* Faint bar behind the $ cell: share of the biggest exposure (inline background-size). */
+        .pex-table td.usd {
+            color: var(--text-primary);
+            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16));
+            background-repeat: no-repeat; background-position: 0 50%;
+        }
+        .pex-table td.lu { color: var(--text-secondary); font-weight: 600; }
+        .pex-table td.act { color: var(--accent-green); }
+        .pex-table td.act.tbd { color: var(--text-secondary); font-weight: 600; opacity: 0.75; letter-spacing: 0.5px; }
+        /* column widths: name gets the slack; $ wide enough for the bar to read */
+        .pex-table th:nth-child(2), .pex-table td:nth-child(2) { width: 30%; }
+        .pex-table th:nth-child(3), .pex-table td:nth-child(3) { width: 17%; }
+        .pex-table.has-act th:nth-child(2), .pex-table.has-act td:nth-child(2) { width: 27%; }
+        .pex-table.has-act th:nth-child(3), .pex-table.has-act td:nth-child(3) { width: 16%; }
+        .pex-table.has-act th:nth-child(4), .pex-table.has-act td:nth-child(4) { width: 17%; }
+        /* Narrowest side-by-side widths: the LINEUPS header does not fit its
+           column at full tracking (the next header's sticky background would
+           cover its last letter), so the header type tightens a touch. */
+        @media (min-width: 900px) and (max-width: 1023px) {
+            .pex-table th { font-size: 0.6rem; letter-spacing: 0.5px; }
+            .pex-table.has-act th:nth-child(2), .pex-table.has-act td:nth-child(2) { width: 26%; }
+            .pex-table.has-act th:nth-child(3), .pex-table.has-act td:nth-child(3) { width: 17%; }
+        }
+        .pex-foot {
+            display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap;
+            margin-top: 2px; padding-top: 9px; border-top: 1px solid var(--border);
+            font-family: 'Chakra Petch', monospace; font-size: 0.76rem; letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+        .pex-foot b { color: var(--text-primary); font-weight: 700; }
 
         .search-result-card {
             background: var(--glass-bg);
@@ -3570,6 +3705,11 @@
            bars, not slide behind them. */
         .pq-val { position: relative; z-index: 1; }
 
+        /* Fighter Exposure list: same hairlines and hover wash as the sub-tables */
+        .pex-table th, .pex-table td { border-bottom: 1px solid var(--fn-line); }
+        .pex-table tbody tr:hover td { background-color: rgba(var(--a-rgb), 0.09); }
+        .pex-foot { border-top: 1px solid var(--fn-line); }
+
         /* Fighter Exposure card: padding-top on the scroll container makes the
            sticky header pin 24px below the card's visible top, so scrolled
            rows paint in the strip above it ("floating header"). Move the top
@@ -3660,17 +3800,17 @@
                 background-attachment: local, local, scroll, scroll;
             }
 
-            /* …and on phones (~16px bars) every other bar keeps its label —
-               the alternating set lands on the median (p50) and best (p100)
-               bars, and no two shown labels are ever adjacent. Slightly
-               smaller type so six-char amounts clear their neighbors.
-               Ticks thin to every 25th percentile. */
-            .pq-val { display: none; }
-            .pq-bars .pq-col:nth-child(odd) .pq-val:not(.pq-dup) {
-                display: block; font-size: 0.56rem;
-            }
-            .pq-axis span { visibility: hidden; }
-            .pq-axis span:nth-child(5n) { visibility: visible; }
+            /* …and on phones (~28px bars with 10 buckets) every bar keeps its
+               label when it fits: slightly smaller type so six-char amounts
+               fit, and because the bars form a staircase, neighboring labels
+               usually sit at different heights and clear each other (identical
+               runs are already collapsed by .pq-dup). Where the staircase is
+               too flat for that, the JS marks the crowded label .pq-tight and
+               it drops out here, falling back to every other bar; landmarks
+               (.pq-keep: first, median, loss->profit flip, best) always stay.
+               All ten axis ticks fit too. */
+            .pq-val { font-size: 0.56rem; }
+            .pq-bars .pq-col .pq-val.pq-tight:not(.pq-keep) { display: none; }
             /* Edge labels overhang narrow bars: pin the first bar's label to
                the chart's left edge and the last bar's to the right so
                neither clips off-screen. */
@@ -3699,6 +3839,15 @@
             .fighter-draft-table td { padding: 8px 6px; font-size: 0.76rem; }
             .fighter-draft-table th:first-child, .fighter-draft-table td:first-child { padding-left: 14px; }
             .fighter-draft-table th:last-child, .fighter-draft-table td:last-child { padding-right: 14px; }
+
+            /* Fighter Exposure (search results): header type tightens like the
+               table above so LINEUPS and ACTUAL keep daylight between them,
+               and the $ column gives a little width back to fighter names. */
+            .pex-table th { font-size: 0.56rem; letter-spacing: 0.3px; }
+            .pex-table td { font-size: 0.8rem; padding-top: 6px; padding-bottom: 6px; }
+            .pex-table.has-act th:nth-child(2), .pex-table.has-act td:nth-child(2) { width: 22%; }
+            .pex-table.has-act th:nth-child(3), .pex-table.has-act td:nth-child(3) { width: 17%; }
+            .pex-table.has-act th:nth-child(4), .pex-table.has-act td:nth-child(4) { width: 17%; }
         }
 
         @media (max-width: 600px) {
@@ -5077,22 +5226,29 @@
         let searchTimeout = null;
         let contestDataCache = {};
         let portfolioPercentilesCache = null;
-        let portfolioPercentilesFetching = false;
+        let portfolioPercentilesPromise = null;   // in-flight fetch, shared by concurrent searches
+        let searchSeq = 0;                        // bumps per search so a stale callback can't paint over a newer one
 
-        async function fetchPortfolioPercentiles() {
-            if (portfolioPercentilesCache) return portfolioPercentilesCache;
-            if (portfolioPercentilesFetching) return null;
-            portfolioPercentilesFetching = true;
-            try {
-                const resp = await fetch('portfolio_percentiles.json?v=' + Date.now());
-                if (!resp.ok) return null;
-                portfolioPercentilesCache = await resp.json();
-                return portfolioPercentilesCache;
-            } catch (e) {
-                return null;
-            } finally {
-                portfolioPercentilesFetching = false;
+        // The percentile file is big (~14MB): a second search that lands while
+        // the first one's fetch is still in flight must wait on that same
+        // request (like contestFetchPromises does for contest files), not be
+        // told there is no data. Resolves null only when the fetch fails.
+        function fetchPortfolioPercentiles() {
+            if (portfolioPercentilesCache) return Promise.resolve(portfolioPercentilesCache);
+            if (!portfolioPercentilesPromise) {
+                portfolioPercentilesPromise = fetch('portfolio_percentiles.json?v=' + Date.now())
+                    .then(resp => resp.ok ? resp.json() : null)
+                    .then(data => {
+                        portfolioPercentilesCache = data;
+                        portfolioPercentilesPromise = null;
+                        return data;
+                    })
+                    .catch(() => {
+                        portfolioPercentilesPromise = null;
+                        return null;
+                    });
             }
+            return portfolioPercentilesPromise;
         }
 
         function renderPortfolioQuintiles(percentileData) {
@@ -5107,9 +5263,11 @@
                 return (v < 0 ? '-$' : '$') + s;
             };
 
-            // 20 fixed percentile buckets. Each bar IS that percentile's simulated
-            // outcome — no merging, no averaging, no optimistic upper-boundary trick.
-            const pcts = [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+            // 10 fixed percentile buckets (every 10th percentile; 100 = the max).
+            // Each bar IS that percentile's simulated outcome, no merging, no
+            // averaging, no optimistic upper-boundary trick. Ten wider bars leave
+            // room for the fighter exposure list beside the chart.
+            const pcts = [10,20,30,40,50,60,70,80,90,100];
             const valAt = (p) => {
                 if (p === 100) return percentileData['max'] !== undefined ? percentileData['max'] : 0;
                 const k = 'p' + p;
@@ -5174,31 +5332,71 @@
             }
 
             const fmts = items.map(d => fmt(d.val));
-            const bars = items.map((d, i) => {
+            const geo = items.map(d => {
                 const isPos = d.val >= 0;
                 const ref = isPos ? posRef : negRef;
                 const barMax = (isPos ? posH : negH) - pad;
                 const clamped = Math.abs(d.val) > ref;
                 const barHeight = d.val === 0 ? 0
                     : Math.max(Math.min(Math.abs(d.val) / ref, 1) * barMax, 2);
-                const barClass = (isPos ? 'positive-bar' : 'negative-bar') + (clamped ? ' pq-clip' : '');
                 const topPad = isPos ? (posH - barHeight) : posH;
                 const botPad = isPos ? negH : (negH - barHeight);
-                // Selective labels: a run of identical amounts is labeled once
-                // (kills the "-$5 -$5 -$5" smear); on phones, where ~16px bars
-                // can't fit neighbors, only the landmarks stay — first bar,
-                // median, the loss->profit flip, and the best outcome.
-                const runFirst = i === 0 || fmts[i] !== fmts[i - 1];
-                const landmark = i === 0 || i === items.length - 1 || d.pct === 50
-                    || (isPos && i > 0 && items[i - 1].val < 0)
-                    || (!isPos && i + 1 < items.length && items[i + 1].val >= 0);
-                const cls = 'pq-val ' + (isPos ? 'positive' : 'negative')
-                    + (runFirst ? '' : ' pq-dup') + (landmark ? ' pq-keep' : '');
+                // Where the label paints: profit labels hang off the bar's top
+                // edge, loss labels off its bottom edge (chart y, px).
+                const LH = 13;   // phone label height (0.56rem x 1.4 line-height)
+                const labelTop = isPos ? topPad - LH : posH + barHeight;
+                return { isPos, clamped, barHeight, topPad, botPad, labelTop, labelBot: labelTop + LH };
+            });
+
+            // Selective labels: a run of identical amounts is labeled once
+            // (kills the "-$5 -$5 -$5" smear). Phones (~30px bars) can't fit
+            // two six-character labels side by side, so a label whose box would
+            // overlap its visible neighbor's is marked pq-tight and the phone
+            // CSS hides it, which falls back to every other bar across a flat
+            // run. Landmarks (pq-keep: first bar, median, the loss->profit
+            // flip, best outcome) always stay, so a neighbor that would collide
+            // with one is the label that yields.
+            const runFirst = items.map((d, i) => i === 0 || fmts[i] !== fmts[i - 1]);
+            const landmark = items.map((d, i) => i === 0 || i === items.length - 1 || d.pct === 50
+                || (geo[i].isPos && i > 0 && items[i - 1].val < 0)
+                || (!geo[i].isPos && i + 1 < items.length && items[i + 1].val >= 0));
+            // Horizontal boxes at phone size: ~5.5px per character at 0.56rem,
+            // columns split the chart's live width (3px gaps), and the phone
+            // CSS pins the first label to the left edge and the last to the
+            // right. A short p90 label beside the right-pinned p100 label can
+            // sit at the same height and still clear it.
+            const W = panel.clientWidth || 333, gap = 3, CH = 5.5;
+            const cw = (W - gap * (items.length - 1)) / items.length;
+            geo.forEach((g, i) => {
+                const w = fmts[i].length * CH;
+                if (i === 0) { g.x0 = 0; g.x1 = w; }
+                else if (i === items.length - 1) { g.x0 = W - w; g.x1 = W; }
+                else { const c = i * (cw + gap) + cw / 2; g.x0 = c - w / 2; g.x1 = c + w / 2; }
+            });
+            const touches = (a, b) => geo[a].labelTop < geo[b].labelBot && geo[b].labelTop < geo[a].labelBot
+                && geo[a].x0 < geo[b].x1 + 1 && geo[b].x0 < geo[a].x1 + 1;
+            const phoneShown = [];   // per bar: does its label survive on a phone
+            const tight = items.map((d, i) => {
+                let t = false;
+                if (runFirst[i] && !landmark[i]) {
+                    const prevShown = i > 0 && phoneShown[i - 1];
+                    const nextKept = i + 1 < items.length && runFirst[i + 1] && landmark[i + 1];
+                    t = (prevShown && touches(i, i - 1)) || (nextKept && touches(i, i + 1));
+                }
+                phoneShown[i] = runFirst[i] && !t;
+                return t;
+            });
+
+            const bars = items.map((d, i) => {
+                const g = geo[i];
+                const barClass = (g.isPos ? 'positive-bar' : 'negative-bar') + (g.clamped ? ' pq-clip' : '');
+                const cls = 'pq-val ' + (g.isPos ? 'positive' : 'negative')
+                    + (runFirst[i] ? '' : ' pq-dup') + (landmark[i] ? ' pq-keep' : '') + (tight[i] ? ' pq-tight' : '');
                 const label = `<div class="${cls}">${fmts[i]}</div>`;
-                return `<div class="pq-col" title="${d.pct}th percentile: ${fmt(d.val)}${clamped ? ' (beyond chart scale)' : ''}">
-                    <div class="pq-top" style="height:${topPad}px;">${isPos ? label : ''}</div>
-                    <div class="portfolio-bar ${barClass}" style="height:${barHeight}px;"></div>
-                    <div class="pq-bot" style="height:${botPad}px;">${!isPos ? label : ''}</div>
+                return `<div class="pq-col" title="${d.pct}th percentile: ${fmt(d.val)}${g.clamped ? ' (beyond chart scale)' : ''}">
+                    <div class="pq-top" style="height:${g.topPad}px;">${g.isPos ? label : ''}</div>
+                    <div class="portfolio-bar ${barClass}" style="height:${g.barHeight}px;"></div>
+                    <div class="pq-bot" style="height:${g.botPad}px;">${!g.isPos ? label : ''}</div>
                 </div>`;
             }).join('');
 
@@ -5237,17 +5435,64 @@
             // Only show contests the user participates in
             const userContests = contestNames.filter(c => byContest[c]);
             if (userContests.length < 2) { filtersEl.innerHTML = ''; return; }
-            filtersEl.innerHTML = userContests.map(c =>
-                `<label class="portfolio-filter-label">
-                    <input type="checkbox" checked data-contest="${c.replace(/"/g, '&quot;')}">
-                    ${c}
-                </label>`
-            ).join('');
+            filtersEl.innerHTML = `
+                <div class="pfd">
+                    <button type="button" class="pfd-btn" aria-haspopup="true" aria-expanded="false">
+                        <span>Contests</span>
+                        <span class="pfd-count">${userContests.length} of ${userContests.length}</span>
+                        <span class="pfd-caret">&#9662;</span>
+                    </button>
+                    <div class="pfd-menu" hidden>
+                        <div class="pfd-actions">
+                            <button type="button" data-pfd="all">All</button>
+                            <button type="button" data-pfd="none">None</button>
+                        </div>
+                        ${userContests.map(c => `<label class="pfd-item"><input type="checkbox" checked data-contest="${pexEsc(c)}"><span>${pexEsc(c)}</span></label>`).join('')}
+                    </div>
+                </div>`;
             // Store data for recomputation
             filtersEl._byContest = byContest;
             filtersEl._allPctData = allPctData;
             filtersEl._userContests = userContests;
             filtersEl.addEventListener('change', onPortfolioFilterChange);
+
+            // Open/close the menu; All/None tick everything on or off.
+            const pfd = filtersEl.querySelector('.pfd');
+            const btn = pfd.querySelector('.pfd-btn');
+            const menu = pfd.querySelector('.pfd-menu');
+            const setOpen = (open) => {
+                pfd.classList.toggle('open', open);
+                menu.hidden = !open;
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            };
+            btn.addEventListener('click', (e) => { e.stopPropagation(); setOpen(menu.hidden); });
+            menu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const act = e.target.closest('[data-pfd]');
+                if (!act) return;
+                menu.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = act.dataset.pfd === 'all'; });
+                onPortfolioFilterChange();
+            });
+            if (!document._pfdOutsideClick) {
+                document._pfdOutsideClick = true;
+                document.addEventListener('click', (e) => {
+                    document.querySelectorAll('.pfd.open').forEach(el => {
+                        if (!el.contains(e.target)) {
+                            el.classList.remove('open');
+                            el.querySelector('.pfd-menu').hidden = true;
+                            el.querySelector('.pfd-btn').setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Escape') return;
+                    document.querySelectorAll('.pfd.open').forEach(el => {
+                        el.classList.remove('open');
+                        el.querySelector('.pfd-menu').hidden = true;
+                        el.querySelector('.pfd-btn').setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
         }
 
         function onPortfolioFilterChange() {
@@ -5256,8 +5501,24 @@
             const checkboxes = filtersEl.querySelectorAll('input[type="checkbox"]');
             const selected = [];
             checkboxes.forEach(cb => { if (cb.checked) selected.push(cb.dataset.contest); });
-            if (selected.length === 0) return; // don't render empty
-            if (selected.length === filtersEl._userContests.length) {
+            // Keep the dropdown button honest: "3 of 11", highlighted while filtered.
+            const countEl = filtersEl.querySelector('.pfd-count');
+            const btnEl = filtersEl.querySelector('.pfd-btn');
+            if (countEl) countEl.textContent = `${selected.length} of ${checkboxes.length}`;
+            if (btnEl) btnEl.classList.toggle('filtered', selected.length !== checkboxes.length);
+            if (selected.length === 0) {
+                // "None" leaves nothing to show: say so instead of leaving the
+                // previous selection's numbers on screen.
+                const qp = document.getElementById('portfolio-quintiles');
+                if (qp) qp.innerHTML = '<div class="pq-stats"><span class="pq-stat">No contests selected</span></div>';
+                renderPortfolioExposure([]);
+                return;
+            }
+            const allSelected = selected.length === filtersEl._userContests.length;
+            // The fighter exposure list follows the same checkboxes: every
+            // contest when all are ticked, otherwise only the ticked ones.
+            renderPortfolioExposure(allSelected ? null : selected);
+            if (allSelected) {
                 // All selected — use pre-computed accurate "all" data
                 renderPortfolioQuintiles(filtersEl._allPctData);
             } else {
@@ -5275,6 +5536,123 @@
                 }
                 renderPortfolioQuintiles(combined);
             }
+        }
+
+        // ---------- Fighter exposure (landing-page username search) ----------
+        // Dollars at risk per fighter for the searched user: every leaderboard
+        // row is one entry, so a fighter's exposure is the sum of EntryFee over
+        // the rows whose F1..F6 hold them, added up across contests.
+        const pexEsc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        // Contest names differ slightly between contests.json and the portfolio
+        // percentile file ("100 Double Up 2" vs "100 Double Up (2)"), so the
+        // filter checkboxes are matched to contest data on a punctuation-free key.
+        const pexKey = s => String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9]/g, '');
+
+        // One contest's worth of exposure: { name, key, lineups, fighters: Map name -> { usd, lineups } }
+        function buildContestExposure(contestName, entries) {
+            const fighters = new Map();
+            let entryUsd = 0;
+            for (const row of entries) {
+                const fee = Number(row.EntryFee) || 0;
+                entryUsd += fee;
+                // A row contributes its fee once per fighter even if a name
+                // somehow fills two slots, so dedupe the slots first.
+                const held = new Set(['F1', 'F2', 'F3', 'F4', 'F5', 'F6'].map(slot => row[slot]).filter(Boolean));
+                for (const nm of held) {
+                    let f = fighters.get(nm);
+                    if (!f) { f = { usd: 0, lineups: 0 }; fighters.set(nm, f); }
+                    f.usd += fee;
+                    f.lineups += 1;
+                }
+            }
+            return { name: contestName, key: pexKey(contestName), lineups: entries.length, entryUsd, fighters };
+        }
+
+        // Actual DK scores, pooled across every loaded contest: actuals_map wins,
+        // then the fight card; the first non-null score seen for a name sticks.
+        // Keyed on the lowercase name so small casing drift still matches.
+        function collectContestActuals(data, actuals) {
+            const put = (nm, score) => {
+                // Only a real number counts: '' (a "not final yet" encoding) is
+                // not 0, and neither is anything Number() can't make finite.
+                const n = typeof score === 'number' ? score
+                    : (typeof score === 'string' && score.trim() !== '' ? Number(score) : NaN);
+                if (!nm || !Number.isFinite(n)) return;
+                const k = String(nm).trim().toLowerCase();
+                if (!actuals.has(k)) actuals.set(k, n);
+            };
+            const am = data && data.actuals_map;
+            if (am && typeof am === 'object') {
+                for (const [nm, score] of Object.entries(am)) put(nm, score);
+            }
+            for (const fight of (data && data.fight_card) || []) {
+                put(fight.fighter1, fight.fighter1_score);
+                put(fight.fighter2, fight.fighter2_score);
+            }
+        }
+
+        // selectedNames: null = every contest; otherwise the ticked filter labels.
+        function renderPortfolioExposure(selectedNames) {
+            const panel = document.getElementById('portfolio-exposure');
+            const filtersEl = document.getElementById('portfolio-filters');
+            if (!panel || !filtersEl || !filtersEl._exposureByContest) return;
+            const actuals = filtersEl._exposureActuals || new Map();
+            const wanted = selectedNames ? new Set(selectedNames.map(pexKey)) : null;
+
+            const agg = new Map();
+            let totalUsd = 0, totalLineups = 0;
+            for (const rec of filtersEl._exposureByContest) {
+                if (wanted && !wanted.has(rec.key)) continue;
+                totalLineups += rec.lineups;
+                totalUsd += rec.entryUsd;   // each entry's fee counts once, not once per fighter
+                for (const [nm, f] of rec.fighters) {
+                    let a = agg.get(nm);
+                    if (!a) { a = { name: nm, usd: 0, lineups: 0 }; agg.set(nm, a); }
+                    a.usd += f.usd;
+                    a.lineups += f.lineups;
+                }
+            }
+            const rows = [...agg.values()].sort((a, b) => b.usd - a.usd || b.lineups - a.lineups || a.name.localeCompare(b.name));
+            rows.forEach(r => { const s = actuals.get(r.name.trim().toLowerCase()); r.actual = s === undefined ? null : s; });
+            if (!rows.length) { panel.innerHTML = ''; return; }
+
+            // The Actual column appears once any held fighter has a final score.
+            const showActual = rows.some(r => r.actual != null);
+            const maxUsd = rows[0].usd || 1;
+            const usd = v => '$' + Math.round(v).toLocaleString();
+
+            const body = rows.map(r => {
+                const share = Math.max(0, Math.min(100, 100 * r.usd / maxUsd));
+                const act = !showActual ? ''
+                    : (r.actual == null
+                        ? '<td class="n act tbd">TBD</td>'
+                        : `<td class="n act">${r.actual.toFixed(2)}</td>`);
+                return `<tr>
+                    <td class="name" title="${pexEsc(r.name)}">${pexEsc(r.name)}</td>
+                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${usd(r.usd)}</td>
+                    <td class="n lu">${r.lineups.toLocaleString()}</td>
+                    ${act}
+                </tr>`;
+            }).join('');
+
+            panel.innerHTML = `
+                <div class="portfolio-chart-title pex-title">Fighter Exposure</div>
+                <div class="pex-body"><div class="pex-scroll">
+                    <table class="pex-table${showActual ? ' has-act' : ''}">
+                        <thead><tr>
+                            <th>Fighter</th>
+                            <th class="n">$ Exposure</th>
+                            <th class="n">Lineups</th>
+                            ${showActual ? '<th class="n">Actual</th>' : ''}
+                        </tr></thead>
+                        <tbody>${body}</tbody>
+                    </table>
+                </div></div>
+                <div class="pex-foot">
+                    <span>Total at risk <b>${usd(totalUsd)}</b></span>
+                    <span><b>${totalLineups.toLocaleString()}</b> lineup${totalLineups === 1 ? '' : 's'} &middot; <b>${rows.length}</b> fighter${rows.length === 1 ? '' : 's'}</span>
+                </div>
+            `;
         }
 
         let usernameIndex = null; // Map: lowercase username -> { displayName, contestCount }
@@ -5459,6 +5837,7 @@
         }
 
         async function searchAllContests(query) {
+            const token = ++searchSeq;
             const resultsContainer = document.getElementById('quick-search-results');
             resultsContainer.classList.add('visible');
             resultsContainer.innerHTML = '<div class="search-loading">Searching contests...</div>';
@@ -5488,15 +5867,23 @@
             const fetchResults = await Promise.allSettled(
                 CONTESTS.map(contest => fetchContestData(contest))
             );
+            if (token !== searchSeq) return;   // a newer search owns the results box now
+
+            // Fighter exposure inputs: per-contest dollars per fighter for this
+            // user, plus actual scores pooled from every contest that loaded.
+            const exposureByContest = [];
+            const exposureActuals = new Map();
 
             for (let i = 0; i < fetchResults.length; i++) {
                 if (fetchResults[i].status !== 'fulfilled') continue;
                 const data = fetchResults[i].value;
                 const contest = CONTESTS[i];
+                collectContestActuals(data, exposureActuals);
                 const entries = (data.leaderboard || []).filter(row =>
                     row.Username && row.Username.toLowerCase().includes(searchLower)
                 );
                 if (entries.length > 0) {
+                    exposureByContest.push(buildContestExposure(contest.name, entries));
                     const totalWinPct = entries.reduce((sum, r) => sum + (r.WinPct || 0), 0);
                     const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
                     const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
@@ -5540,7 +5927,10 @@
                 <div class="portfolio-chart-container" id="portfolio-chart-wrapper" style="display:none;">
                     <div class="portfolio-chart-title">Portfolio Outcome Distribution</div>
                     <div class="portfolio-filters" id="portfolio-filters"></div>
-                    <div class="portfolio-quintile-panel" id="portfolio-quintiles"></div>
+                    <div class="pcw-grid">
+                        <div class="pcw-chart"><div class="portfolio-quintile-panel" id="portfolio-quintiles"></div></div>
+                        <div class="pcw-exposure" id="portfolio-exposure"></div>
+                    </div>
                 </div>
                 ${results.map(r => `
                     <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
@@ -5566,9 +5956,31 @@
                 `).join('')}
             `;
 
-            // Fetch and render portfolio percentile chart
+            // Fighter exposure list: data lives on the filters element next to
+            // _byContest so the contest checkboxes can re-aggregate it.
+            const filtersEl = document.getElementById('portfolio-filters');
+            if (filtersEl) {
+                filtersEl._exposureByContest = exposureByContest;
+                filtersEl._exposureActuals = exposureActuals;
+            }
+            renderPortfolioExposure(null);
+            const hasExposure = exposureByContest.some(rec => rec.fighters.size > 0);
+            // No simulated distribution for this user: show the card with the
+            // exposure list alone (the chart column collapses).
+            const showExposureOnly = () => {
+                const wrapper = document.getElementById('portfolio-chart-wrapper');
+                if (!wrapper || !hasExposure) return;
+                wrapper.classList.add('pcw-nochart');
+                wrapper.style.display = '';
+            };
+
+            // Fetch and render portfolio percentile chart. A newer search may
+            // have replaced the results box while the file loaded: then this
+            // callback is stale and must not paint its chart (or the
+            // exposure-only state) onto the newer card.
             fetchPortfolioPercentiles().then(pctData => {
-                if (!pctData) return;
+                if (token !== searchSeq) return;
+                if (!pctData) { showExposureOnly(); return; }
                 const isNewFormat = pctData.users && pctData.contests;
                 const usersObj = isNewFormat ? pctData.users : pctData;
                 // Find the user's percentile data (try exact match first, then case-insensitive)
@@ -5584,15 +5996,17 @@
                 }
                 if (userPct) {
                     const wrapper = document.getElementById('portfolio-chart-wrapper');
-                    if (wrapper) wrapper.style.display = '';
+                    if (wrapper) { wrapper.classList.remove('pcw-nochart'); wrapper.style.display = ''; }
                     // New format: {all: {...}, by_contest: {...}}; Old format: {p1: ..., p99: ...}
                     const allPctData = isNewFormat ? userPct.all : userPct;
                     const byContest = isNewFormat ? userPct.by_contest : null;
                     const contestNames = isNewFormat ? pctData.contests : null;
                     renderPortfolioQuintiles(allPctData);
                     renderPortfolioFilters(contestNames, byContest, allPctData);
+                } else {
+                    showExposureOnly();
                 }
-            });
+            }, () => { if (token === searchSeq) showExposureOnly(); });
         }
 
         function loadContestWithUser(contestIndex, username) {

@@ -5178,6 +5178,402 @@
             /* keep the sort caret glued to the last word of a wrapped header */
             body.v2 .contest-table th.sortable::after { content: '\00a0\21c5'; }
         }
+
+        /* --- v2 color: handbuilder --- */
+        /* =====================================================================
+           HAND BUILDER (v2 color pass): color carries meaning here, never paint.
+           Orange is the key number (salary used, lineup totals, rank), the
+           selected and locked state, the one primary action and every hover.
+           Green and red are under / over the cap, valid / invalid, remove and
+           mark-out. Magnitude (exposure %, What If scores) gets the Tape's
+           share bar. Surfaces stay dark; empty slots and free rows stay quiet.
+           ===================================================================== */
+        /* --- salary card: used salary orange once a pick is in, LEFT green under the cap, red over --- */
+        body.v2 .hb-total { color: var(--accent); }
+        body.v2 .hb-meter.empty .hb-total { color: var(--v2-ink2); }
+        body.v2 .hb-meter #hbLeft { color: var(--accent-green); }
+        body.v2 .hb-meter.empty #hbLeft { color: var(--v2-ink3); }
+        body.v2 .hb-meter.over #hbLeft { color: var(--accent-red); }
+        body.v2 .hb-meter #hbPerSlot { color: var(--v2-ink2); }
+        body.v2 .hb-count.full { border-color: var(--accent-green); color: var(--accent-green); }
+        body.v2 .hb-meter.over .hb-count { border-color: var(--accent-red); color: var(--accent-red); }
+        body.v2 .hb-status.ok { color: var(--accent-green); }
+        body.v2 .hb-status.over { color: var(--accent-red); }
+        body.v2 .hb-dup { color: var(--accent-red); }
+        /* editing a saved lineup is an active state: the note reads orange */
+        body.v2 .hb-editnote { color: var(--accent); }
+        /* --- slots: filled slots carry a 2px orange rule and an F1..F6 badge, empty slots stay quiet --- */
+        body.v2 .hb-slots { counter-reset: hbslot; }
+        body.v2 .hb-slot { counter-increment: hbslot; }
+        body.v2 .hb-slot:not(.empty) { box-shadow: inset 2px 0 0 var(--accent); }
+        body.v2 .hb-slot:not(.empty)::before {
+            content: "F" counter(hbslot); flex: none; min-width: 18px;
+            font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.62rem; letter-spacing: 1px;
+            color: var(--accent); font-variant-numeric: tabular-nums;
+        }
+        body.v2 .hb-slot .lk { color: var(--accent); }
+        body.v2 .hb-slot .rm { color: var(--accent-red); opacity: 0.7; }
+        body.v2 .hb-slot .rm:hover { color: var(--accent-red); opacity: 1; }
+        /* --- pool rows: selection wash on a picked fighter, orange lock, red mark-out, orange + on hover --- */
+        body.v2 .hb-row.picked { background: rgba(var(--a-rgb), 0.07); box-shadow: inset 2px 0 0 var(--accent); }
+        body.v2 .hb-row.picked:hover { background: rgba(var(--a-rgb), 0.1); }
+        /* a picked fighter who is marked out keeps the wash but the rule goes red */
+        body.v2 .hb-row.cx.picked { background: rgba(var(--a-rgb), 0.07); box-shadow: inset 2px 0 0 var(--accent-red); }
+        body.v2 .hb-row.picked .hb-add { background: transparent; border-color: var(--accent); color: var(--accent); }
+        body.v2 .hb-row.picked .hb-add:hover { background: rgba(var(--a-rgb), 0.16); border-color: var(--accent-hi); color: var(--accent-hi); }
+        body.v2 .hb-row:not(.picked) .hb-add:hover { background: var(--accent); border-color: var(--accent); color: rgba(0, 0, 0, 0.88); }
+        body.v2 .hb-lockbtn:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+        body.v2 .hb-lockbtn.on { background: rgba(var(--a-rgb), 0.16); border-color: var(--accent); color: var(--accent); }
+        body.v2 .hb-lockbtn.on:hover { background: rgba(var(--a-rgb), 0.24); border-color: var(--accent-hi); color: var(--accent-hi); }
+        body.v2 .hb-row.cx .hb-name, body.v2 .hb-row.cx .hb-sal { color: var(--v2-ink3); }
+        body.v2 .hb-cxbtn:hover { background: transparent; border-color: var(--accent-red); color: var(--accent-red); }
+        body.v2 .hb-cxbtn.on { background: transparent; border-color: var(--accent-red); color: var(--accent-red); }
+        body.v2 .hb-cx-chip .undo:hover { color: var(--accent); }
+        /* --- inputs focus orange; Clear and Clear all scores warn in red on hover, Export hovers orange --- */
+        body.v2 .hb-search:focus, body.v2 .hb-sort:focus, body.v2 #hbNameInput:focus, body.v2 .hbw-in:focus { border-color: var(--accent); }
+        body.v2 #builder-view #hbClear:hover, body.v2 #builder-view #hbwClear:hover { color: var(--accent-red); border-color: var(--v2-l3); }
+        body.v2 #builder-view #hbExport:hover { border-color: var(--accent); color: var(--accent); }
+        body.v2 .hb-name-title { color: var(--accent); }
+        body.v2 #builder-view .fs2-note strong { color: var(--v2-ink1); }
+        /* --- saved lineups: orange eyebrows and salary totals, red tags, red remove --- */
+        body.v2 .hb-saved-head { color: var(--accent); }
+        body.v2 .hb-saved-head.at-max { color: var(--accent-red); }
+        body.v2 .hb-saved-sal { color: var(--accent); }
+        body.v2 .hb-saved-row.dead .hb-saved-sal { color: var(--v2-ink3); }
+        body.v2 #builder-view .edit-tag { color: var(--accent); }
+        body.v2 #builder-view .dead-tag { color: var(--accent-red); }
+        body.v2 .hb-saved-row .rm { color: var(--accent-red); opacity: 0.7; }
+        body.v2 .hb-saved-row .rm:hover { color: var(--accent-red); opacity: 1; }
+        /* --- exposure %: the Tape's share bar (percent of 100 over a faint track) behind the figure;
+               --p is set inline by hbRenderSaved, the classic skin's absolute bar is hidden --- */
+        body.v2 .hb-expo-bar { display: none; }
+        body.v2 .hb-expo-pct {
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16)),
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.05), rgba(var(--a-rgb), 0.05));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 20px, 100% 20px;
+            background-position: 0 50%, 0 50%;
+        }
+        body.v2 .hb-expo-pct span { color: var(--v2-ink1); padding-right: 4px; }
+        /* --- portfolio cards: header strip with the site's 2px orange rule, rank and DK total orange,
+               each What If score behind a share bar (its share of the slate's best score, --p from hbRenderPortfolio) --- */
+        body.v2 .hbp-head { border-bottom: 2px solid rgba(var(--a-rgb), 0.55); }
+        body.v2 .hbp-head .rk { color: var(--accent); font-weight: 700; }
+        body.v2 .hbp-head .tot { color: var(--accent); }
+        body.v2 .hbp-f .sc { min-width: 56px; padding: 0 4px; }
+        body.v2 .hbp-f .sc.share {
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16)),
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.05), rgba(var(--a-rgb), 0.05));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 20px, 100% 20px;
+            background-position: 0 50%, 0 50%;
+        }
+        body.v2 .hbp-f.out .nm { color: var(--accent-red); text-decoration: line-through; }
+        body.v2 .hbp-f.out .sc { color: var(--v2-ink3); }
+        body.v2 .hbp-foot { color: var(--v2-ink2); }
+        body.v2 .hbp-foot .dead-tag { color: var(--accent-red); }
+        /* --- What If: a projection reads orange once it is typed, the empty box stays quiet --- */
+        body.v2 .hbw-in:not(:placeholder-shown) { color: var(--accent); border-color: rgba(var(--a-rgb), 0.45); }
+        body.v2 .hbw-in:not(:placeholder-shown):focus { border-color: var(--accent); }
+
+        /* --- v2 color: optimizer --- */
+        /* Color carries meaning here: orange for the key number (projection), the
+           active control and the sort; green/red for lock vs exclude and for
+           success vs error; the share bar for magnitude. Surfaces stay dark. */
+        /* --- toolbar: the focused field names itself in orange; secondaries turn orange on hover --- */
+        body.v2 .opt-cap:focus-within label { color: var(--accent); }
+        body.v2 .opt-cap input:focus { background: rgba(var(--a-rgb), 0.08); }
+        body.v2 #optimizer-view .opt-btn:not(.opt-btn-primary):hover,
+        body.v2 #optimizer-view #optTemplateBtn:hover {
+            background: var(--v2-s2); border-color: var(--accent); color: var(--accent);
+        }
+        /* fight stacking on: an orange box and bright label, like any selected state */
+        body.v2 .opt-toggle input:checked { background: var(--accent); border-color: var(--accent); }
+        body.v2 .opt-toggle input:checked::after { border-color: var(--v2-s0); }
+        body.v2 .opt-toggle:has(input:checked) { color: var(--v2-ink1); }
+        /* --- status copy: a success note reads green, errors red --- */
+        body.v2 .opt-note { color: var(--v2-ink2); }
+        body.v2 .opt-note.ok { color: var(--accent-green); }
+        body.v2 .opt-note.bad, body.v2 .opt-err { color: var(--accent-red); }
+        /* --- projections grid: salary bright; an entered value reads bright on a faint orange wash,
+               an empty or zero one stays quiet (the JS toggles .filled on input and after each render) --- */
+        body.v2 .opt-grid td.sal { color: var(--v2-ink1); }
+        body.v2 .opt-grid td.proj-cell input, body.v2 .opt-grid td.own-cell input, body.v2 .opt-grid td.exp-cell input { color: var(--v2-ink3); }
+        body.v2 .opt-grid td.proj-cell input:focus, body.v2 .opt-grid td.own-cell input:focus, body.v2 .opt-grid td.exp-cell input:focus { color: var(--v2-ink1); }
+        body.v2 .opt-grid td.proj-cell input.filled, body.v2 .opt-grid td.own-cell input.filled, body.v2 .opt-grid td.exp-cell input.filled {
+            color: var(--v2-ink1); background: rgba(var(--a-rgb), 0.08); border-color: rgba(var(--a-rgb), 0.3);
+        }
+        body.v2 .opt-grid td.proj-cell input.filled:focus, body.v2 .opt-grid td.own-cell input.filled:focus, body.v2 .opt-grid td.exp-cell input.filled:focus { border-color: var(--accent); }
+        /* --- lock vs exclude: orange box on a locked row, red box on an excluded one --- */
+        body.v2 .opt-grid input[data-k="lock"]:checked { background: var(--accent); border-color: var(--accent); }
+        body.v2 .opt-grid input[data-k="exclude"]:checked { background: var(--accent-red); border-color: var(--accent-red); }
+        body.v2 .opt-grid input[data-k="lock"]:checked::after, body.v2 .opt-grid input[data-k="exclude"]:checked::after { border-color: var(--v2-s0); }
+        body.v2 .opt-grid input[data-k="exclude"]:hover { border-color: var(--accent-red); }
+        /* an excluded row goes quiet in ink3 (no opacity, so the red box stays red) with a 2px red inset bar */
+        body.v2 .opt-grid tr.excluded td { opacity: 1; color: var(--v2-ink3); }
+        body.v2 .opt-grid tr.excluded td:first-child { box-shadow: inset 2px 0 0 var(--accent-red); }
+        body.v2 .opt-grid tr.excluded td.proj-cell input, body.v2 .opt-grid tr.excluded td.own-cell input, body.v2 .opt-grid tr.excluded td.exp-cell input {
+            color: var(--v2-ink3); background: var(--v2-inset); border-color: var(--v2-l1);
+        }
+        body.v2 .opt-grid tr.excluded input[data-k="lock"] { border-color: var(--v2-l2); }
+        /* --- results: projection is the orange key number, salary bright, shares quiet, rank quietest --- */
+        body.v2 .opt-results-head .sdb-ladder-title { color: var(--accent); }
+        body.v2 .opt-results-table tbody tr:hover { background: var(--v2-s2); }
+        body.v2 .opt-results-table td.lu-proj { color: var(--accent); font-weight: 700; }
+        body.v2 .opt-results-table td.lu-proj + td { color: var(--v2-ink1); }
+        body.v2 .opt-results-table td.lu-num, body.v2 .opt-results-table td.lu-lev { color: var(--v2-ink2); }
+        body.v2 .opt-results-table td.lu-rank { color: var(--v2-ink3); }
+        body.v2 .opt-results-table th.sortable:hover { color: var(--accent); }
+        body.v2 .lu-stack-tag { color: var(--accent); border-color: rgba(var(--a-rgb), 0.5); }
+        /* --- exposure chips: the share bar (percent of the portfolio, --p set inline by the
+               renderer) runs behind the chip and the percent reads orange; a capped chip keeps its green edge --- */
+        body.v2 .opt-exposure-title { color: var(--accent); }
+        body.v2 .exp-chip {
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16)),
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.05), rgba(var(--a-rgb), 0.05));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 20px, 100% 20px;
+            background-position: 0 50%, 0 50%;
+        }
+        body.v2 .exp-chip:hover { border-color: var(--accent); color: var(--v2-ink1); }
+        body.v2 .exp-chip b { color: var(--accent); font-weight: 600; }
+        @media (max-width: 640px) {
+            /* stacked fighter cards: an excluded card gets the red edge, a locked one keeps the orange edge */
+            body.v2 .opt-grid tr.excluded { opacity: 1; border-left: 2px solid var(--accent-red); }
+            body.v2 .opt-grid tr.excluded td:first-child { box-shadow: none; }
+            body.v2 .opt-grid tr.excluded td:nth-child(3) { color: var(--v2-ink3); }
+        }
+
+        /* --- v2 color: fighterstats --- */
+        /* Color that carries meaning on the Fighter Stats tab. Wins green and losses
+           red in the hero record; orange on the section eyebrows, the rule under the
+           column header, the subject's DK numbers and the AVG footer; a method dot per
+           fight in the Trends chart's categorical colors (KO/TKO, Submission,
+           Decision); green or red percentile ranks on the stats profile with an orange
+           count badge per accordion; and on the weekly cards the favorite's salary in
+           orange, a salary split bar, a pace meter (the contest tables' share bar) and
+           style chips. Surfaces stay dark; nothing here paints a background. */
+        /* --- hero: wins green, losses red, draws and no-contests quiet --- */
+        body.v2 .fsx-hero .rec .rw { color: var(--accent-green); }
+        body.v2 .fsx-hero .rec .rl { color: var(--accent-red); }
+        body.v2 .fsx-hero .rec .rd { color: var(--v2-ink3); }
+        body.v2 .fsx-hero .wc { color: var(--v2-ink3); }
+        /* --- record log: orange eyebrow, the site's orange rule under the column header,
+               the subject's DK column, a method dot per fight, the AVG footer --- */
+        body.v2 .fsx-secbar .t { color: var(--accent); }
+        body.v2 .fsx-table thead tr.cols th { border-bottom: 2px solid rgba(var(--a-rgb), 0.55); }
+        body.v2 .fsx-table thead tr.grp th.pts { color: var(--accent); }
+        body.v2 .fsx-table tbody tr.fsx-main td.dk { color: var(--accent); }
+        body.v2 .fsx-mdot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; background: var(--v2-ink3); }
+        body.v2 .fsx-mdot.ko { background: #d92e44; }     /* TREND_STACK KO/TKO */
+        body.v2 .fsx-mdot.sub { background: #0fa862; }    /* TREND_STACK Submission */
+        body.v2 .fsx-mdot.dec { background: #5b7fe8; }    /* TREND_STACK Decision */
+        body.v2 .fsx-table tfoot td { border-top: 2px solid rgba(var(--a-rgb), 0.55); }
+        body.v2 .fsx-table tfoot td.l, body.v2 .fsx-table tfoot td.dk { color: var(--accent); }
+        body.v2 .fsx-table tfoot tr.opp td { border-top: 1px solid var(--v2-l1); }
+        body.v2 .fsx-table tfoot tr.opp td.l, body.v2 .fsx-table tfoot tr.opp td.dk { color: var(--v2-ink2); }
+        body.v2 .fsx-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        /* --- stats profile: the headline DK number, green or red ranks (60th and up,
+               40th and down), an orange count badge and an orange caret on open sections,
+               orange per-round pace bars --- */
+        body.v2 .fs2-ktile:first-child .v { color: var(--accent); }
+        body.v2 .fs2-pc.up, body.v2 .fs2-row .pct.up { color: var(--accent-green); }
+        body.v2 .fs2-pc.dn, body.v2 .fs2-row .pct.dn { color: var(--accent-red); }
+        body.v2 .fs2-sec .cnt {
+            min-width: 22px; height: 18px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 2px; background: rgba(var(--a-rgb), 0.12); color: var(--accent); font-weight: 500;
+        }
+        body.v2 .fs2-sec[open] > summary::before { color: var(--accent); }
+        body.v2 .fs2-sec > summary:hover::before { color: var(--accent); }
+        body.v2 .fs2-pace .b { background: rgba(var(--a-rgb), 0.42); }
+        /* --- weekly matchups: orange FIGHT N eyebrow, the favorite's salary in orange,
+               a salary split bar under the names, a pace meter and style chips --- */
+        body.v2 .fmx-card .fno { color: var(--accent); }
+        body.v2 .fmx-card .sal { color: var(--v2-ink2); }
+        body.v2 .fmx-card .sal.hi { color: var(--accent); }
+        body.v2 .fmx-card .edge { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; border-top: 0; padding-top: 0; margin-top: 2px; }
+        body.v2 .fmx-card .fmx-sep { display: none; }
+        /* the favorite's share of the two salaries in orange over a hairline track */
+        body.v2 .fmx-split {
+            flex: 0 0 100%; height: 3px; margin: 0 0 4px;
+            background-image: linear-gradient(90deg, var(--accent), var(--accent)), linear-gradient(90deg, var(--v2-l3), var(--v2-l3));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 100%, 100% 100%;
+            background-position: 0 50%, 0 50%;
+        }
+        /* combined sig strikes per minute out of 15, drawn with the contest tables' share bar */
+        body.v2 .fmx-pace {
+            display: inline-block; min-width: 176px; height: 20px; line-height: 20px; padding: 0 8px;
+            font-family: var(--v2-mono); font-size: 0.7rem; font-variant-numeric: tabular-nums; color: var(--v2-ink1); white-space: nowrap;
+            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16)), linear-gradient(90deg, rgba(var(--a-rgb), 0.05), rgba(var(--a-rgb), 0.05));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 20px, 100% 20px;
+            background-position: 0 50%, 0 50%;
+        }
+        body.v2 .fmx-tag {
+            display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: 2px;
+            font-family: 'Chakra Petch', monospace; font-size: 0.6rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--v2-ink3); border: 1px solid var(--v2-l2);
+        }
+        body.v2 .fmx-tag.strike { color: var(--accent-red); border-color: transparent; background: color-mix(in srgb, var(--accent-red) 14%, transparent); }
+        body.v2 .fmx-tag.grap { color: var(--accent-green); border-color: transparent; background: color-mix(in srgb, var(--accent-green) 14%, transparent); }
+        body.v2 .fmx-card:hover .fno { color: var(--accent-hi); }
+        /* --- modals: the subject (the looked-up fighter, or the favorite) in orange, orange
+               section eyebrows, the category split bars orange vs hairline, hover orange --- */
+        body.v2 .fxm-names .me { color: var(--accent); }
+        body.v2 .fxm-divlbl, body.v2 .fmx-sec { color: var(--accent); }
+        body.v2 .fxm-bar i { background: var(--accent); }
+        body.v2 .fxm-bar b { background: var(--v2-l3); }
+        body.v2 .fxm-row.big .fxm-a { color: var(--accent); }
+        body.v2 .fxm-sub .fsx-mdot { margin-right: 5px; }
+        body.v2 .fxm-x:hover { color: var(--accent); }
+        body.v2 .fmx-open:hover { color: var(--accent); border-color: var(--accent); }
+        @media (max-width: 768px) {
+            body.v2 .fmx-pace { min-width: 150px; }
+            body.v2 .fmx-tag { height: 22px; }
+        }
+
+        /* --- v2 color: insights --- */
+        /* =====================================================================
+           COLOR PASS (v2): Scoring Insights. Color carries meaning here and
+           never paints a surface: orange is the key number of each sheet, the
+           selected scope and the chart series; green and red are win and loss;
+           the method dot uses the three Trends stack colors (KO/TKO, Decision,
+           Submission); the ladder keeps its green heat. Every rule is scoped
+           under body.v2 and sits after the v2: insights section, so a rule of
+           equal specificity here wins.
+           ===================================================================== */
+        /* --- scoring ladder: the first row is the selected scope (it matches the orange
+           tile below it), Avg DK is the sheet's key number, hover turns orange --- */
+        body.v2 .sdb-ladder tbody tr:first-child td.l { color: var(--accent); }
+        body.v2 .sdb-ladder .dktot { color: var(--accent); }
+        body.v2 .ins-since .chips button:hover { color: var(--accent-hi); }
+        /* --- outcome tiles: the average takes the tile's meaning (win green, loss red,
+           all performances orange); hovering previews the selection hairline, the selected
+           tile keeps its orange border and wash and the others stay dimmed --- */
+        body.v2 .sdb-tile:hover, body.v2 #sdbInsightAll .sdb-tile:hover { border-color: var(--accent); }
+        body.v2 .sdb-tile.win .tmeta b { color: var(--accent-green); }
+        body.v2 .sdb-tile.loss .tmeta b { color: var(--accent-red); }
+        body.v2 #sdbInsightAll .sdb-tile { border-left-color: var(--accent); }
+        body.v2 #sdbInsightAll .sdb-tile .tmeta b { color: var(--accent); }
+        /* --- Score Database: a method-family dot (the renderer adds meth-ko / meth-dec /
+           meth-sub / meth-oth), the win bonus in green when it was earned, DK total as the
+           key number, the fighter name turning orange on the row you can click --- */
+        body.v2 #scoringdb-view .sdb-table td.meth::before {
+            content: ''; display: inline-block; width: 7px; height: 7px; margin: 0 7px 0 0; vertical-align: 0;
+            border-radius: 1px; background: var(--v2-ink3);
+        }
+        body.v2 #scoringdb-view .sdb-table td.meth-ko::before { background: #d92e44; }    /* TREND_STACK KO/TKO */
+        body.v2 #scoringdb-view .sdb-table td.meth-dec::before { background: #5b7fe8; }   /* TREND_STACK Decision */
+        body.v2 #scoringdb-view .sdb-table td.meth-sub::before { background: #0fa862; }   /* TREND_STACK Submission */
+        body.v2 #scoringdb-view .sdb-table td.pts.bonus { color: var(--accent-green); }
+        body.v2 #scoringdb-view .sdb-table td.dktot { color: var(--accent); }
+        body.v2 #scoringdb-view .sdb-table tbody tr:hover { background: var(--v2-s2); }
+        body.v2 #scoringdb-view .sdb-table tbody tr:hover td.fcell { color: var(--accent); }
+        /* the match count: block, not flex, so the orange <b> keeps its spaces */
+        body.v2 #scoringdb-view .sdb-count { display: block; text-align: right; }
+        body.v2 #scoringdb-view .sdb-count b { font-weight: 500; color: var(--accent); }
+        /* an active filter shows orange: a typed name, a chosen option, the checked box */
+        body.v2 #scoringdb-view .sdb-fg input:not(:placeholder-shown),
+        body.v2 #scoringdb-view .sdb-fg select:has(option:checked:not([value=""])) { border-color: var(--accent); color: var(--accent); }
+        body.v2 #scoringdb-view .sdb-check:has(input:checked) { color: var(--v2-ink1); }
+        body.v2 #scoringdb-view .sdb-check input:checked { background: var(--accent); border-color: var(--accent); }
+        body.v2 #scoringdb-view .sdb-check input:checked::after { border-color: var(--v2-s0); }
+        /* --- Scoring Trends: the series is orange over an orange fade (a per-chart SVG
+           gradient the renderer binds through --tr-fill); the current value, the hover
+           crosshair and the readout value are orange; the method mix keeps its three colors --- */
+        body.v2 .tr-line { stroke: var(--accent); }
+        body.v2 .tr-area { fill: var(--tr-fill, rgba(var(--a-rgb), 0.08)); }
+        body.v2 .tr-svg .tr-stop-top { stop-color: var(--accent); stop-opacity: 0.28; }
+        body.v2 .tr-svg .tr-stop-base { stop-color: var(--accent); stop-opacity: 0; }
+        body.v2 .tr-svg .tr-endval { fill: var(--accent); }
+        body.v2 .tr-dot { stroke: var(--v2-inset); stroke-width: 1.5; }
+        body.v2 .tr-cross { stroke: var(--accent); stroke-opacity: 0.7; }
+        body.v2 .tr-readout b { font-weight: 500; color: var(--accent); }
+
+        /* --- v2 color: shell --- */
+        /* =====================================================================
+           SHELL (v2 color pass): the landing, the username search results, the
+           contest page's five views, About, the visitor gate. Color carries
+           meaning, never paint: orange for the brand, the countdown, counts,
+           the sorted column, each panel's key number and every hover; green
+           and red for money, sign and above / below the field; the Tape's
+           share bar for magnitude. Surfaces stay dark.
+           ===================================================================== */
+        /* --- masthead: the lineup-lock countdown reads orange beside its dot --- */
+        body.v2 #lock-countdown-pill { color: var(--accent); border-color: rgba(var(--a-rgb), 0.45); }
+        /* --- tabs: hovering previews the orange rule the active tab carries --- */
+        body.v2 .lnav-tab:hover, body.v2 .tab-btn:hover { border-bottom-color: rgba(var(--a-rgb), 0.45); }
+        /* --- search bar: orange when focused; the favorites count and the visitor's own tag are orange --- */
+        body.v2 .quick-search-bar:focus-within { border-color: var(--accent); }
+        body.v2 .quick-search-bar input:focus { outline: none; }
+        body.v2 .pfd-btn:hover, body.v2 .pfd.open .pfd-btn { border-color: var(--accent); color: var(--v2-ink1); }
+        body.v2 .pfd-btn.filtered { border-color: var(--accent); color: var(--v2-ink1); }
+        body.v2 .pfd-count { color: var(--accent); }
+        body.v2 .fav-you { color: var(--accent); }
+        body.v2 .fav-item:hover .fav-name { color: var(--accent); }
+        body.v2 .fav-me button:hover { color: var(--accent); border-color: var(--accent); }
+        body.v2 .fav-me input:focus { outline: none; border-color: var(--accent); }
+        body.v2 .fav-item .fav-remove:hover { color: var(--accent-red); opacity: 1; }
+        body.v2 .username-dropdown-item:hover .username-dropdown-name { color: var(--accent); }
+        body.v2 .username-dropdown .add-fav-btn:hover { border-color: var(--accent); color: var(--accent); }
+        body.v2 .save-favorite-btn:hover, body.v2 .save-favorite-btn.saved { color: var(--accent); }
+        /* --- landing contest list: prizes green (money to win), fee and name ink1, entrants quiet;
+               hovering a row lifts it to s2 and the name turns orange; the sorted column's
+               caret is orange (the .sorted class comes from renderContestTable) --- */
+        body.v2 .contest-table-name { color: var(--v2-ink1); }
+        body.v2 .contest-table tbody tr:hover { background: var(--v2-s2); }
+        body.v2 .contest-table tbody tr:hover .contest-table-name { color: var(--accent); }
+        body.v2 .contest-table td.col-fee { color: var(--v2-ink1); }
+        body.v2 .contest-table td.col-prizes { color: var(--accent-green); }
+        body.v2 .contest-table th.sorted { color: var(--v2-ink1); }
+        body.v2 .contest-table th.sortable:hover::after, body.v2 .contest-table th.sorted::after { color: var(--accent); opacity: 1; }
+        /* --- search results: P(profit) is a probability, not money, so it reads orange
+               (in the KPI strip and in the chart panel's lead line); the hovered contest
+               row names itself in orange; the exposure panel's key number is the total at risk --- */
+        body.v2 #kpi-profit .v { color: var(--accent); }
+        body.v2 .pq-stat:first-child b { color: var(--accent); }
+        body.v2 .search-result-card:hover .search-result-contest { color: var(--accent); }
+        body.v2 .pex-foot span:first-child b { color: var(--accent); }
+        /* --- contest page shell: the back link and row carets turn orange on hover, the
+               sorted column's caret is orange (the .sorted class comes from filterAndRender),
+               focused filters and the checked hide-dead box are orange --- */
+        body.v2 .back-btn:hover { color: var(--accent); }
+        body.v2 .row-main:hover .expand-icon { color: var(--accent); }
+        body.v2 .leaderboard-page th.sorted { color: var(--v2-ink1); }
+        body.v2 .leaderboard-page th.sortable:hover::after, body.v2 .leaderboard-page th.sorted::after { color: var(--accent); opacity: 1; }
+        body.v2 .filters input:focus, body.v2 .filters select:focus { outline: none; border-color: var(--accent); }
+        body.v2 .filters input[type="checkbox"]:checked { background: rgba(var(--a-rgb), 0.16); border-color: var(--accent); }
+        body.v2 .filters input[type="checkbox"]:checked::after { border-color: var(--accent); }
+        body.v2 .clear-btn:hover { border-color: var(--accent); color: var(--accent); }
+        /* --- Portfolio Stats: Win % is the panel's key number (EV and ROI already carry sign) --- */
+        body.v2 .stat-row .value.key { color: var(--accent); }
+        /* --- Fighter Exposure, the Insights Fighters table: Draft % is the key number; Optimal % reads
+               green when it is above Draft % (the field is under on this fighter) and red when below
+               (over-owned), the same meaning as the leverage chart's dots; a live score is orange --- */
+        body.v2 .fighter-draft-table .draft-pct, body.v2 .dupe-table .draft-pct { color: var(--accent); }
+        body.v2 .fighter-draft-table .opt-pct.up, body.v2 .dupe-table .opt-pct.up { color: var(--accent-green); }
+        body.v2 .fighter-draft-table .opt-pct.down, body.v2 .dupe-table .opt-pct.down { color: var(--accent-red); }
+        body.v2 .dupe-table td.sc { color: var(--accent); }
+        body.v2 .dupes-container .dupes-count { color: var(--accent); }
+        /* --- ranks: orange in every view, so By Portfolio and What If match By Username and By Lineup --- */
+        body.v2 #portfolio-table .row-main td:first-child, body.v2 .whatif-table-scroll .row-main td:nth-child(2) { color: var(--accent); }
+        /* --- What If: a score reads orange once it is entered (or pulled in from the actuals) --- */
+        body.v2 .fight-score-input.has-value { color: var(--accent); border-color: rgba(var(--a-rgb), 0.45); }
+        body.v2 .fight-score-input:focus { outline: none; border-color: var(--accent); }
+        /* --- Lineup Uniqueness: unique lineups green, lineups duped 5+ red, zeros quiet --- */
+        body.v2 .dupe-table td.u-up { color: var(--accent-green); }
+        body.v2 .dupe-table td.u-down { color: var(--accent-red); }
+        body.v2 .dupe-table td.u-nil { color: var(--v2-ink3); }
+        body.v2 .dupe-search:focus, body.v2 .pair-search-input:focus { outline: none; border-color: var(--accent); }
+        /* --- About: the secondary link joins the hover system --- */
+        body.v2 .about-btn.xlink:hover { border-color: var(--accent); color: var(--accent); }
+        /* --- visitor gate: the title carries the brand, the field lights up when focused --- */
+        body.v2 #visitor-gate h2 { color: var(--accent); }
+        body.v2 #visitor-gate input:focus { outline: none; border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -6460,9 +6856,9 @@
                         <thead>
                             <tr>
                                 <th>Contest</th>
-                                <th class="col-fee sortable" onclick="sortContests('entryFee')">Entry Fee</th>
-                                <th class="col-prizes sortable" onclick="sortContests('totalPrizes')">Total Prizes</th>
-                                <th class="col-entrants sortable" onclick="sortContests('entrants')">Entrants</th>
+                                <th class="col-fee sortable${contestSortKey === 'entryFee' ? ' sorted' : ''}" onclick="sortContests('entryFee')">Entry Fee</th>
+                                <th class="col-prizes sortable${contestSortKey === 'totalPrizes' ? ' sorted' : ''}" onclick="sortContests('totalPrizes')">Total Prizes</th>
+                                <th class="col-entrants sortable${contestSortKey === 'entrants' ? ' sorted' : ''}" onclick="sortContests('entrants')">Entrants</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -7609,7 +8005,7 @@
                     <td class="fighter-name">${r.fighter}</td>
                     <td class="draft-pct">${r.draft.toFixed(2)}%</td>
                     <td class="win-pct">${r.win.toFixed(2)}%</td>
-                    <td class="win-pct">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td class="win-pct opt-pct${r.optimal == null ? '' : r.optimal > r.draft ? ' up' : r.optimal < r.draft ? ' down' : ''}">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
                 </tr>
             `).join('');
         }
@@ -7689,7 +8085,7 @@
                 </div>
                 <div class="stat-row">
                     <span class="label">Win %</span>
-                    <span class="value">${portfolioWinPct.toFixed(2)}%</span>
+                    <span class="value key">${portfolioWinPct.toFixed(2)}%</span>
                 </div>
                 <div class="stat-row">
                     <span class="label">Portfolio EV</span>
@@ -7771,6 +8167,9 @@
         
         function filterAndRender() {
             const searchUser = document.getElementById('search-user').value.toLowerCase();
+            // v2 color: the sorted column's header carries the orange caret
+            document.querySelectorAll('.leaderboard-page th.sortable[onclick^="setSort"]')
+                .forEach(th => th.classList.toggle('sorted', th.getAttribute('onclick') === `setSort('${currentSort}')`));
             
             // Filter
             const dead = row => hideDead &&
@@ -7957,8 +8356,8 @@
                     <td>${r.salary != null ? '$' + Number(r.salary).toLocaleString() : '--'}</td>
                     <td class="draft-pct">${r.draft.toFixed(2)}%</td>
                     <td class="win-pct">${r.win.toFixed(2)}%</td>
-                    <td class="win-pct">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
-                    <td>${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
+                    <td class="win-pct opt-pct${r.optimal == null ? '' : r.optimal > r.draft ? ' up' : r.optimal < r.draft ? ' down' : ''}">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td class="${r.score != null ? 'sc' : ''}">${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
                 </tr>`).join('');
         }
 
@@ -8117,9 +8516,9 @@
             tbody.innerHTML = rows.map(r => `
                 <tr>
                     <td class="username">${r.user}</td>
-                    <td>${r.unique}</td>
-                    <td>${r.low}</td>
-                    <td>${r.high}</td>
+                    <td class="${r.unique > 0 ? 'u-up' : 'u-nil'}">${r.unique}</td>
+                    <td class="${r.low > 0 ? '' : 'u-nil'}">${r.low}</td>
+                    <td class="${r.high > 0 ? 'u-down' : 'u-nil'}">${r.high}</td>
                     <td>${r.total}</td>
                 </tr>`).join('');
         }
@@ -8651,6 +9050,7 @@
                     </tr>
                 `;
             }).join('');
+            applyDepthWash(tbody, [3, 6]);   // v2 color: share bars behind Win % and Top 3 %
         }
 
         // ==================== What If Mode ====================
@@ -9072,23 +9472,26 @@
                 }).join('');
                 document.getElementById('sdbBody').innerHTML = rows.map((s, i) => {
                     const r = s.r, p = s.pts;
+                    // v2-color-insights: the method cell carries its family as a class (the v2 look draws a colored dot from it)
+                    const mc = s.mgroup === 'KO/TKO' ? 'meth-ko' : s.mgroup === 'Submission' ? 'meth-sub' : s.mgroup === 'Decision' ? 'meth-dec' : 'meth-oth';
                     return `<tr data-fighter="${esc(r.fighter)}">
                         <td class="rank">${i + 1}</td>
                         <td class="l fcell">${esc(r.fighter)}</td>
                         <td class="l">${esc(r.opponent)}</td>
                         <td><span class="${resClass(r.result)}">${r.result || ''}</span></td>
-                        <td class="l" title="${esc(r.method)}">${esc(shortMethod(r.method))}${p.quick > 0 ? ' ⚡' : ''}</td>
+                        <td class="l meth ${mc}" title="${esc(r.method)}">${esc(shortMethod(r.method))}${p.quick > 0 ? ' ⚡' : ''}</td>
                         <td>${s.round}</td>
                         <td>${fmtDate(r.event_date)}</td>
                         <td class="pts">${p1(p.str)}</td>
                         <td class="pts">${p0(p.kd)}</td>
                         <td class="pts">${p0(p.td)}</td>
                         <td class="pts">${p1(p.ctrl)}</td>
-                        <td class="pts">${p0(p.win + p.quick)}</td>
+                        <td class="pts${p.win + p.quick > 0 ? ' bonus' : ''}">${p0(p.win + p.quick)}</td>
                         <td class="dktot">${p1(s.dk)}</td>
                     </tr>`;
                 }).join('');
-                document.getElementById('sdbCount').textContent = total > LIMIT ? `Showing top ${LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} result${total === 1 ? '' : 's'}`;
+                // the count is a number, so innerHTML is safe; the v2 look colors the <b>
+                document.getElementById('sdbCount').innerHTML = total > LIMIT ? `Showing top ${LIMIT} of <b>${total.toLocaleString()}</b> matching` : `<b>${total.toLocaleString()}</b> result${total === 1 ? '' : 's'}`;
             }
 
             let filtersWired = false;
@@ -9417,15 +9820,18 @@
                 const line = 'M' + pts.join('L');
                 const area = line + `L${trX(vals.length - 1, vals.length).toFixed(1)},${TR_H - TR_MB}L${trX(0, vals.length).toFixed(1)},${TR_H - TR_MB}Z`;
                 const lx = trX(vals.length - 1, vals.length), lv = vals[vals.length - 1], ly = y(lv);
+                // the fade under the line is a per-chart gradient; the area path binds to it
+                // through --tr-fill so the v2 stylesheet still owns the fill color
                 return `<div class="tr-card${cfg.wide ? ' wide' : ''}">
                     <div class="tr-head"><span class="tr-title">${cfg.title}</span><span class="tr-readout" id="trRead-${cfg.id}"></span></div>
                     <div class="tr-sub">${cfg.sub}</div>
-                    <svg class="tr-svg" viewBox="0 0 ${TR_W} ${TR_H}" data-tid="${cfg.id}" role="img" aria-label="${cfg.title} over time">
+                    <svg class="tr-svg" viewBox="0 0 ${TR_W} ${TR_H}" data-tid="${cfg.id}" role="img" aria-label="${cfg.title} over time" style="--tr-fill:url(#trFill-${cfg.id})">
+                        <defs><linearGradient id="trFill-${cfg.id}" x1="0" y1="0" x2="0" y2="1"><stop class="tr-stop-top" offset="0"></stop><stop class="tr-stop-base" offset="1"></stop></linearGradient></defs>
                         ${g}
                         <path class="tr-area" d="${area}"></path>
                         <path class="tr-line" d="${line}"></path>
                         <circle class="tr-dot" cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.5"></circle>
-                        <text class="tr-endlbl" x="${(lx - 7).toFixed(1)}" y="${(ly - 8).toFixed(1)}" text-anchor="end">${trendFmt(cfg, lv)}</text>
+                        <text class="tr-endlbl tr-endval" x="${(lx - 7).toFixed(1)}" y="${(ly - 8).toFixed(1)}" text-anchor="end">${trendFmt(cfg, lv)}</text>
                         <line class="tr-cross" y1="${TR_MT}" y2="${TR_H - TR_MB}" style="display:none"></line>
                         <circle class="tr-hoverdot tr-dot" r="3.5" style="display:none"></circle>
                     </svg>
@@ -9504,10 +9910,10 @@
                     if (cfg.type === 'stack') {
                         const w = roll[i].w, t = w.ko + w.dec + w.sub || 1;
                         const sh = roundShares([100 * w.ko / t, 100 * w.dec / t, 100 * w.sub / t]);
-                        read.textContent = `${trMonthLabel(roll[i].k)} · KO ${sh[0]}% · Dec ${sh[1]}% · Sub ${sh[2]}%`;
+                        read.innerHTML = `${trMonthLabel(roll[i].k)} · KO <b>${sh[0]}%</b> · Dec <b>${sh[1]}%</b> · Sub <b>${sh[2]}%</b>`;
                     } else {
                         const v = cfg.calc(roll[i].w);
-                        read.textContent = `${trMonthLabel(roll[i].k)} · ${trendFmt(cfg, v)}`;
+                        read.innerHTML = `${trMonthLabel(roll[i].k)} · <b>${trendFmt(cfg, v)}</b>`;
                         const sc = TREND_SCALES[cfg.id], dot = svg.querySelector('.tr-hoverdot');
                         if (sc && dot) {
                             const dy = TR_MT + (TR_H - TR_MT - TR_MB) * (1 - (v - sc.lo) / (sc.hi - sc.lo));
@@ -9572,6 +9978,13 @@
                 return m;
             }
             const resChip = res => res === 'W' ? '<span class="fsx-w">W</span>' : res === 'L' ? '<span class="fsx-l">L</span>' : `<span class="fsx-d">${esc(res || '—')}</span>`;
+            // v2 color: fighterstats. A dot per method family (KO/TKO, Submission,
+            // Decision, other) in front of the method text; the new look colors it.
+            const methDot = m => {
+                const s = String(m || '');
+                const k = /^(KO|TKO)/.test(s) ? 'ko' : /^Sub/.test(s) ? 'sub' : /^Dec/.test(s) ? 'dec' : 'oth';
+                return `<i class="fsx-mdot ${k}"></i>`;
+            };
             // One <tr> of stat cells shared by fighter rows, opponent rows and the AVG
             // footers: lean landed-only counting stats + the DK total. Full detail
             // (attempts, accuracy, per-category DK points) lives in the fight modal.
@@ -9620,7 +10033,7 @@
 
                 let html = '';
                 heroEl.innerHTML = `<div class="fsx-hero"><span class="nm">${esc(canonical)}</span>` +
-                        `<span class="rec">${wins}&ndash;${losses}${other ? '&ndash;' + other : ''} in UFC</span>` +
+                        `<span class="rec"><span class="rw">${wins}</span>&ndash;<span class="rl">${losses}</span>${other ? '&ndash;<span class="rd">' + other + '</span>' : ''} in UFC</span>` +
                         `<span class="wc">${esc(weightOf(fights[n - 1].weight_class))}</span>` +
                         `<span class="meta">${n} fight${n === 1 ? '' : 's'} &middot; ${timeStr} octagon time &middot; avg ${(totSec / n / 60).toFixed(1)}m<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
 
@@ -9636,7 +10049,7 @@
                     const meth = `${esc(fsMethod(r.method))} &middot; R${f0(num(r.round))} ${esc(r.time || '')}`;
                     html += `<tr class="fsx-main" data-fi="${i}"><td class="l">${fmtDate(r.event_date)}</td>` +
                             `<td class="l opp-cell"><span class="fsx-link" data-nm="${esc(r.opponent)}">${esc(r.opponent)}</span></td>` +
-                            `<td class="l">${resChip(r.result)}</td><td class="l">${meth}</td>${statCells(rowStats(r))}</tr>`;
+                            `<td class="l">${resChip(r.result)}</td><td class="l meth">${methDot(r.method)}${meth}</td>${statCells(rowStats(r))}</tr>`;
                     if (o) html += `<tr class="fsx-opp" data-fi="${i}"><td class="l"></td><td class="l"><span class="oppnm">&#8627; ${esc(r.opponent)}</span></td><td class="l"></td><td class="l"></td>${statCells(rowStats(o))}</tr>`;
                 }
                 html += `</tbody><tfoot>`;
@@ -9991,9 +10404,10 @@
                 const pc = fs2Pct(row.k, v, row.dir);
                 if (pc == null) return `<div class="fs2-row">${lbl}${val}<span></span><span></span></div>`;
                 const cls = pc >= 70 ? ' hi' : pc <= 30 ? ' lo' : '';
+                const tc = pc >= 60 ? ' up' : pc <= 40 ? ' dn' : '';   // rank text: green from the 60th, red to the 40th
                 return `<div class="fs2-row">${lbl}${val}` +
                     `<span class="fs2-bar" title="${fs2Ord(pc)} percentile in the UFC"><i class="${cls}" style="width:${pc.toFixed(1)}%"></i></span>` +
-                    `<span class="pct">${fs2Ord(pc)}</span></div>`;
+                    `<span class="pct${tc}">${fs2Ord(pc)}</span></div>`;
             }
             let fs2Filter = 'all';   // 'all' | 'wins' | 'losses'
             function renderFighterStats() {
@@ -10030,7 +10444,7 @@
                     // same league ranking the section rows use, so a headline
                     // number reads as good or bad on sight
                     const pc = qualified ? fs2Pct(t.k, v, t.dir == null ? 1 : t.dir) : null;
-                    if (pc != null) bits.push(fs2Ord(pc));
+                    if (pc != null) bits.push(`<span class="fs2-pc${pc >= 60 ? ' up' : pc <= 40 ? ' dn' : ''}">${fs2Ord(pc)}</span>`);
                     const bar = pc == null ? '' :
                         `<div class="fs2-kbar" title="${fs2Ord(pc)} percentile in the UFC">` +
                         `<i class="${pc >= 70 ? 'hi' : pc <= 30 ? 'lo' : ''}" style="width:${pc.toFixed(1)}%"></i></div>`;
@@ -10086,7 +10500,7 @@
                 let h = `<div class="fxm-card" role="dialog" aria-modal="true">`;
                 h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
                 h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(meName)}</span><span class="vs">vs</span><span class="op">${esc(oppName)}</span></div>` +
-                    `<div class="fxm-sub">${resChip(r.result)} &middot; ${meth} &middot; ${fmtDate(r.event_date)} &middot; ${esc(weightOf(r.weight_class))}</div></div>`;
+                    `<div class="fxm-sub">${resChip(r.result)} &middot; ${methDot(r.method)}${meth} &middot; ${fmtDate(r.event_date)} &middot; ${esc(weightOf(r.weight_class))}</div></div>`;
                 h += `<div class="fxm-rows">`;
                 h += fxmRow('DK Score', f1(A.dk), bn(B && f1(B.dk)), A.dk, B && B.dk, true);
                 h += fxmRow('Sig strikes', `${A.sigL}/${A.sigA} <small>(${A.sigPct}%)</small>`, bn(B && `${B.sigL}/${B.sigA} <small>(${B.sigPct}%)</small>`), A.sigL, B && B.sigL);
@@ -10168,17 +10582,20 @@
                             const pa = fmxProfileFor(a.name), pz = fmxProfileFor(z.name);
                             const bits = [];
                             if (pa && pz) {
-                                const pace = (pa.sig_min != null && pz.sig_min != null) ? (pa.sig_min + pz.sig_min).toFixed(1) + ' sig/min combined' : null;
+                                const paceV = (pa.sig_min != null && pz.sig_min != null) ? pa.sig_min + pz.sig_min : null;
                                 const grap = Math.max(pa.td_att_15 || 0, pz.td_att_15 || 0);
-                                if (pace) bits.push(pace);
-                                if (grap >= 3) bits.push('grappling-heavy');
-                            } else bits.push('limited UFC data');
+                                // the pace line is a meter on the new look: --p is the combined rate out of 15 sig/min
+                                if (paceV != null) bits.push(`<span class="fmx-pace" style="--p:${Math.max(0, Math.min(1, paceV / 15)).toFixed(4)}">${paceV.toFixed(1)} sig/min combined</span>`);
+                                if (paceV != null && paceV >= 10) bits.push('<span class="fmx-tag strike">striking-heavy</span>');
+                                if (grap >= 3) bits.push('<span class="fmx-tag grap">grappling-heavy</span>');
+                            } else bits.push('<span class="fmx-tag thin">limited UFC data</span>');
+                            const split = Math.max(0, Math.min(1, a.salary / ((a.salary + z.salary) || 1)));
                             return `<button type="button" class="fmx-card" data-bout="${i}">` +
                                 `<span class="fno">Fight ${i + 1}</span>` +
-                                `<span class="nm">${esc(a.name)}<span class="sal">$${a.salary.toLocaleString()}</span></span>` +
+                                `<span class="nm">${esc(a.name)}<span class="sal${a.salary >= z.salary ? ' hi' : ''}">$${a.salary.toLocaleString()}</span></span>` +
                                 `<span class="vs">VS</span>` +
-                                `<span class="nm rt">${esc(z.name)}<span class="sal">$${z.salary.toLocaleString()}</span></span>` +
-                                `<span class="edge">${esc(bits.join(' · '))}</span></button>`;
+                                `<span class="nm rt">${esc(z.name)}<span class="sal${z.salary > a.salary ? ' hi' : ''}">$${z.salary.toLocaleString()}</span></span>` +
+                                `<span class="edge"><span class="fmx-split" style="--p:${split.toFixed(4)}"></span>${bits.join('<i class="fmx-sep"> &middot; </i>')}</span></button>`;
                         }).join('') + `</div>`;
                 }).catch(() => { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; });
             }
@@ -10487,9 +10904,9 @@
                         <td class="l" style="font-weight:600">${oEsc(f.name)}</td>
                         <td class="l" style="color:var(--text-secondary)">${oEsc(f.matchup)}</td>
                         <td class="sal">$${f.salary.toLocaleString()}</td>
-                        <td class="proj-cell"><input type="number" step="0.1" data-k="proj" value="${f.proj || ''}" placeholder="0"></td>
-                        <td class="own-cell"><input type="number" step="0.1" data-k="own" value="${f.own || ''}" placeholder="0"></td>
-                        <td class="exp-cell"><input type="number" step="1" min="0" max="100" data-k="exp" value="${f.exp || ''}" placeholder="—"></td>
+                        <td class="proj-cell"><input type="number" step="0.1" data-k="proj" class="${f.proj ? 'filled' : ''}" value="${f.proj || ''}" placeholder="0"></td>
+                        <td class="own-cell"><input type="number" step="0.1" data-k="own" class="${f.own ? 'filled' : ''}" value="${f.own || ''}" placeholder="0"></td>
+                        <td class="exp-cell"><input type="number" step="1" min="0" max="100" data-k="exp" class="${f.exp ? 'filled' : ''}" value="${f.exp || ''}" placeholder="—"></td>
                         <td><input type="checkbox" data-k="lock" ${f.lock ? 'checked' : ''}></td>
                         <td><input type="checkbox" data-k="exclude" ${f.exclude ? 'checked' : ''}></td>
                     </tr>`).join('');
@@ -10504,6 +10921,8 @@
                     if (k === 'proj') f.proj = oNum(inp.value);
                     else if (k === 'own') f.own = oNum(inp.value);
                     else if (k === 'exp') f.exp = oNum(inp.value);
+                    // v2 color: a nonzero projection / own / exposure input reads bright on an orange wash
+                    if (inp.type === 'number') inp.classList.toggle('filled', oNum(inp.value) > 0);
                 });
                 body.addEventListener('change', e => {
                     const inp = e.target; if (inp.type !== 'checkbox') return;
@@ -10708,7 +11127,7 @@
                 for (let i = 1; i <= 6; i++) head.push(`<th class="l">F${i}</th>`);
                 for (const c of OPT_SORT_COLS) {
                     const arrow = c.key === key ? (asc ? ' ▴' : ' ▾') : '';
-                    head.push(`<th class="sortable" data-key="${c.key}"${c.title ? ` title="${c.title}"` : ''}>${c.label}${arrow}</th>`);
+                    head.push(`<th class="sortable${c.key === key ? ' sorted' : ''}" data-key="${c.key}"${c.title ? ` title="${c.title}"` : ''}>${c.label}${arrow}</th>`);
                 }
                 document.getElementById('optResultsHead').innerHTML = head.join('');
                 const hasCap = lastOwnCap != null && !isNaN(lastOwnCap);
@@ -10739,6 +11158,7 @@
                 lastOwnCap = ownCap;
                 optSort = { key: 'proj', asc: false };   // every new build starts in projection order
                 if (!res.total) {
+                    document.getElementById('optResultsNote').classList.add('bad');
                     document.getElementById('optResultsNote').textContent = 'No valid lineups — check that projections are entered and your locks/cap aren\'t too restrictive.';
                     document.getElementById('optResultsBody').innerHTML = '';
                     document.getElementById('optResultsHead').innerHTML = '';
@@ -10757,6 +11177,7 @@
                     msg = `${res.total.toLocaleString()} lineup${res.total === 1 ? '' : 's'}${res.total > MAX_RESULTS ? ` — showing the top ${MAX_RESULTS} by projection` : ''}.`;
                 }
                 msg += res.stackAllowed ? ` Highlighted rows <span class="lu-stack-tag">stack</span> both fighters from a fight (${stackedCount} shown).` : '';
+                document.getElementById('optResultsNote').classList.remove('bad');
                 document.getElementById('optResultsNote').innerHTML = msg;
                 renderExposure(res.exposure, shown);
                 wrap.style.display = '';
@@ -10767,7 +11188,7 @@
                 if (!el) return;
                 if (!exposure || !exposure.length || !n) { el.innerHTML = ''; return; }
                 const chips = exposure.map(x =>
-                    `<span class="exp-chip${x.capped ? ' capped' : ''}">${oEsc(x.name)} <b>${Math.round(100 * x.count / n)}%</b> (${x.count})</span>`).join('');
+                    `<span class="exp-chip${x.capped ? ' capped' : ''}" style="--p:${Math.max(0, Math.min(1, x.count / n)).toFixed(4)}">${oEsc(x.name)} <b>${Math.round(100 * x.count / n)}%</b> (${x.count})</span>`).join('');
                 el.innerHTML = `<div class="opt-exposure-title">Portfolio exposure — how many of the ${n} lineups each fighter appears in</div><div class="exp-chips">${chips}</div>`;
             }
 
@@ -10861,7 +11282,7 @@
                         try {
                             const matched = applyProjectionCSV(reader.result);
                             document.getElementById('optErr').textContent = matched ? '' : 'No fighter names in that file matched the slate.';
-                            if (matched) document.getElementById('optSalaryNote').textContent = `Applied projections to ${matched} fighter${matched === 1 ? '' : 's'}.`;
+                            if (matched) { const note = document.getElementById('optSalaryNote'); note.classList.add('ok'); note.textContent = `Applied projections to ${matched} fighter${matched === 1 ? '' : 's'}.`; }
                         } catch (err) {
                             document.getElementById('optErr').textContent = err.message || 'Could not read that projection file.';
                         }
@@ -10982,6 +11403,7 @@
                     return;
                 }
                 const scored = Object.keys(hbWhatIf).length > 0;
+                const best = Math.max(1, ...Object.values(hbWhatIf).map(Number).filter(isFinite));   // share-bar denominator
                 const order = hbSaved.map((_, i) => i);
                 if (scored) order.sort((a, b) => hbLineupScore(hbSaved[b]) - hbLineupScore(hbSaved[a]) || a - b);
                 let h = `<div class="fs2-note">${hbSaved.length} saved lineup${hbSaved.length === 1 ? '' : 's'}` +
@@ -10997,7 +11419,7 @@
                         const v = hbWhatIf[hbKey(f)];
                         return `<div class="hbp-f${hbCancelled.has(hbKey(f)) ? ' out' : ''}"><span class="nm">${oEsc(f.name)}</span>` +
                             `<span class="sal">$${(f.salary || 0).toLocaleString()}</span>` +
-                            `<span class="sc">${v != null ? (+v).toFixed(1) : '&mdash;'}</span></div>`;
+                            `<span class="sc${v != null ? ' share' : ''}"${v != null ? ` style="--p:${Math.max(0, Math.min(1, +v / best)).toFixed(4)}"` : ''}>${v != null ? (+v).toFixed(1) : '&mdash;'}</span></div>`;
                     }).join('');
                     return `<div class="hbp-card${dead ? ' dead' : ''}">
                         <div class="hbp-head"><span class="rk">${scored ? '#' + (rank + 1) : ''}</span><span class="nm">${oEsc(nm)}</span>` +
@@ -11060,6 +11482,7 @@
                 const count = hbPicks.length, slotsLeft = ROSTER - count, over = total > SALARY_CAP;
                 const meter = document.getElementById('hbMeter');
                 meter.classList.toggle('over', over);
+                meter.classList.toggle('empty', total === 0);   // v2 color: $0 reads quiet
                 document.getElementById('hbTotal').textContent = '$' + total.toLocaleString();
                 const cnt = document.getElementById('hbCount');
                 cnt.textContent = count + '/' + ROSTER;
@@ -11236,7 +11659,7 @@
                 document.getElementById('hbExpoBody').innerHTML = rows.map(e => {
                     const pct = Math.round(e.n / hbSaved.length * 100);
                     return `<tr><td class="l">${oEsc(e.f.name)}</td><td class="n">${e.n}</td>
-                        <td><div class="hb-expo-pct"><div class="hb-expo-bar" style="width:${pct}%"></div><span>${pct}%</span></div></td></tr>`;
+                        <td><div class="hb-expo-pct" style="--p:${(pct / 100).toFixed(4)}"><div class="hb-expo-bar" style="width:${pct}%"></div><span>${pct}%</span></div></td></tr>`;
                 }).join('');
             }
 

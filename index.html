@@ -91,7 +91,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,600;0,800;1,700;1,800;1,900&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,600;0,800;1,700;1,800;1,900&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -4001,10 +4001,12 @@
             --v2-s0: #0b0b0e; --v2-s1: #121318; --v2-s2: #1b1b22; --v2-inset: #101016; --v2-hover: #1f1f27;
             --v2-l1: rgba(255, 255, 255, 0.06); --v2-l2: rgba(255, 255, 255, 0.12); --v2-l3: rgba(255, 255, 255, 0.18);
             --v2-ink1: #f5f4f7; --v2-ink2: #a8a7b3; --v2-ink3: #6f7584;
-            --v2-mono: 'IBM Plex Mono', 'Chakra Petch', ui-monospace, Menlo, Consolas, monospace;
+            /* numerals: Inter with tabular figures (set on body.v2 below, inherited everywhere), so columns still line up */
+            --v2-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             --bg-card: var(--v2-s1); --glass-bg: var(--v2-s1); --glass-border: var(--v2-l2);
             --bg-hover: var(--v2-hover); --fn-card-2: var(--v2-s2); --fn-inset: var(--v2-inset); --border: var(--v2-l1);
             background: var(--v2-s0);
+            font-variant-numeric: tabular-nums;
         }
         body.v2::after { display: none; }                      /* film grain off */
         body.v2 .live-ticker { display: none !important; }     /* the moving fighter banner is retired (JS still toggles its inline style) */

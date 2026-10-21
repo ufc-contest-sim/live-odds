@@ -4020,7 +4020,7 @@
         }
         body.v2 .landing-header h1 {
             font-family: 'Chakra Petch', monospace; font-style: normal; font-weight: 700;
-            font-size: 1.45rem; letter-spacing: 1px; line-height: 1; margin: 0; text-shadow: none;
+            font-size: 2.1rem; letter-spacing: 1px; line-height: 1; margin: 0; text-shadow: none;
         }
         body.v2 .landing-header h1 span {
             background: none; -webkit-background-clip: initial; background-clip: initial;
@@ -4035,18 +4035,23 @@
         }
         body.v2 .pill.live { border-color: var(--v2-l2); color: var(--v2-ink1); }
         body.v2 .pill.live .dot { background: var(--accent); margin-right: 7px; }
-        body.v2 .lock-note { flex-basis: 100%; text-align: left; margin: 0; font-size: 0.7rem; color: var(--v2-ink3); }
-        /* --- landing tabs: underline tabs on the hairline --- */
-        body.v2 .landing-nav { gap: 0; margin: 0 0 18px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; border-bottom: 1px solid var(--v2-l2); }
+        /* the lock note reads as a caption under the pills on the right */
+        body.v2 .lock-note { flex-basis: 100%; text-align: right; margin: -2px 0 0; font-size: 0.7rem; color: var(--v2-ink3); }
+        /* --- landing tabs: one contained strip of equal cells; the active cell is filled and carries the orange rule --- */
+        body.v2 .landing-nav {
+            gap: 0; margin: 0 0 18px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+            border: 1px solid var(--v2-l2); border-radius: 3px; background: var(--v2-s1);
+        }
         body.v2 .landing-nav::-webkit-scrollbar { display: none; }
         body.v2 .landing-nav .lnav-tab, body.v2 .lnav-tab {
-            flex: 0 0 auto; width: auto; transform: none; background: transparent; border: 0;
-            border-bottom: 2px solid transparent; border-radius: 0; box-shadow: none; margin-bottom: -1px;
-            padding: 12px 16px; color: var(--v2-ink2); font-size: 0.76rem; letter-spacing: 1.4px;
+            flex: 1 1 0; width: auto; min-width: 0; text-align: center; transform: none; background: transparent; border: 0;
+            border-right: 1px solid var(--v2-l2); border-bottom: 2px solid transparent; border-radius: 0; box-shadow: none; margin: 0;
+            padding: 13px 16px; color: var(--v2-ink2); font-size: 0.76rem; letter-spacing: 1.4px;
         }
+        body.v2 .landing-nav .lnav-tab:last-child { border-right: 0; }
         body.v2 .lnav-tab > span { transform: none; }
-        body.v2 .lnav-tab:hover { background: transparent; color: var(--v2-ink1); }
-        body.v2 .lnav-tab.active { background: transparent; color: var(--v2-ink1); border-bottom-color: var(--accent); box-shadow: none; }
+        body.v2 .lnav-tab:hover { background: var(--v2-hover); color: var(--v2-ink1); }
+        body.v2 .lnav-tab.active { background: var(--v2-s2); color: var(--v2-ink1); border-bottom-color: var(--accent); box-shadow: none; }
         /* --- search bar and favorites --- */
         body.v2 .quick-search-bar { border-radius: 3px; padding: 10px 14px; box-shadow: none; border: 1px solid var(--v2-l2); background: var(--v2-inset); }
         body.v2 .quick-search-bar:focus-within { border-color: var(--v2-l3); }
@@ -4231,9 +4236,10 @@
         @media (max-width: 768px) {
             body.v2 .landing-page { padding-top: 10px; }
             body.v2 .landing-header { gap: 8px 12px; padding-bottom: 10px; }
-            body.v2 .landing-header h1 { font-size: 1.25rem; }
+            body.v2 .landing-header h1 { font-size: 1.6rem; }
             body.v2 .hero-badges { margin-left: 0; justify-content: flex-start; flex-basis: 100%; }
-            body.v2 .landing-nav .lnav-tab { padding: 11px 12px; font-size: 0.72rem; }
+            body.v2 .landing-nav .lnav-tab { flex: 0 0 auto; padding: 11px 14px; font-size: 0.72rem; }
+            body.v2 .lock-note { text-align: left; }
             body.v2 .contest-table th, body.v2 .contest-table td { padding: 10px 10px; }
             body.v2 .search-results-header { align-items: flex-start; }
             body.v2 .srs-part { padding: 2px 10px; }

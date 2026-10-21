@@ -5760,7 +5760,28 @@
             body.v2 #scenario-view .sdb-table thead th { padding: 0 8px; }
             body.v2 #scenario-view .sdb-table td { height: 36px; padding: 0 8px; }
         }
-    </style>
+            /* --- contest view tabs on phones: stacked two per row like the landing tabs, no sideways scroll --- */
+        @media (max-width: 768px) {
+            body.v2 #leaderboard-page .view-tabs:not([id]) {
+                display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible;
+                border: 1px solid var(--v2-l2); border-radius: 3px; background: var(--v2-s1);
+            }
+            body.v2 #leaderboard-page .view-tabs:not([id]) .tab-btn {
+                width: auto; margin: 0; padding: 12px 8px; text-align: center; white-space: nowrap;
+                font-size: 0.7rem; letter-spacing: 1.1px;
+                border-right: 1px solid var(--v2-l2); border-bottom: 1px solid var(--v2-l2);
+            }
+            body.v2 #leaderboard-page .view-tabs:not([id]) .tab-btn:nth-child(2n) { border-right: 0; }
+            /* an odd last tab spans the full row */
+            body.v2 #leaderboard-page .view-tabs:not([id]) .tab-btn:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; }
+            body.v2 #leaderboard-page .view-tabs:not([id]) .tab-btn:last-child { border-bottom: 0; }
+            body.v2 #leaderboard-page .view-tabs:not([id]) .tab-btn:hover { background: var(--v2-hover); }
+            body.v2 #leaderboard-page .view-tabs:not([id]) .tab-btn.active {
+                background: var(--v2-s2); border-bottom-color: var(--v2-l2); box-shadow: inset 0 -2px 0 var(--accent);
+            }
+            body.v2 #leaderboard-page .view-tabs:not([id]) .tab-btn.active:last-child { border-bottom: 0; }
+        }
+</style>
 </head>
 <body>
     <script>

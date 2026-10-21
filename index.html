@@ -5860,10 +5860,9 @@
         </div>
 
         <div id="insightsSubnav" class="view-tabs" style="display:none; justify-content: flex-start;">
-            <button class="tab-btn active" data-isub="ladder"><span>Scoring Ladder</span></button>
+            <button class="tab-btn active" data-isub="explorer"><span>Range of Outcomes</span></button>
             <button class="tab-btn" data-isub="database"><span>Score Database</span></button>
             <button class="tab-btn" data-isub="trends"><span>Scoring Trends</span></button>
-            <button class="tab-btn" data-isub="explorer"><span>Range of Outcomes</span></button>
         </div>
 
         <div id="scoringdb-view" style="display:none;">
@@ -11531,7 +11530,8 @@
 
             // Scoring Insights hosts two sub-tabs: the ladder (default) and the
             // full score database, which used to be its own top-level tab.
-            let insightsSub = 'ladder';
+            // Range of Outcomes replaced the Scoring Ladder sub-tab and is the default
+            let insightsSub = 'explorer';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
                 const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), xv = document.getElementById('scenario-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
@@ -11549,8 +11549,7 @@
                     document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.isub === insightsSub));
                     if (insightsSub === 'database') { logTabOpen('opened_database'); openBoard(); }
                     else if (insightsSub === 'trends') { logTabOpen('opened_trends'); openTrends(); }
-                    else if (insightsSub === 'explorer') { logTabOpen('opened_explorer'); openExplorer(); }
-                    else { logTabOpen('opened_insights'); openInsights(); }
+                    else { insightsSub = 'explorer'; logTabOpen('opened_explorer'); openExplorer(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }

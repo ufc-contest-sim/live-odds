@@ -4,6 +4,16 @@ from pathlib import Path
 import glob
 from datetime import datetime
 import re
+# Contests to leave off the site even when a results file exists for them
+# (matched case-insensitively against the contest name).
+EXCLUDED_CONTESTS = ("double up",)
+
+
+def is_excluded(contest_name):
+    name = (contest_name or "").lower()
+    return any(x in name for x in EXCLUDED_CONTESTS)
+
+
 def extract_contest_name(filename):
     """Extract contest name from filename like PostContest_Results_Multi_..._UFC_300K_Knockout_Special.csv"""
     # Try to find the contest name after the timestamp
@@ -69,6 +79,9 @@ def publish_results():
 
             # Extract contest info
             contest_name = extract_contest_name(results_file)
+            if is_excluded(contest_name):
+                print(f"  Skipping (excluded): {contest_name}")
+                continue
             entry_fee = extract_entry_fee(results_df)
 
             print(f"Contest: {contest_name}")

@@ -5589,8 +5589,9 @@
         /* --- search results: P(profit) is a probability, not money, so it reads orange
                (in the KPI strip and in the chart panel's lead line); the hovered contest
                row names itself in orange; the exposure panel's key number is the total at risk --- */
-        body.v2 #kpi-profit .v { color: var(--accent); }
-        body.v2 .pq-stat:first-child b { color: var(--accent); }
+        body.v2 #kpi-profit .v, body.v2 .pq-stat:first-child b { color: var(--v2-ink1); }
+        /* the distribution chart's lead line and axis read in white */
+        body.v2 .pq-stat, body.v2 .pq-axis span, body.v2 .pq-axis-title { color: var(--v2-ink1); }
         body.v2 .search-result-card:hover .search-result-contest { color: var(--accent); }
         body.v2 .pex-foot span:first-child b { color: var(--accent); }
         /* --- contest page shell: the back link and row carets turn orange on hover, the
@@ -8895,6 +8896,9 @@
                 return ` class="win-pct opt-pct ${t > 0 ? 'hi' : 'lo'}" style="--t:${a.toFixed(3)}"`;
             };
         }
+        // Lineups always list their fighters alphabetically, left to right (display only;
+        // DraftKings exports keep their own order).
+        const byFighterName = (a, b) => String(a).localeCompare(String(b), undefined, { sensitivity: 'base' });
         // New look: draw a share bar behind the Win % and Cash % cells. Each bar
         // is the cell's own percent of 100 (via --p) over a faint full-width track,
         // left-aligned like the exposure table's $ bar; see body.v2 td.depth.
@@ -8958,6 +8962,7 @@
                         fighters.push({ slot: `F${i}`, name: fighter });
                     }
                 }
+                fighters.sort((a, b) => byFighterName(a.name, b.name)).forEach((f, i) => { f.slot = `F${i + 1}`; });
                 
                 // Get projected score (it's called "MeanScore" in the data)
                 const projScore = row['MeanScore'] || 0;
@@ -9088,7 +9093,7 @@
                         <td><span class="expand-icon">${isExpanded ? '▼' : '▶'}</span> ${idx + 1}</td>
                         <td>
                             <div class="lineup-container" style="padding: 8px 0;">
-                                ${lineup.fighters.map(f => `
+                                ${lineup.fighters.slice().sort(byFighterName).map(f => `
                                     <div class="fighter-chip">
                                         ${f}
                                     </div>
@@ -9313,7 +9318,7 @@
                                 ${lineups.map(lu => `
                                     <div class="portfolio-lineup-row">
                                         <div class="lineup-container" style="padding: 0;">
-                                            ${lu.fighters.map(f => `<div class="fighter-chip">${f}</div>`).join('')}
+                                            ${lu.fighters.slice().sort(byFighterName).map(f => `<div class="fighter-chip">${f}</div>`).join('')}
                                         </div>
                                         <div class="portfolio-lineup-meta">
                                             <span>${lu.WinPct.toFixed(2)}% win</span>
@@ -9591,6 +9596,7 @@
                         });
                     }
                 }
+                fighters.sort((a, b) => byFighterName(a.name, b.name)).forEach((f, i) => { f.slot = `F${i + 1}`; });
 
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
@@ -11862,7 +11868,7 @@
                 document.getElementById('optResultsHead').innerHTML = head.join('');
                 const hasCap = lastOwnCap != null && !isNaN(lastOwnCap);
                 document.getElementById('optResultsBody').innerHTML = lastLineups.map(lu => {
-                    const players = lu.players.slice().sort((a, b) => b.salary - a.salary);
+                    const players = lu.players.slice().sort((a, b) => byFighterName(a.name, b.name));
                     const cells = players.map(p => `<td class="lu-fighter">${oEsc(p.name)}</td>`).join('');
                     const ownCls = hasCap && lu.own > lastOwnCap ? 'lu-over' : 'lu-num';
                     const tag = lu.stacked ? '<span class="lu-stack-tag">stack</span>' : '';
@@ -12146,7 +12152,7 @@
                     const sal = lu.reduce((s, f) => s + (f.salary || 0), 0);
                     const tot = hbLineupScore(lu);
                     const dead = hbLineupDead(lu);
-                    const rows = lu.slice().sort((a, b) => (b.salary || 0) - (a.salary || 0)).map(f => {
+                    const rows = lu.slice().sort((a, b) => byFighterName(a.name, b.name)).map(f => {
                         const v = hbWhatIf[hbKey(f)];
                         return `<div class="hbp-f${hbCancelled.has(hbKey(f)) ? ' out' : ''}"><span class="nm">${oEsc(f.name)}</span>` +
                             `<span class="sal">$${(f.salary || 0).toLocaleString()}</span>` +
@@ -12376,7 +12382,7 @@
                     return `<div class="hb-saved-row${dead ? ' dead' : ''}${editing ? ' editing' : ''}" data-i="${i}" title="${editing ? 'Loaded in the builder — Save updates this lineup' : dead ? 'Contains a fighter marked out — load and rebuild' : 'Load into builder'}">
                         <div class="hb-saved-info">
                             <input class="hb-nm" data-i="${i}" value="${oEsc(hbNames[i] || '')}" placeholder="Lineup ${i + 1}" maxlength="40" aria-label="Name for lineup ${i + 1}">
-                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${editing ? ' · <span class="edit-tag">editing</span>' : ''}${dead ? ' · <span class="dead-tag">fighter out</span>' : ''}</div></div>
+                            <div class="hb-saved-names">${oEsc(lu.map(f => f.name).sort(byFighterName).join(', '))}</div><div class="hb-saved-sal">$${sal.toLocaleString()}${editing ? ' · <span class="edit-tag">editing</span>' : ''}${dead ? ' · <span class="dead-tag">fighter out</span>' : ''}</div></div>
                         <button class="rm" data-i="${i}" aria-label="Remove lineup">×</button>
                     </div>`;
                 }).join('');

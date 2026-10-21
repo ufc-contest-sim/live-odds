@@ -5469,15 +5469,6 @@
         body.v2 .fmx-card .fmx-sep { display: none; }
         /* a quiet rule under the names (the favorite's salary already carries the accent) */
         body.v2 .fmx-split { flex: 0 0 100%; height: 2px; margin: 0 0 4px; background: var(--v2-l3); }
-        /* combined sig strikes per minute out of 15, drawn with the contest tables' share bar */
-        body.v2 .fmx-pace {
-            display: inline-block; min-width: 176px; height: 20px; line-height: 20px; padding: 0 8px;
-            font-family: var(--v2-mono); font-size: 0.7rem; font-variant-numeric: tabular-nums; color: var(--v2-ink1); white-space: nowrap;
-            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16)), linear-gradient(90deg, rgba(var(--a-rgb), 0.05), rgba(var(--a-rgb), 0.05));
-            background-repeat: no-repeat;
-            background-size: calc(var(--p, 0) * 100%) 20px, 100% 20px;
-            background-position: 0 50%, 0 50%;
-        }
         body.v2 .fmx-tag {
             display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: 2px;
             font-family: 'Chakra Petch', monospace; font-size: 0.6rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
@@ -5494,7 +5485,6 @@
         body.v2 .fxm-x:hover { color: var(--accent); }
         body.v2 .fmx-open:hover { color: var(--accent); border-color: var(--accent); }
         @media (max-width: 768px) {
-            body.v2 .fmx-pace { min-width: 150px; }
             body.v2 .fmx-tag { height: 22px; }
         }
 
@@ -11299,11 +11289,7 @@
                             if (!z) return '';
                             const pa = fmxProfileFor(a.name), pz = fmxProfileFor(z.name);
                             const bits = [];
-                            if (pa && pz) {
-                                const paceV = (pa.sig_min != null && pz.sig_min != null) ? pa.sig_min + pz.sig_min : null;
-                                // the pace line is a meter on the new look: --p is the combined rate out of 15 sig/min
-                                if (paceV != null) bits.push(`<span class="fmx-pace" style="--p:${Math.max(0, Math.min(1, paceV / 15)).toFixed(4)}">${paceV.toFixed(1)} sig/min combined</span>`);
-                            } else bits.push('<span class="fmx-tag thin">limited UFC data</span>');
+                            if (!(pa && pz)) bits.push('<span class="fmx-tag thin">limited UFC data</span>');
                             const split = Math.max(0, Math.min(1, a.salary / ((a.salary + z.salary) || 1)));
                             return `<button type="button" class="fmx-card" data-bout="${i}">` +
                                 `<span class="fno">Fight ${i + 1}</span>` +

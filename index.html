@@ -5617,8 +5617,10 @@
                green when it is above Draft % (the field is under on this fighter) and red when below
                (over-owned), the same meaning as the leverage chart's dots; a live score is orange --- */
         body.v2 .fighter-draft-table .draft-pct, body.v2 .dupe-table .draft-pct { color: var(--accent); }
-        body.v2 .fighter-draft-table .opt-pct.up, body.v2 .dupe-table .opt-pct.up { color: var(--accent-green); }
-        body.v2 .fighter-draft-table .opt-pct.down, body.v2 .dupe-table .opt-pct.down { color: var(--accent-red); }
+        /* Optimal % relative to the slate: the median is plain ink; above it shades toward green and
+           below toward red, with --t (0..1, percentile distance from the median) setting the strength */
+        body.v2 .fighter-draft-table .opt-pct.hi, body.v2 .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 85%), var(--v2-ink2)); }
+        body.v2 .fighter-draft-table .opt-pct.lo, body.v2 .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 85%), var(--v2-ink2)); }
         body.v2 .dupe-table td.sc { color: var(--accent); }
         body.v2 .dupes-container .dupes-count { color: var(--accent); }
         /* --- ranks: orange in every view, so By Portfolio and What If match By Username and By Lineup --- */
@@ -5845,7 +5847,7 @@
             <button class="tab-btn active" data-isub="ladder"><span>Scoring Ladder</span></button>
             <button class="tab-btn" data-isub="database"><span>Score Database</span></button>
             <button class="tab-btn" data-isub="trends"><span>Scoring Trends</span></button>
-            <button class="tab-btn" data-isub="explorer"><span>Scenarios</span></button>
+            <button class="tab-btn" data-isub="explorer"><span>Range of Outcomes</span></button>
         </div>
 
         <div id="scoringdb-view" style="display:none;">
@@ -5913,7 +5915,7 @@
 
         <div id="scenario-view" style="display:none;">
             <div class="sdb-card">
-                <div class="sdb-title">Scenario Explorer</div>
+                <div class="sdb-title">Range of Outcomes</div>
                 <div class="sdb-insight-note">Describe a performance and see what DraftKings scores look like when it happens. Pick a result, outcome, method and weight class, then add stat conditions such as 3 to 4 takedowns or 100+ significant strikes. Every panel below updates to the fights that match. Scores since January 1, 2008, the same cutoff as the ladder and the database.</div>
                 <div id="sxLoading" class="sdb-loading">Loading fight database&hellip;</div>
                 <div id="sxPanel" style="display:none;">
@@ -8237,6 +8239,7 @@
                 optimal: optMap[f.fighter] != null ? optMap[f.fighter] : null,
             }));
             const { key, asc } = fighterExposureSort;
+            const optShade = optPctAttrs(rows);
             rows.sort((a, b) => {
                 if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
                 const av = a[key] == null ? -1 : a[key], bv = b[key] == null ? -1 : b[key];
@@ -8247,7 +8250,7 @@
                     <td class="fighter-name">${r.fighter}</td>
                     <td class="draft-pct">${r.draft.toFixed(2)}%</td>
                     <td class="win-pct">${r.win.toFixed(2)}%</td>
-                    <td class="win-pct opt-pct${r.optimal == null ? '' : r.optimal > r.draft ? ' up' : r.optimal < r.draft ? ' down' : ''}">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
                 </tr>
             `).join('');
         }
@@ -8587,6 +8590,7 @@
                 score: scoreMap[f.fighter] != null ? scoreMap[f.fighter] : null,
             }));
             const { key, asc } = insightsFighterSort;
+            const optShade = optPctAttrs(rows);
             rows.sort((a, b) => {
                 if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
                 const av = a[key] == null ? -Infinity : a[key], bv = b[key] == null ? -Infinity : b[key];
@@ -8598,7 +8602,7 @@
                     <td>${r.salary != null ? '$' + Number(r.salary).toLocaleString() : '--'}</td>
                     <td class="draft-pct">${r.draft.toFixed(2)}%</td>
                     <td class="win-pct">${r.win.toFixed(2)}%</td>
-                    <td class="win-pct opt-pct${r.optimal == null ? '' : r.optimal > r.draft ? ' up' : r.optimal < r.draft ? ' down' : ''}">${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
                     <td class="${r.score != null ? 'sc' : ''}">${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
                 </tr>`).join('');
         }
@@ -8859,6 +8863,23 @@
             });
         }
 
+        // Optimal % cell attributes: shaded relative to the whole slate. The
+        // median optimal % stays plain; above it shades toward green and below
+        // toward red, with the strength set by percentile rank so the ends of
+        // the slate read strongest and the middle stays close to plain.
+        function optPctAttrs(rows) {
+            const vals = rows.map(r => r.optimal).filter(v => v != null).sort((a, b) => a - b);
+            const n = vals.length;
+            return v => {
+                if (v == null || n < 3) return ' class="win-pct opt-pct"';
+                let lo = 0, eq = 0;
+                for (const x of vals) { if (x < v) lo++; else if (x === v) eq++; }
+                const t = ((lo + eq / 2) / n - 0.5) * 2;   // -1 lowest, 0 median, +1 highest
+                const a = Math.min(1, Math.abs(t));
+                if (a < 0.08) return ' class="win-pct opt-pct"';
+                return ` class="win-pct opt-pct ${t > 0 ? 'hi' : 'lo'}" style="--t:${a.toFixed(3)}"`;
+            };
+        }
         // New look: draw a share bar behind the Win % and Cash % cells. Each bar
         // is the cell's own percent of 100 (via --p) over a faint full-width track,
         // left-aligned like the exposure table's $ bar; see body.v2 td.depth.

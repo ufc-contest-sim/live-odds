@@ -4544,9 +4544,15 @@
         @media (max-width: 1499px) { .lb-cols { display: flex; flex-direction: column; } .lb-right { order: 1; } .lb-left { order: 2; } }
         /* --- contest header: title, view tabs and the back button share one row on desktop --- */
         .leaderboard-page header { align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; padding-bottom: 16px; }
-        .leaderboard-page header > div:first-child { flex: 1 1 auto; min-width: 0; }
+        .leaderboard-page header > div:first-child { flex: 1 1 0; min-width: 0; }
         .leaderboard-page header .lb-tabs { margin: 0; flex: 0 1 auto; }
-        .leaderboard-page header .back-btn { flex: none; }
+        .leaderboard-page header .back-btn { flex: none; margin-left: auto; }
+        /* the tabs sit on the page's centerline: the title and the button get equal room either side */
+        @media (min-width: 1101px) {
+            .leaderboard-page header { display: grid; grid-template-columns: 1fr auto 1fr; }
+            .leaderboard-page header .lb-tabs { justify-self: center; }
+            .leaderboard-page header .back-btn { justify-self: end; }
+        }
         @media (max-width: 1100px) {
             .leaderboard-page header .lb-tabs { order: 3; flex-basis: 100%; width: auto; }
         }

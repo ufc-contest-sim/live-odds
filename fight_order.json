@@ -1,0 +1,104 @@
+{
+  "generated": "2026-10-22T01:05:30",
+  "source": "UFC Stats: UFC 333: Volkanovski vs. Evloev",
+  "fights": [
+    {
+      "fight_id": 1,
+      "fighters": [
+        "Alexander Volkanovski",
+        "Movsar Evloev"
+      ]
+    },
+    {
+      "fight_id": 2,
+      "fighters": [
+        "Petr Yan",
+        "Merab Dvalishvili"
+      ]
+    },
+    {
+      "fight_id": 3,
+      "fighters": [
+        "Lone'er Kavanagh",
+        "Ramazan Temirov"
+      ]
+    },
+    {
+      "fight_id": 4,
+      "fighters": [
+        "Alexander Volkov",
+        "Rizvan Kuniev"
+      ]
+    },
+    {
+      "fight_id": 5,
+      "fighters": [
+        "Aaron Pico",
+        "Losene Keita"
+      ]
+    },
+    {
+      "fight_id": 6,
+      "fighters": [
+        "Azamat Murzakanov",
+        "Dominick Reyes"
+      ]
+    },
+    {
+      "fight_id": 7,
+      "fighters": [
+        "Nikita Krylov",
+        "Abdul Rakhman Yakhyaev"
+      ]
+    },
+    {
+      "fight_id": 8,
+      "fighters": [
+        "Abus Magomedov",
+        "Cam Rowston"
+      ]
+    },
+    {
+      "fight_id": 9,
+      "fighters": [
+        "Grant Dawson",
+        "Nurullo Aliev"
+      ]
+    },
+    {
+      "fight_id": 10,
+      "fighters": [
+        "Colby Thicknesse",
+        "Asaf Chopurov"
+      ]
+    },
+    {
+      "fight_id": 11,
+      "fighters": [
+        "Abubakar Vagaev",
+        "Jacob Malkoun"
+      ]
+    },
+    {
+      "fight_id": 12,
+      "fighters": [
+        "Bolaji Oki",
+        "Daniel Santos"
+      ]
+    },
+    {
+      "fight_id": 13,
+      "fighters": [
+        "Kody Steele",
+        "Noah Gugnon"
+      ]
+    },
+    {
+      "fight_id": 14,
+      "fighters": [
+        "Iasmin Lucindo",
+        "Nicolle Caliari"
+      ]
+    }
+  ]
+}

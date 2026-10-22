@@ -4496,6 +4496,36 @@
             .lb-left .ps-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .lb-right .table-header { margin-top: 0; }
         }
+
+        /* --- Rooting guide --- */
+        .rg-note { padding: 14px 16px; font-size: 0.84rem; color: var(--text-secondary); }
+        .rg-row { padding: 9px 16px 10px; border-bottom: 1px solid var(--fn-line); }
+        .rg-row:last-child { border-bottom: 0; }
+        .rg-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .rg-num { font-family: var(--fn-mono); font-size: 0.62rem; color: var(--ink-3); letter-spacing: 0.06em; }
+        .rg-name { font-weight: 600; font-size: 0.86rem; color: var(--text-primary); }
+        .rg-name.pick { color: var(--accent-hi); }
+        .rg-vs { font-family: var(--fn-mono); font-size: 0.62rem; color: var(--ink-3); text-transform: uppercase; }
+        .rg-chip {
+            margin-left: auto; font-family: var(--fn-mono); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.03em;
+            padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+        }
+        .rg-chip.big { background: rgba(var(--a-rgb), 0.16); color: var(--accent-hi); }
+        .rg-chip.mid { background: rgba(255, 255, 255, 0.08); color: var(--text-primary); }
+        .rg-chip.low { background: rgba(255, 255, 255, 0.05); color: var(--ink-3); }
+        .rg-chip.yes { background: rgba(47, 224, 138, 0.14); color: var(--accent-green); }
+        .rg-chip.no { background: rgba(255, 93, 110, 0.14); color: var(--accent-red); }
+        .rg-sub { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 3px; font-family: var(--fn-mono); font-size: 0.66rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+        .rg-sub b { color: var(--text-secondary); font-weight: 600; }
+        .rg-row.done .rg-name { color: var(--text-secondary); }
+        .rg-row.done .rg-name.won { color: var(--text-primary); }
+        .rg-row.done .rg-name.pick.won { color: var(--accent-hi); }
+        .lu-root { margin: 4px 0 6px; font-size: 0.8rem; color: var(--text-secondary); }
+        .lu-root b { color: var(--text-primary); font-weight: 600; }
+        .lu-root .sw { font-family: var(--fn-mono); font-size: 0.6rem; color: var(--accent-hi); margin-left: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .lu-root .mark { margin-left: 4px; font-weight: 700; }
+        .lu-root .mark.yes { color: var(--accent-green); }
+        .lu-root .mark.no { color: var(--accent-red); }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4932,6 +4962,11 @@
                     </table>
                     </div></div>
                     <div class="pex-foot" id="fx-foot"></div>
+                </div>
+
+                <div class="rooting-container fx-panel" id="rooting-container">
+                    <div class="portfolio-chart-title pex-title">Rooting Guide<span class="pex-meta" id="rg-meta"></span></div>
+                    <div id="rg-body"></div>
                 </div>
 
                 <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
@@ -7049,8 +7084,96 @@
                 </tr>`;
             }).join('');
             const nLineups = (data || []).length;
+            renderRootingGuide(Object.fromEntries(fighterStats.map(f => [f.fighter, f.pct])), winMap);
             if (metaEl) metaEl.textContent = `${rows.length} fighter${rows.length === 1 ? '' : 's'}`;
             if (footEl) footEl.innerHTML = `<span><b>${nLineups.toLocaleString()}</b> lineup${nLineups === 1 ? '' : 's'}</span><span><b>${rows.length}</b> fighter${rows.length === 1 ? '' : 's'}</span>`;
+        }
+
+        // ---------- Rooting guide ----------
+        // Who you want to win each fight, and how much it matters, from numbers the
+        // page already has. Win LU % is the share of the field's winning lineups that
+        // hold a fighter; your exposure is the share of your lineups that do. The gap
+        // between the two, summed over both fighters, is the fight's swing for you;
+        // its sign picks the side. Field-level, so it ranks fights and picks a side.
+        let winMapCache = { src: null, map: null };
+        function getWinMap() {
+            if (winMapCache.src !== allData) winMapCache = { src: allData, map: calculateWinningLineupPct() };
+            return winMapCache.map;
+        }
+        function rootingRows(expMap, winMap) {
+            // first fight of the night first (fight 1 is the main event)
+            const card = (contestFightCard || []).slice().sort((a, b) => (b.fight_id || 0) - (a.fight_id || 0));
+            return card.map(f => {
+                const A = f.fighter1, B = f.fighter2;
+                if (!A || !B) return null;
+                const eA = expMap[A] || 0, eB = expMap[B] || 0, wA = winMap[A] || 0, wB = winMap[B] || 0;
+                const net = (eA - wA) - (eB - wB);
+                const swing = Math.abs(eA - wA) + Math.abs(eB - wB);
+                const done = f.fighter1_score != null && f.fighter2_score != null;
+                const winner = done ? (Number(f.fighter1_score) >= Number(f.fighter2_score) ? A : B) : null;
+                const pick = Math.abs(net) < 0.5 ? null : (net > 0 ? A : B);
+                const tier = swing >= 35 ? 'big' : swing >= 12 ? 'mid' : 'low';
+                return { id: f.fight_id, A, B, eA, eB, wA, wB, swing, pick, tier, done, winner };
+            }).filter(Boolean);
+        }
+        const rgTierLabel = { big: 'big swing', mid: 'matters', low: 'minor' };
+        function renderRootingGuide(expMap, winMap) {
+            const body = document.getElementById('rg-body'), meta = document.getElementById('rg-meta');
+            if (!body) return;
+            const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+            const user = (document.getElementById('search-user') || { value: '' }).value.trim();
+            const rows = rootingRows(expMap, winMap);
+            if (!user || !rows.length) {
+                body.innerHTML = `<div class="rg-note">${rows.length ? 'Enter a username to see who to root for in each fight.' : 'No fight card for this contest.'}</div>`;
+                if (meta) meta.textContent = '';
+                return;
+            }
+            const n = rows.length, nDone = rows.filter(r => r.done).length;
+            if (meta) meta.textContent = nDone === n ? `${n} fights \u00b7 final` : (nDone ? `${n - nDone} of ${n} left` : `${n} fights`) + ' \u00b7 root for the orange name';
+            body.innerHTML = rows.map(r => {
+                const side = (name, e, w) => {
+                    const cls = ['rg-name', r.pick === name ? 'pick' : '', r.done && r.winner === name ? 'won' : ''].filter(Boolean).join(' ');
+                    return `<span class="${cls}">${esc(name)}</span>`;
+                };
+                const last = name => String(name).trim().split(/\s+/).pop();
+                let chip;
+                if (r.done) {
+                    const good = r.pick ? r.pick === r.winner : null;
+                    chip = `<span class="rg-chip ${good === null ? 'low' : good ? 'yes' : 'no'}">${good === null ? '' : good ? '\u2713 ' : '\u2717 '}${esc(last(r.winner))} won</span>`;
+                } else {
+                    chip = `<span class="rg-chip ${r.tier}" title="Your exposure against the field's winning share, summed over both fighters">${r.pick ? rgTierLabel[r.tier] : 'either \u00b7 ' + rgTierLabel[r.tier]}</span>`;
+                }
+                return `<div class="rg-row ${r.done ? 'done' : ''} ${r.tier}">
+                    <div class="rg-top"><span class="rg-num">F${r.id}</span>${side(r.A)}<span class="rg-vs">vs</span>${side(r.B)}${chip}</div>
+                    <div class="rg-sub"><span>${esc(r.A)}: you <b>${r.eA.toFixed(0)}%</b> \u00b7 winners <b>${r.wA.toFixed(0)}%</b></span><span>${esc(r.B)}: you <b>${r.eB.toFixed(0)}%</b> \u00b7 winners <b>${r.wB.toFixed(0)}%</b></span></div>
+                </div>`;
+            }).join('');
+        }
+        // One line under an expanded lineup: who that lineup roots for in the fights it
+        // has no stake in, biggest swing first. Fights it holds a fighter in are obvious.
+        function rootingLineFor(names) {
+            if (!contestFightCard || !names || !names.length) return '';
+            const have = new Set(names);
+            const winMap = getWinMap();
+            const picks = [];
+            for (const f of contestFightCard) {
+                const A = f.fighter1, B = f.fighter2;
+                if (!A || !B || have.has(A) || have.has(B)) continue;
+                const wA = winMap[A] || 0, wB = winMap[B] || 0;
+                if (Math.abs(wA - wB) < 0.5) continue;
+                const pick = wA < wB ? A : B, swing = wA + wB;
+                const done = f.fighter1_score != null && f.fighter2_score != null;
+                const winner = done ? (Number(f.fighter1_score) >= Number(f.fighter2_score) ? A : B) : null;
+                picks.push({ pick, swing, done, good: done ? winner === pick : null });
+            }
+            picks.sort((a, b) => b.swing - a.swing);
+            const top = picks.filter(p => p.swing >= 8).slice(0, 4);
+            if (!top.length) return '';
+            const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+            const allDone = top.every(p => p.done);
+            return `<div class="lu-root">${allDone ? 'Needed' : 'Also root for'}: ` + top.map(p =>
+                `<b>${esc(p.pick)}</b>${p.done ? `<span class="mark ${p.good ? 'yes' : 'no'}">${p.good ? '\u2713' : '\u2717'}</span>` : (p.swing >= 35 ? '<span class="sw">big swing</span>' : '')}`
+            ).join(', ') + '</div>';
         }
 
         // % of winning lineups that contain each fighter (field-level).
@@ -7767,6 +7890,7 @@
                                 `).join('')}
                                 ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
                             </div>
+                            ${rootingLineFor(fighters.map(f => f.name))}
                         </td>
                     </tr>
                 `;

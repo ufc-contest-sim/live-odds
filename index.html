@@ -6265,14 +6265,14 @@
 </head>
 <body>
     <script>
-        // Site look. The new look ("v2") is the default; ?skin=classic restores the
-        // original and is remembered per browser, ?skin=v2 switches back.
+        // Site look. Classic is the look for everyone. Any preference a browser
+        // stored while the alternate look was live is cleared on load, so no
+        // visitor is left on it. ?skin=v2 previews the alternate look for that
+        // page load only and is never remembered.
         (function () {
             try {
-                var q = new URLSearchParams(location.search).get('skin');
-                if (q === 'classic' || q === 'v2') localStorage.setItem('mmaLiveSim_skin', q);
-                // classic is the default; ?skin=v2 (stored) opts into the alternate look
-                if (localStorage.getItem('mmaLiveSim_skin') === 'v2') document.body.classList.add('v2');
+                localStorage.removeItem('mmaLiveSim_skin');
+                if (new URLSearchParams(location.search).get('skin') === 'v2') document.body.classList.add('v2');
             } catch (e) { /* classic */ }
         })();
     </script>

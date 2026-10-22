@@ -4054,8 +4054,8 @@
         /* --- Fighter Exposure and the Insights Fighters table: Optimal % shades
                from the column's white ink toward mint above the slate median and
                toward coral below it, --t (0..1) setting the strength --- */
-        .fighter-draft-table .opt-pct.hi, .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 85%), var(--text-primary)); }
-        .fighter-draft-table .opt-pct.lo, .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 85%), var(--text-primary)); }
+        .fighter-draft-table .opt-pct.hi, .fx-table .opt-pct.hi, .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 85%), var(--text-primary)); }
+        .fighter-draft-table .opt-pct.lo, .fx-table .opt-pct.lo, .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 85%), var(--text-primary)); }
         /* Insights Fighters: Draft % is the key number, as in Fighter Exposure; a live score is orange */
         .dupe-table .draft-pct { color: var(--text-primary); font-weight: 600; }
         .dupe-table td.sc { color: var(--accent-lo); font-weight: 700; }
@@ -4466,10 +4466,36 @@
         @media (min-width: 900px) {
             .pcw-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
         }
-        /* --- contest page: the stats strip spans the row and the Fighter Exposure and
-               Dupes lists stack under it at every width, each scrolling inside its own height --- */
-        .stats-and-fighters, .stats-and-fighters.three-col { grid-template-columns: 1fr; }
-        .fighter-draft-container, .dupes-container { max-height: 400px; overflow-y: auto; }
+        /* --- contest page: Portfolio Stats and the two fighter lists stack in one column;
+               on wide screens that column sits left of the lineups table --- */
+        .stats-and-fighters, .stats-and-fighters.three-col { grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+        .fx-panel {
+            padding: 0; overflow: hidden; max-height: none;
+            background: var(--fn-card-2, var(--bg-card)); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px;
+        }
+        .fx-panel .pex-body { position: static; flex: none; min-height: 0; }
+        .fx-panel .pex-body::after { display: none; }
+        .fx-panel .pex-scroll { position: static; overflow: visible; }
+        .fx-panel .pex-table th.sortable { cursor: pointer; }
+        .fx-panel .pex-table th.sortable:hover { color: var(--text-primary); }
+        .fx-table th:nth-child(2), .fx-table td:nth-child(2) { width: 27%; }
+        .fx-table th:nth-child(3), .fx-table td:nth-child(3) { width: 19%; }
+        .fx-table th:nth-child(4), .fx-table td:nth-child(4) { width: 21%; }
+        .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 34%; }
+        .dupes-table td.dupes-empty { padding: 14px 16px; color: var(--text-secondary); font-size: 0.84rem; }
+        .fx-panel .pex-foot:empty { display: none; }
+        /* stacked (laptops and phones): the lists scroll inside a capped height */
+        @media (max-width: 1499px) {
+            .fx-panel .pex-scroll { max-height: 400px; overflow-y: auto; }
+            .fx-panel .pex-table thead th { position: sticky; top: 0; z-index: 1; background: var(--fn-card-2, var(--bg-card)); }
+        }
+        /* side by side: stats and fighters on the left, the lineups on the right, every fighter visible */
+        @media (min-width: 1500px) {
+            .lb-cols { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 16px; align-items: start; }
+            .lb-left .stats-and-fighters { margin-bottom: 0; }
+            .lb-left .ps-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .lb-right .table-header { margin-top: 0; }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4883,72 +4909,42 @@
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
             </div>
             
+            <div class="lb-cols"><div class="lb-left">
             <div class="stats-and-fighters">
                 <div class="stats-vertical">
                     <h3>Portfolio Stats</h3>
                     <div id="stats-vertical"></div>
                 </div>
 
-                <div class="fighter-draft-container">
-                    <h3>Fighter Exposure</h3>
-                    <table class="fighter-draft-table">
+                <div class="fighter-draft-container fx-panel">
+                    <div class="portfolio-chart-title pex-title">Fighter Exposure<span class="pex-meta" id="fx-meta"></span></div>
+                    <div class="pex-body"><div class="pex-scroll">
+                    <table class="pex-table fx-table">
                         <thead>
                             <tr>
                                 <th class="sortable" onclick="sortFighterExposure('fighter')">Fighter</th>
-                                <th class="sortable num" onclick="sortFighterExposure('draft')">Draft %</th>
-                                <th class="sortable num" onclick="sortFighterExposure('win')">Win Lineup %</th>
-                                <th class="sortable num" onclick="sortFighterExposure('optimal')">Optimal %</th>
+                                <th class="sortable n" onclick="sortFighterExposure('draft')">Draft %</th>
+                                <th class="sortable n" onclick="sortFighterExposure('win')">Win LU %</th>
+                                <th class="sortable n" onclick="sortFighterExposure('optimal')">Optimal %</th>
                             </tr>
                         </thead>
                         <tbody id="fighter-draft-tbody"></tbody>
                     </table>
+                    </div></div>
+                    <div class="pex-foot" id="fx-foot"></div>
                 </div>
 
-                <div class="dupes-container" id="dupes-container" style="display: none;">
-                    <h3>Dupes by User</h3>
-                    <table class="fighter-draft-table">
+                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
+                    <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
+                    <div class="pex-body"><div class="pex-scroll">
+                    <table class="pex-table fx-table dupes-table">
+                        <thead><tr><th>Username</th><th class="n">Shared lineups</th></tr></thead>
                         <tbody id="dupes-tbody"></tbody>
                     </table>
+                    </div></div>
                 </div>
             </div>
-            
-            <div id="whatif-layout" class="whatif-layout">
-                <div class="whatif-left">
-                    <div class="fight-card-container">
-                        <div class="fight-card-header">
-                            <h3>Fight Card - Enter Scores</h3>
-                            <div class="whatif-hdr-btns">
-                                <button class="whatif-reset-btn" id="whatif-actuals-btn" style="display:none;" onclick="toggleWhatIfActuals()">Actuals</button>
-                                <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
-                            </div>
-                        </div>
-                        <div id="fight-card-inputs"></div>
-                    </div>
-                </div>
-                <div class="whatif-right">
-                    <div class="whatif-right-header">
-                        <div class="row-count" id="whatif-row-count">Showing 0 of 0 lineups</div>
-                    </div>
-                    <div class="table-container whatif-table-scroll">
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th style="width: 30px;"></th>
-                                        <th style="width: 45px;">#</th>
-                                        <th class="sortable" onclick="setSort('Username')">Username</th>
-                                        <th class="sortable" onclick="setSort('WhatIfScore')">Score</th>
-                                        <th class="sortable" onclick="setSort('WhatIfPayout')">Payout</th>
-                                        <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
-                                        <th style="width: 55px;">Copies</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="whatif-leaderboard"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div><div class="lb-right">
 
             <div class="table-header">
                 <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
@@ -5022,6 +5018,46 @@
                     </table>
                 </div>
             </div>
+
+            </div></div>
+            <div id="whatif-layout" class="whatif-layout">
+                <div class="whatif-left">
+                    <div class="fight-card-container">
+                        <div class="fight-card-header">
+                            <h3>Fight Card - Enter Scores</h3>
+                            <div class="whatif-hdr-btns">
+                                <button class="whatif-reset-btn" id="whatif-actuals-btn" style="display:none;" onclick="toggleWhatIfActuals()">Actuals</button>
+                                <button class="whatif-reset-btn" onclick="resetWhatIfScores()">Reset All</button>
+                            </div>
+                        </div>
+                        <div id="fight-card-inputs"></div>
+                    </div>
+                </div>
+                <div class="whatif-right">
+                    <div class="whatif-right-header">
+                        <div class="row-count" id="whatif-row-count">Showing 0 of 0 lineups</div>
+                    </div>
+                    <div class="table-container whatif-table-scroll">
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30px;"></th>
+                                        <th style="width: 45px;">#</th>
+                                        <th class="sortable" onclick="setSort('Username')">Username</th>
+                                        <th class="sortable" onclick="setSort('WhatIfScore')">Score</th>
+                                        <th class="sortable" onclick="setSort('WhatIfPayout')">Payout</th>
+                                        <th class="sortable" onclick="setSort('TotalSalary')">Salary</th>
+                                        <th style="width: 55px;">Copies</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="whatif-leaderboard"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div id="insights-view" style="display: none;">
                 <div class="chart-card insights-leverage">
@@ -6977,8 +7013,11 @@
             const optMap = contestOptimalMap || {};
             const tbody = document.getElementById('fighter-draft-tbody');
 
+            const metaEl = document.getElementById('fx-meta'), footEl = document.getElementById('fx-foot');
             if (fighterStats.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">No fighters found</td></tr>';
+                if (metaEl) metaEl.textContent = '';
+                if (footEl) footEl.innerHTML = '';
                 return;
             }
 
@@ -6995,14 +7034,23 @@
                 const av = a[key] == null ? -1 : a[key], bv = b[key] == null ? -1 : b[key];
                 return asc ? av - bv : bv - av;
             });
-            tbody.innerHTML = rows.map(r => `
+            // the Draft % cell carries the share bar: each fighter's draft rate as a
+            // share of the most-drafted fighter, the same bar the search results use for $
+            const maxDraft = Math.max(...rows.map(r => r.draft), 0) || 1;
+            tbody.innerHTML = rows.map(r => {
+                const share = Math.max(0, Math.min(100, 100 * r.draft / maxDraft));
+                const opt = optShade(r.optimal);
+                return `
                 <tr>
-                    <td class="fighter-name">${r.fighter}</td>
-                    <td class="draft-pct">${r.draft.toFixed(2)}%</td>
-                    <td class="win-pct">${r.win.toFixed(2)}%</td>
-                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
-                </tr>
-            `).join('');
+                    <td class="name" title="${r.fighter}">${r.fighter}</td>
+                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${r.draft.toFixed(2)}%</td>
+                    <td class="n">${r.win.toFixed(2)}%</td>
+                    <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                </tr>`;
+            }).join('');
+            const nLineups = (data || []).length;
+            if (metaEl) metaEl.textContent = `${rows.length} fighter${rows.length === 1 ? '' : 's'}`;
+            if (footEl) footEl.innerHTML = `<span><b>${nLineups.toLocaleString()}</b> lineup${nLineups === 1 ? '' : 's'}</span><span><b>${rows.length}</b> fighter${rows.length === 1 ? '' : 's'}</span>`;
         }
 
         // % of winning lineups that contain each fighter (field-level).
@@ -7855,7 +7903,7 @@
             const tbody = document.getElementById('dupes-tbody');
             const q = (document.getElementById('search-user').value || '').trim().toLowerCase();
             if (!q) {
-                tbody.innerHTML = '<tr><td class="dupes-empty">Search a username to see who you share the most lineups with.</td></tr>';
+                tbody.innerHTML = '<tr><td class="dupes-empty" colspan="2">Search a username to see who you share the most lineups with.</td></tr>';
                 return;
             }
             // LineupKey -> set of usernames (across the whole field)
@@ -7870,7 +7918,7 @@
                 if (uname.toLowerCase().includes(q)) myKeys.add(key);
             });
             if (myKeys.size === 0) {
-                tbody.innerHTML = '<tr><td class="dupes-empty">No lineups found for that username.</td></tr>';
+                tbody.innerHTML = '<tr><td class="dupes-empty" colspan="2">No lineups found for that username.</td></tr>';
                 return;
             }
             // Count distinct shared lineups per other user
@@ -7885,13 +7933,13 @@
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 100);
             if (ranked.length === 0) {
-                tbody.innerHTML = '<tr><td class="dupes-empty">Nobody else entered these lineups — fully unique!</td></tr>';
+                tbody.innerHTML = '<tr><td class="dupes-empty" colspan="2">Nobody else entered these lineups — fully unique!</td></tr>';
                 return;
             }
             tbody.innerHTML = ranked.map(([u, c]) => `
                 <tr>
-                    <td class="fighter-name">${u}</td>
-                    <td class="dupes-count">${c}</td>
+                    <td class="name">${u}</td>
+                    <td class="n dupes-count">${c}</td>
                 </tr>
             `).join('');
         }

@@ -5894,6 +5894,8 @@
         let contestSortKey = 'entryFee';
         let contestSortAsc = false;
 
+        // Win % for display: one decimal, or two when it is under 1%.
+        function fmtWin(v) { v = Number(v) || 0; return (v > 0 && v < 1 ? v.toFixed(2) : v.toFixed(1)) + '%'; }
         // Dollars for display: whole dollars, except amounts under a dollar keep cents.
         function fmtDollars(v) {
             const a = Math.abs(v);
@@ -6881,7 +6883,7 @@
                         <div class="search-result-stats">
                             <div class="search-result-stat sr-share" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">
                                 <div class="sr-label">Win %</div>
-                                <div class="sr-value">${r.winPct.toFixed(1)}%</div>
+                                <div class="sr-value">${fmtWin(r.winPct)}</div>
                             </div>
                             <div class="search-result-stat">
                                 <div class="sr-label">Net EV</div>
@@ -7218,7 +7220,7 @@
             document.getElementById('stats-vertical').innerHTML = `
                 <div class="ps-kpis">
                     <div class="ps-kpi"><span class="k">${label} lineups</span><b class="v">${totalLineups.toLocaleString()}</b></div>
-                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${portfolioWinPct.toFixed(1)}%</b></div>
+                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${fmtWin(portfolioWinPct)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio EV</span><b class="v ${portfolioNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(portfolioNetEV)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio ROI</span><b class="v ${portfolioROI >= 0 ? 'positive' : 'negative'}">${formatROI(portfolioROI)}</b></div>
                     <div class="ps-kpi"><span class="k">Avg dupes</span><b class="v">${avgDupes.toFixed(2)}</b></div>
@@ -7827,7 +7829,7 @@
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span></td>
                         <td class="num">${idx + 1}</td>
                         <td class="username">${row.Username || ''}</td>
-                        <td class="num">${(row.WinPct || 0).toFixed(1)}%</td>
+                        <td class="num">${fmtWin(row.WinPct)}</td>
                         <td class="num">${row.SecondPct != null ? (row.SecondPct).toFixed(1) + '%' : '--'}</td>
                         <td class="num">${row.ThirdPct != null ? (row.ThirdPct).toFixed(1) + '%' : '--'}</td>
                         <td class="num">${row.CashPct != null ? (row.CashPct).toFixed(1) + '%' : '--'}</td>
@@ -7948,7 +7950,7 @@
                                 `).join('')}
                             </div>
                         </td>
-                        <td class="num">${(lineup.WinPct || 0).toFixed(1)}%</td>
+                        <td class="num">${fmtWin(lineup.WinPct)}</td>
                         <td class="num">${lineup.SecondPct != null ? lineup.SecondPct.toFixed(1) + '%' : '--'}</td>
                         <td class="num">${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(1) + '%' : '--'}</td>
                         <td class="num">${lineup.CashPct != null ? lineup.CashPct.toFixed(1) + '%' : '--'}</td>
@@ -8141,7 +8143,7 @@
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
                         <td class="username">${portfolio.Username}</td>
                         <td class="num">${portfolio.Entries}</td>
-                        <td class="num">${portfolio.WinPct.toFixed(1)}%</td>
+                        <td class="num">${fmtWin(portfolio.WinPct)}</td>
                         <td class="num">${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(1) + '%' : '--'}</td>
                         <td class="num">${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(1) + '%' : '--'}</td>
                         <td class="num">${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(1) + '%' : '--'}</td>
@@ -8162,7 +8164,7 @@
                                             ${lu.fighters.slice().sort(byFighterName).map(f => `<div class="fighter-chip">${f}</div>`).join('')}
                                         </div>
                                         <div class="portfolio-lineup-meta">
-                                            <span>${lu.WinPct.toFixed(1)}% win</span>
+                                            <span>${fmtWin(lu.WinPct)} win</span>
                                             <span class="${lu.NetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(lu.NetEV)}</span>
                                             <span class="dupes-count">${lu.Copies}x</span>
                                         </div>

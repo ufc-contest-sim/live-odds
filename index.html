@@ -2463,7 +2463,9 @@
             margin-bottom: 16px;
         }
         /* About tab */
-        .about-card p { font-size: 1.0625rem; line-height: 1.6; margin: 0 0 14px; max-width: 64ch; }
+        /* the card spans the page; the reading column sits centered inside it, text left-aligned */
+        .about-card > * { max-width: 690px; margin-left: auto; margin-right: auto; }
+        .about-card p { font-size: 1.0625rem; line-height: 1.6; margin-bottom: 14px; }
         .about-card .sdb-title { text-align: left; }
         .about-links { justify-content: flex-start; }
         .about-card .about-disclaim { text-align: left; }
@@ -2840,7 +2842,6 @@
 
         /* Fighter Stats */
         #lookup-view { display: flex; flex-direction: column; gap: 24px; }
-        .fsx-intro { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin: 6px 0 16px; max-width: 900px; }
         .flu-search { position: relative; max-width: 460px; margin-bottom: 4px; }
         .flu-search input { width: 100%; background: #faf6f0; border: 1px solid var(--glass-border); color: var(--text-primary); padding: 11px 14px; font-size: 1rem; font-family: inherit; font-weight: 600; outline: none; }
         .flu-search input:focus { border-color: var(--accent); }
@@ -4650,7 +4651,6 @@
         <div id="lookup-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Fighter Stats</div>
-                <p class="fsx-intro">Search any UFC fighter for their career DFS profile. <strong>Record</strong> is the fight-by-fight log — every bout with the full stat line, what the opponent did back, and a tap-through DraftKings scoring breakdown. <strong>Stats</strong> is the career profile: striking, grappling, defense, pacing and DK scoring rates, each ranked against the rest of the UFC.</p>
                 <div class="flu-search">
                     <input id="fluInput" type="text" placeholder="Search a fighter&hellip;" autocomplete="off">
                     <div id="fluSuggest" class="flu-suggest"></div>

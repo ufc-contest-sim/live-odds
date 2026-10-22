@@ -8999,7 +8999,7 @@
                 el += `<line class="axis" x1="${ml}" y1="${SX_MT + ih}" x2="${SX_W - SX_MR}" y2="${SX_MT + ih}"></line>`;
                 // axis titles
                 const cy = SX_MT + ih / 2;
-                el += `<text class="axis-title" x="${ml + iw / 2}" y="${SX_H - 8}" text-anchor="middle">DK total (5-point buckets)</text>`;
+                el += `<text class="axis-title" x="${ml + iw / 2}" y="${SX_H - 8}" text-anchor="middle">DK total</text>`;
                 el += `<text class="axis-title" x="16" y="${cy.toFixed(1)}" text-anchor="middle" transform="rotate(-90 16 ${cy.toFixed(1)})">Fights</text>`;
                 svg.innerHTML = el;
                 // hover: the shared #chart-tip readout, like the contest charts

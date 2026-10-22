@@ -4329,7 +4329,7 @@
             margin: 0 auto 20px; padding: 3px;
             background: var(--bg-card); border: 1px solid var(--line-2); border-radius: 10px;
         }
-        #insightsSubnav, #fluSubnav, #hbSubnav { margin-left: 0; margin-right: 0; }
+        #insightsSubnav, #fluSubnav, #hbSubnav, #ownSubnav { margin-left: 0; margin-right: 0; }
         .tab-btn {
             flex: 0 1 auto; padding: 8px 16px; border: 0; border-radius: 7px; background: transparent;
             font-family: var(--fn-mono); font-size: 0.78rem; font-weight: 700; line-height: 1.2;
@@ -4531,7 +4531,6 @@
         @media (max-width: 760px) { .om-grid { grid-template-columns: minmax(0, 1fr); } .om-svg text { font-size: 15px; } }
 
         /* --- Salary & ownership history --- */
-        .fh-card { margin-top: 16px; }
         .fh-filters { align-items: flex-end; }
         .fh-filters .fh-q { flex: 1 1 260px; }
         .fh-filters .fh-q input { width: 100%; }
@@ -4726,8 +4725,12 @@
             </div>
         </div>
         <div id="ownership-view" style="display:none;">
-            <div class="sdb-card">
-                <div class="sdb-title">Ownership</div>
+            <div id="ownSubnav" class="view-tabs" style="justify-content: flex-start;">
+                <button class="tab-btn active" data-osub="model"><span>Ownership Model</span></button>
+                <button class="tab-btn" data-osub="database"><span>Ownership Database</span></button>
+            </div>
+            <div class="sdb-card" id="own-model-pane">
+                <div class="sdb-title">Ownership Model</div>
                 <div class="om-note">Every event since July 2026: my projected ownership for each fighter against actual ownership in the week's Main GPP. Projections are posted in the <a href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">Discord</a> before lock. They are not published here until the event is final, so join the Discord if you want them ahead of time.</div>
                 <div id="omLoading" class="sdb-loading">Loading projections&hellip;</div>
                 <div id="omBody" style="display:none;">
@@ -4749,8 +4752,8 @@
                 </div>
             </div>
 
-            <div class="sdb-card fh-card">
-                <div class="sdb-title">Salary &amp; ownership history</div>
+            <div class="sdb-card fh-card" id="own-db-pane" style="display:none;">
+                <div class="sdb-title">Ownership Database</div>
                 <div class="om-note">Every fighter on every DraftKings slate since March 2026: salary, my projected ownership and the Main GPP's actual ownership where I have them, and the DK score. Search a fighter, or filter the whole set.</div>
                 <div id="fhLoading" class="sdb-loading">Loading history&hellip;</div>
                 <div id="fhBody" style="display:none;">
@@ -10662,6 +10665,7 @@
             // full score database, which used to be its own top-level tab.
             // Range of Outcomes replaced the Scoring Ladder sub-tab and is the default
             let insightsSub = 'explorer';
+            let ownSub = 'model';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
                 const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), xv = document.getElementById('scenario-view'), mv = document.getElementById('ownership-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
@@ -10683,12 +10687,20 @@
                     else { insightsSub = 'explorer'; logTabOpen('opened_explorer'); openExplorer(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
-                if (view === 'ownership') { logTabOpen('opened_ownership'); openOwnership(); openHistory(); }
+                if (view === 'ownership') {
+                    document.querySelectorAll('#ownSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.osub === ownSub));
+                    const mp = document.getElementById('own-model-pane'), dp = document.getElementById('own-db-pane');
+                    if (mp) mp.style.display = ownSub === 'model' ? '' : 'none';
+                    if (dp) dp.style.display = ownSub === 'database' ? '' : 'none';
+                    if (ownSub === 'database') { logTabOpen('opened_ownership_db'); openHistory(); }
+                    else { logTabOpen('opened_ownership'); openOwnership(); }
+                }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
                 if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
                 if (view === 'about') logTabOpen('opened_about');
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
+            document.querySelectorAll('#ownSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { ownSub = b.dataset.osub; showLandingView('ownership'); }));
             document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { insightsSub = b.dataset.isub; showLandingView('insights'); }));
         })();
 

@@ -2709,7 +2709,18 @@
         #scenario-view .sx-hist .axis-title { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; fill: var(--text-secondary); }
         #scenario-view .sx-hist .bar { fill: var(--accent); }
         #scenario-view .sx-hist .bar.hot { fill: var(--accent-hi); }
-        #scenario-view .sx-hist .hit { fill: transparent; }
+        #scenario-view .sx-hist .hit { fill: transparent; cursor: pointer; }
+        #scenario-view .sx-hist .bar.dim { fill: rgba(255, 255, 255, 0.13); }
+        #scenario-view .sx-hist .bar.dim.hot { fill: rgba(255, 255, 255, 0.28); }
+        #scenario-view .sx-hist .bar.sel, #scenario-view .sx-hist .bar.sel.hot { fill: var(--accent-hi); }
+        #scenario-view .sx-barchip {
+            display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+            font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.02em;
+            padding: 4px 10px; border-radius: 999px;
+            background: rgba(var(--a-rgb), 0.12); border: 1px solid var(--accent); color: var(--accent-hi);
+        }
+        #scenario-view .sx-barchip::after { content: '\00d7'; font-size: 1rem; line-height: 1; opacity: 0.8; }
+        #scenario-view .sx-barchip:hover { background: rgba(var(--a-rgb), 0.2); }
         #scenario-view .sx-pcts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
         #scenario-view .sx-pct { background: var(--fn-card-2, var(--bg-card)); border: 1px solid var(--glass-border); border-radius: 8px; padding: 5px 10px; font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
         #scenario-view .sx-pct b { color: var(--accent-lo); font-weight: 700; margin-left: 2px; }
@@ -4621,10 +4632,9 @@
                         </div>
                         <div id="sxHistEmpty" class="sx-empty" style="display:none;">No fights match this scenario.</div>
                         <div class="sx-hist-scroll" id="sxHistScroll"><svg id="sxHist" class="sx-hist" viewBox="0 0 1120 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Histogram of DK totals over the matching fights"></svg></div>
-                        <div id="sxPcts" class="sx-pcts"></div>
                     </div>
                     <div class="sx-fights">
-                        <div class="sx-fights-head"><span class="sx-sec">Matching fights</span><span class="sdb-count" id="sxCount"></span></div>
+                        <div class="sx-fights-head"><span class="sx-sec">Matching fights</span><button type="button" class="sx-barchip" id="sxBarChip" style="display:none;" title="Show every matching fight"></button><span class="sdb-count" id="sxCount"></span></div>
                         <div id="sxFightsEmpty" class="sx-empty" style="display:none;">No fights match this scenario.</div>
                         <div class="sdb-scroll" id="sxScroll">
                             <table class="sdb-table">
@@ -8758,6 +8768,7 @@
 
             let SX_ROWS = null, sxLeague = { key: '', stats: null }, sxLast = [], sxLastDks = [];
             let sxWired = false, sxPopulated = false, sxSortKey = 'dk', sxSortDir = -1, sxRaf = 0, sxHotBar = null, sxResizeT = 0, sxResizeW = 0;
+            let sxBar = null;   // a clicked histogram bar: { a, b, label } narrows the fights sheet to that bucket
 
             // Index built once from SCORED: the scored entry, its raw row, the DK
             // total, the outcome bucket the ladder tiles use, and every stat in
@@ -8928,8 +8939,7 @@
                       `</tbody></table></div>`
                     : `<div class="sx-empty">No fights match this scenario. Loosen a filter or remove a condition.</div>`;
                 sxEl('sxLadder').innerHTML =
-                    `<div class="sdb-ladder-title">Scoring ladder</div>` +
-                    `<div class="sdb-ladder-sub">Each cell: % of the matching fights scoring at that DK total or higher, with the raw count beneath. The league row is every performance by every fighter since ${fmtSinceLabel(since)} for comparison.</div>` + body;
+                    `<div class="sdb-ladder-title">Scoring ladder</div>` + body;
             }
             function sxNiceStep(raw) { const pow = Math.pow(10, Math.floor(Math.log10(raw))); for (const m of [1, 2, 5, 10]) if (m * pow >= raw) return m * pow; return 10 * pow; }
             // Left margin for the y axis: measure the widest tick label in the
@@ -8949,7 +8959,7 @@
             }
             function sxRenderHist(rows, dks) {
                 const stat = sxStat('dk');   // always the DK totals: the question is what scores look like
-                const svg = sxEl('sxHist'), pcts = sxEl('sxPcts');
+                const svg = sxEl('sxHist');
                 const k = stat.k;
                 // the DK totals are already sorted; every other stat is read off the index
                 const sorted = k === 'dk' ? dks : rows.map(x => x.v[k]).sort((a, b) => a - b);
@@ -8961,8 +8971,7 @@
                 sxEl('sxHistEmpty').style.display = n ? 'none' : '';
                 if (!n) {
                     svg.innerHTML = '';
-                    svg.onmousemove = null; svg.onmouseleave = null;
-                    pcts.innerHTML = '';
+                    svg.onmousemove = null; svg.onmouseleave = null; svg.onclick = null;
                     return;
                 }
                 const lo = sorted[0], hi = sorted[n - 1];
@@ -8982,10 +8991,13 @@
                     el += `<line class="grid" x1="${ml}" y1="${y.toFixed(1)}" x2="${SX_W - SX_MR}" y2="${y.toFixed(1)}"></line>`;
                     el += `<text x="${ml - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end">${c.toLocaleString()}</text>`;
                 }
+                // a selected bucket stays orange; every other bar greys out
+                if (sxBar && !bins.some((c, i) => c > 0 && Math.abs(b0 + i * bin - sxBar.a) < 1e-6)) sxBar = null;
+                const barCls = i => !sxBar ? 'bar' : (Math.abs(b0 + i * bin - sxBar.a) < 1e-6 ? 'bar sel' : 'bar dim');
                 bins.forEach((c, i) => {
                     const h = maxC ? ih * c / maxC : 0;
                     const x = ml + i * bw + 1, w = Math.max(1, bw - 2);
-                    if (h > 0) el += `<rect class="bar" data-i="${i}" x="${x.toFixed(2)}" y="${(SX_MT + ih - h).toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}"></rect>`;
+                    if (h > 0) el += `<rect class="${barCls(i)}" data-i="${i}" x="${x.toFixed(2)}" y="${(SX_MT + ih - h).toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}"></rect>`;
                     el += `<rect class="hit" data-i="${i}" x="${(ml + i * bw).toFixed(2)}" y="${SX_MT}" width="${bw.toFixed(2)}" height="${ih}"></rect>`;
                 });
                 const every = Math.ceil(nb / 14);
@@ -9022,21 +9034,31 @@
                     const i = +t, c = bins[i];
                     setHot(i);
                     if (!tip) return;
-                    tip.innerHTML = `<b>${rangeOf(i)}</b><br>${c.toLocaleString()} fight${c === 1 ? '' : 's'} (${(100 * c / n).toFixed(1)}%)<br>${(100 * cums[i] / n).toFixed(1)}% at or below`;
+                    const isSel = sxBar && Math.abs(b0 + i * bin - sxBar.a) < 1e-6;
+                    tip.innerHTML = `<b>${rangeOf(i)}</b><br>${c.toLocaleString()} fight${c === 1 ? '' : 's'} (${(100 * c / n).toFixed(1)}%)<br>${(100 * cums[i] / n).toFixed(1)}% at or below<br><span style="opacity:.7">${isSel ? 'Click to show every fight' : 'Click to list these fights'}</span>`;
                     tip.style.opacity = 1;
                     tip.style.left = Math.min(window.innerWidth - 200, e.clientX + 14) + 'px';
                     tip.style.top = (e.clientY + 14) + 'px';
                 };
                 svg.onmouseleave = () => { if (tip) tip.style.opacity = 0; setHot(null); };
-                // percentile chips
-                const fmtQ = v => stat.time ? sxMmss(v) : (Number.isInteger(v) ? String(v) : v.toFixed(1));
-                const P = [['Min', 0], ['p10', 0.1], ['p25', 0.25], ['Median', 0.5], ['p75', 0.75], ['p90', 0.9], ['p99', 0.99], ['Max', 1]];
-                let sum = 0; for (let i = 0; i < n; i++) sum += sorted[i];
-                pcts.innerHTML = P.map(([l, q]) => `<span class="sx-pct">${l} <b>${fmtQ(sxQuantile(sorted, q))}</b></span>`).join('') +
-                    `<span class="sx-pct">Avg <b>${fmtQ(sum / n)}</b></span>`;
+                // click a bar to narrow the fights sheet to that bucket; click it again to clear
+                svg.onclick = e => {
+                    const t = e.target && e.target.getAttribute ? e.target.getAttribute('data-i') : null;
+                    if (t === null || t === undefined) return;
+                    const i = +t; if (!bins[i]) return;
+                    const a = b0 + i * bin;
+                    sxBar = (sxBar && Math.abs(sxBar.a - a) < 1e-6) ? null : { a, b: a + bin, label: rangeOf(i) };
+                    sxRenderHist(rows, dks);
+                    sxRenderTable(rows);
+                    if (tip) tip.style.opacity = 0;
+                };
             }
             const SX_STR_KEYS = ['fighter', 'opponent', 'method', 'date', 'result'];
             function sxRenderTable(rows) {
+                const all = rows.length;
+                if (sxBar) rows = rows.filter(x => x.dk >= sxBar.a && x.dk < sxBar.b);
+                const chip = sxEl('sxBarChip');
+                if (chip) { chip.style.display = sxBar ? '' : 'none'; chip.textContent = sxBar ? sxBar.label : ''; }
                 // sort key read once per row, not once per comparison
                 const keyed = rows.map(x => [leadValue(x.s, sxSortKey), x]);
                 if (sxSortKey === 'dk' && sxSortDir < 0) {
@@ -9072,7 +9094,9 @@
                 // the empty note sits outside the sheet so phones can read it without a sideways swipe
                 sxEl('sxScroll').style.display = total ? '' : 'none';
                 sxEl('sxFightsEmpty').style.display = total ? 'none' : '';
-                sxEl('sxCount').textContent = total > LIMIT ? `Showing ${LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} matching fight${total === 1 ? '' : 's'}`;
+                sxEl('sxCount').textContent = sxBar
+                    ? (total > LIMIT ? `Showing ${LIMIT} of ` : '') + `${total.toLocaleString()} of ${all.toLocaleString()} matching fights in this bucket`
+                    : (total > LIMIT ? `Showing ${LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} matching fight${total === 1 ? '' : 's'}`);
             }
             function sxRender() {
                 if (!loaded) return;
@@ -9080,6 +9104,7 @@
                 const rows = sxFiltered();
                 const dks = rows.map(x => x.dk).sort((a, b) => a - b);
                 sxLast = rows; sxLastDks = dks;
+                sxBar = null;   // a new scenario, a fresh distribution
                 sxRenderKpis(rows, dks);
                 sxRenderLadder(rows, dks, since);
                 sxRenderHist(rows, dks);
@@ -9137,6 +9162,7 @@
                     else { sxSortKey = k; sxSortDir = SX_STR_KEYS.indexOf(k) >= 0 ? 1 : -1; }
                     sxRenderTable(sxLast);
                 });
+                sxEl('sxBarChip').addEventListener('click', () => { sxBar = null; sxRenderHist(sxLast, sxLastDks); sxRenderTable(sxLast); });
                 window.__scenarioDebug = { filtered: () => sxLast };
             }
             async function openExplorer() {

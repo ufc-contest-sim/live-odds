@@ -4976,7 +4976,7 @@
                 </div>
                 <div class="filter-group" id="dead-filter">
                     <label for="hide-dead" style="cursor:pointer;">
-                        <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.00% win)
+                        <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.0% win)
                     </label>
                 </div>
                 <div class="filter-group">
@@ -6871,7 +6871,7 @@
                         <div class="search-result-stats">
                             <div class="search-result-stat sr-share" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">
                                 <div class="sr-label">Win %</div>
-                                <div class="sr-value">${r.winPct.toFixed(2)}%</div>
+                                <div class="sr-value">${r.winPct.toFixed(1)}%</div>
                             </div>
                             <div class="search-result-stat">
                                 <div class="sr-label">Net EV</div>
@@ -7132,9 +7132,9 @@
                 return `
                 <tr>
                     <td class="name" title="${r.fighter}">${r.fighter}</td>
-                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${r.draft.toFixed(2)}%</td>
-                    <td class="n">${r.win.toFixed(2)}%</td>
-                    <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${r.draft.toFixed(1)}%</td>
+                    <td class="n">${r.win.toFixed(1)}%</td>
+                    <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? r.optimal.toFixed(1) + '%' : '--'}</td>
                 </tr>`;
             }).join('');
             const nLineups = (data || []).length;
@@ -7215,7 +7215,7 @@
             document.getElementById('stats-vertical').innerHTML = `
                 <div class="ps-kpis">
                     <div class="ps-kpi"><span class="k">${label} lineups</span><b class="v">${totalLineups.toLocaleString()}</b></div>
-                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${portfolioWinPct.toFixed(2)}%</b></div>
+                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${portfolioWinPct.toFixed(1)}%</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio EV</span><b class="v ${portfolioNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(portfolioNetEV)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio ROI</span><b class="v ${portfolioROI >= 0 ? 'positive' : 'negative'}">${formatROI(portfolioROI)}</b></div>
                     <div class="ps-kpi"><span class="k">Avg dupes</span><b class="v">${avgDupes.toFixed(2)}</b></div>
@@ -7470,9 +7470,9 @@
                 <tr>
                     <td class="fighter-name">${r.fighter}</td>
                     <td class="num">${r.salary != null ? '$' + Number(r.salary).toLocaleString() : '--'}</td>
-                    <td class="draft-pct">${r.draft.toFixed(2)}%</td>
-                    <td class="win-pct">${r.win.toFixed(2)}%</td>
-                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td class="draft-pct">${r.draft.toFixed(1)}%</td>
+                    <td class="win-pct">${r.win.toFixed(1)}%</td>
+                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(1) + '%' : '--'}</td>
                     <td class="num ${r.score != null ? 'sc' : ''}">${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
                 </tr>`).join('');
         }
@@ -7831,10 +7831,10 @@
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span></td>
                         <td class="num">${idx + 1}</td>
                         <td class="username">${row.Username || ''}</td>
-                        <td class="num">${(row.WinPct || 0).toFixed(2)}%</td>
-                        <td class="num">${row.SecondPct != null ? (row.SecondPct).toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${row.ThirdPct != null ? (row.ThirdPct).toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${row.CashPct != null ? (row.CashPct).toFixed(2) + '%' : '--'}</td>
+                        <td class="num">${(row.WinPct || 0).toFixed(1)}%</td>
+                        <td class="num">${row.SecondPct != null ? (row.SecondPct).toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${row.ThirdPct != null ? (row.ThirdPct).toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${row.CashPct != null ? (row.CashPct).toFixed(1) + '%' : '--'}</td>
                         <td class="num ${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(row.NetEV || 0)}
                         </td>
@@ -7959,10 +7959,10 @@
                                 `).join('')}
                             </div>
                         </td>
-                        <td class="num">${(lineup.WinPct || 0).toFixed(2)}%</td>
-                        <td class="num">${lineup.SecondPct != null ? lineup.SecondPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${lineup.CashPct != null ? lineup.CashPct.toFixed(2) + '%' : '--'}</td>
+                        <td class="num">${(lineup.WinPct || 0).toFixed(1)}%</td>
+                        <td class="num">${lineup.SecondPct != null ? lineup.SecondPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${lineup.CashPct != null ? lineup.CashPct.toFixed(1) + '%' : '--'}</td>
                         <td class="num ${(lineup.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(lineup.NetEV || 0)}
                         </td>
@@ -8159,10 +8159,10 @@
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
                         <td class="username">${portfolio.Username}</td>
                         <td class="num">${portfolio.Entries}</td>
-                        <td class="num">${portfolio.WinPct.toFixed(2)}%</td>
-                        <td class="num">${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(2) + '%' : '--'}</td>
+                        <td class="num">${portfolio.WinPct.toFixed(1)}%</td>
+                        <td class="num">${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(1) + '%' : '--'}</td>
                         <td class="num ${portfolio.NetEV >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(portfolio.NetEV)}
                         </td>
@@ -8180,7 +8180,7 @@
                                             ${lu.fighters.slice().sort(byFighterName).map(f => `<div class="fighter-chip">${f}</div>`).join('')}
                                         </div>
                                         <div class="portfolio-lineup-meta">
-                                            <span>${lu.WinPct.toFixed(2)}% win</span>
+                                            <span>${lu.WinPct.toFixed(1)}% win</span>
                                             <span class="${lu.NetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(lu.NetEV)}</span>
                                             <span class="dupes-count">${lu.Copies}x</span>
                                         </div>
@@ -8742,7 +8742,7 @@
                 const avg = n0 ? dks.reduce((a, b) => a + b, 0) / n0 : 0;
                 return { n: n0, avg, counts, pct };
             }
-            function fmtPct(p) { if (p <= 0) return '0'; return (p >= 1 ? p.toFixed(1) : p.toFixed(2)) + '%'; }
+            function fmtPct(p) { if (p <= 0) return '0'; return p.toFixed(1) + '%'; }
             function heat(p) { const a = Math.min(0.6, p / 100 * 0.6); return `background:rgba(63,179,122,${a.toFixed(3)})`; }
             function threshRow(label, stats, withCounts) {
                 let cells = `<td class="l" style="font-weight:700">${esc(label)}</td><td>${stats.n.toLocaleString()}</td>`;

@@ -2470,8 +2470,6 @@
         .about-links { justify-content: flex-start; }
         .about-card .about-disclaim { text-align: left; }
         .about-card p:last-child { margin-bottom: 0; }
-        /* A bar whose value exceeds the chart scale: dashed top edge = "keeps going" */
-        .portfolio-bar.pq-clip { border-top: 2px dashed rgba(255, 255, 255, 0.85); }
         .landing-header .lock-note {
             font-family: var(--fn-body); font-size: 0.75rem; letter-spacing: 0;
             color: var(--ink-3); text-align: center; margin: 8px auto 0; max-width: 60ch;
@@ -4454,6 +4452,16 @@
         .site-footer .footer-links { margin: 0 0 10px; }
         .site-footer .footer-links a { color: var(--text-secondary); font-size: 0.78rem; text-decoration: underline; text-underline-offset: 3px; }
         .site-footer .footer-links a:hover { color: var(--accent-hi); }
+
+        /* --- search results: the outcome chart and the exposure list sit centered in
+               the card, with the title row aligned to the same edges --- */
+        @media (min-width: 900px) {
+            .portfolio-chart-container {
+                padding-left: max(20px, calc((100% - 980px) / 2));
+                padding-right: max(20px, calc((100% - 980px) / 2));
+            }
+            .pcw-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -6030,33 +6038,17 @@
             };
             const items = pcts.map(p => ({ pct: p, val: valAt(p) }));
 
-            // Scale the loss and profit halves independently so the (usually small)
-            // downside stays visible even when the upside is enormous. The extreme
-            // 100th-percentile bar is excluded from the positive reference so the
-            // mid-range profit bars aren't crushed; it just clamps to full height.
-            const negRef = Math.max(...items.filter(d => d.val < 0).map(d => -d.val), 1);
-            const posRef = Math.max(...items.filter(d => d.val > 0 && d.pct < 100).map(d => d.val), 1);
-
-            // Each side gets space proportional to its reference, but never less
-            // than a quarter of the chart while it has any bar to show — a lone
-            // jackpot at p100 (everything else red) must still read as a spike,
-            // not a sliver.
-            const hasPos = items.some(d => d.val > 0);
-            const hasNeg = items.some(d => d.val < 0);
-            // Split the chart height between the two sides by the LOG of each
-            // side's largest value, best outcome included. A $115K tail next
-            // to a $600 floor gets most of the height, so the upside reads as
-            // big, while the losses keep enough room to stay readable. Within
-            // each side bars stay linear (p100 still clamps with a dashed cap).
+            // One linear scale for the whole chart: every bar is drawn to its
+            // true proportion, so the best outcome towers over the rest and
+            // the losses read as small. Nothing clamps. The zero line sits
+            // where the largest loss and the largest profit meet.
             const posMaxAll = Math.max(...items.filter(d => d.val > 0).map(d => d.val), 0);
-            const lp = Math.log10(1 + posMaxAll), ln = Math.log10(1 + negRef);
-            let posShare = (lp + ln) > 0 ? lp / (lp + ln) : 0.5;
-            if (hasPos && hasNeg) posShare = Math.min(0.8, Math.max(0.2, posShare));
-            else if (hasPos) posShare = 1; else if (hasNeg) posShare = 0;
+            const negMaxAll = Math.max(...items.filter(d => d.val < 0).map(d => -d.val), 0);
+            const span = (posMaxAll + negMaxAll) || 1;   // dollars across the full bar area
 
-            const H = 300, pad = 18;
+            const H = 320, pad = 18;
             const inner = H - pad * 2;
-            const posInner = Math.round(posShare * inner);
+            const posInner = Math.round(inner * posMaxAll / span);
             const posH = posInner + pad;
             const negH = (inner - posInner) + pad;
             const totalH = posH + negH;
@@ -6096,11 +6088,9 @@
             const fmts = items.map(d => fmt(d.val));
             const geo = items.map(d => {
                 const isPos = d.val >= 0;
-                const ref = isPos ? posRef : negRef;
-                const barMax = (isPos ? posH : negH) - pad;
-                const clamped = Math.abs(d.val) > ref;
+                const clamped = false;
                 const barHeight = d.val === 0 ? 0
-                    : Math.max(Math.min(Math.abs(d.val) / ref, 1) * barMax, 2);
+                    : Math.max(Math.abs(d.val) / span * inner, 2);
                 const topPad = isPos ? (posH - barHeight) : posH;
                 const botPad = isPos ? negH : (negH - barHeight);
                 // Where the label paints: profit labels hang off the bar's top

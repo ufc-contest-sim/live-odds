@@ -4530,6 +4530,7 @@
         }
         @media (max-width: 760px) { .om-grid { grid-template-columns: minmax(0, 1fr); } .om-svg text { font-size: 15px; } }
 
+        .sdb-title .sdb-title-note { font-family: var(--fn-mono); font-style: normal; font-weight: 500; letter-spacing: 0.03em; text-transform: none; color: var(--text-secondary); margin-left: 6px; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4740,7 +4741,7 @@
 
         <div id="scoringtrends-view" style="display:none;">
             <div class="sdb-card">
-                <div class="sdb-title">Scoring Trends</div>
+                <div class="sdb-title">Scoring Trends <span class="sdb-title-note">(12-month rolling avg)</span></div>
                 <div id="trLoading" class="sdb-loading">Loading fight database&hellip;</div>
                 <div id="trBody" style="display:none;">
                     <div id="trGrid" class="tr-grid"></div>

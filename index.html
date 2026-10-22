@@ -5275,9 +5275,11 @@
             function fmt(ms) {
                 const s = Math.floor(ms / 1000), d = Math.floor(s / 86400),
                       h = Math.floor((s % 86400) / 3600), mi = Math.floor((s % 3600) / 60), ss = s % 60;
-                if (d > 0) return `${d}d ${h}h ${String(mi).padStart(2, '0')}m`;
-                if (h > 0) return `${h}h ${String(mi).padStart(2, '0')}m ${String(ss).padStart(2, '0')}s`;
-                return `${mi}m ${String(ss).padStart(2, '0')}s`;
+                // seconds show at every range so the countdown visibly ticks
+                const p2 = v => String(v).padStart(2, '0');
+                if (d > 0) return `${d}d ${p2(h)}h ${p2(mi)}m ${p2(ss)}s`;
+                if (h > 0) return `${h}h ${p2(mi)}m ${p2(ss)}s`;
+                return `${mi}m ${p2(ss)}s`;
             }
             // Post-lock, "Live Sim Mode" must wait for TODAY'S contests to be
             // published: the label only flips once the tracked contests' fight

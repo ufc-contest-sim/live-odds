@@ -4497,29 +4497,22 @@
             .lb-right .table-header { margin-top: 0; }
         }
 
-        /* --- Rooting guide --- */
+        /* --- Rooting guide: fights as pairs of rows, numbers in columns --- */
         .rg-note { padding: 14px 16px; font-size: 0.84rem; color: var(--text-secondary); }
-        .rg-row { padding: 9px 16px 10px; border-bottom: 1px solid var(--fn-line); }
-        .rg-row:last-child { border-bottom: 0; }
-        .rg-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .rg-num { font-family: var(--fn-mono); font-size: 0.62rem; color: var(--ink-3); letter-spacing: 0.06em; }
-        .rg-name { font-weight: 600; font-size: 0.86rem; color: var(--text-primary); }
-        .rg-name.pick { color: var(--accent-hi); }
-        .rg-vs { font-family: var(--fn-mono); font-size: 0.62rem; color: var(--ink-3); text-transform: uppercase; }
-        .rg-chip {
-            margin-left: auto; font-family: var(--fn-mono); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.03em;
-            padding: 3px 9px; border-radius: 999px; white-space: nowrap;
-        }
-        .rg-chip.big { background: rgba(var(--a-rgb), 0.16); color: var(--accent-hi); }
-        .rg-chip.mid { background: rgba(255, 255, 255, 0.08); color: var(--text-primary); }
-        .rg-chip.low { background: rgba(255, 255, 255, 0.05); color: var(--ink-3); }
-        .rg-chip.yes { background: rgba(47, 224, 138, 0.14); color: var(--accent-green); }
-        .rg-chip.no { background: rgba(255, 93, 110, 0.14); color: var(--accent-red); }
-        .rg-sub { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 3px; font-family: var(--fn-mono); font-size: 0.66rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-        .rg-sub b { color: var(--text-secondary); font-weight: 600; }
-        .rg-row.done .rg-name { color: var(--text-secondary); }
-        .rg-row.done .rg-name.won { color: var(--text-primary); }
-        .rg-row.done .rg-name.pick.won { color: var(--accent-hi); }
+        .rg-table th:nth-child(2), .rg-table td:nth-child(2) { width: 17%; }
+        .rg-table th:nth-child(3), .rg-table td:nth-child(3) { width: 27%; }
+        .rg-table td.name { display: flex; align-items: center; gap: 0; }
+        .rg-table .rg-num { display: inline-block; width: 30px; flex: none; font-family: var(--fn-mono); font-size: 0.6rem; color: var(--ink-3); letter-spacing: 0.05em; }
+        .rg-table td.name.pick { color: var(--accent-hi); }
+        .rg-table tr.rg-a td { border-bottom: 0; }
+        .rg-table tr.rg-b td { border-bottom: 1px solid var(--line-2); }
+        .rg-table tr.rg-a td { padding-bottom: 3px; }
+        .rg-table tr.rg-b td { padding-top: 3px; }
+        .rg-table td.name.lost { color: var(--ink-3); }
+        .rg-table td.name.won { color: var(--text-primary); }
+        .rg-table td.name.pick.won { color: var(--accent-hi); }
+        .rg-table .rg-w { margin-left: 6px; font-family: var(--fn-mono); font-size: 0.62rem; font-weight: 700; color: var(--accent-green); }
+        .rg-table tbody tr:hover td { background-color: transparent; }
         .lu-root { margin: 4px 0 6px; font-size: 0.8rem; color: var(--text-secondary); }
         .lu-root b { color: var(--text-primary); font-weight: 600; }
         .lu-root .sw { font-family: var(--fn-mono); font-size: 0.6rem; color: var(--accent-hi); margin-left: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -7116,7 +7109,6 @@
                 return { id: f.fight_id, A, B, eA, eB, wA, wB, swing, pick, tier, done, winner };
             }).filter(Boolean);
         }
-        const rgTierLabel = { big: 'big swing', mid: 'matters', low: 'minor' };
         function renderRootingGuide(expMap, winMap) {
             const body = document.getElementById('rg-body'), meta = document.getElementById('rg-meta');
             if (!body) return;
@@ -7130,24 +7122,21 @@
             }
             const n = rows.length, nDone = rows.filter(r => r.done).length;
             if (meta) meta.textContent = nDone === n ? `${n} fights \u00b7 final` : (nDone ? `${n - nDone} of ${n} left` : `${n} fights`) + ' \u00b7 root for the orange name';
-            body.innerHTML = rows.map(r => {
-                const side = (name, e, w) => {
-                    const cls = ['rg-name', r.pick === name ? 'pick' : '', r.done && r.winner === name ? 'won' : ''].filter(Boolean).join(' ');
-                    return `<span class="${cls}">${esc(name)}</span>`;
-                };
-                const last = name => String(name).trim().split(/\s+/).pop();
-                let chip;
-                if (r.done) {
-                    const good = r.pick ? r.pick === r.winner : null;
-                    chip = `<span class="rg-chip ${good === null ? 'low' : good ? 'yes' : 'no'}">${good === null ? '' : good ? '\u2713 ' : '\u2717 '}${esc(last(r.winner))} won</span>`;
-                } else {
-                    chip = `<span class="rg-chip ${r.tier}" title="Your exposure against the field's winning share, summed over both fighters">${r.pick ? rgTierLabel[r.tier] : 'either \u00b7 ' + rgTierLabel[r.tier]}</span>`;
-                }
-                return `<div class="rg-row ${r.done ? 'done' : ''} ${r.tier}">
-                    <div class="rg-top"><span class="rg-num">F${r.id}</span>${side(r.A)}<span class="rg-vs">vs</span>${side(r.B)}${chip}</div>
-                    <div class="rg-sub"><span>${esc(r.A)}: you <b>${r.eA.toFixed(0)}%</b> \u00b7 winners <b>${r.wA.toFixed(0)}%</b></span><span>${esc(r.B)}: you <b>${r.eB.toFixed(0)}%</b> \u00b7 winners <b>${r.wB.toFixed(0)}%</b></span></div>
-                </div>`;
-            }).join('');
+            // the Winners column carries a share bar against the most-relied-on fighter on the card
+            const maxW = Math.max(...rows.flatMap(r => [r.wA, r.wB]), 0) || 1;
+            const line = (r, name, e, w, first) => {
+                const won = r.done && r.winner === name;
+                const cls = ['name', r.pick === name ? 'pick' : '', r.done ? (won ? 'won' : 'lost') : ''].filter(Boolean).join(' ');
+                return `<tr class="${first ? 'rg-a' : 'rg-b'}">
+                    <td class="${cls}">${first ? `<span class="rg-num">F${r.id}</span>` : '<span class="rg-num"></span>'}${esc(name)}${won ? '<span class="rg-w">W</span>' : ''}</td>
+                    <td class="n">${e.toFixed(0)}%</td>
+                    <td class="n usd" style="background-size:${(100 * w / maxW).toFixed(1)}% 62%;">${w.toFixed(0)}%</td>
+                </tr>`;
+            };
+            body.innerHTML = `<div class="pex-body"><div class="pex-scroll"><table class="pex-table fx-table rg-table">
+                <thead><tr><th>Fighter</th><th class="n">You</th><th class="n">Winners</th></tr></thead>
+                <tbody>${rows.map(r => line(r, r.A, r.eA, r.wA, true) + line(r, r.B, r.eB, r.wB, false)).join('')}</tbody>
+            </table></div></div>`;
         }
         // One line under an expanded lineup: who that lineup roots for in the fights it
         // has no stake in, biggest swing first. Fights it holds a fighter in are obvious.

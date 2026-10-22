@@ -3091,9 +3091,18 @@
         .sdb-insight-note, .sdb-ladder-sub, .opt-note, .opt-upload-hint, .cmp-note, .flu-note, .sdb-legend { line-height: 1.55; }
         .filters, .chart-card { }
         .row-main:hover .expand-icon, .row-main.expanded .expand-icon { color: var(--accent); }
-        #username-table th:nth-child(n+4), #username-table td:nth-child(n+4),
-        #lineup-table th:nth-child(n+3), #lineup-table td:nth-child(n+3),
-        #portfolio-table th:nth-child(n+3), #portfolio-table td:nth-child(n+3) { text-align: right; }
+        /* lineup tables: every column centered except the username (and the lineup chips) */
+        #username-table th, #username-table td,
+        #lineup-table th, #lineup-table td,
+        #portfolio-table th, #portfolio-table td,
+        .whatif-table-scroll th, .whatif-table-scroll td { text-align: center; }
+        #username-table th.username, #username-table td.username,
+        #portfolio-table th.username, #portfolio-table td.username,
+        .whatif-table-scroll th.username, .whatif-table-scroll td.username,
+        #username-table th:nth-child(3), #portfolio-table th:nth-child(2), .whatif-table-scroll th:nth-child(3),
+        #lineup-table th:nth-child(2), #lineup-table td:nth-child(2) { text-align: left; }
+        /* the share bars stay anchored to the cell's left edge under the centered number */
+        #username-table td.depth, #lineup-table td.depth, #portfolio-table td.depth { text-align: center; }
         .lnav-tab, .tab-btn, .opt-btn, .flc-chip, .flu-sm, .flu-revert, .cmp-zoom button, .sdb-tile, .pair-toggle, .add-fav-btn, .back-btn, .portfolio-filter-label {
             transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.15s, filter 0.15s;
         }

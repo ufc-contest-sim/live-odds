@@ -24,6 +24,7 @@ git add *.json >nul 2>&1
 if exist DKSalaries.csv git add DKSalaries.csv
 if not exist DKSalaries.csv echo NOTE: DKSalaries.csv not found - check the filename has no spaces.
 if exist ufc_fight_stats.csv git add ufc_fight_stats.csv
+if exist ownership_history.csv git add ownership_history.csv
 :: Site icons (favicon), when present
 if exist favicon.ico git add favicon.ico
 if exist favicon-96x96.png git add favicon-96x96.png

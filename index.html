@@ -4356,6 +4356,7 @@
 
         @media (max-width: 600px) {
             .landing-nav { grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
+            .landing-nav .lnav-tab:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* an odd count: the last tab spans the row */
             .lnav-tab { padding: 10px 6px; font-size: 0.75rem; letter-spacing: 0.04em; }
             .view-tabs { width: auto; }
             .view-tabs .tab-btn { flex: 1 1 30%; padding: 9px 8px; text-align: center; }
@@ -4497,6 +4498,37 @@
             .lb-right .table-header { margin-top: 0; }
         }
 
+
+        /* --- Ownership Model --- */
+        .om-note { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin: 0 0 16px; max-width: 78ch; }
+        .om-note a { color: var(--accent-hi); }
+        .om-kpis { grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); }
+        .om-grid { margin-bottom: 20px; }
+        .om-svg .om-diag { stroke: var(--ink-3); stroke-width: 1.5; stroke-dasharray: 5 5; }
+        .om-svg .om-axis { fill: var(--text-secondary); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+        .om-svg .om-dot { fill: var(--accent); fill-opacity: 0.78; stroke: var(--bg-card); stroke-width: 1; cursor: pointer; }
+        .om-svg .om-dot.mid { fill: var(--accent-hi); fill-opacity: 0.55; }
+        .om-svg .om-dot.far { fill: var(--accent-red); fill-opacity: 0.75; }
+        .om-svg .om-dot:hover { fill-opacity: 1; }
+        .om-svg .om-evdot { cursor: pointer; }
+        .om-svg .om-evdot.sel { fill: var(--accent-hi); stroke: var(--accent-hi); }
+        .om-head { margin-top: 4px; }
+        .om-picker { display: flex; flex-wrap: wrap; gap: 6px; }
+        .om-picker button {
+            background: transparent; border: 1px solid var(--line-2); border-radius: var(--r-pill);
+            color: var(--text-secondary); font-family: var(--fn-mono); font-size: 0.72rem; font-weight: 600;
+            padding: 4px 10px; cursor: pointer;
+        }
+        .om-picker button:hover { color: var(--text-primary); border-color: rgba(255, 255, 255, 0.22); }
+        .om-picker button.active { background: rgba(var(--a-rgb), 0.12); border-color: var(--accent); color: var(--accent-hi); }
+        .om-table td.om-diff.up { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
+        .om-table td.om-diff.dn { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
+        .om-table td.om-miss {
+            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16));
+            background-repeat: no-repeat; background-position: 0 50%;
+            background-size: calc(var(--p, 0) * 100%) 62%;
+        }
+        @media (max-width: 760px) { .om-grid { grid-template-columns: minmax(0, 1fr); } .om-svg text { font-size: 15px; } }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4519,6 +4551,7 @@
             <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
             <button class="lnav-tab" data-view="lookup"><span>Fighter Stats</span></button>
+            <button class="lnav-tab" data-view="ownership"><span>Ownership</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
             <button class="lnav-tab" data-view="builder"><span>Hand Builder</span></button>
             <button class="lnav-tab" data-view="about"><span>About</span></button>
@@ -4678,6 +4711,31 @@
                 </div>
             </div>
         </div>
+        <div id="ownership-view" style="display:none;">
+            <div class="sdb-card">
+                <div class="sdb-title">Ownership</div>
+                <div class="om-note">Every event since July 2026: my projected ownership for each fighter against actual ownership in the week's Main GPP. Projections are posted in the <a href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">Discord</a> before lock. They are not published here until the event is final, so join the Discord if you want them ahead of time.</div>
+                <div id="omLoading" class="sdb-loading">Loading projections&hellip;</div>
+                <div id="omBody" style="display:none;">
+                    <div class="fs2-key om-kpis" id="omKpis"></div>
+                    <div class="tr-grid om-grid">
+                        <div class="tr-card">
+                            <div class="tr-head"><span class="tr-title">Projected vs actual</span><span class="tr-readout" id="omScatterRead"></span></div>
+                            <div class="tr-sub">One dot per fighter. On the line is a perfect call; above it the field drafted them more than projected.</div>
+                            <svg id="omScatter" class="tr-svg om-svg" viewBox="0 0 560 420" role="img" aria-label="Projected ownership against actual ownership"></svg>
+                        </div>
+                        <div class="tr-card">
+                            <div class="tr-head"><span class="tr-title">Error by event</span><span class="tr-readout" id="omLineRead"></span></div>
+                            <div class="tr-sub">Average miss per fighter, in ownership points, for each event.</div>
+                            <svg id="omLine" class="tr-svg om-svg" viewBox="0 0 560 420" role="img" aria-label="Mean absolute error by event"></svg>
+                        </div>
+                    </div>
+                    <div class="sx-fights-head om-head"><span class="sx-sec">By event</span><div class="om-picker" id="omPicker"></div><span class="sdb-count" id="omCount"></span></div>
+                    <div class="sdb-scroll"><table class="sdb-table om-table"><thead id="omHead"></thead><tbody id="omTBody"></tbody></table></div>
+                </div>
+            </div>
+        </div>
+
         <div id="scoringtrends-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Scoring Trends</div>
@@ -9457,6 +9515,151 @@
                 if (!trendsBuilt) { trendsBuilt = true; renderTrends(); wireTrendHover(); }
             }
 
+            // ---------- OWNERSHIP MODEL ----------
+            // ownership_history.csv: date,event,fighter,projected,actual (percent points).
+            // Everything below is derived in the browser from that one file.
+            let omRows = null, omEvents = null, omBuilt = false, omSel = 'all', omSortKey = 'diff', omSortDir = -1;
+            function omParse(txt) {
+                const out = [];
+                for (const line of txt.split(/\r?\n/).slice(1)) {
+                    if (!line.trim()) continue;
+                    const c = line.split(',');
+                    if (c.length < 5) continue;
+                    const proj = parseFloat(c[3]), act = parseFloat(c[4]);
+                    if (!isFinite(proj) || !isFinite(act)) continue;
+                    out.push({ date: c[0].trim(), event: c[1].trim(), fighter: c[2].trim(), proj, act, diff: act - proj, abs: Math.abs(act - proj) });
+                }
+                return out;
+            }
+            function omStats(rows) {
+                const n = rows.length; if (!n) return null;
+                const absd = rows.map(r => r.abs).sort((a, b) => a - b);
+                const mae = absd.reduce((a, b) => a + b, 0) / n;
+                const med = n % 2 ? absd[(n - 1) / 2] : (absd[n / 2 - 1] + absd[n / 2]) / 2;
+                const bias = rows.reduce((a, r) => a + r.diff, 0) / n;
+                const mp = rows.reduce((a, r) => a + r.proj, 0) / n, ma = rows.reduce((a, r) => a + r.act, 0) / n;
+                let sxy = 0, sxx = 0, syy = 0;
+                for (const r of rows) { sxy += (r.proj - mp) * (r.act - ma); sxx += (r.proj - mp) ** 2; syy += (r.act - ma) ** 2; }
+                const corr = sxx && syy ? sxy / Math.sqrt(sxx * syy) : 0;
+                const w3 = rows.filter(r => r.abs <= 3).length / n, w5 = rows.filter(r => r.abs <= 5).length / n;
+                return { n, mae, med, bias, corr, w3, w5 };
+            }
+            function omSelRows() { return omSel === 'all' ? omRows : omRows.filter(r => r.date === omSel); }
+            function omEventLabel(e) { const d = new Date(e.date + 'T12:00:00'); return isNaN(d) ? e.event : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+            function omRenderKpis() {
+                const st = omStats(omSelRows()); const el = document.getElementById('omKpis'); if (!st) { el.innerHTML = ''; return; }
+                const tile = (l, v, sub) => `<div class="fs2-ktile"><div class="l">${l}</div><div class="v">${v}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
+                el.innerHTML = tile('Events', omSel === 'all' ? omEvents.length : 1)
+                    + tile('Fighters', st.n.toLocaleString())
+                    + tile('Avg miss', st.mae.toFixed(2) + '<span class="raw">pts</span>', 'mean absolute error')
+                    + tile('Median miss', st.med.toFixed(2) + '<span class="raw">pts</span>')
+                    + tile('Within 3 pts', Math.round(100 * st.w3) + '%', `within 5: ${Math.round(100 * st.w5)}%`)
+                    + tile('Correlation', st.corr.toFixed(3), 'projected vs actual')
+                    + tile('Bias', (st.bias >= 0 ? '+' : '') + st.bias.toFixed(2) + '<span class="raw">pts</span>', st.bias >= 0 ? 'field drafted more than projected' : 'field drafted less than projected');
+            }
+            function omRenderScatter() {
+                const svg = document.getElementById('omScatter'); if (!svg) return;
+                const rows = omSelRows(); svg.innerHTML = '';
+                const W = 560, H = 420, M = { l: 48, r: 16, t: 14, b: 40 }, pw = W - M.l - M.r, ph = H - M.t - M.b;
+                const maxV = Math.max(10, Math.ceil(Math.max(...rows.map(r => Math.max(r.proj, r.act))) / 10) * 10);
+                const x = v => M.l + v / maxV * pw, y = v => M.t + ph - v / maxV * ph;
+                let g = '';
+                for (let v = 0; v <= maxV; v += 10) {
+                    g += `<line class="tr-gridline" x1="${x(v).toFixed(1)}" x2="${x(v).toFixed(1)}" y1="${M.t}" y2="${M.t + ph}"></line>`;
+                    g += `<line class="tr-gridline" x1="${M.l}" x2="${M.l + pw}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"></line>`;
+                    g += `<text x="${x(v).toFixed(1)}" y="${M.t + ph + 16}" text-anchor="middle">${v}%</text>`;
+                    g += `<text x="${M.l - 6}" y="${(y(v) + 3.5).toFixed(1)}" text-anchor="end">${v}%</text>`;
+                }
+                g += `<line class="om-diag" x1="${x(0)}" y1="${y(0)}" x2="${x(maxV)}" y2="${y(maxV)}"></line>`;
+                g += `<text class="om-axis" x="${M.l + pw / 2}" y="${H - 6}" text-anchor="middle">Projected ownership</text>`;
+                g += `<text class="om-axis" x="12" y="${M.t + ph / 2}" text-anchor="middle" transform="rotate(-90 12 ${M.t + ph / 2})">Actual ownership</text>`;
+                g += rows.map((r, i) => `<circle class="om-dot ${r.abs <= 3 ? 'ok' : r.abs <= 6 ? 'mid' : 'far'}" data-i="${i}" cx="${x(r.proj).toFixed(1)}" cy="${y(r.act).toFixed(1)}" r="${omSel === 'all' ? 3.2 : 5}"></circle>`).join('');
+                svg.innerHTML = g;
+                const read = document.getElementById('omScatterRead');
+                svg.onmousemove = e => {
+                    const t = e.target; if (!t.classList || !t.classList.contains('om-dot')) return;
+                    const r = rows[+t.dataset.i];
+                    read.innerHTML = `${r.fighter} \u00b7 ${omEventLabel(r)} \u00b7 proj <span class="n">${r.proj.toFixed(1)}%</span> \u00b7 actual <span class="n">${r.act.toFixed(1)}%</span>`;
+                };
+                svg.onmouseleave = () => { read.textContent = ''; };
+            }
+            function omRenderLine() {
+                const svg = document.getElementById('omLine'); if (!svg) return;
+                const ev = omEvents; svg.innerHTML = '';
+                const W = 560, H = 420, M = { l: 48, r: 16, t: 14, b: 40 }, pw = W - M.l - M.r, ph = H - M.t - M.b;
+                const vals = ev.map(e => e.st.mae);
+                const hi = Math.max(6, Math.ceil(Math.max(...vals)) + 1), lo = 0;
+                const x = i => M.l + (ev.length > 1 ? i / (ev.length - 1) : 0.5) * pw, y = v => M.t + ph - (v - lo) / (hi - lo) * ph;
+                let g = '';
+                for (let v = 0; v <= hi; v += 1) {
+                    g += `<line class="tr-gridline" x1="${M.l}" x2="${M.l + pw}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"></line>`;
+                    g += `<text x="${M.l - 6}" y="${(y(v) + 3.5).toFixed(1)}" text-anchor="end">${v}</text>`;
+                }
+                const every = Math.ceil(ev.length / 7);
+                ev.forEach((e, i) => { if (i % every === 0 || i === ev.length - 1) g += `<text x="${x(i).toFixed(1)}" y="${M.t + ph + 16}" text-anchor="middle">${omEventLabel(e)}</text>`; });
+                const pts = vals.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
+                const line = 'M' + pts.join('L');
+                const area = line + `L${x(ev.length - 1).toFixed(1)},${M.t + ph}L${x(0).toFixed(1)},${M.t + ph}Z`;
+                g += `<defs><linearGradient id="omFill" x1="0" y1="0" x2="0" y2="1"><stop class="tr-stop-top" offset="0"></stop><stop class="tr-stop-base" offset="1"></stop></linearGradient></defs>`;
+                g += `<path class="tr-area" style="fill:url(#omFill)" d="${area}"></path><path class="tr-line" d="${line}"></path>`;
+                g += ev.map((e, i) => `<circle class="tr-dot om-evdot${e.date === omSel ? ' sel' : ''}" data-d="${e.date}" cx="${x(i).toFixed(1)}" cy="${y(vals[i]).toFixed(1)}" r="${e.date === omSel ? 6 : 4}"></circle>`).join('');
+                g += `<text class="om-axis" x="${M.l + pw / 2}" y="${H - 6}" text-anchor="middle">Event</text>`;
+                g += `<text class="om-axis" x="12" y="${M.t + ph / 2}" text-anchor="middle" transform="rotate(-90 12 ${M.t + ph / 2})">Avg miss (pts)</text>`;
+                svg.innerHTML = g;
+                const read = document.getElementById('omLineRead');
+                svg.onmousemove = e => {
+                    const t = e.target; if (!t.classList || !t.classList.contains('om-evdot')) return;
+                    const ev1 = omEvents.find(q => q.date === t.dataset.d); if (!ev1) return;
+                    read.innerHTML = `${omEventLabel(ev1)} \u00b7 ${ev1.st.n} fighters \u00b7 avg miss <span class="n">${ev1.st.mae.toFixed(2)}</span> \u00b7 within 3: <span class="n">${Math.round(100 * ev1.st.w3)}%</span>`;
+                };
+                svg.onmouseleave = () => { read.textContent = ''; };
+                svg.onclick = e => { const t = e.target; if (t.classList && t.classList.contains('om-evdot')) { omSel = omSel === t.dataset.d ? 'all' : t.dataset.d; omRenderAll(); } };
+            }
+            function omRenderPicker() {
+                const el = document.getElementById('omPicker');
+                el.innerHTML = `<button type="button" class="${omSel === 'all' ? 'active' : ''}" data-d="all">All events</button>` +
+                    omEvents.slice().reverse().map(e => `<button type="button" class="${omSel === e.date ? 'active' : ''}" data-d="${e.date}">${omEventLabel(e)}</button>`).join('');
+            }
+            function omRenderTable() {
+                const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+                const rows = omSelRows().slice();
+                const key = omSortKey, dir = omSortDir;
+                rows.sort((a, b) => {
+                    if (key === 'fighter' || key === 'event') { const av = String(a[key === 'event' ? 'date' : key]).toLowerCase(), bv = String(b[key === 'event' ? 'date' : key]).toLowerCase(); return av < bv ? -dir : av > bv ? dir : 0; }
+                    return (a[key] - b[key]) * dir;
+                });
+                const cols = [['event', 'Event', true], ['fighter', 'Fighter', true], ['proj', 'Projected', false], ['act', 'Actual', false], ['diff', 'Diff', false], ['abs', 'Miss', false]];
+                if (omSel !== 'all') cols.shift();
+                document.getElementById('omHead').innerHTML = '<tr>' + cols.map(([k, l, left]) =>
+                    `<th class="${left ? 'l ' : ''}sortable${k === key ? ' sorted' : ''}" data-key="${k}">${l}${k === key ? (dir < 0 ? ' \u25be' : ' \u25b4') : ''}</th>`).join('') + '</tr>';
+                const maxAbs = Math.max(...rows.map(r => r.abs), 1);
+                document.getElementById('omTBody').innerHTML = rows.map(r => {
+                    const t = Math.min(1, r.abs / 12);
+                    const shade = r.abs < 1.5 ? '' : ` class="om-diff ${r.diff > 0 ? 'up' : 'dn'}" style="--t:${t.toFixed(2)}"`;
+                    return `<tr>${omSel === 'all' ? `<td class="l">${omEventLabel(r)}</td>` : ''}<td class="l"><b>${esc(r.fighter)}</b></td><td>${r.proj.toFixed(1)}%</td><td>${r.act.toFixed(1)}%</td><td${shade}>${r.diff > 0 ? '+' : ''}${r.diff.toFixed(1)}</td><td class="om-miss" style="--p:${(r.abs / maxAbs).toFixed(3)}">${r.abs.toFixed(1)}</td></tr>`;
+                }).join('');
+                document.getElementById('omCount').textContent = `${rows.length} fighter${rows.length === 1 ? '' : 's'}`;
+            }
+            function omRenderAll() { omRenderKpis(); omRenderPicker(); omRenderScatter(); omRenderLine(); omRenderTable(); }
+            async function openOwnership() {
+                if (omBuilt) return;
+                try {
+                    const resp = await fetch('ownership_history.csv?v=' + Date.now());
+                    if (!resp.ok) throw new Error('missing');
+                    omRows = omParse(await resp.text());
+                } catch (e) { document.getElementById('omLoading').textContent = 'No projection history is published yet.'; return; }
+                if (!omRows.length) { document.getElementById('omLoading').textContent = 'No projection history is published yet.'; return; }
+                const byDate = new Map();
+                for (const r of omRows) { if (!byDate.has(r.date)) byDate.set(r.date, { date: r.date, event: r.event, rows: [] }); byDate.get(r.date).rows.push(r); }
+                omEvents = [...byDate.values()].sort((a, b) => a.date < b.date ? -1 : 1).map(e => ({ ...e, st: omStats(e.rows) }));
+                document.getElementById('omLoading').style.display = 'none';
+                document.getElementById('omBody').style.display = '';
+                document.getElementById('omPicker').addEventListener('click', e => { const b = e.target.closest('button[data-d]'); if (!b) return; omSel = b.dataset.d; omRenderAll(); });
+                document.getElementById('omHead').addEventListener('mousedown', e => { const th = e.target.closest('th.sortable'); if (!th) return; const k = th.dataset.key; if (k === omSortKey) omSortDir = -omSortDir; else { omSortKey = k; omSortDir = (k === 'fighter' || k === 'event') ? 1 : -1; } omRenderTable(); });
+                omBuilt = true;
+                omRenderAll();
+            }
+
             // ---------- FIGHTER STATS ----------
             // Search-first career sheet: every fight as a full DK stat line, the
             // opponent's line in that same fight underneath (toggleable), and
@@ -10332,7 +10535,7 @@
             let insightsSub = 'explorer';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), xv = document.getElementById('scenario-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
+                const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), xv = document.getElementById('scenario-view'), mv = document.getElementById('ownership-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
                 if (cv) cv.style.display = view === 'contests' ? '' : 'none';
                 if (av) av.style.display = view === 'about' ? '' : 'none';
                 if (sn) sn.style.display = view === 'insights' ? '' : 'none';
@@ -10340,6 +10543,7 @@
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
                 if (tv) tv.style.display = view === 'insights' && insightsSub === 'trends' ? '' : 'none';
                 if (xv) xv.style.display = view === 'insights' && insightsSub === 'explorer' ? '' : 'none';
+                if (mv) mv.style.display = view === 'ownership' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (bv) bv.style.display = view === 'builder' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
@@ -10350,6 +10554,7 @@
                     else { insightsSub = 'explorer'; logTabOpen('opened_explorer'); openExplorer(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
+                if (view === 'ownership') { logTabOpen('opened_ownership'); openOwnership(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
                 if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
                 if (view === 'about') logTabOpen('opened_about');

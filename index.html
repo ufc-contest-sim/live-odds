@@ -11271,9 +11271,13 @@
             let fluSlatePromise = null;
             function loadSlateBouts() {
                 if (fluSlatePromise) return fluSlatePromise;
-                return fluSlatePromise = fetch('DKSalaries.csv?v=' + Date.now())
-                    .then(r => { if (!r.ok) throw new Error('no slate'); return r.text(); })
-                    .then(t => {
+                // fight_order.json (written by publish from the sim workbook's FightIDs)
+                // sets the bout order when present; without it, start times decide
+                const orderP = fetch('fight_order.json?v=' + Date.now())
+                    .then(r => r.ok ? r.json() : null).catch(() => null);
+                return fluSlatePromise = Promise.all([fetch('DKSalaries.csv?v=' + Date.now())
+                    .then(r => { if (!r.ok) throw new Error('no slate'); return r.text(); }), orderP])
+                    .then(([t, order]) => {
                         const byGame = new Map();
                         for (const r of parseCSV(t)) {
                             const name = (r['Name'] || '').trim();
@@ -11295,6 +11299,16 @@
                         bouts.forEach(b => b.sort((a, z) => z.salary - a.salary));
                         bouts.sort((a, z) => a.time - z.time ||
                             Math.max(...z.map(f => f.salary)) - Math.max(...a.map(f => f.salary)));
+                        // the sim's fight IDs win: a bout takes the FightID of either fighter;
+                        // bouts the file doesn't know keep their start-time order at the end
+                        const key = n => (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z]/g, '');
+                        const fidOf = new Map();
+                        ((order && order.fights) || []).forEach(f => (f.fighters || []).forEach(n => fidOf.set(key(n), +f.fight_id)));
+                        bouts.forEach(b => { const hit = b.map(f => fidOf.get(key(f.name))).find(v => v != null); b.fid = hit != null ? hit : null; });
+                        if (bouts.some(b => b.fid != null)) {
+                            const rank = new Map(bouts.map((b, i) => [b, i]));
+                            bouts.sort((a, z) => (a.fid == null) - (z.fid == null) || (a.fid || 0) - (z.fid || 0) || rank.get(a) - rank.get(z));
+                        }
                         return bouts;
                     });
             }
@@ -11322,7 +11336,7 @@
                             if (!(pa && pz)) bits.push('<span class="fmx-tag thin">limited UFC data</span>');
                             const split = Math.max(0, Math.min(1, a.salary / ((a.salary + z.salary) || 1)));
                             return `<button type="button" class="fmx-card" data-bout="${i}">` +
-                                `<span class="fno">Fight ${i + 1}</span>` +
+                                `<span class="fno">Fight ${b.fid != null ? b.fid : i + 1}</span>` +
                                 `<span class="nm">${esc(a.name)}<span class="sal${a.salary >= z.salary ? ' hi' : ''}">$${a.salary.toLocaleString()}</span></span>` +
                                 `<span class="vs">VS</span>` +
                                 `<span class="nm rt">${esc(z.name)}<span class="sal${z.salary > a.salary ? ' hi' : ''}">$${z.salary.toLocaleString()}</span></span>` +

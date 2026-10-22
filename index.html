@@ -4453,14 +4453,10 @@
         .site-footer .footer-links a { color: var(--text-secondary); font-size: 0.78rem; text-decoration: underline; text-underline-offset: 3px; }
         .site-footer .footer-links a:hover { color: var(--accent-hi); }
 
-        /* --- search results: the outcome chart and the exposure list sit centered in
-               the card, with the title row aligned to the same edges --- */
+        /* --- search results: the outcome chart and the exposure list are two equal
+               halves of the card, so the seam between them sits on the card's midline --- */
         @media (min-width: 900px) {
-            .portfolio-chart-container {
-                padding-left: max(20px, calc((100% - 980px) / 2));
-                padding-right: max(20px, calc((100% - 980px) / 2));
-            }
-            .pcw-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+            .pcw-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
         }
         /* --- refine: end --- */
 </style>

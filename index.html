@@ -7123,9 +7123,14 @@
             return card.map(f => {
                 const A = f.fighter1, B = f.fighter2;
                 if (!A || !B) return null;
-                const mA = mine.map[A] || 0, mB = mine.map[B] || 0, fA = field.map[A] || 0, fB = field.map[B] || 0;
+                // yours: the win % of your lineups that hold the fighter (your stake).
+                // field: how often the field's winning lineup holds the fighter, as a
+                // share of the field's total win mass (ties and duplicate lineups each
+                // count as wins, so the raw sum runs well past 100 in big contests).
+                const mA = mine.map[A] || 0, mB = mine.map[B] || 0;
+                const fA = 100 * (field.map[A] || 0) / ft, fB = 100 * (field.map[B] || 0) / ft;
                 // the pick: where your share of your own win chance beats the field's share of theirs
-                const net = (mA / mt - fA / ft) - (mB / mt - fB / ft);
+                const net = (mA / mt - fA / 100) - (mB / mt - fB / 100);
                 const done = f.fighter1_score != null && f.fighter2_score != null;
                 const winner = done ? (Number(f.fighter1_score) >= Number(f.fighter2_score) ? A : B) : null;
                 const pick = Math.abs(net) < 0.005 ? null : (net > 0 ? A : B);
@@ -7158,7 +7163,7 @@
                 </tr>`;
             };
             body.innerHTML = `<div class="pex-body"><div class="pex-scroll"><table class="pex-table fx-table rg-table">
-                <thead><tr><th>Fighter</th><th class="n" title="The win % of your lineups that hold this fighter">Your win %</th><th class="n" title="The win % of every lineup in the field that holds this fighter">Field win %</th></tr></thead>
+                <thead><tr><th>Fighter</th><th class="n" title="The win % of your lineups that hold this fighter">Your win %</th><th class="n" title="How often the field's winning lineup holds this fighter">Field win %</th></tr></thead>
                 <tbody>${rows.map(r => line(r, r.A, r.mA, r.fA, true) + line(r, r.B, r.mB, r.fB, false)).join('')}</tbody>
             </table></div></div>`;
         }

@@ -4532,7 +4532,11 @@
         .sdb-title .sdb-title-note { font-family: var(--fn-mono); font-style: normal; font-weight: 500; letter-spacing: 0.03em; text-transform: none; color: var(--text-secondary); margin-left: 6px; }
         /* --- contest page: the stats strip sits above the lineups table, aligned to it;
                Fighter Exposure runs from the filter bar down the left column --- */
-        .stats-top { margin-bottom: 16px; }
+        .stats-top { margin-bottom: 14px; padding: 14px 20px 14px; }
+        .stats-top h3 { margin-bottom: 10px; }
+        .stats-top .ps-kpi { display: block; padding: 7px 12px 6px; }
+        .stats-top .ps-kpi .k { display: block; margin-bottom: 2px; }
+        .stats-top .ps-kpi .v { display: block; font-size: 1.2rem; }
         .stats-top .ps-kpis { grid-template-columns: repeat(6, minmax(0, 1fr)); }
         @media (max-width: 900px) { .stats-top .ps-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         @media (max-width: 420px) { .stats-top .ps-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -7202,11 +7206,10 @@
                 return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
             };
 
-            const expWins = portfolioWinPct / 100;
             document.getElementById('stats-vertical').innerHTML = `
                 <div class="ps-kpis">
                     <div class="ps-kpi"><span class="k">${label} lineups</span><b class="v">${totalLineups.toLocaleString()}</b></div>
-                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${portfolioWinPct.toFixed(2)}%</b><span class="s">sum of lineup win %${portfolioWinPct >= 100 ? ` \u00b7 \u2248 ${expWins.toFixed(2)} wins` : ''}</span></div>
+                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${portfolioWinPct.toFixed(2)}%</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio EV</span><b class="v ${portfolioNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(portfolioNetEV)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio ROI</span><b class="v ${portfolioROI >= 0 ? 'positive' : 'negative'}">${formatROI(portfolioROI)}</b></div>
                     <div class="ps-kpi"><span class="k">Avg dupes</span><b class="v">${avgDupes.toFixed(2)}</b></div>

@@ -3993,6 +3993,475 @@
             .fight-card-header { flex-wrap: wrap; gap: 8px; }
         }
     
+        /* --- classic port: landing + search --- */
+        /* Features built while the new look was the default and styled only
+           under body.v2: the results KPI strip, the chart + Fighter Exposure
+           panels, the contest filter and favorites dropdowns, the Win % share
+           bar on result rows, the sorted contest column and the live state of
+           the sim-mode pill. Classic (default) rules in the classic idiom:
+           rounded glass surfaces, orange pills and glows, Chakra Petch
+           numerals. The v2 block below still wins under body.v2; rules that
+           add surfaces or glows the flat v2 look never sets are scoped
+           body:not(.v2) so nothing leaks into it. */
+
+        /* --- masthead: the sim-mode pill goes mint with a pulsing dot once the sim is live
+               (the .is-live class comes from the lock countdown). The glow colors are the
+               fight-night --accent-green (#2fe08a) as rgb, since box-shadow cannot take a hex var. --- */
+        @keyframes simLiveDotClassic { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes simLiveBreatheClassic {
+            0%, 100% { box-shadow: 0 0 24px rgba(47, 224, 138, 0.22), inset 0 0 12px rgba(47, 224, 138, 0.08); }
+            50%      { box-shadow: 0 0 30px rgba(47, 224, 138, 0.34), inset 0 0 14px rgba(47, 224, 138, 0.12); }
+        }
+        body:not(.v2) .hero-badges #sim-mode-pill.is-live {
+            color: var(--accent-green);
+            border-color: rgba(47, 224, 138, 0.55);
+            background: rgba(47, 224, 138, 0.12);
+            animation: simLiveBreatheClassic 4.5s ease-in-out infinite;
+        }
+        body:not(.v2) #sim-mode-pill.is-live .dot {
+            background: var(--accent-green);
+            box-shadow: 0 0 8px rgba(47, 224, 138, 0.8);
+            animation: simLiveDotClassic 1.6s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            body:not(.v2) .hero-badges #sim-mode-pill.is-live, body:not(.v2) #sim-mode-pill.is-live .dot { animation: none; }
+        }
+
+        /* --- landing contest table: the sorted column marks itself on the orange header
+               with a darker wash and a solid caret (an orange caret would vanish on orange;
+               the .sorted class comes from renderContestTable). Total Prizes is already
+               green in classic. --- */
+        body:not(.v2) .contest-table th.sorted { background: rgba(0, 0, 0, 0.16); box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.35); }
+        body:not(.v2) .contest-table th.sorted::after { opacity: 1; }
+        body:not(.v2) .contest-table th.sortable:hover::after { opacity: 0.85; }
+
+        /* --- dropdowns (the contest filter in the portfolio card, the favorites in the
+               search bar): a pill-shaped trigger that glows orange while open or filtering,
+               a rounded glass panel with pill-shaped All / None buttons. --- */
+        body:not(.v2) .pfd-btn {
+            padding: 7px 14px; border-radius: 999px;
+            background: var(--fn-card-2, var(--glass-bg));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-secondary); font-weight: 700;
+            transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+        }
+        body:not(.v2) .pfd-btn:hover { background: var(--bg-hover); border-color: rgba(var(--a-rgb), 0.55); color: var(--text-primary); }
+        body:not(.v2) .pfd.open .pfd-btn {
+            background: rgba(var(--a-rgb), 0.14); border-color: var(--accent); color: var(--text-primary);
+            box-shadow: 0 0 0 3px rgba(var(--a-rgb), 0.16), 0 0 20px rgba(var(--a-rgb), 0.22);
+        }
+        body:not(.v2) .pfd-btn.filtered { background: rgba(var(--a-rgb), 0.14); border-color: var(--accent); color: var(--accent-hi); }
+        body:not(.v2) .pfd-count, body:not(.v2) .pfd-caret { color: var(--accent-hi); }
+        body:not(.v2) .pfd-menu {
+            padding: 8px; border-radius: 14px;
+            background: var(--fn-card-2, var(--bg-card));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(var(--a-rgb), 0.10), 0 0 30px rgba(var(--a-rgb), 0.12);
+        }
+        body:not(.v2) .favorites-tiles .fav-dd .pfd-menu { padding: 8px; }
+        body:not(.v2) .pfd-actions { padding: 2px 4px 9px; margin-bottom: 6px; border-bottom: 1px solid var(--fn-line, var(--border)); }
+        body:not(.v2) .pfd-actions button, body:not(.v2) .fav-me button {
+            font-family: 'Chakra Petch', monospace; font-size: 0.66rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+            padding: 4px 12px; border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-secondary); cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+        }
+        body:not(.v2) .pfd-actions button:hover, body:not(.v2) .fav-me button:hover {
+            background: rgba(var(--a-rgb), 0.14); border-color: var(--accent); color: var(--accent-hi);
+        }
+        body:not(.v2) .pfd-item { padding: 8px 10px; border-radius: 10px; }
+        body:not(.v2) .pfd-item:hover { background: rgba(var(--a-rgb), 0.10); }
+        body:not(.v2) .pfd-item input[type="checkbox"] { accent-color: var(--accent); }
+        /* favorites: the visitor's own row is pinned on top with its "you" tag, a Change
+           button and the remove cross; picking any row searches it */
+        body:not(.v2) .fav-item:hover .fav-name { color: var(--accent-hi); }
+        body:not(.v2) .fav-me { margin-bottom: 6px; padding-bottom: 10px; border-bottom: 1px solid var(--fn-line, var(--border)); border-radius: 10px 10px 0 0; }
+        body:not(.v2) .fav-you { color: var(--accent-hi); }
+        body:not(.v2) .fav-item .fav-remove { padding: 2px 7px; border-radius: 999px; transition: background 0.15s, color 0.15s, opacity 0.15s; }
+        body:not(.v2) .fav-item .fav-remove:hover { color: var(--accent-red); background: rgba(255, 93, 110, 0.14); opacity: 1; }
+        /* rename state: the row becomes an input and a Save pill on an orange wash */
+        body:not(.v2) .fav-me.editing, body:not(.v2) .fav-me.editing:hover { background: rgba(var(--a-rgb), 0.07); }
+        body:not(.v2) .fav-me input {
+            padding: 6px 12px; border-radius: 999px;
+            background: var(--fn-inset, var(--bg-card)); border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        body:not(.v2) .fav-me input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--a-rgb), 0.18); }
+        body:not(.v2) .fav-empty { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; letter-spacing: 0.5px; padding: 10px 8px; }
+
+        /* --- results header: the title and the entry count share the first line, the KPI
+               tiles fill a second (Portfolio EV and ROI at once; P(profit), Median, Worst and
+               Best once the distribution has loaded, so the pending tiles stay hidden). --- */
+        body:not(.v2) .search-results-header { flex-wrap: wrap; gap: 6px 16px; padding: 6px 18px 2px; margin-bottom: 14px; }
+        body:not(.v2) .search-results-summary { margin-left: auto; }
+        /* EV and ROI moved into the tiles; the summary keeps the entry count */
+        body:not(.v2) .srs-part:not(:first-child) { display: none; }
+        body:not(.v2) .srs-kpis { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; margin-top: 6px; }
+        body:not(.v2) .srs-kpi {
+            flex: 1 1 0; min-width: 118px; max-width: 280px;
+            display: flex; flex-direction: column; gap: 3px;
+            padding: 10px 14px 9px;
+            background: var(--fn-card-2, var(--glass-bg));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 4px 14px rgba(0, 0, 0, 0.25);
+        }
+        body:not(.v2) .srs-kpi .k {
+            font-family: 'Chakra Petch', monospace; font-size: 0.62rem; font-weight: 600;
+            letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-secondary); white-space: nowrap;
+        }
+        body:not(.v2) .srs-kpi .v {
+            font-family: 'Chakra Petch', monospace; font-size: 1.25rem; font-weight: 700; line-height: 1.1;
+            color: var(--text-primary); white-space: nowrap;
+        }
+        body:not(.v2) .srs-kpi .v.positive { color: var(--accent-green); }
+        body:not(.v2) .srs-kpi .v.negative { color: var(--accent-red); }
+        /* P(profit) is a probability, not money: it reads orange, like the brand, not mint */
+        body:not(.v2) #kpi-profit .v { color: var(--accent-hi); }
+        body:not(.v2) .srs-kpi.pending { display: none; }
+        /* Worst and Best now sit in the tiles; the chart keeps its axis only */
+        body:not(.v2) .portfolio-bar-markers { display: none; }
+
+        /* --- portfolio card: the title and the contest filter share the top line; the
+               chart and the Fighter Exposure list each get an inner panel, side by side on
+               desktop (the grid rule above) and stacked on phones. --- */
+        body:not(.v2) .portfolio-chart-container { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+        body:not(.v2) .portfolio-chart-container > .portfolio-chart-title { flex: 1 1 auto; margin: 0; color: var(--accent-lo); }
+        body:not(.v2) .portfolio-chart-container > .portfolio-filters { margin: 0 0 0 auto; }
+        body:not(.v2) .portfolio-chart-container > .portfolio-filters:empty { display: none; }
+        /* the filter sits at the card's right edge, so its menu hangs from the right */
+        body:not(.v2) .portfolio-chart-container .pfd-menu { left: auto; right: 0; }
+        body:not(.v2) .pcw-grid { flex: 1 1 100%; min-width: 0; }
+        body:not(.v2) .pcw-chart, body:not(.v2) .pcw-exposure {
+            min-width: 0;
+            background: var(--fn-card-2, var(--glass-bg));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+        body:not(.v2) .pcw-chart { padding: 14px 16px 12px; }
+        body:not(.v2) .pcw-exposure { margin-top: 14px; overflow: hidden; }
+        /* no fighters to list (nothing held, or no contest ticked): the panel goes, the chart takes the row */
+        body:not(.v2) .pcw-exposure:empty { display: none; }
+        body:not(.v2) .pcw-grid:has(> .pcw-exposure:empty) { display: block; }
+        /* Fighter Exposure: a header strip with the at-risk readout on the right, the
+           list with the card's own side padding, a footer strip for the totals */
+        body:not(.v2) .pex-title {
+            display: flex; align-items: center; gap: 10px;
+            margin: 0; padding: 12px 16px 10px;
+            color: var(--accent-lo);
+            border-bottom: 1px solid var(--fn-line, var(--border));
+        }
+        body:not(.v2) .pex-meta {
+            display: inline; margin-left: auto;
+            font-family: 'Chakra Petch', monospace; font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.5px; text-transform: none; color: var(--text-secondary); white-space: nowrap;
+        }
+        body:not(.v2) .pex-table th { padding: 9px 0 8px 8px; }
+        body:not(.v2) .pex-table td { padding: 8px 0 8px 8px; }
+        body:not(.v2) .pex-table th:first-child, body:not(.v2) .pex-table td:first-child { padding-left: 16px; }
+        body:not(.v2) .pex-table th:last-child, body:not(.v2) .pex-table td:last-child { padding-right: 16px; }
+        body:not(.v2) .pex-foot { margin: 0; padding: 10px 16px 11px; border-top: 1px solid var(--fn-line, var(--border)); }
+        body:not(.v2) .pex-foot span:first-child b { color: var(--accent-hi); }
+        @media (min-width: 900px) {
+            body:not(.v2) .pcw-grid { gap: 16px; }
+            body:not(.v2) .pcw-exposure { margin-top: 0; }
+            /* the sticky header and the "more below" fade paint in the panel's own color */
+            body:not(.v2) .pex-table thead th { background: var(--fn-card-2, var(--bg-card)); }
+            body:not(.v2) .pex-body::after { background: linear-gradient(to bottom, transparent, var(--fn-card-2, var(--bg-card))); }
+        }
+
+        /* --- result rows: Win % carries the same share bar as the exposure list's $ cell
+               (percent of 100 over a faint track, --p set inline by the renderer) --- */
+        body:not(.v2) .search-result-stat.sr-share { min-width: 112px; }
+        body:not(.v2) .search-result-stat.sr-share .sr-value {
+            display: block; padding: 1px 8px; border-radius: 6px;
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.20), rgba(var(--a-rgb), 0.20)),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 100%, 100% 100%;
+            background-position: 0 50%, 0 50%;
+        }
+
+        /* --- phones --- */
+        @media (max-width: 768px) {
+            /* the Win % stat takes the slack and its bar becomes a thin line under the number */
+            body:not(.v2) .search-result-stat.sr-share { flex: 1 1 auto; min-width: 0; }
+            body:not(.v2) .search-result-stat.sr-share .sr-value {
+                max-width: 132px; padding: 0 0 5px; border-radius: 0;
+                background-size: calc(var(--p, 0) * 100%) 3px, 100% 3px;
+                background-position: 0 100%, 0 100%;
+            }
+            /* the at-risk readout drops under the Fighter Exposure title */
+            body:not(.v2) .pex-title { flex-wrap: wrap; gap: 4px 10px; padding: 10px 14px 8px; }
+            body:not(.v2) .pex-meta { flex-basis: 100%; margin-left: 0; }
+            body:not(.v2) .pex-table th:first-child, body:not(.v2) .pex-table td:first-child { padding-left: 14px; }
+            body:not(.v2) .pex-table th:last-child, body:not(.v2) .pex-table td:last-child { padding-right: 14px; }
+            body:not(.v2) .pex-foot { padding: 9px 14px 10px; }
+            body:not(.v2) .pcw-chart { padding: 12px 12px 10px; }
+        }
+        @media (max-width: 600px) {
+            /* the entry count sits under the title; three KPI tiles per row */
+            body:not(.v2) .search-results-header { gap: 4px; padding: 6px 14px 2px; }
+            body:not(.v2) .search-results-summary { margin-left: 0; }
+            body:not(.v2) .srs-kpis { gap: 8px; margin-top: 10px; }
+            body:not(.v2) .srs-kpi { flex: 1 1 calc(33.333% - 6px); min-width: 0; padding: 8px 10px 7px; }
+            body:not(.v2) .srs-kpi .k { font-size: 0.56rem; letter-spacing: 1px; }
+            body:not(.v2) .srs-kpi .v { font-size: 1.02rem; }
+        }
+
+        /* --- classic port: contest page --- */
+        /* =====================================================================
+           CLASSIC PORT: contest page (#leaderboard-page and its five views).
+           Features that were styled only under body.v2 (share bars, Optimal %
+           shading, uniqueness counts, live scores, sorted headers, the hint
+           line, phone tabs and phone charts) in the classic idiom: dark glass,
+           rounded, orange. Unscoped, so the v2 block below (body.v2) still
+           overrides; rules that must not reach v2 sit under body:not(.v2).
+           ===================================================================== */
+        /* --- share bars behind Win % / Cash % (td.depth, --p = percent / 100):
+               the exposure table's $ bar, left-aligned, an ember that fades
+               toward its tip over a fainter full-width track --- */
+        td.depth {
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.34), rgba(var(--a-rgb), 0.14)),
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.06), rgba(var(--a-rgb), 0.06));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * (100% - 24px)) min(64%, 22px), calc(100% - 24px) min(64%, 22px);
+            background-position: 12px 50%, 12px 50%;
+        }
+        /* --- sorted column on the gradient header: the Score Database notch
+               (dark cell, orange ink, caret at full strength); the hover rule
+               that dims header ink must not swallow it --- */
+        body:not(.v2) #username-table thead th.sorted, body:not(.v2) #lineup-table thead th.sorted,
+        body:not(.v2) #portfolio-table thead th.sorted, body:not(.v2) .whatif-table-scroll thead th.sorted,
+        body:not(.v2) #username-table thead th.sorted:hover, body:not(.v2) #lineup-table thead th.sorted:hover,
+        body:not(.v2) #portfolio-table thead th.sorted:hover, body:not(.v2) .whatif-table-scroll thead th.sorted:hover {
+            background: #101014;
+            color: var(--accent-hi);
+        }
+        body:not(.v2) #username-table thead th.sorted::after, body:not(.v2) #lineup-table thead th.sorted::after,
+        body:not(.v2) #portfolio-table thead th.sorted::after, body:not(.v2) .whatif-table-scroll thead th.sorted::after { opacity: 1; }
+        /* --- Fighter Exposure and the Insights Fighters table: Optimal % shades
+               from the column's white ink toward mint above the slate median and
+               toward coral below it, --t (0..1) setting the strength --- */
+        .fighter-draft-table .opt-pct.hi, .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 85%), var(--text-primary)); }
+        .fighter-draft-table .opt-pct.lo, .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 85%), var(--text-primary)); }
+        /* Insights Fighters: Draft % is the key number, as in Fighter Exposure; a live score is orange */
+        .dupe-table .draft-pct { color: var(--accent-lo); font-weight: 600; }
+        .dupe-table td.sc { color: var(--accent-lo); font-weight: 700; }
+        /* --- Lineup Uniqueness: unique lineups mint, lineups duped 5+ coral, zeros quiet --- */
+        .dupe-table td.u-up { color: var(--accent-green); font-weight: 700; }
+        .dupe-table td.u-down { color: var(--accent-red); font-weight: 700; }
+        .dupe-table td.u-nil { color: rgba(255, 255, 255, 0.3); }
+        /* --- Portfolio Stats: Win % is the panel's key number (EV and ROI already carry sign) --- */
+        .stat-row .value.key { color: var(--text-primary); }
+        /* --- table header line: the "Click row" hint takes the row-count's
+               label voice (its color and size are inline, read from --accent
+               and --hint-fs, so only the tokens and the type change here) --- */
+        body:not(.v2) .table-header > div:last-child, body:not(.v2) .whatif-right-header > div:last-child {
+            --hint-fs: 0.72rem;
+            font-family: 'Chakra Petch', monospace;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-align: right;
+            line-height: 1.4;
+        }
+        @media (max-width: 600px) {
+            /* contest view tabs: the five pills share two full-width rows
+               instead of a ragged centered wrap; nothing scrolls sideways */
+            body:not(.v2) .leaderboard-page .view-tabs { gap: 6px; }
+            body:not(.v2) .leaderboard-page .view-tabs .tab-btn { flex: 1 1 auto; padding: 10px 12px; text-align: center; }
+            /* contest Insights: the two 860x470 SVGs scroll inside their card
+               instead of shrinking to a thumbnail */
+            .insights-leverage, .insights-pairing { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            #chart-leverage, #chart-pairing { min-width: 640px; }
+        }
+
+        /* --- classic port: insights, fighter stats, optimizer, builder --- */
+        /* =====================================================================
+           CLASSIC PORT: features that were built while the v2 look was the
+           default and whose styling lived only in the v2 look block. Every
+           rule here is the classic idiom (dark glass, rounded, orange with a
+           soft glow, Chakra Petch numerals) and sits before the v2 block, so
+           the v2 rules still override it under body.v2. The few cosmetic
+           declarations v2 never resets (weights, a border, a radius) are
+           scoped body:not(.v2) so they stay out of that look.
+           ===================================================================== */
+
+        /* --- Score Database: a method-family dot before the method (the renderer
+               adds meth-ko / meth-dec / meth-sub / meth-oth), the win bonus green
+               when it was earned, the match count's number in orange --- */
+        #scoringdb-view .sdb-table td.meth::before {
+            content: ''; display: inline-block; width: 8px; height: 8px; margin: 0 7px 0 0;
+            vertical-align: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.28);
+        }
+        #scoringdb-view .sdb-table td.meth-ko::before { background: #d92e44; }    /* TREND_STACK KO/TKO */
+        #scoringdb-view .sdb-table td.meth-dec::before { background: #5b7fe8; }   /* TREND_STACK Decision */
+        #scoringdb-view .sdb-table td.meth-sub::before { background: #0fa862; }   /* TREND_STACK Submission */
+        #scoringdb-view .sdb-table td.pts.bonus { color: var(--accent-green); font-weight: 700; }
+        .sdb-count .n { color: var(--accent-hi); font-weight: 700; }
+
+        /* --- Scoring Trends: the series is orange over an orange fade (a per-chart
+               SVG gradient the renderer binds through --tr-fill); the current value,
+               the hover crosshair and the readout value read orange; the dots get a
+               dark halo so they sit on the line --- */
+        .tr-area { fill: var(--tr-fill, rgba(255, 106, 18, 0.10)); }
+        .tr-svg .tr-stop-top { stop-color: var(--accent); stop-opacity: 0.30; }
+        .tr-svg .tr-stop-base { stop-color: var(--accent); stop-opacity: 0; }
+        .tr-svg .tr-endval { fill: var(--accent-hi); }
+        .tr-dot { stroke: var(--bg-card); stroke-width: 1.5; }
+        .tr-cross { stroke: rgba(var(--a-rgb), 0.55); }
+        .tr-readout .n { color: var(--accent-hi); font-weight: 700; }
+
+        /* --- Fighter Stats hero: wins green, losses red, draws and no-contests quiet;
+               the record text itself goes quiet so the two numbers carry the color --- */
+        .fsx-hero .rec { color: var(--text-secondary); font-weight: 600; }
+        .fsx-hero .rec .rw { color: var(--accent-green); }
+        .fsx-hero .rec .rl { color: var(--accent-red); }
+        .fsx-hero .rec .rd { color: var(--text-secondary); }
+        body:not(.v2) .fsx-hero .rec .rw, body:not(.v2) .fsx-hero .rec .rl, body:not(.v2) .fsx-hero .rec .rd { font-weight: 700; }
+        /* --- record log and fight box score: a method dot per fight in the Trends
+               stack colors (KO/TKO, Submission, Decision), neutral for the rest --- */
+        .fsx-mdot {
+            display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px;
+            vertical-align: 1px; background: rgba(255, 255, 255, 0.28);
+        }
+        .fsx-mdot.ko { background: #d92e44; }     /* TREND_STACK KO/TKO */
+        .fsx-mdot.sub { background: #0fa862; }    /* TREND_STACK Submission */
+        .fsx-mdot.dec { background: #5b7fe8; }    /* TREND_STACK Decision */
+        .fxm-sub .fsx-mdot { margin-right: 5px; }
+        /* --- stats profile: green or red percentile ranks (60th and up, 40th and
+               down) on the KPI tiles and the rows, an orange count pill per accordion --- */
+        .fs2-pc.up, .fs2-row .pct.up { color: var(--accent-green); }
+        .fs2-pc.dn, .fs2-row .pct.dn { color: var(--accent-red); }
+        body:not(.v2) .fs2-pc.up, body:not(.v2) .fs2-row .pct.up, body:not(.v2) .fs2-pc.dn, body:not(.v2) .fs2-row .pct.dn { font-weight: 700; }
+        .fs2-sec .cnt {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-width: 24px; height: 20px; padding: 0 8px; border-radius: 999px;
+            background: rgba(var(--a-rgb), 0.14); color: var(--accent-hi);
+            font-size: 0.66rem; font-weight: 700; letter-spacing: 0;
+        }
+        body:not(.v2) .fs2-sec .cnt { border: 1px solid rgba(var(--a-rgb), 0.4); }
+        @media (max-width: 700px) {
+            /* the phone row grid names areas (lbl, val, bar, pct) the stacked-bar rows do not have, which
+               pushed their label into an implicit column and lost the bar; stack those rows plainly */
+            .fs2-row.wide { display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
+            .fs2-row.wide .lbl { grid-area: auto; }
+        }
+        /* --- weekly matchups: two cards per row on wide screens, the favorite's
+               salary in orange, a salary-split bar under the names (the left
+               fighter's share of the pair's salary, --p from the renderer), the
+               "limited UFC data" tag as a quiet pill --- */
+        @media (min-width: 900px) {
+            .fmx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        .fmx-card .sal.hi { color: var(--accent-hi); }
+        body:not(.v2) .fmx-card .sal.hi { font-weight: 700; }
+        .fmx-card .edge {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+            border-top: 0; padding-top: 0; margin-top: 2px;
+        }
+        .fmx-card .fmx-sep { display: none; }
+        body:not(.v2) .fmx-split {
+            flex: 0 0 100%; height: 4px; border-radius: 999px; overflow: hidden;
+            background: linear-gradient(90deg,
+                var(--accent-hi) 0, var(--accent) calc(var(--p, 0.5) * 100% - 1px),
+                transparent calc(var(--p, 0.5) * 100% - 1px), transparent calc(var(--p, 0.5) * 100% + 1px),
+                rgba(255, 255, 255, 0.14) calc(var(--p, 0.5) * 100% + 1px));
+        }
+        .fmx-tag {
+            display: inline-flex; align-items: center; height: 20px; padding: 0 9px; border-radius: 999px;
+            font-family: 'Chakra Petch', monospace; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+            color: var(--text-secondary); border: 1px solid var(--glass-border);
+        }
+        body:not(.v2) .fmx-tag { background: rgba(255, 255, 255, 0.03); }
+        body:not(.v2) .fmx-card:hover .fmx-tag { border-color: rgba(var(--a-rgb), 0.4); }
+        @media (max-width: 600px) {
+            .fmx-card .edge { gap: 5px 6px; }
+            .fmx-tag { height: 22px; }
+        }
+
+        /* --- Lineup Optimizer: an entered projection / ownership / exposure reads
+               bright on a faint orange wash (the JS toggles .filled), an empty box
+               stays quiet; a locked row carries the orange rule, an excluded row a
+               red one with a red box; notes read green when a file applied and red
+               on an error; the exposure chips get the share bar behind the figure --- */
+        .opt-grid td.proj-cell input, .opt-grid td.own-cell input, .opt-grid td.exp-cell input { color: var(--text-secondary); }
+        .opt-grid td.proj-cell input:focus, .opt-grid td.own-cell input:focus, .opt-grid td.exp-cell input:focus { color: var(--text-primary); }
+        .opt-grid td.proj-cell input.filled, .opt-grid td.own-cell input.filled, .opt-grid td.exp-cell input.filled {
+            color: var(--text-primary); background: rgba(var(--a-rgb), 0.10); border-color: rgba(var(--a-rgb), 0.45);
+        }
+        body:not(.v2) .opt-grid td.proj-cell input.filled, body:not(.v2) .opt-grid td.own-cell input.filled, body:not(.v2) .opt-grid td.exp-cell input.filled { font-weight: 700; }
+        .opt-grid td.proj-cell input.filled:focus, .opt-grid td.own-cell input.filled:focus, .opt-grid td.exp-cell input.filled:focus { border-color: var(--accent); }
+        .opt-grid tr.locked td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+        .opt-grid input[data-k="exclude"] { accent-color: var(--accent-red); }
+        .opt-grid tr.excluded td { opacity: 0.45; }
+        .opt-grid tr.excluded td:first-child { box-shadow: inset 3px 0 0 var(--accent-red); }
+        .opt-grid tr.excluded td:last-child { opacity: 1; }   /* the red box stays red */
+        .opt-grid tr.excluded td.proj-cell input, .opt-grid tr.excluded td.own-cell input, .opt-grid tr.excluded td.exp-cell input {
+            color: var(--text-secondary); font-weight: 400; background: var(--fn-inset, var(--bg-card)); border-color: var(--glass-border);
+        }
+        .opt-note.ok { color: var(--accent-green); }
+        .opt-note.bad { color: var(--accent-red); }
+        body:not(.v2) .opt-note.ok, body:not(.v2) .opt-note.bad { font-weight: 600; }
+        .exp-chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.22), rgba(var(--a-rgb), 0.22));
+            background-repeat: no-repeat; background-size: calc(var(--p, 0) * 100%) 100%; background-position: 0 0;
+        }
+        .exp-chip:hover { border-color: var(--accent); }
+        .exp-chip.capped { background-image: linear-gradient(90deg, rgba(47, 224, 138, 0.16), rgba(47, 224, 138, 0.16)); }
+        @media (max-width: 640px) {
+            /* stacked fighter cards: an excluded card gets the red edge and stays readable, a locked one keeps the orange edge */
+            .opt-grid tr.excluded { opacity: 1; border-left-color: var(--accent-red); }
+            .opt-grid tr.excluded td { opacity: 0.5; }
+            .opt-grid tr.excluded td:first-child { box-shadow: none; }
+            .opt-grid tr.excluded td:nth-child(8) { opacity: 1; }
+            .opt-grid tr.locked td:first-child { box-shadow: none; }
+        }
+
+        /* --- Hand Builder: salary left green under the cap and red over it, filled
+               slots carry the orange rule and an F1..F6 badge (a CSS counter), a
+               picked pool row the orange rule, a marked-out row the red one --- */
+        .hb-meter:not(.empty) #hbLeft { color: var(--accent-green); }
+        body:not(.v2) .hb-meter:not(.empty) #hbLeft { font-weight: 700; }
+        .hb-meter.over #hbLeft { color: var(--accent-red); }
+        .hb-meter.over .hb-count { border-color: var(--accent-red); color: var(--accent-red); }
+        .hb-slots { counter-reset: hbslot; }
+        .hb-slot { counter-increment: hbslot; }
+        .hb-slot:not(.empty) { box-shadow: inset 3px 0 0 var(--accent); }
+        .hb-slot:not(.empty)::before {
+            content: "F" counter(hbslot); flex: none; min-width: 20px;
+            font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 0.64rem; letter-spacing: 1px;
+            color: var(--accent-hi);
+        }
+        .hb-row.picked { box-shadow: inset 3px 0 0 var(--accent); }
+        .hb-row.cx { box-shadow: inset 3px 0 0 var(--accent-red); }
+        .hb-row.cx.picked { background: rgba(var(--a-rgb), 0.12); box-shadow: inset 3px 0 0 var(--accent-red); }
+        .hb-row.cx .hb-name, .hb-row.cx .hb-sal { color: var(--text-secondary); }
+        /* --- portfolio cards: each What If score behind a share bar (its share of the
+               slate's best score, --p from the renderer) --- */
+        .hbp-f .sc { min-width: 56px; padding: 1px 5px; }
+        body:not(.v2) .hbp-f .sc { border-radius: 4px; }
+        .hbp-f .sc.share {
+            background-image:
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.22), rgba(var(--a-rgb), 0.22)),
+                linear-gradient(90deg, rgba(var(--a-rgb), 0.06), rgba(var(--a-rgb), 0.06));
+            background-repeat: no-repeat;
+            background-size: calc(var(--p, 0) * 100%) 100%, 100% 100%;
+            background-position: 0 0, 0 0;
+        }
+        .hbp-f.out .sc { color: var(--text-secondary); }
+        /* --- What If: a projection reads orange once it is typed, the empty box stays quiet --- */
+        .hbw-in::placeholder { color: var(--text-secondary); }
+        .hbw-in:not(:placeholder-shown) { color: var(--accent-hi); border-color: rgba(var(--a-rgb), 0.45); }
+        body:not(.v2) .hbw-in:not(:placeholder-shown) { font-weight: 700; background: rgba(var(--a-rgb), 0.08); }
+        .hbw-in:not(:placeholder-shown):focus { border-color: var(--accent); }
+
         /* =====================================================================
            SITE LOOK V2: Box Score shell + Tape content. Scoped to body.v2 so
            ?skin=classic (or deleting this block) restores the original look.
@@ -8925,7 +9394,8 @@
         // is the cell's own percent of 100 (via --p) over a faint full-width track,
         // left-aligned like the exposure table's $ bar; see body.v2 td.depth.
         function applyDepthWash(tbody, cols) {
-            if (!tbody || !document.body.classList.contains('v2')) return;
+            // contest.patch.py: share bars draw in both skins (td.depth is styled per skin)
+            if (!tbody) return;
             const rows = Array.from(tbody.querySelectorAll('tr.row-main'));
             for (const c of cols) {
                 const vals = rows.map(r => parseFloat((r.children[c] || { textContent: '' }).textContent) || 0);

@@ -4494,7 +4494,6 @@
         @media (min-width: 1500px) {
             .lb-cols { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 16px; align-items: start; }
             .lb-left .stats-and-fighters { margin-bottom: 0; }
-            .lb-left .ps-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .lb-right .table-header { margin-top: 0; }
         }
 
@@ -4531,6 +4530,22 @@
         @media (max-width: 760px) { .om-grid { grid-template-columns: minmax(0, 1fr); } .om-svg text { font-size: 15px; } }
 
         .sdb-title .sdb-title-note { font-family: var(--fn-mono); font-style: normal; font-weight: 500; letter-spacing: 0.03em; text-transform: none; color: var(--text-secondary); margin-left: 6px; }
+        /* --- contest page: the stats strip sits above the lineups table, aligned to it;
+               Fighter Exposure runs from the filter bar down the left column --- */
+        .stats-top { margin-bottom: 16px; }
+        .stats-top .ps-kpis { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+        @media (max-width: 900px) { .stats-top .ps-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 420px) { .stats-top .ps-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        /* stacked widths: stats, then the table, then the exposure list */
+        @media (max-width: 1499px) { .lb-cols { display: flex; flex-direction: column; } .lb-right { order: 1; } .lb-left { order: 2; } }
+        /* --- contest header: title, view tabs and the back button share one row on desktop --- */
+        .leaderboard-page header { align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; padding-bottom: 16px; }
+        .leaderboard-page header > div:first-child { flex: 1 1 auto; min-width: 0; }
+        .leaderboard-page header .lb-tabs { margin: 0; flex: 0 1 auto; }
+        .leaderboard-page header .back-btn { flex: none; }
+        @media (max-width: 1100px) {
+            .leaderboard-page header .lb-tabs { order: 3; flex-basis: 100%; width: auto; }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4918,18 +4933,17 @@
                     <h1 id="contest-name">UFC 300K KNOCKOUT SPECIAL</h1>
                     <div class="updated" id="last-updated">Last updated: --</div>
                 </div>
+                <div class="view-tabs lb-tabs">
+                    <button class="tab-btn active" onclick="switchView('username')"><span>By Username</span></button>
+                    <button class="tab-btn" onclick="switchView('lineup')"><span>By Lineup</span></button>
+                    <button class="tab-btn" onclick="switchView('portfolio')"><span>By Portfolio</span></button>
+                    <button class="tab-btn" onclick="switchView('whatif')"><span>What If</span></button>
+                    <button class="tab-btn" onclick="switchView('insights')"><span>Insights</span></button>
+                </div>
                 <button class="back-btn" onclick="showLanding()">
                     ← Contests
                 </button>
             </header>
-            
-            <div class="view-tabs">
-                <button class="tab-btn active" onclick="switchView('username')"><span>By Username</span></button>
-                <button class="tab-btn" onclick="switchView('lineup')"><span>By Lineup</span></button>
-                <button class="tab-btn" onclick="switchView('portfolio')"><span>By Portfolio</span></button>
-                <button class="tab-btn" onclick="switchView('whatif')"><span>What If</span></button>
-                <button class="tab-btn" onclick="switchView('insights')"><span>Insights</span></button>
-            </div>
             
             <div class="filters">
                 <div class="filter-group" id="username-filter">
@@ -4973,10 +4987,6 @@
             
             <div class="lb-cols"><div class="lb-left">
             <div class="stats-and-fighters">
-                <div class="stats-vertical">
-                    <h3>Portfolio Stats</h3>
-                    <div id="stats-vertical"></div>
-                </div>
 
                 <div class="fighter-draft-container fx-panel">
                     <div class="portfolio-chart-title pex-title">Fighter Exposure<span class="pex-meta" id="fx-meta"></span></div>
@@ -5007,6 +5017,10 @@
                 </div>
             </div>
             </div><div class="lb-right">
+            <div class="stats-vertical stats-top">
+                <h3 id="stats-title">Field Stats</h3>
+                <div id="stats-vertical"></div>
+            </div>
 
             <div class="table-header">
                 <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
@@ -5786,6 +5800,9 @@
             const statsPanel = document.querySelector('.stats-and-fighters');
             const filtersPanel = document.querySelector('.filters');
             const tableHeader = document.querySelector('.table-header');
+            // the stats strip above the table shows and hides with the exposure panel
+            const statsTop = document.querySelector('.stats-top');
+            if (statsTop) { const show = view === 'username' || view === 'lineup' || view === 'portfolio'; statsTop.style.display = show ? '' : 'none'; }
 
             // Dupes-by-User panel is only used on the Portfolio view
             document.getElementById('dupes-container').style.display = 'none';
@@ -7162,6 +7179,8 @@
             const isFiltered = document.getElementById('search-user').value;
 
             const label = isFiltered ? 'Filtered' : 'Total';
+            const st = document.getElementById('stats-title');
+            if (st) { const u = isFiltered.trim(); st.textContent = u ? `${u}${/s$/i.test(u) ? "'" : "'s"} Portfolio` : 'Field Stats'; }
 
             // Format ROI with commas (for thousands) and 1 decimal place
             const formatROI = (roi) => {

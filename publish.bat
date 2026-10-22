@@ -18,6 +18,11 @@ powershell -NoProfile -Command "$c = Get-Item 'DKSalaries.csv' -ErrorAction Sile
 :: in that order. Harmless if anything is missing.
 if exist export_fight_order.py python export_fight_order.py "Post Contest Sim.xlsm"
 
+:: Rebuild the salary and ownership history (archives this week's DKSalaries.csv,
+:: joins the model's ownership sheet with the fight database, fills blank actuals
+:: from the Main GPP). Harmless if anything is missing.
+if exist build_history.py python build_history.py
+
 :: Stage only the files this script manages. A file that is missing
 :: locally is simply not staged, so it can never be deleted from the site.
 git add *.json >nul 2>&1
@@ -25,6 +30,8 @@ if exist DKSalaries.csv git add DKSalaries.csv
 if not exist DKSalaries.csv echo NOTE: DKSalaries.csv not found - check the filename has no spaces.
 if exist ufc_fight_stats.csv git add ufc_fight_stats.csv
 if exist ownership_history.csv git add ownership_history.csv
+if exist fighter_history.csv git add fighter_history.csv
+if exist dk_salaries git add dk_salaries
 :: Site icons (favicon), when present
 if exist favicon.ico git add favicon.ico
 if exist favicon-96x96.png git add favicon-96x96.png

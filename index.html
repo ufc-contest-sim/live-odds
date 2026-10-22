@@ -4460,16 +4460,16 @@
         }
         @media (prefers-reduced-motion: reduce) { .skel-bar, .search-loading::after { animation: none; } }
 
-        /* --- footer link back to the classic look --- */
-        .site-footer .footer-links { margin: 0 0 10px; }
-        .site-footer .footer-links a { color: var(--text-secondary); font-size: 0.78rem; text-decoration: underline; text-underline-offset: 3px; }
-        .site-footer .footer-links a:hover { color: var(--accent-hi); }
 
         /* --- search results: the outcome chart and the exposure list are two equal
                halves of the card, so the seam between them sits on the card's midline --- */
         @media (min-width: 900px) {
             .pcw-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
         }
+        /* --- contest page: the stats strip spans the row and the Fighter Exposure and
+               Dupes lists stack under it at every width, each scrolling inside its own height --- */
+        .stats-and-fighters, .stats-and-fighters.three-col { grid-template-columns: 1fr; }
+        .fighter-draft-container, .dupes-container { max-height: 400px; overflow-y: auto; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5093,7 +5093,6 @@
     <div class="chart-tip" id="chart-tip"></div>
 
     <footer class="site-footer">
-        <p class="footer-links"><a href="classic.html">Switch to the classic look</a></p>
         <p>&copy; 2026 MMA LiveSim. Not affiliated with, endorsed by, or sponsored by the Ultimate Fighting Championship or Zuffa, LLC. All fighter names, marks, and event names are the property of their respective owners.</p>
     </footer>
 
@@ -7093,26 +7092,15 @@
             syncDraftHeight();
         }
 
+        // The Fighter Exposure and Dupes lists used to be capped to the Portfolio
+        // Stats panel's height. The stats are a short strip now, so the lists
+        // keep their own height (set in CSS) and scroll inside it.
         function syncDraftHeight() {
-            const statsEl = document.querySelector('.stats-vertical');
-            const draftEl = document.querySelector('.fighter-draft-container');
-            const dupesEl = document.querySelector('.dupes-container');
-            // only meaningful when the stats panel and the exposure table sit side by side
-            const grid = document.querySelector('.stats-and-fighters');
-            const cols = grid ? getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length : 1;
-            if (cols < 2) {
-                if (draftEl) draftEl.style.maxHeight = '';
-                if (dupesEl) dupesEl.style.maxHeight = '';
-                return;
-            }
-            if (statsEl && draftEl) {
-                draftEl.style.maxHeight = statsEl.offsetHeight + 'px';
-            }
-            if (statsEl && dupesEl) {
-                dupesEl.style.maxHeight = statsEl.offsetHeight + 'px';
+            for (const sel of ['.fighter-draft-container', '.dupes-container']) {
+                const el = document.querySelector(sel);
+                if (el) el.style.maxHeight = '';
             }
         }
-        window.addEventListener('resize', syncDraftHeight);
         
         function setSort(column) {
             if (currentSort === column) {

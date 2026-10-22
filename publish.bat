@@ -13,9 +13,10 @@ cd /d "%~dp0"
 :: download anywhere in this folder is enough.
 powershell -NoProfile -Command "$c = Get-Item 'DKSalaries.csv' -ErrorAction SilentlyContinue; $s = Get-ChildItem 'DKSalaries*.csv' -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne 'DKSalaries.csv' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if ($s -and (-not $c -or $s.LastWriteTime -gt $c.LastWriteTime)) { Move-Item -LiteralPath $s.FullName -Destination 'DKSalaries.csv' -Force; Write-Host ('Found newer download ' + $s.Name + ' - using it as DKSalaries.csv') }" 2>nul
 
-:: Write this week's fight order (the sim workbook's FightIDs) so the site
-:: lists bouts in the same order. Harmless if the workbook or openpyxl is missing.
-if exist "Post Contest Sim.xlsm" if exist export_fight_order.py python export_fight_order.py "Post Contest Sim.xlsm"
+:: Write this week's fight order (UFC Stats card order, main event first; the
+:: workbook's FightIDs if UFC Stats can't be reached) so the site lists bouts
+:: in that order. Harmless if anything is missing.
+if exist export_fight_order.py python export_fight_order.py "Post Contest Sim.xlsm"
 
 :: Stage only the files this script manages. A file that is missing
 :: locally is simply not staged, so it can never be deleted from the site.

@@ -2706,6 +2706,7 @@
         #scenario-view .sx-hist text { font-family: 'Chakra Petch', monospace; font-size: 12px; fill: var(--text-secondary); }
         #scenario-view .sx-hist .grid { stroke: var(--glass-border); stroke-width: 1; }
         #scenario-view .sx-hist .axis { stroke: var(--text-secondary); stroke-opacity: 0.45; stroke-width: 1; }
+        #scenario-view .sx-hist .axis-title { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; fill: var(--text-secondary); }
         #scenario-view .sx-hist .bar { fill: var(--accent); }
         #scenario-view .sx-hist .bar.hot { fill: var(--accent-hi); }
         #scenario-view .sx-hist .hit { fill: transparent; }
@@ -4619,7 +4620,7 @@
                             <span class="sx-hint">DK totals of the matching fights. Hover a bar for the count and share.</span>
                         </div>
                         <div id="sxHistEmpty" class="sx-empty" style="display:none;">No fights match this scenario.</div>
-                        <div class="sx-hist-scroll" id="sxHistScroll"><svg id="sxHist" class="sx-hist" viewBox="0 0 1120 340" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Histogram of DK totals over the matching fights"></svg></div>
+                        <div class="sx-hist-scroll" id="sxHistScroll"><svg id="sxHist" class="sx-hist" viewBox="0 0 1120 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Histogram of DK totals over the matching fights"></svg></div>
                         <div id="sxPcts" class="sx-pcts"></div>
                     </div>
                     <div class="sx-fights">
@@ -8753,7 +8754,7 @@
             // SX_ML is the floor of the left margin; the real one is measured per
             // render from the widest y-axis label (phones draw the axis text at 20
             // user units, so a five or six digit count needs more than 54).
-            const SX_W = 1120, SX_H = 340, SX_ML = 54, SX_MR = 12, SX_MT = 16, SX_MB = 34;
+            const SX_W = 1120, SX_H = 360, SX_ML = 54, SX_MR = 12, SX_MT = 16, SX_MB = 56;   // bottom holds the tick row and the axis title
 
             let SX_ROWS = null, sxLeague = { key: '', stats: null }, sxLast = [], sxLastDks = [];
             let sxWired = false, sxPopulated = false, sxSortKey = 'dk', sxSortDir = -1, sxRaf = 0, sxHotBar = null, sxResizeT = 0, sxResizeW = 0;
@@ -8965,21 +8966,14 @@
                     return;
                 }
                 const lo = sorted[0], hi = sorted[n - 1];
-                const binSel = 'auto';
-                let bin;
-                if (binSel === 'auto') {
-                    bin = hi === lo ? 1 : (sxNiceStep((hi - lo) / 40) || 1);
-                    if (stat.time) bin = Math.max(bin, 15);
-                    if (stat.int) bin = Math.max(bin, 1);
-                    // DK points carry one decimal: never slice finer than that
-                    if (!stat.int && !stat.time) bin = Math.max(bin, 0.1);
-                } else bin = +binSel || 1;
+                // DK totals in fixed 5-point buckets (90 to under 95, 95 to under 100, ...)
+                const bin = 5;
                 const b0 = Math.floor(lo / bin + 1e-9) * bin;
                 const nb = Math.max(1, Math.floor((hi - b0) / bin + 1e-9) + 1);
                 const bins = new Array(nb).fill(0);
                 for (let i = 0; i < n; i++) bins[Math.min(nb - 1, Math.floor((sorted[i] - b0) / bin + 1e-9))]++;
                 const maxC = Math.max(...bins);
-                const ml = sxLeftMargin(svg, maxC.toLocaleString());
+                const ml = sxLeftMargin(svg, maxC.toLocaleString()) + 24;   // room for the rotated axis title
                 const iw = SX_W - ml - SX_MR, ih = SX_H - SX_MT - SX_MB, bw = iw / nb;
                 const fmtV = v => stat.time ? sxMmss(v) : (bin < 1 ? v.toFixed(1) : String(Math.round(v)));
                 let el = '';
@@ -8995,13 +8989,18 @@
                     el += `<rect class="hit" data-i="${i}" x="${(ml + i * bw).toFixed(2)}" y="${SX_MT}" width="${bw.toFixed(2)}" height="${ih}"></rect>`;
                 });
                 const every = Math.ceil(nb / 14);
+                const tickY = SX_H - SX_MB + 20;
                 if (stat.int && bin === 1) {
                     // one bar per whole count: label under the bar, not on its edges
-                    for (let i = 0; i < nb; i += every) el += `<text x="${(ml + (i + 0.5) * bw).toFixed(1)}" y="${SX_H - 10}" text-anchor="middle">${fmtV(b0 + i * bin)}</text>`;
+                    for (let i = 0; i < nb; i += every) el += `<text x="${(ml + (i + 0.5) * bw).toFixed(1)}" y="${tickY}" text-anchor="middle">${fmtV(b0 + i * bin)}</text>`;
                 } else {
-                    for (let i = 0; i <= nb; i += every) el += `<text x="${(ml + i * bw).toFixed(1)}" y="${SX_H - 10}" text-anchor="middle">${fmtV(b0 + i * bin)}</text>`;
+                    for (let i = 0; i <= nb; i += every) el += `<text x="${(ml + i * bw).toFixed(1)}" y="${tickY}" text-anchor="middle">${fmtV(b0 + i * bin)}</text>`;
                 }
                 el += `<line class="axis" x1="${ml}" y1="${SX_MT + ih}" x2="${SX_W - SX_MR}" y2="${SX_MT + ih}"></line>`;
+                // axis titles
+                const cy = SX_MT + ih / 2;
+                el += `<text class="axis-title" x="${ml + iw / 2}" y="${SX_H - 8}" text-anchor="middle">DK total (5-point buckets)</text>`;
+                el += `<text class="axis-title" x="16" y="${cy.toFixed(1)}" text-anchor="middle" transform="rotate(-90 16 ${cy.toFixed(1)})">Fights</text>`;
                 svg.innerHTML = el;
                 // hover: the shared #chart-tip readout, like the contest charts
                 let cum = 0; const cums = bins.map(c => (cum += c));

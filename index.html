@@ -4356,6 +4356,7 @@
 
         @media (max-width: 600px) {
             .landing-nav { grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
+            .landing-nav .lnav-tab:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* an odd count: the last tab spans the row */
             .lnav-tab { padding: 10px 6px; font-size: 0.75rem; letter-spacing: 0.04em; }
             .view-tabs { width: auto; }
             .view-tabs .tab-btn { flex: 1 1 30%; padding: 9px 8px; text-align: center; }
@@ -4550,6 +4551,7 @@
             <button class="lnav-tab active" data-view="contests"><span>Contests</span></button>
             <button class="lnav-tab" data-view="insights"><span>Scoring Insights</span></button>
             <button class="lnav-tab" data-view="lookup"><span>Fighter Stats</span></button>
+            <button class="lnav-tab" data-view="ownership"><span>Ownership</span></button>
             <button class="lnav-tab" data-view="optimizer"><span>Lineup Optimizer</span></button>
             <button class="lnav-tab" data-view="builder"><span>Hand Builder</span></button>
             <button class="lnav-tab" data-view="about"><span>About</span></button>
@@ -4595,7 +4597,6 @@
             <button class="tab-btn active" data-isub="explorer"><span>Range of Outcomes</span></button>
             <button class="tab-btn" data-isub="database"><span>Score Database</span></button>
             <button class="tab-btn" data-isub="trends"><span>Scoring Trends</span></button>
-            <button class="tab-btn" data-isub="ownership"><span>Ownership Model</span></button>
         </div>
 
         <div id="scoringdb-view" style="display:none;">
@@ -4712,7 +4713,7 @@
         </div>
         <div id="ownership-view" style="display:none;">
             <div class="sdb-card">
-                <div class="sdb-title">Ownership Model</div>
+                <div class="sdb-title">Ownership</div>
                 <div class="om-note">Every event since July 2026: my projected ownership for each fighter against actual ownership in the week's largest-prize contest. Projections are posted in the <a href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">Discord</a> before lock. They are not published here until the event is final, so join the Discord if you want them ahead of time.</div>
                 <div id="omLoading" class="sdb-loading">Loading projections&hellip;</div>
                 <div id="omBody" style="display:none;">
@@ -10542,7 +10543,7 @@
                 if (iv) iv.style.display = view === 'insights' && insightsSub === 'ladder' ? '' : 'none';
                 if (tv) tv.style.display = view === 'insights' && insightsSub === 'trends' ? '' : 'none';
                 if (xv) xv.style.display = view === 'insights' && insightsSub === 'explorer' ? '' : 'none';
-                if (mv) mv.style.display = view === 'insights' && insightsSub === 'ownership' ? '' : 'none';
+                if (mv) mv.style.display = view === 'ownership' ? '' : 'none';
                 if (ov) ov.style.display = view === 'optimizer' ? '' : 'none';
                 if (bv) bv.style.display = view === 'builder' ? '' : 'none';
                 if (lu) lu.style.display = view === 'lookup' ? '' : 'none';
@@ -10550,10 +10551,10 @@
                     document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.isub === insightsSub));
                     if (insightsSub === 'database') { logTabOpen('opened_database'); openBoard(); }
                     else if (insightsSub === 'trends') { logTabOpen('opened_trends'); openTrends(); }
-                    else if (insightsSub === 'ownership') { logTabOpen('opened_ownership'); openOwnership(); }
                     else { insightsSub = 'explorer'; logTabOpen('opened_explorer'); openExplorer(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
+                if (view === 'ownership') { logTabOpen('opened_ownership'); openOwnership(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
                 if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
                 if (view === 'about') logTabOpen('opened_about');

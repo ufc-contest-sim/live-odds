@@ -4497,29 +4497,6 @@
             .lb-right .table-header { margin-top: 0; }
         }
 
-        /* --- Rooting guide: fights as pairs of rows, numbers in columns --- */
-        .rg-note { padding: 14px 16px; font-size: 0.84rem; color: var(--text-secondary); }
-        .rg-table th:nth-child(2), .rg-table td:nth-child(2) { width: 25%; }
-        .rg-table th:nth-child(3), .rg-table td:nth-child(3) { width: 28%; }
-        .rg-table th.n, .rg-table td.n { text-align: center; }
-        .rg-table td.name { display: flex; align-items: center; gap: 0; }
-        .rg-table .rg-num { display: inline-block; width: 30px; flex: none; font-family: var(--fn-mono); font-size: 0.6rem; color: var(--ink-3); letter-spacing: 0.05em; }
-        .rg-table td.name.pick { color: var(--accent-hi); }
-        .rg-table tr.rg-a td { border-bottom: 0; }
-        .rg-table tr.rg-b td { border-bottom: 1px solid var(--line-2); }
-        .rg-table tr.rg-a td { padding-bottom: 3px; }
-        .rg-table tr.rg-b td { padding-top: 3px; }
-        .rg-table td.name.lost { color: var(--ink-3); }
-        .rg-table td.name.won { color: var(--text-primary); }
-        .rg-table td.name.pick.won { color: var(--accent-hi); }
-        .rg-table .rg-w { margin-left: 6px; font-family: var(--fn-mono); font-size: 0.62rem; font-weight: 700; color: var(--accent-green); }
-        .rg-table tbody tr:hover td { background-color: transparent; }
-        .lu-root { margin: 4px 0 6px; font-size: 0.8rem; color: var(--text-secondary); }
-        .lu-root b { color: var(--text-primary); font-weight: 600; }
-        .lu-root .sw { font-family: var(--fn-mono); font-size: 0.6rem; color: var(--accent-hi); margin-left: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .lu-root .mark { margin-left: 4px; font-weight: 700; }
-        .lu-root .mark.yes { color: var(--accent-green); }
-        .lu-root .mark.no { color: var(--accent-red); }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4956,11 +4933,6 @@
                     </table>
                     </div></div>
                     <div class="pex-foot" id="fx-foot"></div>
-                </div>
-
-                <div class="rooting-container fx-panel" id="rooting-container">
-                    <div class="portfolio-chart-title pex-title">Rooting Guide<span class="pex-meta" id="rg-meta"></span></div>
-                    <div id="rg-body"></div>
                 </div>
 
                 <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
@@ -7078,121 +7050,8 @@
                 </tr>`;
             }).join('');
             const nLineups = (data || []).length;
-            renderRootingGuide(winMassMap(data), getWinMass());
             if (metaEl) metaEl.textContent = `${rows.length} fighter${rows.length === 1 ? '' : 's'}`;
             if (footEl) footEl.innerHTML = `<span><b>${nLineups.toLocaleString()}</b> lineup${nLineups === 1 ? '' : 's'}</span><span><b>${rows.length}</b> fighter${rows.length === 1 ? '' : 's'}</span>`;
-        }
-
-        // ---------- Rooting guide ----------
-        // Who you want to win each fight, and how much it matters, from numbers the
-        // page already has. Win LU % is the share of the field's winning lineups that
-        // hold a fighter; your exposure is the share of your lineups that do. The gap
-        // between the two, summed over both fighters, is the fight's swing for you;
-        // its sign picks the side. Field-level, so it ranks fights and picks a side.
-        let winMapCache = { src: null, map: null };
-        function getWinMap() {
-            if (winMapCache.src !== allData) winMapCache = { src: allData, map: calculateWinningLineupPct() };
-            return winMapCache.map;
-        }
-        // Win % riding on each fighter: the sum of WinPct over the given lineups that
-        // hold them, plus the total WinPct of those lineups. For the field this is the
-        // chance the winning lineup contains the fighter; for your lineups it is how
-        // much of your own win chance rides on them.
-        function winMassMap(rows) {
-            const map = {}; let total = 0;
-            (rows || []).forEach(row => {
-                const w = row.WinPct || 0;
-                if (!w) return;
-                total += w;
-                const seen = new Set();
-                for (let i = 1; i <= 6; i++) {
-                    const f = row[`F${i}`];
-                    if (f && !seen.has(f)) { seen.add(f); map[f] = (map[f] || 0) + w; }
-                }
-            });
-            return { map, total };
-        }
-        let winMassCache = { src: null, val: null };
-        function getWinMass() {
-            if (winMassCache.src !== allData) winMassCache = { src: allData, val: winMassMap(allData) };
-            return winMassCache.val;
-        }
-        function rootingRows(mine, field) {
-            // first fight of the night first (fight 1 is the main event)
-            const card = (contestFightCard || []).slice().sort((a, b) => (b.fight_id || 0) - (a.fight_id || 0));
-            const mt = mine.total || 1, ft = field.total || 1;
-            return card.map(f => {
-                const A = f.fighter1, B = f.fighter2;
-                if (!A || !B) return null;
-                // yours: the win % of your lineups that hold the fighter (your stake).
-                // field: how often the field's winning lineup holds the fighter, as a
-                // share of the field's total win mass (ties and duplicate lineups each
-                // count as wins, so the raw sum runs well past 100 in big contests).
-                const mA = mine.map[A] || 0, mB = mine.map[B] || 0;
-                const fA = 100 * (field.map[A] || 0) / ft, fB = 100 * (field.map[B] || 0) / ft;
-                // the pick: where your share of your own win chance beats the field's share of theirs
-                const net = (mA / mt - fA / 100) - (mB / mt - fB / 100);
-                const done = f.fighter1_score != null && f.fighter2_score != null;
-                const winner = done ? (Number(f.fighter1_score) >= Number(f.fighter2_score) ? A : B) : null;
-                const pick = Math.abs(net) < 0.005 ? null : (net > 0 ? A : B);
-                return { id: f.fight_id, A, B, mA, mB, fA, fB, pick, done, winner };
-            }).filter(Boolean);
-        }
-        function renderRootingGuide(mine, field) {
-            const body = document.getElementById('rg-body'), meta = document.getElementById('rg-meta');
-            if (!body) return;
-            const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-            const user = (document.getElementById('search-user') || { value: '' }).value.trim();
-            const rows = rootingRows(mine, field);
-            if (!user || !rows.length) {
-                body.innerHTML = `<div class="rg-note">${rows.length ? 'Enter a username to see who to root for in each fight.' : 'No fight card for this contest.'}</div>`;
-                if (meta) meta.textContent = '';
-                return;
-            }
-            const n = rows.length, nDone = rows.filter(r => r.done).length;
-            if (meta) meta.textContent = nDone === n ? `${n} fights \u00b7 final` : (nDone ? `${n - nDone} of ${n} left` : `${n} fights`) + ' \u00b7 root for the orange name';
-            // each column carries a share bar against its own largest value on the card
-            const maxM = Math.max(...rows.flatMap(r => [r.mA, r.mB]), 0) || 1;
-            const maxF = Math.max(...rows.flatMap(r => [r.fA, r.fB]), 0) || 1;
-            const line = (r, name, m, f, first) => {
-                const won = r.done && r.winner === name;
-                const cls = ['name', r.pick === name ? 'pick' : '', r.done ? (won ? 'won' : 'lost') : ''].filter(Boolean).join(' ');
-                return `<tr class="${first ? 'rg-a' : 'rg-b'}">
-                    <td class="${cls}">${first ? `<span class="rg-num">F${r.id}</span>` : '<span class="rg-num"></span>'}${esc(name)}${won ? '<span class="rg-w">W</span>' : ''}</td>
-                    <td class="n usd" style="background-size:${(100 * m / maxM).toFixed(1)}% 62%;">${m.toFixed(2)}%</td>
-                    <td class="n usd" style="background-size:${(100 * f / maxF).toFixed(1)}% 62%;">${f.toFixed(2)}%</td>
-                </tr>`;
-            };
-            body.innerHTML = `<div class="pex-body"><div class="pex-scroll"><table class="pex-table fx-table rg-table">
-                <thead><tr><th>Fighter</th><th class="n" title="The win % of your lineups that hold this fighter">Your win %</th><th class="n" title="How often the field's winning lineup holds this fighter">Field win %</th></tr></thead>
-                <tbody>${rows.map(r => line(r, r.A, r.mA, r.fA, true) + line(r, r.B, r.mB, r.fB, false)).join('')}</tbody>
-            </table></div></div>`;
-        }
-        // One line under an expanded lineup: who that lineup roots for in the fights it
-        // has no stake in, biggest swing first. Fights it holds a fighter in are obvious.
-        function rootingLineFor(names) {
-            if (!contestFightCard || !names || !names.length) return '';
-            const have = new Set(names);
-            const winMap = getWinMap();
-            const picks = [];
-            for (const f of contestFightCard) {
-                const A = f.fighter1, B = f.fighter2;
-                if (!A || !B || have.has(A) || have.has(B)) continue;
-                const wA = winMap[A] || 0, wB = winMap[B] || 0;
-                if (Math.abs(wA - wB) < 0.5) continue;
-                const pick = wA < wB ? A : B, swing = wA + wB;
-                const done = f.fighter1_score != null && f.fighter2_score != null;
-                const winner = done ? (Number(f.fighter1_score) >= Number(f.fighter2_score) ? A : B) : null;
-                picks.push({ pick, swing, done, good: done ? winner === pick : null });
-            }
-            picks.sort((a, b) => b.swing - a.swing);
-            const top = picks.filter(p => p.swing >= 8).slice(0, 4);
-            if (!top.length) return '';
-            const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-            const allDone = top.every(p => p.done);
-            return `<div class="lu-root">${allDone ? 'Needed' : 'Also root for'}: ` + top.map(p =>
-                `<b>${esc(p.pick)}</b>${p.done ? `<span class="mark ${p.good ? 'yes' : 'no'}">${p.good ? '\u2713' : '\u2717'}</span>` : (p.swing >= 35 ? '<span class="sw">big swing</span>' : '')}`
-            ).join(', ') + '</div>';
         }
 
         // % of winning lineups that contain each fighter (field-level).
@@ -7909,7 +7768,6 @@
                                 `).join('')}
                                 ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
                             </div>
-                            ${rootingLineFor(fighters.map(f => f.name))}
                         </td>
                     </tr>
                 `;

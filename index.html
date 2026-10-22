@@ -5885,6 +5885,14 @@
         let contestSortKey = 'entryFee';
         let contestSortAsc = false;
 
+        // Dollars for display: whole dollars, except amounts under a dollar keep cents.
+        function fmtDollars(v) {
+            const a = Math.abs(v);
+            const body = a < 1 && a > 0
+                ? a.toFixed(2)
+                : Math.round(a).toLocaleString();
+            return (v < 0 ? '-$' : '$') + body;
+        }
         function formatMoney(val) {
             if (val >= 1000000) return '$' + (val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1) + 'M';
             if (val >= 1000) return '$' + (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1) + 'K';
@@ -6737,14 +6745,7 @@
             const searchLower = query.toLowerCase();
             const results = [];
 
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
 
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
@@ -7203,14 +7204,7 @@
             };
 
             // Format Net EV with commas and 2 decimal places
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
 
             document.getElementById('stats-vertical').innerHTML = `
                 <div class="ps-kpis">
@@ -7800,14 +7794,7 @@
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
             
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
             
             tbody.innerHTML = displayData.map((row, idx) => {
                 const rowId = `row-${idx}`;
@@ -7933,14 +7920,7 @@
                 return;
             }
             
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
             
             tbody.innerHTML = displayData.map((lineup, idx) => {
                 const rowId = `lineup-${lineup.stableId}`;
@@ -8141,14 +8121,7 @@
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
 
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
 
             tbody.innerHTML = displayData.map((portfolio, idx) => {
                 const rowId = `pf-${portfolio.stableId}`;
@@ -8430,13 +8403,7 @@
                 return;
             }
 
-            const formatPayout = (payout) => {
-                if (payout <= 0) return '--';
-                return '$' + payout.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-            };
+            const formatPayout = (payout) => payout <= 0 ? '--' : fmtDollars(payout);
 
             tbody.innerHTML = displayData.map((row, idx) => {
                 const rowId = `whatif-row-${idx}`;

@@ -4529,6 +4529,20 @@
             background-size: calc(var(--p, 0) * 100%) 62%;
         }
         @media (max-width: 760px) { .om-grid { grid-template-columns: minmax(0, 1fr); } .om-svg text { font-size: 15px; } }
+
+        /* --- Salary & ownership history --- */
+        .fh-card { margin-top: 16px; }
+        .fh-filters { align-items: flex-end; }
+        .fh-filters .fh-q { flex: 1 1 260px; }
+        .fh-filters .fh-q input { width: 100%; }
+        .fh-filters input[type="number"] { width: 110px; }
+        .fh-table td.sal { font-family: var(--fn-mono); font-weight: 600; }
+        .fh-table td.usd { text-align: center; }
+        .fh-table td.fh-ev { max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .fh-table .fh-na { color: var(--ink-3); }
+        .fh-table td.res-w { color: var(--accent-green); font-weight: 700; }
+        .fh-table td.res-l { color: var(--accent-red); font-weight: 700; }
+        .fh-kpis { margin: 4px 0 16px; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4732,6 +4746,26 @@
                     </div>
                     <div class="sx-fights-head om-head"><span class="sx-sec">By event</span><div class="om-picker" id="omPicker"></div><span class="sdb-count" id="omCount"></span></div>
                     <div class="sdb-scroll"><table class="sdb-table om-table"><thead id="omHead"></thead><tbody id="omTBody"></tbody></table></div>
+                </div>
+            </div>
+
+            <div class="sdb-card fh-card">
+                <div class="sdb-title">Salary &amp; ownership history</div>
+                <div class="om-note">Every fighter on every DraftKings slate since March 2026: salary, my projected ownership and the Main GPP's actual ownership where I have them, and the DK score. Search a fighter, or filter the whole set.</div>
+                <div id="fhLoading" class="sdb-loading">Loading history&hellip;</div>
+                <div id="fhBody" style="display:none;">
+                    <div class="sdb-filters fh-filters">
+                        <div class="sdb-fg fh-q"><label for="fhQ">Fighter</label><input id="fhQ" type="text" placeholder="Search a fighter or opponent&hellip;" autocomplete="off"></div>
+                        <div class="sdb-fg"><label for="fhSalMin">Salary from</label><input id="fhSalMin" type="number" step="100" placeholder="6,000"></div>
+                        <div class="sdb-fg"><label for="fhSalMax">to</label><input id="fhSalMax" type="number" step="100" placeholder="9,600"></div>
+                        <div class="sdb-fg"><label for="fhOwnMin">Actual own % from</label><input id="fhOwnMin" type="number" step="1" placeholder="0"></div>
+                        <div class="sdb-fg"><label for="fhOwnMax">to</label><input id="fhOwnMax" type="number" step="1" placeholder="100"></div>
+                        <div class="sdb-fg"><label for="fhRes">Result</label><select id="fhRes"><option value="">Any</option><option value="W">Win</option><option value="L">Loss</option></select></div>
+                        <button type="button" class="opt-btn" id="fhReset">Reset</button>
+                    </div>
+                    <div class="fs2-key fh-kpis" id="fhKpis" style="display:none;"></div>
+                    <div class="sx-fights-head"><span class="sx-sec">Fighter cards</span><span class="sdb-count" id="fhCount"></span></div>
+                    <div class="sdb-scroll"><table class="sdb-table fh-table"><thead id="fhHead"></thead><tbody id="fhTBody"></tbody></table></div>
                 </div>
             </div>
         </div>
@@ -9660,6 +9694,101 @@
                 omRenderAll();
             }
 
+            // ---------- SALARY & OWNERSHIP HISTORY ----------
+            // fighter_history.csv, one row per fighter per DK slate, built by build_history.py.
+            let fhRows = null, fhBuilt = false, fhSortKey = 'date', fhSortDir = -1, fhRaf = 0;
+            const FH_LIMIT = 400;
+            const FH_COLS = [
+                ['date', 'Date', true], ['event', 'Event', true], ['fighter', 'Fighter', true], ['opponent', 'Opponent', true],
+                ['salary', 'Salary', false], ['projected', 'Proj own', false], ['actual', 'Actual own', false],
+                ['dk_score', 'DK', false], ['result', 'Res', false], ['method', 'Method', true],
+            ];
+            function fhParse(txt) {
+                const out = [];
+                const lines = txt.split(/\r?\n/); const head = lines.shift().split(',');
+                for (const line of lines) {
+                    if (!line.trim()) continue;
+                    const c = line.split(','); const o = {};
+                    head.forEach((h, i) => { o[h] = (c[i] || '').trim(); });
+                    o.salary = parseInt(o.salary, 10) || 0;
+                    o.projected = o.projected === '' ? null : parseFloat(o.projected);
+                    o.actual = o.actual === '' ? null : parseFloat(o.actual);
+                    o.dk_score = o.dk_score === '' ? null : parseFloat(o.dk_score);
+                    o.q = (o.fighter + ' ' + o.opponent).toLowerCase();
+                    out.push(o);
+                }
+                return out;
+            }
+            function fhFiltered() {
+                const q = (document.getElementById('fhQ').value || '').trim().toLowerCase();
+                const sMin = parseFloat(document.getElementById('fhSalMin').value), sMax = parseFloat(document.getElementById('fhSalMax').value);
+                const oMin = parseFloat(document.getElementById('fhOwnMin').value), oMax = parseFloat(document.getElementById('fhOwnMax').value);
+                const res = document.getElementById('fhRes').value;
+                return fhRows.filter(r =>
+                    (!q || r.q.indexOf(q) >= 0) &&
+                    (isNaN(sMin) || r.salary >= sMin) && (isNaN(sMax) || r.salary <= sMax) &&
+                    (isNaN(oMin) || (r.actual != null && r.actual >= oMin)) && (isNaN(oMax) || (r.actual != null && r.actual <= oMax)) &&
+                    (!res || r.result === res));
+            }
+            function fhRender() {
+                const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+                const rows = fhFiltered();
+                const key = fhSortKey, dir = fhSortDir, isStr = ['date', 'event', 'fighter', 'opponent', 'result', 'method'].indexOf(key) >= 0;
+                rows.sort((a, b) => {
+                    if (isStr) { const av = String(a[key]).toLowerCase(), bv = String(b[key]).toLowerCase(); return av < bv ? -dir : av > bv ? dir : (a.salary - b.salary) * -1; }
+                    const av = a[key] == null ? -Infinity : a[key], bv = b[key] == null ? -Infinity : b[key];
+                    return (av - bv) * dir;
+                });
+                // one fighter in the result set: a career strip above the sheet
+                const q = (document.getElementById('fhQ').value || '').trim().toLowerCase();
+                const kp = document.getElementById('fhKpis');
+                const mine = q ? rows.filter(r => r.fighter.toLowerCase().indexOf(q) >= 0) : [];
+                const names = new Set(mine.map(r => r.fighter));
+                if (names.size === 1 && mine.length) {
+                    const avg = (arr, k) => { const v = arr.map(r => r[k]).filter(x => x != null && !isNaN(x)); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+                    const w = mine.filter(r => r.result === 'W').length, l = mine.filter(r => r.result === 'L').length;
+                    const tile = (lab, v, sub) => `<div class="fs2-ktile"><div class="l">${lab}</div><div class="v">${v}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
+                    const sal = avg(mine, 'salary'), ao = avg(mine, 'actual'), po = avg(mine, 'projected'), dk = avg(mine, 'dk_score');
+                    kp.innerHTML = tile('Fighter', esc([...names][0]), `${mine.length} card${mine.length === 1 ? '' : 's'} since Mar 2026`)
+                        + tile('Record', `${w}-${l}`, 'on these cards')
+                        + tile('Avg salary', sal != null ? '$' + Math.round(sal).toLocaleString() : '--', `${mine.length ? '$' + Math.min(...mine.map(r => r.salary)).toLocaleString() + ' to $' + Math.max(...mine.map(r => r.salary)).toLocaleString() : ''}`)
+                        + tile('Avg actual own', ao != null ? ao.toFixed(1) + '%' : '--', po != null ? `projected ${po.toFixed(1)}%` : 'no ownership data yet')
+                        + tile('Avg DK score', dk != null ? dk.toFixed(1) : '--');
+                    kp.style.display = '';
+                } else kp.style.display = 'none';
+                const total = rows.length, show = rows.slice(0, FH_LIMIT);
+                document.getElementById('fhHead').innerHTML = '<tr>' + FH_COLS.map(([k, l, left]) =>
+                    `<th class="${left ? 'l ' : ''}sortable${k === key ? ' sorted' : ''}" data-key="${k}">${l}${k === key ? (dir < 0 ? ' \u25be' : ' \u25b4') : ''}</th>`).join('') + '</tr>';
+                const fmtD = d => { const x = new Date(d + 'T12:00:00'); return isNaN(x) ? d : x.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }); };
+                document.getElementById('fhTBody').innerHTML = show.map(r => `<tr>
+                    <td class="l">${fmtD(r.date)}</td><td class="l fh-ev" title="${esc(r.event)}">${esc(r.event.replace(/^UFC Fight Night: /, 'FN: '))}</td>
+                    <td class="l"><b>${esc(r.fighter)}</b></td><td class="l">${esc(r.opponent)}</td>
+                    <td class="sal">$${r.salary.toLocaleString()}</td>
+                    <td>${r.projected != null ? r.projected.toFixed(1) + '%' : '<span class="fh-na">--</span>'}</td>
+                    <td class="n usd" style="background-size:${r.actual != null ? Math.min(100, r.actual).toFixed(1) : 0}% 62%;">${r.actual != null ? r.actual.toFixed(1) + '%' : '<span class="fh-na">--</span>'}</td>
+                    <td class="dktot">${r.dk_score != null ? r.dk_score.toFixed(1) : '<span class="fh-na">--</span>'}</td>
+                    <td class="${r.result === 'W' ? 'res-w' : r.result === 'L' ? 'res-l' : ''}">${esc(r.result || '--')}</td>
+                    <td class="l">${esc(r.method ? r.method.replace('Decision - ', 'Dec ') + (r.round ? ' R' + r.round : '') : '')}</td>
+                </tr>`).join('');
+                document.getElementById('fhCount').textContent = total > FH_LIMIT ? `Showing ${FH_LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} matching`;
+            }
+            function fhSchedule() { if (fhRaf) return; fhRaf = requestAnimationFrame(() => { fhRaf = 0; fhRender(); }); }
+            async function openHistory() {
+                if (fhBuilt) return;
+                try {
+                    const resp = await fetch('fighter_history.csv?v=' + Date.now());
+                    if (!resp.ok) throw new Error('missing');
+                    fhRows = fhParse(await resp.text());
+                } catch (e) { document.getElementById('fhLoading').textContent = 'No history is published yet.'; return; }
+                document.getElementById('fhLoading').style.display = 'none';
+                document.getElementById('fhBody').style.display = '';
+                ['fhQ', 'fhSalMin', 'fhSalMax', 'fhOwnMin', 'fhOwnMax', 'fhRes'].forEach(id => { const el = document.getElementById(id); el.addEventListener('input', fhSchedule); el.addEventListener('change', fhSchedule); });
+                document.getElementById('fhReset').addEventListener('click', () => { ['fhQ', 'fhSalMin', 'fhSalMax', 'fhOwnMin', 'fhOwnMax', 'fhRes'].forEach(id => { document.getElementById(id).value = ''; }); fhSortKey = 'date'; fhSortDir = -1; fhRender(); });
+                document.getElementById('fhHead').addEventListener('mousedown', e => { const th = e.target.closest('th.sortable'); if (!th) return; const k = th.dataset.key; if (k === fhSortKey) fhSortDir = -fhSortDir; else { fhSortKey = k; fhSortDir = ['fighter', 'opponent', 'event', 'method', 'result'].indexOf(k) >= 0 ? 1 : -1; } fhRender(); });
+                fhBuilt = true;
+                fhRender();
+            }
+
             // ---------- FIGHTER STATS ----------
             // Search-first career sheet: every fight as a full DK stat line, the
             // opponent's line in that same fight underneath (toggleable), and
@@ -10554,7 +10683,7 @@
                     else { insightsSub = 'explorer'; logTabOpen('opened_explorer'); openExplorer(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
-                if (view === 'ownership') { logTabOpen('opened_ownership'); openOwnership(); }
+                if (view === 'ownership') { logTabOpen('opened_ownership'); openOwnership(); openHistory(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
                 if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
                 if (view === 'about') logTabOpen('opened_about');

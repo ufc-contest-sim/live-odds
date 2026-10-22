@@ -4589,7 +4589,6 @@
         <div id="scenario-view" style="display:none;">
             <div class="sdb-card">
                 <div class="sdb-title">Range of Outcomes</div>
-                <div class="sdb-insight-note">Describe a performance and see what DraftKings scores look like when it happens. Pick a result, outcome, method and weight class, then add stat conditions such as 3 to 4 takedowns or 100+ significant strikes. Every panel below updates to the fights that match. Scores since January 1, 2008, the same cutoff as the ladder and the database.</div>
                 <div id="sxLoading" class="sdb-loading">Loading fight database&hellip;</div>
                 <div id="sxPanel" style="display:none;">
                     <div class="sx-presets" id="sxPresets"><span class="lbl">Try a scenario</span></div>
@@ -4642,7 +4641,6 @@
                 <div class="sdb-title">Scoring Trends</div>
                 <div id="trLoading" class="sdb-loading">Loading fight database&hellip;</div>
                 <div id="trBody" style="display:none;">
-                    <div class="tr-note">How the sport itself is drifting &mdash; each chart is a <strong>rolling 12-month average</strong> over every UFC performance since January 1, 2008 (earlier fights mix non-standard formats with incomplete stat tracking and are excluded). Hover any chart to read exact values.</div>
                     <div id="trGrid" class="tr-grid"></div>
                 </div>
             </div>
@@ -10064,8 +10062,7 @@
                     FMX_BOUTS = bouts;
                     if (!bouts.length) { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; return; }
                     const isV2 = false;
-                    el.innerHTML = `<div class="fmx-note">Every bout on this week's DraftKings slate. Tap a matchup for body heat maps and how each fighter's offense lines up against the other's defense.</div>` +
-                        `<div class="fmx-grid">` + bouts.map((b, i) => {
+                    el.innerHTML = `<div class="fmx-grid">` + bouts.map((b, i) => {
                             const a = b[0], z = b[1];
                             if (!z) return '';
                             const pa = fmxProfileFor(a.name), pz = fmxProfileFor(z.name);

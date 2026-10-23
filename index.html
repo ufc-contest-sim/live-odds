@@ -3201,8 +3201,10 @@
         .hbp-f.out .nm { color: var(--accent-red); text-decoration: line-through; }
         .hbp-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; color: var(--text-secondary); }
         /* What If score entry — one row per bout, opponents side by side */
-        .hbw-tools { margin-bottom: 12px; }
-        .hbw-bouts { max-width: 860px; }
+        /* the What If pane sits on the page's centerline: note, button and the bout list */
+        #hbWhatIf .fs2-note { text-align: center; max-width: 860px; margin-left: auto; margin-right: auto; }
+        .hbw-tools { margin-bottom: 12px; text-align: center; }
+        .hbw-bouts { max-width: 860px; margin: 0 auto; }
         .hbw-bout { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px solid var(--border); }
         .hbw-bout .vs { flex: none; font-family: 'Chakra Petch', monospace; font-size: 0.7rem; font-weight: 600; color: var(--accent); text-transform: uppercase; }
         .hbw-cell { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 10px; }
@@ -4533,6 +4535,13 @@
         }
         .om-picker button:hover { color: var(--text-primary); border-color: rgba(255, 255, 255, 0.22); }
         .om-picker button.active { background: rgba(var(--a-rgb), 0.12); border-color: var(--accent); color: var(--accent-hi); }
+        .om-step { display: inline-flex; align-items: center; gap: 2px; padding: 2px; border: 1px solid var(--line-2); border-radius: var(--r-pill); }
+        .om-step.active { border-color: var(--accent); background: rgba(var(--a-rgb), 0.12); }
+        .om-step button { width: 26px; height: 22px; padding: 0; border: 0; border-radius: var(--r-pill); font-size: 1.05rem; line-height: 1; color: var(--text-primary); background: transparent; }
+        .om-step button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); border-color: transparent; }
+        .om-step button:disabled { color: var(--ink-3); cursor: default; opacity: 0.5; }
+        .om-step .om-cur { font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 600; color: var(--text-secondary); padding: 0 6px; white-space: nowrap; }
+        .om-step.active .om-cur { color: var(--accent-hi); }
         .om-table td.om-diff.up { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
         .om-table td.om-diff.dn { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
         .om-table td.om-miss {
@@ -9700,8 +9709,19 @@
             }
             function omRenderPicker() {
                 const el = document.getElementById('omPicker');
+                const idx = omSel === 'all' ? -1 : omEvents.findIndex(e => e.date === omSel);
+                const cur = idx >= 0 ? omEvents[idx] : omEvents[omEvents.length - 1];
+                const d = new Date(cur.date + 'T12:00:00');
+                const label = isNaN(d) ? cur.event : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                // the sheet's event names are placeholders unless they were typed in; show a real one
+                const named = cur.event && !/^UFC \d/.test(cur.event) ? ` \u00b7 ${cur.event}` : '';
+                const canOlder = idx !== 0, canNewer = idx >= 0 && idx < omEvents.length - 1;
                 el.innerHTML = `<button type="button" class="${omSel === 'all' ? 'active' : ''}" data-d="all">All events</button>` +
-                    omEvents.slice().reverse().map(e => `<button type="button" class="${omSel === e.date ? 'active' : ''}" data-d="${e.date}">${omEventLabel(e)}</button>`).join('');
+                    `<div class="om-step${omSel === 'all' ? '' : ' active'}">` +
+                    `<button type="button" data-step="older" aria-label="Older event"${canOlder ? '' : ' disabled'}>\u2039</button>` +
+                    `<span class="om-cur">${label}${named}</span>` +
+                    `<button type="button" data-step="newer" aria-label="Newer event"${canNewer ? '' : ' disabled'}>\u203a</button>` +
+                    `</div>`;
             }
             function omRenderTable() {
                 const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -9737,9 +9757,20 @@
                 omEvents = [...byDate.values()].sort((a, b) => a.date < b.date ? -1 : 1).map(e => ({ ...e, st: omStats(e.rows) }));
                 document.getElementById('omLoading').style.display = 'none';
                 document.getElementById('omBody').style.display = '';
-                document.getElementById('omPicker').addEventListener('click', e => { const b = e.target.closest('button[data-d]'); if (!b) return; omSel = b.dataset.d; omRenderAll(); });
+                document.getElementById('omPicker').addEventListener('click', e => {
+                    const st = e.target.closest('button[data-step]');
+                    if (st && !st.disabled) {
+                        const idx = omSel === 'all' ? -1 : omEvents.findIndex(x => x.date === omSel);
+                        const last = omEvents.length - 1;
+                        if (st.dataset.step === 'older') omSel = omEvents[idx < 0 ? last : idx - 1].date;
+                        else if (idx >= 0 && idx < last) omSel = omEvents[idx + 1].date;
+                        omRenderAll(); return;
+                    }
+                    const b = e.target.closest('button[data-d]'); if (!b) return; omSel = b.dataset.d; omRenderAll();
+                });
                 document.getElementById('omHead').addEventListener('mousedown', e => { const th = e.target.closest('th.sortable'); if (!th) return; const k = th.dataset.key; if (k === omSortKey) omSortDir = -omSortDir; else { omSortKey = k; omSortDir = (k === 'fighter' || k === 'event') ? 1 : -1; } omRenderTable(); });
                 omBuilt = true;
+                omSel = omEvents[omEvents.length - 1].date;   // open on the newest event
                 omRenderAll();
             }
 

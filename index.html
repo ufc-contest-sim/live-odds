@@ -9770,7 +9770,7 @@
                 });
                 document.getElementById('omHead').addEventListener('mousedown', e => { const th = e.target.closest('th.sortable'); if (!th) return; const k = th.dataset.key; if (k === omSortKey) omSortDir = -omSortDir; else { omSortKey = k; omSortDir = (k === 'fighter' || k === 'event') ? 1 : -1; } omRenderTable(); });
                 omBuilt = true;
-                omSel = omEvents[omEvents.length - 1].date;   // open on the newest event
+                omSel = 'all';   // stats and charts open on every event; the stepper shows the newest
                 omRenderAll();
             }
 

@@ -4603,6 +4603,8 @@
         @media (min-width: 1500px) {
             .fx-table th:nth-child(2), .fx-table td:nth-child(2), .fx-table th:nth-child(3), .fx-table td:nth-child(3) { width: 98px; box-sizing: border-box; }
             .fx-table th:nth-child(4), .fx-table td:nth-child(4) { width: 114px; box-sizing: border-box; }
+            /* Dupes by User has two columns; its count column needs room for its header */
+            .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 160px; box-sizing: border-box; }
         }
         /* KPI cards everywhere: label and value centered */
         .srs-kpi, .ps-kpi, .fs2-ktile { text-align: center; align-items: center; }
@@ -4620,6 +4622,9 @@
         @media (min-width: 1500px) { #lineup-table th, #lineup-table td { padding-left: 8px; padding-right: 8px; } }
         #lineup-table .lu-dot { color: var(--ink-3); font-weight: 400; }
         #lineup-table .lu-name.hit { color: var(--accent-hi); }
+        /* Dupes by User shows six rows, then scrolls inside the card with its header frozen */
+        #dupes-container .pex-scroll { max-height: var(--dupes-h, 240px); overflow-y: auto; }
+        #dupes-container .pex-table thead th { position: sticky; top: 0; z-index: 1; background: var(--fn-card-2, var(--bg-card)); }
         /* --- refine: end --- */
 </style>
 </head>
@@ -8231,6 +8236,10 @@
                     <td class="n dupes-count">${c}</td>
                 </tr>
             `).join('');
+            // cap the list at six rows (header included) and let the rest scroll
+            const box = document.getElementById('dupes-container');
+            const head = box.querySelector('thead'), first = tbody.querySelector('tr');
+            if (head && first) box.style.setProperty('--dupes-h', Math.round(head.getBoundingClientRect().height + 6 * first.getBoundingClientRect().height) + 'px');
         }
 
         function renderPortfolioView(data) {

@@ -4608,6 +4608,7 @@
         .srs-kpi, .ps-kpi, .fs2-ktile { text-align: center; align-items: center; }
         /* the filter bar lives in the right column, over the stats strip, so the exposure panel starts at the top */
         @media (min-width: 1500px) { .lb-right .filters { margin-bottom: 16px; } }
+        .whatif-right .filters { margin-bottom: 14px; }
         /* desktop: a capped lineups table scrolls inside its card with the header frozen */
         @media (min-width: 1500px) {
             .lb-right .table-scroll.fit { overflow-y: auto; }
@@ -5964,6 +5965,11 @@
             const statsPanel = document.querySelector('.stats-and-fighters');
             const filtersPanel = document.querySelector('.filters');
             const tableHeader = document.querySelector('.table-header');
+            // The filter bar heads the right column of whichever layout is showing:
+            // the lineups column normally, the What If table column in that view,
+            // so the fight card starts level with it like Fighter Exposure does.
+            const filtersHome = document.querySelector(view === 'whatif' ? '.whatif-right' : '.lb-right');
+            if (filtersPanel && filtersHome && filtersPanel.parentElement !== filtersHome) filtersHome.insertBefore(filtersPanel, filtersHome.firstElementChild);
             // the stats strip above the table shows and hides with the exposure panel
             const statsTop = document.querySelector('.stats-top');
             if (statsTop) { const show = view === 'username' || view === 'lineup' || view === 'portfolio'; statsTop.style.display = show ? '' : 'none'; }

@@ -4540,7 +4540,8 @@
         .om-step button { width: 26px; height: 22px; padding: 0; border: 0; border-radius: var(--r-pill); font-size: 1.05rem; line-height: 1; color: var(--text-primary); background: transparent; }
         .om-step button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); border-color: transparent; }
         .om-step button:disabled { color: var(--ink-3); cursor: default; opacity: 0.5; }
-        .om-step .om-cur { font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 600; color: var(--text-secondary); padding: 0 6px; white-space: nowrap; }
+        .om-step .om-cur { width: auto; height: auto; font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 600; color: var(--text-secondary); padding: 3px 8px; white-space: nowrap; cursor: pointer; }
+        .om-step .om-cur:hover { color: var(--text-primary); }
         .om-step.active .om-cur { color: var(--accent-hi); }
         .om-table td.om-diff.up { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
         .om-table td.om-diff.dn { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
@@ -9687,8 +9688,10 @@
                     g += `<line class="tr-gridline" x1="${M.l}" x2="${M.l + pw}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"></line>`;
                     g += `<text x="${M.l - 6}" y="${(y(v) + 3.5).toFixed(1)}" text-anchor="end">${v}</text>`;
                 }
-                const every = Math.ceil(ev.length / 7);
-                ev.forEach((e, i) => { if (i % every === 0 || i === ev.length - 1) g += `<text x="${x(i).toFixed(1)}" y="${M.t + ph + 16}" text-anchor="middle">${omEventLabel(e)}</text>`; });
+                // label the newest event and every earlier one that keeps at least 70 units of room
+                const labelAt = []; let lastX = Infinity;
+                for (let i = ev.length - 1; i >= 0; i--) { if (lastX - x(i) >= 70) { labelAt.push(i); lastX = x(i); } }
+                labelAt.forEach(i => { g += `<text x="${x(i).toFixed(1)}" y="${M.t + ph + 16}" text-anchor="${i === ev.length - 1 ? 'end' : 'middle'}">${omEventLabel(ev[i])}</text>`; });
                 const pts = vals.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
                 const line = 'M' + pts.join('L');
                 const area = line + `L${x(ev.length - 1).toFixed(1)},${M.t + ph}L${x(0).toFixed(1)},${M.t + ph}Z`;
@@ -9719,7 +9722,7 @@
                 el.innerHTML = `<button type="button" class="${omSel === 'all' ? 'active' : ''}" data-d="all">All events</button>` +
                     `<div class="om-step${omSel === 'all' ? '' : ' active'}">` +
                     `<button type="button" data-step="older" aria-label="Older event"${canOlder ? '' : ' disabled'}>\u2039</button>` +
-                    `<span class="om-cur">${label}${named}</span>` +
+                    `<button type="button" class="om-cur" data-d="${cur.date}" title="Show only this event">${label}${named}</button>` +
                     `<button type="button" data-step="newer" aria-label="Newer event"${canNewer ? '' : ' disabled'}>\u203a</button>` +
                     `</div>`;
             }

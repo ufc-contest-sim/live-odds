@@ -883,7 +883,7 @@
         /* Faint bar behind the $ cell: share of the biggest exposure (inline background-size). */
         .pex-table td.usd {
             color: var(--text-primary);
-            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16));
+            background-image: linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5));
             background-repeat: no-repeat; background-position: 0 50%;
         }
         .pex-table td.lu { color: var(--text-secondary); font-weight: 600; }
@@ -3938,8 +3938,8 @@
         }
         body:not(.v2) .srs-kpi .v.positive { color: var(--accent-green); }
         body:not(.v2) .srs-kpi .v.negative { color: var(--accent-red); }
-        /* P(profit) is a probability, not money: it reads orange, like the brand, not mint */
-        body:not(.v2) #kpi-profit .v { color: var(--accent-hi); }
+        /* % Profit is a probability, not money: plain white, not mint or coral */
+        body:not(.v2) #kpi-profit .v { color: var(--text-primary); }
         body:not(.v2) .srs-kpi.pending { display: none; }
         /* Worst and Best now sit in the tiles; the chart keeps its axis only */
         body:not(.v2) .portfolio-bar-markers { display: none; }
@@ -4065,8 +4065,8 @@
         /* --- Fighter Exposure and the Insights Fighters table: Optimal % shades
                from the column's white ink toward mint above the slate median and
                toward coral below it, --t (0..1) setting the strength --- */
-        .fighter-draft-table .opt-pct.hi, .fx-table .opt-pct.hi, .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 100%), var(--text-primary)); background: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 26%), transparent); }
-        .fighter-draft-table .opt-pct.lo, .fx-table .opt-pct.lo, .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 100%), var(--text-primary)); background: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 26%), transparent); }
+        .fighter-draft-table .opt-pct.hi, .fx-table .opt-pct.hi, .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 92%), var(--text-primary)); background: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 15%), transparent); }
+        .fighter-draft-table .opt-pct.lo, .fx-table .opt-pct.lo, .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 92%), var(--text-primary)); background: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 15%), transparent); }
         /* Insights Fighters: Draft % is the key number, as in Fighter Exposure; a live score is orange */
         .dupe-table .draft-pct { color: var(--text-primary); font-weight: 600; }
         .dupe-table td.sc { color: var(--accent-lo); font-weight: 700; }
@@ -4546,7 +4546,7 @@
         .om-table td.om-diff.up { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
         .om-table td.om-diff.dn { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
         .om-table td.om-miss {
-            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16));
+            background-image: linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5));
             background-repeat: no-repeat; background-position: 0 50%;
             background-size: calc(var(--p, 0) * 100%) 62%;
         }
@@ -4596,6 +4596,8 @@
         /* --- the search bar stands as tall as the tab strip (tab 38px + 6px padding + 1px border each side) --- */
         .quick-search-bar { box-sizing: border-box; height: 51px; padding: 0 20px; }
         .quick-search-bar input { padding-top: 0; padding-bottom: 0; }
+        /* Fighter Exposure: the three number columns sit centered; the Draft % bar stays anchored left */
+        .fx-table th.n, .fx-table td.n { text-align: center; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -6944,7 +6946,7 @@
                                     <div class="srs-kpis" id="srs-kpis">
                         <div class="srs-kpi"><span class="k">Portfolio EV</span><b class="v ${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</b></div>
                         <div class="srs-kpi"><span class="k">ROI</span><b class="v ${(portfolioROI || 0) >= 0 ? 'positive' : 'negative'}">${portfolioROI != null ? fmtROI(portfolioROI) : '--'}</b></div>
-                        <div class="srs-kpi pending" id="kpi-profit"><span class="k">P(profit)</span><b class="v">--</b></div>
+                        <div class="srs-kpi pending" id="kpi-profit"><span class="k">% Profit</span><b class="v">--</b></div>
                         <div class="srs-kpi pending" id="kpi-median"><span class="k">Median</span><b class="v">--</b></div>
                         <div class="srs-kpi pending" id="kpi-worst"><span class="k">Worst</span><b class="v">--</b></div>
                         <div class="srs-kpi pending" id="kpi-best"><span class="k">Best</span><b class="v">--</b></div>
@@ -7840,7 +7842,7 @@
                 const t = ((lo + eq / 2) / n - 0.5) * 2;   // -1 lowest, 0 median, +1 highest
                 if (Math.abs(t) < 0.08) return ' class="win-pct opt-pct"';
                 // ramp the shade early so the ranks near the median already read as tinted
-                const a = Math.pow(Math.min(1, Math.abs(t)), 0.6);
+                const a = Math.pow(Math.min(1, Math.abs(t)), 0.7);
                 return ` class="win-pct opt-pct ${t > 0 ? 'hi' : 'lo'}" style="--t:${a.toFixed(3)}"`;
             };
         }

@@ -4065,8 +4065,8 @@
         /* --- Fighter Exposure and the Insights Fighters table: Optimal % shades
                from the column's white ink toward mint above the slate median and
                toward coral below it, --t (0..1) setting the strength --- */
-        .fighter-draft-table .opt-pct.hi, .fx-table .opt-pct.hi, .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 92%), var(--text-primary)); background: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 15%), transparent); }
-        .fighter-draft-table .opt-pct.lo, .fx-table .opt-pct.lo, .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 92%), var(--text-primary)); background: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 15%), transparent); }
+        .fighter-draft-table .opt-pct.hi, .fx-table .opt-pct.hi, .dupe-table .opt-pct.hi { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 85%), var(--text-primary)); }
+        .fighter-draft-table .opt-pct.lo, .fx-table .opt-pct.lo, .dupe-table .opt-pct.lo { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 85%), var(--text-primary)); }
         /* Insights Fighters: Draft % is the key number, as in Fighter Exposure; a live score is orange */
         .dupe-table .draft-pct { color: var(--text-primary); font-weight: 600; }
         .dupe-table td.sc { color: var(--accent-lo); font-weight: 700; }
@@ -7848,9 +7848,8 @@
                 let lo = 0, eq = 0;
                 for (const x of vals) { if (x < v) lo++; else if (x === v) eq++; }
                 const t = ((lo + eq / 2) / n - 0.5) * 2;   // -1 lowest, 0 median, +1 highest
-                if (Math.abs(t) < 0.08) return ' class="win-pct opt-pct"';
-                // ramp the shade early so the ranks near the median already read as tinted
-                const a = Math.pow(Math.min(1, Math.abs(t)), 0.7);
+                const a = Math.min(1, Math.abs(t));
+                if (a < 0.08) return ' class="win-pct opt-pct"';
                 return ` class="win-pct opt-pct ${t > 0 ? 'hi' : 'lo'}" style="--t:${a.toFixed(3)}"`;
             };
         }

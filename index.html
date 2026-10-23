@@ -4318,11 +4318,11 @@
         /* --- level 1: site sections, one contained strip --- */
         .landing-nav {
             display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px;
-            margin: 0 0 16px; padding: 4px;
+            margin: 0 0 16px; padding: 6px;
             background: var(--bg-card); border: 1px solid var(--line-2); border-radius: var(--r-lg);
         }
         .lnav-tab {
-            padding: 11px 8px; border: 0; border-radius: var(--r-md); background: transparent;
+            padding: 12px 8px; border: 0; border-radius: var(--r-md); background: transparent;
             font-family: var(--fn-mono); font-size: 0.8125rem; font-weight: 700; line-height: 1;
             letter-spacing: 0.06em; text-transform: uppercase; text-align: center;
             color: var(--text-secondary); cursor: pointer; transform: none; box-shadow: none;
@@ -4582,6 +4582,9 @@
             font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
             background: var(--accent); color: #180a02; border: 0; border-radius: var(--r-md); padding: 7px 12px; cursor: pointer;
         }
+        /* --- the search bar stands as tall as the tab strip (tab 38px + 6px padding + 1px border each side) --- */
+        .quick-search-bar { box-sizing: border-box; height: 51px; padding: 0 20px; }
+        .quick-search-bar input { padding-top: 0; padding-bottom: 0; }
         /* --- refine: end --- */
 </style>
 </head>

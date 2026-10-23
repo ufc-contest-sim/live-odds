@@ -5339,15 +5339,19 @@
             if (isOwner()) return;   // don't log the owner's own activity
             try {
                 const dev = getDevice();
+                const referrer = document.referrer || '';
                 const body = JSON.stringify({
                     event: event,
                     visitor: getVisitor(),
                     query: query || '',
-                    // the token rides on the browser string so it lands in the sheet's
-                    // existing column; the separate field is there for the script
-                    ua: navigator.userAgent + (dev ? ' | dev ' + dev : ''),
-                    ref: document.referrer || '',
-                    device: dev
+                    // The sheet writes "ua" to column E and "ref" to column F.
+                    // E: the relay fills in the visitor's city; blank if the event went direct.
+                    // F: browser string, device token and, if there is one, the referrer.
+                    ua: '',
+                    ref: navigator.userAgent + (dev ? ' | dev ' + dev : '') + (referrer ? ' | ref ' + referrer : ''),
+                    browser: navigator.userAgent,
+                    device: dev,
+                    referrer: referrer
                 });
                 const direct = () => fetch(SHEET_ENDPOINT, {
                     method: 'POST',

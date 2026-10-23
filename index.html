@@ -4506,7 +4506,7 @@
         }
         /* side by side: stats and fighters on the left, the lineups on the right, every fighter visible */
         @media (min-width: 1500px) {
-            .lb-cols { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 16px; align-items: start; }
+            .lb-cols { display: grid; grid-template-columns: 470px minmax(0, 1fr); gap: 16px; align-items: start; }
             .lb-left .stats-and-fighters { margin-bottom: 0; }
             .lb-right .table-header { margin-top: 0; }
         }
@@ -4598,6 +4598,14 @@
         .quick-search-bar input { padding-top: 0; padding-bottom: 0; }
         /* Fighter Exposure: the three number columns sit centered; the Draft % bar stays anchored left */
         .fx-table th.n, .fx-table td.n { text-align: center; }
+        /* Fighter Exposure, two-column layout: the three number columns share one
+               width, sized to the widest header (Optimal %); the name takes the rest */
+        @media (min-width: 1500px) {
+            .fx-table th:nth-child(2), .fx-table td:nth-child(2), .fx-table th:nth-child(3), .fx-table td:nth-child(3) { width: 98px; box-sizing: border-box; }
+            .fx-table th:nth-child(4), .fx-table td:nth-child(4) { width: 114px; box-sizing: border-box; }
+        }
+        /* KPI cards everywhere: label and value centered */
+        .srs-kpi, .ps-kpi, .fs2-ktile { text-align: center; align-items: center; }
         /* --- refine: end --- */
 </style>
 </head>

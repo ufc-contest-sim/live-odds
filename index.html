@@ -4568,6 +4568,20 @@
         @media (max-width: 1100px) {
             .leaderboard-page header .lb-tabs { order: 3; flex-basis: 100%; width: auto; }
         }
+        /* --- build stamp and the "newer version" bar --- */
+        .site-footer .build-stamp { margin: 0 0 8px; font-family: var(--fn-mono); font-size: 0.68rem; letter-spacing: 0.04em; color: var(--ink-3); }
+        .site-footer .build-stamp:empty { display: none; }
+        .update-bar {
+            position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 9000;
+            display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px;
+            background: var(--bg-card); border: 1px solid var(--accent); border-radius: var(--r-lg);
+            box-shadow: var(--shadow-menu); font-size: 0.85rem; color: var(--text-primary); max-width: calc(100vw - 32px);
+        }
+        .update-bar[hidden] { display: none; }
+        .update-bar button {
+            font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+            background: var(--accent); color: #180a02; border: 0; border-radius: var(--r-md); padding: 7px 12px; cursor: pointer;
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5226,7 +5240,9 @@
     </div>
     <div class="chart-tip" id="chart-tip"></div>
 
+    <div id="update-bar" class="update-bar" hidden><span>A newer version of the site is available.</span><button type="button" id="update-bar-btn">Refresh</button></div>
     <footer class="site-footer">
+        <p class="build-stamp" id="build-stamp"></p>
         <p>&copy; 2026 MMA LiveSim. Not affiliated with, endorsed by, or sponsored by the Ultimate Fighting Championship or Zuffa, LLC. All fighter names, marks, and event names are the property of their respective owners.</p>
     </footer>
 
@@ -5497,6 +5513,59 @@
             setInterval(tick, 1000);
         }
         initLockCountdown();
+
+        // Keep every visitor on the latest build. The HTML is served with
+        // must-revalidate, so a fresh navigation always gets the newest copy;
+        // the gap is a tab left open (iPad Safari keeps them alive for days).
+        // When the tab comes back into view we ask the server for the page's
+        // ETag; if it changed, we reload (or offer a refresh if the user is
+        // typing or was only away a few minutes). A page restored from the
+        // back-forward cache is checked the same way.
+        (function () {
+            const stamp = document.getElementById('build-stamp');
+            if (stamp && document.lastModified) {
+                const d = new Date(document.lastModified);
+                if (!isNaN(d)) stamp.textContent = 'Site updated ' + d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+            }
+            let servedTag = null, hiddenAt = 0, checking = false;
+            const bar = document.getElementById('update-bar');
+            const head = async () => {
+                const r = await fetch(location.pathname || '/', { method: 'HEAD', cache: 'no-store' });
+                return { tag: r.headers.get('etag'), mod: r.headers.get('last-modified') };
+            };
+            const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)); };
+            const offer = () => { if (bar) bar.hidden = false; };
+            if (bar) document.getElementById('update-bar-btn').addEventListener('click', () => location.reload());
+            async function check(awayMs) {
+                if (checking) return; checking = true;
+                try {
+                    const h = await head();
+                    if (!h.tag) return;
+                    if (servedTag === null) {
+                        // first check: does the copy we are showing match the server's?
+                        servedTag = h.tag;
+                        const mine = new Date(document.lastModified), theirs = new Date(h.mod || 0);
+                        if (!isNaN(mine) && !isNaN(theirs) && theirs - mine > 60000) {
+                            const key = 'mmaLiveSim_fresh_' + h.tag;
+                            if (!sessionStorage.getItem(key)) { sessionStorage.setItem(key, '1'); location.reload(); }
+                        }
+                        return;
+                    }
+                    if (h.tag !== servedTag) {
+                        if (awayMs >= 15 * 60000 && !typing()) location.reload();
+                        else offer();
+                    }
+                } catch (e) { /* offline or blocked: try again next time */ }
+                finally { checking = false; }
+            }
+            setTimeout(() => check(0), 4000);
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) { hiddenAt = Date.now(); return; }
+                const away = hiddenAt ? Date.now() - hiddenAt : 0;
+                if (away >= 5 * 60000) check(away);
+            });
+            window.addEventListener('pageshow', e => { if (e.persisted) check(60 * 60000); });
+        })();
         // phones: a short placeholder so the favorites control never clips it
         try { if (window.matchMedia('(max-width: 480px)').matches) { const qi = document.getElementById('quick-search-input'); if (qi) qi.placeholder = 'Username'; } } catch (e) { /* ignore */ }
 
@@ -5979,7 +6048,7 @@
             let cardFighters = [];
             let updatedAt = null;
             try {
-                const data = await (await fetch(CONTESTS[0].file)).json();
+                const data = await (await fetch(CONTESTS[0].file + '?v=' + Date.now())).json();
                 updatedAt = data.last_updated || null;
                 const fights = (data.fight_card || []).slice().sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0));
                 cardFighters = fights.flatMap(f => [[f.fighter1, f.fighter1_score], [f.fighter2, f.fighter2_score]]).filter(([n]) => n);

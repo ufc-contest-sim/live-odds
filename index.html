@@ -7298,6 +7298,13 @@
                 return;
             }
 
+            // every fighter on the card gets a row, even when nobody drafted them
+            const seen = new Set(fighterStats.map(f => f.fighter));
+            const cardFighters = [];
+            for (const bout of (contestFightCard || [])) { if (bout.fighter1) cardFighters.push(bout.fighter1); if (bout.fighter2) cardFighters.push(bout.fighter2); }
+            if (!cardFighters.length && contestSalaryMap) cardFighters.push(...Object.keys(contestSalaryMap));
+            for (const name of cardFighters) if (!seen.has(name)) { seen.add(name); fighterStats.push({ fighter: name, count: 0, pct: 0 }); }
+
             let rows = fighterStats.map(f => ({
                 fighter: f.fighter,
                 draft: f.pct,

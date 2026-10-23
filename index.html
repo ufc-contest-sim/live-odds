@@ -5309,12 +5309,32 @@
             return !!v && OWNER_USERNAMES.some(o => o.toLowerCase() === v);
         }
 
+        // A random token saved in this browser on first use and sent with every
+        // event. It carries no information about the person; rows from one
+        // browser simply share it, so a second browser typing the same username
+        // at the gate shows up under a second token.
+        const DEVICE_KEY = 'mmaLiveSim_device';
+        function getDevice() {
+            try {
+                let d = localStorage.getItem(DEVICE_KEY);
+                if (!d) {
+                    const b = new Uint8Array(6);
+                    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(b);
+                    else for (let i = 0; i < b.length; i++) b[i] = Math.random() * 256 | 0;
+                    d = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+                    localStorage.setItem(DEVICE_KEY, d);
+                }
+                return d;
+            } catch (e) { return ''; }
+        }
+
         // Best-effort fire-and-forget POST to the sheet. no-cors + text/plain
         // avoids a CORS preflight (Apps Script reads e.postData.contents).
         function logEvent(event, query) {
             if (!SHEET_ENDPOINT) return;
             if (isOwner()) return;   // don't log the owner's own activity
             try {
+                const dev = getDevice();
                 fetch(SHEET_ENDPOINT, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -5323,8 +5343,11 @@
                         event: event,
                         visitor: getVisitor(),
                         query: query || '',
-                        ua: navigator.userAgent,
-                        ref: document.referrer || ''
+                        // the token rides on the browser string so it lands in the sheet's
+                        // existing column; the separate field is there for the script
+                        ua: navigator.userAgent + (dev ? ' | dev ' + dev : ''),
+                        ref: document.referrer || '',
+                        device: dev
                     })
                 });
             } catch (e) { /* never let logging break the page */ }

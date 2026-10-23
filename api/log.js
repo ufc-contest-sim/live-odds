@@ -1,7 +1,8 @@
 // Visitor log relay. The page posts each event here instead of straight to
 // the Google sheet. Vercel hands this function a coarse location for the
-// visitor (city, region, country), which is appended to the browser string
-// so it lands in the sheet's existing column, and also sent as its own
+// visitor (city, region, country). The sheet writes the "ua" field to its
+// column E, so the location goes there; the browser string and device token
+// already travel in "ref" (column F). The parts are also sent as their own
 // fields. No address is read or forwarded. The event then goes on to the
 // sheet unchanged otherwise. Anything that is not JSON is forwarded as is.
 const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxLCj-MK2jWuzQw2H5NDZacRI1_ZV_Fjv-mUVWQ8-O4pHg2r3JfXaSBWBGqrb-YryDyOA/exec';
@@ -45,7 +46,7 @@ module.exports = async (req, res) => {
     try {
         const d = JSON.parse(body);
         if (d && typeof d === 'object') {
-            d.ua = (d.ua || '') + (place.label ? ' | ' + place.label : '');
+            d.ua = place.label;   // sheet column E
             d.city = place.city;
             d.region = place.region;
             d.country = place.country;

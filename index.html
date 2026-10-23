@@ -4613,6 +4613,12 @@
             .lb-right .table-scroll.fit { overflow-y: auto; }
             .lb-right .table-scroll.fit thead { position: sticky; top: 0; z-index: 3; }
         }
+        /* By Lineup: the six fighters on one line, last names, so rows match the By Username height */
+        #lineup-table .lu-line { display: flex; flex-wrap: nowrap; align-items: center; gap: 0 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+        /* two-column layout: tighter cell gutters so the six names and nine numbers share the column without a sideways scroll */
+        @media (min-width: 1500px) { #lineup-table th, #lineup-table td { padding-left: 8px; padding-right: 8px; } }
+        #lineup-table .lu-dot { color: var(--ink-3); font-weight: 400; }
+        #lineup-table .lu-name.hit { color: var(--accent-hi); }
         /* --- refine: end --- */
 </style>
 </head>
@@ -8115,7 +8121,25 @@
             }
             
             const formatNetEV = (netEV) => fmtDollars(netEV);
-            
+
+            // One line per lineup: last names, sorted, full name on hover. A
+            // first initial is added only when two fighters on the card share
+            // a last name. The active fighter filter lights its names.
+            const cardNames = [];
+            for (const bout of (contestFightCard || [])) { if (bout.fighter1) cardNames.push(bout.fighter1); if (bout.fighter2) cardNames.push(bout.fighter2); }
+            if (!cardNames.length && contestSalaryMap) cardNames.push(...Object.keys(contestSalaryMap));
+            const lastCount = {};
+            cardNames.forEach(n => { const l = n.trim().split(/\s+/).pop().toLowerCase(); lastCount[l] = (lastCount[l] || 0) + 1; });
+            const shortName = (n) => {
+                const parts = n.trim().split(/\s+/); const last = parts[parts.length - 1];
+                return parts.length > 1 && (lastCount[last.toLowerCase()] || 0) > 1 ? parts[0][0] + '. ' + last : last;
+            };
+            const lit = new Set((typeof selectedFighters !== 'undefined' && selectedFighters) ? Array.from(selectedFighters) : []);
+            const fighterLine = (fighters) => fighters.map(f => ({ f, s: shortName(f) }))
+                .sort((a, b) => a.s.localeCompare(b.s, undefined, { sensitivity: 'base' }))
+                .map(x => `<span class="lu-name${lit.has(x.f) ? ' hit' : ''}" title="${x.f}">${x.s}</span>`)
+                .join('<span class="lu-dot">\u00b7</span>');
+
             tbody.innerHTML = displayData.map((lineup, idx) => {
                 const rowId = `lineup-${lineup.stableId}`;
                 const isExpanded = expandedRows.has(rowId);
@@ -8124,15 +8148,7 @@
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
-                        <td>
-                            <div class="lineup-container" style="padding: 8px 0;">
-                                ${lineup.fighters.slice().sort(byFighterName).map(f => `
-                                    <div class="fighter-chip">
-                                        ${f}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </td>
+                        <td><div class="lu-line">${fighterLine(lineup.fighters)}</div></td>
                         <td class="num">${fmtWin(lineup.WinPct)}</td>
                         <td class="num">${lineup.SecondPct != null ? lineup.SecondPct.toFixed(1) + '%' : '--'}</td>
                         <td class="num">${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(1) + '%' : '--'}</td>

@@ -4631,6 +4631,15 @@
         #portfolio-table tr.row-main { cursor: default; }
         /* Fighter(s) filter sits inline like Username; picked fighters wrap under it only when there are some */
         #selected-fighters:empty { display: none; }
+        /* Ownership: the event pick list */
+        .om-dd { position: relative; display: inline-flex; }
+        .om-dd-panel { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; min-width: 250px; max-height: 340px; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 1px; background: var(--fn-card-2, var(--bg-card)); border: 1px solid var(--line-2); border-radius: var(--r-md); box-shadow: var(--shadow-menu); }
+        .om-dd-panel[hidden] { display: none; }
+        .om-dd-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 2px 6px 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line-1); font-size: 0.72rem; color: var(--text-secondary); white-space: nowrap; }
+        .om-dd-row { display: flex; align-items: center; gap: 9px; padding: 6px 6px; border-radius: var(--r-sm); font-size: 0.8rem; color: var(--text-primary); cursor: pointer; white-space: nowrap; }
+        .om-dd-row:hover { background: rgba(255, 255, 255, 0.06); }
+        .om-dd-row input { accent-color: var(--accent); margin: 0; width: 14px; height: 14px; }
+        .sx-fights-head.om-head, .om-picker { overflow: visible; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -9728,7 +9737,8 @@
             // ---------- OWNERSHIP MODEL ----------
             // ownership_history.csv: date,event,fighter,projected,actual (percent points).
             // Everything below is derived in the browser from that one file.
-            let omRows = null, omEvents = null, omBuilt = false, omSel = 'all', omSortKey = 'diff', omSortDir = -1;
+            // omSel: 'all', one date, or an array of two or more dates (a picked set)
+            let omRows = null, omEvents = null, omBuilt = false, omSel = 'all', omSortKey = 'diff', omSortDir = -1, omDdOpen = false;
             function omParse(txt) {
                 const out = [];
                 for (const line of txt.split(/\r?\n/).slice(1)) {
@@ -9754,12 +9764,22 @@
                 const w3 = rows.filter(r => r.abs <= 3).length / n, w5 = rows.filter(r => r.abs <= 5).length / n;
                 return { n, mae, med, bias, corr, w3, w5 };
             }
-            function omSelRows() { return omSel === 'all' ? omRows : omRows.filter(r => r.date === omSel); }
+            function omSelList() { return omSel === 'all' ? null : Array.isArray(omSel) ? omSel : [omSel]; }
+            function omSelSet() { const l = omSelList(); return l ? new Set(l) : null; }
+            function omIsSingle() { return typeof omSel === 'string' && omSel !== 'all'; }
+            // normalize a picked set: nothing picked is every event, one is that event, more is the set in date order
+            function omSetSelection(dates) {
+                const want = new Set(dates);
+                const kept = omEvents.filter(e => want.has(e.date)).map(e => e.date);
+                omSel = kept.length === 0 || kept.length === omEvents.length ? 'all' : kept.length === 1 ? kept[0] : kept;
+            }
+            function omToggle(date) { const l = omSelList() || []; omSetSelection(l.includes(date) ? l.filter(d => d !== date) : l.concat(date)); }
+            function omSelRows() { const s = omSelSet(); return s ? omRows.filter(r => s.has(r.date)) : omRows; }
             function omEventLabel(e) { const d = new Date(e.date + 'T12:00:00'); return isNaN(d) ? e.event : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
             function omRenderKpis() {
                 const st = omStats(omSelRows()); const el = document.getElementById('omKpis'); if (!st) { el.innerHTML = ''; return; }
                 const tile = (l, v, sub) => `<div class="fs2-ktile"><div class="l">${l}</div><div class="v">${v}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
-                el.innerHTML = tile('Events', omSel === 'all' ? omEvents.length : 1)
+                el.innerHTML = tile('Events', (omSelList() || omEvents).length)
                     + tile('Fighters', st.n.toLocaleString())
                     + tile('Avg miss', st.mae.toFixed(2) + '<span class="raw">pts</span>', 'mean absolute error')
                     + tile('Median miss', st.med.toFixed(2) + '<span class="raw">pts</span>')
@@ -9783,7 +9803,7 @@
                 g += `<line class="om-diag" x1="${x(0)}" y1="${y(0)}" x2="${x(maxV)}" y2="${y(maxV)}"></line>`;
                 g += `<text class="om-axis" x="${M.l + pw / 2}" y="${H - 6}" text-anchor="middle">Projected ownership</text>`;
                 g += `<text class="om-axis" x="12" y="${M.t + ph / 2}" text-anchor="middle" transform="rotate(-90 12 ${M.t + ph / 2})">Actual ownership</text>`;
-                g += rows.map((r, i) => `<circle class="om-dot ${r.abs <= 3 ? 'ok' : r.abs <= 6 ? 'mid' : 'far'}" data-i="${i}" cx="${x(r.proj).toFixed(1)}" cy="${y(r.act).toFixed(1)}" r="${omSel === 'all' ? 3.2 : 5}"></circle>`).join('');
+                g += rows.map((r, i) => `<circle class="om-dot ${r.abs <= 3 ? 'ok' : r.abs <= 6 ? 'mid' : 'far'}" data-i="${i}" cx="${x(r.proj).toFixed(1)}" cy="${y(r.act).toFixed(1)}" r="${omIsSingle() ? 5 : 3.2}"></circle>`).join('');
                 svg.innerHTML = g;
                 const read = document.getElementById('omScatterRead');
                 svg.onmousemove = e => {
@@ -9814,7 +9834,8 @@
                 const area = line + `L${x(ev.length - 1).toFixed(1)},${M.t + ph}L${x(0).toFixed(1)},${M.t + ph}Z`;
                 g += `<defs><linearGradient id="omFill" x1="0" y1="0" x2="0" y2="1"><stop class="tr-stop-top" offset="0"></stop><stop class="tr-stop-base" offset="1"></stop></linearGradient></defs>`;
                 g += `<path class="tr-area" style="fill:url(#omFill)" d="${area}"></path><path class="tr-line" d="${line}"></path>`;
-                g += ev.map((e, i) => `<circle class="tr-dot om-evdot${e.date === omSel ? ' sel' : ''}" data-d="${e.date}" cx="${x(i).toFixed(1)}" cy="${y(vals[i]).toFixed(1)}" r="${e.date === omSel ? 6 : 4}"></circle>`).join('');
+                const selSet = omSelSet();
+                g += ev.map((e, i) => { const on = !!selSet && selSet.has(e.date); return `<circle class="tr-dot om-evdot${on ? ' sel' : ''}" data-d="${e.date}" cx="${x(i).toFixed(1)}" cy="${y(vals[i]).toFixed(1)}" r="${on ? 6 : 4}"></circle>`; }).join('');
                 g += `<text class="om-axis" x="${M.l + pw / 2}" y="${H - 6}" text-anchor="middle">Event</text>`;
                 g += `<text class="om-axis" x="12" y="${M.t + ph / 2}" text-anchor="middle" transform="rotate(-90 12 ${M.t + ph / 2})">Avg miss (pts)</text>`;
                 svg.innerHTML = g;
@@ -9825,23 +9846,33 @@
                     read.innerHTML = `${omEventLabel(ev1)} \u00b7 ${ev1.st.n} fighters \u00b7 avg miss <span class="n">${ev1.st.mae.toFixed(2)}</span> \u00b7 within 3: <span class="n">${Math.round(100 * ev1.st.w3)}%</span>`;
                 };
                 svg.onmouseleave = () => { read.textContent = ''; };
-                svg.onclick = e => { const t = e.target; if (t.classList && t.classList.contains('om-evdot')) { omSel = omSel === t.dataset.d ? 'all' : t.dataset.d; omRenderAll(); } };
+                // a dot adds or removes its event from the pick (the first click picks just that event)
+                svg.onclick = e => { const t = e.target; if (t.classList && t.classList.contains('om-evdot')) { omToggle(t.dataset.d); omRenderAll(); } };
             }
             function omRenderPicker() {
                 const el = document.getElementById('omPicker');
-                const idx = omSel === 'all' ? -1 : omEvents.findIndex(e => e.date === omSel);
+                const list = omSelList(), multi = !!list && list.length > 1, sel = omSelSet();
+                const idx = omIsSingle() ? omEvents.findIndex(e => e.date === omSel) : -1;
                 const cur = idx >= 0 ? omEvents[idx] : omEvents[omEvents.length - 1];
-                const d = new Date(cur.date + 'T12:00:00');
-                const label = isNaN(d) ? cur.event : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const fmt = e => { const d = new Date(e.date + 'T12:00:00'); return isNaN(d) ? e.event : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); };
                 // the sheet's event names are placeholders unless they were typed in; show a real one
-                const named = cur.event && !/^UFC \d/.test(cur.event) ? ` \u00b7 ${cur.event}` : '';
-                const canOlder = idx !== 0, canNewer = idx >= 0 && idx < omEvents.length - 1;
+                const named = e => e.event && !/^UFC \d/.test(e.event) ? ` \u00b7 ${e.event}` : '';
+                const canOlder = !multi && idx !== 0, canNewer = !multi && idx >= 0 && idx < omEvents.length - 1;
                 el.innerHTML = `<button type="button" class="${omSel === 'all' ? 'active' : ''}" data-d="all">All events</button>` +
                     `<div class="om-step${omSel === 'all' ? '' : ' active'}">` +
                     `<button type="button" data-step="older" aria-label="Older event"${canOlder ? '' : ' disabled'}>\u2039</button>` +
-                    `<button type="button" class="om-cur" data-d="${cur.date}" title="Show only this event">${label}${named}</button>` +
+                    (multi
+                        ? `<button type="button" class="om-cur" data-dd title="Choose events">${list.length} events</button>`
+                        : `<button type="button" class="om-cur" data-d="${cur.date}" title="Show only this event">${fmt(cur)}${named(cur)}</button>`) +
                     `<button type="button" data-step="newer" aria-label="Newer event"${canNewer ? '' : ' disabled'}>\u203a</button>` +
-                    `</div>`;
+                    `</div>` +
+                    // the pick list: check any set of events; an empty pick is every event
+                    `<div class="om-dd${omDdOpen ? ' open' : ''}">` +
+                    `<button type="button" class="om-dd-btn${multi ? ' active' : ''}" data-dd aria-expanded="${omDdOpen}">Pick events \u25be</button>` +
+                    `<div class="om-dd-panel"${omDdOpen ? '' : ' hidden'}>` +
+                    `<div class="om-dd-actions"><span>${sel ? sel.size + ' picked' : 'Check the events to compare'}</span><button type="button" data-dd-all>Clear</button></div>` +
+                    omEvents.slice().reverse().map(e => `<label class="om-dd-row"><input type="checkbox" data-ev="${e.date}"${sel && sel.has(e.date) ? ' checked' : ''}><span>${fmt(e)}${named(e)}</span></label>`).join('') +
+                    `</div></div>`;
             }
             function omRenderTable() {
                 const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -9852,14 +9883,14 @@
                     return (a[key] - b[key]) * dir;
                 });
                 const cols = [['event', 'Event', true], ['fighter', 'Fighter', true], ['proj', 'Projected', false], ['act', 'Actual', false], ['diff', 'Diff', false], ['abs', 'Miss', false]];
-                if (omSel !== 'all') cols.shift();
+                if (omIsSingle()) cols.shift();
                 document.getElementById('omHead').innerHTML = '<tr>' + cols.map(([k, l, left]) =>
                     `<th class="${left ? 'l ' : ''}sortable${k === key ? ' sorted' : ''}" data-key="${k}">${l}${k === key ? (dir < 0 ? ' \u25be' : ' \u25b4') : ''}</th>`).join('') + '</tr>';
                 const maxAbs = Math.max(...rows.map(r => r.abs), 1);
                 document.getElementById('omTBody').innerHTML = rows.map(r => {
                     const t = Math.min(1, r.abs / 12);
                     const shade = r.abs < 1.5 ? '' : ` class="om-diff ${r.diff > 0 ? 'up' : 'dn'}" style="--t:${t.toFixed(2)}"`;
-                    return `<tr>${omSel === 'all' ? `<td class="l">${omEventLabel(r)}</td>` : ''}<td class="l"><b>${esc(r.fighter)}</b></td><td>${r.proj.toFixed(1)}%</td><td>${r.act.toFixed(1)}%</td><td${shade}>${r.diff > 0 ? '+' : ''}${r.diff.toFixed(1)}</td><td class="om-miss" style="--p:${(r.abs / maxAbs).toFixed(3)}">${r.abs.toFixed(1)}</td></tr>`;
+                    return `<tr>${omIsSingle() ? '' : `<td class="l">${omEventLabel(r)}</td>`}<td class="l"><b>${esc(r.fighter)}</b></td><td>${r.proj.toFixed(1)}%</td><td>${r.act.toFixed(1)}%</td><td${shade}>${r.diff > 0 ? '+' : ''}${r.diff.toFixed(1)}</td><td class="om-miss" style="--p:${(r.abs / maxAbs).toFixed(3)}">${r.abs.toFixed(1)}</td></tr>`;
                 }).join('');
                 document.getElementById('omCount').textContent = `${rows.length} fighter${rows.length === 1 ? '' : 's'}`;
             }
@@ -9878,6 +9909,10 @@
                 document.getElementById('omLoading').style.display = 'none';
                 document.getElementById('omBody').style.display = '';
                 document.getElementById('omPicker').addEventListener('click', e => {
+                    e.stopPropagation();   // clicks inside the picker never reach the outside-click closer below
+                    if (e.target.closest('[data-dd]')) { omDdOpen = !omDdOpen; omRenderPicker(); return; }
+                    if (e.target.closest('[data-dd-all]')) { omSel = 'all'; omRenderAll(); return; }
+                    if (e.target.closest('.om-dd-panel')) return;   // checkbox changes are handled below
                     const st = e.target.closest('button[data-step]');
                     if (st && !st.disabled) {
                         const idx = omSel === 'all' ? -1 : omEvents.findIndex(x => x.date === omSel);
@@ -9888,6 +9923,11 @@
                     }
                     const b = e.target.closest('button[data-d]'); if (!b) return; omSel = b.dataset.d; omRenderAll();
                 });
+                document.getElementById('omPicker').addEventListener('change', e => {
+                    const cb = e.target.closest('input[data-ev]'); if (!cb) return; omToggle(cb.dataset.ev); omRenderAll();
+                });
+                document.addEventListener('click', e => { if (omDdOpen && !e.target.closest('.om-dd')) { omDdOpen = false; omRenderPicker(); } });
+                document.addEventListener('keydown', e => { if (e.key === 'Escape' && omDdOpen) { omDdOpen = false; omRenderPicker(); } });
                 document.getElementById('omHead').addEventListener('mousedown', e => { const th = e.target.closest('th.sortable'); if (!th) return; const k = th.dataset.key; if (k === omSortKey) omSortDir = -omSortDir; else { omSortKey = k; omSortDir = (k === 'fighter' || k === 'event') ? 1 : -1; } omRenderTable(); });
                 omBuilt = true;
                 omSel = 'all';   // stats and charts open on every event; the stepper shows the newest

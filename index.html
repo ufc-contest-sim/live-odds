@@ -7217,6 +7217,7 @@
                 contestPayouts = data.payouts || null;
                 contestOptimalMap = data.optimal_map || null;
                 contestSalaryMap = data.salary_map || null;
+                fighterExposureSort = { key: 'draft', asc: false };   // every contest opens on Draft %
                 contestActualsMap = data.actuals_map || null;
                 whatIfActualsOn = false;
                 whatIfScores = {};
@@ -7278,7 +7279,7 @@
                     count,
                     pct: totalLineups > 0 ? (count / totalLineups) * 100 : 0
                 }))
-                .sort((a, b) => b.pct - a.pct);
+                .sort((a, b) => b.pct - a.pct || a.fighter.localeCompare(b.fighter));
             
             return fighterStats;
         }
@@ -7328,7 +7329,8 @@
             rows.sort((a, b) => {
                 if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
                 const av = a[key] == null ? -1 : a[key], bv = b[key] == null ? -1 : b[key];
-                return asc ? av - bv : bv - av;
+                // ties fall back to the name so the order never depends on how the lineups happen to be sorted
+                return (asc ? av - bv : bv - av) || a.fighter.localeCompare(b.fighter);
             });
             // the Draft % cell carries the share bar: each fighter's draft rate as a
             // share of the most-drafted fighter, the same bar the search results use for $
@@ -7664,7 +7666,8 @@
             rows.sort((a, b) => {
                 if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
                 const av = a[key] == null ? -Infinity : a[key], bv = b[key] == null ? -Infinity : b[key];
-                return asc ? av - bv : bv - av;
+                // ties fall back to the name so the order never depends on how the lineups happen to be sorted
+                return (asc ? av - bv : bv - av) || a.fighter.localeCompare(b.fighter);
             });
             tbody.innerHTML = rows.map(r => `
                 <tr>

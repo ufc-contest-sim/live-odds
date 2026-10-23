@@ -4629,6 +4629,8 @@
         .lb-right #dupes-container { margin-top: 16px; }
         @media (min-width: 1500px) { .lb-right #dupes-container { width: calc(50% - 8px); } }
         #portfolio-table tr.row-main { cursor: default; }
+        /* Fighter(s) filter sits inline like Username; picked fighters wrap under it only when there are some */
+        #selected-fighters:empty { display: none; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5054,9 +5056,9 @@
                     <label for="search-user">Username:</label>
                     <input type="text" id="search-user" placeholder="Enter username...">
                 </div>
-                <div class="filter-group" id="fighter-filter" style="display: none; flex-direction: column; align-items: flex-start; flex: 1; max-width: 500px;">
+                <div class="filter-group" id="fighter-filter" style="display: none; flex: 0 1 auto; flex-wrap: wrap; max-width: 320px;">
                     <label for="fighter-dropdown">Fighter(s):</label>
-                    <div style="position: relative; width: 100%;">
+                    <div style="position: relative; width: 240px; flex: none;">
                         <input 
                             type="text" 
                             id="fighter-dropdown" 
@@ -5066,7 +5068,7 @@
                         >
                         <div id="fighter-dropdown-list" class="fighter-dropdown-list"></div>
                     </div>
-                    <div id="selected-fighters" class="selected-fighters"></div>
+                    <div id="selected-fighters" class="selected-fighters" style="margin: 0;"></div>
                 </div>
                 <div class="filter-group" id="dead-filter">
                     <label for="hide-dead" style="cursor:pointer;">

@@ -4625,6 +4625,10 @@
         /* Dupes by User shows six rows, then scrolls inside the card with its header frozen */
         #dupes-container .pex-scroll { max-height: var(--dupes-h, 240px); overflow-y: auto; }
         #dupes-container .pex-table thead th { position: sticky; top: 0; z-index: 1; background: var(--fn-card-2, var(--bg-card)); }
+        /* Dupes by User sits under the portfolio table at half the column; portfolio rows are plain */
+        .lb-right #dupes-container { margin-top: 16px; }
+        @media (min-width: 1500px) { .lb-right #dupes-container { width: calc(50% - 8px); } }
+        #portfolio-table tr.row-main { cursor: default; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5043,15 +5047,6 @@
                     <div class="pex-foot" id="fx-foot"></div>
                 </div>
 
-                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
-                    <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
-                    <div class="pex-body"><div class="pex-scroll">
-                    <table class="pex-table fx-table dupes-table">
-                        <thead><tr><th>Username</th><th class="n">Shared lineups</th></tr></thead>
-                        <tbody id="dupes-tbody"></tbody>
-                    </table>
-                    </div></div>
-                </div>
             </div>
             </div><div class="lb-right">
             <div class="filters">
@@ -5172,6 +5167,15 @@
                 </div>
             </div>
 
+                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
+                    <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
+                    <div class="pex-body"><div class="pex-scroll">
+                    <table class="pex-table fx-table dupes-table">
+                        <thead><tr><th>Username</th><th class="n">Shared lineups</th></tr></thead>
+                        <tbody id="dupes-tbody"></tbody>
+                    </table>
+                    </div></div>
+                </div>
             </div></div>
             <div id="whatif-layout" class="whatif-layout">
                 <div class="whatif-left">
@@ -6006,7 +6010,6 @@
                 document.getElementById('portfolio-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
-                document.getElementById('dupes-container').style.display = 'block';
                 statsPanel.classList.add('three-col');
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
@@ -8196,10 +8199,11 @@
         function updateDupesByUser() {
             const tbody = document.getElementById('dupes-tbody');
             const q = (document.getElementById('search-user').value || '').trim().toLowerCase();
-            if (!q) {
-                tbody.innerHTML = '<tr><td class="dupes-empty" colspan="2">Search a username to see who you share the most lineups with.</td></tr>';
-                return;
-            }
+            // the card exists only on the Portfolio view once a username is typed
+            const box = document.getElementById('dupes-container');
+            const show = currentView === 'portfolio' && !!q;
+            box.style.display = show ? '' : 'none';
+            if (!show) { tbody.innerHTML = ''; return; }
             // LineupKey -> set of usernames (across the whole field)
             const keyUsers = new Map();
             const myKeys = new Set();
@@ -8237,7 +8241,6 @@
                 </tr>
             `).join('');
             // cap the list at six rows (header included) and let the rest scroll
-            const box = document.getElementById('dupes-container');
             const head = box.querySelector('thead'), first = tbody.querySelector('tr');
             if (head && first) box.style.setProperty('--dupes-h', Math.round(head.getBoundingClientRect().height + 6 * first.getBoundingClientRect().height) + 'px');
         }
@@ -8351,13 +8354,11 @@
 
             const formatNetEV = (netEV) => fmtDollars(netEV);
 
+            // portfolio rows do not expand: the lineups behind one are the By Username view with that name filtered
             tbody.innerHTML = displayData.map((portfolio, idx) => {
-                const rowId = `pf-${portfolio.stableId}`;
-                const isExpanded = expandedRows.has(rowId);
-                const lineups = portfolio.lineups || [];
                 return `
-                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
-                        <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
+                    <tr class="row-main">
+                        <td>${idx + 1}</td>
                         <td class="username">${portfolio.Username}</td>
                         <td class="num">${portfolio.Entries}</td>
                         <td class="num">${fmtWin(portfolio.WinPct)}</td>
@@ -8371,25 +8372,6 @@
                             ${formatROI(portfolio['ROI%'])}
                         </td>
                         <td class="num">${portfolio.AvgSalary ? '$' + Math.round(portfolio.AvgSalary).toLocaleString() : '--'}</td>
-                    </tr>
-                    <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
-                        <td colspan="10">
-                            <div class="portfolio-lineups">
-                                ${lineups.map(lu => `
-                                    <div class="portfolio-lineup-row">
-                                        <div class="lineup-container" style="padding: 0;">
-                                            ${lu.fighters.slice().sort(byFighterName).map(f => `<div class="fighter-chip">${f}</div>`).join('')}
-                                        </div>
-                                        <div class="portfolio-lineup-meta">
-                                            <span>${fmtWin(lu.WinPct)} win</span>
-                                            <span class="${lu.NetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(lu.NetEV)}</span>
-                                            <span class="dupes-count">${lu.Copies}x</span>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                                ${lineups.length === 0 ? '<span style="color: var(--text-secondary);">No lineups</span>' : ''}
-                            </div>
-                        </td>
                     </tr>
                 `;
             }).join('');

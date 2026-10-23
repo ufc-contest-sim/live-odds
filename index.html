@@ -5295,6 +5295,10 @@
         // Paste your Google Apps Script Web App URL between the quotes to turn on
         // logging. Until then, the gate still works but nothing is recorded.
         const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxLCj-MK2jWuzQw2H5NDZacRI1_ZV_Fjv-mUVWQ8-O4pHg2r3JfXaSBWBGqrb-YryDyOA/exec';
+        // Same-origin relay (api/log.js) that adds a coarse location (city,
+        // region, country) before forwarding to the sheet. If it is missing or
+        // fails, the event goes straight to the sheet instead, so nothing is lost.
+        const LOG_ENDPOINT = '/api/log';
         const VISITOR_KEY = 'mmaLiveSim_visitor';
         // The site owner's own DK username(s). Anything typed at the gate that matches
         // one of these is never logged, so your own heavy usage doesn't clutter the sheet.
@@ -5335,21 +5339,28 @@
             if (isOwner()) return;   // don't log the owner's own activity
             try {
                 const dev = getDevice();
-                fetch(SHEET_ENDPOINT, {
+                const body = JSON.stringify({
+                    event: event,
+                    visitor: getVisitor(),
+                    query: query || '',
+                    // the token rides on the browser string so it lands in the sheet's
+                    // existing column; the separate field is there for the script
+                    ua: navigator.userAgent + (dev ? ' | dev ' + dev : ''),
+                    ref: document.referrer || '',
+                    device: dev
+                });
+                const direct = () => fetch(SHEET_ENDPOINT, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        event: event,
-                        visitor: getVisitor(),
-                        query: query || '',
-                        // the token rides on the browser string so it lands in the sheet's
-                        // existing column; the separate field is there for the script
-                        ua: navigator.userAgent + (dev ? ' | dev ' + dev : ''),
-                        ref: document.referrer || '',
-                        device: dev
-                    })
-                });
+                    body: body
+                }).catch(() => {});
+                fetch(LOG_ENDPOINT, {
+                    method: 'POST',
+                    keepalive: true,
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: body
+                }).then(r => { if (!r.ok) return direct(); }).catch(direct);
             } catch (e) { /* never let logging break the page */ }
         }
 

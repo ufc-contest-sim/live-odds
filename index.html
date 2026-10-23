@@ -4606,6 +4606,8 @@
         }
         /* KPI cards everywhere: label and value centered */
         .srs-kpi, .ps-kpi, .fs2-ktile { text-align: center; align-items: center; }
+        /* the filter bar lives in the right column, over the stats strip, so the exposure panel starts at the top */
+        @media (min-width: 1500px) { .lb-right .filters { margin-bottom: 16px; } }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5003,6 +5005,38 @@
                 </button>
             </header>
             
+            <div class="lb-cols"><div class="lb-left">
+            <div class="stats-and-fighters">
+
+                <div class="fighter-draft-container fx-panel">
+                    <div class="portfolio-chart-title pex-title">Fighter Exposure<span class="pex-meta" id="fx-meta"></span></div>
+                    <div class="pex-body"><div class="pex-scroll">
+                    <table class="pex-table fx-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" onclick="sortFighterExposure('fighter')">Fighter</th>
+                                <th class="sortable n" onclick="sortFighterExposure('draft')">Draft %</th>
+                                <th class="sortable n" onclick="sortFighterExposure('win')">Win LU %</th>
+                                <th class="sortable n" onclick="sortFighterExposure('optimal')">Optimal %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fighter-draft-tbody"></tbody>
+                    </table>
+                    </div></div>
+                    <div class="pex-foot" id="fx-foot"></div>
+                </div>
+
+                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
+                    <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
+                    <div class="pex-body"><div class="pex-scroll">
+                    <table class="pex-table fx-table dupes-table">
+                        <thead><tr><th>Username</th><th class="n">Shared lineups</th></tr></thead>
+                        <tbody id="dupes-tbody"></tbody>
+                    </table>
+                    </div></div>
+                </div>
+            </div>
+            </div><div class="lb-right">
             <div class="filters">
                 <div class="filter-group" id="username-filter">
                     <label for="search-user">Username:</label>
@@ -5042,39 +5076,7 @@
                 </div>
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
             </div>
-            
-            <div class="lb-cols"><div class="lb-left">
-            <div class="stats-and-fighters">
 
-                <div class="fighter-draft-container fx-panel">
-                    <div class="portfolio-chart-title pex-title">Fighter Exposure<span class="pex-meta" id="fx-meta"></span></div>
-                    <div class="pex-body"><div class="pex-scroll">
-                    <table class="pex-table fx-table">
-                        <thead>
-                            <tr>
-                                <th class="sortable" onclick="sortFighterExposure('fighter')">Fighter</th>
-                                <th class="sortable n" onclick="sortFighterExposure('draft')">Draft %</th>
-                                <th class="sortable n" onclick="sortFighterExposure('win')">Win LU %</th>
-                                <th class="sortable n" onclick="sortFighterExposure('optimal')">Optimal %</th>
-                            </tr>
-                        </thead>
-                        <tbody id="fighter-draft-tbody"></tbody>
-                    </table>
-                    </div></div>
-                    <div class="pex-foot" id="fx-foot"></div>
-                </div>
-
-                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
-                    <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
-                    <div class="pex-body"><div class="pex-scroll">
-                    <table class="pex-table fx-table dupes-table">
-                        <thead><tr><th>Username</th><th class="n">Shared lineups</th></tr></thead>
-                        <tbody id="dupes-tbody"></tbody>
-                    </table>
-                    </div></div>
-                </div>
-            </div>
-            </div><div class="lb-right">
             <div class="stats-vertical stats-top">
                 <h3 id="stats-title">Field Stats</h3>
                 <div id="stats-vertical"></div>

@@ -4608,6 +4608,11 @@
         .srs-kpi, .ps-kpi, .fs2-ktile { text-align: center; align-items: center; }
         /* the filter bar lives in the right column, over the stats strip, so the exposure panel starts at the top */
         @media (min-width: 1500px) { .lb-right .filters { margin-bottom: 16px; } }
+        /* desktop: a capped lineups table scrolls inside its card with the header frozen */
+        @media (min-width: 1500px) {
+            .lb-right .table-scroll.fit { overflow-y: auto; }
+            .lb-right .table-scroll.fit thead { position: sticky; top: 0; z-index: 3; }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -6007,7 +6012,44 @@
             }
 
             filterAndRender();
+            requestAnimationFrame(fitLineupTables);
         }
+
+        // Desktop (two-column layout): each lineups table ends at the bottom of
+        // the screen and scrolls inside, header frozen. The cap is measured
+        // from where the card sits on the page and rounded down to whole rows,
+        // so the last row shown is never cut in half. Narrower screens keep
+        // the full-height tables and scroll the page.
+        function fitLineupTables() {
+            const wide = window.matchMedia('(min-width: 1500px)').matches;
+            ['username-table', 'lineup-table', 'portfolio-table'].forEach(id => {
+                const card = document.getElementById(id);
+                const sc = card && card.querySelector('.table-scroll');
+                if (!sc) return;
+                const release = () => { sc.style.maxHeight = ''; sc.classList.remove('fit'); };
+                if (!wide) { release(); return; }
+                if (card.offsetParent === null) return;   // hidden view: sized when it is shown
+                const top = card.getBoundingClientRect().top + window.scrollY;
+                const avail = window.innerHeight - top - 20;
+                const thead = sc.querySelector('thead');
+                const row = sc.querySelector('tbody tr.row-main');
+                const hH = thead ? thead.getBoundingClientRect().height : 0;
+                const rH = row ? row.getBoundingClientRect().height : 0;
+                if (!(rH > 0)) { release(); return; }
+                // whole rows when at least four fit; on a short screen or with tall
+                // rows (By Lineup) just fill what is there, never past the screen
+                const whole = Math.floor((avail - hH) / rH);
+                const hgt = whole >= 4 ? hH + whole * rH : Math.max(avail, hH + 2 * rH);
+                sc.classList.add('fit');
+                sc.style.maxHeight = Math.round(hgt) + 'px';
+            });
+        }
+        window.addEventListener('resize', fitLineupTables);
+        // re-measure whenever the right column changes height (a table renders or a view swaps)
+        (function () {
+            const col = document.querySelector('.lb-right');
+            if (col && 'ResizeObserver' in window) new ResizeObserver(() => fitLineupTables()).observe(col);
+        })();
         
         // Load contests from contests.json
         async function loadContestConfig() {

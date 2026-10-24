@@ -1,103 +1,96 @@
 {
-  "generated": "2026-10-22T01:05:30",
-  "source": "UFC Stats: UFC 333: Volkanovski vs. Evloev",
+  "generated": "2026-10-24T09:04:11",
+  "source": "Post Contest Sim.xlsm",
   "fights": [
     {
       "fight_id": 1,
       "fighters": [
-        "Alexander Volkanovski",
-        "Movsar Evloev"
+        "Rafael Fiziev",
+        "Manuel Torres"
       ]
     },
     {
       "fight_id": 2,
       "fighters": [
-        "Petr Yan",
-        "Merab Dvalishvili"
+        "Shara Magomedov",
+        "Michel Pereira"
       ]
     },
     {
       "fight_id": 3,
       "fighters": [
-        "Lone'er Kavanagh",
-        "Ramazan Temirov"
+        "Nazim Sadykhov",
+        "Matheus Camilo"
       ]
     },
     {
       "fight_id": 4,
       "fighters": [
-        "Alexander Volkov",
-        "Rizvan Kuniev"
+        "Asu Almabayev",
+        "Charles Johnson"
       ]
     },
     {
       "fight_id": 5,
       "fighters": [
-        "Aaron Pico",
-        "Losene Keita"
+        "Ikram Aliskerov",
+        "Brunno Ferreira"
       ]
     },
     {
       "fight_id": 6,
       "fighters": [
-        "Azamat Murzakanov",
-        "Dominick Reyes"
+        "Abus Magomedov",
+        "Michal Oleksiejczuk"
       ]
     },
     {
       "fight_id": 7,
       "fighters": [
-        "Nikita Krylov",
-        "Abdul Rakhman Yakhyaev"
+        "Farman Hasanov",
+        "Eric Nolan"
       ]
     },
     {
       "fight_id": 8,
       "fighters": [
-        "Abus Magomedov",
-        "Cam Rowston"
+        "Abdul Rakhman Yakhyaev",
+        "Julius Walker"
       ]
     },
     {
       "fight_id": 9,
       "fighters": [
-        "Grant Dawson",
-        "Nurullo Aliev"
+        "Nursulton Ruziboev",
+        "Andrey Pulyaev"
       ]
     },
     {
       "fight_id": 10,
       "fighters": [
-        "Colby Thicknesse",
-        "Asaf Chopurov"
+        "Javier Reyes",
+        "Kaan Ofli"
       ]
     },
     {
       "fight_id": 11,
       "fighters": [
-        "Abubakar Vagaev",
-        "Jacob Malkoun"
+        "Daniil Donchenko",
+        "Theodor Berggren"
       ]
     },
     {
       "fight_id": 12,
       "fighters": [
-        "Bolaji Oki",
-        "Daniel Santos"
+        "Jean Matsumoto",
+        "Bekzat Almakhan"
       ]
     },
     {
       "fight_id": 13,
       "fighters": [
-        "Kody Steele",
-        "Noah Gugnon"
-      ]
-    },
-    {
-      "fight_id": 14,
-      "fighters": [
-        "Iasmin Lucindo",
-        "Nicolle Caliari"
+        "Tahir Abdullayev",
+        "Jefferson Nascimento"
       ]
     }
   ]

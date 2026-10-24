@@ -6697,6 +6697,26 @@
             }
         }
 
+        // Phones and tablets: the Fighter Exposure list sits under the contest
+        // cards, so a search lands on the contests first. Wide screens keep it
+        // beside the chart. Runs after each render and on resize.
+        function placeExposurePanel() {
+            const panel = document.getElementById('portfolio-exposure');
+            const wrapper = document.getElementById('portfolio-chart-wrapper');
+            const results = document.getElementById('quick-search-results');
+            const grid = wrapper && wrapper.querySelector('.pcw-grid');
+            if (!panel || !wrapper || !results || !grid) return;
+            if (window.matchMedia('(max-width: 899px)').matches) {
+                if (panel.parentElement !== results) results.appendChild(panel);
+                // nothing left in the chart card when there is no chart: park it
+                if (wrapper.classList.contains('pcw-nochart') && wrapper.style.display !== 'none') { wrapper.style.display = 'none'; wrapper.dataset.parked = '1'; }
+            } else {
+                if (panel.parentElement !== grid) grid.appendChild(panel);
+                if (wrapper.dataset.parked) { wrapper.style.display = ''; delete wrapper.dataset.parked; }
+            }
+        }
+        window.addEventListener('resize', placeExposurePanel);
+
         // selectedNames: null = every contest; otherwise the ticked filter labels.
         function renderPortfolioExposure(selectedNames) {
             const panel = document.getElementById('portfolio-exposure');
@@ -7113,6 +7133,7 @@
                 filtersEl._exposureActuals = exposureActuals;
             }
             renderPortfolioExposure(null);
+            placeExposurePanel();
             const hasExposure = exposureByContest.some(rec => rec.fighters.size > 0);
             // No simulated distribution for this user: show the card with the
             // exposure list alone (the chart column collapses).
@@ -7121,6 +7142,7 @@
                 if (!wrapper || !hasExposure) return;
                 wrapper.classList.add('pcw-nochart');
                 wrapper.style.display = '';
+                placeExposurePanel();
             };
 
             // New look: the chart box carries the distribution title and the
@@ -7160,6 +7182,7 @@
                 if (userPct) {
                     const wrapper = document.getElementById('portfolio-chart-wrapper');
                     if (wrapper) { wrapper.classList.remove('pcw-nochart'); wrapper.style.display = ''; }
+                    placeExposurePanel();
                     // New format: {all: {...}, by_contest: {...}}; Old format: {p1: ..., p99: ...}
                     const allPctData = isNewFormat ? userPct.all : userPct;
                     const byContest = isNewFormat ? userPct.by_contest : null;

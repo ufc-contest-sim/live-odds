@@ -67,6 +67,23 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
+:: The site builds from the "deploy" branch, which is always a single commit
+:: holding the current files and no history. Vercel clones a slice of recent
+:: history before every build, and on main that slice is ten full sets of
+:: contest files once the live publishes pile up; a one-commit branch keeps
+:: every build small and quick. main keeps the full history as before.
+echo.
+echo Updating the deploy branch (what the site builds from)...
+for /f %%i in ('git commit-tree HEAD: -m "deploy snapshot"') do git push --force origin %%i:refs/heads/deploy
+if %errorlevel% neq 0 (
+    echo.
+    echo The deploy branch did not update, so the site still shows the previous
+    echo publish. Re-run this script to try again.
+    echo.
+    pause
+    exit /b
+)
+
 echo.
 echo ========================================
 echo   Done! Site will update in a minute.

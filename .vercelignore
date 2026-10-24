@@ -12,5 +12,3 @@ publish.bat
 sync.bat
 make_favicons.py
 ufc_scrape_cache.zip
-build_history.py
-dk_salaries/

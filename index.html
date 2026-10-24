@@ -883,7 +883,7 @@
         /* Faint bar behind the $ cell: share of the biggest exposure (inline background-size). */
         .pex-table td.usd {
             color: var(--text-primary);
-            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16));
+            background-image: linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5));
             background-repeat: no-repeat; background-position: 0 50%;
         }
         .pex-table td.lu { color: var(--text-secondary); font-weight: 600; }
@@ -1835,7 +1835,7 @@
 
         .fight-row {
             display: grid;
-            grid-template-columns: 1fr 90px 40px 1fr 90px;
+            grid-template-columns: 1fr 90px 40px 90px 1fr;
             gap: 12px;
             align-items: center;
             padding: 14px 0;
@@ -1953,7 +1953,7 @@
 
         @media (max-width: 768px) {
             .fight-row {
-                grid-template-columns: 1fr 70px 30px 1fr 70px;
+                grid-template-columns: 1fr 70px 30px 70px 1fr;
                 gap: 6px;
             }
 
@@ -3091,9 +3091,18 @@
         .sdb-insight-note, .sdb-ladder-sub, .opt-note, .opt-upload-hint, .cmp-note, .flu-note, .sdb-legend { line-height: 1.55; }
         .filters, .chart-card { }
         .row-main:hover .expand-icon, .row-main.expanded .expand-icon { color: var(--accent); }
-        #username-table th:nth-child(n+4), #username-table td:nth-child(n+4),
-        #lineup-table th:nth-child(n+3), #lineup-table td:nth-child(n+3),
-        #portfolio-table th:nth-child(n+3), #portfolio-table td:nth-child(n+3) { text-align: right; }
+        /* lineup tables: every column centered except the username (and the lineup chips) */
+        #username-table th, #username-table td,
+        #lineup-table th, #lineup-table td,
+        #portfolio-table th, #portfolio-table td,
+        .whatif-table-scroll th, .whatif-table-scroll td { text-align: center; }
+        #username-table th.username, #username-table td.username,
+        #portfolio-table th.username, #portfolio-table td.username,
+        .whatif-table-scroll th.username, .whatif-table-scroll td.username,
+        #username-table th:nth-child(3), #portfolio-table th:nth-child(2), .whatif-table-scroll th:nth-child(3),
+        #lineup-table th:nth-child(2), #lineup-table td:nth-child(2) { text-align: left; }
+        /* the share bars stay anchored to the cell's left edge under the centered number */
+        #username-table td.depth, #lineup-table td.depth, #portfolio-table td.depth { text-align: center; }
         .lnav-tab, .tab-btn, .opt-btn, .flc-chip, .flu-sm, .flu-revert, .cmp-zoom button, .sdb-tile, .pair-toggle, .add-fav-btn, .back-btn, .portfolio-filter-label {
             transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.15s, filter 0.15s;
         }
@@ -3192,8 +3201,10 @@
         .hbp-f.out .nm { color: var(--accent-red); text-decoration: line-through; }
         .hbp-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 8px; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; color: var(--text-secondary); }
         /* What If score entry — one row per bout, opponents side by side */
-        .hbw-tools { margin-bottom: 12px; }
-        .hbw-bouts { max-width: 860px; }
+        /* the What If pane sits on the page's centerline: note, button and the bout list */
+        #hbWhatIf .fs2-note { text-align: center; max-width: 860px; margin-left: auto; margin-right: auto; }
+        .hbw-tools { margin-bottom: 12px; text-align: center; }
+        .hbw-bouts { max-width: 860px; margin: 0 auto; }
         .hbw-bout { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px solid var(--border); }
         .hbw-bout .vs { flex: none; font-family: 'Chakra Petch', monospace; font-size: 0.7rem; font-weight: 600; color: var(--accent); text-transform: uppercase; }
         .hbw-cell { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 10px; }
@@ -3817,7 +3828,7 @@
                screen — minmax(0,1fr) + wrapping makes the card fit 360px. */
             .whatif-left .fight-card-container { padding: 14px 10px; }
             .fight-row {
-                grid-template-columns: minmax(0, 1fr) 56px 18px minmax(0, 1fr) 56px;
+                grid-template-columns: minmax(0, 1fr) 56px 18px 56px minmax(0, 1fr);
                 gap: 4px;
             }
             .fighter-name-label { font-size: 0.76rem; overflow-wrap: anywhere; }
@@ -3927,8 +3938,8 @@
         }
         body:not(.v2) .srs-kpi .v.positive { color: var(--accent-green); }
         body:not(.v2) .srs-kpi .v.negative { color: var(--accent-red); }
-        /* P(profit) is a probability, not money: it reads orange, like the brand, not mint */
-        body:not(.v2) #kpi-profit .v { color: var(--accent-hi); }
+        /* % Profit is a probability, not money: plain white, not mint or coral */
+        body:not(.v2) #kpi-profit .v { color: var(--text-primary); }
         body:not(.v2) .srs-kpi.pending { display: none; }
         /* Worst and Best now sit in the tiles; the chart keeps its axis only */
         body:not(.v2) .portfolio-bar-markers { display: none; }
@@ -3993,7 +4004,7 @@
         body:not(.v2) .search-result-stat.sr-share .sr-value {
             display: block; padding: 1px 8px; border-radius: 4px;
             background-image:
-                linear-gradient(90deg, rgba(var(--a-rgb), 0.20), rgba(var(--a-rgb), 0.20)),
+                linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5)),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04));
             background-repeat: no-repeat;
             background-size: calc(var(--p, 0) * 100%) 100%, 100% 100%;
@@ -4037,11 +4048,11 @@
            overrides; rules that must not reach v2 sit under body:not(.v2).
            ===================================================================== */
         /* --- share bars behind Win % / Cash % (td.depth, --p = percent / 100):
-               the exposure table's $ bar, left-aligned, an ember that fades
-               toward its tip over a fainter full-width track --- */
+               the same bar as Fighter Exposure, left-aligned, over a fainter
+               full-width track --- */
         td.depth {
             background-image:
-                linear-gradient(90deg, rgba(var(--a-rgb), 0.34), rgba(var(--a-rgb), 0.14)),
+                linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5)),
                 linear-gradient(90deg, rgba(var(--a-rgb), 0.06), rgba(var(--a-rgb), 0.06));
             background-repeat: no-repeat;
             background-size: calc(var(--p, 0) * (100% - 24px)) min(64%, 22px), calc(100% - 24px) min(64%, 22px);
@@ -4242,7 +4253,7 @@
         body:not(.v2) .hbp-f .sc { border-radius: 4px; }
         .hbp-f .sc.share {
             background-image:
-                linear-gradient(90deg, rgba(var(--a-rgb), 0.22), rgba(var(--a-rgb), 0.22)),
+                linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5)),
                 linear-gradient(90deg, rgba(var(--a-rgb), 0.06), rgba(var(--a-rgb), 0.06));
             background-repeat: no-repeat;
             background-size: calc(var(--p, 0) * 100%) 100%, 100% 100%;
@@ -4308,19 +4319,22 @@
 
         /* --- level 1: site sections, one contained strip --- */
         .landing-nav {
-            display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px;
-            margin: 0 0 16px; padding: 4px;
+            display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px;
+            margin: 0 0 16px; padding: 6px;
             background: var(--bg-card); border: 1px solid var(--line-2); border-radius: var(--r-lg);
         }
         .lnav-tab {
-            padding: 11px 8px; border: 0; border-radius: var(--r-md); background: transparent;
+            padding: 12px 8px; border: 0; border-radius: var(--r-md); background: transparent;
             font-family: var(--fn-mono); font-size: 0.8125rem; font-weight: 700; line-height: 1;
             letter-spacing: 0.06em; text-transform: uppercase; text-align: center;
             color: var(--text-secondary); cursor: pointer; transform: none; box-shadow: none;
         }
         .lnav-tab > span { display: inline-block; transform: none; }
-        .lnav-tab:hover { background: var(--bg-hover); color: var(--text-primary); }
-        .lnav-tab.active { background: var(--accent); color: #180a02; }
+        /* each inactive tab reads as a button: a faint raised surface with a hairline edge */
+        .lnav-tab:not(.active) { background: rgba(255, 255, 255, 0.045); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07); }
+        .lnav-tab:hover { background: var(--bg-hover); color: var(--text-primary); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); }
+        .lnav-tab:active { transform: translateY(1px); }
+        .lnav-tab.active { background: var(--accent); color: #180a02; box-shadow: none; }
         .lnav-tab:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
 
         /* --- level 2: views inside a section, a segmented control --- */
@@ -4329,7 +4343,7 @@
             margin: 0 auto 20px; padding: 3px;
             background: var(--bg-card); border: 1px solid var(--line-2); border-radius: 10px;
         }
-        #insightsSubnav, #fluSubnav, #hbSubnav, #ownSubnav { margin-left: 0; margin-right: 0; }
+        #insightsSubnav, #fluSubnav, #hbSubnav { margin-left: 0; margin-right: 0; }
         .tab-btn {
             flex: 0 1 auto; padding: 8px 16px; border: 0; border-radius: 7px; background: transparent;
             font-family: var(--fn-mono); font-size: 0.78rem; font-weight: 700; line-height: 1.2;
@@ -4355,7 +4369,7 @@
         .contest-caption { font-family: var(--fn-body); font-size: 0.78rem; color: var(--ink-3); margin: 0 4px 8px; }
 
         @media (max-width: 600px) {
-            .landing-nav { grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
+            .landing-nav { grid-auto-flow: row; grid-template-columns: 1fr 1fr; gap: 4px; }
             .landing-nav .lnav-tab:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* an odd count: the last tab spans the row */
             .lnav-tab { padding: 10px 6px; font-size: 0.75rem; letter-spacing: 0.04em; }
             .view-tabs { width: auto; }
@@ -4492,9 +4506,8 @@
         }
         /* side by side: stats and fighters on the left, the lineups on the right, every fighter visible */
         @media (min-width: 1500px) {
-            .lb-cols { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 16px; align-items: start; }
+            .lb-cols { display: grid; grid-template-columns: 470px minmax(0, 1fr); gap: 16px; align-items: start; }
             .lb-left .stats-and-fighters { margin-bottom: 0; }
-            .lb-left .ps-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .lb-right .table-header { margin-top: 0; }
         }
 
@@ -4512,7 +4525,8 @@
         .om-svg .om-dot:hover { fill-opacity: 1; }
         .om-svg .om-evdot { cursor: pointer; }
         .om-svg .om-evdot.sel { fill: var(--accent-hi); stroke: var(--accent-hi); }
-        .om-head { margin-top: 4px; }
+        .om-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin: 8px 0 12px; }
+        .om-head .sdb-count { margin-left: 0; }
         .om-picker { display: flex; flex-wrap: wrap; gap: 6px; }
         .om-picker button {
             background: transparent; border: 1px solid var(--line-2); border-radius: var(--r-pill);
@@ -4521,27 +4535,111 @@
         }
         .om-picker button:hover { color: var(--text-primary); border-color: rgba(255, 255, 255, 0.22); }
         .om-picker button.active { background: rgba(var(--a-rgb), 0.12); border-color: var(--accent); color: var(--accent-hi); }
+        .om-step { display: inline-flex; align-items: center; gap: 2px; padding: 2px; border: 1px solid var(--line-2); border-radius: var(--r-pill); }
+        .om-step.active { border-color: var(--accent); background: rgba(var(--a-rgb), 0.12); }
+        .om-step button { width: 26px; height: 22px; padding: 0; border: 0; border-radius: var(--r-pill); font-size: 1.05rem; line-height: 1; color: var(--text-primary); background: transparent; }
+        .om-step button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); border-color: transparent; }
+        .om-step button:disabled { color: var(--ink-3); cursor: default; opacity: 0.5; }
+        .om-step .om-cur { width: auto; height: auto; font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 600; color: var(--text-secondary); padding: 3px 8px; white-space: nowrap; cursor: pointer; }
+        .om-step .om-cur:hover { color: var(--text-primary); }
+        .om-step.active .om-cur { color: var(--accent-hi); }
         .om-table td.om-diff.up { color: color-mix(in srgb, var(--accent-green) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
         .om-table td.om-diff.dn { color: color-mix(in srgb, var(--accent-red) calc(var(--t, 0) * 90%), var(--text-primary)); font-weight: 600; }
         .om-table td.om-miss {
-            background-image: linear-gradient(90deg, rgba(var(--a-rgb), 0.16), rgba(var(--a-rgb), 0.16));
+            background-image: linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5));
             background-repeat: no-repeat; background-position: 0 50%;
             background-size: calc(var(--p, 0) * 100%) 62%;
         }
         @media (max-width: 760px) { .om-grid { grid-template-columns: minmax(0, 1fr); } .om-svg text { font-size: 15px; } }
 
-        /* --- Salary & ownership history --- */
-        .fh-filters { align-items: flex-end; }
-        .fh-filters .fh-q { flex: 1 1 260px; }
-        .fh-filters .fh-q input { width: 100%; }
-        .fh-filters input[type="number"] { width: 110px; }
-        .fh-table td.sal { font-family: var(--fn-mono); font-weight: 600; }
-        .fh-table td.usd { text-align: center; }
-        .fh-table td.fh-ev { max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .fh-table .fh-na { color: var(--ink-3); }
-        .fh-table td.res-w { color: var(--accent-green); font-weight: 700; }
-        .fh-table td.res-l { color: var(--accent-red); font-weight: 700; }
-        .fh-kpis { margin: 4px 0 16px; }
+        .sdb-title .sdb-title-note { font-family: var(--fn-mono); font-style: normal; font-weight: 500; letter-spacing: 0.03em; text-transform: none; color: var(--text-secondary); margin-left: 6px; }
+        /* --- contest page: the stats strip sits above the lineups table, aligned to it;
+               Fighter Exposure runs from the filter bar down the left column --- */
+        .stats-top { margin-bottom: 14px; padding: 14px 20px 14px; }
+        .stats-top h3 { margin-bottom: 10px; }
+        .stats-top .ps-kpi { display: block; padding: 7px 12px 6px; }
+        .stats-top .ps-kpi .k { display: block; margin-bottom: 2px; }
+        .stats-top .ps-kpi .v { display: block; font-size: 1.2rem; }
+        .stats-top .ps-kpis { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+        @media (max-width: 900px) { .stats-top .ps-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 420px) { .stats-top .ps-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        /* stacked widths: stats, then the table, then the exposure list */
+        @media (max-width: 1499px) { .lb-cols { display: flex; flex-direction: column; gap: 16px; } .lb-right { order: 1; } .lb-left { order: 2; } }
+        /* --- contest header: title, view tabs and the back button share one row on desktop --- */
+        .leaderboard-page header { align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; padding-bottom: 16px; }
+        .leaderboard-page header > div:first-child { flex: 1 1 0; min-width: 0; }
+        .leaderboard-page header .lb-tabs { margin: 0; flex: 0 1 auto; }
+        .leaderboard-page header .back-btn { flex: none; margin-left: auto; }
+        /* the tabs sit on the page's centerline: the title and the button get equal room either side */
+        @media (min-width: 1101px) {
+            .leaderboard-page header { display: grid; grid-template-columns: 1fr auto 1fr; }
+            .leaderboard-page header .lb-tabs { justify-self: center; }
+            .leaderboard-page header .back-btn { justify-self: end; }
+        }
+        @media (max-width: 1100px) {
+            .leaderboard-page header .lb-tabs { order: 3; flex-basis: 100%; width: auto; }
+        }
+        /* --- build stamp and the "newer version" bar --- */
+        .site-footer .build-stamp { margin: 0 0 8px; font-family: var(--fn-mono); font-size: 0.68rem; letter-spacing: 0.04em; color: var(--ink-3); }
+        .site-footer .build-stamp:empty { display: none; }
+        .update-bar {
+            position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 9000;
+            display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px;
+            background: var(--bg-card); border: 1px solid var(--accent); border-radius: var(--r-lg);
+            box-shadow: var(--shadow-menu); font-size: 0.85rem; color: var(--text-primary); max-width: calc(100vw - 32px);
+        }
+        .update-bar[hidden] { display: none; }
+        .update-bar button {
+            font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+            background: var(--accent); color: #180a02; border: 0; border-radius: var(--r-md); padding: 7px 12px; cursor: pointer;
+        }
+        /* --- the search bar stands as tall as the tab strip (tab 38px + 6px padding + 1px border each side) --- */
+        .quick-search-bar { box-sizing: border-box; height: 51px; padding: 0 20px; }
+        .quick-search-bar input { padding-top: 0; padding-bottom: 0; }
+        /* Fighter Exposure: the three number columns sit centered; the Draft % bar stays anchored left */
+        .fx-table th.n, .fx-table td.n { text-align: center; }
+        /* Fighter Exposure, two-column layout: the three number columns share one
+               width, sized to the widest header (Optimal %); the name takes the rest */
+        @media (min-width: 1500px) {
+            .fx-table th:nth-child(2), .fx-table td:nth-child(2), .fx-table th:nth-child(3), .fx-table td:nth-child(3) { width: 98px; box-sizing: border-box; }
+            .fx-table th:nth-child(4), .fx-table td:nth-child(4) { width: 114px; box-sizing: border-box; }
+            /* Dupes by User has two columns; its count column needs room for its header */
+            .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 160px; box-sizing: border-box; }
+        }
+        /* KPI cards everywhere: label and value centered */
+        .srs-kpi, .ps-kpi, .fs2-ktile { text-align: center; align-items: center; }
+        /* the filter bar lives in the right column, over the stats strip, so the exposure panel starts at the top */
+        @media (min-width: 1500px) { .lb-right .filters { margin-bottom: 16px; } }
+        .whatif-right .filters { margin-bottom: 14px; }
+        /* desktop: a capped lineups table scrolls inside its card with the header frozen */
+        @media (min-width: 1500px) {
+            .lb-right .table-scroll.fit { overflow-y: auto; }
+            .lb-right .table-scroll.fit thead { position: sticky; top: 0; z-index: 3; }
+        }
+        /* By Lineup: the six fighters on one line, last names, so rows match the By Username height */
+        #lineup-table .lu-line { display: flex; flex-wrap: nowrap; align-items: center; gap: 0 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+        /* two-column layout: tighter cell gutters so the six names and nine numbers share the column without a sideways scroll */
+        @media (min-width: 1500px) { #lineup-table th, #lineup-table td { padding-left: 8px; padding-right: 8px; } }
+        #lineup-table .lu-dot { color: var(--ink-3); font-weight: 400; }
+        #lineup-table .lu-name.hit { color: var(--accent-hi); }
+        /* Dupes by User shows six rows, then scrolls inside the card with its header frozen */
+        #dupes-container .pex-scroll { max-height: var(--dupes-h, 240px); overflow-y: auto; }
+        #dupes-container .pex-table thead th { position: sticky; top: 0; z-index: 1; background: var(--fn-card-2, var(--bg-card)); }
+        /* Dupes by User sits under the portfolio table at half the column; portfolio rows are plain */
+        .lb-right #dupes-container { margin-top: 16px; }
+        @media (min-width: 1500px) { .lb-right #dupes-container { width: calc(50% - 8px); } }
+        #portfolio-table tr.row-main { cursor: default; }
+        /* Fighter(s) filter sits inline like Username; picked fighters wrap under it only when there are some */
+        #selected-fighters:empty { display: none; }
+        /* Ownership: the event pick list */
+        .om-dd { position: relative; display: inline-flex; }
+        .om-dd-panel { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; min-width: 250px; max-height: 340px; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 1px; background: var(--fn-card-2, var(--bg-card)); border: 1px solid var(--line-2); border-radius: var(--r-md); box-shadow: var(--shadow-menu); }
+        .om-dd-panel[hidden] { display: none; }
+        .om-dd-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 2px 6px 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line-1); font-size: 0.72rem; color: var(--text-secondary); white-space: nowrap; }
+        .om-dd-row { display: flex; align-items: center; gap: 9px; padding: 6px 6px; border-radius: var(--r-sm); font-size: 0.8rem; color: var(--text-primary); cursor: pointer; white-space: nowrap; }
+        .om-dd-row:hover { background: rgba(255, 255, 255, 0.06); }
+        .om-dd-row input { accent-color: var(--accent); margin: 0; width: 14px; height: 14px; }
+        .sx-fights-head.om-head, .om-picker { overflow: visible; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -4725,11 +4823,7 @@
             </div>
         </div>
         <div id="ownership-view" style="display:none;">
-            <div id="ownSubnav" class="view-tabs" style="justify-content: flex-start;">
-                <button class="tab-btn active" data-osub="model"><span>Ownership Model</span></button>
-                <button class="tab-btn" data-osub="database"><span>Ownership Database</span></button>
-            </div>
-            <div class="sdb-card" id="own-model-pane">
+            <div class="sdb-card">
                 <div class="sdb-title">Ownership Model</div>
                 <div class="om-note">Every event since July 2026: my projected ownership for each fighter against actual ownership in the week's Main GPP. Projections are posted in the <a href="https://discord.gg/XmezPuKhzH" target="_blank" rel="noopener">Discord</a> before lock. They are not published here until the event is final, so join the Discord if you want them ahead of time.</div>
                 <div id="omLoading" class="sdb-loading">Loading projections&hellip;</div>
@@ -4738,12 +4832,10 @@
                     <div class="tr-grid om-grid">
                         <div class="tr-card">
                             <div class="tr-head"><span class="tr-title">Projected vs actual</span><span class="tr-readout" id="omScatterRead"></span></div>
-                            <div class="tr-sub">One dot per fighter. On the line is a perfect call; above it the field drafted them more than projected.</div>
                             <svg id="omScatter" class="tr-svg om-svg" viewBox="0 0 560 420" role="img" aria-label="Projected ownership against actual ownership"></svg>
                         </div>
                         <div class="tr-card">
                             <div class="tr-head"><span class="tr-title">Error by event</span><span class="tr-readout" id="omLineRead"></span></div>
-                            <div class="tr-sub">Average miss per fighter, in ownership points, for each event.</div>
                             <svg id="omLine" class="tr-svg om-svg" viewBox="0 0 560 420" role="img" aria-label="Mean absolute error by event"></svg>
                         </div>
                     </div>
@@ -4752,30 +4844,11 @@
                 </div>
             </div>
 
-            <div class="sdb-card fh-card" id="own-db-pane" style="display:none;">
-                <div class="sdb-title">Ownership Database</div>
-                <div class="om-note">Every fighter on every DraftKings slate since March 2026: salary, my projected ownership and the Main GPP's actual ownership where I have them, and the DK score. Search a fighter, or filter the whole set.</div>
-                <div id="fhLoading" class="sdb-loading">Loading history&hellip;</div>
-                <div id="fhBody" style="display:none;">
-                    <div class="sdb-filters fh-filters">
-                        <div class="sdb-fg fh-q"><label for="fhQ">Fighter</label><input id="fhQ" type="text" placeholder="Search a fighter or opponent&hellip;" autocomplete="off"></div>
-                        <div class="sdb-fg"><label for="fhSalMin">Salary from</label><input id="fhSalMin" type="number" step="100" placeholder="6,000"></div>
-                        <div class="sdb-fg"><label for="fhSalMax">to</label><input id="fhSalMax" type="number" step="100" placeholder="9,600"></div>
-                        <div class="sdb-fg"><label for="fhOwnMin">Actual own % from</label><input id="fhOwnMin" type="number" step="1" placeholder="0"></div>
-                        <div class="sdb-fg"><label for="fhOwnMax">to</label><input id="fhOwnMax" type="number" step="1" placeholder="100"></div>
-                        <div class="sdb-fg"><label for="fhRes">Result</label><select id="fhRes"><option value="">Any</option><option value="W">Win</option><option value="L">Loss</option></select></div>
-                        <button type="button" class="opt-btn" id="fhReset">Reset</button>
-                    </div>
-                    <div class="fs2-key fh-kpis" id="fhKpis" style="display:none;"></div>
-                    <div class="sx-fights-head"><span class="sx-sec">Fighter cards</span><span class="sdb-count" id="fhCount"></span></div>
-                    <div class="sdb-scroll"><table class="sdb-table fh-table"><thead id="fhHead"></thead><tbody id="fhTBody"></tbody></table></div>
-                </div>
-            </div>
         </div>
 
         <div id="scoringtrends-view" style="display:none;">
             <div class="sdb-card">
-                <div class="sdb-title">Scoring Trends</div>
+                <div class="sdb-title">Scoring Trends <span class="sdb-title-note">(12-month rolling avg)</span></div>
                 <div id="trLoading" class="sdb-loading">Loading fight database&hellip;</div>
                 <div id="trBody" style="display:none;">
                     <div id="trGrid" class="tr-grid"></div>
@@ -4952,65 +5025,20 @@
                     <h1 id="contest-name">UFC 300K KNOCKOUT SPECIAL</h1>
                     <div class="updated" id="last-updated">Last updated: --</div>
                 </div>
+                <div class="view-tabs lb-tabs">
+                    <button class="tab-btn active" onclick="switchView('username')"><span>By Username</span></button>
+                    <button class="tab-btn" onclick="switchView('lineup')"><span>By Lineup</span></button>
+                    <button class="tab-btn" onclick="switchView('portfolio')"><span>By Portfolio</span></button>
+                    <button class="tab-btn" onclick="switchView('whatif')"><span>What If</span></button>
+                    <button class="tab-btn" onclick="switchView('insights')"><span>Insights</span></button>
+                </div>
                 <button class="back-btn" onclick="showLanding()">
                     ← Contests
                 </button>
             </header>
             
-            <div class="view-tabs">
-                <button class="tab-btn active" onclick="switchView('username')"><span>By Username</span></button>
-                <button class="tab-btn" onclick="switchView('lineup')"><span>By Lineup</span></button>
-                <button class="tab-btn" onclick="switchView('portfolio')"><span>By Portfolio</span></button>
-                <button class="tab-btn" onclick="switchView('whatif')"><span>What If</span></button>
-                <button class="tab-btn" onclick="switchView('insights')"><span>Insights</span></button>
-            </div>
-            
-            <div class="filters">
-                <div class="filter-group" id="username-filter">
-                    <label for="search-user">Username:</label>
-                    <input type="text" id="search-user" placeholder="Enter username...">
-                </div>
-                <div class="filter-group" id="fighter-filter" style="display: none; flex-direction: column; align-items: flex-start; flex: 1; max-width: 500px;">
-                    <label for="fighter-dropdown">Fighter(s):</label>
-                    <div style="position: relative; width: 100%;">
-                        <input 
-                            type="text" 
-                            id="fighter-dropdown" 
-                            placeholder="Search fighters..."
-                            autocomplete="off"
-                            style="width: 100%;"
-                        >
-                        <div id="fighter-dropdown-list" class="fighter-dropdown-list"></div>
-                    </div>
-                    <div id="selected-fighters" class="selected-fighters"></div>
-                </div>
-                <div class="filter-group" id="dead-filter">
-                    <label for="hide-dead" style="cursor:pointer;">
-                        <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.00% win)
-                    </label>
-                </div>
-                <div class="filter-group">
-                    <label for="sort-by">Sort:</label>
-                    <select id="sort-by">
-                        <option value="NetEV">Net EV</option>
-                        <option value="WinPct">Win %</option>
-                        <option value="SecondPct">2nd %</option>
-                        <option value="ThirdPct">3rd %</option>
-                        <option value="CashPct">Cash %</option>
-                        <option value="ROI%">ROI %</option>
-                        <option value="MeanScore">Proj Score</option>
-                        <option value="Username">Username</option>
-                    </select>
-                </div>
-                <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
-            </div>
-            
             <div class="lb-cols"><div class="lb-left">
             <div class="stats-and-fighters">
-                <div class="stats-vertical">
-                    <h3>Portfolio Stats</h3>
-                    <div id="stats-vertical"></div>
-                </div>
 
                 <div class="fighter-draft-container fx-panel">
                     <div class="portfolio-chart-title pex-title">Fighter Exposure<span class="pex-meta" id="fx-meta"></span></div>
@@ -5030,17 +5058,52 @@
                     <div class="pex-foot" id="fx-foot"></div>
                 </div>
 
-                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
-                    <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
-                    <div class="pex-body"><div class="pex-scroll">
-                    <table class="pex-table fx-table dupes-table">
-                        <thead><tr><th>Username</th><th class="n">Shared lineups</th></tr></thead>
-                        <tbody id="dupes-tbody"></tbody>
-                    </table>
-                    </div></div>
-                </div>
             </div>
             </div><div class="lb-right">
+            <div class="filters">
+                <div class="filter-group" id="username-filter">
+                    <label for="search-user">Username:</label>
+                    <input type="text" id="search-user" placeholder="Enter username...">
+                </div>
+                <div class="filter-group" id="fighter-filter" style="display: none; flex: 0 1 auto; flex-wrap: wrap; max-width: 320px;">
+                    <label for="fighter-dropdown">Fighter(s):</label>
+                    <div style="position: relative; width: 240px; flex: none;">
+                        <input 
+                            type="text" 
+                            id="fighter-dropdown" 
+                            placeholder="Search fighters..."
+                            autocomplete="off"
+                            style="width: 100%;"
+                        >
+                        <div id="fighter-dropdown-list" class="fighter-dropdown-list"></div>
+                    </div>
+                    <div id="selected-fighters" class="selected-fighters" style="margin: 0;"></div>
+                </div>
+                <div class="filter-group" id="dead-filter">
+                    <label for="hide-dead" style="cursor:pointer;">
+                        <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.0% win)
+                    </label>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort:</label>
+                    <select id="sort-by">
+                        <option value="NetEV">Net EV</option>
+                        <option value="WinPct">Win %</option>
+                        <option value="SecondPct">2nd %</option>
+                        <option value="ThirdPct">3rd %</option>
+                        <option value="CashPct">Cash %</option>
+                        <option value="ROI%">ROI %</option>
+                        <option value="MeanScore">Proj Score</option>
+                        <option value="Username">Username</option>
+                    </select>
+                </div>
+                <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
+            </div>
+
+            <div class="stats-vertical stats-top">
+                <h3 id="stats-title">Field Stats</h3>
+                <div id="stats-vertical"></div>
+            </div>
 
             <div class="table-header">
                 <div class="row-count" id="row-count">Showing 0 of 0 lineups</div>
@@ -5115,6 +5178,15 @@
                 </div>
             </div>
 
+                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
+                    <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
+                    <div class="pex-body"><div class="pex-scroll">
+                    <table class="pex-table fx-table dupes-table">
+                        <thead><tr><th>Username</th><th class="n">Shared lineups</th></tr></thead>
+                        <tbody id="dupes-tbody"></tbody>
+                    </table>
+                    </div></div>
+                </div>
             </div></div>
             <div id="whatif-layout" class="whatif-layout">
                 <div class="whatif-left">
@@ -5224,7 +5296,9 @@
     </div>
     <div class="chart-tip" id="chart-tip"></div>
 
+    <div id="update-bar" class="update-bar" hidden><span>A newer version of the site is available.</span><button type="button" id="update-bar-btn">Refresh</button></div>
     <footer class="site-footer">
+        <p class="build-stamp" id="build-stamp"></p>
         <p>&copy; 2026 MMA LiveSim. Not affiliated with, endorsed by, or sponsored by the Ultimate Fighting Championship or Zuffa, LLC. All fighter names, marks, and event names are the property of their respective owners.</p>
     </footer>
 
@@ -5255,6 +5329,10 @@
         // Paste your Google Apps Script Web App URL between the quotes to turn on
         // logging. Until then, the gate still works but nothing is recorded.
         const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxLCj-MK2jWuzQw2H5NDZacRI1_ZV_Fjv-mUVWQ8-O4pHg2r3JfXaSBWBGqrb-YryDyOA/exec';
+        // Same-origin relay (api/log.js) that adds a coarse location (city,
+        // region, country) before forwarding to the sheet. If it is missing or
+        // fails, the event goes straight to the sheet instead, so nothing is lost.
+        const LOG_ENDPOINT = '/api/log';
         const VISITOR_KEY = 'mmaLiveSim_visitor';
         // The site owner's own DK username(s). Anything typed at the gate that matches
         // one of these is never logged, so your own heavy usage doesn't clutter the sheet.
@@ -5269,24 +5347,58 @@
             return !!v && OWNER_USERNAMES.some(o => o.toLowerCase() === v);
         }
 
+        // A random token saved in this browser on first use and sent with every
+        // event. It carries no information about the person; rows from one
+        // browser simply share it, so a second browser typing the same username
+        // at the gate shows up under a second token.
+        const DEVICE_KEY = 'mmaLiveSim_device';
+        function getDevice() {
+            try {
+                let d = localStorage.getItem(DEVICE_KEY);
+                if (!d) {
+                    const b = new Uint8Array(6);
+                    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(b);
+                    else for (let i = 0; i < b.length; i++) b[i] = Math.random() * 256 | 0;
+                    d = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+                    localStorage.setItem(DEVICE_KEY, d);
+                }
+                return d;
+            } catch (e) { return ''; }
+        }
+
         // Best-effort fire-and-forget POST to the sheet. no-cors + text/plain
         // avoids a CORS preflight (Apps Script reads e.postData.contents).
         function logEvent(event, query) {
             if (!SHEET_ENDPOINT) return;
             if (isOwner()) return;   // don't log the owner's own activity
             try {
-                fetch(SHEET_ENDPOINT, {
+                const dev = getDevice();
+                const referrer = document.referrer || '';
+                const body = JSON.stringify({
+                    event: event,
+                    visitor: getVisitor(),
+                    query: query || '',
+                    // The sheet writes "ua" to column E and "ref" to column F.
+                    // E: the relay fills in the visitor's city; blank if the event went direct.
+                    // F: browser string, device token and, if there is one, the referrer.
+                    ua: '',
+                    ref: navigator.userAgent + (dev ? ' | dev ' + dev : '') + (referrer ? ' | ref ' + referrer : ''),
+                    browser: navigator.userAgent,
+                    device: dev,
+                    referrer: referrer
+                });
+                const direct = () => fetch(SHEET_ENDPOINT, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        event: event,
-                        visitor: getVisitor(),
-                        query: query || '',
-                        ua: navigator.userAgent,
-                        ref: document.referrer || ''
-                    })
-                });
+                    body: body
+                }).catch(() => {});
+                fetch(LOG_ENDPOINT, {
+                    method: 'POST',
+                    keepalive: true,
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: body
+                }).then(r => { if (!r.ok) return direct(); }).catch(direct);
             } catch (e) { /* never let logging break the page */ }
         }
 
@@ -5495,6 +5607,59 @@
             setInterval(tick, 1000);
         }
         initLockCountdown();
+
+        // Keep every visitor on the latest build. The HTML is served with
+        // must-revalidate, so a fresh navigation always gets the newest copy;
+        // the gap is a tab left open (iPad Safari keeps them alive for days).
+        // When the tab comes back into view we ask the server for the page's
+        // ETag; if it changed, we reload (or offer a refresh if the user is
+        // typing or was only away a few minutes). A page restored from the
+        // back-forward cache is checked the same way.
+        (function () {
+            const stamp = document.getElementById('build-stamp');
+            if (stamp && document.lastModified) {
+                const d = new Date(document.lastModified);
+                if (!isNaN(d)) stamp.textContent = 'Site updated ' + d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+            }
+            let servedTag = null, hiddenAt = 0, checking = false;
+            const bar = document.getElementById('update-bar');
+            const head = async () => {
+                const r = await fetch(location.pathname || '/', { method: 'HEAD', cache: 'no-store' });
+                return { tag: r.headers.get('etag'), mod: r.headers.get('last-modified') };
+            };
+            const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)); };
+            const offer = () => { if (bar) bar.hidden = false; };
+            if (bar) document.getElementById('update-bar-btn').addEventListener('click', () => location.reload());
+            async function check(awayMs) {
+                if (checking) return; checking = true;
+                try {
+                    const h = await head();
+                    if (!h.tag) return;
+                    if (servedTag === null) {
+                        // first check: does the copy we are showing match the server's?
+                        servedTag = h.tag;
+                        const mine = new Date(document.lastModified), theirs = new Date(h.mod || 0);
+                        if (!isNaN(mine) && !isNaN(theirs) && theirs - mine > 60000) {
+                            const key = 'mmaLiveSim_fresh_' + h.tag;
+                            if (!sessionStorage.getItem(key)) { sessionStorage.setItem(key, '1'); location.reload(); }
+                        }
+                        return;
+                    }
+                    if (h.tag !== servedTag) {
+                        if (awayMs >= 15 * 60000 && !typing()) location.reload();
+                        else offer();
+                    }
+                } catch (e) { /* offline or blocked: try again next time */ }
+                finally { checking = false; }
+            }
+            setTimeout(() => check(0), 4000);
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) { hiddenAt = Date.now(); return; }
+                const away = hiddenAt ? Date.now() - hiddenAt : 0;
+                if (away >= 5 * 60000) check(away);
+            });
+            window.addEventListener('pageshow', e => { if (e.persisted) check(60 * 60000); });
+        })();
         // phones: a short placeholder so the favorites control never clips it
         try { if (window.matchMedia('(max-width: 480px)').matches) { const qi = document.getElementById('quick-search-input'); if (qi) qi.placeholder = 'Username'; } } catch (e) { /* ignore */ }
 
@@ -5820,6 +5985,14 @@
             const statsPanel = document.querySelector('.stats-and-fighters');
             const filtersPanel = document.querySelector('.filters');
             const tableHeader = document.querySelector('.table-header');
+            // The filter bar heads the right column of whichever layout is showing:
+            // the lineups column normally, the What If table column in that view,
+            // so the fight card starts level with it like Fighter Exposure does.
+            const filtersHome = document.querySelector(view === 'whatif' ? '.whatif-right' : '.lb-right');
+            if (filtersPanel && filtersHome && filtersPanel.parentElement !== filtersHome) filtersHome.insertBefore(filtersPanel, filtersHome.firstElementChild);
+            // the stats strip above the table shows and hides with the exposure panel
+            const statsTop = document.querySelector('.stats-top');
+            if (statsTop) { const show = view === 'username' || view === 'lineup' || view === 'portfolio'; statsTop.style.display = show ? '' : 'none'; }
 
             // Dupes-by-User panel is only used on the Portfolio view
             document.getElementById('dupes-container').style.display = 'none';
@@ -5848,7 +6021,6 @@
                 document.getElementById('portfolio-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
-                document.getElementById('dupes-container').style.display = 'block';
                 statsPanel.classList.add('three-col');
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
@@ -5871,7 +6043,44 @@
             }
 
             filterAndRender();
+            requestAnimationFrame(fitLineupTables);
         }
+
+        // Desktop (two-column layout): each lineups table ends at the bottom of
+        // the screen and scrolls inside, header frozen. The cap is measured
+        // from where the card sits on the page and rounded down to whole rows,
+        // so the last row shown is never cut in half. Narrower screens keep
+        // the full-height tables and scroll the page.
+        function fitLineupTables() {
+            const wide = window.matchMedia('(min-width: 1500px)').matches;
+            ['username-table', 'lineup-table', 'portfolio-table'].forEach(id => {
+                const card = document.getElementById(id);
+                const sc = card && card.querySelector('.table-scroll');
+                if (!sc) return;
+                const release = () => { sc.style.maxHeight = ''; sc.classList.remove('fit'); };
+                if (!wide) { release(); return; }
+                if (card.offsetParent === null) return;   // hidden view: sized when it is shown
+                const top = card.getBoundingClientRect().top + window.scrollY;
+                const avail = window.innerHeight - top - 20;
+                const thead = sc.querySelector('thead');
+                const row = sc.querySelector('tbody tr.row-main');
+                const hH = thead ? thead.getBoundingClientRect().height : 0;
+                const rH = row ? row.getBoundingClientRect().height : 0;
+                if (!(rH > 0)) { release(); return; }
+                // whole rows when at least four fit; on a short screen or with tall
+                // rows (By Lineup) just fill what is there, never past the screen
+                const whole = Math.floor((avail - hH) / rH);
+                const hgt = whole >= 4 ? hH + whole * rH : Math.max(avail, hH + 2 * rH);
+                sc.classList.add('fit');
+                sc.style.maxHeight = Math.round(hgt) + 'px';
+            });
+        }
+        window.addEventListener('resize', fitLineupTables);
+        // re-measure whenever the right column changes height (a table renders or a view swaps)
+        (function () {
+            const col = document.querySelector('.lb-right');
+            if (col && 'ResizeObserver' in window) new ResizeObserver(() => fitLineupTables()).observe(col);
+        })();
         
         // Load contests from contests.json
         async function loadContestConfig() {
@@ -5892,6 +6101,16 @@
         let contestSortKey = 'entryFee';
         let contestSortAsc = false;
 
+        // Win % for display: one decimal, or two when it is under 1%.
+        function fmtWin(v) { v = Number(v) || 0; return (v > 0 && v < 1 ? v.toFixed(2) : v.toFixed(1)) + '%'; }
+        // Dollars for display: whole dollars, except amounts under a dollar keep cents.
+        function fmtDollars(v) {
+            const a = Math.abs(v);
+            const body = a < 1 && a > 0
+                ? a.toFixed(2)
+                : Math.round(a).toLocaleString();
+            return (v < 0 ? '-$' : '$') + body;
+        }
         function formatMoney(val) {
             if (val >= 1000000) return '$' + (val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1) + 'M';
             if (val >= 1000) return '$' + (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1) + 'K';
@@ -5964,7 +6183,7 @@
             let cardFighters = [];
             let updatedAt = null;
             try {
-                const data = await (await fetch(CONTESTS[0].file)).json();
+                const data = await (await fetch(CONTESTS[0].file + '?v=' + Date.now())).json();
                 updatedAt = data.last_updated || null;
                 const fights = (data.fight_card || []).slice().sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0));
                 cardFighters = fights.flatMap(f => [[f.fighter1, f.fighter1_score], [f.fighter2, f.fighter2_score]]).filter(([n]) => n);
@@ -6744,14 +6963,7 @@
             const searchLower = query.toLowerCase();
             const results = [];
 
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
 
             const formatROI = (roi) => {
                 const absRoi = Math.abs(roi);
@@ -6855,7 +7067,7 @@
                                     <div class="srs-kpis" id="srs-kpis">
                         <div class="srs-kpi"><span class="k">Portfolio EV</span><b class="v ${totalNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(totalNetEV)}</b></div>
                         <div class="srs-kpi"><span class="k">ROI</span><b class="v ${(portfolioROI || 0) >= 0 ? 'positive' : 'negative'}">${portfolioROI != null ? fmtROI(portfolioROI) : '--'}</b></div>
-                        <div class="srs-kpi pending" id="kpi-profit"><span class="k">P(profit)</span><b class="v">--</b></div>
+                        <div class="srs-kpi pending" id="kpi-profit"><span class="k">% Profit</span><b class="v">--</b></div>
                         <div class="srs-kpi pending" id="kpi-median"><span class="k">Median</span><b class="v">--</b></div>
                         <div class="srs-kpi pending" id="kpi-worst"><span class="k">Worst</span><b class="v">--</b></div>
                         <div class="srs-kpi pending" id="kpi-best"><span class="k">Best</span><b class="v">--</b></div>
@@ -6878,7 +7090,7 @@
                         <div class="search-result-stats">
                             <div class="search-result-stat sr-share" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">
                                 <div class="sr-label">Win %</div>
-                                <div class="sr-value">${r.winPct.toFixed(2)}%</div>
+                                <div class="sr-value">${fmtWin(r.winPct)}</div>
                             </div>
                             <div class="search-result-stat">
                                 <div class="sr-label">Net EV</div>
@@ -7024,6 +7236,7 @@
                 contestPayouts = data.payouts || null;
                 contestOptimalMap = data.optimal_map || null;
                 contestSalaryMap = data.salary_map || null;
+                fighterExposureSort = { key: 'draft', asc: false };   // every contest opens on Draft %
                 contestActualsMap = data.actuals_map || null;
                 whatIfActualsOn = false;
                 whatIfScores = {};
@@ -7085,7 +7298,7 @@
                     count,
                     pct: totalLineups > 0 ? (count / totalLineups) * 100 : 0
                 }))
-                .sort((a, b) => b.pct - a.pct);
+                .sort((a, b) => b.pct - a.pct || a.fighter.localeCompare(b.fighter));
             
             return fighterStats;
         }
@@ -7117,6 +7330,13 @@
                 return;
             }
 
+            // every fighter on the card gets a row, even when nobody drafted them
+            const seen = new Set(fighterStats.map(f => f.fighter));
+            const cardFighters = [];
+            for (const bout of (contestFightCard || [])) { if (bout.fighter1) cardFighters.push(bout.fighter1); if (bout.fighter2) cardFighters.push(bout.fighter2); }
+            if (!cardFighters.length && contestSalaryMap) cardFighters.push(...Object.keys(contestSalaryMap));
+            for (const name of cardFighters) if (!seen.has(name)) { seen.add(name); fighterStats.push({ fighter: name, count: 0, pct: 0 }); }
+
             let rows = fighterStats.map(f => ({
                 fighter: f.fighter,
                 draft: f.pct,
@@ -7128,7 +7348,8 @@
             rows.sort((a, b) => {
                 if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
                 const av = a[key] == null ? -1 : a[key], bv = b[key] == null ? -1 : b[key];
-                return asc ? av - bv : bv - av;
+                // ties fall back to the name so the order never depends on how the lineups happen to be sorted
+                return (asc ? av - bv : bv - av) || a.fighter.localeCompare(b.fighter);
             });
             // the Draft % cell carries the share bar: each fighter's draft rate as a
             // share of the most-drafted fighter, the same bar the search results use for $
@@ -7139,9 +7360,9 @@
                 return `
                 <tr>
                     <td class="name" title="${r.fighter}">${r.fighter}</td>
-                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${r.draft.toFixed(2)}%</td>
-                    <td class="n">${r.win.toFixed(2)}%</td>
-                    <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${r.draft.toFixed(1)}%</td>
+                    <td class="n">${r.win.toFixed(1)}%</td>
+                    <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? r.optimal.toFixed(1) + '%' : '--'}</td>
                 </tr>`;
             }).join('');
             const nLineups = (data || []).length;
@@ -7196,6 +7417,8 @@
             const isFiltered = document.getElementById('search-user').value;
 
             const label = isFiltered ? 'Filtered' : 'Total';
+            const st = document.getElementById('stats-title');
+            if (st) { const u = isFiltered.trim(); st.textContent = u ? `${u}${/s$/i.test(u) ? "'" : "'s"} Portfolio` : 'Field Stats'; }
 
             // Format ROI with commas (for thousands) and 1 decimal place
             const formatROI = (roi) => {
@@ -7208,20 +7431,12 @@
             };
 
             // Format Net EV with commas and 2 decimal places
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
 
-            const expWins = portfolioWinPct / 100;
             document.getElementById('stats-vertical').innerHTML = `
                 <div class="ps-kpis">
                     <div class="ps-kpi"><span class="k">${label} lineups</span><b class="v">${totalLineups.toLocaleString()}</b></div>
-                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${portfolioWinPct.toFixed(2)}%</b><span class="s">sum of lineup win %${portfolioWinPct >= 100 ? ` \u00b7 \u2248 ${expWins.toFixed(2)} wins` : ''}</span></div>
+                    <div class="ps-kpi"><span class="k">Win %</span><b class="v">${fmtWin(portfolioWinPct)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio EV</span><b class="v ${portfolioNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(portfolioNetEV)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio ROI</span><b class="v ${portfolioROI >= 0 ? 'positive' : 'negative'}">${formatROI(portfolioROI)}</b></div>
                     <div class="ps-kpi"><span class="k">Avg dupes</span><b class="v">${avgDupes.toFixed(2)}</b></div>
@@ -7470,15 +7685,16 @@
             rows.sort((a, b) => {
                 if (key === 'fighter') return asc ? a.fighter.localeCompare(b.fighter) : b.fighter.localeCompare(a.fighter);
                 const av = a[key] == null ? -Infinity : a[key], bv = b[key] == null ? -Infinity : b[key];
-                return asc ? av - bv : bv - av;
+                // ties fall back to the name so the order never depends on how the lineups happen to be sorted
+                return (asc ? av - bv : bv - av) || a.fighter.localeCompare(b.fighter);
             });
             tbody.innerHTML = rows.map(r => `
                 <tr>
                     <td class="fighter-name">${r.fighter}</td>
                     <td class="num">${r.salary != null ? '$' + Number(r.salary).toLocaleString() : '--'}</td>
-                    <td class="draft-pct">${r.draft.toFixed(2)}%</td>
-                    <td class="win-pct">${r.win.toFixed(2)}%</td>
-                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(2) + '%' : '--'}</td>
+                    <td class="draft-pct">${r.draft.toFixed(1)}%</td>
+                    <td class="win-pct">${r.win.toFixed(1)}%</td>
+                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(1) + '%' : '--'}</td>
                     <td class="num ${r.score != null ? 'sc' : ''}">${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
                 </tr>`).join('');
         }
@@ -7806,14 +8022,7 @@
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
             
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
             
             tbody.innerHTML = displayData.map((row, idx) => {
                 const rowId = `row-${idx}`;
@@ -7837,10 +8046,10 @@
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span></td>
                         <td class="num">${idx + 1}</td>
                         <td class="username">${row.Username || ''}</td>
-                        <td class="num">${(row.WinPct || 0).toFixed(2)}%</td>
-                        <td class="num">${row.SecondPct != null ? (row.SecondPct).toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${row.ThirdPct != null ? (row.ThirdPct).toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${row.CashPct != null ? (row.CashPct).toFixed(2) + '%' : '--'}</td>
+                        <td class="num">${fmtWin(row.WinPct)}</td>
+                        <td class="num">${row.SecondPct != null ? (row.SecondPct).toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${row.ThirdPct != null ? (row.ThirdPct).toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${row.CashPct != null ? (row.CashPct).toFixed(1) + '%' : '--'}</td>
                         <td class="num ${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(row.NetEV || 0)}
                         </td>
@@ -7939,15 +8148,26 @@
                 return;
             }
             
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
+            const formatNetEV = (netEV) => fmtDollars(netEV);
+
+            // One line per lineup: last names, sorted, full name on hover. A
+            // first initial is added only when two fighters on the card share
+            // a last name. The active fighter filter lights its names.
+            const cardNames = [];
+            for (const bout of (contestFightCard || [])) { if (bout.fighter1) cardNames.push(bout.fighter1); if (bout.fighter2) cardNames.push(bout.fighter2); }
+            if (!cardNames.length && contestSalaryMap) cardNames.push(...Object.keys(contestSalaryMap));
+            const lastCount = {};
+            cardNames.forEach(n => { const l = n.trim().split(/\s+/).pop().toLowerCase(); lastCount[l] = (lastCount[l] || 0) + 1; });
+            const shortName = (n) => {
+                const parts = n.trim().split(/\s+/); const last = parts[parts.length - 1];
+                return parts.length > 1 && (lastCount[last.toLowerCase()] || 0) > 1 ? parts[0][0] + '. ' + last : last;
             };
-            
+            const lit = new Set((typeof selectedFighters !== 'undefined' && selectedFighters) ? Array.from(selectedFighters) : []);
+            const fighterLine = (fighters) => fighters.map(f => ({ f, s: shortName(f) }))
+                .sort((a, b) => a.s.localeCompare(b.s, undefined, { sensitivity: 'base' }))
+                .map(x => `<span class="lu-name${lit.has(x.f) ? ' hit' : ''}" title="${x.f}">${x.s}</span>`)
+                .join('<span class="lu-dot">\u00b7</span>');
+
             tbody.innerHTML = displayData.map((lineup, idx) => {
                 const rowId = `lineup-${lineup.stableId}`;
                 const isExpanded = expandedRows.has(rowId);
@@ -7956,19 +8176,11 @@
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
-                        <td>
-                            <div class="lineup-container" style="padding: 8px 0;">
-                                ${lineup.fighters.slice().sort(byFighterName).map(f => `
-                                    <div class="fighter-chip">
-                                        ${f}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </td>
-                        <td class="num">${(lineup.WinPct || 0).toFixed(2)}%</td>
-                        <td class="num">${lineup.SecondPct != null ? lineup.SecondPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${lineup.CashPct != null ? lineup.CashPct.toFixed(2) + '%' : '--'}</td>
+                        <td><div class="lu-line">${fighterLine(lineup.fighters)}</div></td>
+                        <td class="num">${fmtWin(lineup.WinPct)}</td>
+                        <td class="num">${lineup.SecondPct != null ? lineup.SecondPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${lineup.CashPct != null ? lineup.CashPct.toFixed(1) + '%' : '--'}</td>
                         <td class="num ${(lineup.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(lineup.NetEV || 0)}
                         </td>
@@ -7998,10 +8210,11 @@
         function updateDupesByUser() {
             const tbody = document.getElementById('dupes-tbody');
             const q = (document.getElementById('search-user').value || '').trim().toLowerCase();
-            if (!q) {
-                tbody.innerHTML = '<tr><td class="dupes-empty" colspan="2">Search a username to see who you share the most lineups with.</td></tr>';
-                return;
-            }
+            // the card exists only on the Portfolio view once a username is typed
+            const box = document.getElementById('dupes-container');
+            const show = currentView === 'portfolio' && !!q;
+            box.style.display = show ? '' : 'none';
+            if (!show) { tbody.innerHTML = ''; return; }
             // LineupKey -> set of usernames (across the whole field)
             const keyUsers = new Map();
             const myKeys = new Set();
@@ -8038,6 +8251,9 @@
                     <td class="n dupes-count">${c}</td>
                 </tr>
             `).join('');
+            // cap the list at six rows (header included) and let the rest scroll
+            const head = box.querySelector('thead'), first = tbody.querySelector('tr');
+            if (head && first) box.style.setProperty('--dupes-h', Math.round(head.getBoundingClientRect().height + 6 * first.getBoundingClientRect().height) + 'px');
         }
 
         function renderPortfolioView(data) {
@@ -8147,28 +8363,19 @@
                 return roi < 0 ? `-${formatted}%` : `${formatted}%`;
             };
 
-            const formatNetEV = (netEV) => {
-                const absNetEV = Math.abs(netEV);
-                const formatted = absNetEV.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                return netEV < 0 ? `-$${formatted}` : `$${formatted}`;
-            };
+            const formatNetEV = (netEV) => fmtDollars(netEV);
 
+            // portfolio rows do not expand: the lineups behind one are the By Username view with that name filtered
             tbody.innerHTML = displayData.map((portfolio, idx) => {
-                const rowId = `pf-${portfolio.stableId}`;
-                const isExpanded = expandedRows.has(rowId);
-                const lineups = portfolio.lineups || [];
                 return `
-                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
-                        <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
+                    <tr class="row-main">
+                        <td>${idx + 1}</td>
                         <td class="username">${portfolio.Username}</td>
                         <td class="num">${portfolio.Entries}</td>
-                        <td class="num">${portfolio.WinPct.toFixed(2)}%</td>
-                        <td class="num">${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(2) + '%' : '--'}</td>
-                        <td class="num">${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(2) + '%' : '--'}</td>
+                        <td class="num">${fmtWin(portfolio.WinPct)}</td>
+                        <td class="num">${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(1) + '%' : '--'}</td>
                         <td class="num ${portfolio.NetEV >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(portfolio.NetEV)}
                         </td>
@@ -8176,25 +8383,6 @@
                             ${formatROI(portfolio['ROI%'])}
                         </td>
                         <td class="num">${portfolio.AvgSalary ? '$' + Math.round(portfolio.AvgSalary).toLocaleString() : '--'}</td>
-                    </tr>
-                    <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
-                        <td colspan="10">
-                            <div class="portfolio-lineups">
-                                ${lineups.map(lu => `
-                                    <div class="portfolio-lineup-row">
-                                        <div class="lineup-container" style="padding: 0;">
-                                            ${lu.fighters.slice().sort(byFighterName).map(f => `<div class="fighter-chip">${f}</div>`).join('')}
-                                        </div>
-                                        <div class="portfolio-lineup-meta">
-                                            <span>${lu.WinPct.toFixed(2)}% win</span>
-                                            <span class="${lu.NetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(lu.NetEV)}</span>
-                                            <span class="dupes-count">${lu.Copies}x</span>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                                ${lineups.length === 0 ? '<span style="color: var(--text-secondary);">No lineups</span>' : ''}
-                            </div>
-                        </td>
                     </tr>
                 `;
             }).join('');
@@ -8245,13 +8433,13 @@
                                 placeholder="0"
                                 oninput="onWhatIfScoreChange(this)">
                             <div class="fight-vs">vs</div>
-                            <div class="fighter-name-label slot2">${f2Name}</div>
                             <input type="number" step="any"
                                 class="fight-score-input ${f2Score !== '' ? 'has-value' : ''} ${f2Prefilled ? 'prefilled' : ''}"
                                 data-fighter="${f2Name.replace(/"/g, '&quot;')}"
                                 value="${f2Score}"
                                 placeholder="0"
                                 oninput="onWhatIfScoreChange(this)">
+                            <div class="fighter-name-label slot2">${f2Name}</div>
                         </div>
                     `;
                 }).join('');
@@ -8436,13 +8624,7 @@
                 return;
             }
 
-            const formatPayout = (payout) => {
-                if (payout <= 0) return '--';
-                return '$' + payout.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-            };
+            const formatPayout = (payout) => payout <= 0 ? '--' : fmtDollars(payout);
 
             tbody.innerHTML = displayData.map((row, idx) => {
                 const rowId = `whatif-row-${idx}`;
@@ -8748,7 +8930,7 @@
                 const avg = n0 ? dks.reduce((a, b) => a + b, 0) / n0 : 0;
                 return { n: n0, avg, counts, pct };
             }
-            function fmtPct(p) { if (p <= 0) return '0'; return (p >= 1 ? p.toFixed(1) : p.toFixed(2)) + '%'; }
+            function fmtPct(p) { if (p <= 0) return '0'; return p.toFixed(1) + '%'; }
             function heat(p) { const a = Math.min(0.6, p / 100 * 0.6); return `background:rgba(63,179,122,${a.toFixed(3)})`; }
             function threshRow(label, stats, withCounts) {
                 let cells = `<td class="l" style="font-weight:700">${esc(label)}</td><td>${stats.n.toLocaleString()}</td>`;
@@ -9555,7 +9737,8 @@
             // ---------- OWNERSHIP MODEL ----------
             // ownership_history.csv: date,event,fighter,projected,actual (percent points).
             // Everything below is derived in the browser from that one file.
-            let omRows = null, omEvents = null, omBuilt = false, omSel = 'all', omSortKey = 'diff', omSortDir = -1;
+            // omSel: 'all', one date, or an array of two or more dates (a picked set)
+            let omRows = null, omEvents = null, omBuilt = false, omSel = 'all', omSortKey = 'diff', omSortDir = -1, omDdOpen = false;
             function omParse(txt) {
                 const out = [];
                 for (const line of txt.split(/\r?\n/).slice(1)) {
@@ -9581,12 +9764,22 @@
                 const w3 = rows.filter(r => r.abs <= 3).length / n, w5 = rows.filter(r => r.abs <= 5).length / n;
                 return { n, mae, med, bias, corr, w3, w5 };
             }
-            function omSelRows() { return omSel === 'all' ? omRows : omRows.filter(r => r.date === omSel); }
+            function omSelList() { return omSel === 'all' ? null : Array.isArray(omSel) ? omSel : [omSel]; }
+            function omSelSet() { const l = omSelList(); return l ? new Set(l) : null; }
+            function omIsSingle() { return typeof omSel === 'string' && omSel !== 'all'; }
+            // normalize a picked set: nothing picked is every event, one is that event, more is the set in date order
+            function omSetSelection(dates) {
+                const want = new Set(dates);
+                const kept = omEvents.filter(e => want.has(e.date)).map(e => e.date);
+                omSel = kept.length === 0 || kept.length === omEvents.length ? 'all' : kept.length === 1 ? kept[0] : kept;
+            }
+            function omToggle(date) { const l = omSelList() || []; omSetSelection(l.includes(date) ? l.filter(d => d !== date) : l.concat(date)); }
+            function omSelRows() { const s = omSelSet(); return s ? omRows.filter(r => s.has(r.date)) : omRows; }
             function omEventLabel(e) { const d = new Date(e.date + 'T12:00:00'); return isNaN(d) ? e.event : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
             function omRenderKpis() {
                 const st = omStats(omSelRows()); const el = document.getElementById('omKpis'); if (!st) { el.innerHTML = ''; return; }
                 const tile = (l, v, sub) => `<div class="fs2-ktile"><div class="l">${l}</div><div class="v">${v}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
-                el.innerHTML = tile('Events', omSel === 'all' ? omEvents.length : 1)
+                el.innerHTML = tile('Events', (omSelList() || omEvents).length)
                     + tile('Fighters', st.n.toLocaleString())
                     + tile('Avg miss', st.mae.toFixed(2) + '<span class="raw">pts</span>', 'mean absolute error')
                     + tile('Median miss', st.med.toFixed(2) + '<span class="raw">pts</span>')
@@ -9610,7 +9803,7 @@
                 g += `<line class="om-diag" x1="${x(0)}" y1="${y(0)}" x2="${x(maxV)}" y2="${y(maxV)}"></line>`;
                 g += `<text class="om-axis" x="${M.l + pw / 2}" y="${H - 6}" text-anchor="middle">Projected ownership</text>`;
                 g += `<text class="om-axis" x="12" y="${M.t + ph / 2}" text-anchor="middle" transform="rotate(-90 12 ${M.t + ph / 2})">Actual ownership</text>`;
-                g += rows.map((r, i) => `<circle class="om-dot ${r.abs <= 3 ? 'ok' : r.abs <= 6 ? 'mid' : 'far'}" data-i="${i}" cx="${x(r.proj).toFixed(1)}" cy="${y(r.act).toFixed(1)}" r="${omSel === 'all' ? 3.2 : 5}"></circle>`).join('');
+                g += rows.map((r, i) => `<circle class="om-dot ${r.abs <= 3 ? 'ok' : r.abs <= 6 ? 'mid' : 'far'}" data-i="${i}" cx="${x(r.proj).toFixed(1)}" cy="${y(r.act).toFixed(1)}" r="${omIsSingle() ? 5 : 3.2}"></circle>`).join('');
                 svg.innerHTML = g;
                 const read = document.getElementById('omScatterRead');
                 svg.onmousemove = e => {
@@ -9632,14 +9825,17 @@
                     g += `<line class="tr-gridline" x1="${M.l}" x2="${M.l + pw}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"></line>`;
                     g += `<text x="${M.l - 6}" y="${(y(v) + 3.5).toFixed(1)}" text-anchor="end">${v}</text>`;
                 }
-                const every = Math.ceil(ev.length / 7);
-                ev.forEach((e, i) => { if (i % every === 0 || i === ev.length - 1) g += `<text x="${x(i).toFixed(1)}" y="${M.t + ph + 16}" text-anchor="middle">${omEventLabel(e)}</text>`; });
+                // label the newest event and every earlier one that keeps at least 70 units of room
+                const labelAt = []; let lastX = Infinity;
+                for (let i = ev.length - 1; i >= 0; i--) { if (lastX - x(i) >= 70) { labelAt.push(i); lastX = x(i); } }
+                labelAt.forEach(i => { g += `<text x="${x(i).toFixed(1)}" y="${M.t + ph + 16}" text-anchor="${i === ev.length - 1 ? 'end' : 'middle'}">${omEventLabel(ev[i])}</text>`; });
                 const pts = vals.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
                 const line = 'M' + pts.join('L');
                 const area = line + `L${x(ev.length - 1).toFixed(1)},${M.t + ph}L${x(0).toFixed(1)},${M.t + ph}Z`;
                 g += `<defs><linearGradient id="omFill" x1="0" y1="0" x2="0" y2="1"><stop class="tr-stop-top" offset="0"></stop><stop class="tr-stop-base" offset="1"></stop></linearGradient></defs>`;
                 g += `<path class="tr-area" style="fill:url(#omFill)" d="${area}"></path><path class="tr-line" d="${line}"></path>`;
-                g += ev.map((e, i) => `<circle class="tr-dot om-evdot${e.date === omSel ? ' sel' : ''}" data-d="${e.date}" cx="${x(i).toFixed(1)}" cy="${y(vals[i]).toFixed(1)}" r="${e.date === omSel ? 6 : 4}"></circle>`).join('');
+                const selSet = omSelSet();
+                g += ev.map((e, i) => { const on = !!selSet && selSet.has(e.date); return `<circle class="tr-dot om-evdot${on ? ' sel' : ''}" data-d="${e.date}" cx="${x(i).toFixed(1)}" cy="${y(vals[i]).toFixed(1)}" r="${on ? 6 : 4}"></circle>`; }).join('');
                 g += `<text class="om-axis" x="${M.l + pw / 2}" y="${H - 6}" text-anchor="middle">Event</text>`;
                 g += `<text class="om-axis" x="12" y="${M.t + ph / 2}" text-anchor="middle" transform="rotate(-90 12 ${M.t + ph / 2})">Avg miss (pts)</text>`;
                 svg.innerHTML = g;
@@ -9650,12 +9846,33 @@
                     read.innerHTML = `${omEventLabel(ev1)} \u00b7 ${ev1.st.n} fighters \u00b7 avg miss <span class="n">${ev1.st.mae.toFixed(2)}</span> \u00b7 within 3: <span class="n">${Math.round(100 * ev1.st.w3)}%</span>`;
                 };
                 svg.onmouseleave = () => { read.textContent = ''; };
-                svg.onclick = e => { const t = e.target; if (t.classList && t.classList.contains('om-evdot')) { omSel = omSel === t.dataset.d ? 'all' : t.dataset.d; omRenderAll(); } };
+                // a dot adds or removes its event from the pick (the first click picks just that event)
+                svg.onclick = e => { const t = e.target; if (t.classList && t.classList.contains('om-evdot')) { omToggle(t.dataset.d); omRenderAll(); } };
             }
             function omRenderPicker() {
                 const el = document.getElementById('omPicker');
+                const list = omSelList(), multi = !!list && list.length > 1, sel = omSelSet();
+                const idx = omIsSingle() ? omEvents.findIndex(e => e.date === omSel) : -1;
+                const cur = idx >= 0 ? omEvents[idx] : omEvents[omEvents.length - 1];
+                const fmt = e => { const d = new Date(e.date + 'T12:00:00'); return isNaN(d) ? e.event : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); };
+                // the sheet's event names are placeholders unless they were typed in; show a real one
+                const named = e => e.event && !/^UFC \d/.test(e.event) ? ` \u00b7 ${e.event}` : '';
+                const canOlder = !multi && idx !== 0, canNewer = !multi && idx >= 0 && idx < omEvents.length - 1;
                 el.innerHTML = `<button type="button" class="${omSel === 'all' ? 'active' : ''}" data-d="all">All events</button>` +
-                    omEvents.slice().reverse().map(e => `<button type="button" class="${omSel === e.date ? 'active' : ''}" data-d="${e.date}">${omEventLabel(e)}</button>`).join('');
+                    `<div class="om-step${omSel === 'all' ? '' : ' active'}">` +
+                    `<button type="button" data-step="older" aria-label="Older event"${canOlder ? '' : ' disabled'}>\u2039</button>` +
+                    (multi
+                        ? `<button type="button" class="om-cur" data-dd title="Choose events">${list.length} events</button>`
+                        : `<button type="button" class="om-cur" data-d="${cur.date}" title="Show only this event">${fmt(cur)}${named(cur)}</button>`) +
+                    `<button type="button" data-step="newer" aria-label="Newer event"${canNewer ? '' : ' disabled'}>\u203a</button>` +
+                    `</div>` +
+                    // the pick list: check any set of events; an empty pick is every event
+                    `<div class="om-dd${omDdOpen ? ' open' : ''}">` +
+                    `<button type="button" class="om-dd-btn${multi ? ' active' : ''}" data-dd aria-expanded="${omDdOpen}">Pick events \u25be</button>` +
+                    `<div class="om-dd-panel"${omDdOpen ? '' : ' hidden'}>` +
+                    `<div class="om-dd-actions"><span>${sel ? sel.size + ' picked' : 'Check the events to compare'}</span><button type="button" data-dd-all>Clear</button></div>` +
+                    omEvents.slice().reverse().map(e => `<label class="om-dd-row"><input type="checkbox" data-ev="${e.date}"${sel && sel.has(e.date) ? ' checked' : ''}><span>${fmt(e)}${named(e)}</span></label>`).join('') +
+                    `</div></div>`;
             }
             function omRenderTable() {
                 const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -9666,14 +9883,14 @@
                     return (a[key] - b[key]) * dir;
                 });
                 const cols = [['event', 'Event', true], ['fighter', 'Fighter', true], ['proj', 'Projected', false], ['act', 'Actual', false], ['diff', 'Diff', false], ['abs', 'Miss', false]];
-                if (omSel !== 'all') cols.shift();
+                if (omIsSingle()) cols.shift();
                 document.getElementById('omHead').innerHTML = '<tr>' + cols.map(([k, l, left]) =>
                     `<th class="${left ? 'l ' : ''}sortable${k === key ? ' sorted' : ''}" data-key="${k}">${l}${k === key ? (dir < 0 ? ' \u25be' : ' \u25b4') : ''}</th>`).join('') + '</tr>';
                 const maxAbs = Math.max(...rows.map(r => r.abs), 1);
                 document.getElementById('omTBody').innerHTML = rows.map(r => {
                     const t = Math.min(1, r.abs / 12);
                     const shade = r.abs < 1.5 ? '' : ` class="om-diff ${r.diff > 0 ? 'up' : 'dn'}" style="--t:${t.toFixed(2)}"`;
-                    return `<tr>${omSel === 'all' ? `<td class="l">${omEventLabel(r)}</td>` : ''}<td class="l"><b>${esc(r.fighter)}</b></td><td>${r.proj.toFixed(1)}%</td><td>${r.act.toFixed(1)}%</td><td${shade}>${r.diff > 0 ? '+' : ''}${r.diff.toFixed(1)}</td><td class="om-miss" style="--p:${(r.abs / maxAbs).toFixed(3)}">${r.abs.toFixed(1)}</td></tr>`;
+                    return `<tr>${omIsSingle() ? '' : `<td class="l">${omEventLabel(r)}</td>`}<td class="l"><b>${esc(r.fighter)}</b></td><td>${r.proj.toFixed(1)}%</td><td>${r.act.toFixed(1)}%</td><td${shade}>${r.diff > 0 ? '+' : ''}${r.diff.toFixed(1)}</td><td class="om-miss" style="--p:${(r.abs / maxAbs).toFixed(3)}">${r.abs.toFixed(1)}</td></tr>`;
                 }).join('');
                 document.getElementById('omCount').textContent = `${rows.length} fighter${rows.length === 1 ? '' : 's'}`;
             }
@@ -9691,105 +9908,30 @@
                 omEvents = [...byDate.values()].sort((a, b) => a.date < b.date ? -1 : 1).map(e => ({ ...e, st: omStats(e.rows) }));
                 document.getElementById('omLoading').style.display = 'none';
                 document.getElementById('omBody').style.display = '';
-                document.getElementById('omPicker').addEventListener('click', e => { const b = e.target.closest('button[data-d]'); if (!b) return; omSel = b.dataset.d; omRenderAll(); });
+                document.getElementById('omPicker').addEventListener('click', e => {
+                    e.stopPropagation();   // clicks inside the picker never reach the outside-click closer below
+                    if (e.target.closest('[data-dd]')) { omDdOpen = !omDdOpen; omRenderPicker(); return; }
+                    if (e.target.closest('[data-dd-all]')) { omSel = 'all'; omRenderAll(); return; }
+                    if (e.target.closest('.om-dd-panel')) return;   // checkbox changes are handled below
+                    const st = e.target.closest('button[data-step]');
+                    if (st && !st.disabled) {
+                        const idx = omSel === 'all' ? -1 : omEvents.findIndex(x => x.date === omSel);
+                        const last = omEvents.length - 1;
+                        if (st.dataset.step === 'older') omSel = omEvents[idx < 0 ? last : idx - 1].date;
+                        else if (idx >= 0 && idx < last) omSel = omEvents[idx + 1].date;
+                        omRenderAll(); return;
+                    }
+                    const b = e.target.closest('button[data-d]'); if (!b) return; omSel = b.dataset.d; omRenderAll();
+                });
+                document.getElementById('omPicker').addEventListener('change', e => {
+                    const cb = e.target.closest('input[data-ev]'); if (!cb) return; omToggle(cb.dataset.ev); omRenderAll();
+                });
+                document.addEventListener('click', e => { if (omDdOpen && !e.target.closest('.om-dd')) { omDdOpen = false; omRenderPicker(); } });
+                document.addEventListener('keydown', e => { if (e.key === 'Escape' && omDdOpen) { omDdOpen = false; omRenderPicker(); } });
                 document.getElementById('omHead').addEventListener('mousedown', e => { const th = e.target.closest('th.sortable'); if (!th) return; const k = th.dataset.key; if (k === omSortKey) omSortDir = -omSortDir; else { omSortKey = k; omSortDir = (k === 'fighter' || k === 'event') ? 1 : -1; } omRenderTable(); });
                 omBuilt = true;
+                omSel = 'all';   // stats and charts open on every event; the stepper shows the newest
                 omRenderAll();
-            }
-
-            // ---------- SALARY & OWNERSHIP HISTORY ----------
-            // fighter_history.csv, one row per fighter per DK slate, built by build_history.py.
-            let fhRows = null, fhBuilt = false, fhSortKey = 'date', fhSortDir = -1, fhRaf = 0;
-            const FH_LIMIT = 400;
-            const FH_COLS = [
-                ['date', 'Date', true], ['event', 'Event', true], ['fighter', 'Fighter', true], ['opponent', 'Opponent', true],
-                ['salary', 'Salary', false], ['projected', 'Proj own', false], ['actual', 'Actual own', false],
-                ['dk_score', 'DK', false], ['result', 'Res', false], ['method', 'Method', true],
-            ];
-            function fhParse(txt) {
-                const out = [];
-                const lines = txt.split(/\r?\n/); const head = lines.shift().split(',');
-                for (const line of lines) {
-                    if (!line.trim()) continue;
-                    const c = line.split(','); const o = {};
-                    head.forEach((h, i) => { o[h] = (c[i] || '').trim(); });
-                    o.salary = parseInt(o.salary, 10) || 0;
-                    o.projected = o.projected === '' ? null : parseFloat(o.projected);
-                    o.actual = o.actual === '' ? null : parseFloat(o.actual);
-                    o.dk_score = o.dk_score === '' ? null : parseFloat(o.dk_score);
-                    o.q = (o.fighter + ' ' + o.opponent).toLowerCase();
-                    out.push(o);
-                }
-                return out;
-            }
-            function fhFiltered() {
-                const q = (document.getElementById('fhQ').value || '').trim().toLowerCase();
-                const sMin = parseFloat(document.getElementById('fhSalMin').value), sMax = parseFloat(document.getElementById('fhSalMax').value);
-                const oMin = parseFloat(document.getElementById('fhOwnMin').value), oMax = parseFloat(document.getElementById('fhOwnMax').value);
-                const res = document.getElementById('fhRes').value;
-                return fhRows.filter(r =>
-                    (!q || r.q.indexOf(q) >= 0) &&
-                    (isNaN(sMin) || r.salary >= sMin) && (isNaN(sMax) || r.salary <= sMax) &&
-                    (isNaN(oMin) || (r.actual != null && r.actual >= oMin)) && (isNaN(oMax) || (r.actual != null && r.actual <= oMax)) &&
-                    (!res || r.result === res));
-            }
-            function fhRender() {
-                const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-                const rows = fhFiltered();
-                const key = fhSortKey, dir = fhSortDir, isStr = ['date', 'event', 'fighter', 'opponent', 'result', 'method'].indexOf(key) >= 0;
-                rows.sort((a, b) => {
-                    if (isStr) { const av = String(a[key]).toLowerCase(), bv = String(b[key]).toLowerCase(); return av < bv ? -dir : av > bv ? dir : (a.salary - b.salary) * -1; }
-                    const av = a[key] == null ? -Infinity : a[key], bv = b[key] == null ? -Infinity : b[key];
-                    return (av - bv) * dir;
-                });
-                // one fighter in the result set: a career strip above the sheet
-                const q = (document.getElementById('fhQ').value || '').trim().toLowerCase();
-                const kp = document.getElementById('fhKpis');
-                const mine = q ? rows.filter(r => r.fighter.toLowerCase().indexOf(q) >= 0) : [];
-                const names = new Set(mine.map(r => r.fighter));
-                if (names.size === 1 && mine.length) {
-                    const avg = (arr, k) => { const v = arr.map(r => r[k]).filter(x => x != null && !isNaN(x)); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
-                    const w = mine.filter(r => r.result === 'W').length, l = mine.filter(r => r.result === 'L').length;
-                    const tile = (lab, v, sub) => `<div class="fs2-ktile"><div class="l">${lab}</div><div class="v">${v}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>`;
-                    const sal = avg(mine, 'salary'), ao = avg(mine, 'actual'), po = avg(mine, 'projected'), dk = avg(mine, 'dk_score');
-                    kp.innerHTML = tile('Fighter', esc([...names][0]), `${mine.length} card${mine.length === 1 ? '' : 's'} since Mar 2026`)
-                        + tile('Record', `${w}-${l}`, 'on these cards')
-                        + tile('Avg salary', sal != null ? '$' + Math.round(sal).toLocaleString() : '--', `${mine.length ? '$' + Math.min(...mine.map(r => r.salary)).toLocaleString() + ' to $' + Math.max(...mine.map(r => r.salary)).toLocaleString() : ''}`)
-                        + tile('Avg actual own', ao != null ? ao.toFixed(1) + '%' : '--', po != null ? `projected ${po.toFixed(1)}%` : 'no ownership data yet')
-                        + tile('Avg DK score', dk != null ? dk.toFixed(1) : '--');
-                    kp.style.display = '';
-                } else kp.style.display = 'none';
-                const total = rows.length, show = rows.slice(0, FH_LIMIT);
-                document.getElementById('fhHead').innerHTML = '<tr>' + FH_COLS.map(([k, l, left]) =>
-                    `<th class="${left ? 'l ' : ''}sortable${k === key ? ' sorted' : ''}" data-key="${k}">${l}${k === key ? (dir < 0 ? ' \u25be' : ' \u25b4') : ''}</th>`).join('') + '</tr>';
-                const fmtD = d => { const x = new Date(d + 'T12:00:00'); return isNaN(x) ? d : x.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }); };
-                document.getElementById('fhTBody').innerHTML = show.map(r => `<tr>
-                    <td class="l">${fmtD(r.date)}</td><td class="l fh-ev" title="${esc(r.event)}">${esc(r.event.replace(/^UFC Fight Night: /, 'FN: '))}</td>
-                    <td class="l"><b>${esc(r.fighter)}</b></td><td class="l">${esc(r.opponent)}</td>
-                    <td class="sal">$${r.salary.toLocaleString()}</td>
-                    <td>${r.projected != null ? r.projected.toFixed(1) + '%' : '<span class="fh-na">--</span>'}</td>
-                    <td class="n usd" style="background-size:${r.actual != null ? Math.min(100, r.actual).toFixed(1) : 0}% 62%;">${r.actual != null ? r.actual.toFixed(1) + '%' : '<span class="fh-na">--</span>'}</td>
-                    <td class="dktot">${r.dk_score != null ? r.dk_score.toFixed(1) : '<span class="fh-na">--</span>'}</td>
-                    <td class="${r.result === 'W' ? 'res-w' : r.result === 'L' ? 'res-l' : ''}">${esc(r.result || '--')}</td>
-                    <td class="l">${esc(r.method ? r.method.replace('Decision - ', 'Dec ') + (r.round ? ' R' + r.round : '') : '')}</td>
-                </tr>`).join('');
-                document.getElementById('fhCount').textContent = total > FH_LIMIT ? `Showing ${FH_LIMIT} of ${total.toLocaleString()} matching` : `${total.toLocaleString()} matching`;
-            }
-            function fhSchedule() { if (fhRaf) return; fhRaf = requestAnimationFrame(() => { fhRaf = 0; fhRender(); }); }
-            async function openHistory() {
-                if (fhBuilt) return;
-                try {
-                    const resp = await fetch('fighter_history.csv?v=' + Date.now());
-                    if (!resp.ok) throw new Error('missing');
-                    fhRows = fhParse(await resp.text());
-                } catch (e) { document.getElementById('fhLoading').textContent = 'No history is published yet.'; return; }
-                document.getElementById('fhLoading').style.display = 'none';
-                document.getElementById('fhBody').style.display = '';
-                ['fhQ', 'fhSalMin', 'fhSalMax', 'fhOwnMin', 'fhOwnMax', 'fhRes'].forEach(id => { const el = document.getElementById(id); el.addEventListener('input', fhSchedule); el.addEventListener('change', fhSchedule); });
-                document.getElementById('fhReset').addEventListener('click', () => { ['fhQ', 'fhSalMin', 'fhSalMax', 'fhOwnMin', 'fhOwnMax', 'fhRes'].forEach(id => { document.getElementById(id).value = ''; }); fhSortKey = 'date'; fhSortDir = -1; fhRender(); });
-                document.getElementById('fhHead').addEventListener('mousedown', e => { const th = e.target.closest('th.sortable'); if (!th) return; const k = th.dataset.key; if (k === fhSortKey) fhSortDir = -fhSortDir; else { fhSortKey = k; fhSortDir = ['fighter', 'opponent', 'event', 'method', 'result'].indexOf(k) >= 0 ? 1 : -1; } fhRender(); });
-                fhBuilt = true;
-                fhRender();
             }
 
             // ---------- FIGHTER STATS ----------
@@ -10665,7 +10807,6 @@
             // full score database, which used to be its own top-level tab.
             // Range of Outcomes replaced the Scoring Ladder sub-tab and is the default
             let insightsSub = 'explorer';
-            let ownSub = 'model';
             function showLandingView(view) {
                 document.querySelectorAll('.lnav-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
                 const cv = document.getElementById('contests-view'), sv = document.getElementById('scoringdb-view'), iv = document.getElementById('scoring-insights-view'), tv = document.getElementById('scoringtrends-view'), xv = document.getElementById('scenario-view'), mv = document.getElementById('ownership-view'), ov = document.getElementById('optimizer-view'), lu = document.getElementById('lookup-view'), sn = document.getElementById('insightsSubnav'), bv = document.getElementById('builder-view'), av = document.getElementById('about-view');
@@ -10687,20 +10828,12 @@
                     else { insightsSub = 'explorer'; logTabOpen('opened_explorer'); openExplorer(); }
                 }
                 if (view === 'lookup') { logTabOpen('opened_lookup'); openLookup(); }
-                if (view === 'ownership') {
-                    document.querySelectorAll('#ownSubnav .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.osub === ownSub));
-                    const mp = document.getElementById('own-model-pane'), dp = document.getElementById('own-db-pane');
-                    if (mp) mp.style.display = ownSub === 'model' ? '' : 'none';
-                    if (dp) dp.style.display = ownSub === 'database' ? '' : 'none';
-                    if (ownSub === 'database') { logTabOpen('opened_ownership_db'); openHistory(); }
-                    else { logTabOpen('opened_ownership'); openOwnership(); }
-                }
+                if (view === 'ownership') { logTabOpen('opened_ownership'); openOwnership(); }
                 if (view === 'optimizer') { logTabOpen('opened_optimizer'); if (window.__openOptimizer) window.__openOptimizer(); }
                 if (view === 'builder') { logTabOpen('opened_builder'); if (window.__openHandBuilder) window.__openHandBuilder(); }
                 if (view === 'about') logTabOpen('opened_about');
             }
             document.querySelectorAll('.lnav-tab').forEach(t => t.addEventListener('click', () => showLandingView(t.dataset.view)));
-            document.querySelectorAll('#ownSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { ownSub = b.dataset.osub; showLandingView('ownership'); }));
             document.querySelectorAll('#insightsSubnav .tab-btn').forEach(b => b.addEventListener('click', () => { insightsSub = b.dataset.isub; showLandingView('insights'); }));
         })();
 

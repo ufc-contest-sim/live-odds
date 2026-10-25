@@ -8517,11 +8517,12 @@
         function renderDupesEv(q) {
             const rows = allData.filter(r => (r.Username || '').trim().toLowerCase().includes(q));
             renderOwnEv(rows);
-            renderInsights(rows);
             const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
             rows.forEach(r => { const c = Math.max(1, Math.round(+r.Copies || 1)); const b = B[Math.min(c, 10) - 1]; b.n++; b.ev += +r.NetEV || 0; });
             document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
             document.getElementById('dupes-ev-rows').innerHTML = devRows(B.map((b, i) => ({ label: i === 9 ? '10+' : String(i + 1), n: b.n, ev: b.ev })));
+            // after this card is filled, so the insight cards can take its height
+            renderInsights(rows);
         }
 
         function updateDupesByUser() {

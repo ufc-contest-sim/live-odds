@@ -4636,8 +4636,18 @@
             .lb-right #dupes-container .pex-body { position: relative; flex: 1; min-height: 0; }
             .lb-right #dupes-container .pex-scroll { position: absolute; inset: 0; max-height: none; overflow-y: auto; }
             .lb-right #dupes-ev { flex: 0 1 440px; }
+            .lb-right #dupes-fev { flex: 1 1 380px; display: flex; flex-direction: column; }
+            .lb-right #dupes-fev .dev-body { position: relative; flex: 1; min-height: 0; }
+            .lb-right #dupes-fev .dev-scroll { position: absolute; inset: 0; max-height: none; }
             .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
         }
+        .lb-right #dupes-fev { min-width: 0; }
+        #dupes-fev .dev-scroll { max-height: 400px; overflow-y: auto; }
+        #dupes-fev .dev-head, #dupes-fev .dev-row { grid-template-columns: minmax(0, 1.6fr) 48px minmax(0, 1fr) 56px; gap: 0 10px; }
+        #dupes-fev .dev-head span:first-child { text-align: left; }
+        #dupes-fev .th-full { display: none; }
+        #dupes-fev .th-short { display: inline; }
+        .dev-f { font-weight: 700; font-size: 0.78rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .dev-head, .dev-row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 72px; gap: 0 14px; align-items: center; padding-left: 8px; padding-right: 8px; }
         .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line-1); }
         .dev-head span:nth-child(-n+2), .dev-k, .dev-n { text-align: center; }
@@ -5219,6 +5229,11 @@
                     <div class="portfolio-chart-title pex-title">EV by Dupes<span class="pex-meta" id="dupes-ev-meta"></span></div>
                     <div class="dev-head"><span>Copies</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
                     <div id="dupes-ev-rows"></div>
+                </div>
+                <div class="fx-panel dupes-ev dupes-fev" id="dupes-fev">
+                    <div class="portfolio-chart-title pex-title">EV by Fighter<span class="pex-meta" id="dupes-fev-meta"></span></div>
+                    <div class="dev-head"><span>Fighter</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
+                    <div class="dev-body"><div class="dev-scroll" id="dupes-fev-rows"></div></div>
                 </div>
                 </div>
             </div></div>
@@ -8359,24 +8374,37 @@
         // each lineup exist in the contest (1 to 9, then 10+), with the average
         // net EV per entry in each bucket. Bars diverge from zero so the drop is
         // visible at a glance.
-        function renderDupesEv(q) {
-            const rows = allData.filter(r => (r.Username || '').trim().toLowerCase().includes(q));
-            const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
-            rows.forEach(r => { const c = Math.max(1, Math.round(+r.Copies || 1)); const b = B[Math.min(c, 10) - 1]; b.n++; b.ev += +r.NetEV || 0; });
-            const avgs = B.map(b => b.n ? b.ev / b.n : null);
-            // one dollar scale for both sides; the zero line sits where the
-            // negative side ends, so the bars fill the width instead of
-            // leaving half of it empty when losses are small
+        // rows of diverging bars on one dollar scale; the zero line sits where
+        // the losing side ends so the bars use the full width
+        function devRows(items) {
+            const avgs = items.map(it => it.n ? it.ev / it.n : null);
             const maxPos = Math.max(0, ...avgs.filter(v => v !== null && v > 0));
             const maxNeg = Math.max(0, ...avgs.filter(v => v !== null && v < 0).map(Math.abs));
             const span = Math.max(1e-9, maxPos + maxNeg), z = (maxNeg / span * 100).toFixed(2) + '%';
             const money = v => (v >= 0 ? '+' : '') + fmtDollars(v);
-            document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
-            document.getElementById('dupes-ev-rows').innerHTML = B.map((b, i) => {
+            return items.map((it, i) => {
                 const a = avgs[i], cls = a === null ? 'none' : a >= 0 ? 'pos' : 'neg';
                 const w = a === null ? 0 : Math.abs(a) / span * 100;
-                return `<div class="dev-row ${cls}" style="--z:${z}"><span class="dev-k">${i === 9 ? '10+' : i + 1}</span><span class="dev-n">${b.n ? b.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
+                return `<div class="dev-row ${cls}" style="--z:${z}"><span class="${it.name ? 'dev-f' : 'dev-k'}">${it.label}</span><span class="dev-n">${it.n ? it.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
             }).join('');
+        }
+        // EV by Fighter: the searched user's entries that hold each fighter and
+        // the average net EV per entry among them, best to worst
+        function renderFighterEv(rows) {
+            const by = new Map();
+            rows.forEach(r => { for (let i = 1; i <= 6; i++) { const f = r['F' + i]; if (!f) continue; const b = by.get(f) || { n: 0, ev: 0 }; b.n++; b.ev += +r.NetEV || 0; by.set(f, b); } });
+            const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+            const items = Array.from(by, ([f, b]) => ({ label: esc(f), name: true, n: b.n, ev: b.ev })).sort((a, b) => b.ev / b.n - a.ev / a.n);
+            document.getElementById('dupes-fev-meta').textContent = items.length ? items.length + ' fighters' : '';
+            document.getElementById('dupes-fev-rows').innerHTML = devRows(items);
+        }
+        function renderDupesEv(q) {
+            const rows = allData.filter(r => (r.Username || '').trim().toLowerCase().includes(q));
+            renderFighterEv(rows);
+            const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
+            rows.forEach(r => { const c = Math.max(1, Math.round(+r.Copies || 1)); const b = B[Math.min(c, 10) - 1]; b.n++; b.ev += +r.NetEV || 0; });
+            document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
+            document.getElementById('dupes-ev-rows').innerHTML = devRows(B.map((b, i) => ({ label: i === 9 ? '10+' : String(i + 1), n: b.n, ev: b.ev })));
         }
 
         function updateDupesByUser() {

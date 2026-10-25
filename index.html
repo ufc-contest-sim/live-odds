@@ -4628,26 +4628,18 @@
         /* Portfolio: Dupes by User and EV by Dupes sit side by side under the table once a name is typed; portfolio rows are plain */
         .lb-right .dupes-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin-top: 16px; }
         .lb-right #dupes-container { margin-top: 0; flex: 1 1 260px; min-width: 0; }
-        .lb-right #dupes-ev { flex: 2 1 380px; min-width: 0; }
+        .lb-right #dupes-ev, .lb-right #dupes-own { flex: 2 1 380px; min-width: 0; }
         @media (min-width: 1500px) {
             /* the two cards share one height: EV by Dupes sets it, Dupes by User scrolls inside it */
             .lb-right .dupes-row { align-items: stretch; }
             .lb-right #dupes-container { flex: 0 0 300px; display: flex; flex-direction: column; }
             .lb-right #dupes-container .pex-body { position: relative; flex: 1; min-height: 0; }
             .lb-right #dupes-container .pex-scroll { position: absolute; inset: 0; max-height: none; overflow-y: auto; }
-            .lb-right #dupes-ev { flex: 0 1 440px; }
-            .lb-right #dupes-fev { flex: 1 1 380px; display: flex; flex-direction: column; }
-            .lb-right #dupes-fev .dev-body { position: relative; flex: 1; min-height: 0; }
-            .lb-right #dupes-fev .dev-scroll { position: absolute; inset: 0; max-height: none; }
+            /* the two EV cards share the rest of the row equally */
+            .lb-right #dupes-ev, .lb-right #dupes-own { flex: 1 1 360px; }
             .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
         }
-        .lb-right #dupes-fev { min-width: 0; }
-        #dupes-fev .dev-scroll { max-height: 400px; overflow-y: auto; }
-        #dupes-fev .dev-head, #dupes-fev .dev-row { grid-template-columns: minmax(0, 1.6fr) 48px minmax(0, 1fr) 56px; gap: 0 10px; }
-        #dupes-fev .dev-head span:first-child { text-align: left; }
-        #dupes-fev .th-full { display: none; }
-        #dupes-fev .th-short { display: inline; }
-        .dev-f { font-weight: 700; font-size: 0.78rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #dupes-own .dev-head, #dupes-own .dev-row { grid-template-columns: 76px 56px minmax(0, 1fr) 64px; }
         .dev-head, .dev-row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 72px; gap: 0 14px; align-items: center; padding-left: 8px; padding-right: 8px; }
         .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line-1); }
         .dev-head span:nth-child(-n+2), .dev-k, .dev-n { text-align: center; }
@@ -5230,10 +5222,10 @@
                     <div class="dev-head"><span>Copies</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
                     <div id="dupes-ev-rows"></div>
                 </div>
-                <div class="fx-panel dupes-ev dupes-fev" id="dupes-fev">
-                    <div class="portfolio-chart-title pex-title">EV by Fighter<span class="pex-meta" id="dupes-fev-meta"></span></div>
-                    <div class="dev-head"><span>Fighter</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
-                    <div class="dev-body"><div class="dev-scroll" id="dupes-fev-rows"></div></div>
+                <div class="fx-panel dupes-ev" id="dupes-own">
+                    <div class="portfolio-chart-title pex-title">EV by Own Sum<span class="pex-meta" id="dupes-own-meta"></span></div>
+                    <div class="dev-head"><span>Own sum</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
+                    <div id="dupes-own-rows"></div>
                 </div>
                 </div>
             </div></div>
@@ -8385,22 +8377,26 @@
             return items.map((it, i) => {
                 const a = avgs[i], cls = a === null ? 'none' : a >= 0 ? 'pos' : 'neg';
                 const w = a === null ? 0 : Math.abs(a) / span * 100;
-                return `<div class="dev-row ${cls}" style="--z:${z}"><span class="${it.name ? 'dev-f' : 'dev-k'}">${it.label}</span><span class="dev-n">${it.n ? it.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
+                return `<div class="dev-row ${cls}" style="--z:${z}"><span class="dev-k">${it.label}</span><span class="dev-n">${it.n ? it.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
             }).join('');
         }
-        // EV by Fighter: the searched user's entries that hold each fighter and
-        // the average net EV per entry among them, best to worst
-        function renderFighterEv(rows) {
-            const by = new Map();
-            rows.forEach(r => { for (let i = 1; i <= 6; i++) { const f = r['F' + i]; if (!f) continue; const b = by.get(f) || { n: 0, ev: 0 }; b.n++; b.ev += +r.NetEV || 0; by.set(f, b); } });
-            const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-            const items = Array.from(by, ([f, b]) => ({ label: esc(f), name: true, n: b.n, ev: b.ev })).sort((a, b) => b.ev / b.n - a.ev / a.n);
-            document.getElementById('dupes-fev-meta').textContent = items.length ? items.length + ' fighters' : '';
-            document.getElementById('dupes-fev-rows').innerHTML = devRows(items);
+        // EV by Own Sum: the searched user's entries in ten equal bands of
+        // ownership sum across that portfolio's own range, with the average
+        // net EV per entry in each
+        function renderOwnEv(rows) {
+            const all = rows.length ? rows.map(r => +r.OwnSum || 0) : [0];
+            const min = Math.min(...all), max = Math.max(...all);
+            // whole-number bands from the lowest entry up, sized so all ten are used
+            const lo = Math.floor(min), step = Math.max(1, Math.ceil((max - lo) / 10));
+            const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
+            rows.forEach(r => { const v = +r.OwnSum || 0; const i = Math.min(9, Math.max(0, Math.floor((v - lo) / step))); B[i].n++; B[i].ev += +r.NetEV || 0; });
+            const fmt = v => Math.round(v).toLocaleString();
+            document.getElementById('dupes-own-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
+            document.getElementById('dupes-own-rows').innerHTML = devRows(B.map((b, i) => ({ label: i === 9 ? fmt(lo + 9 * step) + '+' : fmt(lo + i * step) + '-' + fmt(lo + (i + 1) * step), n: b.n, ev: b.ev })));
         }
         function renderDupesEv(q) {
             const rows = allData.filter(r => (r.Username || '').trim().toLowerCase().includes(q));
-            renderFighterEv(rows);
+            renderOwnEv(rows);
             const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
             rows.forEach(r => { const c = Math.max(1, Math.round(+r.Copies || 1)); const b = B[Math.min(c, 10) - 1]; b.n++; b.ev += +r.NetEV || 0; });
             document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';

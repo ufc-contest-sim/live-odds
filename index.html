@@ -4625,9 +4625,31 @@
         /* Dupes by User shows six rows, then scrolls inside the card with its header frozen */
         #dupes-container .pex-scroll { max-height: var(--dupes-h, 240px); overflow-y: auto; }
         #dupes-container .pex-table thead th { position: sticky; top: 0; z-index: 1; background: var(--fn-card-2, var(--bg-card)); }
-        /* Dupes by User sits under the portfolio table at half the column; portfolio rows are plain */
-        .lb-right #dupes-container { margin-top: 16px; }
-        @media (min-width: 1500px) { .lb-right #dupes-container { width: calc(50% - 8px); } }
+        /* Portfolio: Dupes by User and EV by Dupes sit side by side under the table once a name is typed; portfolio rows are plain */
+        .lb-right .dupes-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin-top: 16px; }
+        .lb-right #dupes-container { margin-top: 0; flex: 1 1 260px; min-width: 0; }
+        .lb-right #dupes-ev { flex: 2 1 380px; min-width: 0; }
+        @media (min-width: 1500px) {
+            .lb-right #dupes-container { flex: 0 0 300px; }
+            .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
+        }
+        .dev-head, .dev-row { display: grid; grid-template-columns: 48px 60px minmax(0, 1fr) 70px; gap: 0 12px; align-items: center; }
+        .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 0 0 8px; border-bottom: 1px solid var(--line-1); }
+        .dev-row { padding: 7px 0; border-bottom: 1px solid var(--line-1); font-size: 0.82rem; }
+        .dev-row:last-child { border-bottom: 0; }
+        .dev-k { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+        .dev-n { color: var(--text-secondary); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+        .dev-bar { position: relative; height: 12px; }
+        .dev-bar::before { content: ''; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 1px; background: var(--line-2); }
+        .dev-bar i { position: absolute; top: 0; height: 100%; border-radius: 3px; }
+        .dev-row.pos .dev-bar i { left: 50%; background: linear-gradient(90deg, rgba(63,179,122,0.45), rgba(63,179,122,0.9)); }
+        .dev-row.neg .dev-bar i { right: 50%; background: linear-gradient(270deg, rgba(255,92,92,0.45), rgba(255,92,92,0.9)); }
+        .dev-v { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .dev-row.pos .dev-v { color: var(--accent-green); }
+        .dev-row.neg .dev-v { color: var(--accent-red); }
+        .dev-row.none { opacity: 0.4; }
+        .dev-row.none .dev-v { color: var(--ink-3); font-weight: 400; }
+        .dev-foot { margin-top: 10px; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; }
         #portfolio-table tr.row-main { cursor: default; }
         /* Fighter(s) filter sits inline like Username; picked fighters wrap under it only when there are some */
         #selected-fighters:empty { display: none; }
@@ -5178,7 +5200,8 @@
                 </div>
             </div>
 
-                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
+                <div class="dupes-row" id="dupes-row" style="display: none;">
+                <div class="dupes-container fx-panel" id="dupes-container">
                     <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
                     <div class="pex-body"><div class="pex-scroll">
                     <table class="pex-table fx-table dupes-table">
@@ -5186,6 +5209,13 @@
                         <tbody id="dupes-tbody"></tbody>
                     </table>
                     </div></div>
+                </div>
+                <div class="fx-panel dupes-ev" id="dupes-ev">
+                    <div class="portfolio-chart-title pex-title">EV by Dupes<span class="pex-meta" id="dupes-ev-meta"></span></div>
+                    <div class="dev-head"><span>Copies</span><span>Entries</span><span>Avg net EV per entry</span><span></span></div>
+                    <div id="dupes-ev-rows"></div>
+                    <div class="dev-foot" id="dupes-ev-foot"></div>
+                </div>
                 </div>
             </div></div>
             <div id="whatif-layout" class="whatif-layout">
@@ -6058,8 +6088,8 @@
             const statsTop = document.querySelector('.stats-top');
             if (statsTop) { const show = view === 'username' || view === 'lineup' || view === 'portfolio'; statsTop.style.display = show ? '' : 'none'; }
 
-            // Dupes-by-User panel is only used on the Portfolio view
-            document.getElementById('dupes-container').style.display = 'none';
+            // Dupes by User and EV by Dupes are only used on the Portfolio view
+            document.getElementById('dupes-row').style.display = 'none';
             statsPanel.classList.remove('three-col');
 
             // Insights (charts) view
@@ -8321,14 +8351,41 @@
 
         // Populate the "Dupes by User" panel: who shares the most lineups with
         // the searched user. Blank until a username is entered.
+        // EV by Dupes: the searched user's entries bucketed by how many copies of
+        // each lineup exist in the contest (1 to 9, then 10+), with the average
+        // net EV per entry in each bucket. Bars diverge from zero so the drop is
+        // visible at a glance.
+        function renderDupesEv(q) {
+            const rows = allData.filter(r => (r.Username || '').trim().toLowerCase().includes(q));
+            const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
+            rows.forEach(r => { const c = Math.max(1, Math.round(+r.Copies || 1)); const b = B[Math.min(c, 10) - 1]; b.n++; b.ev += +r.NetEV || 0; });
+            const avgs = B.map(b => b.n ? b.ev / b.n : null);
+            const mx = Math.max(1e-9, ...avgs.filter(v => v !== null).map(Math.abs));
+            const money = v => (v >= 0 ? '+' : '') + fmtDollars(v);
+            document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
+            document.getElementById('dupes-ev-rows').innerHTML = B.map((b, i) => {
+                const a = avgs[i], cls = a === null ? 'none' : a >= 0 ? 'pos' : 'neg';
+                const w = a === null ? 0 : Math.abs(a) / mx * 50;
+                return `<div class="dev-row ${cls}"><span class="dev-k">${i === 9 ? '10+' : i + 1}</span><span class="dev-n">${b.n ? b.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
+            }).join('');
+            const uniq = B[0], dup = B.slice(1).reduce((t, b) => ({ n: t.n + b.n, ev: t.ev + b.ev }), { n: 0, ev: 0 });
+            let foot = '';
+            if (!rows.length) foot = 'No lineups found for that username.';
+            else if (uniq.n && dup.n) foot = `Unique lineups average ${money(uniq.ev / uniq.n)} per entry. Duped lineups average ${money(dup.ev / dup.n)}.`;
+            else if (uniq.n) foot = 'Every lineup is unique.';
+            else foot = 'No unique lineups in this portfolio.';
+            document.getElementById('dupes-ev-foot').textContent = foot;
+        }
+
         function updateDupesByUser() {
             const tbody = document.getElementById('dupes-tbody');
             const q = (document.getElementById('search-user').value || '').trim().toLowerCase();
             // the card exists only on the Portfolio view once a username is typed
             const box = document.getElementById('dupes-container');
             const show = currentView === 'portfolio' && !!q;
-            box.style.display = show ? '' : 'none';
+            document.getElementById('dupes-row').style.display = show ? '' : 'none';
             if (!show) { tbody.innerHTML = ''; return; }
+            renderDupesEv(q);
             // LineupKey -> set of usernames (across the whole field)
             const keyUsers = new Map();
             const myKeys = new Set();

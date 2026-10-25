@@ -5608,6 +5608,70 @@
         }
         initLockCountdown();
 
+        // ---------- ACTIVITY LOG ----------
+        // Everything a visitor does, in the sheet's Search column with where it
+        // happened: every click on a tab, button, link, sortable header, row,
+        // card or favorite; every setting change; anything typed into a filter
+        // or search box, logged after a pause in typing. A repeat of the same
+        // action inside 15 seconds is dropped and the page sends at most 60
+        // actions a minute, so a click-happy visitor cannot flood the sheet.
+        // The owner's own activity is skipped by logEvent as always.
+        (function () {
+            const last = new Map(); let recent = [];
+            const clean = v => String(v || '').replace(/\s+/g, ' ').trim();
+            const where = () => clean(currentContest && currentContest.name
+                ? `${currentContest.name} / ${currentView}`
+                : ((document.querySelector('.lnav-tab.active') || {}).textContent || 'home'));
+            function act(evt, detail) {
+                detail = clean(detail).slice(0, 80);
+                const key = evt + '::' + detail, now = Date.now();
+                if ((last.get(key) || 0) > now - 15000) return;
+                recent = recent.filter(t => t > now - 60000);
+                if (recent.length >= 60) return;
+                last.set(key, now); recent.push(now);
+                logEvent(evt, detail ? `${detail} @ ${where()}` : where());
+            }
+            const label = el => {
+                const inner = el.querySelector && el.querySelector('td.username, .username, .lu-line, .fav-name');
+                return el.getAttribute('aria-label') || el.getAttribute('title') || (inner ? inner.textContent : el.textContent) || '';
+            };
+            document.addEventListener('click', e => {
+                const el = e.target.closest('.fav-remove, .favorites-tiles > *, .fighter-option, tr.row-main, .search-result-card, th.sortable, .lnav-tab, .tab-btn, button, a[href]');
+                if (!el || el.closest('#visitor-gate')) return;
+                if (el.matches('.fav-remove')) return act('removed_favorite', el.dataset.remove);
+                if (el.matches('.favorites-tiles > *')) return act('clicked_favorite', label(el));
+                if (el.matches('.fighter-option')) { if (el.hasAttribute('onclick')) act('picked_fighter', el.textContent); return; }   // not the "no fighters found" line
+                if (el.matches('tr.row-main')) return act('clicked_row', label(el));
+                if (el.matches('.search-result-card')) return act('opened_card', (el.querySelector('.search-result-contest') || el).textContent);
+                if (el.matches('th.sortable')) return act('sorted', label(el));
+                if (el.matches('.lb-tabs .tab-btn')) return;   // contest views already log as viewed_<view>
+                if (el.matches('.lnav-tab, .tab-btn')) return act('clicked_tab', label(el));
+                act('clicked', label(el));
+            }, true);
+            const boxNames = { 'fighter-dropdown': 'fighter filter', fluInput: 'fighter stats', sdbName: 'fight database', hbNameInput: 'lineup name', 'hb-search': 'hand builder', 'dupe-search': 'dupes', 'pair-search-input': 'pair search' };
+            const timers = new Map();
+            document.addEventListener('input', e => {
+                const el = e.target;
+                if (!(el instanceof HTMLInputElement) && !(el instanceof HTMLTextAreaElement)) return;
+                if (el.closest('#visitor-gate') || el.id === 'quick-search-input') return;   // the gate and the landing search log already
+                if (el instanceof HTMLInputElement && !['text', 'search', ''].includes(el.type)) return;
+                clearTimeout(timers.get(el));
+                timers.set(el, setTimeout(() => {
+                    const v = el.value.trim(); if (v.length < 2) return;
+                    if (el.id === 'search-user') act('filtered_user', v);
+                    else act('typed', `${boxNames[el.id] || el.placeholder || el.id || 'field'}: ${v}`);
+                }, 1200));
+            }, true);
+            document.addEventListener('change', e => {
+                const el = e.target;
+                if (!el || !('value' in el) || el.closest('#visitor-gate')) return;
+                if (el.matches('.fight-score-input')) return act('whatif_scored', `${el.dataset.fighter}: ${el.value}`);
+                if (el.type === 'checkbox') return act('toggled', `${clean((el.closest('label') || {}).textContent) || el.id}: ${el.checked ? 'on' : 'off'}`);
+                if (el.type === 'file') return act('uploaded', el.id || 'file');
+                if (el.tagName === 'SELECT' || el.type === 'number' || el.type === 'date') return act('changed', `${el.id || el.name || 'field'}: ${el.value}`);
+            }, true);
+        })();
+
         // Keep every visitor on the latest build. The HTML is served with
         // must-revalidate, so a fresh navigation always gets the newest copy;
         // the gap is a tab left open (iPad Safari keeps them alive for days).

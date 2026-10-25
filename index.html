@@ -4633,23 +4633,23 @@
             .lb-right #dupes-container { flex: 0 0 300px; }
             .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
         }
-        .dev-head, .dev-row { display: grid; grid-template-columns: 48px 60px minmax(0, 1fr) 70px; gap: 0 12px; align-items: center; }
-        .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 0 0 8px; border-bottom: 1px solid var(--line-1); }
-        .dev-row { padding: 7px 0; border-bottom: 1px solid var(--line-1); font-size: 0.82rem; }
+        .dev-head, .dev-row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 72px; gap: 0 14px; align-items: center; padding-left: 8px; padding-right: 8px; }
+        .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line-1); }
+        .dev-head span:nth-child(-n+2), .dev-k, .dev-n { text-align: center; }
+        .dev-row { padding-top: 7px; padding-bottom: 7px; border-bottom: 1px solid var(--line-1); font-size: 0.82rem; }
         .dev-row:last-child { border-bottom: 0; }
         .dev-k { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
         .dev-n { color: var(--text-secondary); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
         .dev-bar { position: relative; height: 12px; }
-        .dev-bar::before { content: ''; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 1px; background: var(--line-2); }
+        .dev-bar::before { content: ''; position: absolute; left: var(--z, 0%); top: -4px; bottom: -4px; width: 1px; background: var(--line-2); }
         .dev-bar i { position: absolute; top: 0; height: 100%; border-radius: 3px; }
-        .dev-row.pos .dev-bar i { left: 50%; background: linear-gradient(90deg, rgba(63,179,122,0.45), rgba(63,179,122,0.9)); }
-        .dev-row.neg .dev-bar i { right: 50%; background: linear-gradient(270deg, rgba(255,92,92,0.45), rgba(255,92,92,0.9)); }
+        .dev-row.pos .dev-bar i { left: var(--z, 0%); background: linear-gradient(90deg, rgba(63,179,122,0.45), rgba(63,179,122,0.9)); }
+        .dev-row.neg .dev-bar i { right: calc(100% - var(--z, 0%)); background: linear-gradient(270deg, rgba(255,92,92,0.45), rgba(255,92,92,0.9)); }
         .dev-v { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
         .dev-row.pos .dev-v { color: var(--accent-green); }
         .dev-row.neg .dev-v { color: var(--accent-red); }
         .dev-row.none { opacity: 0.4; }
         .dev-row.none .dev-v { color: var(--ink-3); font-weight: 400; }
-        .dev-foot { margin-top: 10px; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; }
         #portfolio-table tr.row-main { cursor: default; }
         /* Fighter(s) filter sits inline like Username; picked fighters wrap under it only when there are some */
         #selected-fighters:empty { display: none; }
@@ -5212,9 +5212,8 @@
                 </div>
                 <div class="fx-panel dupes-ev" id="dupes-ev">
                     <div class="portfolio-chart-title pex-title">EV by Dupes<span class="pex-meta" id="dupes-ev-meta"></span></div>
-                    <div class="dev-head"><span>Copies</span><span>Entries</span><span>Avg net EV per entry</span><span></span></div>
+                    <div class="dev-head"><span>Copies</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
                     <div id="dupes-ev-rows"></div>
-                    <div class="dev-foot" id="dupes-ev-foot"></div>
                 </div>
                 </div>
             </div></div>
@@ -8360,21 +8359,19 @@
             const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
             rows.forEach(r => { const c = Math.max(1, Math.round(+r.Copies || 1)); const b = B[Math.min(c, 10) - 1]; b.n++; b.ev += +r.NetEV || 0; });
             const avgs = B.map(b => b.n ? b.ev / b.n : null);
-            const mx = Math.max(1e-9, ...avgs.filter(v => v !== null).map(Math.abs));
+            // one dollar scale for both sides; the zero line sits where the
+            // negative side ends, so the bars fill the width instead of
+            // leaving half of it empty when losses are small
+            const maxPos = Math.max(0, ...avgs.filter(v => v !== null && v > 0));
+            const maxNeg = Math.max(0, ...avgs.filter(v => v !== null && v < 0).map(Math.abs));
+            const span = Math.max(1e-9, maxPos + maxNeg), z = (maxNeg / span * 100).toFixed(2) + '%';
             const money = v => (v >= 0 ? '+' : '') + fmtDollars(v);
             document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
             document.getElementById('dupes-ev-rows').innerHTML = B.map((b, i) => {
                 const a = avgs[i], cls = a === null ? 'none' : a >= 0 ? 'pos' : 'neg';
-                const w = a === null ? 0 : Math.abs(a) / mx * 50;
-                return `<div class="dev-row ${cls}"><span class="dev-k">${i === 9 ? '10+' : i + 1}</span><span class="dev-n">${b.n ? b.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
+                const w = a === null ? 0 : Math.abs(a) / span * 100;
+                return `<div class="dev-row ${cls}" style="--z:${z}"><span class="dev-k">${i === 9 ? '10+' : i + 1}</span><span class="dev-n">${b.n ? b.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
             }).join('');
-            const uniq = B[0], dup = B.slice(1).reduce((t, b) => ({ n: t.n + b.n, ev: t.ev + b.ev }), { n: 0, ev: 0 });
-            let foot = '';
-            if (!rows.length) foot = 'No lineups found for that username.';
-            else if (uniq.n && dup.n) foot = `Unique lineups average ${money(uniq.ev / uniq.n)} per entry. Duped lineups average ${money(dup.ev / dup.n)}.`;
-            else if (uniq.n) foot = 'Every lineup is unique.';
-            else foot = 'No unique lineups in this portfolio.';
-            document.getElementById('dupes-ev-foot').textContent = foot;
         }
 
         function updateDupesByUser() {

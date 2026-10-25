@@ -4639,6 +4639,9 @@
             .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
         }
         #dupes-own .dev-head, #dupes-own .dev-row { grid-template-columns: 76px 56px minmax(0, 1fr) 64px; }
+        /* both EV cards use the short bar header so neither wraps at three across */
+        #dupes-ev .th-full, #dupes-own .th-full { display: none; }
+        #dupes-ev .th-short, #dupes-own .th-short { display: inline; }
         .dev-head, .dev-row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 72px; gap: 0 14px; align-items: center; padding-left: 8px; padding-right: 8px; }
         .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line-1); }
         .dev-head span:nth-child(-n+2), .dev-k, .dev-n { text-align: center; }

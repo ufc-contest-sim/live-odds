@@ -4630,16 +4630,18 @@
         .lb-right #dupes-container { margin-top: 0; flex: 1 1 260px; min-width: 0; }
         .lb-right #dupes-ev, .lb-right #dupes-own { flex: 2 1 380px; min-width: 0; }
         @media (min-width: 1500px) {
-            /* the two cards share one height: EV by Dupes sets it, Dupes by User scrolls inside it */
-            .lb-right .dupes-row { align-items: stretch; }
-            .lb-right #dupes-container { flex: 0 0 300px; display: flex; flex-direction: column; }
+            /* the row is the same three-column grid as the insight cards below it, so the
+               two rows line up; EV by Dupes sets the height and Dupes by User scrolls inside it */
+            .lb-right .dupes-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); align-items: stretch; }
+            .lb-right #dupes-container { display: flex; flex-direction: column; }
             .lb-right #dupes-container .pex-body { position: relative; flex: 1; min-height: 0; }
             .lb-right #dupes-container .pex-scroll { position: absolute; inset: 0; max-height: none; overflow-y: auto; }
-            /* the two EV cards share the rest of the row equally */
-            .lb-right #dupes-ev, .lb-right #dupes-own { flex: 1 1 360px; }
             .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
         }
         #dupes-own .dev-head, #dupes-own .dev-row { grid-template-columns: 76px 56px minmax(0, 1fr) 64px; }
+        /* both EV cards use the short bar header so neither wraps at three across */
+        #dupes-ev .th-full, #dupes-own .th-full { display: none; }
+        #dupes-ev .th-short, #dupes-own .th-short { display: inline; }
         .dev-head, .dev-row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 72px; gap: 0 14px; align-items: center; padding-left: 8px; padding-right: 8px; }
         .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line-1); }
         .dev-head span:nth-child(-n+2), .dev-k, .dev-n { text-align: center; }
@@ -4678,7 +4680,7 @@
         .filter-group.rf [hidden] { display: none; }
         /* Portfolio insights: three cards under the dupes row, side by side on wide screens */
         .lb-right .pfi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; margin-top: 16px; }
-        .pfi-card { min-width: 0; display: flex; flex-direction: column; height: 372px; }
+        .pfi-card { min-width: 0; display: flex; flex-direction: column; height: var(--pfi-h, 372px); }
         .pfi-card .pex-title { flex: none; }
         .pfi-card .dev-body { position: relative; flex: 1; min-height: 0; }
         .pfi-card .dev-scroll { position: absolute; inset: 0; max-height: none; overflow-y: auto; }
@@ -8479,6 +8481,9 @@
             grid += '</div>';
             document.getElementById('pfi-pair-body').innerHTML = n ? grid : '';
             document.getElementById('pfi-pair-meta').textContent = n ? `portfolio avg ${pfiMoney(avgEv)} per entry` : '';
+            // the insight cards take the height of the row above so the two rows match
+            const evH = document.getElementById('dupes-ev').offsetHeight;
+            if (evH) document.getElementById('pf-insights').style.setProperty('--pfi-h', evH + 'px');
 
         }
         // rows of diverging bars on one dollar scale; the zero line sits where

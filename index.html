@@ -4630,7 +4630,12 @@
         .lb-right #dupes-container { margin-top: 0; flex: 1 1 260px; min-width: 0; }
         .lb-right #dupes-ev { flex: 2 1 380px; min-width: 0; }
         @media (min-width: 1500px) {
-            .lb-right #dupes-container { flex: 0 0 300px; }
+            /* the two cards share one height: EV by Dupes sets it, Dupes by User scrolls inside it */
+            .lb-right .dupes-row { align-items: stretch; }
+            .lb-right #dupes-container { flex: 0 0 300px; display: flex; flex-direction: column; }
+            .lb-right #dupes-container .pex-body { position: relative; flex: 1; min-height: 0; }
+            .lb-right #dupes-container .pex-scroll { position: absolute; inset: 0; max-height: none; overflow-y: auto; }
+            .lb-right #dupes-ev { flex: 0 1 440px; }
             .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
         }
         .dev-head, .dev-row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 72px; gap: 0 14px; align-items: center; padding-left: 8px; padding-right: 8px; }

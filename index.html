@@ -4640,6 +4640,13 @@
         .om-dd-row:hover { background: rgba(255, 255, 255, 0.06); }
         .om-dd-row input { accent-color: var(--accent); margin: 0; width: 14px; height: 14px; }
         .sx-fights-head.om-head, .om-picker { overflow: visible; }
+        /* Range filters: a second row under the filter bar on By Username and By Lineup */
+        .filter-row2 { display: flex; flex-wrap: wrap; gap: 10px 22px; width: 100%; padding-top: 12px; margin-top: 2px; border-top: 1px solid var(--line-1); }
+        .filter-group.rf { gap: 8px; }
+        .filter-group.rf select { min-width: 104px; }
+        .filter-group.rf input { width: 92px; }
+        .filter-group.rf .rf-to { color: var(--ink-3); font-size: 0.8rem; }
+        .filter-group.rf [hidden] { display: none; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5098,6 +5105,12 @@
                     </select>
                 </div>
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
+                <div class="filter-row2" id="range-filters">
+                    <div class="filter-group rf" data-rf="OwnSum"><label>Own sum</label><select class="rf-op" aria-label="Own sum filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="%" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="%" hidden></div>
+                    <div class="filter-group rf" data-rf="MeanScore"><label>Proj score</label><select class="rf-op" aria-label="Projected score filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="pts" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="pts" hidden></div>
+                    <div class="filter-group rf" data-rf="TotalSalary"><label>Salary</label><select class="rf-op" aria-label="Salary filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="100" placeholder="$" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="100" placeholder="$" hidden></div>
+                    <div class="filter-group rf" data-rf="Copies"><label>Copies</label><select class="rf-op" aria-label="Copies filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="1" min="1" placeholder="#" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="1" min="1" placeholder="#" hidden></div>
+                </div>
             </div>
 
             <div class="stats-vertical stats-top">
@@ -6065,10 +6078,12 @@
             // Insights (charts) view
             document.getElementById('insights-view').style.display = 'none';
 
+            const rangeRow = document.getElementById('range-filters');
+            if (rangeRow) rangeRow.style.display = (view === 'username' || view === 'lineup') ? '' : 'none';
             if (view === 'username') {
                 document.getElementById('username-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
-                document.getElementById('fighter-filter').style.display = 'none';
+                document.getElementById('fighter-filter').style.display = 'flex';
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
@@ -7353,6 +7368,12 @@
                     initWhatIfPanel();
                 }
 
+                // the fighter filter and the range row belong to By Username and By Lineup
+                const lineupViews = currentView === 'username' || currentView === 'lineup';
+                document.getElementById('fighter-filter').style.display = lineupViews ? 'flex' : 'none';
+                const rangeRow = document.getElementById('range-filters');
+                if (rangeRow) rangeRow.style.display = lineupViews ? '' : 'none';
+
                 clearFilters();
                 
             } catch (error) {
@@ -7559,11 +7580,38 @@
             filterAndRender();
         }
         
+        // Range filters (Own sum, Proj score, Salary, Copies): any, at least, at most or between.
+        // Each applies to the entry's own value; blank boxes are ignored.
+        const rangeFilters = { OwnSum: { op: 'any', a: '', b: '' }, MeanScore: { op: 'any', a: '', b: '' }, TotalSalary: { op: 'any', a: '', b: '' }, Copies: { op: 'any', a: '', b: '' } };
+        function rangeOk(row) {
+            for (const k in rangeFilters) {
+                const f = rangeFilters[k]; if (f.op === 'any') continue;
+                const v = +row[k] || 0, a = parseFloat(f.a), b = parseFloat(f.b);
+                if (f.op === 'gt' && isFinite(a) && v < a) return false;
+                if (f.op === 'lt' && isFinite(a) && v > a) return false;
+                if (f.op === 'between') { if (isFinite(a) && v < a) return false; if (isFinite(b) && v > b) return false; }
+            }
+            return true;
+        }
+        function syncRangeBoxes(group) {
+            const op = group.querySelector('.rf-op').value;
+            group.querySelector('.rf-a').hidden = op === 'any';
+            group.querySelector('.rf-to').hidden = op !== 'between';
+            group.querySelector('.rf-b').hidden = op !== 'between';
+        }
+        (function () {
+            const wrap = document.getElementById('range-filters'); if (!wrap) return;
+            let t = null;
+            const read = group => { const f = rangeFilters[group.dataset.rf]; f.op = group.querySelector('.rf-op').value; f.a = group.querySelector('.rf-a').value; f.b = group.querySelector('.rf-b').value; };
+            wrap.addEventListener('change', e => { const g = e.target.closest('.rf'); if (!g) return; syncRangeBoxes(g); read(g); if (e.target.classList.contains('rf-op') && g.querySelector('.rf-a').value === '' && e.target.value !== 'any') { g.querySelector('.rf-a').focus(); } filterAndRender(); });
+            wrap.addEventListener('input', e => { const g = e.target.closest('.rf'); if (!g || e.target.tagName !== 'INPUT') return; read(g); clearTimeout(t); t = setTimeout(filterAndRender, 250); });
+        })();
         function clearFilters() {
             document.getElementById('search-user').value = '';
             document.getElementById('fighter-dropdown').value = '';
             selectedFighters = [];
             updateSelectedFightersDisplay();
+            document.querySelectorAll('#range-filters .rf').forEach(g => { g.querySelector('.rf-op').value = 'any'; g.querySelector('.rf-a').value = ''; g.querySelector('.rf-b').value = ''; syncRangeBoxes(g); rangeFilters[g.dataset.rf] = { op: 'any', a: '', b: '' }; });
             document.getElementById('sort-by').value = 'NetEV';
             currentSort = 'NetEV';
             sortAscending = false;
@@ -7598,29 +7646,21 @@
             const dead = row => hideDead &&
                 (currentView === 'username' || currentView === 'lineup') &&
                 !((row.WinPct || 0) > 0);
+            // every picked fighter must be in the lineup
+            const hasFighters = row => {
+                if (selectedFighters.length === 0) return true;
+                const lineupFighters = [];
+                for (let i = 1; i <= 6; i++) { const f = row[`F${i}`]; if (f && f !== '') lineupFighters.push(f); }
+                return selectedFighters.every(f => lineupFighters.includes(f));
+            };
             filteredData = allData.filter(row => {
                 if (dead(row)) return false;
+                // By Username and By Lineup: fighters and the range filters apply to both
+                if ((currentView === 'username' || currentView === 'lineup') && (!hasFighters(row) || !rangeOk(row))) return false;
                 if (currentView === 'username' || currentView === 'portfolio') {
-                    const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
-                    return userMatch;
-                } else {
-                    // For lineup view, filter by selected fighters
-                    if (selectedFighters.length === 0) return true;
-
-                    // Get all fighters in this lineup
-                    const lineupFighters = [];
-                    for (let i = 1; i <= 6; i++) {
-                        const fighter = row[`F${i}`];
-                        if (fighter && fighter !== '') {
-                            lineupFighters.push(fighter);
-                        }
-                    }
-
-                    // Check if ALL selected fighters are in the lineup
-                    return selectedFighters.every(selectedFighter =>
-                        lineupFighters.includes(selectedFighter)
-                    );
+                    return !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
                 }
+                return true;   // the lineup view keeps every entrant so the dupe tiles list everyone
             });
             
             // Sort

@@ -4640,6 +4640,13 @@
         .om-dd-row:hover { background: rgba(255, 255, 255, 0.06); }
         .om-dd-row input { accent-color: var(--accent); margin: 0; width: 14px; height: 14px; }
         .sx-fights-head.om-head, .om-picker { overflow: visible; }
+        /* Range filters: a second row under the filter bar on By Username and By Lineup */
+        .filter-row2 { display: flex; flex-wrap: wrap; gap: 10px 22px; width: 100%; padding-top: 12px; margin-top: 2px; border-top: 1px solid var(--line-1); }
+        .filter-group.rf { gap: 8px; }
+        .filter-group.rf select { min-width: 104px; }
+        .filter-group.rf input { width: 92px; }
+        .filter-group.rf .rf-to { color: var(--ink-3); font-size: 0.8rem; }
+        .filter-group.rf [hidden] { display: none; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5084,20 +5091,13 @@
                         <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.0% win)
                     </label>
                 </div>
-                <div class="filter-group">
-                    <label for="sort-by">Sort:</label>
-                    <select id="sort-by">
-                        <option value="NetEV">Net EV</option>
-                        <option value="WinPct">Win %</option>
-                        <option value="SecondPct">2nd %</option>
-                        <option value="ThirdPct">3rd %</option>
-                        <option value="CashPct">Cash %</option>
-                        <option value="ROI%">ROI %</option>
-                        <option value="MeanScore">Proj Score</option>
-                        <option value="Username">Username</option>
-                    </select>
-                </div>
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
+                <div class="filter-row2" id="range-filters">
+                    <div class="filter-group rf" data-rf="OwnSum"><label>Own sum</label><select class="rf-op" aria-label="Own sum filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="%" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="%" hidden></div>
+                    <div class="filter-group rf" data-rf="MeanScore"><label>Proj score</label><select class="rf-op" aria-label="Projected score filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="pts" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="pts" hidden></div>
+                    <div class="filter-group rf" data-rf="TotalSalary"><label>Salary</label><select class="rf-op" aria-label="Salary filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="100" placeholder="$" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="100" placeholder="$" hidden></div>
+                    <div class="filter-group rf" data-rf="Copies"><label>Copies</label><select class="rf-op" aria-label="Copies filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="1" min="1" placeholder="#" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="1" min="1" placeholder="#" hidden></div>
+                </div>
             </div>
 
             <div class="stats-vertical stats-top">
@@ -5608,6 +5608,70 @@
         }
         initLockCountdown();
 
+        // ---------- ACTIVITY LOG ----------
+        // Everything a visitor does, in the sheet's Search column with where it
+        // happened: every click on a tab, button, link, sortable header, row,
+        // card or favorite; every setting change; anything typed into a filter
+        // or search box, logged after a pause in typing. A repeat of the same
+        // action inside 15 seconds is dropped and the page sends at most 60
+        // actions a minute, so a click-happy visitor cannot flood the sheet.
+        // The owner's own activity is skipped by logEvent as always.
+        (function () {
+            const last = new Map(); let recent = [];
+            const clean = v => String(v || '').replace(/\s+/g, ' ').trim();
+            const where = () => clean(currentContest && currentContest.name
+                ? `${currentContest.name} / ${currentView}`
+                : ((document.querySelector('.lnav-tab.active') || {}).textContent || 'home'));
+            function act(evt, detail) {
+                detail = clean(detail).slice(0, 80);
+                const key = evt + '::' + detail, now = Date.now();
+                if ((last.get(key) || 0) > now - 15000) return;
+                recent = recent.filter(t => t > now - 60000);
+                if (recent.length >= 60) return;
+                last.set(key, now); recent.push(now);
+                logEvent(evt, detail ? `${detail} @ ${where()}` : where());
+            }
+            const label = el => {
+                const inner = el.querySelector && el.querySelector('td.username, .username, .lu-line, .fav-name');
+                return el.getAttribute('aria-label') || el.getAttribute('title') || (inner ? inner.textContent : el.textContent) || '';
+            };
+            document.addEventListener('click', e => {
+                const el = e.target.closest('.fav-remove, .favorites-tiles > *, .fighter-option, tr.row-main, .search-result-card, th.sortable, .lnav-tab, .tab-btn, button, a[href]');
+                if (!el || el.closest('#visitor-gate')) return;
+                if (el.matches('.fav-remove')) return act('removed_favorite', el.dataset.remove);
+                if (el.matches('.favorites-tiles > *')) return act('clicked_favorite', label(el));
+                if (el.matches('.fighter-option')) { if (el.hasAttribute('onclick')) act('picked_fighter', el.textContent); return; }   // not the "no fighters found" line
+                if (el.matches('tr.row-main')) return act('clicked_row', label(el));
+                if (el.matches('.search-result-card')) return act('opened_card', (el.querySelector('.search-result-contest') || el).textContent);
+                if (el.matches('th.sortable')) return act('sorted', label(el));
+                if (el.matches('.lb-tabs .tab-btn')) return;   // contest views already log as viewed_<view>
+                if (el.matches('.lnav-tab, .tab-btn')) return act('clicked_tab', label(el));
+                act('clicked', label(el));
+            }, true);
+            const boxNames = { 'fighter-dropdown': 'fighter filter', fluInput: 'fighter stats', sdbName: 'fight database', hbNameInput: 'lineup name', 'hb-search': 'hand builder', 'dupe-search': 'dupes', 'pair-search-input': 'pair search' };
+            const timers = new Map();
+            document.addEventListener('input', e => {
+                const el = e.target;
+                if (!(el instanceof HTMLInputElement) && !(el instanceof HTMLTextAreaElement)) return;
+                if (el.closest('#visitor-gate') || el.id === 'quick-search-input') return;   // the gate and the landing search log already
+                if (el instanceof HTMLInputElement && !['text', 'search', ''].includes(el.type)) return;
+                clearTimeout(timers.get(el));
+                timers.set(el, setTimeout(() => {
+                    const v = el.value.trim(); if (v.length < 2) return;
+                    if (el.id === 'search-user') act('filtered_user', v);
+                    else act('typed', `${boxNames[el.id] || el.placeholder || el.id || 'field'}: ${v}`);
+                }, 1200));
+            }, true);
+            document.addEventListener('change', e => {
+                const el = e.target;
+                if (!el || !('value' in el) || el.closest('#visitor-gate')) return;
+                if (el.matches('.fight-score-input')) return act('whatif_scored', `${el.dataset.fighter}: ${el.value}`);
+                if (el.type === 'checkbox') return act('toggled', `${clean((el.closest('label') || {}).textContent) || el.id}: ${el.checked ? 'on' : 'off'}`);
+                if (el.type === 'file') return act('uploaded', el.id || 'file');
+                if (el.tagName === 'SELECT' || el.type === 'number' || el.type === 'date') return act('changed', `${el.id || el.name || 'field'}: ${el.value}`);
+            }, true);
+        })();
+
         // Keep every visitor on the latest build. The HTML is served with
         // must-revalidate, so a fresh navigation always gets the newest copy;
         // the gap is a tab left open (iPad Safari keeps them alive for days).
@@ -6001,10 +6065,12 @@
             // Insights (charts) view
             document.getElementById('insights-view').style.display = 'none';
 
+            const rangeRow = document.getElementById('range-filters');
+            if (rangeRow) rangeRow.style.display = (view === 'username' || view === 'lineup') ? '' : 'none';
             if (view === 'username') {
                 document.getElementById('username-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
-                document.getElementById('fighter-filter').style.display = 'none';
+                document.getElementById('fighter-filter').style.display = 'flex';
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
@@ -7289,6 +7355,12 @@
                     initWhatIfPanel();
                 }
 
+                // the fighter filter and the range row belong to By Username and By Lineup
+                const lineupViews = currentView === 'username' || currentView === 'lineup';
+                document.getElementById('fighter-filter').style.display = lineupViews ? 'flex' : 'none';
+                const rangeRow = document.getElementById('range-filters');
+                if (rangeRow) rangeRow.style.display = lineupViews ? '' : 'none';
+
                 clearFilters();
                 
             } catch (error) {
@@ -7491,16 +7563,43 @@
                 currentSort = column;
                 sortAscending = false;
             }
-            document.getElementById('sort-by').value = column;
             filterAndRender();
         }
         
+        // Range filters (Own sum, Proj score, Salary, Copies): any, at least, at most or between.
+        // Each applies to the entry's own value; blank boxes are ignored.
+        const rangeFilters = { OwnSum: { op: 'any', a: '', b: '' }, MeanScore: { op: 'any', a: '', b: '' }, TotalSalary: { op: 'any', a: '', b: '' }, Copies: { op: 'any', a: '', b: '' } };
+        const rangeDecimals = { OwnSum: 1, MeanScore: 2, TotalSalary: 0, Copies: 0 }; // equal to matches at the precision shown
+        function rangeOk(row) {
+            for (const k in rangeFilters) {
+                const f = rangeFilters[k]; if (f.op === 'any') continue;
+                const v = +row[k] || 0, a = parseFloat(f.a), b = parseFloat(f.b);
+                if (f.op === 'eq' && isFinite(a) && v.toFixed(rangeDecimals[k]) !== a.toFixed(rangeDecimals[k])) return false;
+                if (f.op === 'gt' && isFinite(a) && v < a) return false;
+                if (f.op === 'lt' && isFinite(a) && v > a) return false;
+                if (f.op === 'between') { if (isFinite(a) && v < a) return false; if (isFinite(b) && v > b) return false; }
+            }
+            return true;
+        }
+        function syncRangeBoxes(group) {
+            const op = group.querySelector('.rf-op').value;
+            group.querySelector('.rf-a').hidden = op === 'any';
+            group.querySelector('.rf-to').hidden = op !== 'between';
+            group.querySelector('.rf-b').hidden = op !== 'between';
+        }
+        (function () {
+            const wrap = document.getElementById('range-filters'); if (!wrap) return;
+            let t = null;
+            const read = group => { const f = rangeFilters[group.dataset.rf]; f.op = group.querySelector('.rf-op').value; f.a = group.querySelector('.rf-a').value; f.b = group.querySelector('.rf-b').value; };
+            wrap.addEventListener('change', e => { const g = e.target.closest('.rf'); if (!g) return; syncRangeBoxes(g); read(g); if (e.target.classList.contains('rf-op') && g.querySelector('.rf-a').value === '' && e.target.value !== 'any') { g.querySelector('.rf-a').focus(); } filterAndRender(); });
+            wrap.addEventListener('input', e => { const g = e.target.closest('.rf'); if (!g || e.target.tagName !== 'INPUT') return; read(g); clearTimeout(t); t = setTimeout(filterAndRender, 250); });
+        })();
         function clearFilters() {
             document.getElementById('search-user').value = '';
             document.getElementById('fighter-dropdown').value = '';
             selectedFighters = [];
             updateSelectedFightersDisplay();
-            document.getElementById('sort-by').value = 'NetEV';
+            document.querySelectorAll('#range-filters .rf').forEach(g => { g.querySelector('.rf-op').value = 'any'; g.querySelector('.rf-a').value = ''; g.querySelector('.rf-b').value = ''; syncRangeBoxes(g); rangeFilters[g.dataset.rf] = { op: 'any', a: '', b: '' }; });
             currentSort = 'NetEV';
             sortAscending = false;
             hideDead = false;
@@ -7534,29 +7633,21 @@
             const dead = row => hideDead &&
                 (currentView === 'username' || currentView === 'lineup') &&
                 !((row.WinPct || 0) > 0);
+            // every picked fighter must be in the lineup
+            const hasFighters = row => {
+                if (selectedFighters.length === 0) return true;
+                const lineupFighters = [];
+                for (let i = 1; i <= 6; i++) { const f = row[`F${i}`]; if (f && f !== '') lineupFighters.push(f); }
+                return selectedFighters.every(f => lineupFighters.includes(f));
+            };
             filteredData = allData.filter(row => {
                 if (dead(row)) return false;
+                // By Username and By Lineup: fighters and the range filters apply to both
+                if ((currentView === 'username' || currentView === 'lineup') && (!hasFighters(row) || !rangeOk(row))) return false;
                 if (currentView === 'username' || currentView === 'portfolio') {
-                    const userMatch = !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
-                    return userMatch;
-                } else {
-                    // For lineup view, filter by selected fighters
-                    if (selectedFighters.length === 0) return true;
-
-                    // Get all fighters in this lineup
-                    const lineupFighters = [];
-                    for (let i = 1; i <= 6; i++) {
-                        const fighter = row[`F${i}`];
-                        if (fighter && fighter !== '') {
-                            lineupFighters.push(fighter);
-                        }
-                    }
-
-                    // Check if ALL selected fighters are in the lineup
-                    return selectedFighters.every(selectedFighter =>
-                        lineupFighters.includes(selectedFighter)
-                    );
+                    return !searchUser || (row.Username && row.Username.toLowerCase().includes(searchUser));
                 }
+                return true;   // the lineup view keeps every entrant so the dupe tiles list everyone
             });
             
             // Sort
@@ -8698,11 +8789,6 @@
 
         // Event listeners
         document.getElementById('search-user').addEventListener('input', filterAndRender);
-        document.getElementById('sort-by').addEventListener('change', (e) => {
-            currentSort = e.target.value;
-            sortAscending = false;
-            filterAndRender();
-        });
         
         // Start
         initLanding();

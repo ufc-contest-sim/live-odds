@@ -5091,25 +5091,12 @@
                         <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.0% win)
                     </label>
                 </div>
-                <div class="filter-group">
-                    <label for="sort-by">Sort:</label>
-                    <select id="sort-by">
-                        <option value="NetEV">Net EV</option>
-                        <option value="WinPct">Win %</option>
-                        <option value="SecondPct">2nd %</option>
-                        <option value="ThirdPct">3rd %</option>
-                        <option value="CashPct">Cash %</option>
-                        <option value="ROI%">ROI %</option>
-                        <option value="MeanScore">Proj Score</option>
-                        <option value="Username">Username</option>
-                    </select>
-                </div>
                 <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
                 <div class="filter-row2" id="range-filters">
-                    <div class="filter-group rf" data-rf="OwnSum"><label>Own sum</label><select class="rf-op" aria-label="Own sum filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="%" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="%" hidden></div>
-                    <div class="filter-group rf" data-rf="MeanScore"><label>Proj score</label><select class="rf-op" aria-label="Projected score filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="pts" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="pts" hidden></div>
-                    <div class="filter-group rf" data-rf="TotalSalary"><label>Salary</label><select class="rf-op" aria-label="Salary filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="100" placeholder="$" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="100" placeholder="$" hidden></div>
-                    <div class="filter-group rf" data-rf="Copies"><label>Copies</label><select class="rf-op" aria-label="Copies filter"><option value="any">any</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="1" min="1" placeholder="#" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="1" min="1" placeholder="#" hidden></div>
+                    <div class="filter-group rf" data-rf="OwnSum"><label>Own sum</label><select class="rf-op" aria-label="Own sum filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="%" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="%" hidden></div>
+                    <div class="filter-group rf" data-rf="MeanScore"><label>Proj score</label><select class="rf-op" aria-label="Projected score filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="any" placeholder="pts" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="any" placeholder="pts" hidden></div>
+                    <div class="filter-group rf" data-rf="TotalSalary"><label>Salary</label><select class="rf-op" aria-label="Salary filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="100" placeholder="$" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="100" placeholder="$" hidden></div>
+                    <div class="filter-group rf" data-rf="Copies"><label>Copies</label><select class="rf-op" aria-label="Copies filter"><option value="any">any</option><option value="eq">equal to</option><option value="gt">at least</option><option value="lt">at most</option><option value="between">between</option></select><input type="number" class="rf-a" step="1" min="1" placeholder="#" hidden><span class="rf-to" hidden>to</span><input type="number" class="rf-b" step="1" min="1" placeholder="#" hidden></div>
                 </div>
             </div>
 
@@ -7576,17 +7563,18 @@
                 currentSort = column;
                 sortAscending = false;
             }
-            document.getElementById('sort-by').value = column;
             filterAndRender();
         }
         
         // Range filters (Own sum, Proj score, Salary, Copies): any, at least, at most or between.
         // Each applies to the entry's own value; blank boxes are ignored.
         const rangeFilters = { OwnSum: { op: 'any', a: '', b: '' }, MeanScore: { op: 'any', a: '', b: '' }, TotalSalary: { op: 'any', a: '', b: '' }, Copies: { op: 'any', a: '', b: '' } };
+        const rangeDecimals = { OwnSum: 1, MeanScore: 2, TotalSalary: 0, Copies: 0 }; // equal to matches at the precision shown
         function rangeOk(row) {
             for (const k in rangeFilters) {
                 const f = rangeFilters[k]; if (f.op === 'any') continue;
                 const v = +row[k] || 0, a = parseFloat(f.a), b = parseFloat(f.b);
+                if (f.op === 'eq' && isFinite(a) && v.toFixed(rangeDecimals[k]) !== a.toFixed(rangeDecimals[k])) return false;
                 if (f.op === 'gt' && isFinite(a) && v < a) return false;
                 if (f.op === 'lt' && isFinite(a) && v > a) return false;
                 if (f.op === 'between') { if (isFinite(a) && v < a) return false; if (isFinite(b) && v > b) return false; }
@@ -7612,7 +7600,6 @@
             selectedFighters = [];
             updateSelectedFightersDisplay();
             document.querySelectorAll('#range-filters .rf').forEach(g => { g.querySelector('.rf-op').value = 'any'; g.querySelector('.rf-a').value = ''; g.querySelector('.rf-b').value = ''; syncRangeBoxes(g); rangeFilters[g.dataset.rf] = { op: 'any', a: '', b: '' }; });
-            document.getElementById('sort-by').value = 'NetEV';
             currentSort = 'NetEV';
             sortAscending = false;
             hideDead = false;
@@ -8802,11 +8789,6 @@
 
         // Event listeners
         document.getElementById('search-user').addEventListener('input', filterAndRender);
-        document.getElementById('sort-by').addEventListener('change', (e) => {
-            currentSort = e.target.value;
-            sortAscending = false;
-            filterAndRender();
-        });
         
         // Start
         initLanding();

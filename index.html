@@ -4676,7 +4676,7 @@
         .filter-group.rf input { width: 92px; }
         .filter-group.rf .rf-to { color: var(--ink-3); font-size: 0.8rem; }
         .filter-group.rf [hidden] { display: none; }
-        /* Portfolio insights: nine cards under the dupes row, three across on wide screens */
+        /* Portfolio insights: three cards under the dupes row, side by side on wide screens */
         .lb-right .pfi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; margin-top: 16px; }
         .pfi-card { min-width: 0; display: flex; flex-direction: column; height: 372px; }
         .pfi-card .pex-title { flex: none; }
@@ -4687,31 +4687,13 @@
         .pfi-grid .pex-meta { font-size: 0.72rem; }
         .pfi-key { display: inline-block; margin-left: 10px; padding-left: 12px; position: relative; }
         .pfi-key::before { content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--ink-3); }
-        .pfi-key.good::before { background: var(--accent-green); } .pfi-key.bad::before { background: var(--accent-red); }
         .pfi-key.mine::before { background: var(--accent-hi); } .pfi-key.field::before { background: rgba(255,255,255,0.35); }
         .pfi-grid line, .pfi-grid path, .pfi-grid rect { shape-rendering: geometricPrecision; }
         .pfi-grid .pfi-grid { stroke: var(--line-1); stroke-width: 1; }
-        .pfi-grid .pfi-diag { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 4 4; }
-        .pfi-grid .pfi-zero { stroke: var(--line-2); stroke-width: 1; }
         .pfi-grid .pfi-tick { font-family: var(--fn-mono); font-size: 9px; fill: var(--ink-3); }
         .pfi-grid .pfi-axis { font-family: var(--fn-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--text-secondary); }
-        .pfi-grid .pfi-label { font-family: var(--fn-body); font-size: 10px; font-weight: 600; fill: var(--text-primary); paint-order: stroke; stroke: var(--fn-card-2, var(--bg-card)); stroke-width: 3px; }
-        .pfi-grid .pfi-dot.good { fill: rgba(47,224,138,0.55); stroke: var(--accent-green); stroke-width: 1; }
-        .pfi-grid .pfi-dot.bad { fill: rgba(224,36,58,0.5); stroke: var(--accent-red); stroke-width: 1; }
         .pfi-grid .pfi-dot.field { fill: rgba(255,255,255,0.14); }
         .pfi-grid .pfi-dot.mine { fill: rgba(255,138,43,0.8); stroke: var(--accent-hi); stroke-width: 0.8; }
-        .pfi-grid .pfi-bar.field { fill: rgba(255,255,255,0.14); }
-        .pfi-grid .pfi-bar.mine { fill: rgba(255,138,43,0.85); }
-        .pfi-grid .pfi-med { stroke-width: 1.5; stroke-dasharray: 5 3; }
-        .pfi-grid .pfi-med.field { stroke: rgba(255,255,255,0.5); } .pfi-grid .pfi-med.mine { stroke: var(--accent-hi); }
-        .pfi-grid .pfi-line { fill: none; stroke: var(--accent-hi); stroke-width: 2; }
-        .pfi-grid .pfi-area { fill: rgba(255,138,43,0.14); }
-        .pfi-kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 4px 10px 10px; align-content: start; }
-        .pfi-kpi { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px 9px; text-align: center; background: var(--fn-card-2); border: 1px solid var(--line-1); border-radius: var(--r-md); }
-        .pfi-kpi .k { font-family: var(--fn-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); }
-        .pfi-kpi .v { font-family: var(--fn-mono); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
-        .pfi-kpi .v small { font-size: 0.7rem; font-weight: 400; color: var(--text-secondary); }
-        .pfi-kpi .v.positive { color: var(--accent-green); } .pfi-kpi .v.negative { color: var(--accent-red); }
         .pfi-heat { display: grid; gap: 3px; padding: 4px 2px 2px; }
         .pfi-hh { font-size: 0.64rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         /* column names stand on end so the full last name fits over a narrow cell */
@@ -4725,8 +4707,6 @@
         #pfi-lift .dev-head, #pfi-lift .dev-row { grid-template-columns: minmax(0, 1.6fr) 48px minmax(0, 1fr) 60px; gap: 0 10px; }
         #pfi-lift .dev-head span:first-child { text-align: left; }
         .dev-f { font-weight: 700; font-size: 0.78rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        #pfi-sal .dev-head, #pfi-sal .dev-row { grid-template-columns: 112px 52px minmax(0, 1fr) 60px; gap: 0 10px; }
-        #pfi-sal .dev-k { font-size: 0.74rem; }
         @media (max-width: 480px) { .lb-right .pfi-grid { grid-template-columns: 1fr; } }
         /* --- refine: end --- */
 </style>
@@ -5286,39 +5266,13 @@
                         <div class="dev-head"><span>Fighter</span><span>Entries</span><span>EV lift</span><span></span></div>
                         <div class="dev-body"><div class="dev-scroll" id="pfi-lift-rows"></div></div>
                     </div>
-                    <div class="fx-panel pfi-card" id="pfi-lev">
-                        <div class="portfolio-chart-title pex-title">Leverage Map<span class="pex-meta" id="pfi-lev-meta"></span></div>
-                        <div class="pfi-body" id="pfi-lev-body"></div>
-                    </div>
-                    <div class="fx-panel pfi-card" id="pfi-hist">
-                        <div class="portfolio-chart-title pex-title">You vs the Field<span class="pex-meta" id="pfi-hist-meta"></span></div>
-                        <div class="pfi-body" id="pfi-hist-body"></div>
-                    </div>
                     <div class="fx-panel pfi-card" id="pfi-ceil">
                         <div class="portfolio-chart-title pex-title">Ceiling vs Projection<span class="pex-meta" id="pfi-ceil-meta"></span></div>
                         <div class="pfi-body" id="pfi-ceil-body"></div>
                     </div>
-                    <div class="fx-panel dupes-ev pfi-card" id="pfi-chalk">
-                        <div class="portfolio-chart-title pex-title">Chalk Count<span class="pex-meta" id="pfi-chalk-meta"></span></div>
-                        <div class="dev-head"><span>Favorites</span><span>Entries</span><span>Avg EV</span><span></span></div>
-                        <div id="pfi-chalk-rows"></div>
-                    </div>
-                    <div class="fx-panel pfi-card" id="pfi-dead">
-                        <div class="portfolio-chart-title pex-title">Dead Money<span class="pex-meta" id="pfi-dead-meta"></span></div>
-                        <div class="pfi-kpis" id="pfi-dead-body"></div>
-                    </div>
-                    <div class="fx-panel pfi-card" id="pfi-conc">
-                        <div class="portfolio-chart-title pex-title">EV Concentration<span class="pex-meta" id="pfi-conc-meta"></span></div>
-                        <div class="pfi-body" id="pfi-conc-body"></div>
-                    </div>
                     <div class="fx-panel pfi-card" id="pfi-pair">
                         <div class="portfolio-chart-title pex-title">Pair Heat Map<span class="pex-meta" id="pfi-pair-meta"></span></div>
                         <div class="pfi-body" id="pfi-pair-body"></div>
-                    </div>
-                    <div class="fx-panel dupes-ev pfi-card" id="pfi-sal">
-                        <div class="portfolio-chart-title pex-title">Salary Band<span class="pex-meta" id="pfi-sal-meta"></span></div>
-                        <div class="dev-head"><span>Salary</span><span>Entries</span><span>Avg EV</span><span></span></div>
-                        <div id="pfi-sal-rows"></div>
                     </div>
                 </div>
             </div></div>
@@ -8467,23 +8421,9 @@
         function pfiMoney(v) { return (v >= 0 ? '+' : '') + fmtDollars(v); }
         function pfiLast(name) { const p = String(name).trim().split(/\s+/); return p[p.length - 1]; }
         function pfiFighters(row) { const out = []; for (let i = 1; i <= 6; i++) { const f = row['F' + i]; if (f) out.push(f); } return out; }
-        function pfiFavorites() {
-            // the favorite in each fight is the higher salary (DK prices the odds); ties go to the field's pick
-            const fav = new Set(); const sal = contestSalaryMap || {}; const draft = {};
-            calculateFighterDraftPct(allData).forEach(f => { draft[f.fighter] = f.pct; });
-            (contestFightCard || []).forEach(b => {
-                if (!b.fighter1 || !b.fighter2) return;
-                const s1 = +sal[b.fighter1] || 0, s2 = +sal[b.fighter2] || 0;
-                if (s1 > s2 || (s1 === s2 && (draft[b.fighter1] || 0) >= (draft[b.fighter2] || 0))) fav.add(b.fighter1); else fav.add(b.fighter2);
-            });
-            return fav;
-        }
         function renderInsights(rows) {
             const n = rows.length;
             const totalEv = rows.reduce((t, r) => t + (+r.NetEV || 0), 0);
-            const fee = n ? (+rows[0].EntryFee || 0) : 0;
-            const fieldDraft = {}; calculateFighterDraftPct(allData).forEach(f => { fieldDraft[f.fighter] = f.pct; });
-            const winMap = calculateWinningLineupPct();
             // per-fighter tallies inside the portfolio
             const mine = new Map();
             rows.forEach(r => pfiFighters(r).forEach(f => { const b = mine.get(f) || { n: 0, ev: 0 }; b.n++; b.ev += +r.NetEV || 0; mine.set(f, b); }));
@@ -8497,50 +8437,8 @@
             document.getElementById('pfi-lift-meta').textContent = n ? rest.length + ' fighters' + (solo.length ? ' \u00b7 ' + solo.map(it => pfiLast(it.label)).join(', ') + ' in every entry' : '') : '';
             document.getElementById('pfi-lift-rows').innerHTML = n ? devRows(rest) : '';
 
-            // 2. Leverage map: field draft % against your exposure, one dot per fighter
-            const W = 420, H = 300, P = { l: 40, r: 14, t: 14, b: 34 };
-            const pts = Array.from(mine, ([f, b]) => ({ f, x: fieldDraft[f] || 0, y: 100 * b.n / n, n: b.n, good: (winMap[f] || 0) > (fieldDraft[f] || 0) }));
-            const mx = Math.max(10, ...pts.map(p => Math.max(p.x, p.y))) * 1.08;
-            const sx = v => P.l + (W - P.l - P.r) * v / mx, sy = v => H - P.b - (H - P.b - P.t) * v / mx;
-            const ticks = [0, 25, 50, 75, 100].filter(t => t <= mx);
-            const labeled = pts.slice().sort((a, b) => Math.abs(b.y - b.x) - Math.abs(a.y - a.x)).slice(0, 6);
-            let svg = `<svg viewBox="0 0 ${W} ${H}" class="pfi-svg" role="img" aria-label="Leverage map">`;
-            ticks.forEach(t => { svg += `<line x1="${sx(t)}" y1="${P.t}" x2="${sx(t)}" y2="${H - P.b}" class="pfi-grid"/><line x1="${P.l}" y1="${sy(t)}" x2="${W - P.r}" y2="${sy(t)}" class="pfi-grid"/><text x="${sx(t)}" y="${H - P.b + 14}" class="pfi-tick" text-anchor="middle">${t}%</text><text x="${P.l - 6}" y="${sy(t) + 3}" class="pfi-tick" text-anchor="end">${t}%</text>`; });
-            svg += `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(mx)}" y2="${sy(mx)}" class="pfi-diag"/>`;
-            svg += `<text x="${(P.l + W - P.r) / 2}" y="${H - 4}" class="pfi-axis" text-anchor="middle">Field draft %</text><text transform="translate(10 ${(P.t + H - P.b) / 2}) rotate(-90)" class="pfi-axis" text-anchor="middle">Your exposure %</text>`;
-            pts.forEach(p => { const r = Math.min(12, 3 + Math.sqrt(p.n) * 0.9); svg += `<circle cx="${sx(p.x).toFixed(1)}" cy="${sy(p.y).toFixed(1)}" r="${r.toFixed(1)}" class="pfi-dot ${p.good ? 'good' : 'bad'}"><title>${pfiEsc(p.f)}: you ${p.y.toFixed(1)}%, field ${p.x.toFixed(1)}%, in ${(winMap[p.f] || 0).toFixed(1)}% of winning lineups</title></circle>`; });
-            labeled.forEach(p => { svg += `<text x="${(sx(p.x) + 8).toFixed(1)}" y="${(sy(p.y) - 6).toFixed(1)}" class="pfi-label">${pfiEsc(pfiLast(p.f))}</text>`; });
-            svg += '</svg>';
-            document.getElementById('pfi-lev-body').innerHTML = svg;
-            document.getElementById('pfi-lev-meta').innerHTML = '<span class="pfi-key good">wins more than drafted</span><span class="pfi-key bad">less</span>';
-
-            // 3. You vs the field: EV histogram, field in grey, yours in orange
-            const fieldEv = allData.map(r => +r.NetEV || 0).sort((a, b) => a - b);
-            const q = p => fieldEv.length ? fieldEv[Math.min(fieldEv.length - 1, Math.floor(p * fieldEv.length))] : 0;
-            const lo = Math.min(q(0.01), ...rows.map(r => +r.NetEV || 0)), hi = Math.max(q(0.99), ...rows.map(r => +r.NetEV || 0));
-            const bins = 24, bw = Math.max(1e-9, (hi - lo) / bins);
-            const fc = new Array(bins).fill(0), uc = new Array(bins).fill(0);
-            fieldEv.forEach(v => { fc[Math.min(bins - 1, Math.max(0, Math.floor((v - lo) / bw)))]++; });
-            rows.forEach(r => { uc[Math.min(bins - 1, Math.max(0, Math.floor(((+r.NetEV || 0) - lo) / bw)))]++; });
-            const fp = fc.map(c => 100 * c / Math.max(1, fieldEv.length)), up = uc.map(c => 100 * c / Math.max(1, n));
-            const ymax = Math.max(1, ...fp, ...up) * 1.1;
-            const hx = i => P.l + (W - P.l - P.r) * i / bins, hy = v => H - P.b - (H - P.b - P.t) * v / ymax, colw = (W - P.l - P.r) / bins;
-            const fieldMed = q(0.5), mineSorted = rows.map(r => +r.NetEV || 0).sort((a, b) => a - b), mineMed = n ? mineSorted[Math.floor(n / 2)] : 0;
-            const xv = v => P.l + (W - P.l - P.r) * (v - lo) / (hi - lo || 1);
-            svg = `<svg viewBox="0 0 ${W} ${H}" class="pfi-svg" role="img" aria-label="EV distribution">`;
-            for (let i = 0; i < bins; i++) {
-                svg += `<rect x="${hx(i).toFixed(1)}" y="${hy(fp[i]).toFixed(1)}" width="${colw.toFixed(1)}" height="${(H - P.b - hy(fp[i])).toFixed(1)}" class="pfi-bar field"><title>Field: ${fp[i].toFixed(1)}% of entries at ${fmtDollars(lo + i * bw)} to ${fmtDollars(lo + (i + 1) * bw)}</title></rect>`;
-                if (up[i]) svg += `<rect x="${(hx(i) + colw * 0.25).toFixed(1)}" y="${hy(up[i]).toFixed(1)}" width="${(colw * 0.5).toFixed(1)}" height="${(H - P.b - hy(up[i])).toFixed(1)}" class="pfi-bar mine"><title>You: ${up[i].toFixed(1)}% of entries (${uc[i]}) at ${fmtDollars(lo + i * bw)} to ${fmtDollars(lo + (i + 1) * bw)}</title></rect>`;
-            }
-            svg += `<line x1="${xv(0)}" y1="${P.t}" x2="${xv(0)}" y2="${H - P.b}" class="pfi-zero"/>`;
-            svg += `<line x1="${xv(fieldMed)}" y1="${P.t}" x2="${xv(fieldMed)}" y2="${H - P.b}" class="pfi-med field"/><line x1="${xv(mineMed)}" y1="${P.t}" x2="${xv(mineMed)}" y2="${H - P.b}" class="pfi-med mine"/>`;
-            [lo, (lo + hi) / 2, hi].forEach(v => { svg += `<text x="${xv(v)}" y="${H - P.b + 14}" class="pfi-tick" text-anchor="${v === lo ? 'start' : v === hi ? 'end' : 'middle'}">${fmtDollars(v)}</text>`; });
-            svg += `<text x="${(P.l + W - P.r) / 2}" y="${H - 4}" class="pfi-axis" text-anchor="middle">Net EV per entry</text><text transform="translate(10 ${(P.t + H - P.b) / 2}) rotate(-90)" class="pfi-axis" text-anchor="middle">Share of entries</text>`;
-            svg += '</svg>';
-            document.getElementById('pfi-hist-body').innerHTML = svg;
-            document.getElementById('pfi-hist-meta').innerHTML = `<span class="pfi-key field">field median ${pfiMoney(fieldMed)}</span><span class="pfi-key mine">you ${pfiMoney(mineMed)}</span>`;
-
             // 4. Ceiling vs projection: P99 against mean score, yours over a faint field cloud
+            const W = 420, H = 300, P = { l: 40, r: 14, t: 14, b: 34 };
             const step = Math.max(1, Math.floor(allData.length / 1500));
             const cloud = allData.filter((r, i) => i % step === 0);
             const xs = allData.map(r => +r.MeanScore || 0).sort((a, b) => a - b), ys = allData.map(r => +r.P99Score || 0).sort((a, b) => a - b);
@@ -8559,51 +8457,6 @@
             document.getElementById('pfi-ceil-body').innerHTML = svg;
             const avgOf = (arr, k) => arr.length ? arr.reduce((t, r) => t + (+r[k] || 0), 0) / arr.length : 0;
             document.getElementById('pfi-ceil-meta').innerHTML = `<span class="pfi-key field">field ${avgOf(allData, 'MeanScore').toFixed(0)} / ${avgOf(allData, 'P99Score').toFixed(0)}</span><span class="pfi-key mine">you ${avgOf(rows, 'MeanScore').toFixed(0)} / ${avgOf(rows, 'P99Score').toFixed(0)}</span>`;
-
-            // 5. Chalk count: EV by how many favorites (higher salary side) are in the entry
-            const fav = pfiFavorites();
-            const CB = Array.from({ length: 7 }, () => ({ n: 0, ev: 0 }));
-            rows.forEach(r => { const c = pfiFighters(r).filter(f => fav.has(f)).length; CB[Math.min(6, c)].n++; CB[Math.min(6, c)].ev += +r.NetEV || 0; });
-            const favField = Array.from({ length: 7 }, () => 0);
-            allData.forEach(r => { favField[Math.min(6, pfiFighters(r).filter(f => fav.has(f)).length)]++; });
-            document.getElementById('pfi-chalk-meta').textContent = n ? `field avg ${(allData.reduce((t, r) => t + pfiFighters(r).filter(f => fav.has(f)).length, 0) / Math.max(1, allData.length)).toFixed(1)} \u00b7 you ${(rows.reduce((t, r) => t + pfiFighters(r).filter(f => fav.has(f)).length, 0) / Math.max(1, n)).toFixed(1)}` : '';
-            document.getElementById('pfi-chalk-rows').innerHTML = devRows(CB.map((b, i) => ({ label: String(i), n: b.n, ev: b.ev })));
-
-            // 6. Dead money: entries that cannot win and what they cost
-            const dead = rows.filter(r => !(+r.WinPct > 0));
-            const fights = (contestFightCard || []).filter(b => b.fighter1 && b.fighter2);
-            const bothSides = rows.filter(r => { const s = new Set(pfiFighters(r)); return fights.some(b => s.has(b.fighter1) && s.has(b.fighter2)); }).length;
-            const fieldDead = allData.filter(r => !(+r.WinPct > 0)).length;
-            const deadEv = dead.reduce((t, r) => t + (+r.NetEV || 0), 0);
-            const tile = (k, v, cls) => `<div class="pfi-kpi"><span class="k">${k}</span><b class="v ${cls || ''}">${v}</b></div>`;
-            document.getElementById('pfi-dead-body').innerHTML = n ? tile('Dead entries', `${dead.length} <small>of ${n}</small>`, dead.length ? 'negative' : 'positive')
-                + tile('Share of portfolio', fmtWin(100 * dead.length / n), '')
-                + tile('Fees in dead entries', fmtDollars(dead.length * fee), dead.length ? 'negative' : '')
-                + tile('EV of dead entries', pfiMoney(deadEv), deadEv < 0 ? 'negative' : '')
-                + tile('Both sides of a fight', String(bothSides), '')
-                + tile('Field dead rate', fmtWin(100 * fieldDead / Math.max(1, allData.length)), '') : '';
-            document.getElementById('pfi-dead-meta').textContent = fights.length && !fights.some(b => b.fighter1_score != null) ? 'nothing is dead before the fights start' : '';
-
-            // 7. EV concentration: entries ranked by EV, cumulative total
-            const sorted = rows.map(r => +r.NetEV || 0).sort((a, b) => b - a);
-            let cum = 0; const curve = sorted.map(v => (cum += v));
-            const cmin = Math.min(0, ...curve), cmax = Math.max(0, ...curve);
-            const kx = i => P.l + (W - P.l - P.r) * i / Math.max(1, n), ky = v => H - P.b - (H - P.b - P.t) * (v - cmin) / (cmax - cmin || 1);
-            svg = `<svg viewBox="0 0 ${W} ${H}" class="pfi-svg" role="img" aria-label="EV concentration">`;
-            [0.25, 0.5, 0.75].forEach(f => { svg += `<line x1="${kx(f * n)}" y1="${P.t}" x2="${kx(f * n)}" y2="${H - P.b}" class="pfi-grid"/>`; });
-            svg += `<line x1="${kx(0)}" y1="${ky(0)}" x2="${W - P.r}" y2="${ky(0)}" class="pfi-zero"/>`;
-            if (n) {
-                svg += `<line x1="${kx(0)}" y1="${ky(0)}" x2="${kx(n)}" y2="${ky(totalEv)}" class="pfi-diag"/>`;
-                const d = 'M' + kx(0) + ' ' + ky(0) + curve.map((v, i) => ' L' + kx(i + 1).toFixed(1) + ' ' + ky(v).toFixed(1)).join('');
-                svg += `<path d="${d} L${kx(n)} ${ky(0)} Z" class="pfi-area"/><path d="${d}" class="pfi-line"/>`;
-            }
-            [0, 0.25, 0.5, 0.75, 1].forEach(f => { svg += `<text x="${kx(f * n)}" y="${H - P.b + 14}" class="pfi-tick" text-anchor="${f === 0 ? 'start' : f === 1 ? 'end' : 'middle'}">${Math.round(f * 100)}%</text>`; });
-            [cmin, cmax].forEach(v => { if (cmax !== cmin) svg += `<text x="${P.l - 6}" y="${ky(v) + 3}" class="pfi-tick" text-anchor="end">${fmtDollars(v)}</text>`; });
-            svg += `<text x="${(P.l + W - P.r) / 2}" y="${H - 4}" class="pfi-axis" text-anchor="middle">Entries, best EV first</text><text transform="translate(10 ${(P.t + H - P.b) / 2}) rotate(-90)" class="pfi-axis" text-anchor="middle">Cumulative net EV</text>`;
-            svg += '</svg>';
-            document.getElementById('pfi-conc-body').innerHTML = svg;
-            const top20 = curve.length ? curve[Math.max(0, Math.ceil(n * 0.2) - 1)] : 0, half = curve.length ? curve[Math.max(0, Math.ceil(n * 0.5) - 1)] : 0;
-            document.getElementById('pfi-conc-meta').textContent = n ? `top 20% ${pfiMoney(top20)} \u00b7 top half ${pfiMoney(half)} \u00b7 all ${pfiMoney(totalEv)}` : '';
 
             // 8. Pair heat map: avg EV of entries holding both of your eight most-used fighters
             const top8 = Array.from(mine.entries()).sort((a, b) => b[1].n - a[1].n).slice(0, 8).map(e => e[0]);
@@ -8627,14 +8480,6 @@
             document.getElementById('pfi-pair-body').innerHTML = n ? grid : '';
             document.getElementById('pfi-pair-meta').textContent = n ? `portfolio avg ${pfiMoney(avgEv)} per entry` : '';
 
-            // 9. Salary band: EV in $200 steps up to the cap
-            const cap = 50000, sals = rows.map(r => +r.TotalSalary || 0);
-            const bandLo = Math.max(cap - 2000, Math.floor(Math.min(cap, ...sals) / 200) * 200);
-            const SB = []; for (let v = bandLo; v < cap; v += 200) SB.push({ lo: v, hi: v + 200, n: 0, ev: 0 });
-            rows.forEach(r => { const v = +r.TotalSalary || 0; let i = Math.floor((v - bandLo) / 200); i = Math.min(SB.length - 1, Math.max(0, i)); if (SB[i]) { SB[i].n++; SB[i].ev += +r.NetEV || 0; } });
-            const usd = v => '$' + v.toLocaleString();
-            document.getElementById('pfi-sal-meta').textContent = n ? `avg ${usd(Math.round(sals.reduce((a, b) => a + b, 0) / n))}` : '';
-            document.getElementById('pfi-sal-rows').innerHTML = devRows(SB.map((b, i) => ({ label: (i === 0 && Math.min(...sals) < b.lo ? 'under ' + usd(b.hi) : usd(b.lo) + '-' + usd(b.hi)), n: b.n, ev: b.ev })));
         }
         // rows of diverging bars on one dollar scale; the zero line sits where
         // the losing side ends so the bars use the full width

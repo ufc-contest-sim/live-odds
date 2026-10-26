@@ -8423,7 +8423,7 @@
         function pfiMoney(v) { return (v >= 0 ? '+' : '') + fmtDollars(v); }
         function pfiLast(name) { const p = String(name).trim().split(/\s+/); return p[p.length - 1]; }
         function pfiFighters(row) { const out = []; for (let i = 1; i <= 6; i++) { const f = row['F' + i]; if (f) out.push(f); } return out; }
-        function renderInsights(rows) {
+        function renderPortfolioInsights(rows) {
             const n = rows.length;
             const totalEv = rows.reduce((t, r) => t + (+r.NetEV || 0), 0);
             // per-fighter tallies inside the portfolio
@@ -8522,7 +8522,7 @@
             document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
             document.getElementById('dupes-ev-rows').innerHTML = devRows(B.map((b, i) => ({ label: i === 9 ? '10+' : String(i + 1), n: b.n, ev: b.ev })));
             // after this card is filled, so the insight cards can take its height
-            renderInsights(rows);
+            renderPortfolioInsights(rows);
         }
 
         function updateDupesByUser() {

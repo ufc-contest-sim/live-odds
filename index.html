@@ -6467,16 +6467,18 @@
                 }).join('');
             }
 
+            // before any score is locked there is nothing to say up there yet, so
+            // the bar stays hidden; it appears once scores start scrolling
             if (staticLine) {
-                ticker.classList.add('is-static');
-                track.style.animationDuration = '';
-                track.innerHTML = staticLine;
+                ticker.classList.remove('is-static');
+                track.innerHTML = '';
+                ticker.style.display = 'none';
             } else {
                 ticker.classList.remove('is-static');
                 // duplicate for a seamless loop
                 track.innerHTML = items + items;
+                ticker.style.display = 'block';
             }
-            ticker.style.display = 'block';
 
             // contest count and publish time live in the table caption now
             const cap = document.getElementById('contest-caption');

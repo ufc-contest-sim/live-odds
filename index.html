@@ -6418,7 +6418,16 @@
             let eventName = '', boutCount = 0;
             try {
                 const fo = await (await fetch('fight_order.json?v=' + Date.now())).json();
-                eventName = String(fo.source || '').replace(/^UFC Stats:\s*/i, '').trim();
+                const src = String(fo.source || '');
+                // only a UFC Stats source carries the event's name; the workbook
+                // fallback writes its filename there, so name the card after its
+                // main event instead ("Fiziev vs. Torres")
+                if (/^UFC Stats:/i.test(src)) eventName = src.replace(/^UFC Stats:\s*/i, '').trim();
+                else {
+                    const top = (fo.fights || []).slice().sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0))[0];
+                    const last = n => String(n || '').trim().replace(/\s+(jr|sr|ii|iii|iv)\.?$/i, '').split(/\s+/).pop();
+                    if (top && Array.isArray(top.fighters) && top.fighters.length === 2) eventName = last(top.fighters[0]) + ' vs. ' + last(top.fighters[1]);
+                }
                 boutCount = Array.isArray(fo.fights) ? fo.fights.length : 0;
             } catch (e) { /* no fight order yet */ }
             const dateStr = lockAt ? new Date(lockAt).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York' }) : '';

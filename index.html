@@ -1289,7 +1289,7 @@
 
         @media (max-width: 900px) {
             #insights-view { grid-template-columns: 1fr; }
-            .insights-leverage, .insights-pairing, .insights-fighters, .insights-table {
+            .insights-leverage, .insights-pairing, .insights-bands, .insights-fighters, .insights-table {
                 grid-column: 1;
                 grid-row: auto;
                 height: auto !important;
@@ -4081,8 +4081,8 @@
                instead of a ragged centered wrap; nothing scrolls sideways */
             /* contest Insights: the two 860x470 SVGs scroll inside their card
                instead of shrinking to a thumbnail */
-            .insights-leverage, .insights-pairing { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            #chart-leverage, #chart-pairing { min-width: 640px; }
+            .insights-leverage, .insights-pairing, .insights-bands { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            #chart-leverage, #chart-pairing, #chart-bands { min-width: 640px; }
         }
 
         /* --- classic port: insights, fighter stats, optimizer, builder --- */
@@ -4710,6 +4710,9 @@
         #pfi-lift .dev-head span:first-child { text-align: left; }
         .dev-f { font-weight: 700; font-size: 0.78rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         @media (max-width: 480px) { .lb-right .pfi-grid { grid-template-columns: 1fr; } }
+        /* Projected Score Bands: percentile cut-offs as quiet chips over the chart */
+        .band-cuts { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 10px; font-size: 0.8rem; color: var(--text-secondary); }
+        .band-cut b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5341,6 +5344,17 @@
                     </div>
                     <div id="pair-selected" class="pair-selected"></div>
                     <svg id="chart-pairing" viewBox="0 0 860 470" width="100%"></svg>
+                </div>
+
+                <div class="chart-card insights-bands">
+                    <h3>Projected Score Bands</h3>
+                    <div class="pair-controls">
+                        <span class="pair-toggle active" id="band-t-pct" onclick="setBandMetric('pct')">% of lineups</span>
+                        <span class="pair-toggle" id="band-t-cnt" onclick="setBandMetric('count')">Count</span>
+                        <span id="band-count" class="pair-count"></span>
+                    </div>
+                    <div id="band-cuts" class="pair-selected band-cuts"></div>
+                    <svg id="chart-bands" viewBox="0 0 860 360" width="100%"></svg>
                 </div>
 
                 <div class="chart-card insights-fighters">
@@ -7827,6 +7841,7 @@
             renderInsightsFighterTable();
             buildPairingControls();
             renderPairingChart();
+            renderBandsChart();
             renderDupeTable();
             setupInsightsResizeObserver();
             requestAnimationFrame(syncInsightsHeight);
@@ -8023,6 +8038,58 @@
                 svg.appendChild(rect);
                 const vt = svgEl('text', { x: M.l + pw * t + 6, y: cy + fontN * 0.35, fill: C.txt, 'font-size': Math.min(11, rowH * 0.58) });
                 vt.textContent = pairMetric === 'pct' ? fmtWin(o.v) : o.c.toLocaleString();
+                svg.appendChild(vt);
+            });
+        }
+
+        // Projected Score Bands: the field's lineups in ten equal score bands, with
+        // the share (or count) in each. The band width comes from the slate's own
+        // spread, so a low-scoring card and a high-scoring one both get ten bands.
+        let bandMetric = 'pct';
+        function setBandMetric(m) {
+            bandMetric = m;
+            document.getElementById('band-t-pct').classList.toggle('active', m === 'pct');
+            document.getElementById('band-t-cnt').classList.toggle('active', m === 'count');
+            renderBandsChart();
+        }
+        function renderBandsChart() {
+            const svg = document.getElementById('chart-bands');
+            if (!svg) return;
+            svg.innerHTML = '';
+            const C = chartColors();
+            const countEl = document.getElementById('band-count'), cutsEl = document.getElementById('band-cuts');
+            const live = (allData || []).filter(r => +r.MeanScore > 0);
+            const deadN = (allData || []).length - live.length;
+            if (!live.length) { if (countEl) countEl.textContent = ''; if (cutsEl) cutsEl.innerHTML = ''; return; }
+            const scores = live.map(r => +r.MeanScore).sort((a, b) => a - b);
+            const q = p => scores[Math.min(scores.length - 1, Math.floor(p * scores.length))];
+            // ten bands on a round step covering the middle 99% of the field; the
+            // stray outliers land in the end bands instead of stretching the scale
+            const min = q(0.005), max = q(0.995);
+            const raw = Math.max(1e-9, (max - min) / 10), mag = Math.pow(10, Math.floor(Math.log10(raw)));
+            let step = raw, lo = min;
+            for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 10, 15, 20, 25, 50]) { const st = m * mag, l = Math.floor(min / st) * st; if (l + 10 * st >= max) { step = st; lo = l; break; } }
+            const B = Array.from({ length: 10 }, (_, i) => ({ lo: lo + i * step, hi: lo + (i + 1) * step, n: 0, ev: 0, win: 0 }));
+            let winTotal = 0;
+            live.forEach(r => { const i = Math.min(9, Math.max(0, Math.floor((+r.MeanScore - lo) / step))); B[i].n++; B[i].ev += +r.NetEV || 0; B[i].win += +r.WinPct || 0; winTotal += +r.WinPct || 0; });
+            if (countEl) countEl.textContent = `${live.length.toLocaleString()} lineups` + (deadN ? `, ${deadN.toLocaleString()} dead left out` : '');
+            if (cutsEl) cutsEl.innerHTML = `<span class="band-cut">Top 10%: <b>${q(0.9).toFixed(1)}+</b></span><span class="band-cut">Top 25%: <b>${q(0.75).toFixed(1)}+</b></span><span class="band-cut">Median: <b>${q(0.5).toFixed(1)}</b></span><span class="band-cut">Bottom 25%: <b>under ${q(0.25).toFixed(1)}</b></span>`;
+            const fmt = v => Number.isInteger(step) ? String(Math.round(v)) : v.toFixed(1);
+            const rows = B.map((b, i) => ({ label: i === 9 ? fmt(b.lo) + '+' : i === 0 && scores[0] < b.lo ? 'under ' + fmt(b.hi) : fmt(b.lo) + ' to ' + fmt(b.hi), n: b.n, pct: 100 * b.n / live.length, ev: b.n ? b.ev / b.n : 0, winShare: winTotal ? 100 * b.win / winTotal : 0 })).reverse();
+            const maxV = Math.max(...rows.map(r => bandMetric === 'pct' ? r.pct : r.n), 1e-9);
+            const W = 860, H = 360, M = { l: 175, r: 70, t: 10, b: 10 };
+            const pw = W - M.l - M.r, ph = H - M.t - M.b, rowH = ph / rows.length, barH = Math.min(rowH * 0.72, 24), fontN = Math.min(12, rowH * 0.62);
+            rows.forEach((o, i) => {
+                const cy = M.t + rowH * i + rowH / 2, v = bandMetric === 'pct' ? o.pct : o.n, t = v / maxV;
+                const nm = svgEl('text', { x: M.l - 10, y: cy + fontN * 0.35, fill: '#4a453d', 'font-size': fontN, 'text-anchor': 'end' });
+                nm.textContent = o.label; svg.appendChild(nm);
+                svg.appendChild(svgEl('rect', { x: M.l, y: cy - barH / 2, width: pw, height: barH, fill: '#ece6dd', rx: 4 }));
+                const rect = svgEl('rect', { x: M.l, y: cy - barH / 2, width: Math.max(2, pw * t), height: barH, fill: heatColor(t), rx: 4 });
+                rect.style.cursor = 'pointer';
+                bindTip(rect, `<b>${o.label}</b><br>${fmtWin(o.pct)} of lineups (${o.n.toLocaleString()})<br>${fmtWin(o.winShare)} of win chances<br>avg net EV ${(o.ev >= 0 ? '+' : '') + fmtDollars(o.ev)}`);
+                svg.appendChild(rect);
+                const vt = svgEl('text', { x: M.l + pw * t + 6, y: cy + fontN * 0.35, fill: C.txt, 'font-size': Math.min(11, rowH * 0.58) });
+                vt.textContent = bandMetric === 'pct' ? fmtWin(o.pct) : o.n.toLocaleString();
                 svg.appendChild(vt);
             });
         }

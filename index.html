@@ -4713,6 +4713,7 @@
         /* Projected Score Bands: percentile cut-offs as quiet chips over the chart */
         .band-cuts { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 10px; font-size: 0.8rem; color: var(--text-secondary); }
         .band-cut b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+        .band-sep { width: 1px; align-self: stretch; margin: 2px 4px; background: var(--line-2); }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5349,7 +5350,10 @@
                 <div class="chart-card insights-bands">
                     <h3>Projected Score Bands</h3>
                     <div class="pair-controls">
-                        <span class="pair-toggle active" id="band-t-pct" onclick="setBandMetric('pct')">% of lineups</span>
+                        <span class="pair-toggle active" id="band-u-lu" onclick="setBandUnit('lineups')" title="Each distinct lineup counted once">Lineups</span>
+                        <span class="pair-toggle" id="band-u-en" onclick="setBandUnit('entries')" title="Every entry, so a lineup with 5 copies counts 5 times">Entries</span>
+                        <span class="band-sep" aria-hidden="true"></span>
+                        <span class="pair-toggle active" id="band-t-pct" onclick="setBandMetric('pct')">%</span>
                         <span class="pair-toggle" id="band-t-cnt" onclick="setBandMetric('count')">Count</span>
                         <span id="band-count" class="pair-count"></span>
                     </div>
@@ -8045,7 +8049,13 @@
         // Projected Score Bands: the field's lineups in ten equal score bands, with
         // the share (or count) in each. The band width comes from the slate's own
         // spread, so a low-scoring card and a high-scoring one both get ten bands.
-        let bandMetric = 'pct';
+        let bandMetric = 'pct', bandUnit = 'lineups';
+        function setBandUnit(u) {
+            bandUnit = u;
+            document.getElementById('band-u-lu').classList.toggle('active', u === 'lineups');
+            document.getElementById('band-u-en').classList.toggle('active', u === 'entries');
+            renderBandsChart();
+        }
         function setBandMetric(m) {
             bandMetric = m;
             document.getElementById('band-t-pct').classList.toggle('active', m === 'pct');
@@ -8058,21 +8068,34 @@
             svg.innerHTML = '';
             const C = chartColors();
             const countEl = document.getElementById('band-count'), cutsEl = document.getElementById('band-cuts');
-            const live = (allData || []).filter(r => +r.MeanScore > 0);
-            const deadN = (allData || []).length - live.length;
+            // every row is one entry; Lineups keeps one row per distinct lineup,
+            // Entries keeps them all, so a lineup counts once per copy
+            const entries = (allData || []).filter(r => +r.MeanScore > 0);
+            const seenKey = new Set();
+            const uniq = entries.filter(r => { const k = r.LineupKey || pfiFighters(r).slice().sort().join('|'); if (seenKey.has(k)) return false; seenKey.add(k); return true; });
+            const live = bandUnit === 'entries' ? entries : uniq;
+            const noun = bandUnit === 'entries' ? 'entries' : 'lineups';
+            const allN = bandUnit === 'entries' ? (allData || []).length : new Set((allData || []).map(r => r.LineupKey || pfiFighters(r).slice().sort().join('|'))).size;
+            const deadN = allN - live.length;
             if (!live.length) { if (countEl) countEl.textContent = ''; if (cutsEl) cutsEl.innerHTML = ''; return; }
+            // band edges come from the entries either way, so switching units keeps the same rows
+            const edgeScores = entries.map(r => +r.MeanScore).sort((a, b) => a - b);
+            const qe = p => edgeScores[Math.min(edgeScores.length - 1, Math.floor(p * edgeScores.length))];
             const scores = live.map(r => +r.MeanScore).sort((a, b) => a - b);
             const q = p => scores[Math.min(scores.length - 1, Math.floor(p * scores.length))];
             // ten bands on a round step covering the middle 99% of the field; the
             // stray outliers land in the end bands instead of stretching the scale
-            const min = q(0.005), max = q(0.995);
+            const min = qe(0.005), max = qe(0.995);
             const raw = Math.max(1e-9, (max - min) / 10), mag = Math.pow(10, Math.floor(Math.log10(raw)));
             let step = raw, lo = min;
             for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 10, 15, 20, 25, 50]) { const st = m * mag, l = Math.floor(min / st) * st; if (l + 10 * st >= max) { step = st; lo = l; break; } }
             const B = Array.from({ length: 10 }, (_, i) => ({ lo: lo + i * step, hi: lo + (i + 1) * step, n: 0, ev: 0, win: 0 }));
+            const bandOf = r => Math.min(9, Math.max(0, Math.floor((+r.MeanScore - lo) / step)));
+            live.forEach(r => { const i = bandOf(r); B[i].n++; B[i].ev += +r.NetEV || 0; });
+            // win chances belong to entries, so their share is counted over entries in both units
             let winTotal = 0;
-            live.forEach(r => { const i = Math.min(9, Math.max(0, Math.floor((+r.MeanScore - lo) / step))); B[i].n++; B[i].ev += +r.NetEV || 0; B[i].win += +r.WinPct || 0; winTotal += +r.WinPct || 0; });
-            if (countEl) countEl.textContent = `${live.length.toLocaleString()} lineups` + (deadN ? `, ${deadN.toLocaleString()} dead left out` : '');
+            entries.forEach(r => { B[bandOf(r)].win += +r.WinPct || 0; winTotal += +r.WinPct || 0; });
+            if (countEl) countEl.textContent = `${live.length.toLocaleString()} ${noun}` + (deadN > 0 ? `, ${deadN.toLocaleString()} dead left out` : '');
             if (cutsEl) cutsEl.innerHTML = `<span class="band-cut">Top 10%: <b>${q(0.9).toFixed(1)}+</b></span><span class="band-cut">Top 25%: <b>${q(0.75).toFixed(1)}+</b></span><span class="band-cut">Median: <b>${q(0.5).toFixed(1)}</b></span><span class="band-cut">Bottom 25%: <b>under ${q(0.25).toFixed(1)}</b></span>`;
             const fmt = v => Number.isInteger(step) ? String(Math.round(v)) : v.toFixed(1);
             const rows = B.map((b, i) => ({ label: i === 9 ? fmt(b.lo) + '+' : i === 0 && scores[0] < b.lo ? 'under ' + fmt(b.hi) : fmt(b.lo) + ' to ' + fmt(b.hi), n: b.n, pct: 100 * b.n / live.length, ev: b.n ? b.ev / b.n : 0, winShare: winTotal ? 100 * b.win / winTotal : 0 })).reverse();
@@ -8086,7 +8109,7 @@
                 svg.appendChild(svgEl('rect', { x: M.l, y: cy - barH / 2, width: pw, height: barH, fill: '#ece6dd', rx: 4 }));
                 const rect = svgEl('rect', { x: M.l, y: cy - barH / 2, width: Math.max(2, pw * t), height: barH, fill: heatColor(t), rx: 4 });
                 rect.style.cursor = 'pointer';
-                bindTip(rect, `<b>${o.label}</b><br>${fmtWin(o.pct)} of lineups (${o.n.toLocaleString()})<br>${fmtWin(o.winShare)} of win chances<br>avg net EV ${(o.ev >= 0 ? '+' : '') + fmtDollars(o.ev)}`);
+                bindTip(rect, `<b>${o.label}</b><br>${fmtWin(o.pct)} of ${noun} (${o.n.toLocaleString()})<br>${fmtWin(o.winShare)} of win chances<br>avg net EV ${(o.ev >= 0 ? '+' : '') + fmtDollars(o.ev)}`);
                 svg.appendChild(rect);
                 const vt = svgEl('text', { x: M.l + pw * t + 6, y: cy + fontN * 0.35, fill: C.txt, 'font-size': Math.min(11, rowH * 0.58) });
                 vt.textContent = bandMetric === 'pct' ? fmtWin(o.pct) : o.n.toLocaleString();

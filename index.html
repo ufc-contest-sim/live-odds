@@ -1289,7 +1289,7 @@
 
         @media (max-width: 900px) {
             #insights-view { grid-template-columns: 1fr; }
-            .insights-leverage, .insights-pairing, .insights-fighters, .insights-table {
+            .insights-leverage, .insights-pairing, .insights-bands, .insights-fighters, .insights-table {
                 grid-column: 1;
                 grid-row: auto;
                 height: auto !important;
@@ -4081,8 +4081,8 @@
                instead of a ragged centered wrap; nothing scrolls sideways */
             /* contest Insights: the two 860x470 SVGs scroll inside their card
                instead of shrinking to a thumbnail */
-            .insights-leverage, .insights-pairing { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            #chart-leverage, #chart-pairing { min-width: 640px; }
+            .insights-leverage, .insights-pairing, .insights-bands { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            #chart-leverage, #chart-pairing, #chart-bands { min-width: 640px; }
         }
 
         /* --- classic port: insights, fighter stats, optimizer, builder --- */
@@ -4625,9 +4625,40 @@
         /* Dupes by User shows six rows, then scrolls inside the card with its header frozen */
         #dupes-container .pex-scroll { max-height: var(--dupes-h, 240px); overflow-y: auto; }
         #dupes-container .pex-table thead th { position: sticky; top: 0; z-index: 1; background: var(--fn-card-2, var(--bg-card)); }
-        /* Dupes by User sits under the portfolio table at half the column; portfolio rows are plain */
-        .lb-right #dupes-container { margin-top: 16px; }
-        @media (min-width: 1500px) { .lb-right #dupes-container { width: calc(50% - 8px); } }
+        /* Portfolio: Dupes by User and EV by Dupes sit side by side under the table once a name is typed; portfolio rows are plain */
+        .lb-right .dupes-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin-top: 16px; }
+        .lb-right #dupes-container { margin-top: 0; flex: 1 1 260px; min-width: 0; }
+        .lb-right #dupes-ev, .lb-right #dupes-own { flex: 2 1 380px; min-width: 0; }
+        @media (min-width: 1500px) {
+            /* the row is the same three-column grid as the insight cards below it, so the
+               two rows line up; EV by Dupes sets the height and Dupes by User scrolls inside it */
+            .lb-right .dupes-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); align-items: stretch; }
+            .lb-right #dupes-container { display: flex; flex-direction: column; }
+            .lb-right #dupes-container .pex-body { position: relative; flex: 1; min-height: 0; }
+            .lb-right #dupes-container .pex-scroll { position: absolute; inset: 0; max-height: none; overflow-y: auto; }
+            .dupes-table th:nth-child(2), .dupes-table td:nth-child(2) { width: 120px; }
+        }
+        #dupes-own .dev-head, #dupes-own .dev-row { grid-template-columns: 76px 56px minmax(0, 1fr) 64px; }
+        /* both EV cards use the short bar header so neither wraps at three across */
+        #dupes-ev .th-full, #dupes-own .th-full { display: none; }
+        #dupes-ev .th-short, #dupes-own .th-short { display: inline; }
+        .dev-head, .dev-row { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr) 72px; gap: 0 14px; align-items: center; padding-left: 8px; padding-right: 8px; }
+        .dev-head { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line-1); }
+        .dev-head span:nth-child(-n+2), .dev-k, .dev-n { text-align: center; }
+        .dev-row { padding-top: 7px; padding-bottom: 7px; border-bottom: 1px solid var(--line-1); font-size: 0.82rem; }
+        .dev-row:last-child { border-bottom: 0; }
+        .dev-k { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+        .dev-n { color: var(--text-secondary); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+        .dev-bar { position: relative; height: 12px; }
+        .dev-bar::before { content: ''; position: absolute; left: var(--z, 0%); top: -4px; bottom: -4px; width: 1px; background: var(--line-2); }
+        .dev-bar i { position: absolute; top: 0; height: 100%; border-radius: 3px; }
+        .dev-row.pos .dev-bar i { left: var(--z, 0%); background: linear-gradient(90deg, rgba(63,179,122,0.45), rgba(63,179,122,0.9)); }
+        .dev-row.neg .dev-bar i { right: calc(100% - var(--z, 0%)); background: linear-gradient(270deg, rgba(255,92,92,0.45), rgba(255,92,92,0.9)); }
+        .dev-v { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .dev-row.pos .dev-v { color: var(--accent-green); }
+        .dev-row.neg .dev-v { color: var(--accent-red); }
+        .dev-row.none { opacity: 0.4; }
+        .dev-row.none .dev-v { color: var(--ink-3); font-weight: 400; }
         #portfolio-table tr.row-main { cursor: default; }
         /* Fighter(s) filter sits inline like Username; picked fighters wrap under it only when there are some */
         #selected-fighters:empty { display: none; }
@@ -4647,6 +4678,42 @@
         .filter-group.rf input { width: 92px; }
         .filter-group.rf .rf-to { color: var(--ink-3); font-size: 0.8rem; }
         .filter-group.rf [hidden] { display: none; }
+        /* Portfolio insights: three cards under the dupes row, side by side on wide screens */
+        .lb-right .pfi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; margin-top: 16px; }
+        .pfi-card { min-width: 0; display: flex; flex-direction: column; height: var(--pfi-h, 372px); }
+        .pfi-card .pex-title { flex: none; }
+        .pfi-card .dev-body { position: relative; flex: 1; min-height: 0; }
+        .pfi-card .dev-scroll { position: absolute; inset: 0; max-height: none; overflow-y: auto; }
+        .pfi-body { flex: 1; min-height: 0; padding: 0 8px 8px; }
+        .pfi-svg { width: 100%; height: 100%; display: block; }
+        .pfi-grid .pex-meta { font-size: 0.72rem; }
+        .pfi-key { display: inline-block; margin-left: 10px; padding-left: 12px; position: relative; }
+        .pfi-key::before { content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--ink-3); }
+        .pfi-key.mine::before { background: var(--accent-hi); } .pfi-key.field::before { background: rgba(255,255,255,0.35); }
+        .pfi-grid line, .pfi-grid path, .pfi-grid rect { shape-rendering: geometricPrecision; }
+        .pfi-grid .pfi-grid { stroke: var(--line-1); stroke-width: 1; }
+        .pfi-grid .pfi-tick { font-family: var(--fn-mono); font-size: 9px; fill: var(--ink-3); }
+        .pfi-grid .pfi-axis { font-family: var(--fn-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--text-secondary); }
+        .pfi-grid .pfi-dot.field { fill: rgba(255,255,255,0.14); }
+        .pfi-grid .pfi-dot.mine { fill: rgba(255,138,43,0.8); stroke: var(--accent-hi); stroke-width: 0.8; }
+        .pfi-heat { display: grid; gap: 3px; padding: 4px 2px 2px; }
+        .pfi-hh { font-size: 0.64rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* column names stand on end so the full last name fits over a narrow cell */
+        .pfi-hh:not(.row) { writing-mode: vertical-rl; transform: rotate(180deg); height: 58px; justify-self: center; text-align: left; }
+        .pfi-hh.row { text-align: right; padding-right: 6px; align-self: center; }
+        #pfi-pair .pfi-body { overflow-y: auto; }
+        .pfi-hc { height: 28px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; background: rgba(255,255,255,0.04); }
+        .pfi-hc b { font-size: 0.72rem; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+        .pfi-hc small { font-size: 0.58rem; color: var(--text-secondary); }
+        .pfi-hc.self { background: transparent; } .pfi-hc.empty { color: var(--ink-3); font-size: 0.62rem; }
+        #pfi-lift .dev-head, #pfi-lift .dev-row { grid-template-columns: minmax(0, 1.6fr) 48px minmax(0, 1fr) 60px; gap: 0 10px; }
+        #pfi-lift .dev-head span:first-child { text-align: left; }
+        .dev-f { font-weight: 700; font-size: 0.78rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        @media (max-width: 480px) { .lb-right .pfi-grid { grid-template-columns: 1fr; } }
+        /* Projected Score Bands: percentile cut-offs as quiet chips over the chart */
+        .band-cuts { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 10px; font-size: 0.8rem; color: var(--text-secondary); }
+        .band-cut b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+        .band-sep { width: 1px; align-self: stretch; margin: 2px 4px; background: var(--line-2); }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5178,7 +5245,8 @@
                 </div>
             </div>
 
-                <div class="dupes-container fx-panel" id="dupes-container" style="display: none;">
+                <div class="dupes-row" id="dupes-row" style="display: none;">
+                <div class="dupes-container fx-panel" id="dupes-container">
                     <div class="portfolio-chart-title pex-title">Dupes by User<span class="pex-meta" id="dupes-meta"></span></div>
                     <div class="pex-body"><div class="pex-scroll">
                     <table class="pex-table fx-table dupes-table">
@@ -5186,6 +5254,32 @@
                         <tbody id="dupes-tbody"></tbody>
                     </table>
                     </div></div>
+                </div>
+                <div class="fx-panel dupes-ev" id="dupes-ev">
+                    <div class="portfolio-chart-title pex-title">EV by Dupes<span class="pex-meta" id="dupes-ev-meta"></span></div>
+                    <div class="dev-head"><span>Copies</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
+                    <div id="dupes-ev-rows"></div>
+                </div>
+                <div class="fx-panel dupes-ev" id="dupes-own">
+                    <div class="portfolio-chart-title pex-title">EV by Own Sum<span class="pex-meta" id="dupes-own-meta"></span></div>
+                    <div class="dev-head"><span>Own sum</span><span>Entries</span><span><span class="th-full">Avg net EV per entry</span><span class="th-short">Avg EV</span></span><span></span></div>
+                    <div id="dupes-own-rows"></div>
+                </div>
+                </div>
+                <div class="pfi-grid" id="pf-insights" style="display: none;">
+                    <div class="fx-panel dupes-ev pfi-card" id="pfi-lift">
+                        <div class="portfolio-chart-title pex-title">Fighter EV Lift<span class="pex-meta" id="pfi-lift-meta"></span></div>
+                        <div class="dev-head"><span>Fighter</span><span>Entries</span><span>EV lift</span><span></span></div>
+                        <div class="dev-body"><div class="dev-scroll" id="pfi-lift-rows"></div></div>
+                    </div>
+                    <div class="fx-panel pfi-card" id="pfi-ceil">
+                        <div class="portfolio-chart-title pex-title">Ceiling vs Projection<span class="pex-meta" id="pfi-ceil-meta"></span></div>
+                        <div class="pfi-body" id="pfi-ceil-body"></div>
+                    </div>
+                    <div class="fx-panel pfi-card" id="pfi-pair">
+                        <div class="portfolio-chart-title pex-title">Pair Heat Map<span class="pex-meta" id="pfi-pair-meta"></span></div>
+                        <div class="pfi-body" id="pfi-pair-body"></div>
+                    </div>
                 </div>
             </div></div>
             <div id="whatif-layout" class="whatif-layout">
@@ -5251,6 +5345,20 @@
                     </div>
                     <div id="pair-selected" class="pair-selected"></div>
                     <svg id="chart-pairing" viewBox="0 0 860 470" width="100%"></svg>
+                </div>
+
+                <div class="chart-card insights-bands">
+                    <h3>Projected Score Bands</h3>
+                    <div class="pair-controls">
+                        <span class="pair-toggle active" id="band-u-lu" onclick="setBandUnit('lineups')" title="Each distinct lineup counted once">Lineups</span>
+                        <span class="pair-toggle" id="band-u-en" onclick="setBandUnit('entries')" title="Every entry, so a lineup with 5 copies counts 5 times">Entries</span>
+                        <span class="band-sep" aria-hidden="true"></span>
+                        <span class="pair-toggle active" id="band-t-pct" onclick="setBandMetric('pct')">%</span>
+                        <span class="pair-toggle" id="band-t-cnt" onclick="setBandMetric('count')">Count</span>
+                        <span id="band-count" class="pair-count"></span>
+                    </div>
+                    <div id="band-cuts" class="pair-selected band-cuts"></div>
+                    <svg id="chart-bands" viewBox="0 0 860 360" width="100%"></svg>
                 </div>
 
                 <div class="chart-card insights-fighters">
@@ -6058,8 +6166,9 @@
             const statsTop = document.querySelector('.stats-top');
             if (statsTop) { const show = view === 'username' || view === 'lineup' || view === 'portfolio'; statsTop.style.display = show ? '' : 'none'; }
 
-            // Dupes-by-User panel is only used on the Portfolio view
-            document.getElementById('dupes-container').style.display = 'none';
+            // Dupes by User and EV by Dupes are only used on the Portfolio view
+            document.getElementById('dupes-row').style.display = 'none';
+            document.getElementById('pf-insights').style.display = 'none';
             statsPanel.classList.remove('three-col');
 
             // Insights (charts) view
@@ -7139,7 +7248,7 @@
             const totalNetEV = results.reduce((sum, r) => sum + r.netEV, 0);
             const totalCost = results.reduce((sum, r) => sum + (r.cost || 0), 0);
             const portfolioROI = totalCost > 0 ? (totalNetEV / totalCost) * 100 : null;
-            const fmtROI = v => (v < 0 ? '-' : '') + Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+            const fmtROI = v => { const a = Math.abs(v), d = a > 0 && a < 1 ? 2 : 1; return (v < 0 ? '-' : '') + a.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d }) + '%'; };
 
             const alreadySaved = isFavorite(query);
             resultsContainer.innerHTML = `
@@ -7455,9 +7564,9 @@
                 return `
                 <tr>
                     <td class="name" title="${r.fighter}">${r.fighter}</td>
-                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${r.draft.toFixed(1)}%</td>
-                    <td class="n">${r.win.toFixed(1)}%</td>
-                    <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? r.optimal.toFixed(1) + '%' : '--'}</td>
+                    <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${fmtWin(r.draft)}</td>
+                    <td class="n">${fmtWin(r.win)}</td>
+                    <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? fmtWin(r.optimal) : '--'}</td>
                 </tr>`;
             }).join('');
             const nLineups = (data || []).length;
@@ -7736,6 +7845,7 @@
             renderInsightsFighterTable();
             buildPairingControls();
             renderPairingChart();
+            renderBandsChart();
             renderDupeTable();
             setupInsightsResizeObserver();
             requestAnimationFrame(syncInsightsHeight);
@@ -7806,9 +7916,9 @@
                 <tr>
                     <td class="fighter-name">${r.fighter}</td>
                     <td class="num">${r.salary != null ? '$' + Number(r.salary).toLocaleString() : '--'}</td>
-                    <td class="draft-pct">${r.draft.toFixed(1)}%</td>
-                    <td class="win-pct">${r.win.toFixed(1)}%</td>
-                    <td${optShade(r.optimal)}>${r.optimal != null ? r.optimal.toFixed(1) + '%' : '--'}</td>
+                    <td class="draft-pct">${fmtWin(r.draft)}</td>
+                    <td class="win-pct">${fmtWin(r.win)}</td>
+                    <td${optShade(r.optimal)}>${r.optimal != null ? fmtWin(r.optimal) : '--'}</td>
                     <td class="num ${r.score != null ? 'sc' : ''}">${r.score != null ? Number(r.score).toFixed(2) : '--'}</td>
                 </tr>`).join('');
         }
@@ -7931,7 +8041,78 @@
                 bindTip(rect, `<b>${label}</b> + <b>${o.name}</b><br>${pairMetric === 'pct' ? o.v.toFixed(1) + "% of those lineups" : o.c + ' lineups'} (${o.c.toLocaleString()})`);
                 svg.appendChild(rect);
                 const vt = svgEl('text', { x: M.l + pw * t + 6, y: cy + fontN * 0.35, fill: C.txt, 'font-size': Math.min(11, rowH * 0.58) });
-                vt.textContent = pairMetric === 'pct' ? o.v.toFixed(1) + '%' : o.c.toLocaleString();
+                vt.textContent = pairMetric === 'pct' ? fmtWin(o.v) : o.c.toLocaleString();
+                svg.appendChild(vt);
+            });
+        }
+
+        // Projected Score Bands: the field's lineups in ten equal score bands, with
+        // the share (or count) in each. The band width comes from the slate's own
+        // spread, so a low-scoring card and a high-scoring one both get ten bands.
+        let bandMetric = 'pct', bandUnit = 'lineups';
+        function setBandUnit(u) {
+            bandUnit = u;
+            document.getElementById('band-u-lu').classList.toggle('active', u === 'lineups');
+            document.getElementById('band-u-en').classList.toggle('active', u === 'entries');
+            renderBandsChart();
+        }
+        function setBandMetric(m) {
+            bandMetric = m;
+            document.getElementById('band-t-pct').classList.toggle('active', m === 'pct');
+            document.getElementById('band-t-cnt').classList.toggle('active', m === 'count');
+            renderBandsChart();
+        }
+        function renderBandsChart() {
+            const svg = document.getElementById('chart-bands');
+            if (!svg) return;
+            svg.innerHTML = '';
+            const C = chartColors();
+            const countEl = document.getElementById('band-count'), cutsEl = document.getElementById('band-cuts');
+            // every row is one entry; Lineups keeps one row per distinct lineup,
+            // Entries keeps them all, so a lineup counts once per copy
+            const entries = (allData || []).filter(r => +r.MeanScore > 0);
+            const seenKey = new Set();
+            const uniq = entries.filter(r => { const k = r.LineupKey || pfiFighters(r).slice().sort().join('|'); if (seenKey.has(k)) return false; seenKey.add(k); return true; });
+            const live = bandUnit === 'entries' ? entries : uniq;
+            const noun = bandUnit === 'entries' ? 'entries' : 'lineups';
+            const allN = bandUnit === 'entries' ? (allData || []).length : new Set((allData || []).map(r => r.LineupKey || pfiFighters(r).slice().sort().join('|'))).size;
+            const deadN = allN - live.length;
+            if (!live.length) { if (countEl) countEl.textContent = ''; if (cutsEl) cutsEl.innerHTML = ''; return; }
+            // band edges come from the entries either way, so switching units keeps the same rows
+            const edgeScores = entries.map(r => +r.MeanScore).sort((a, b) => a - b);
+            const qe = p => edgeScores[Math.min(edgeScores.length - 1, Math.floor(p * edgeScores.length))];
+            const scores = live.map(r => +r.MeanScore).sort((a, b) => a - b);
+            const q = p => scores[Math.min(scores.length - 1, Math.floor(p * scores.length))];
+            // ten bands on a round step covering the middle 99% of the field; the
+            // stray outliers land in the end bands instead of stretching the scale
+            const min = qe(0.005), max = qe(0.995);
+            const raw = Math.max(1e-9, (max - min) / 10), mag = Math.pow(10, Math.floor(Math.log10(raw)));
+            let step = raw, lo = min;
+            for (const m of [1, 1.5, 2, 2.5, 3, 4, 5, 10, 15, 20, 25, 50]) { const st = m * mag, l = Math.floor(min / st) * st; if (l + 10 * st >= max) { step = st; lo = l; break; } }
+            const B = Array.from({ length: 10 }, (_, i) => ({ lo: lo + i * step, hi: lo + (i + 1) * step, n: 0, ev: 0, win: 0 }));
+            const bandOf = r => Math.min(9, Math.max(0, Math.floor((+r.MeanScore - lo) / step)));
+            live.forEach(r => { const i = bandOf(r); B[i].n++; B[i].ev += +r.NetEV || 0; });
+            // win chances belong to entries, so their share is counted over entries in both units
+            let winTotal = 0;
+            entries.forEach(r => { B[bandOf(r)].win += +r.WinPct || 0; winTotal += +r.WinPct || 0; });
+            if (countEl) countEl.textContent = `${live.length.toLocaleString()} ${noun}` + (deadN > 0 ? `, ${deadN.toLocaleString()} dead left out` : '');
+            if (cutsEl) cutsEl.innerHTML = `<span class="band-cut">Top 10%: <b>${q(0.9).toFixed(1)}+</b></span><span class="band-cut">Top 25%: <b>${q(0.75).toFixed(1)}+</b></span><span class="band-cut">Median: <b>${q(0.5).toFixed(1)}</b></span><span class="band-cut">Bottom 25%: <b>under ${q(0.25).toFixed(1)}</b></span>`;
+            const fmt = v => Number.isInteger(step) ? String(Math.round(v)) : v.toFixed(1);
+            const rows = B.map((b, i) => ({ label: i === 9 ? fmt(b.lo) + '+' : i === 0 && scores[0] < b.lo ? 'under ' + fmt(b.hi) : fmt(b.lo) + ' to ' + fmt(b.hi), n: b.n, pct: 100 * b.n / live.length, ev: b.n ? b.ev / b.n : 0, winShare: winTotal ? 100 * b.win / winTotal : 0 })).reverse();
+            const maxV = Math.max(...rows.map(r => bandMetric === 'pct' ? r.pct : r.n), 1e-9);
+            const W = 860, H = 360, M = { l: 175, r: 70, t: 10, b: 10 };
+            const pw = W - M.l - M.r, ph = H - M.t - M.b, rowH = ph / rows.length, barH = Math.min(rowH * 0.72, 24), fontN = Math.min(12, rowH * 0.62);
+            rows.forEach((o, i) => {
+                const cy = M.t + rowH * i + rowH / 2, v = bandMetric === 'pct' ? o.pct : o.n, t = v / maxV;
+                const nm = svgEl('text', { x: M.l - 10, y: cy + fontN * 0.35, fill: '#4a453d', 'font-size': fontN, 'text-anchor': 'end' });
+                nm.textContent = o.label; svg.appendChild(nm);
+                svg.appendChild(svgEl('rect', { x: M.l, y: cy - barH / 2, width: pw, height: barH, fill: '#ece6dd', rx: 4 }));
+                const rect = svgEl('rect', { x: M.l, y: cy - barH / 2, width: Math.max(2, pw * t), height: barH, fill: heatColor(t), rx: 4 });
+                rect.style.cursor = 'pointer';
+                bindTip(rect, `<b>${o.label}</b><br>${fmtWin(o.pct)} of ${noun} (${o.n.toLocaleString()})<br>${fmtWin(o.winShare)} of win chances<br>avg net EV ${(o.ev >= 0 ? '+' : '') + fmtDollars(o.ev)}`);
+                svg.appendChild(rect);
+                const vt = svgEl('text', { x: M.l + pw * t + 6, y: cy + fontN * 0.35, fill: C.txt, 'font-size': Math.min(11, rowH * 0.58) });
+                vt.textContent = bandMetric === 'pct' ? fmtWin(o.pct) : o.n.toLocaleString();
                 svg.appendChild(vt);
             });
         }
@@ -8025,7 +8206,7 @@
                 const c = svgEl('circle', { cx: x(xOf(p)), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
                 c.style.cursor = 'pointer';
                 const oppLine = p.opp ? `<br>vs ${p.opp}: ${p.oppDraft != null ? p.oppDraft.toFixed(1) : '—'}% owned` : '';
-                bindTip(c, `<b>${p.name}</b><br>Draft: ${p.draft.toFixed(1)}% · Optimal: ${p.win.toFixed(1)}%${oppLine}<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
+                bindTip(c, `<b>${p.name}</b><br>Draft: ${fmtWin(p.draft)} · Optimal: ${fmtWin(p.win)}${oppLine}<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
                 svg.appendChild(c);
             });
             // Name callouts with collision avoidance: each label tries eight
@@ -8161,16 +8342,16 @@
                         <td class="num">${idx + 1}</td>
                         <td class="username">${row.Username || ''}</td>
                         <td class="num">${fmtWin(row.WinPct)}</td>
-                        <td class="num">${row.SecondPct != null ? (row.SecondPct).toFixed(1) + '%' : '--'}</td>
-                        <td class="num">${row.ThirdPct != null ? (row.ThirdPct).toFixed(1) + '%' : '--'}</td>
-                        <td class="num">${row.CashPct != null ? (row.CashPct).toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${row.SecondPct != null ? fmtWin(row.SecondPct) : '--'}</td>
+                        <td class="num">${row.ThirdPct != null ? fmtWin(row.ThirdPct) : '--'}</td>
+                        <td class="num">${row.CashPct != null ? fmtWin(row.CashPct) : '--'}</td>
                         <td class="num ${(row.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(row.NetEV || 0)}
                         </td>
                         <td class="num ${(row['ROI%'] || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatROI(row['ROI%'] || 0)}
                         </td>
-                        <td class="num">${(row.OwnSum || 0).toFixed(1)}%</td>
+                        <td class="num">${fmtWin(row.OwnSum)}</td>
                         <td class="num">${projScore.toFixed(2)}</td>
                         <td class="num">${row.TotalSalary ? '$' + Number(row.TotalSalary).toLocaleString() : '--'}</td>
                         <td class="num">${row.Copies || 0}</td>
@@ -8292,9 +8473,9 @@
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
                         <td><div class="lu-line">${fighterLine(lineup.fighters)}</div></td>
                         <td class="num">${fmtWin(lineup.WinPct)}</td>
-                        <td class="num">${lineup.SecondPct != null ? lineup.SecondPct.toFixed(1) + '%' : '--'}</td>
-                        <td class="num">${lineup.ThirdPct != null ? lineup.ThirdPct.toFixed(1) + '%' : '--'}</td>
-                        <td class="num">${lineup.CashPct != null ? lineup.CashPct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${lineup.SecondPct != null ? fmtWin(lineup.SecondPct) : '--'}</td>
+                        <td class="num">${lineup.ThirdPct != null ? fmtWin(lineup.ThirdPct) : '--'}</td>
+                        <td class="num">${lineup.CashPct != null ? fmtWin(lineup.CashPct) : '--'}</td>
                         <td class="num ${(lineup.NetEV || 0) >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(lineup.NetEV || 0)}
                         </td>
@@ -8321,14 +8502,129 @@
 
         // Populate the "Dupes by User" panel: who shares the most lineups with
         // the searched user. Blank until a username is entered.
+        // EV by Dupes: the searched user's entries bucketed by how many copies of
+        // each lineup exist in the contest (1 to 9, then 10+), with the average
+        // net EV per entry in each bucket. Bars diverge from zero so the drop is
+        // visible at a glance.
+        // ==================== Portfolio insights (shown once a name is searched) ====================
+        // Nine cards that try to explain where a portfolio's EV comes from. Each
+        // works off the searched user's entries against the whole field.
+        function pfiEsc(v) { return String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+        function pfiMoney(v) { return (v >= 0 ? '+' : '') + fmtDollars(v); }
+        function pfiLast(name) { const p = String(name).trim().split(/\s+/); return p[p.length - 1]; }
+        function pfiFighters(row) { const out = []; for (let i = 1; i <= 6; i++) { const f = row['F' + i]; if (f) out.push(f); } return out; }
+        function renderPortfolioInsights(rows) {
+            const n = rows.length;
+            const totalEv = rows.reduce((t, r) => t + (+r.NetEV || 0), 0);
+            // per-fighter tallies inside the portfolio
+            const mine = new Map();
+            rows.forEach(r => pfiFighters(r).forEach(f => { const b = mine.get(f) || { n: 0, ev: 0 }; b.n++; b.ev += +r.NetEV || 0; mine.set(f, b); }));
+
+            // 1. Fighter EV lift: average EV with the fighter minus average without
+            const lift = Array.from(mine, ([f, b]) => {
+                const without = n > b.n ? (totalEv - b.ev) / (n - b.n) : null;
+                return { label: pfiEsc(f), name: true, n: b.n, ev: without === null ? 0 : (b.ev / b.n - without) * b.n, solo: without === null };
+            }).sort((a, b) => b.ev / b.n - a.ev / a.n);
+            const solo = lift.filter(it => it.solo), rest = lift.filter(it => !it.solo);
+            document.getElementById('pfi-lift-meta').textContent = n ? rest.length + ' fighters' + (solo.length ? ' \u00b7 ' + solo.map(it => pfiLast(it.label)).join(', ') + ' in every entry' : '') : '';
+            document.getElementById('pfi-lift-rows').innerHTML = n ? devRows(rest) : '';
+
+            // 4. Ceiling vs projection: P99 against mean score, yours over a faint field cloud
+            const W = 420, H = 300, P = { l: 40, r: 14, t: 14, b: 34 };
+            const step = Math.max(1, Math.floor(allData.length / 1500));
+            const cloud = allData.filter((r, i) => i % step === 0);
+            const xs = allData.map(r => +r.MeanScore || 0).sort((a, b) => a - b), ys = allData.map(r => +r.P99Score || 0).sort((a, b) => a - b);
+            const qq = (arr, p) => arr.length ? arr[Math.min(arr.length - 1, Math.floor(p * arr.length))] : 0;
+            // axes run from the field's 1st to 99th percentile so dead entries at zero do not squash the cloud
+            const xlo = qq(xs, 0.01), xhi = qq(xs, 0.995), ylo = qq(ys, 0.01), yhi = qq(ys, 0.995);
+            const clampv = (v, a, b) => Math.max(a, Math.min(b, v));
+            const cx = v => P.l + (W - P.l - P.r) * (clampv(v, xlo, xhi) - xlo) / (xhi - xlo || 1), cy = v => H - P.b - (H - P.b - P.t) * (clampv(v, ylo, yhi) - ylo) / (yhi - ylo || 1);
+            svg = `<svg viewBox="0 0 ${W} ${H}" class="pfi-svg" role="img" aria-label="Ceiling against projection">`;
+            cloud.forEach(r => { svg += `<circle cx="${cx(+r.MeanScore || 0).toFixed(1)}" cy="${cy(+r.P99Score || 0).toFixed(1)}" r="1.6" class="pfi-dot field"/>`; });
+            rows.forEach(r => { svg += `<circle cx="${cx(+r.MeanScore || 0).toFixed(1)}" cy="${cy(+r.P99Score || 0).toFixed(1)}" r="3" class="pfi-dot mine"><title>${pfiEsc(pfiFighters(r).map(pfiLast).join(', '))}: proj ${(+r.MeanScore || 0).toFixed(1)}, P99 ${(+r.P99Score || 0).toFixed(1)}, EV ${pfiMoney(+r.NetEV || 0)}</title></circle>`; });
+            [xlo, (xlo + xhi) / 2, xhi].forEach(v => { svg += `<text x="${cx(v)}" y="${H - P.b + 14}" class="pfi-tick" text-anchor="${v === xlo ? 'start' : v === xhi ? 'end' : 'middle'}">${v.toFixed(0)}</text>`; });
+            [ylo, (ylo + yhi) / 2, yhi].forEach(v => { svg += `<text x="${P.l - 6}" y="${cy(v) + 3}" class="pfi-tick" text-anchor="end">${v.toFixed(0)}</text>`; });
+            svg += `<text x="${(P.l + W - P.r) / 2}" y="${H - 4}" class="pfi-axis" text-anchor="middle">Projected score</text><text transform="translate(10 ${(P.t + H - P.b) / 2}) rotate(-90)" class="pfi-axis" text-anchor="middle">P99 ceiling</text>`;
+            svg += '</svg>';
+            document.getElementById('pfi-ceil-body').innerHTML = svg;
+            const avgOf = (arr, k) => arr.length ? arr.reduce((t, r) => t + (+r[k] || 0), 0) / arr.length : 0;
+            document.getElementById('pfi-ceil-meta').innerHTML = `<span class="pfi-key field">field ${avgOf(allData, 'MeanScore').toFixed(0)} / ${avgOf(allData, 'P99Score').toFixed(0)}</span><span class="pfi-key mine">you ${avgOf(rows, 'MeanScore').toFixed(0)} / ${avgOf(rows, 'P99Score').toFixed(0)}</span>`;
+
+            // 8. Pair heat map: avg EV of entries holding both of your eight most-used fighters
+            const top8 = Array.from(mine.entries()).sort((a, b) => b[1].n - a[1].n).slice(0, 8).map(e => e[0]);
+            const pair = new Map();
+            rows.forEach(r => { const fs = pfiFighters(r).filter(f => top8.includes(f)); for (let i = 0; i < fs.length; i++) for (let j = i + 1; j < fs.length; j++) { const k = [fs[i], fs[j]].sort().join('|'); const b = pair.get(k) || { n: 0, ev: 0 }; b.n++; b.ev += +r.NetEV || 0; pair.set(k, b); } });
+            const avgEv = n ? totalEv / n : 0;
+            const spread = Math.max(1e-9, ...Array.from(pair.values()).filter(b => b.n >= 2).map(b => Math.abs(b.ev / b.n - avgEv)));
+            let grid = `<div class="pfi-heat" style="grid-template-columns: 74px repeat(${top8.length}, minmax(0, 1fr))"><div></div>` + top8.map(f => `<div class="pfi-hh" title="${pfiEsc(f)}">${pfiEsc(pfiLast(f))}</div>`).join('');
+            top8.forEach((a, i) => {
+                grid += `<div class="pfi-hh row" title="${pfiEsc(a)}">${pfiEsc(pfiLast(a))}</div>`;
+                top8.forEach((b, j) => {
+                    if (i === j) { grid += '<div class="pfi-hc self"></div>'; return; }
+                    const cell = pair.get([a, b].sort().join('|'));
+                    if (!cell || cell.n < 2) { grid += `<div class="pfi-hc empty" title="${pfiEsc(pfiLast(a))} + ${pfiEsc(pfiLast(b))}: ${cell ? cell.n : 0} entries">${cell ? cell.n : ''}</div>`; return; }
+                    const av = cell.ev / cell.n, d = (av - avgEv) / spread, a1 = Math.min(0.85, 0.15 + Math.abs(d) * 0.7);
+                    const bg = d >= 0 ? `rgba(47,224,138,${a1.toFixed(2)})` : `rgba(224,36,58,${a1.toFixed(2)})`;
+                    grid += `<div class="pfi-hc" style="background:${bg}" title="${pfiEsc(pfiLast(a))} + ${pfiEsc(pfiLast(b))}: ${cell.n} entries, avg ${pfiMoney(av)}"><b>${pfiMoney(av)}</b><small>${cell.n}</small></div>`;
+                });
+            });
+            grid += '</div>';
+            document.getElementById('pfi-pair-body').innerHTML = n ? grid : '';
+            document.getElementById('pfi-pair-meta').textContent = n ? `portfolio avg ${pfiMoney(avgEv)} per entry` : '';
+            // the insight cards take the height of the row above so the two rows match
+            const evH = document.getElementById('dupes-ev').offsetHeight;
+            if (evH) document.getElementById('pf-insights').style.setProperty('--pfi-h', evH + 'px');
+
+        }
+        // rows of diverging bars on one dollar scale; the zero line sits where
+        // the losing side ends so the bars use the full width
+        function devRows(items) {
+            const avgs = items.map(it => it.n ? it.ev / it.n : null);
+            const maxPos = Math.max(0, ...avgs.filter(v => v !== null && v > 0));
+            const maxNeg = Math.max(0, ...avgs.filter(v => v !== null && v < 0).map(Math.abs));
+            const span = Math.max(1e-9, maxPos + maxNeg), z = (maxNeg / span * 100).toFixed(2) + '%';
+            const money = v => (v >= 0 ? '+' : '') + fmtDollars(v);
+            return items.map((it, i) => {
+                const a = avgs[i], cls = a === null ? 'none' : a >= 0 ? 'pos' : 'neg';
+                const w = a === null ? 0 : Math.abs(a) / span * 100;
+                return `<div class="dev-row ${cls}" style="--z:${z}"><span class="${it.name ? 'dev-f' : 'dev-k'}">${it.label}</span><span class="dev-n">${it.n ? it.n.toLocaleString() : '--'}</span><div class="dev-bar"><i style="width:${w.toFixed(1)}%"></i></div><span class="dev-v">${a === null ? '--' : money(a)}</span></div>`;
+            }).join('');
+        }
+        // EV by Own Sum: the searched user's entries in ten equal bands of
+        // ownership sum across that portfolio's own range, with the average
+        // net EV per entry in each
+        function renderOwnEv(rows) {
+            const all = rows.length ? rows.map(r => +r.OwnSum || 0) : [0];
+            const min = Math.min(...all), max = Math.max(...all);
+            // whole-number bands from the lowest entry up, sized so all ten are used
+            const lo = Math.floor(min), step = Math.max(1, Math.ceil((max - lo) / 10));
+            const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
+            rows.forEach(r => { const v = +r.OwnSum || 0; const i = Math.min(9, Math.max(0, Math.floor((v - lo) / step))); B[i].n++; B[i].ev += +r.NetEV || 0; });
+            const fmt = v => Math.round(v).toLocaleString();
+            document.getElementById('dupes-own-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
+            document.getElementById('dupes-own-rows').innerHTML = devRows(B.map((b, i) => ({ label: i === 9 ? fmt(lo + 9 * step) + '+' : fmt(lo + i * step) + '-' + fmt(lo + (i + 1) * step), n: b.n, ev: b.ev })));
+        }
+        function renderDupesEv(q) {
+            const rows = allData.filter(r => (r.Username || '').trim().toLowerCase().includes(q));
+            renderOwnEv(rows);
+            const B = Array.from({ length: 10 }, () => ({ n: 0, ev: 0 }));
+            rows.forEach(r => { const c = Math.max(1, Math.round(+r.Copies || 1)); const b = B[Math.min(c, 10) - 1]; b.n++; b.ev += +r.NetEV || 0; });
+            document.getElementById('dupes-ev-meta').textContent = rows.length ? rows.length.toLocaleString() + ' entries' : '';
+            document.getElementById('dupes-ev-rows').innerHTML = devRows(B.map((b, i) => ({ label: i === 9 ? '10+' : String(i + 1), n: b.n, ev: b.ev })));
+            // after this card is filled, so the insight cards can take its height
+            renderPortfolioInsights(rows);
+        }
+
         function updateDupesByUser() {
             const tbody = document.getElementById('dupes-tbody');
             const q = (document.getElementById('search-user').value || '').trim().toLowerCase();
             // the card exists only on the Portfolio view once a username is typed
             const box = document.getElementById('dupes-container');
             const show = currentView === 'portfolio' && !!q;
-            box.style.display = show ? '' : 'none';
+            document.getElementById('dupes-row').style.display = show ? '' : 'none';
+            document.getElementById('pf-insights').style.display = show ? '' : 'none';
             if (!show) { tbody.innerHTML = ''; return; }
+            renderDupesEv(q);
             // LineupKey -> set of usernames (across the whole field)
             const keyUsers = new Map();
             const myKeys = new Set();
@@ -8487,9 +8783,9 @@
                         <td class="username">${portfolio.Username}</td>
                         <td class="num">${portfolio.Entries}</td>
                         <td class="num">${fmtWin(portfolio.WinPct)}</td>
-                        <td class="num">${portfolio.SecondPct != null ? portfolio.SecondPct.toFixed(1) + '%' : '--'}</td>
-                        <td class="num">${portfolio.ThirdPct != null ? portfolio.ThirdPct.toFixed(1) + '%' : '--'}</td>
-                        <td class="num">${portfolio.Top3Pct != null ? portfolio.Top3Pct.toFixed(1) + '%' : '--'}</td>
+                        <td class="num">${portfolio.SecondPct != null ? fmtWin(portfolio.SecondPct) : '--'}</td>
+                        <td class="num">${portfolio.ThirdPct != null ? fmtWin(portfolio.ThirdPct) : '--'}</td>
+                        <td class="num">${portfolio.Top3Pct != null ? fmtWin(portfolio.Top3Pct) : '--'}</td>
                         <td class="num ${portfolio.NetEV >= 0 ? 'positive' : 'negative'}">
                             ${formatNetEV(portfolio.NetEV)}
                         </td>
@@ -9039,7 +9335,7 @@
                 const avg = n0 ? dks.reduce((a, b) => a + b, 0) / n0 : 0;
                 return { n: n0, avg, counts, pct };
             }
-            function fmtPct(p) { if (p <= 0) return '0'; return p.toFixed(1) + '%'; }
+            function fmtPct(p) { if (p <= 0) return '0'; return fmtWin(p); }
             function heat(p) { const a = Math.min(0.6, p / 100 * 0.6); return `background:rgba(63,179,122,${a.toFixed(3)})`; }
             function threshRow(label, stats, withCounts) {
                 let cells = `<td class="l" style="font-weight:700">${esc(label)}</td><td>${stats.n.toLocaleString()}</td>`;
@@ -9458,7 +9754,7 @@
                     setHot(i);
                     if (!tip) return;
                     const isSel = sxBar && Math.abs(b0 + i * bin - sxBar.a) < 1e-6;
-                    tip.innerHTML = `<b>${rangeOf(i)}</b><br>${c.toLocaleString()} fight${c === 1 ? '' : 's'} (${(100 * c / n).toFixed(1)}%)<br>${(100 * cums[i] / n).toFixed(1)}% at or below<br><span style="opacity:.7">${isSel ? 'Click to show every fight' : 'Click to list these fights'}</span>`;
+                    tip.innerHTML = `<b>${rangeOf(i)}</b><br>${c.toLocaleString()} fight${c === 1 ? '' : 's'} (${fmtWin(100 * c / n)})<br>${fmtWin(100 * cums[i] / n)} at or below<br><span style="opacity:.7">${isSel ? 'Click to show every fight' : 'Click to list these fights'}</span>`;
                     tip.style.opacity = 1;
                     tip.style.left = Math.min(window.innerWidth - 200, e.clientX + 14) + 'px';
                     tip.style.top = (e.clientY + 14) + 'px';
@@ -9918,7 +10214,7 @@
                 svg.onmousemove = e => {
                     const t = e.target; if (!t.classList || !t.classList.contains('om-dot')) return;
                     const r = rows[+t.dataset.i];
-                    read.innerHTML = `${r.fighter} \u00b7 ${omEventLabel(r)} \u00b7 proj <span class="n">${r.proj.toFixed(1)}%</span> \u00b7 actual <span class="n">${r.act.toFixed(1)}%</span>`;
+                    read.innerHTML = `${r.fighter} \u00b7 ${omEventLabel(r)} \u00b7 proj <span class="n">${fmtWin(r.proj)}</span> \u00b7 actual <span class="n">${fmtWin(r.act)}</span>`;
                 };
                 svg.onmouseleave = () => { read.textContent = ''; };
             }
@@ -9999,7 +10295,7 @@
                 document.getElementById('omTBody').innerHTML = rows.map(r => {
                     const t = Math.min(1, r.abs / 12);
                     const shade = r.abs < 1.5 ? '' : ` class="om-diff ${r.diff > 0 ? 'up' : 'dn'}" style="--t:${t.toFixed(2)}"`;
-                    return `<tr>${omIsSingle() ? '' : `<td class="l">${omEventLabel(r)}</td>`}<td class="l"><b>${esc(r.fighter)}</b></td><td>${r.proj.toFixed(1)}%</td><td>${r.act.toFixed(1)}%</td><td${shade}>${r.diff > 0 ? '+' : ''}${r.diff.toFixed(1)}</td><td class="om-miss" style="--p:${(r.abs / maxAbs).toFixed(3)}">${r.abs.toFixed(1)}</td></tr>`;
+                    return `<tr>${omIsSingle() ? '' : `<td class="l">${omEventLabel(r)}</td>`}<td class="l"><b>${esc(r.fighter)}</b></td><td>${fmtWin(r.proj)}</td><td>${fmtWin(r.act)}</td><td${shade}>${r.diff > 0 ? '+' : ''}${r.diff.toFixed(1)}</td><td class="om-miss" style="--p:${(r.abs / maxAbs).toFixed(3)}">${r.abs.toFixed(1)}</td></tr>`;
                 }).join('');
                 document.getElementById('omCount').textContent = `${rows.length} fighter${rows.length === 1 ? '' : 's'}`;
             }
@@ -11260,8 +11556,8 @@
                         ${cells}
                         <td class="lu-proj">${lu.proj.toFixed(1)}</td>
                         <td class="lu-num">$${lu.salary.toLocaleString()}</td>
-                        <td class="${ownCls}">${lu.own.toFixed(1)}%</td>
-                        <td class="lu-lev">${(lu.lev || 0).toFixed(1)}%</td>
+                        <td class="${ownCls}">${fmtWin(lu.own)}</td>
+                        <td class="lu-lev">${fmtWin(lu.lev)}</td>
                     </tr>`;
                 }).join('');
             }

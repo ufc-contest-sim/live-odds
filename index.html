@@ -2980,24 +2980,21 @@
             background: linear-gradient(160deg, #2a2620, #17151a); border: 1px solid var(--glass-border); }
         .fph .ini { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.5px; }
         .fph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: translateY(8%) scale(1.4); transform-origin: 50% 0; }
-        /* matchup figure: the fighter (photo or plain silhouette) with a zone bar on the inner side */
-        .fmx-figwrap { display: flex; align-items: stretch; justify-content: center; gap: 10px; }
-        .fmx-figwrap .fmx-body { margin: 0; flex: 0 1 auto; }
-        .fmx-figwrap .fmx-sil { background: #2c2a31; }
-        .fmx-body.photo { max-width: 190px; aspect-ratio: auto; display: flex; align-items: flex-end; }
+        /* matchup figures: fighter | both zone bars | fighter */
+        .fmx-bodies .fmx-sil { background: #2c2a31; }
+        .fmx-body.photo { max-width: 190px; aspect-ratio: auto; display: flex; align-items: flex-end; justify-content: center; }
         .fmx-body.photo img { display: block; width: auto; max-width: 100%; height: min(411px, 88vw); object-fit: contain; }
         .fmx-body.photo img.flip { transform: scaleX(-1); }
-        /* a thin strip with the readings beside it, on the side facing the other fighter */
-        .fmx-zbar { position: relative; flex: none; width: 6px; border-radius: 3px; margin-right: 34px; }
-        .fmx-figwrap.rt .fmx-zbar { margin-right: 0; margin-left: 34px; }
+        .fmx-bars { display: flex; justify-content: center; gap: 92px; align-self: stretch; }
+        /* a thin strip with the readings beside it, on the side facing the other bar */
+        .fmx-zbar { position: relative; flex: none; width: 6px; border-radius: 3px; }
         .fmx-zbar b { position: absolute; left: calc(100% + 6px); transform: translateY(-50%); display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1;
             font-family: 'Chakra Petch', monospace; font-size: 0.7rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
-        .fmx-figwrap.rt .fmx-zbar b { left: auto; right: calc(100% + 6px); align-items: flex-end; }
+        .fmx-zbar.rt b { left: auto; right: calc(100% + 6px); align-items: flex-end; }
         .fmx-zbar b small { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--text-secondary); }
         @media (max-width: 600px) {
-            .fmx-figwrap { gap: 6px; }
-            .fmx-zbar { width: 5px; margin-right: 28px; }
-            .fmx-figwrap.rt .fmx-zbar { margin-left: 28px; }
+            .fmx-bars { gap: 70px; }
+            .fmx-zbar { width: 5px; }
             .fmx-zbar b { font-size: 0.62rem; }
         }
         /* the initials are only a fallback: hidden while a photo is there, back if it fails to load */
@@ -3007,8 +3004,11 @@
             .fmx-card .side { gap: 8px; }
         }
         /* body heat maps */
-        .fmx-bodies { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; margin: 4px 0 6px; }
-        .fmx-fig { text-align: center; min-width: 0; }
+        .fmx-bodies { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-rows: auto auto; gap: 2px 14px; align-items: start; margin: 4px 0 6px; }
+        .fmx-bodies .who { grid-row: 1; text-align: center; }
+        .fmx-bodies .who.wl { grid-column: 1; } .fmx-bodies .who.wr { grid-column: 3; }
+        .fmx-bodies .fmx-fig.fl { grid-row: 2; grid-column: 1; } .fmx-bodies .fmx-bars { grid-row: 2; grid-column: 2; } .fmx-bodies .fmx-fig.fr { grid-row: 2; grid-column: 3; }
+        .fmx-fig { text-align: center; min-width: 0; display: flex; justify-content: center; }
         /* Real fighter silhouette used as an alpha mask; the three zone
            colours are painted behind it and the mask cuts them to the body. */
         .fmx-body { position: relative; width: 100%; max-width: 122px; aspect-ratio: 275 / 927; margin: 0 auto; }
@@ -3017,7 +3017,7 @@
         .fmx-body b { position: absolute; left: 50%; transform: translateX(-50%);
             font-family: 'Chakra Petch', monospace; font-size: 0.72rem; font-weight: 700;
             color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.92); }
-        .fmx-fig .who { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .fmx-bodies .who { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .fmx-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding-top: 30px; }
         .fmx-mid .zl { font-family: 'Chakra Petch', monospace; font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
         .fmx-toggle { display: flex; gap: 6px; justify-content: center; margin: 8px 0 4px; flex-wrap: wrap; }
@@ -11190,7 +11190,7 @@
                 const z = url ? [0.15, 0.22, 0.44, 0.56] : [0.07, 0.2, 0.42, 0.58];
                 const mid = url ? [7, 32, 76] : [5.5, 30, 74];
                 const pct = v => v == null ? '&mdash;' : Math.round(v) + '%';
-                const bar = `<div class="fmx-zbar" style="background:linear-gradient(180deg,${H.fill} 0%,${H.fill} ${z[0] * 100}%,` +
+                const bar = `<div class="fmx-zbar${side === 'r' ? ' rt' : ''}" data-side="${side}" role="img" aria-label="${esc(aria)}" style="background:linear-gradient(180deg,${H.fill} 0%,${H.fill} ${z[0] * 100}%,` +
                     `${B.fill} ${z[1] * 100}%,${B.fill} ${z[2] * 100}%,${L.fill} ${z[3] * 100}%,${L.fill} 100%)">` +
                     `<b style="top:${mid[0]}%">${pct(H.v)}<small>head</small></b>` +
                     `<b style="top:${mid[1]}%">${pct(B.v)}<small>body</small></b>` +
@@ -11198,19 +11198,17 @@
                 // the figure itself carries no colour now: the fighter's own photo,
                 // or the plain silhouette when there isn't one (or it won't load)
                 const fig = url
-                    ? `<div class="fmx-body photo"><img src="${esc(url)}" alt="" decoding="async" referrerpolicy="no-referrer"${photoFlip(url, side) ? ' class="flip"' : ''} onerror="fmxPhotoFailed(this)"></div>`
-                    : `<div class="fmx-body"><div class="fmx-sil"></div></div>`;
-                // bar on the inner side, so the two fighters' bars face each other
-                return `<div class="fmx-figwrap ${side === 'r' ? 'rt' : ''}" role="img" aria-label="${esc(aria)}">` +
-                    (side === 'r' ? bar + fig : fig + bar) + `</div>`;
+                    ? `<div class="fmx-body photo" data-side="${side}"><img src="${esc(url)}" alt="" decoding="async" referrerpolicy="no-referrer"${photoFlip(url, side) ? ' class="flip"' : ''} onerror="fmxPhotoFailed(this)"></div>`
+                    : `<div class="fmx-body" data-side="${side}"><div class="fmx-sil"></div></div>`;
+                return { fig, bar };
             }
             // a photo that won't load: swap in the plain silhouette, and move the
             // bar's zones to the silhouette's proportions
             function fmxPhotoFailed(img) {
-                const box = img.closest('.fmx-body'), wrap = img.closest('.fmx-figwrap');
+                const box = img.closest('.fmx-body'), root = img.closest('.fmx-bodies');
                 if (!box) return;
                 box.classList.remove('photo'); box.innerHTML = '<div class="fmx-sil"></div>';
-                const bar = wrap && wrap.querySelector('.fmx-zbar');
+                const bar = root && root.querySelector(`.fmx-zbar[data-side="${box.dataset.side}"]`);
                 if (bar) {
                     bar.style.background = bar.style.background.replace(/(rgb\([^)]*\)) 15%, (rgb\([^)]*\)) 22%, \2 44%, (rgb\([^)]*\)) 56%/, '$1 7%, $2 20%, $2 42%, $3 58%');
                     bar.querySelectorAll('b').forEach((b, i) => { b.style.top = ['5.5%', '30%', '74%'][i]; });
@@ -11254,9 +11252,14 @@
                 h += `<div class="fmx-toggle">` +
                     `<button type="button" data-mode="target" class="${fmxMode === 'target' ? 'sel' : ''}">Where they strike</button>` +
                     `<button type="button" data-mode="absorb" class="${fmxMode === 'absorb' ? 'sel' : ''}">Where they get hit</button></div>`;
+                // three columns: each fighter centred in his own, both zone bars
+                // fixed together in the middle whatever photo sits beside them
+                const fa = fmxBodyHTML(pa, fmxMode, a.name, 'l'), fz = fmxBodyHTML(pz, fmxMode, z.name, 'r');
                 h += `<div class="fmx-bodies">` +
-                    `<div class="fmx-fig"><div class="who">${esc(a.name)}</div>${fmxBodyHTML(pa, fmxMode, a.name, 'l')}</div>` +
-                    `<div class="fmx-fig"><div class="who">${esc(z.name)}</div>${fmxBodyHTML(pz, fmxMode, z.name, 'r')}</div></div>`;
+                    `<div class="who wl">${esc(a.name)}</div><div class="who wr">${esc(z.name)}</div>` +
+                    `<div class="fmx-fig fl">${fa.fig}</div>` +
+                    `<div class="fmx-bars">${fa.bar}${fz.bar}</div>` +
+                    `<div class="fmx-fig fr">${fz.fig}</div></div>`;
                 h += `<div class="fmx-legend"><span>less</span><span class="bar"></span><span>more than league</span></div>`;
 
                 if (pa && pz) {

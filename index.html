@@ -5063,6 +5063,37 @@
             #username-table .lineup-container, .whatif-table-scroll .lineup-container { padding: 12px 14px; }
         }
         .pf-n, .rk-in { display: none; }
+        /* phones: projected standings table and the Standings / Cards switch */
+        .m-view, .m-stand { display: none; }
+        @media (max-width: 600px) {
+            #username-table .m-view { display: flex; gap: 4px; padding: 3px; margin: 0 0 12px; border: 1px solid var(--line-2); border-radius: var(--r-md); background: rgba(255, 255, 255, 0.03); }
+            .m-view button { flex: 1 1 0; padding: 8px 0; border: 0; border-radius: calc(var(--r-md) - 3px); background: transparent; color: var(--text-secondary);
+                font-family: var(--fn-mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+            .m-view button.active { background: rgba(var(--a-rgb), 0.16); color: var(--accent-hi); box-shadow: inset 0 0 0 1px rgba(var(--a-rgb), 0.5); }
+            #username-table.standings-on .table-scroll, #username-table.standings-on .m-sort { display: none !important; }
+            #username-table.standings-on .m-stand { display: block; }
+            /* the card view restyles every table in this box: undo that for the standings */
+            #username-table .m-stand table { display: table; width: 100%; min-width: 0 !important; border-collapse: collapse; table-layout: fixed; font-variant-numeric: tabular-nums; }
+            #username-table .m-stand thead { display: table-header-group; }
+            #username-table .m-stand tbody { display: table-row-group; }
+            #username-table .m-stand tr { display: table-row; }
+            #username-table .m-stand th { padding: 9px 4px; font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(20, 12, 4, 0.85); font-weight: 700; text-align: right; }
+            #username-table .m-stand td { padding: 0 4px; height: 44px; font-size: 0.84rem; font-weight: 600; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line-1); }
+            #username-table .m-stand th.p, #username-table .m-stand td.p { width: 38px; text-align: left; padding-left: 2px; }
+            #username-table .m-stand th.u, #username-table .m-stand td.u { width: auto; text-align: left; }
+            #username-table .m-stand th:nth-child(3), #username-table .m-stand td:nth-child(3) { width: 52px; }
+            #username-table .m-stand th:nth-child(4), #username-table .m-stand td:nth-child(4) { width: 58px; }
+            #username-table .m-stand th:nth-child(5), #username-table .m-stand td:nth-child(5) { width: 62px; padding-right: 2px; }
+            #username-table .m-stand td.u { font-size: 0.9rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
+            #username-table .m-stand tr[data-user] { cursor: pointer; }
+            #username-table .m-stand tr[data-user]:active { background: rgba(var(--a-rgb), 0.08); }
+            #username-table .m-stand tr.top td { background: rgba(var(--a-rgb), 0.05); }
+            #username-table .m-stand .md { font-size: 1.25rem; line-height: 1; }
+            #username-table .m-stand .rk { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 22px; padding: 0 5px; box-sizing: border-box; border-radius: 6px;
+                background: rgba(var(--a-rgb), 0.16); border: 1px solid rgba(var(--a-rgb), 0.5); color: var(--accent-hi); font-family: var(--fn-mono); font-size: 0.7rem; font-weight: 700; }
+            #username-table .m-stand td.positive { color: var(--accent-green); } #username-table .m-stand td.negative { color: var(--accent-red); }
+            #username-table .m-stand .no-results { padding: 24px 0; text-align: center; color: var(--text-secondary); }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -8127,6 +8158,97 @@
             filterAndRender();
         }
         
+        // ==================== Phone: projected standings ====================
+        // On phones, By Username opens as a compact table of projected standings
+        // when no name is searched: 1st goes to the entries tied for the best
+        // Win %, 2nd to the best 2nd % of the rest, 3rd to the best 3rd % of the
+        // rest, then everyone else by projected score. Searching a name, or the
+        // Cards button, shows the full cards instead.
+        const standPhone = window.matchMedia('(max-width: 600px)');
+        let standChoice = null;          // null = automatic; 'table' or 'cards' once tapped
+        let standLastSearch = null;      // a new search goes back to automatic
+        standPhone.addEventListener('change', () => { if (currentContest && currentView === 'username') filterAndRender(); });
+
+        function projectedStandings(rows) {
+            let rest = rows.slice();
+            const out = [];
+            let pos = 1;
+            for (const key of ['WinPct', 'SecondPct', 'ThirdPct']) {
+                let best = 0;
+                for (const r of rest) if ((r[key] || 0) > best) best = r[key] || 0;
+                if (best <= 0) continue;
+                const top = rest.filter(r => (r[key] || 0) === best);
+                rest = rest.filter(r => (r[key] || 0) !== best);
+                top.sort((a, b) => (b.MeanScore || 0) - (a.MeanScore || 0));
+                top.forEach(r => out.push({ row: r, pos, medal: pos }));
+                pos++;
+            }
+            rest.sort((a, b) => (b.MeanScore || 0) - (a.MeanScore || 0));
+            // ties on projected score share a spot
+            let prev = null, prevPos = pos;
+            rest.forEach((r, i) => {
+                const p = prev !== null && (r.MeanScore || 0) === prev ? prevPos : pos + i;
+                out.push({ row: r, pos: p, medal: 0 });
+                prev = r.MeanScore || 0; prevPos = p;
+            });
+            return out;
+        }
+
+        function setStandingsView(v) { standChoice = v; filterAndRender(); }
+
+        function renderStandings(data) {
+            const box = document.getElementById('username-table');
+            if (!box) return false;
+            const search = (document.getElementById('search-user').value || '').trim();
+            if (search !== standLastSearch) { standChoice = null; standLastSearch = search; }
+            const on = standPhone.matches && (standChoice ? standChoice === 'table' : !search);
+
+            let bar = box.querySelector('.m-view');
+            if (!bar) {
+                bar = document.createElement('div');
+                bar.className = 'm-view';
+                bar.innerHTML = `<button type="button" data-v="table">Standings</button><button type="button" data-v="cards">Cards</button>`;
+                bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setStandingsView(b.dataset.v); });
+                box.prepend(bar);
+            }
+            bar.querySelectorAll('button').forEach(b => b.classList.toggle('active', (b.dataset.v === 'table') === on));
+            let wrap = box.querySelector('.m-stand');
+            if (!wrap) {
+                wrap = document.createElement('div');
+                wrap.className = 'm-stand';
+                wrap.addEventListener('click', e => {
+                    const tr = e.target.closest('tr[data-user]');
+                    if (!tr) return;
+                    // a tap shows that person's lineups as cards
+                    const inp = document.getElementById('search-user');
+                    inp.value = tr.dataset.user;
+                    filterAndRender();
+                    box.scrollIntoView({ block: 'start' });
+                });
+                box.appendChild(wrap);
+            }
+            box.classList.toggle('standings-on', on);
+            if (!on) { wrap.innerHTML = ''; return false; }
+
+            const list = projectedStandings(data);
+            const shown = list.slice(0, 1000);
+            document.getElementById('row-count').textContent =
+                `Showing ${shown.length.toLocaleString()} of ${list.length.toLocaleString()} lineups`;
+            if (!shown.length) { wrap.innerHTML = '<div class="no-results">No lineups match your filters</div>'; return true; }
+            const medals = ['', '\u{1F947}', '\u{1F948}', '\u{1F949}'];
+            wrap.innerHTML = `<table><thead><tr><th class="p">#</th><th class="u">Username</th><th>Proj</th><th>Win %</th><th>Net EV</th></tr></thead><tbody>` +
+                shown.map(({ row, pos, medal }) => {
+                    const ev = row.NetEV || 0;
+                    return `<tr data-user="${phEsc(row.Username || '')}"${medal ? ` class="top m${medal}"` : ''}>` +
+                        `<td class="p">${medal ? `<span class="md">${medals[medal]}</span>` : `<span class="rk">${pos}</span>`}</td>` +
+                        `<td class="u">${phEsc(row.Username || '')}</td>` +
+                        `<td>${(row.MeanScore || 0).toFixed(1)}</td>` +
+                        `<td>${fmtWin(row.WinPct || 0)}</td>` +
+                        `<td class="${ev >= 0 ? 'positive' : 'negative'}">${fmtDollars(ev)}</td></tr>`;
+                }).join('') + `</tbody></table>`;
+            return true;
+        }
+
         function filterAndRender() {
             syncMoreFilters();
             syncMobileSort();
@@ -8691,6 +8813,8 @@
         }
 
         function renderUsernameView(data) {
+            const standingsShown = renderStandings(data);
+            if (standingsShown) return;
             // Render (show top 1000 for performance)
             const displayData = data.slice(0, 1000);
             

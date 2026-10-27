@@ -2980,18 +2980,16 @@
             background: linear-gradient(160deg, #2a2620, #17151a); border: 1px solid var(--glass-border); }
         .fph .ini { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.5px; }
         .fph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: translateY(8%) scale(1.4); transform-origin: 50% 0; }
-        .fmx-faces { display: flex; justify-content: space-between; align-items: flex-end; margin: -6px 0 4px; }
-        .fph.big { width: 132px; height: 150px; border-radius: 0; border: 0; background: none; overflow: visible; }
-        .fph.big .ini { font-size: 1.6rem; border-radius: 50%; width: 84px; height: 84px; inset: auto 24px 10px; background: linear-gradient(160deg, #2a2620, #17151a); border: 1px solid var(--glass-border); }
-        .fph.big img { object-fit: contain; object-position: 50% 100%; transform: none; }
-        .fph.big img.flip { transform: scaleX(-1); }
+        /* photo heat map: the fighter's own cutout, same height as the stand-in silhouette */
+        .fmx-body.photo { max-width: 200px; aspect-ratio: auto; }
+        .fmx-body.photo canvas { display: block; width: auto; max-width: 100%; height: min(411px, 92vw); margin: 0 auto; opacity: 0; transition: opacity 0.2s; }
+        .fmx-body.photo.ready canvas { opacity: 1; }
+        @media (prefers-reduced-motion: reduce) { .fmx-body.photo canvas { transition: none; } }
         /* the initials are only a fallback: hidden while a photo is there, back if it fails to load */
         .fph:has(img) .ini { display: none; }
         @media (max-width: 600px) {
             .fph { width: 38px; height: 38px; }
             .fmx-card .side { gap: 8px; }
-            .fph.big { width: 96px; height: 112px; }
-            .fph.big .ini { width: 64px; height: 64px; inset: auto 16px 8px; font-size: 1.2rem; }
         }
         /* body heat maps */
         .fmx-bodies { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; margin: 4px 0 6px; }
@@ -11050,13 +11048,14 @@
                     })
                     .catch(() => FIGHTER_PHOTOS);
             }
+            function photoUrl(name) { return FIGHTER_PHOTOS.get(photoKey(name)) || FIGHTER_PHOTOS_LOOSE.get(photoLooseKey(name)) || null; }
+            // UFC shoots each fighter for one corner (_L_ or _R_ in the file
+            // name) so the pair face each other; flip a shot taken for the
+            // other side so both still face the middle here
+            function photoFlip(url, side) { const shot = url && (url.match(/_([LR])_/) || [])[1]; return !!(side && shot && shot.toLowerCase() !== side); }
             function photoHTML(name, cls, side) {
-                const url = FIGHTER_PHOTOS.get(photoKey(name)) || FIGHTER_PHOTOS_LOOSE.get(photoLooseKey(name)) || null;
-                // UFC shoots each fighter for one corner (_L_ or _R_ in the file
-                // name) so the pair face each other; flip a shot taken for the
-                // other side so both still face the middle here
-                const shotSide = url && (url.match(/_([LR])_/) || [])[1];
-                const flip = side && shotSide && shotSide.toLowerCase() !== side;
+                const url = photoUrl(name);
+                const flip = photoFlip(url, side);
                 const ini = esc(String(name || '').split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase());
                 // a photo that fails to load falls back to the initials underneath it
                 return `<span class="fph ${cls || ''}" aria-hidden="true"><span class="ini">${ini}</span>` +
@@ -11111,7 +11110,54 @@
                 const f = (t - a[0]) / ((b[0] - a[0]) || 1);
                 return 'rgb(' + a[1].map((c, i) => Math.round(c + (b[1][i] - c) * f)).join(',') + ')';
             }
-            function fmxBodyHTML(p, mode) {
+            // Paint each photo heat map: the fighter drawn in greyscale, the three
+            // zone colours laid over it in the colour blend (so the shading and
+            // muscle detail survive), then cut back to the fighter's outline.
+            // The photo comes from another site, so the canvas is display-only;
+            // nothing ever reads its pixels back.
+            const fmxPhotoCache = new Map();
+            function fmxPhoto(url) {
+                if (!fmxPhotoCache.has(url)) fmxPhotoCache.set(url, new Promise((ok, no) => {
+                    const im = new Image(); im.referrerPolicy = 'no-referrer'; im.decoding = 'async';
+                    im.onload = () => ok(im); im.onerror = no; im.src = url;
+                }));
+                return fmxPhotoCache.get(url);
+            }
+            function paintPhotoBodies(root) {
+                root.querySelectorAll('.fmx-body.photo').forEach(box => {
+                    const cv = box.querySelector('canvas');
+                    fmxPhoto(box.dataset.photo).then(im => {
+                        if (!box.isConnected) return;
+                        const w = im.naturalWidth, h = im.naturalHeight;
+                        if (!w || !h) throw new Error('empty photo');
+                        cv.width = w; cv.height = h;
+                        const ctx = cv.getContext('2d');
+                        const draw = () => { ctx.save(); if (box.dataset.flip) { ctx.translate(w, 0); ctx.scale(-1, 1); } ctx.drawImage(im, 0, 0, w, h); ctx.restore(); };
+                        ctx.filter = 'grayscale(1) contrast(1.08) brightness(1.08)';
+                        draw();
+                        ctx.filter = 'none';
+                        // zone stops: head to the neck, torso to the waist, legs below
+                        const g = ctx.createLinearGradient(0, 0, 0, h);
+                        g.addColorStop(0, box.dataset.h); g.addColorStop(0.15, box.dataset.h);
+                        g.addColorStop(0.22, box.dataset.b); g.addColorStop(0.44, box.dataset.b);
+                        g.addColorStop(0.56, box.dataset.l); g.addColorStop(1, box.dataset.l);
+                        ctx.globalCompositeOperation = 'color';
+                        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+                        ctx.globalCompositeOperation = 'destination-in';
+                        draw();
+                        box.classList.add('ready');
+                    }).catch(() => {
+                        // photo would not load: fall back to the stand-in silhouette
+                        box.classList.remove('photo');
+                        cv.remove();
+                        const sil = document.createElement('div'); sil.className = 'fmx-sil';
+                        sil.style.background = `linear-gradient(180deg,${box.dataset.h} 0%,${box.dataset.h} 7%,${box.dataset.b} 20%,${box.dataset.b} 42%,${box.dataset.l} 58%,${box.dataset.l} 100%)`;
+                        box.prepend(sil);
+                        box.querySelectorAll('b').forEach((b, i) => { b.style.top = ['5.5%', '29%', '72%'][i] || b.style.top; });
+                    });
+                });
+            }
+            function fmxBodyHTML(p, mode, name, side) {
                 const pre = mode === 'absorb' ? 'abs_' : 'tgt_';
                 const zone = z => {
                     const v = p ? p[pre + z] : null;
@@ -11128,6 +11174,12 @@
                 const lab = (v, top) => v == null ? '' : `<b style="top:${top}%">${Math.round(v)}%</b>`;
                 const aria = `${mode === 'absorb' ? 'Strikes absorbed' : 'Strikes landed'} by target — ` +
                     `head ${Math.round(H.v || 0)}%, body ${Math.round(B.v || 0)}%, legs ${Math.round(L.v || 0)}%`;
+                // with a UFC photo the heat is painted onto the fighter's own body
+                // (paintPhotoBodies draws it once the card is on the page); the
+                // stand-in silhouette below stays as the fallback
+                const url = name ? photoUrl(name) : null;
+                if (url) return `<div class="fmx-body photo" role="img" aria-label="${esc(aria)}" data-photo="${esc(url)}" data-flip="${photoFlip(url, side) ? 1 : ''}" data-h="${H.fill}" data-b="${B.fill}" data-l="${L.fill}">` +
+                    `<canvas></canvas>` + lab(H.v, 7) + lab(B.v, 30) + lab(L.v, 74) + `</div>`;
                 return `<div class="fmx-body" role="img" aria-label="${aria}">` +
                     `<div class="fmx-sil" style="background:${bg}"></div>` +
                     lab(H.v, 5.5) + lab(B.v, 29) + lab(L.v, 72) + `</div>`;
@@ -11161,7 +11213,6 @@
                 const fmt = (p, k, d, u) => fmtOr(p, k, d, u);
                 let h = `<div class="fxm-card fmx-wide" role="dialog" aria-modal="true">`;
                 h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
-                h += `<div class="fmx-faces">${photoHTML(a.name, 'big', 'l')}${photoHTML(z.name, 'big', 'r')}</div>`;
                 h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(a.name)}</span><span class="vs">vs</span><span class="op">${esc(z.name)}</span></div>` +
                     `<div class="fxm-sub" style="display:flex;justify-content:space-between">` +
                     `<span>$${a.salary.toLocaleString()}${fmxMeta(pa)}</span>` +
@@ -11171,8 +11222,8 @@
                     `<button type="button" data-mode="target" class="${fmxMode === 'target' ? 'sel' : ''}">Where they strike</button>` +
                     `<button type="button" data-mode="absorb" class="${fmxMode === 'absorb' ? 'sel' : ''}">Where they get hit</button></div>`;
                 h += `<div class="fmx-bodies">` +
-                    `<div class="fmx-fig"><div class="who">${esc(a.name)}</div>${fmxBodyHTML(pa, fmxMode)}</div>` +
-                    `<div class="fmx-fig"><div class="who">${esc(z.name)}</div>${fmxBodyHTML(pz, fmxMode)}</div></div>`;
+                    `<div class="fmx-fig"><div class="who">${esc(a.name)}</div>${fmxBodyHTML(pa, fmxMode, a.name, 'l')}</div>` +
+                    `<div class="fmx-fig"><div class="who">${esc(z.name)}</div>${fmxBodyHTML(pz, fmxMode, z.name, 'r')}</div></div>`;
                 h += `<div class="fmx-legend"><span>less</span><span class="bar"></span><span>more than league</span></div>`;
 
                 if (pa && pz) {
@@ -11200,6 +11251,7 @@
                 h += `<button type="button" class="fmx-open" data-open="${esc(z.name)}">Open ${esc(z.name)}'s full profile</button>`;
                 h += `</div>`;
                 m.innerHTML = h;
+                paintPhotoBodies(m);
             }
             function fmtOr(p, k, d, u) {
                 const v = p ? p[k] : null;

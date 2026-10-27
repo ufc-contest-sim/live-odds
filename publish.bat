@@ -78,8 +78,7 @@ if %errorlevel% neq 0 (
 :: contest files once the live publishes pile up; a one-commit branch keeps
 :: every build small and quick. main keeps the full history as before.
 echo.
-echo Updating the deploy branch (what the site builds from)...
-for /f %%i in ('git commit-tree HEAD: -m "deploy snapshot"') do git push --force origin %%i:refs/heads/deploy
+call :pushdeploy
 if %errorlevel% neq 0 (
     echo.
     echo The deploy branch did not update, so the site still shows the previous
@@ -98,6 +97,10 @@ pause
 exit /b
 
 :nothingnew
+:: Nothing new here, but make sure the site is building from the latest
+:: files on GitHub (a previous publish's deploy step may have failed).
+echo.
+call :pushdeploy
 echo.
 echo Nothing new to publish - the contest JSONs, DKSalaries.csv and
 echo ufc_fight_stats.csv in THIS folder are identical to what is
@@ -120,3 +123,25 @@ if %errorlevel% equ 0 (
 echo.
 pause
 exit /b
+
+:: ---------------------------------------------------------------------------
+:: Point the deploy branch at the files now on GitHub's main, as a single
+:: commit with no history. Uses main as GitHub has it (fetched first), so it
+:: can never put older files on the site than main holds. Another push to the
+:: deploy branch at the same moment makes GitHub reject this one, so it tries
+:: up to three times, a few seconds apart.
+:pushdeploy
+echo Updating the deploy branch (what the site builds from)...
+git fetch -q origin main
+set deploytries=0
+set deploysnap=
+for /f %%i in ('git commit-tree origin/main: -m "deploy snapshot"') do set deploysnap=%%i
+if not defined deploysnap exit /b 1
+:pushdeploy_try
+set /a deploytries+=1
+git push --force origin %deploysnap%:refs/heads/deploy
+if %errorlevel% equ 0 exit /b 0
+if %deploytries% geq 3 exit /b 1
+echo The deploy branch was busy - trying again in 5 seconds...
+timeout /t 5 /nobreak >nul
+goto pushdeploy_try

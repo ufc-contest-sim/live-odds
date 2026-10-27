@@ -4954,6 +4954,12 @@
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
             #username-table tr.lineup-row.expanded > td, #lineup-table tr.lineup-row.expanded > td, #portfolio-table tr.lineup-row.expanded > td, .whatif-table-scroll tr.lineup-row.expanded > td { display: block; padding: 0; border: 0; }
             #username-table .lineup-container, #lineup-table .lineup-container, #portfolio-table .lineup-container, .whatif-table-scroll .lineup-container, #username-table .username-tiles, #lineup-table .username-tiles, #portfolio-table .username-tiles, .whatif-table-scroll .username-tiles { position: static; max-width: none; padding: 10px; }
+            /* By Username and What If: every card shows its fighters already, no tap needed */
+            #username-table tr.lineup-row, .whatif-table-scroll tr.lineup-row, #username-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 1px solid var(--line-1); border-top: 0;
+                border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
+            #username-table tr.lineup-row > td, .whatif-table-scroll tr.lineup-row > td { display: block; padding: 0; border: 0; }
+            #username-table tr.row-main, .whatif-table-scroll tr.row-main, #username-table tr.row-main.expanded, .whatif-table-scroll tr.row-main.expanded { border-color: var(--line-1); border-bottom-left-radius: 0; border-bottom-right-radius: 0; cursor: default; }
+            #username-table tr.row-main .expand-icon, .whatif-table-scroll tr.row-main .expand-icon { display: none; }
         }
         /* phones: only a slight margin above the masthead and the contest title */
         @media (max-width: 600px) {

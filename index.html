@@ -4949,6 +4949,12 @@
             #username-table tr.lineup-row.expanded > td, #lineup-table tr.lineup-row.expanded > td, #portfolio-table tr.lineup-row.expanded > td, .whatif-table-scroll tr.lineup-row.expanded > td { display: block; padding: 0; border: 0; }
             #username-table .lineup-container, #lineup-table .lineup-container, #portfolio-table .lineup-container, .whatif-table-scroll .lineup-container, #username-table .username-tiles, #lineup-table .username-tiles, #portfolio-table .username-tiles, .whatif-table-scroll .username-tiles { position: static; max-width: none; padding: 10px; }
         }
+        /* phones: only a slight margin above the masthead and the contest title */
+        @media (max-width: 600px) {
+            #landing-page.landing-page { padding-top: 6px; }
+            #landing-page .masthead { padding-top: 6px; }
+            #leaderboard-page.leaderboard-page { padding-top: 12px; }
+        }
         /* landing search: the user's contests as a compact table, best Net EV first */
         .sr-table { margin-top: 14px; border: 1px solid var(--line-1); border-radius: var(--r-md); overflow: hidden; background: var(--fn-card-2, var(--bg-card)); }
         .sr-head, .sr-row { display: grid; grid-template-columns: minmax(0, 1fr) 84px 92px 84px 18px; gap: 0 14px; align-items: center; padding: 0 16px; }

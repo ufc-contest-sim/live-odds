@@ -4959,6 +4959,11 @@
             /* a heavier edge so each lineup reads as its own card */
             #username-table tr.row-main, #lineup-table tr.row-main, #portfolio-table tr.row-main, .whatif-table-scroll tr.row-main { border-width: 2px; border-color: rgba(255, 255, 255, 0.17); }
             #username-table tr.row-main.expanded, #lineup-table tr.row-main.expanded, #portfolio-table tr.row-main.expanded, .whatif-table-scroll tr.row-main.expanded { border-color: rgba(var(--a-rgb), 0.55); }
+            /* By Portfolio: entries ride beside the name, so the medals get the whole row like the other cards */
+            #portfolio-table tr.row-main > td:nth-child(3) { display: none; }
+            #portfolio-table tr.row-main > td:nth-child(4), #portfolio-table tr.row-main > td:nth-child(5), #portfolio-table tr.row-main > td:nth-child(6) { grid-column: span 4; }
+            #portfolio-table tr.row-main > td:nth-child(4) { align-items: flex-start; text-align: left; }
+            #portfolio-table .pf-n { display: inline; color: var(--text-secondary); font-weight: 600; }
             /* the expanded part hangs off the bottom of its card */
             #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 2px solid rgba(var(--a-rgb), 0.55); border-top: 0;
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
@@ -5045,6 +5050,7 @@
             .lineup-container .chip-grid .fph.chip { width: 46px; height: 46px; }
             #username-table .lineup-container, .whatif-table-scroll .lineup-container { padding: 12px 14px; }
         }
+        .pf-n { display: none; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -9157,7 +9163,7 @@
                 return `
                     <tr class="row-main">
                         <td>${idx + 1}</td>
-                        <td class="username">${portfolio.Username}</td>
+                        <td class="username">${portfolio.Username}<span class="pf-n"> (${portfolio.Entries})</span></td>
                         <td class="num">${portfolio.Entries}</td>
                         <td class="num">${fmtWin(portfolio.WinPct)}</td>
                         <td class="num">${portfolio.SecondPct != null ? fmtWin(portfolio.SecondPct) : '--'}</td>

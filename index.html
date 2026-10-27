@@ -5020,6 +5020,14 @@
         .sr-win { padding-bottom: 5px; background-image: linear-gradient(90deg, rgba(255, 138, 43, 0.4), rgba(255, 138, 43, 0.85)), linear-gradient(rgba(var(--a-rgb), 0.12), rgba(var(--a-rgb), 0.12));
             background-repeat: no-repeat; background-size: calc(var(--p, 0) * 100%) 3px, 100% 3px; background-position: 100% 100%, 100% 100%; }
         .sr-go { color: var(--ink-3); display: grid; place-items: center; }
+        /* the standings strip spans the row under its numbers */
+        .sr-bar { grid-row: 2; grid-column: 1 / -1; position: relative; display: block; height: 14px; margin: 8px 0 1px; }
+        .sr-bar::before, .sr-bar::after { content: ""; position: absolute; top: 5px; height: 4px; border-radius: 2px; }
+        .sr-bar::before { left: 0; right: 0; background: rgba(255, 255, 255, 0.12); }
+        .sr-bar::after { right: 0; width: calc(var(--paid, 0) * 100%); min-width: 4px; background: var(--accent-green); opacity: 0.9; }
+        .sr-best { display: none; }
+        .sr-bar i { position: absolute; z-index: 1; top: 0; left: calc(var(--x) * (100% - 14px)); width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%;
+            background: #f4f4f5; border: 1.5px solid #15151a; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
         .sr-row:hover .sr-go { color: var(--accent-hi); }
         @media (max-width: 600px) {
             /* phones: no arrow column (the whole row is the button) and qualifier names shortened */
@@ -5028,6 +5036,10 @@
             .sr-full { display: none; } .sr-short { display: inline; }
             .sr-name { font-size: 0.88rem; }
             .sr-n { font-size: 0.86rem; }
+            /* phones: the best place sits at the right end of the strip instead of under the name */
+            .sr-best-in { display: none; }
+            .sr-bar { grid-column: 1 / 4; }
+            .sr-best { display: block; grid-row: 2; grid-column: 4; align-self: center; margin-top: 7px; text-align: right; font-weight: 700; font-size: 0.82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
         }
         /* one bout per row: favorite on the left, opponent on the right */
         #builder-view .hbw-bouts { max-width: 860px; display: block; }
@@ -7551,7 +7563,16 @@
                     const totalNetEV = entries.reduce((sum, r) => sum + (r.NetEV || 0), 0);
                     const totalCost = entries.reduce((sum, r) => sum + (r.EntryFee || 0), 0);
                     const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
+                    // where each of this user's entries sits in the projected standings
+                    const field = data.leaderboard || [];
+                    const placeOf = new Map(projectedStandings(field).map(o => [o.row, o.pos]));
+                    const pay = Array.isArray(data.payouts) ? data.payouts : [];
+                    let paid = 0;
+                    for (let k = 1; k < pay.length; k++) if ((pay[k] || 0) > 0) paid = k;
                     results.push({
+                        places: entries.map(r => placeOf.get(r)).filter(Boolean),
+                        field: field.length,
+                        paid: Math.min(paid, field.length),
                         contestIndex: i,
                         name: contest.name,
                         entries: entries.length,
@@ -7637,10 +7658,11 @@
                     <div class="sr-head" role="row"><span role="columnheader">Contest</span><span role="columnheader">Win %</span><span role="columnheader">Net EV</span><span role="columnheader">ROI</span><span aria-hidden="true"></span></div>
                     ${results.slice().sort((a, b) => b.netEV - a.netEV).map(r => `
                     <button type="button" class="sr-row" role="row" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
-                        <span class="sr-c" role="cell"><span class="sr-name"><span class="sr-full">${r.name}</span><span class="sr-short">${String(r.name).replace(/Fantasy MMA World Championship Qualifier/i, 'WC Qualifier')}</span></span><span class="sr-ent">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span></span>
+                        <span class="sr-c" role="cell"><span class="sr-name"><span class="sr-full">${r.name}</span><span class="sr-short">${String(r.name).replace(/Fantasy MMA World Championship Qualifier/i, 'WC Qualifier')}</span></span><span class="sr-ent">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}${r.places.length ? `<span class="sr-best-in"> &middot; best ${ordinal(Math.min(...r.places))}</span>` : ''}</span></span>
                         <span class="sr-n sr-win" role="cell" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">${fmtWin(r.winPct)}</span>
                         <span class="sr-n ${r.netEV >= 0 ? 'positive' : 'negative'}" role="cell">${formatNetEV(r.netEV)}</span>
                         <span class="sr-n ${r.roi >= 0 ? 'positive' : 'negative'}" role="cell">${formatROI(r.roi)}</span>
+                        ${standingsBar(r)}
                         <span class="sr-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
                     </button>`).join('')}
                 </div>
@@ -8168,6 +8190,23 @@
         let standChoice = null;          // null = automatic; 'table' or 'cards' once tapped
         let standLastSearch = null;      // a new search goes back to automatic
         standPhone.addEventListener('change', () => { if (currentContest && currentView === 'username') filterAndRender(); });
+
+        function ordinal(n) {
+            const v = n % 100, s = (v >= 11 && v <= 13) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th');
+            return n.toLocaleString() + s;
+        }
+        // DraftKings-style strip: last place at the left, 1st at the right, the
+        // paid places in green, and a dot for each entry at its projected place
+        function standingsBar(r) {
+            if (!r.places || !r.places.length || !r.field) return '';
+            const n = r.field;
+            const x = pos => n > 1 ? 1 - (pos - 1) / (n - 1) : 1;
+            const dots = r.places.slice().sort((a, b) => b - a)
+                .map(pos => `<i style="--x:${x(pos).toFixed(4)}"></i>`).join('');
+            const best = Math.min(...r.places);
+            return `<span class="sr-bar" style="--paid:${(r.paid / n).toFixed(4)}" role="img" aria-label="Projected best place ${ordinal(best)} of ${n.toLocaleString()}; ${r.paid.toLocaleString()} places paid">${dots}</span>` +
+                `<span class="sr-best" aria-hidden="true">${ordinal(best)}</span>`;
+        }
 
         function projectedStandings(rows) {
             // ties take up the places they share, like a leaderboard: ten tied

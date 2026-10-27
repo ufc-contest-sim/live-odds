@@ -18,6 +18,11 @@ powershell -NoProfile -Command "$c = Get-Item 'DKSalaries.csv' -ErrorAction Sile
 :: it is slow); drop the --workbook flag to go back to the UFC Stats card order.
 if exist export_fight_order.py python export_fight_order.py "Post Contest Sim.xlsm" --workbook
 
+:: Fighter photos for the Weekly Matchups page: reads this week's UFC.com
+:: event page and saves each fighter's photo link to fighter_images.json.
+:: If UFC.com is slow or down it says so and the publish carries on.
+if exist export_fighter_images.py python export_fighter_images.py
+
 :: The contest files are big; tell git not to analyse them like text. One-time,
 :: local to this folder, and it makes the add, diff and push noticeably faster.
 git config core.bigFileThreshold 1m >nul 2>&1

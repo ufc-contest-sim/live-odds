@@ -4956,16 +4956,19 @@
             #username-table tr.row-main > td:nth-child(6), #username-table tr.row-main > td:nth-child(10), #username-table tr.row-main > td:nth-child(13), #lineup-table tr.row-main > td:nth-child(6), #lineup-table tr.row-main > td:nth-child(10), #portfolio-table tr.row-main > td:nth-child(6), #portfolio-table tr.row-main > td:nth-child(10), .whatif-table-scroll tr.row-main > td:nth-child(7) { align-items: flex-end; text-align: right; }
             /* medals stand in for the Win, 2nd and 3rd words, a little larger than the other labels */
             #username-table tr.row-main > td:nth-child(4)::before, #username-table tr.row-main > td:nth-child(5)::before, #username-table tr.row-main > td:nth-child(6)::before, #lineup-table tr.row-main > td:nth-child(3)::before, #lineup-table tr.row-main > td:nth-child(4)::before, #lineup-table tr.row-main > td:nth-child(5)::before, #portfolio-table tr.row-main > td:nth-child(4)::before, #portfolio-table tr.row-main > td:nth-child(5)::before, #portfolio-table tr.row-main > td:nth-child(6)::before { font-size: 0.86rem; line-height: 1; letter-spacing: 0; margin-bottom: 2px; }
+            /* a heavier edge so each lineup reads as its own card */
+            #username-table tr.row-main, #lineup-table tr.row-main, #portfolio-table tr.row-main, .whatif-table-scroll tr.row-main { border-width: 2px; border-color: rgba(255, 255, 255, 0.17); }
+            #username-table tr.row-main.expanded, #lineup-table tr.row-main.expanded, #portfolio-table tr.row-main.expanded, .whatif-table-scroll tr.row-main.expanded { border-color: rgba(var(--a-rgb), 0.55); }
             /* the expanded part hangs off the bottom of its card */
-            #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 1px solid rgba(var(--a-rgb), 0.45); border-top: 0;
+            #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 2px solid rgba(var(--a-rgb), 0.55); border-top: 0;
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
             #username-table tr.lineup-row.expanded > td, #lineup-table tr.lineup-row.expanded > td, #portfolio-table tr.lineup-row.expanded > td, .whatif-table-scroll tr.lineup-row.expanded > td { display: block; padding: 0; border: 0; }
             #username-table .lineup-container, #lineup-table .lineup-container, #portfolio-table .lineup-container, .whatif-table-scroll .lineup-container, #username-table .username-tiles, #lineup-table .username-tiles, #portfolio-table .username-tiles, .whatif-table-scroll .username-tiles { position: static; max-width: none; padding: 10px; }
             /* By Username and What If: every card shows its fighters already, no tap needed */
-            #username-table tr.lineup-row, .whatif-table-scroll tr.lineup-row, #username-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 1px solid var(--line-1); border-top: 0;
+            #username-table tr.lineup-row, .whatif-table-scroll tr.lineup-row, #username-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 2px solid rgba(255, 255, 255, 0.17); border-top: 0;
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
             #username-table tr.lineup-row > td, .whatif-table-scroll tr.lineup-row > td { display: block; padding: 0; border: 0; }
-            #username-table tr.row-main, .whatif-table-scroll tr.row-main, #username-table tr.row-main.expanded, .whatif-table-scroll tr.row-main.expanded { border-color: var(--line-1); border-bottom-left-radius: 0; border-bottom-right-radius: 0; cursor: default; }
+            #username-table tr.row-main, .whatif-table-scroll tr.row-main, #username-table tr.row-main.expanded, .whatif-table-scroll tr.row-main.expanded { border-color: rgba(255, 255, 255, 0.17); border-bottom-left-radius: 0; border-bottom-right-radius: 0; cursor: default; }
             #username-table tr.row-main .expand-icon, .whatif-table-scroll tr.row-main .expand-icon { display: none; }
         }
         /* phones: only a slight margin above the masthead and the contest title */
@@ -7171,6 +7174,9 @@
             const filtersEl = document.getElementById('portfolio-filters');
             if (!panel || !filtersEl || !filtersEl._exposureByContest) return;
             const actuals = filtersEl._exposureActuals || new Map();
+            // photos still loading: draw again once they arrive
+            panel._pexSel = selectedNames;
+            if (!panel._pexPhotoWait) { panel._pexPhotoWait = true; loadFighterPhotos().then(() => renderPortfolioExposure(panel._pexSel)); }
             const wanted = selectedNames ? new Set(selectedNames.map(pexKey)) : null;
 
             const agg = new Map();
@@ -7202,7 +7208,7 @@
                         ? '<td class="n act tbd">TBD</td>'
                         : `<td class="n act">${r.actual.toFixed(2)}</td>`);
                 return `<tr>
-                    <td class="name" title="${pexEsc(r.name)}">${pexEsc(r.name)}</td>
+                    <td class="name" title="${pexEsc(r.name)}"><span class="fx-who">${photoHTML(r.name, 'sm')}${twoLineName(r.name)}</span></td>
                     <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${usd(r.usd)}</td>
                     <td class="n lu">${r.lineups.toLocaleString()}</td>
                     ${act}
@@ -7663,10 +7669,14 @@
         // else the post-event actuals; null while the fight is still to come
         function lockedFighterScore(name) {
             const num = v => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '')) && Number.isFinite(Number(v)) ? Number(v) : null;
+            let anyLocked = false;
             if (contestFightCard) for (const fight of contestFightCard) {
                 if (fight.fighter1 === name && num(fight.fighter1_score) != null) return num(fight.fighter1_score);
                 if (fight.fighter2 === name && num(fight.fighter2_score) != null) return num(fight.fighter2_score);
+                if (num(fight.fighter1_score) != null || num(fight.fighter2_score) != null) anyLocked = true;
             }
+            // live sim: a fighter stays blank until his score is locked in
+            if (anyLocked || window.__lockLiveOverride) return null;
             return num(contestActualsMap && contestActualsMap[name]);
         }
 

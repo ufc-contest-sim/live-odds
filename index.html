@@ -4819,6 +4819,22 @@
         .qs-clear:hover { background: rgba(255, 255, 255, 0.12); color: var(--text-primary); }
         .qs-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
         .qs-clear[hidden] { display: none; }
+        /* contest filters: only Username until More filters opens the rest */
+        .filters.collapsed #fighter-filter, .filters.collapsed #dead-filter, .filters.collapsed #range-filters { display: none !important; }
+        .filters:not(.clearable) .clear-btn { display: none; }
+        .more-filters-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px; border-radius: var(--r-md);
+            border: 1px solid var(--line-2); background: rgba(255, 255, 255, 0.04); color: var(--text-primary);
+            font-family: var(--fn-body); font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+        .more-filters-btn:hover { border-color: var(--accent); color: var(--accent-hi); }
+        .more-filters-btn:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+        .more-filters-btn[hidden] { display: none; }
+        .more-filters-btn .mf-count { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: #180a02;
+            font-size: 0.7rem; font-weight: 700; display: inline-grid; place-items: center; }
+        .more-filters-btn .mf-count[hidden] { display: none; }
+        .more-filters-btn .mf-chev { transition: transform 0.15s; }
+        .more-filters-btn[aria-expanded="true"] .mf-chev { transform: rotate(180deg); }
+        @media (prefers-reduced-motion: reduce) { .more-filters-btn .mf-chev { transition: none; } }
+        @media (max-width: 768px) { .more-filters-btn { justify-content: center; } }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5240,11 +5256,12 @@
 
             </div>
             </div><div class="lb-right">
-            <div class="filters">
+            <div class="filters collapsed">
                 <div class="filter-group" id="username-filter">
                     <label for="search-user">Username:</label>
                     <input type="text" id="search-user" placeholder="Enter username...">
                 </div>
+                <button type="button" class="more-filters-btn" id="more-filters-btn" aria-expanded="false" aria-controls="range-filters" onclick="toggleMoreFilters()"><span class="mf-label">More filters</span><span class="mf-count" id="mf-count"></span><svg class="mf-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
                 <div class="filter-group" id="fighter-filter" style="display: none; flex: 0 1 auto; flex-wrap: wrap; max-width: 320px;">
                     <label for="fighter-dropdown">Fighter(s):</label>
                     <div style="position: relative; width: 240px; flex: none;">
@@ -7878,6 +7895,34 @@
 
         // "Dead" = won zero sims. Applies to the By Username and By Lineup views.
         let hideDead = false;
+        // The contest filter bar shows only the Username box until someone asks
+        // for more: fighters, dead lineups and the range filters sit behind the
+        // More filters button. The button counts filters in use while closed.
+        let moreFiltersOpen = false;
+        function toggleMoreFilters(open) {
+            moreFiltersOpen = typeof open === 'boolean' ? open : !moreFiltersOpen;
+            syncMoreFilters();
+        }
+        function syncMoreFilters() {
+            const bar = document.querySelector('.filters'), btn = document.getElementById('more-filters-btn');
+            if (!bar || !btn) return;
+            const hasMore = currentView === 'username' || currentView === 'lineup';
+            let n = 0;
+            if (hasMore) {
+                if (selectedFighters.length) n++;
+                if (hideDead) n++;
+                for (const k in rangeFilters) if (rangeFilters[k].op !== 'any') n++;
+            }
+            const q = (document.getElementById('search-user').value || '').trim();
+            bar.classList.toggle('collapsed', !moreFiltersOpen);
+            bar.classList.toggle('clearable', moreFiltersOpen || n > 0 || !!q);
+            btn.hidden = !hasMore;
+            btn.setAttribute('aria-expanded', moreFiltersOpen ? 'true' : 'false');
+            btn.querySelector('.mf-label').textContent = moreFiltersOpen ? 'Fewer filters' : 'More filters';
+            const c = document.getElementById('mf-count');
+            c.textContent = !moreFiltersOpen && n ? String(n) : '';
+            c.hidden = !c.textContent;
+        }
         function toggleHideDead(on) {
             hideDead = on;
             filterAndRender();
@@ -7893,6 +7938,7 @@
         }
         
         function filterAndRender() {
+            syncMoreFilters();
             const searchUser = document.getElementById('search-user').value.toLowerCase();
             // v2 color: the sorted column's header carries the orange caret
             document.querySelectorAll('.leaderboard-page th.sortable[onclick^="setSort"]')

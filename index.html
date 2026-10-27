@@ -3,6 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Tablets get the desktop layout: the page is laid out 1500px wide (where
+        // the two-column contest view starts) and scaled to fit the screen, the
+        // way a desktop browser draws it. Phones keep their own layout. iPads that
+        // describe themselves as a Mac are caught by their touch screen, Android
+        // tablets by the missing "Mobile" in the browser string.
+        (function () {
+            try {
+                var ua = navigator.userAgent || '';
+                var tablet = /iPad|Tablet|Kindle|Silk|PlayBook/i.test(ua) ||
+                    (/Macintosh/.test(ua) && navigator.maxTouchPoints > 0) ||
+                    (/Android/i.test(ua) && !/Mobile/i.test(ua));
+                if (tablet) document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1500');
+            } catch (e) { /* leave the default */ }
+        })();
+    </script>
     <title>MMA LiveSim — UFC &amp; MMA DFS Optimizer, Simulator &amp; Live Sweat</title>
 
     <!-- SEO -->

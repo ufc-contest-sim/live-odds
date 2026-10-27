@@ -4857,7 +4857,12 @@
            row is hidden, so a Sort control above the table takes over sorting. */
         .m-sort { display: none; }
         @media (max-width: 600px) {
-            .m-sort { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; }
+            /* the cards stand on the page: no table box around them */
+            #username-table, #lineup-table, #portfolio-table, .whatif-table-scroll { background: transparent !important; border: 0 !important; box-shadow: none !important; overflow: visible !important; }
+            .whatif-table-scroll .table-scroll, #username-table .table-scroll, #lineup-table .table-scroll, #portfolio-table .table-scroll { background: transparent; border: 0; }
+            #username-table tr.row-main > td:not(:nth-child(-n+3)), #lineup-table tr.row-main > td:not(:nth-child(-n+3)), #portfolio-table tr.row-main > td:not(:nth-child(-n+3)), .whatif-table-scroll tr.row-main > td:not(:nth-child(-n+3)) { font-weight: 600; }
+            #username-table tr.row-main > td::before, #lineup-table tr.row-main > td::before, #portfolio-table tr.row-main > td::before, .whatif-table-scroll tr.row-main > td::before { color: var(--ink-3); opacity: 0.85; }
+            .m-sort { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; }
             .m-sort label { font-size: 0.78rem; color: var(--text-secondary); }
             .m-sort select { flex: 1 1 auto; min-width: 0; padding: 9px 10px; border-radius: var(--r-md); border: 1px solid var(--line-2);
                 background: var(--fn-card-2, var(--bg-card)); color: var(--text-primary); font-family: var(--fn-body); font-size: 0.88rem; }
@@ -4866,10 +4871,10 @@
             #username-table .table-scroll, #lineup-table .table-scroll, #portfolio-table .table-scroll, .whatif-table-scroll .table-scroll { overflow: visible !important; max-height: none !important; }
             #username-table table, #lineup-table table, #portfolio-table table, .whatif-table-scroll table { min-width: 0 !important; width: 100%; display: block; }
             #username-table thead, #lineup-table thead, #portfolio-table thead, .whatif-table-scroll thead { display: none; }
-            #username-table tbody, #lineup-table tbody, #portfolio-table tbody, .whatif-table-scroll tbody { display: flex; flex-direction: column; gap: 8px; }
+            #username-table tbody, #lineup-table tbody, #portfolio-table tbody, .whatif-table-scroll tbody { display: flex; flex-direction: column; gap: 14px; }
             #username-table tr.row-main, #lineup-table tr.row-main, #portfolio-table tr.row-main, .whatif-table-scroll tr.row-main {
-                display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px 8px; align-items: start;
-                padding: 12px 12px 13px; border: 1px solid var(--line-1); border-radius: var(--r-md); background: var(--fn-card-2, var(--bg-card));
+                display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px 10px; align-items: start;
+                padding: 14px 16px 12px; border: 1px solid var(--line-1); border-radius: var(--r-md); background: var(--fn-card-2, var(--bg-card));
             }
             #username-table tr.row-main.expanded, #lineup-table tr.row-main.expanded, #portfolio-table tr.row-main.expanded, .whatif-table-scroll tr.row-main.expanded { border-color: rgba(var(--a-rgb), 0.45); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
             #username-table tr.row-main > td, #lineup-table tr.row-main > td, #portfolio-table tr.row-main > td, .whatif-table-scroll tr.row-main > td { display: block; padding: 0; border: 0; background-color: transparent; text-align: left; white-space: nowrap;
@@ -4877,7 +4882,7 @@
             /* labelled tiles: a small caption over each number, and the share bar as a thin line under it */
             #username-table tr.row-main > td::before, #lineup-table tr.row-main > td::before, #portfolio-table tr.row-main > td::before, .whatif-table-scroll tr.row-main > td::before { display: block; font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.08em;
                 text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
-            #username-table tr.row-main > td.depth, #lineup-table tr.row-main > td.depth, #portfolio-table tr.row-main > td.depth, .whatif-table-scroll tr.row-main > td.depth { padding-bottom: 6px; background-size: calc(var(--p, 0) * 100%) 3px, 100% 3px; background-position: 0 100%, 0 100%; }
+            #username-table tr.row-main > td.depth, #lineup-table tr.row-main > td.depth, #portfolio-table tr.row-main > td.depth, .whatif-table-scroll tr.row-main > td.depth { background-image: none; }
             /* the top line of each card */
             #username-table tr.row-main > td:nth-child(1), .whatif-table-scroll tr.row-main > td:nth-child(1) { grid-row: 1; grid-column: 1 / span 1; align-self: center; }
             #username-table tr.row-main > td:nth-child(2), .whatif-table-scroll tr.row-main > td:nth-child(2) { grid-row: 1; grid-column: 2 / span 1; align-self: center; color: var(--text-secondary); font-size: 0.8rem; }
@@ -4944,7 +4949,7 @@
             .whatif-table-scroll tr.row-main > td:nth-child(6)::before { content: "Salary"; }
             .whatif-table-scroll tr.row-main > td:nth-child(7)::before { content: "Copies"; }
             /* the expanded part hangs off the bottom of its card */
-            #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -8px; border: 1px solid rgba(var(--a-rgb), 0.45); border-top: 0;
+            #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 1px solid rgba(var(--a-rgb), 0.45); border-top: 0;
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
             #username-table tr.lineup-row.expanded > td, #lineup-table tr.lineup-row.expanded > td, #portfolio-table tr.lineup-row.expanded > td, .whatif-table-scroll tr.lineup-row.expanded > td { display: block; padding: 0; border: 0; }
             #username-table .lineup-container, #lineup-table .lineup-container, #portfolio-table .lineup-container, .whatif-table-scroll .lineup-container, #username-table .username-tiles, #lineup-table .username-tiles, #portfolio-table .username-tiles, .whatif-table-scroll .username-tiles { position: static; max-width: none; padding: 10px; }

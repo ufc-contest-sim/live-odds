@@ -8238,6 +8238,15 @@
             return out;
         }
 
+        let fieldStandingsFor = null, fieldStandingsMap = null;
+        function fieldStandings() {
+            if (fieldStandingsFor !== allData) {
+                fieldStandingsMap = new Map(projectedStandings(allData || []).map((o, i) => [o.row, { row: o.row, pos: o.pos, medal: o.medal, i }]));
+                fieldStandingsFor = allData;
+            }
+            return fieldStandingsMap;
+        }
+
         function setStandingsView(v) { standChoice = v; filterAndRender(); }
 
         function renderStandings(data) {
@@ -8274,7 +8283,10 @@
             box.classList.toggle('standings-on', on);
             if (!on) { wrap.innerHTML = ''; return false; }
 
-            const list = projectedStandings(data);
+            // places count every entry in the contest, so a searched name or a
+            // filter shows its own lineups at their real places (1, 5, 11, 54...)
+            const placed = fieldStandings();
+            const list = data.filter(r => placed.has(r)).map(r => placed.get(r)).sort((a, b) => a.i - b.i);
             const shown = list.slice(0, 1000);
             document.getElementById('row-count').textContent =
                 `Showing ${shown.length.toLocaleString()} of ${list.length.toLocaleString()} lineups`;

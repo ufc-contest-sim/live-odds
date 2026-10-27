@@ -11048,7 +11048,9 @@
                             if (!arr.some(f => f.name === name)) arr.push({ name, salary: parseFloat(String(r['Salary'] || '').replace(/[^0-9.]/g, '')) || 0 });
                         }
                         // fight order comes from each bout's start time in Game Info
-                        // ("Orolbai@Wells 08/15/2026 05:30PM ET") — earliest = fight 1
+                        // ("Orolbai@Wells 08/15/2026 05:30PM ET"), numbered the way the
+                        // card is billed: the main event (latest start) is fight 1 at
+                        // the top and the opener comes last
                         const timeOf = g => {
                             const m = (g || '').match(/(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(AM|PM)/);
                             if (!m) return Infinity;
@@ -11056,9 +11058,10 @@
                             return Date.UTC(+m[3], +m[1] - 1, +m[2], h, +m[5]);
                         };
                         const bouts = [...byGame.entries()].map(([g, b]) => { b.time = timeOf(g); return b; });
-                        // favorite on the left; fight 1 (earliest start) first
+                        // favorite on the left; fight 1 (latest start, the main event) first;
+                        // a bout with no start time goes to the end
                         bouts.forEach(b => b.sort((a, z) => z.salary - a.salary));
-                        bouts.sort((a, z) => a.time - z.time ||
+                        bouts.sort((a, z) => (a.time === Infinity) - (z.time === Infinity) || (z.time - a.time) ||
                             Math.max(...z.map(f => f.salary)) - Math.max(...a.map(f => f.salary)));
                         // the sim's fight IDs win: a bout takes the FightID of either fighter;
                         // bouts the file doesn't know keep their start-time order at the end

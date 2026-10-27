@@ -3047,7 +3047,7 @@
             /* phones: each bout is a two-line scoreboard, one fighter per line with
                a big photo, the full name and his score box on the right */
             /* contest view tabs: separate tiles, the same as the landing nav */
-            .leaderboard-page .lb-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; }
+            .leaderboard-page .lb-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0; background: transparent; border: 0; box-shadow: none; }
             .leaderboard-page .lb-tabs .tab-btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
             .leaderboard-page .lb-tabs .tab-btn {
                 margin: 0; padding: 10px 6px; border: 0; border-radius: var(--r-md); text-align: center;
@@ -4433,10 +4433,11 @@
         .live-ticker.is-static .live-ticker-track b { color: var(--text-primary); }
 
         /* --- level 1: site sections, one contained strip --- */
+        /* the tabs stand on the page as their own tiles, with no box around the row */
         .landing-nav {
-            display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px;
-            margin: 0 0 16px; padding: 6px;
-            background: var(--bg-card); border: 1px solid var(--line-2); border-radius: var(--r-lg);
+            display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px;
+            margin: 0 0 16px; padding: 0;
+            background: transparent; border: 0; border-radius: 0;
         }
         .lnav-tab {
             padding: 12px 8px; border: 0; border-radius: var(--r-md); background: transparent;
@@ -4484,7 +4485,7 @@
         .contest-caption { font-family: var(--fn-body); font-size: 0.78rem; color: var(--ink-3); margin: 0 4px 8px; }
 
         @media (max-width: 600px) {
-            .landing-nav { grid-auto-flow: row; grid-template-columns: 1fr 1fr; gap: 4px; }
+            .landing-nav { grid-auto-flow: row; grid-template-columns: 1fr 1fr; gap: 6px; }
             .landing-nav .lnav-tab:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* an odd count: the last tab spans the row */
             .lnav-tab { padding: 10px 6px; font-size: 0.75rem; letter-spacing: 0.04em; }
             .view-tabs { width: auto; }

@@ -4963,7 +4963,15 @@
             #portfolio-table tr.row-main > td:nth-child(3) { display: none; }
             #portfolio-table tr.row-main > td:nth-child(4), #portfolio-table tr.row-main > td:nth-child(5), #portfolio-table tr.row-main > td:nth-child(6) { grid-column: span 4; }
             #portfolio-table tr.row-main > td:nth-child(4) { align-items: flex-start; text-align: left; }
-            #portfolio-table .pf-n { display: inline; color: var(--text-secondary); font-weight: 600; }
+            #portfolio-table tr.row-main > td:nth-child(2) { white-space: normal; overflow: visible; line-height: 1.35; }
+            #portfolio-table .pf-n { display: inline-block; white-space: nowrap; margin-left: 8px; color: var(--text-secondary); font-size: 0.78rem; font-weight: 600; }
+            /* the rank sits on a small orange tile */
+            #username-table .rk, #lineup-table .rk, #portfolio-table .rk, .whatif-table-scroll .rk { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 22px; padding: 0 6px; box-sizing: border-box;
+                border-radius: 6px; background: rgba(var(--a-rgb), 0.16); border: 1px solid rgba(var(--a-rgb), 0.5); color: var(--accent-hi); font-family: var(--fn-mono); font-size: 0.74rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+            /* phones: the rank tile rides inside the name cell, right beside the name */
+            #username-table tr.row-main > td:nth-child(1), #username-table tr.row-main > td:nth-child(2), .whatif-table-scroll tr.row-main > td:nth-child(1), .whatif-table-scroll tr.row-main > td:nth-child(2), #portfolio-table tr.row-main > td:nth-child(1) { display: none; }
+            #username-table tr.row-main > td:nth-child(3), .whatif-table-scroll tr.row-main > td:nth-child(3), #portfolio-table tr.row-main > td:nth-child(2) { grid-column: 1 / span 8; }
+            #username-table .rk-in, .whatif-table-scroll .rk-in, #portfolio-table .rk-in { display: inline-flex; margin-right: 10px; vertical-align: 2px; }
             /* the expanded part hangs off the bottom of its card */
             #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 2px solid rgba(var(--a-rgb), 0.55); border-top: 0;
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
@@ -5050,7 +5058,7 @@
             .lineup-container .chip-grid .fph.chip { width: 46px; height: 46px; }
             #username-table .lineup-container, .whatif-table-scroll .lineup-container { padding: 12px 14px; }
         }
-        .pf-n { display: none; }
+        .pf-n, .rk-in { display: none; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -6095,7 +6103,9 @@
             }
             const label = el => {
                 const inner = el.querySelector && el.querySelector('td.username, .username, .lu-line, .fav-name');
-                return el.getAttribute('aria-label') || el.getAttribute('title') || (inner ? inner.textContent : el.textContent) || '';
+                // the phone rank tile and entry count are not part of the name
+                const text = n => { const c = n.cloneNode(true); c.querySelectorAll && c.querySelectorAll('.rk-in, .pf-n').forEach(x => x.remove()); return c.textContent; };
+                return el.getAttribute('aria-label') || el.getAttribute('title') || (inner ? text(inner) : el.textContent) || '';
             };
             document.addEventListener('click', e => {
                 const el = e.target.closest('.fav-remove, .favorites-tiles > *, .fighter-option, tr.row-main, .search-result-card, .sr-row, th.sortable, .lnav-tab, .tab-btn, button, a[href]');
@@ -8722,8 +8732,8 @@
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span></td>
-                        <td class="num">${idx + 1}</td>
-                        <td class="username">${row.Username || ''}</td>
+                        <td class="num"><span class="rk">${idx + 1}</span></td>
+                        <td class="username"><span class="rk rk-in">${idx + 1}</span>${row.Username || ''}</td>
                         <td class="num">${fmtWin(row.WinPct)}</td>
                         <td class="num">${row.SecondPct != null ? fmtWin(row.SecondPct) : '--'}</td>
                         <td class="num">${row.ThirdPct != null ? fmtWin(row.ThirdPct) : '--'}</td>
@@ -8854,7 +8864,7 @@
                     a.localeCompare(b, undefined, { sensitivity: 'base' }));
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
-                        <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> ${idx + 1}</td>
+                        <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span> <span class="rk">${idx + 1}</span></td>
                         <td><div class="lu-line">${fighterLine(lineup.fighters)}</div></td>
                         <td class="num">${fmtWin(lineup.WinPct)}</td>
                         <td class="num">${lineup.SecondPct != null ? fmtWin(lineup.SecondPct) : '--'}</td>
@@ -9162,8 +9172,8 @@
             tbody.innerHTML = displayData.map((portfolio, idx) => {
                 return `
                     <tr class="row-main">
-                        <td>${idx + 1}</td>
-                        <td class="username">${portfolio.Username}<span class="pf-n"> (${portfolio.Entries})</span></td>
+                        <td><span class="rk">${idx + 1}</span></td>
+                        <td class="username"><span class="rk rk-in">${idx + 1}</span>${portfolio.Username}<span class="pf-n">${Number(portfolio.Entries).toLocaleString()} ${Number(portfolio.Entries) === 1 ? 'entry' : 'entries'}</span></td>
                         <td class="num">${portfolio.Entries}</td>
                         <td class="num">${fmtWin(portfolio.WinPct)}</td>
                         <td class="num">${portfolio.SecondPct != null ? fmtWin(portfolio.SecondPct) : '--'}</td>
@@ -9441,8 +9451,8 @@
                 return `
                     <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span></td>
-                        <td class="num">${idx + 1}</td>
-                        <td class="username">${row.Username || ''}</td>
+                        <td class="num"><span class="rk">${idx + 1}</span></td>
+                        <td class="username"><span class="rk rk-in">${idx + 1}</span>${row.Username || ''}</td>
                         <td class="num">${row.WhatIfScore.toFixed(2)}</td>
                         <td class="num ${row.WhatIfPayout > 0 ? 'positive' : ''}">${formatPayout(row.WhatIfPayout)}</td>
                         <td class="num">${row.TotalSalary ? '$' + Number(row.TotalSalary).toLocaleString() : '--'}</td>

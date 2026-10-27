@@ -2973,6 +2973,25 @@
             .fmx-card .edge { font-size: 0.66rem; }
         }
         .fmx-wide { max-width: 860px; }
+        /* fighter photos: a round crop of the UFC shot on the cards, the upper body in the matchup */
+        .fmx-card .side { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .fmx-card .side.rt { justify-content: flex-end; }
+        .fph { position: relative; flex: none; width: 48px; height: 48px; border-radius: 50%; overflow: hidden;
+            background: linear-gradient(160deg, #2a2620, #17151a); border: 1px solid var(--glass-border); }
+        .fph .ini { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.5px; }
+        .fph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 4%; transform: scale(1.5); transform-origin: 50% 0; }
+        .fmx-faces { display: flex; justify-content: space-between; align-items: flex-end; margin: -6px 0 4px; }
+        .fph.big { width: 132px; height: 150px; border-radius: 0; border: 0; background: none; overflow: visible; }
+        .fph.big .ini { font-size: 1.6rem; border-radius: 50%; width: 84px; height: 84px; inset: auto 24px 10px; background: linear-gradient(160deg, #2a2620, #17151a); border: 1px solid var(--glass-border); }
+        .fph.big img { object-fit: contain; object-position: 50% 100%; transform: none; }
+        .fmx-faces .fph.big:last-child img { transform: scaleX(-1); }
+        .fph.big:has(img) .ini { display: none; }
+        @media (max-width: 600px) {
+            .fph { width: 38px; height: 38px; }
+            .fmx-card .side { gap: 8px; }
+            .fph.big { width: 96px; height: 112px; }
+            .fph.big .ini { width: 64px; height: 64px; inset: auto 16px 8px; font-size: 1.2rem; }
+        }
         /* body heat maps */
         .fmx-bodies { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; margin: 4px 0 6px; }
         .fmx-fig { text-align: center; min-width: 0; }
@@ -6418,8 +6437,18 @@
             let eventName = '', boutCount = 0;
             try {
                 const fo = await (await fetch('fight_order.json?v=' + Date.now())).json();
-                eventName = String(fo.source || '').replace(/^UFC Stats:\s*/i, '').trim();
-                boutCount = Array.isArray(fo.fights) ? fo.fights.length : 0;
+                const src = String(fo.source || '');
+                // only a UFC Stats source carries the event's name; the workbook
+                // fallback writes its filename there, so name the card after its
+                // main event instead ("Fiziev vs. Torres")
+                if (/^UFC Stats:/i.test(src)) eventName = src.replace(/^UFC Stats:\s*/i, '').trim();
+                else {
+                    const top = (fo.fights || []).slice().sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0))[0];
+                    const last = n => String(n || '').trim().replace(/\s+(jr|sr|ii|iii|iv)\.?$/i, '').split(/\s+/).pop();
+                    const onSlate = n => fighters.some(([f]) => tnorm(f) === tnorm(n));
+                    if (top && Array.isArray(top.fighters) && top.fighters.length === 2 && top.fighters.every(onSlate)) eventName = last(top.fighters[0]) + ' vs. ' + last(top.fighters[1]);
+                }
+                if (eventName || /^UFC Stats:/i.test(src)) boutCount = Array.isArray(fo.fights) ? fo.fights.length : 0;
             } catch (e) { /* no fight order yet */ }
             const dateStr = lockAt ? new Date(lockAt).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York' }) : '';
             const evBits = [eventName, dateStr, boutCount ? `${boutCount} bouts` : ''].filter(Boolean);
@@ -6458,16 +6487,18 @@
                 }).join('');
             }
 
+            // before any score is locked there is nothing to say up there yet, so
+            // the bar stays hidden; it appears once scores start scrolling
             if (staticLine) {
-                ticker.classList.add('is-static');
-                track.style.animationDuration = '';
-                track.innerHTML = staticLine;
+                ticker.classList.remove('is-static');
+                track.innerHTML = '';
+                ticker.style.display = 'none';
             } else {
                 ticker.classList.remove('is-static');
                 // duplicate for a seamless loop
                 track.innerHTML = items + items;
+                ticker.style.display = 'block';
             }
-            ticker.style.display = 'block';
 
             // contest count and publish time live in the table caption now
             const cap = document.getElementById('contest-caption');
@@ -10971,6 +11002,12 @@
                         const key = n => (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z]/g, '');
                         const fidOf = new Map();
                         ((order && order.fights) || []).forEach(f => (f.fighters || []).forEach(n => fidOf.set(key(n), +f.fight_id)));
+                        // a fight order written for another card (the workbook not yet
+                        // updated for this slate) would pull a stray bout or two to the
+                        // front; use it only when it covers most of the slate
+                        const slateN = bouts.reduce((t, b) => t + b.length, 0);
+                        const known = bouts.reduce((t, b) => t + b.filter(f => fidOf.has(key(f.name))).length, 0);
+                        if (known < slateN * 0.6) fidOf.clear();
                         bouts.forEach(b => { const hit = b.map(f => fidOf.get(key(f.name))).find(v => v != null); b.fid = hit != null ? hit : null; });
                         if (bouts.some(b => b.fid != null)) {
                             const rank = new Map(bouts.map((b, i) => [b, i]));
@@ -10979,6 +11016,36 @@
                         return bouts;
                     });
             }
+            // ==================== FIGHTER PHOTOS ====================
+            // fighter_images.json (written by publish from this week's UFC.com
+            // event page) holds a photo link per fighter; the photos themselves
+            // load from UFC's image server. A fighter without one gets initials.
+            let fighterPhotosP = null, FIGHTER_PHOTOS = new Map();
+            const photoKey = n => (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z]/g, '');
+            function loadFighterPhotos() {
+                if (fighterPhotosP) return fighterPhotosP;
+                return fighterPhotosP = fetch('fighter_images.json?v=' + Date.now())
+                    .then(r => r.ok ? r.json() : null)
+                    .then(j => {
+                        const m = new Map();
+                        Object.entries((j && j.fighters) || {}).forEach(([n, v]) => {
+                            const url = v && (v.photo || v);
+                            if (typeof url !== 'string' || !/^https:\/\//.test(url)) return;
+                            m.set(photoKey(n), url);
+                            if (v.ufc_name) m.set(photoKey(v.ufc_name), url);
+                        });
+                        return FIGHTER_PHOTOS = m;
+                    })
+                    .catch(() => FIGHTER_PHOTOS);
+            }
+            function photoHTML(name, cls) {
+                const url = FIGHTER_PHOTOS.get(photoKey(name));
+                const ini = esc(String(name || '').split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase());
+                // a photo that fails to load falls back to the initials underneath it
+                return `<span class="fph ${cls || ''}" aria-hidden="true"><span class="ini">${ini}</span>` +
+                    (url ? `<img src="${esc(url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : '') + `</span>`;
+            }
+
             // ==================== WEEKLY MATCHUPS (fmx) ====================
             // Every bout on the slate as a card; tapping one opens a head-to-head
             // card with body heat maps and the crossed offense-vs-defense reads.
@@ -10990,7 +11057,7 @@
             }
             function renderMatchups() {
                 const el = document.getElementById('fluMatchups');
-                loadSlateBouts().then(bouts => {
+                Promise.all([loadSlateBouts(), loadFighterPhotos()]).then(([bouts]) => {
                     FMX_BOUTS = bouts;
                     if (!bouts.length) { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; return; }
                     const isV2 = false;
@@ -11003,9 +11070,9 @@
                             const split = Math.max(0, Math.min(1, a.salary / ((a.salary + z.salary) || 1)));
                             return `<button type="button" class="fmx-card" data-bout="${i}">` +
                                 `<span class="fno">Fight ${b.fid != null ? b.fid : i + 1}</span>` +
-                                `<span class="nm">${esc(a.name)}<span class="sal${a.salary >= z.salary ? ' hi' : ''}">$${a.salary.toLocaleString()}</span></span>` +
+                                `<span class="side">${photoHTML(a.name)}<span class="nm">${esc(a.name)}<span class="sal${a.salary >= z.salary ? ' hi' : ''}">$${a.salary.toLocaleString()}</span></span></span>` +
                                 `<span class="vs">VS</span>` +
-                                `<span class="nm rt">${esc(z.name)}<span class="sal${z.salary > a.salary ? ' hi' : ''}">$${z.salary.toLocaleString()}</span></span>` +
+                                `<span class="side rt"><span class="nm rt">${esc(z.name)}<span class="sal${z.salary > a.salary ? ' hi' : ''}">$${z.salary.toLocaleString()}</span></span>${photoHTML(z.name)}</span>` +
                                 `<span class="edge"><span class="fmx-split" style="--p:${split.toFixed(4)}"></span>${bits.join('<span class="fmx-sep"> &middot; </span>')}</span></button>`;
                         }).join('') + `</div>`;
                 }).catch(() => { el.innerHTML = `<div class="fmx-empty">This week's slate hasn't been posted yet.</div>`; });
@@ -11077,6 +11144,7 @@
                 const fmt = (p, k, d, u) => fmtOr(p, k, d, u);
                 let h = `<div class="fxm-card fmx-wide" role="dialog" aria-modal="true">`;
                 h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
+                h += `<div class="fmx-faces">${photoHTML(a.name, 'big')}${photoHTML(z.name, 'big')}</div>`;
                 h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(a.name)}</span><span class="vs">vs</span><span class="op">${esc(z.name)}</span></div>` +
                     `<div class="fxm-sub" style="display:flex;justify-content:space-between">` +
                     `<span>$${a.salary.toLocaleString()}${fmxMeta(pa)}</span>` +

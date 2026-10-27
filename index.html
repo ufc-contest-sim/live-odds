@@ -3309,7 +3309,7 @@
         .hbp-head .rk { font-family: 'Chakra Petch', monospace; font-weight: 700; color: var(--accent); }
         .hbp-head .nm { flex: 1; min-width: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .hbp-head .tot { font-family: 'Chakra Petch', monospace; font-weight: 700; font-size: 1.05rem; color: var(--accent); }
-        .hbp-f { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 0.85rem; }
+        .hbp-f { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 0.85rem; }
         .hbp-f .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .hbp-f .sal { font-family: 'Chakra Petch', monospace; font-size: 0.72rem; color: var(--text-secondary); }
         .hbp-f .sc { font-family: 'Chakra Petch', monospace; font-weight: 600; min-width: 44px; text-align: right; }
@@ -4995,6 +4995,16 @@
             .sr-full { display: none; } .sr-short { display: inline; }
             .sr-name { font-size: 0.88rem; }
             .sr-n { font-size: 0.86rem; }
+        }
+        /* wide screens: two bouts per row, so the card fills the panel instead of one thin centered column */
+        @media (min-width: 1000px) {
+            #builder-view .hbw-bouts { max-width: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+            .hbw-bout { padding: 10px 2px; gap: 9px; }
+            .hbw-bouts .hbw-in { width: 64px; padding-left: 6px; padding-right: 6px; }
+            .hbw-cell { gap: 9px; }
+            .hbw-cell .fph.sm { width: 34px; height: 34px; }
+            /* full names, wrapping to a second line rather than cut off */
+            .hbw-bouts .hbw-cell .hb-name { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.2; }
         }
         /* --- refine: end --- */
 </style>
@@ -12319,7 +12329,7 @@
                     const dead = hbLineupDead(lu);
                     const rows = lu.slice().sort((a, b) => byFighterName(a.name, b.name)).map(f => {
                         const v = hbWhatIf[hbKey(f)];
-                        return `<div class="hbp-f${hbCancelled.has(hbKey(f)) ? ' out' : ''}"><span class="nm">${oEsc(f.name)}</span>` +
+                        return `<div class="hbp-f${hbCancelled.has(hbKey(f)) ? ' out' : ''}">${photoHTML(f.name, 'xs')}<span class="nm">${oEsc(f.name)}</span>` +
                             `<span class="sal">$${(f.salary || 0).toLocaleString()}</span>` +
                             `<span class="sc${v != null ? ' share' : ''}"${v != null ? ` style="--p:${Math.max(0, Math.min(1, +v / best)).toFixed(4)}"` : ''}>${v != null ? (+v).toFixed(1) : '&mdash;'}</span></div>`;
                     }).join('');

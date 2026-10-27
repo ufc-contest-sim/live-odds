@@ -2999,13 +2999,30 @@
         }
         /* a UFC headshot is already a face crop: show it whole in the circle */
         .fph.head img { object-position: 50% 0; transform: none; }
-        /* lineup chips: a small photo in place of the old F1-F6 tag */
-        .fph.chip { width: 24px; height: 24px; margin: -2px 0 -2px -4px; }
-        .fph.chip .ini { font-size: 0.52rem; }
+        /* lineup chips: the row's six fighters share its width, each with a
+           photo in place of the old F1-F6 tag and first name over last name */
+        /* six across when the table has room, else three, else two, so a row never ends half empty */
+        .lineup-container { display: block; container-type: inline-size; }
+        .chip-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+        @container (min-width: 440px) { .chip-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @container (min-width: 900px) { .chip-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+        .chip-grid .fighter-chip { padding: 8px 10px 8px 8px; gap: 9px; font-size: 0.92rem; min-width: 0; text-align: left; justify-content: flex-start; }
+        .chip-grid .fighter-chip .n2 { align-items: flex-start; }
+        .chip-grid .fighter-chip .n2 > span:first-child { font-size: 0.82em; }
+        .fph.chip { width: 40px; height: 40px; }
+        .fph.chip .ini { font-size: 0.72rem; }
+        @media (max-width: 600px) {
+            .chip-grid .fighter-chip { padding: 7px 9px 7px 8px; gap: 8px; font-size: 0.85rem; }
+            .fph.chip { width: 36px; height: 36px; }
+        }
         /* Fighter Exposure: photo, then first name over last name */
         .fx-who { display: flex; align-items: center; gap: 9px; min-width: 0; }
         .fph.sm { width: 32px; height: 32px; }
         .fph.sm .ini { font-size: 0.62rem; }
+        .fph.xs { width: 26px; height: 26px; }
+        .fph.xs .ini { font-size: 0.52rem; }
+        .hb-row .fph.sm, .hbw-cell .fph.sm { width: 38px; height: 38px; }
+        .lu-fighter .n2 { font-size: 0.92em; }
         .n2 { display: flex; flex-direction: column; min-width: 0; line-height: 1.18; }
         .n2 > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .n2 > span:first-child { font-weight: 500; color: var(--text-secondary); font-size: 0.92em; }
@@ -8467,12 +8484,12 @@
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
                         <td colspan="13">
                             <div class="lineup-container">
-                                ${fighters.map(f => `
+                                <div class="chip-grid">${fighters.map(f => `
                                     <div class="fighter-chip">
                                         ${photoHTML(f.name, 'chip')}
-                                        ${f.name}
+                                        ${twoLineName(f.name)}
                                     </div>
-                                `).join('')}
+                                `).join('')}</div>
                                 ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
                             </div>
                         </td>
@@ -8594,7 +8611,6 @@
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
                         <td colspan="10">
                             <div class="username-tiles">
-                                <div class="username-tiles-label">${sortedUsers.length} ${sortedUsers.length === 1 ? 'entry' : 'entries'} with this lineup</div>
                                 <div class="username-tiles-container">
                                     ${sortedUsers.length
                                         ? sortedUsers.map(u => `<div class="fighter-chip">${u}</div>`).join('')
@@ -9176,13 +9192,13 @@
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
                         <td colspan="7">
                             <div class="lineup-container">
-                                ${fighters.map(f => `
+                                <div class="chip-grid">${fighters.map(f => `
                                     <div class="fighter-chip">
                                         ${photoHTML(f.name, 'chip')}
-                                        ${f.name}
+                                        ${twoLineName(f.name)}
                                         ${f.score !== null ? `<span style="color: var(--accent-green); font-weight: 600; margin-left: 4px;">${f.score}</span>` : ''}
                                     </div>
-                                `).join('')}
+                                `).join('')}</div>
                                 ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
                             </div>
                         </td>
@@ -11516,7 +11532,7 @@
                 const body = document.getElementById('optGridBody');
                 body.innerHTML = FIGHTERS.map((f, i) => `
                     <tr class="${f.exclude ? 'excluded' : ''}${f.lock ? ' locked' : ''}" data-i="${i}">
-                        <td class="l" style="font-weight:600">${oEsc(f.name)}</td>
+                        <td class="l" style="font-weight:600"><span class="fx-who">${photoHTML(f.name, 'sm')}<span>${oEsc(f.name)}</span></span></td>
                         <td class="l" style="color:var(--text-secondary)">${oEsc(f.matchup)}</td>
                         <td class="sal">$${f.salary.toLocaleString()}</td>
                         <td class="proj-cell"><input type="number" step="0.1" data-k="proj" class="${f.proj ? 'filled' : ''}" value="${f.proj || ''}" placeholder="0"></td>
@@ -11748,7 +11764,7 @@
                 const hasCap = lastOwnCap != null && !isNaN(lastOwnCap);
                 document.getElementById('optResultsBody').innerHTML = lastLineups.map(lu => {
                     const players = lu.players.slice().sort((a, b) => byFighterName(a.name, b.name));
-                    const cells = players.map(p => `<td class="lu-fighter">${oEsc(p.name)}</td>`).join('');
+                    const cells = players.map(p => `<td class="lu-fighter"><span class="fx-who">${photoHTML(p.name, 'xs')}${twoLineName(p.name)}</span></td>`).join('');
                     const ownCls = hasCap && lu.own > lastOwnCap ? 'lu-over' : 'lu-num';
                     const tag = lu.stacked ? '<span class="lu-stack-tag">stack</span>' : '';
                     return `<tr class="${lu.stacked ? 'lu-stacked' : ''}">
@@ -11866,7 +11882,7 @@
             function ensureSalary() {
                 if (salaryPromise) return salaryPromise;
                 salaryPromise = (async () => {
-                    const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                    const [resp] = await Promise.all([fetch('DKSalaries.csv?v=' + Date.now()), loadFighterPhotos()]);
                     if (!resp.ok) throw new Error('slate not posted');
                     FIGHTERS = loadSalaryCSV(await resp.text());
                     renderGrid();
@@ -12063,7 +12079,7 @@
                     Math.max(...y.map(f => f.salary || 0)) - Math.max(...x.map(f => f.salary || 0)));
                 const cell = (f, right) => {
                     const k = hbKey(f), v = hbWhatIf[k];
-                    return `<div class="hbw-cell${right ? ' r' : ''}"><div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div>` +
+                    return `<div class="hbw-cell${right ? ' r' : ''}">${photoHTML(f.name, 'sm')}<div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div>` +
                         `<div class="hb-match">$${(f.salary || 0).toLocaleString()}</div></div>` +
                         `<input class="hbw-in" type="number" inputmode="decimal" step="0.1" placeholder="&mdash;"` +
                         ` data-k="${oEsc(k)}" value="${v != null ? v : ''}" aria-label="What-if score for ${oEsc(f.name)}"></div>`;
@@ -12305,7 +12321,7 @@
                     const f = hbPicks[i];
                     if (f) {
                         const lk = hbLocks.has(hbKey(f)) ? `<span class="lk" title="Locked into every lineup">${HB_LOCK_SVG}</span>` : '';
-                        html += `<div class="hb-slot">${lk}<span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
+                        html += `<div class="hb-slot">${lk}${photoHTML(f.name, 'xs')}<span class="nm">${oEsc(f.name)}</span><span class="sl">$${(f.salary || 0).toLocaleString()}</span><button class="rm" data-k="${oEsc(hbKey(f))}" aria-label="Remove ${oEsc(f.name)}">×</button></div>`;
                     }
                     else html += `<div class="hb-slot empty">Slot ${i + 1}</div>`;
                 }
@@ -12332,7 +12348,7 @@
                     const locked = hbLocks.has(hbKey(f));
                     const cx = hbCancelled.has(hbKey(f));
                     return `<div class="hb-row${picked ? ' picked' : ''}${cant ? ' cant' : ''}${cx ? ' cx' : ''}" data-k="${oEsc(hbKey(f))}">
-                        <div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}${cx ? ' · <span class="dead-tag">out</span>' : ''}</div></div>
+                        ${photoHTML(f.name, 'sm')}<div class="hb-info"><div class="hb-name">${oEsc(f.name)}</div><div class="hb-match">${oEsc(f.matchup || '')}${cx ? ' · <span class="dead-tag">out</span>' : ''}</div></div>
                         <div class="hb-sal">$${(f.salary || 0).toLocaleString()}</div>
                         <button class="hb-cxbtn${cx ? ' on' : ''}" tabindex="-1" title="${cx ? 'Mark back in' : 'Mark this fighter out — flags lineups with them'}" aria-label="${cx ? 'Mark in:' : 'Mark out:'} ${oEsc(f.name)}">✕</button>
                         <button class="hb-lockbtn${locked ? ' on' : ''}" tabindex="-1" title="${locked ? 'Unlock' : 'Lock into every lineup'}" aria-label="${locked ? 'Unlock' : 'Lock'} ${oEsc(f.name)}">${locked ? HB_LOCK_SVG : HB_UNLOCK_SVG}</button>

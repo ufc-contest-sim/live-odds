@@ -3020,6 +3020,22 @@
         .fph.sm { width: 32px; height: 32px; }
         .fph.sm .ini { font-size: 0.62rem; }
         .fph.xs { width: 26px; height: 26px; }
+        /* contest What If fight card: photo on the outer side of each name */
+        /* photos sit on the outer edges in a straight column; names stay beside the score boxes */
+        .fighter-name-label.wi { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; }
+        .fighter-name-label.wi.slot2 { flex-direction: row-reverse; }
+        .fighter-name-label.wi.slot1 > span { text-align: right; }
+        .fighter-name-label.wi.slot2 > span { text-align: left; }
+        .fighter-name-label.wi .fph.sm { width: 36px; height: 36px; }
+        @media (max-width: 480px) {
+            /* narrow phones: the photo above the name, so the name keeps the full width */
+            .fighter-name-label.wi, .fighter-name-label.wi.slot2 { flex-direction: column; justify-content: center; gap: 4px; overflow-wrap: normal; }
+            .fighter-name-label.wi.slot1 { align-items: flex-end; }
+            .fighter-name-label.wi.slot2 { align-items: flex-start; }
+            .fighter-name-label.wi .fph.sm { width: 28px; height: 28px; }
+            .fighter-name-label.wi .fph .ini { font-size: 0.52rem; }
+            .fighter-name-label.wi > span { overflow-wrap: break-word; hyphens: auto; }
+        }
         .fph.xs .ini { font-size: 0.52rem; }
         .hb-row .fph.sm, .hbw-cell .fph.sm { width: 38px; height: 38px; }
         .lu-fighter .n2 { font-size: 0.92em; }
@@ -8959,7 +8975,7 @@
 
                     return `
                         <div class="fight-row">
-                            <div class="fighter-name-label slot1">${f1Name}</div>
+                            <div class="fighter-name-label slot1 wi">${photoHTML(f1Name, 'sm')}<span>${f1Name}</span></div>
                             <input type="number" step="any"
                                 class="fight-score-input ${f1Score !== '' ? 'has-value' : ''} ${f1Prefilled ? 'prefilled' : ''}"
                                 data-fighter="${f1Name.replace(/"/g, '&quot;')}"
@@ -8973,7 +8989,7 @@
                                 value="${f2Score}"
                                 placeholder="0"
                                 oninput="onWhatIfScoreChange(this)">
-                            <div class="fighter-name-label slot2">${f2Name}</div>
+                            <div class="fighter-name-label slot2 wi">${photoHTML(f2Name, 'sm')}<span>${f2Name}</span></div>
                         </div>
                     `;
                 }).join('');

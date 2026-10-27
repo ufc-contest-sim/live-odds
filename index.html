@@ -2985,7 +2985,8 @@
         .fph.big .ini { font-size: 1.6rem; border-radius: 50%; width: 84px; height: 84px; inset: auto 24px 10px; background: linear-gradient(160deg, #2a2620, #17151a); border: 1px solid var(--glass-border); }
         .fph.big img { object-fit: contain; object-position: 50% 100%; transform: none; }
         .fph.big img.flip { transform: scaleX(-1); }
-        .fph.big:has(img) .ini { display: none; }
+        /* the initials are only a fallback: hidden while a photo is there, back if it fails to load */
+        .fph:has(img) .ini { display: none; }
         @media (max-width: 600px) {
             .fph { width: 38px; height: 38px; }
             .fmx-card .side { gap: 8px; }

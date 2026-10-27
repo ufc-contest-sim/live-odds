@@ -1,25 +1,34 @@
-"""Write fighter_images.json so the website can show each fighter's UFC.com photo.
+"""Save UFC.com photo links so the website can show each fighter's photo.
 
-Reads this week's event page on UFC.com, takes the photo UFC shows for each
-fighter on the fight card, and saves the photo links by fighter name, using
-the DraftKings spelling from DKSalaries.csv where the names match. Only the
-links are saved; the photos themselves stay on UFC's image server.
+Event mode (what publish.bat runs) reads this week's event page on UFC.com,
+takes the full-body shot UFC shows for each fighter on the fight card, and
+adds the links to fighter_images.json under the DraftKings spelling from
+DKSalaries.csv where the names match. Fighters already in the file from
+earlier weeks are kept, so the file builds up over time. The event is found
+on UFC.com's events page (the upcoming event whose fighters best match
+DKSalaries.csv), or you can name one or more events yourself.
 
-The event is found on UFC.com's events page (the upcoming event whose
-fighters best match DKSalaries.csv), or you can name it:
+Roster mode reads every page of UFC.com's athlete list and saves each
+athlete's headshot link to fighter_headshots.json. It is a one-off (run it
+again now and then for new signings), it waits a moment between pages, and
+it takes a few minutes. It is not part of publish.bat.
 
-Usage:  python export_fighter_images.py [event URL]
-        python export_fighter_images.py https://www.ufc.com/event/ufc-fight-night-october-31-2026
+Only links are saved; the photos themselves stay on UFC's image server.
 
-publish.bat runs this before it stages the files. It never stops a publish:
-if UFC.com can't be reached or nothing matches, it prints why, leaves the
-existing fighter_images.json as it is, and exits normally.
+Usage:  python export_fighter_images.py                      this week's event
+        python export_fighter_images.py URL [URL ...]          named events
+        python export_fighter_images.py https://www.ufc.com/event/ufc-333
+        python export_fighter_images.py --roster               every athlete's headshot
+
+It never stops a publish: if UFC.com can't be reached or nothing matches,
+it prints why, leaves the files as they are, and exits normally.
 """
 import csv
 import html as htmllib
 import json
 import re
 import sys
+import time
 import unicodedata
 import urllib.request
 from datetime import datetime
@@ -27,6 +36,10 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "fighter_images.json"
+HEADS = HERE / "fighter_headshots.json"
+ROSTER = "https://www.ufc.com/athletes/all"
+ROSTER_PAUSE = 1.0      # seconds between roster pages, to go easy on UFC.com
+ROSTER_MAX_PAGES = 400  # the list is a few hundred pages at most
 BASE = "https://www.ufc.com"
 TIMEOUT = 15
 HEADERS = {
@@ -134,59 +147,152 @@ def upcoming_events():
     return links[:5]
 
 
-def main():
-    names = slate()
-    counts = {}
-    for n in names.values():
-        counts[loose(n)] = counts.get(loose(n), 0) + 1
-    # a loose key two slate fighters share would be a guess, so it is left out
-    loose_names = {loose(n): n for n in names.values() if loose(n) and counts[loose(n)] == 1}
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    candidates = [args[0].split("#")[0]] if args else upcoming_events()
+def load(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+        return d if isinstance(d, dict) else {}
+    except Exception:
+        return {}
+
+
+def save(path, data):
+    tmp = path.with_suffix(".tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=1, ensure_ascii=False)
+    tmp.replace(path)
+
+
+def parse_roster(page):
+    """[(name, headshot url or None)] from one page of the athlete list."""
+    out = []
+    for card in re.split(r'class="c-listing-athlete-flipcard[ "]', page)[1:]:
+        m = re.search(r'c-listing-athlete__name"[^>]*>(.*?)</', card, re.S)
+        if not m:
+            continue
+        name = text(m.group(1))
+        photo = None
+        t = re.search(r'c-listing-athlete__thumbnail"[^>]*>(.*?)</div>\s*</div>', card, re.S)
+        im = re.search(r'<img[^>]+?(?:data-src|src)="([^"]+)"', t.group(1) if t else card)
+        if im:
+            photo = htmllib.unescape(im.group(1))
+            if photo.startswith("/"):
+                photo = BASE + photo
+            if PLACEHOLDER.search(photo):
+                photo = None
+        if name:
+            out.append((name, photo))
+    return out
+
+
+def roster():
+    have = load(HEADS).get("fighters", {})
+    found, seen_first, pages = {}, None, 0
+    for n in range(ROSTER_MAX_PAGES):
+        page = fetch(f"{ROSTER}?page={n}")
+        if not page:
+            break
+        cards = parse_roster(page)
+        if not cards:
+            if n == 0:
+                (HERE / "roster_page_debug.html").write_text(page, encoding="utf-8")
+                say("found no athletes on the first roster page; saved it as roster_page_debug.html "
+                    "so the reader can be fixed. fighter_headshots.json left as it is.")
+                return 0
+            break
+        if cards[0][0] == seen_first:
+            break   # past the last page the list repeats itself
+        seen_first = cards[0][0]
+        pages += 1
+        for name, photo in cards:
+            if photo:
+                found[name] = photo
+        if pages % 25 == 0:
+            say(f"read {pages} pages, {len(found)} headshots so far...")
+        time.sleep(ROSTER_PAUSE)
+    if not found:
+        say("no headshots found; fighter_headshots.json left as it is.")
+        return 0
+    merged = dict(have)
+    merged.update(found)
+    save(HEADS, {"generated": datetime.now().isoformat(timespec="seconds"), "source": ROSTER, "fighters": merged})
+    say(f"wrote fighter_headshots.json: {len(found)} headshots from {pages} pages ({len(merged)} in the file)")
+    return 0
+
+
+def events(urls, names, loose_names):
+    """Read each event page; with no URLs given, find this week's on UFC.com."""
+    named = bool(urls)
+    candidates = urls or upcoming_events()
     if not candidates:
         say("no UFC.com event to read; fighter_images.json left as it is.")
-        return 0
-
+        return []
+    read = []
     best = None
     for url in candidates:
         page = fetch(url)
         if not page:
             continue
         corners = parse_event(page)
+        if not corners:
+            if named:
+                say(f"found no fight card on {url}")
+            continue
         hits = sum(1 for n, _, _ in corners if dk_name(n, names, loose_names))
-        if corners and (best is None or hits > best[0]):
+        if named:
+            read.append((hits, url, event_title(page), corners))   # every named event counts
+            continue
+        if best is None or hits > best[0]:
             best = (hits, url, event_title(page), corners)
         if names and hits >= len(names) * 0.8:
             break   # this is the slate's event; no need to read the rest
-
+    if named:
+        return read
     if not best:
         say("found no fight card on UFC.com; fighter_images.json left as it is.")
-        return 0
-    hits, url, title, corners = best
-    if names and not args and hits < max(2, len(names) // 2):
-        say(f"no UFC.com event matches DKSalaries.csv (best: {title}, {hits} names); "
+        return []
+    if names and best[0] < max(2, len(names) // 2):
+        say(f"no UFC.com event matches DKSalaries.csv (best: {best[2]}, {best[0]} names); "
             "fighter_images.json left as it is.")
+        return []
+    return [best]
+
+
+def main():
+    if "--roster" in sys.argv:
+        return roster()
+    names = slate()
+    counts = {}
+    for n in names.values():
+        counts[loose(n)] = counts.get(loose(n), 0) + 1
+    # a loose key two slate fighters share would be a guess, so it is left out
+    loose_names = {loose(n): n for n in names.values() if loose(n) and counts[loose(n)] == 1}
+    urls = [a.split("#")[0] for a in sys.argv[1:] if not a.startswith("--")]
+    read = events(urls, names, loose_names)
+    if not read:
         return 0
 
-    fighters, missing = {}, []
-    for ufc_name, photo, link in corners:
-        key = dk_name(ufc_name, names, loose_names) or ufc_name   # DraftKings spelling when it matches
-        if photo:
-            fighters[key] = {"photo": photo, "ufc_name": ufc_name, "profile": link}
-        else:
-            missing.append(key)
-    out = {
+    # keep every fighter from earlier weeks; this run adds to or refreshes them
+    old = load(OUT)
+    fighters = dict(old.get("fighters", {}))
+    for hits, url, title, corners in read:
+        added, missing = 0, []
+        for ufc_name, photo, link in corners:
+            key = dk_name(ufc_name, names, loose_names) or ufc_name   # DraftKings spelling when it matches
+            if photo:
+                fighters[key] = {"photo": photo, "ufc_name": ufc_name, "profile": link}
+                added += 1
+            else:
+                missing.append(key)
+        say(f"{title}: {added} photos" + (f", no photo yet for {', '.join(missing)}" if missing else ""))
+    hits, url, title, corners = read[-1] if urls else read[0]
+    save(OUT, {
         "generated": datetime.now().isoformat(timespec="seconds"),
         "event": title,
         "event_url": url,
         "fighters": fighters,
-    }
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2, ensure_ascii=False)
-    unmatched = [n for n, _, _ in corners if names and not dk_name(n, names, loose_names)]
-    say(f"wrote fighter_images.json for {title}: {len(fighters)} photos"
-        + (f", no photo yet for {', '.join(missing)}" if missing else "")
-        + (f"; not on the DraftKings slate: {', '.join(unmatched)}" if unmatched else ""))
+    })
+    say(f"wrote fighter_images.json ({len(fighters)} fighters in the file)")
     return 0
 
 

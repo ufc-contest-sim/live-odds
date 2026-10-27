@@ -2997,6 +2997,20 @@
             .fmx-zbar { width: 5px; }
             .fmx-zbar b { font-size: 0.62rem; }
         }
+        /* a UFC headshot is already a face crop: show it whole in the circle */
+        .fph.head img { object-position: 50% 0; transform: none; }
+        /* lineup chips: a small photo in place of the old F1-F6 tag */
+        .fph.chip { width: 24px; height: 24px; margin: -2px 0 -2px -4px; }
+        .fph.chip .ini { font-size: 0.52rem; }
+        /* Fighter Exposure: photo, then first name over last name */
+        .fx-who { display: flex; align-items: center; gap: 9px; min-width: 0; }
+        .fph.sm { width: 32px; height: 32px; }
+        .fph.sm .ini { font-size: 0.62rem; }
+        .n2 { display: flex; flex-direction: column; min-width: 0; line-height: 1.18; }
+        .n2 > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .n2 > span:first-child { font-weight: 500; color: var(--text-secondary); font-size: 0.92em; }
+        /* Stats profile header */
+        .fph.hero { width: 54px; height: 54px; margin-right: 4px; align-self: center; }
         /* the initials are only a fallback: hidden while a photo is there, back if it fails to load */
         .fph:has(img) .ini { display: none; }
         @media (max-width: 600px) {
@@ -7501,7 +7515,7 @@
                 `<tr class="skel-row" aria-hidden="true"><td colspan="11"><span class="skel-bar" style="width:${62 + (i * 13) % 30}%"></span></td></tr>`).join('');
             
             try {
-                const response = await fetch(contest.file + '?v=' + Date.now());
+                const [response] = await Promise.all([fetch(contest.file + '?v=' + Date.now()), loadFighterPhotos()]);
                 if (!response.ok) throw new Error(`Failed to load ${contest.file}`);
                 const data = await response.json();
                 
@@ -7657,7 +7671,7 @@
                 const opt = optShade(r.optimal);
                 return `
                 <tr>
-                    <td class="name" title="${r.fighter}">${r.fighter}</td>
+                    <td class="name" title="${phEsc(r.fighter)}"><span class="fx-who">${photoHTML(r.fighter, 'sm')}${twoLineName(r.fighter)}</span></td>
                     <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${fmtWin(r.draft)}</td>
                     <td class="n">${fmtWin(r.win)}</td>
                     <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? fmtWin(r.optimal) : '--'}</td>
@@ -8455,7 +8469,7 @@
                             <div class="lineup-container">
                                 ${fighters.map(f => `
                                     <div class="fighter-chip">
-                                        <span class="slot">${f.slot}</span>
+                                        ${photoHTML(f.name, 'chip')}
                                         ${f.name}
                                     </div>
                                 `).join('')}
@@ -9164,7 +9178,7 @@
                             <div class="lineup-container">
                                 ${fighters.map(f => `
                                     <div class="fighter-chip">
-                                        <span class="slot">${f.slot}</span>
+                                        ${photoHTML(f.name, 'chip')}
                                         ${f.name}
                                         ${f.score !== null ? `<span style="color: var(--accent-green); font-weight: 600; margin-left: 4px;">${f.score}</span>` : ''}
                                     </div>
@@ -9182,6 +9196,64 @@
         
         // Start
         initLanding();
+
+        // ==================== FIGHTER PHOTOS ====================
+        // fighter_images.json (written by publish from the UFC.com event pages)
+        // holds each fighter's full-body shot; fighter_headshots.json (written
+        // by the roster run) holds a face crop for every UFC athlete. The photos
+        // load from UFC's image server. Round crops prefer the headshot, the
+        // matchup view uses the full-body shot, and anyone without one gets initials.
+        const phEsc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        let fighterPhotosP = null, FIGHTER_PHOTOS = new Map(), FIGHTER_PHOTOS_LOOSE = new Map(), FIGHTER_HEADS = new Map(), FIGHTER_HEADS_LOOSE = new Map();
+        const photoKey = n => (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z]/g, '');
+        // last name plus first initial, for spellings that differ only in the
+        // first name ("Zachary Reese" on UFC.com, "Zach Reese" on DraftKings)
+        const photoLooseKey = n => {
+            const w = (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z\s-]/g, '').trim().split(/\s+/);
+            return w.length > 1 ? w[w.length - 1] + '|' + w[0][0] : '';
+        };
+        function loadFighterPhotos() {
+            if (fighterPhotosP) return fighterPhotosP;
+            const get = f => fetch(f + '?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
+            const fill = (entries, m, loose) => entries.forEach(([n, v]) => {
+                const url = v && (typeof v === 'string' ? v : v.photo);
+                if (typeof url !== 'string' || !/^https:\/\//.test(url)) return;
+                [n, v && v.ufc_name].filter(Boolean).forEach(x => {
+                    m.set(photoKey(x), url);
+                    const lk = photoLooseKey(x);
+                    // two fighters sharing a loose key: neither gets matched loosely
+                    if (lk) loose.set(lk, loose.has(lk) && loose.get(lk) !== url ? null : url);
+                });
+            });
+            return fighterPhotosP = Promise.all([get('fighter_images.json'), get('fighter_headshots.json')]).then(([j, h]) => {
+                fill(Object.entries((j && j.fighters) || {}), FIGHTER_PHOTOS, FIGHTER_PHOTOS_LOOSE);
+                fill(Object.entries((h && h.fighters) || {}), FIGHTER_HEADS, FIGHTER_HEADS_LOOSE);
+                return FIGHTER_PHOTOS;
+            });
+        }
+        function photoUrl(name) { return FIGHTER_PHOTOS.get(photoKey(name)) || FIGHTER_PHOTOS_LOOSE.get(photoLooseKey(name)) || null; }
+        function headshotUrl(name) { return FIGHTER_HEADS.get(photoKey(name)) || FIGHTER_HEADS_LOOSE.get(photoLooseKey(name)) || null; }
+        // UFC shoots each fighter for one corner (_L_ or _R_ in the file
+        // name) so the pair face each other; flip a shot taken for the
+        // other side so both still face the middle here
+        function photoFlip(url, side) { const shot = url && (url.match(/_([LR])_/) || [])[1]; return !!(side && shot && shot.toLowerCase() !== side); }
+        function photoHTML(name, cls, side) {
+            const head = headshotUrl(name), url = head || photoUrl(name);
+            const flip = !head && photoFlip(url, side);
+            const ini = phEsc(String(name || '').split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase());
+            // a photo that fails to load falls back to the initials underneath it
+            return `<span class="fph ${cls || ''}${head ? ' head' : ''}" aria-hidden="true"><span class="ini">${ini}</span>` +
+                (url ? `<img src="${phEsc(url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"${flip ? ' class="flip"' : ''} onerror="this.remove()">` : '') + `</span>`;
+        }
+        // first name(s) on one line, last name on the next, so every name is two lines
+        function twoLineName(name) {
+            const w = String(name || '').trim().split(/\s+/);
+            let cut = w.length - 1;
+            if (cut > 1 && /^(jr|sr|ii|iii|iv)\.?$/i.test(w[cut])) cut--;   // keep "Jr." with the surname
+            if (cut < 1) return `<span class="n2"><span>${phEsc(w.join(' '))}</span><span>&nbsp;</span></span>`;
+            return `<span class="n2"><span>${phEsc(w.slice(0, cut).join(' '))}</span><span>${phEsc(w.slice(cut).join(' '))}</span></span>`;
+        }
+        loadFighterPhotos();
 
         // ==================== Scoring Database (lazy-loaded fight stats) ====================
         // Fully self-contained: the CSV (~1.5MB gzipped) only downloads the first time
@@ -10530,7 +10602,7 @@
                 const haveOpp = oppRows.filter(Boolean).length;
 
                 let html = '';
-                heroEl.innerHTML = `<div class="fsx-hero"><span class="nm">${esc(canonical)}</span>` +
+                heroEl.innerHTML = `<div class="fsx-hero">${(headshotUrl(canonical) || photoUrl(canonical)) ? photoHTML(canonical, 'hero') : ''}<span class="nm">${esc(canonical)}</span>` +
                         `<span class="rec"><span class="rw">${wins}</span>&ndash;<span class="rl">${losses}</span>${other ? '&ndash;<span class="rd">' + other + '</span>' : ''} in UFC</span>` +
                         `<span class="wc">${esc(weightOf(fights[n - 1].weight_class))}</span>` +
                         `<span class="meta">${n} fight${n === 1 ? '' : 's'} &middot; ${timeStr} octagon time &middot; avg ${(totSec / n / 60).toFixed(1)}m<br>${fmtDate(fights[0].event_date)} &ndash; ${fmtDate(fights[n - 1].event_date)}</span></div>`;
@@ -11082,53 +11154,6 @@
                         return bouts;
                     });
             }
-            // ==================== FIGHTER PHOTOS ====================
-            // fighter_images.json (written by publish from this week's UFC.com
-            // event page) holds a photo link per fighter; the photos themselves
-            // load from UFC's image server. A fighter without one gets initials.
-            let fighterPhotosP = null, FIGHTER_PHOTOS = new Map(), FIGHTER_PHOTOS_LOOSE = new Map();
-            const photoKey = n => (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z]/g, '');
-            // last name plus first initial, for spellings that differ only in the
-            // first name ("Zachary Reese" on UFC.com, "Zach Reese" on DraftKings)
-            const photoLooseKey = n => {
-                const w = (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z\s-]/g, '').trim().split(/\s+/);
-                return w.length > 1 ? w[w.length - 1] + '|' + w[0][0] : '';
-            };
-            function loadFighterPhotos() {
-                if (fighterPhotosP) return fighterPhotosP;
-                return fighterPhotosP = fetch('fighter_images.json?v=' + Date.now())
-                    .then(r => r.ok ? r.json() : null)
-                    .then(j => {
-                        const m = new Map(), loose = new Map();
-                        Object.entries((j && j.fighters) || {}).forEach(([n, v]) => {
-                            const url = v && (v.photo || v);
-                            if (typeof url !== 'string' || !/^https:\/\//.test(url)) return;
-                            [n, v.ufc_name].filter(Boolean).forEach(x => {
-                                m.set(photoKey(x), url);
-                                const lk = photoLooseKey(x);
-                                // two fighters sharing a loose key: neither gets matched loosely
-                                if (lk) loose.set(lk, loose.has(lk) && loose.get(lk) !== url ? null : url);
-                            });
-                        });
-                        FIGHTER_PHOTOS_LOOSE = loose;
-                        return FIGHTER_PHOTOS = m;
-                    })
-                    .catch(() => FIGHTER_PHOTOS);
-            }
-            function photoUrl(name) { return FIGHTER_PHOTOS.get(photoKey(name)) || FIGHTER_PHOTOS_LOOSE.get(photoLooseKey(name)) || null; }
-            // UFC shoots each fighter for one corner (_L_ or _R_ in the file
-            // name) so the pair face each other; flip a shot taken for the
-            // other side so both still face the middle here
-            function photoFlip(url, side) { const shot = url && (url.match(/_([LR])_/) || [])[1]; return !!(side && shot && shot.toLowerCase() !== side); }
-            function photoHTML(name, cls, side) {
-                const url = photoUrl(name);
-                const flip = photoFlip(url, side);
-                const ini = esc(String(name || '').split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase());
-                // a photo that fails to load falls back to the initials underneath it
-                return `<span class="fph ${cls || ''}" aria-hidden="true"><span class="ini">${ini}</span>` +
-                    (url ? `<img src="${esc(url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"${flip ? ' class="flip"' : ''} onerror="this.remove()">` : '') + `</span>`;
-            }
-
             // ==================== WEEKLY MATCHUPS (fmx) ====================
             // Every bout on the slate as a card; tapping one opens a head-to-head
             // card with body heat maps and the crossed offense-vs-defense reads.

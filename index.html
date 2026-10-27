@@ -4949,6 +4949,35 @@
             #username-table tr.lineup-row.expanded > td, #lineup-table tr.lineup-row.expanded > td, #portfolio-table tr.lineup-row.expanded > td, .whatif-table-scroll tr.lineup-row.expanded > td { display: block; padding: 0; border: 0; }
             #username-table .lineup-container, #lineup-table .lineup-container, #portfolio-table .lineup-container, .whatif-table-scroll .lineup-container, #username-table .username-tiles, #lineup-table .username-tiles, #portfolio-table .username-tiles, .whatif-table-scroll .username-tiles { position: static; max-width: none; padding: 10px; }
         }
+        /* landing search: the user's contests as a compact table, best Net EV first */
+        .sr-table { margin-top: 14px; border: 1px solid var(--line-1); border-radius: var(--r-md); overflow: hidden; background: var(--fn-card-2, var(--bg-card)); }
+        .sr-head, .sr-row { display: grid; grid-template-columns: minmax(0, 1fr) 84px 92px 84px 18px; gap: 0 14px; align-items: center; padding: 0 16px; }
+        .sr-head { padding-top: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line-1);
+            font-family: var(--fn-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+        .sr-head > span:nth-child(n+2) { text-align: right; }
+        .sr-row { width: 100%; min-height: 56px; padding-top: 9px; padding-bottom: 9px; border: 0; border-bottom: 1px solid var(--line-1);
+            background: transparent; color: var(--text-primary); font: inherit; text-align: left; cursor: pointer; }
+        .sr-row:last-child { border-bottom: 0; }
+        .sr-row:hover { background: rgba(var(--a-rgb), 0.08); }
+        .sr-row:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: -2px; }
+        .sr-c { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .sr-name { font-weight: 700; font-size: 0.95rem; line-height: 1.25; }
+        .sr-short { display: none; }
+        .sr-ent { font-size: 0.74rem; color: var(--text-secondary); }
+        .sr-n { text-align: right; font-weight: 700; font-size: 0.95rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .sr-n.positive { color: var(--accent-green); } .sr-n.negative { color: var(--accent-red); }
+        .sr-win { padding-bottom: 5px; background-image: linear-gradient(90deg, rgba(255, 138, 43, 0.4), rgba(255, 138, 43, 0.85)), linear-gradient(rgba(var(--a-rgb), 0.12), rgba(var(--a-rgb), 0.12));
+            background-repeat: no-repeat; background-size: calc(var(--p, 0) * 100%) 3px, 100% 3px; background-position: 100% 100%, 100% 100%; }
+        .sr-go { color: var(--ink-3); display: grid; place-items: center; }
+        .sr-row:hover .sr-go { color: var(--accent-hi); }
+        @media (max-width: 600px) {
+            /* phones: no arrow column (the whole row is the button) and qualifier names shortened */
+            .sr-head, .sr-row { grid-template-columns: minmax(0, 1fr) 58px 62px 62px; gap: 0 8px; padding-left: 12px; padding-right: 12px; }
+            .sr-head > span:last-child, .sr-go { display: none; }
+            .sr-full { display: none; } .sr-short { display: inline; }
+            .sr-name { font-size: 0.88rem; }
+            .sr-n { font-size: 0.86rem; }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5996,13 +6025,13 @@
                 return el.getAttribute('aria-label') || el.getAttribute('title') || (inner ? inner.textContent : el.textContent) || '';
             };
             document.addEventListener('click', e => {
-                const el = e.target.closest('.fav-remove, .favorites-tiles > *, .fighter-option, tr.row-main, .search-result-card, th.sortable, .lnav-tab, .tab-btn, button, a[href]');
+                const el = e.target.closest('.fav-remove, .favorites-tiles > *, .fighter-option, tr.row-main, .search-result-card, .sr-row, th.sortable, .lnav-tab, .tab-btn, button, a[href]');
                 if (!el || el.closest('#visitor-gate')) return;
                 if (el.matches('.fav-remove')) return act('removed_favorite', el.dataset.remove);
                 if (el.matches('.favorites-tiles > *')) return act('clicked_favorite', label(el));
                 if (el.matches('.fighter-option')) { if (el.hasAttribute('onclick')) act('picked_fighter', el.textContent); return; }   // not the "no fighters found" line
                 if (el.matches('tr.row-main')) return act('clicked_row', label(el));
-                if (el.matches('.search-result-card')) return act('opened_card', (el.querySelector('.search-result-contest') || el).textContent);
+                if (el.matches('.search-result-card, .sr-row')) return act('opened_card', (el.querySelector('.search-result-contest, .sr-full') || el).textContent);
                 if (el.matches('th.sortable')) return act('sorted', label(el));
                 if (el.matches('.lb-tabs .tab-btn')) return;   // contest views already log as viewed_<view>
                 if (el.matches('.lnav-tab, .tab-btn')) return act('clicked_tab', label(el));
@@ -7567,28 +7596,17 @@
                         <div class="pcw-exposure" id="portfolio-exposure"></div>
                     </div>
                 </div>
-                ${results.map(r => `
-                    <div class="search-result-card" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
-                        <div class="search-result-contest">
-                            ${r.name}
-                            <span class="search-result-entries">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span>
-                        </div>
-                        <div class="search-result-stats">
-                            <div class="search-result-stat sr-share" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">
-                                <div class="sr-label">Win %</div>
-                                <div class="sr-value">${fmtWin(r.winPct)}</div>
-                            </div>
-                            <div class="search-result-stat">
-                                <div class="sr-label">Net EV</div>
-                                <div class="sr-value ${r.netEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(r.netEV)}</div>
-                            </div>
-                            <div class="search-result-stat">
-                                <div class="sr-label">ROI</div>
-                                <div class="sr-value ${r.roi >= 0 ? 'positive' : 'negative'}">${formatROI(r.roi)}</div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('')}
+                <div class="sr-table" role="table" aria-label="Contests ${query.replace(/"/g, '&quot;').replace(/</g, '&lt;')} entered, best Net EV first">
+                    <div class="sr-head" role="row"><span role="columnheader">Contest</span><span role="columnheader">Win %</span><span role="columnheader">Net EV</span><span role="columnheader">ROI</span><span aria-hidden="true"></span></div>
+                    ${results.slice().sort((a, b) => b.netEV - a.netEV).map(r => `
+                    <button type="button" class="sr-row" role="row" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
+                        <span class="sr-c" role="cell"><span class="sr-name"><span class="sr-full">${r.name}</span><span class="sr-short">${String(r.name).replace(/Fantasy MMA World Championship Qualifier/i, 'WC Qualifier')}</span></span><span class="sr-ent">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span></span>
+                        <span class="sr-n sr-win" role="cell" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">${fmtWin(r.winPct)}</span>
+                        <span class="sr-n ${r.netEV >= 0 ? 'positive' : 'negative'}" role="cell">${formatNetEV(r.netEV)}</span>
+                        <span class="sr-n ${r.roi >= 0 ? 'positive' : 'negative'}" role="cell">${formatROI(r.roi)}</span>
+                        <span class="sr-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+                    </button>`).join('')}
+                </div>
             `;
 
             // Fighter exposure list: data lives on the filters element next to
@@ -7930,12 +7948,12 @@
 
             document.getElementById('stats-vertical').innerHTML = `
                 <div class="ps-kpis">
-                    <div class="ps-kpi"><span class="k">${label} lineups</span><b class="v">${totalLineups.toLocaleString()}</b></div>
+                    <div class="ps-kpi"><span class="k">Lineups</span><b class="v">${totalLineups.toLocaleString()}</b></div>
                     <div class="ps-kpi"><span class="k">Win %</span><b class="v">${fmtWin(portfolioWinPct)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio EV</span><b class="v ${portfolioNetEV >= 0 ? 'positive' : 'negative'}">${formatNetEV(portfolioNetEV)}</b></div>
                     <div class="ps-kpi"><span class="k">Portfolio ROI</span><b class="v ${portfolioROI >= 0 ? 'positive' : 'negative'}">${formatROI(portfolioROI)}</b></div>
                     <div class="ps-kpi"><span class="k">Avg dupes</span><b class="v">${avgDupes.toFixed(2)}</b></div>
-                    <div class="ps-kpi"><span class="k">Unique lineups</span><b class="v">${uniqueLineups.toLocaleString()}</b></div>
+                    <div class="ps-kpi"><span class="k">Uniques</span><b class="v">${uniqueLineups.toLocaleString()}</b></div>
                 </div>
             `;
             

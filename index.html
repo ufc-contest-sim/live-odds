@@ -5002,15 +5002,19 @@
             .sr-name { font-size: 0.88rem; }
             .sr-n { font-size: 0.86rem; }
         }
-        /* wide screens: two bouts per row, so the card fills the panel instead of one thin centered column */
-        @media (min-width: 1000px) {
-            #builder-view .hbw-bouts { max-width: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
-            .hbw-bout { padding: 10px 2px; gap: 9px; }
-            .hbw-bouts .hbw-in { width: 64px; padding-left: 6px; padding-right: 6px; }
-            .hbw-cell { gap: 9px; }
-            .hbw-cell .fph.sm { width: 34px; height: 34px; }
-            /* full names, wrapping to a second line rather than cut off */
-            .hbw-bouts .hbw-cell .hb-name { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.2; }
+        /* one bout per row: favorite on the left, opponent on the right */
+        #builder-view .hbw-bouts { max-width: 860px; display: block; }
+        #builder-view .hbw-bout { padding: 10px 4px; gap: 14px; }
+        #builder-view .hbw-cell .hb-name { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.2; }
+        /* phones: photo and name on top, score box underneath, so full names fit */
+        @media (max-width: 600px) {
+            #builder-view .hbw-bout { gap: 10px; padding: 12px 0; align-items: center; }
+            #builder-view .hbw-cell { display: grid; grid-template-columns: 34px minmax(0, 1fr); grid-template-areas: "ph info" "in in"; gap: 8px; align-items: center; }
+            #builder-view .hbw-cell.r { grid-template-columns: minmax(0, 1fr) 34px; grid-template-areas: "info ph" "in in"; }
+            #builder-view .hbw-cell .fph { grid-area: ph; width: 34px; height: 34px; }
+            #builder-view .hbw-cell .hb-info { grid-area: info; }
+            #builder-view .hbw-cell .hb-name { font-size: 0.8rem; overflow-wrap: anywhere; }
+            #builder-view .hbw-cell .hbw-in { grid-area: in; width: 100%; box-sizing: border-box; text-align: center; }
         }
         /* --- refine: end --- */
 </style>

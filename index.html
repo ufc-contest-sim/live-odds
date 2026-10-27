@@ -2984,7 +2984,7 @@
         .fph.big { width: 132px; height: 150px; border-radius: 0; border: 0; background: none; overflow: visible; }
         .fph.big .ini { font-size: 1.6rem; border-radius: 50%; width: 84px; height: 84px; inset: auto 24px 10px; background: linear-gradient(160deg, #2a2620, #17151a); border: 1px solid var(--glass-border); }
         .fph.big img { object-fit: contain; object-position: 50% 100%; transform: none; }
-        .fmx-faces .fph.big:last-child img { transform: scaleX(-1); }
+        .fph.big img.flip { transform: scaleX(-1); }
         .fph.big:has(img) .ini { display: none; }
         @media (max-width: 600px) {
             .fph { width: 38px; height: 38px; }
@@ -11020,30 +11020,46 @@
             // fighter_images.json (written by publish from this week's UFC.com
             // event page) holds a photo link per fighter; the photos themselves
             // load from UFC's image server. A fighter without one gets initials.
-            let fighterPhotosP = null, FIGHTER_PHOTOS = new Map();
+            let fighterPhotosP = null, FIGHTER_PHOTOS = new Map(), FIGHTER_PHOTOS_LOOSE = new Map();
             const photoKey = n => (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z]/g, '');
+            // last name plus first initial, for spellings that differ only in the
+            // first name ("Zachary Reese" on UFC.com, "Zach Reese" on DraftKings)
+            const photoLooseKey = n => {
+                const w = (n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+(jr|sr|ii|iii|iv)\.?$/, '').replace(/[^a-z\s-]/g, '').trim().split(/\s+/);
+                return w.length > 1 ? w[w.length - 1] + '|' + w[0][0] : '';
+            };
             function loadFighterPhotos() {
                 if (fighterPhotosP) return fighterPhotosP;
                 return fighterPhotosP = fetch('fighter_images.json?v=' + Date.now())
                     .then(r => r.ok ? r.json() : null)
                     .then(j => {
-                        const m = new Map();
+                        const m = new Map(), loose = new Map();
                         Object.entries((j && j.fighters) || {}).forEach(([n, v]) => {
                             const url = v && (v.photo || v);
                             if (typeof url !== 'string' || !/^https:\/\//.test(url)) return;
-                            m.set(photoKey(n), url);
-                            if (v.ufc_name) m.set(photoKey(v.ufc_name), url);
+                            [n, v.ufc_name].filter(Boolean).forEach(x => {
+                                m.set(photoKey(x), url);
+                                const lk = photoLooseKey(x);
+                                // two fighters sharing a loose key: neither gets matched loosely
+                                if (lk) loose.set(lk, loose.has(lk) && loose.get(lk) !== url ? null : url);
+                            });
                         });
+                        FIGHTER_PHOTOS_LOOSE = loose;
                         return FIGHTER_PHOTOS = m;
                     })
                     .catch(() => FIGHTER_PHOTOS);
             }
-            function photoHTML(name, cls) {
-                const url = FIGHTER_PHOTOS.get(photoKey(name));
+            function photoHTML(name, cls, side) {
+                const url = FIGHTER_PHOTOS.get(photoKey(name)) || FIGHTER_PHOTOS_LOOSE.get(photoLooseKey(name)) || null;
+                // UFC shoots each fighter for one corner (_L_ or _R_ in the file
+                // name) so the pair face each other; flip a shot taken for the
+                // other side so both still face the middle here
+                const shotSide = url && (url.match(/_([LR])_/) || [])[1];
+                const flip = side && shotSide && shotSide.toLowerCase() !== side;
                 const ini = esc(String(name || '').split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase());
                 // a photo that fails to load falls back to the initials underneath it
                 return `<span class="fph ${cls || ''}" aria-hidden="true"><span class="ini">${ini}</span>` +
-                    (url ? `<img src="${esc(url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : '') + `</span>`;
+                    (url ? `<img src="${esc(url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"${flip ? ' class="flip"' : ''} onerror="this.remove()">` : '') + `</span>`;
             }
 
             // ==================== WEEKLY MATCHUPS (fmx) ====================
@@ -11144,7 +11160,7 @@
                 const fmt = (p, k, d, u) => fmtOr(p, k, d, u);
                 let h = `<div class="fxm-card fmx-wide" role="dialog" aria-modal="true">`;
                 h += `<button class="fxm-x" aria-label="Close">&times;</button>`;
-                h += `<div class="fmx-faces">${photoHTML(a.name, 'big')}${photoHTML(z.name, 'big')}</div>`;
+                h += `<div class="fmx-faces">${photoHTML(a.name, 'big', 'l')}${photoHTML(z.name, 'big', 'r')}</div>`;
                 h += `<div class="fxm-head"><div class="fxm-names"><span class="me">${esc(a.name)}</span><span class="vs">vs</span><span class="op">${esc(z.name)}</span></div>` +
                     `<div class="fxm-sub" style="display:flex;justify-content:space-between">` +
                     `<span>$${a.salary.toLocaleString()}${fmxMeta(pa)}</span>` +

@@ -49,6 +49,19 @@ def norm(name):
     return re.sub(r"[^a-z]", "", s)
 
 
+def loose(name):
+    """Last name plus first initial, for first names spelled differently
+    ("Zachary Reese" on UFC.com, "Zach Reese" on DraftKings)."""
+    w = re.sub(r"[^a-z\s-]", "", unicodedata.normalize("NFD", str(name or "")).encode("ascii", "ignore").decode().lower())
+    w = re.sub(r"\s+(jr|sr|ii|iii|iv)$", "", w.strip()).split()
+    return f"{w[-1]}|{w[0][0]}" if len(w) > 1 else ""
+
+
+def dk_name(ufc_name, names, loose_names):
+    """The DraftKings spelling for a UFC.com name, or None."""
+    return names.get(norm(ufc_name)) or loose_names.get(loose(ufc_name))
+
+
 def slate():
     """DraftKings names by normalized name."""
     path = HERE / "DKSalaries.csv"
@@ -123,6 +136,11 @@ def upcoming_events():
 
 def main():
     names = slate()
+    counts = {}
+    for n in names.values():
+        counts[loose(n)] = counts.get(loose(n), 0) + 1
+    # a loose key two slate fighters share would be a guess, so it is left out
+    loose_names = {loose(n): n for n in names.values() if loose(n) and counts[loose(n)] == 1}
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     candidates = [args[0].split("#")[0]] if args else upcoming_events()
     if not candidates:
@@ -135,7 +153,7 @@ def main():
         if not page:
             continue
         corners = parse_event(page)
-        hits = sum(1 for n, _, _ in corners if norm(n) in names)
+        hits = sum(1 for n, _, _ in corners if dk_name(n, names, loose_names))
         if corners and (best is None or hits > best[0]):
             best = (hits, url, event_title(page), corners)
         if names and hits >= len(names) * 0.8:
@@ -152,7 +170,7 @@ def main():
 
     fighters, missing = {}, []
     for ufc_name, photo, link in corners:
-        key = names.get(norm(ufc_name), ufc_name)   # DraftKings spelling when it matches
+        key = dk_name(ufc_name, names, loose_names) or ufc_name   # DraftKings spelling when it matches
         if photo:
             fighters[key] = {"photo": photo, "ufc_name": ufc_name, "profile": link}
         else:
@@ -165,7 +183,7 @@ def main():
     }
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, ensure_ascii=False)
-    unmatched = [n for n, _, _ in corners if names and norm(n) not in names]
+    unmatched = [n for n, _, _ in corners if names and not dk_name(n, names, loose_names)]
     say(f"wrote fighter_images.json for {title}: {len(fighters)} photos"
         + (f", no photo yet for {', '.join(missing)}" if missing else "")
         + (f"; not on the DraftKings slate: {', '.join(unmatched)}" if unmatched else ""))

@@ -8170,25 +8170,30 @@
         standPhone.addEventListener('change', () => { if (currentContest && currentView === 'username') filterAndRender(); });
 
         function projectedStandings(rows) {
+            // ties take up the places they share, like a leaderboard: ten tied
+            // for 1st means the next entry is 11th. 2nd % decides a group only
+            // when it starts at 2nd, 3rd % only when it starts at 3rd.
             let rest = rows.slice();
             const out = [];
-            let pos = 1;
-            for (const key of ['WinPct', 'SecondPct', 'ThirdPct']) {
+            const keyFor = { 1: 'WinPct', 2: 'SecondPct', 3: 'ThirdPct' };
+            let place = 1;
+            while (place <= 3 && rest.length) {
+                const key = keyFor[place];
                 let best = 0;
                 for (const r of rest) if ((r[key] || 0) > best) best = r[key] || 0;
-                if (best <= 0) continue;
+                if (best <= 0) break;
                 const top = rest.filter(r => (r[key] || 0) === best);
                 rest = rest.filter(r => (r[key] || 0) !== best);
                 top.sort((a, b) => (b.MeanScore || 0) - (a.MeanScore || 0));
-                top.forEach(r => out.push({ row: r, pos, medal: pos }));
-                pos++;
+                top.forEach(r => out.push({ row: r, pos: place, medal: place }));
+                place += top.length;
             }
             rest.sort((a, b) => (b.MeanScore || 0) - (a.MeanScore || 0));
-            // ties on projected score share a spot
-            let prev = null, prevPos = pos;
+            // the rest by projected score; equal scores share a place
+            let prev = null, prevPos = place;
             rest.forEach((r, i) => {
-                const p = prev !== null && (r.MeanScore || 0) === prev ? prevPos : pos + i;
-                out.push({ row: r, pos: p, medal: 0 });
+                const p = prev !== null && (r.MeanScore || 0) === prev ? prevPos : place + i;
+                out.push({ row: r, pos: p, medal: p <= 3 ? p : 0 });
                 prev = r.MeanScore || 0; prevPos = p;
             });
             return out;

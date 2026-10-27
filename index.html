@@ -4910,16 +4910,16 @@
             #lineup-table tr.row-main > td:nth-child(4) { grid-column: span 3; }
             #lineup-table tr.row-main > td:nth-child(5) { grid-column: span 3; }
             #lineup-table tr.row-main > td:nth-child(6) { grid-column: span 3; }
-            #lineup-table tr.row-main > td:nth-child(8) { grid-column: span 3; }
-            #lineup-table tr.row-main > td:nth-child(9) { grid-column: span 3; }
-            #lineup-table tr.row-main > td:nth-child(10) { grid-column: span 3; }
+            #lineup-table tr.row-main > td:nth-child(8) { grid-column: span 4; }
+            #lineup-table tr.row-main > td:nth-child(9) { grid-column: span 4; }
+            #lineup-table tr.row-main > td:nth-child(10) { grid-column: span 4; }
             #portfolio-table tr.row-main > td:nth-child(3) { grid-column: span 3; }
             #portfolio-table tr.row-main > td:nth-child(4) { grid-column: span 3; }
             #portfolio-table tr.row-main > td:nth-child(5) { grid-column: span 3; }
             #portfolio-table tr.row-main > td:nth-child(6) { grid-column: span 3; }
-            #portfolio-table tr.row-main > td:nth-child(7) { grid-column: span 3; }
-            #portfolio-table tr.row-main > td:nth-child(9) { grid-column: span 3; }
-            #portfolio-table tr.row-main > td:nth-child(10) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(7) { grid-column: span 4; }
+            #portfolio-table tr.row-main > td:nth-child(9) { grid-column: span 4; }
+            #portfolio-table tr.row-main > td:nth-child(10) { grid-column: span 4; }
             .whatif-table-scroll tr.row-main > td:nth-child(4) { grid-column: span 4; }
             .whatif-table-scroll tr.row-main > td:nth-child(6) { grid-column: span 4; }
             .whatif-table-scroll tr.row-main > td:nth-child(7) { grid-column: span 4; }
@@ -4949,6 +4949,16 @@
             .whatif-table-scroll tr.row-main > td:nth-child(4)::before { content: "Score"; }
             .whatif-table-scroll tr.row-main > td:nth-child(6)::before { content: "Salary"; }
             .whatif-table-scroll tr.row-main > td:nth-child(7)::before { content: "Copies"; }
+            /* tile rows: first tile left, middle centered, last right, so both side margins match the card edges */
+            #username-table tr.row-main > td:nth-child(4), #username-table tr.row-main > td:nth-child(7), #username-table tr.row-main > td:nth-child(11), #username-table tr.row-main > td:nth-child(5), #username-table tr.row-main > td:nth-child(9), #username-table tr.row-main > td:nth-child(12), #username-table tr.row-main > td:nth-child(6), #username-table tr.row-main > td:nth-child(10), #username-table tr.row-main > td:nth-child(13), #lineup-table tr.row-main > td:nth-child(3), #lineup-table tr.row-main > td:nth-child(8), #lineup-table tr.row-main > td:nth-child(4), #lineup-table tr.row-main > td:nth-child(5), #lineup-table tr.row-main > td:nth-child(9), #lineup-table tr.row-main > td:nth-child(6), #lineup-table tr.row-main > td:nth-child(10), #portfolio-table tr.row-main > td:nth-child(3), #portfolio-table tr.row-main > td:nth-child(7), #portfolio-table tr.row-main > td:nth-child(4), #portfolio-table tr.row-main > td:nth-child(5), #portfolio-table tr.row-main > td:nth-child(9), #portfolio-table tr.row-main > td:nth-child(6), #portfolio-table tr.row-main > td:nth-child(10), .whatif-table-scroll tr.row-main > td:nth-child(4), .whatif-table-scroll tr.row-main > td:nth-child(6), .whatif-table-scroll tr.row-main > td:nth-child(7) { display: flex; flex-direction: column; }
+            #username-table tr.row-main > td:nth-child(4), #username-table tr.row-main > td:nth-child(7), #username-table tr.row-main > td:nth-child(11), #lineup-table tr.row-main > td:nth-child(3), #lineup-table tr.row-main > td:nth-child(8), #portfolio-table tr.row-main > td:nth-child(3), #portfolio-table tr.row-main > td:nth-child(7), .whatif-table-scroll tr.row-main > td:nth-child(4) { align-items: flex-start; text-align: left; }
+            #username-table tr.row-main > td:nth-child(5), #username-table tr.row-main > td:nth-child(9), #username-table tr.row-main > td:nth-child(12), #lineup-table tr.row-main > td:nth-child(4), #lineup-table tr.row-main > td:nth-child(5), #lineup-table tr.row-main > td:nth-child(9), #portfolio-table tr.row-main > td:nth-child(4), #portfolio-table tr.row-main > td:nth-child(5), #portfolio-table tr.row-main > td:nth-child(9), .whatif-table-scroll tr.row-main > td:nth-child(6) { align-items: center; text-align: center; }
+            #username-table tr.row-main > td:nth-child(6), #username-table tr.row-main > td:nth-child(10), #username-table tr.row-main > td:nth-child(13), #lineup-table tr.row-main > td:nth-child(6), #lineup-table tr.row-main > td:nth-child(10), #portfolio-table tr.row-main > td:nth-child(6), #portfolio-table tr.row-main > td:nth-child(10), .whatif-table-scroll tr.row-main > td:nth-child(7) { align-items: flex-end; text-align: right; }
+            /* gold, silver and bronze medals beside Win %, 2nd % and 3rd % */
+            #username-table tr.row-main > td:nth-child(4)::before, #lineup-table tr.row-main > td:nth-child(3)::before, #portfolio-table tr.row-main > td:nth-child(4)::before, #username-table tr.row-main > td:nth-child(5)::before, #lineup-table tr.row-main > td:nth-child(4)::before, #portfolio-table tr.row-main > td:nth-child(5)::before, #username-table tr.row-main > td:nth-child(6)::before, #lineup-table tr.row-main > td:nth-child(5)::before, #portfolio-table tr.row-main > td:nth-child(6)::before { padding-left: 15px; background-repeat: no-repeat; background-position: left center; background-size: 11px 11px; }
+            #username-table tr.row-main > td:nth-child(4)::before, #lineup-table tr.row-main > td:nth-child(3)::before, #portfolio-table tr.row-main > td:nth-child(4)::before { background-image: radial-gradient(circle closest-side, #fff4c2 0, #f2c94c 40%, #c99a1e 80%, #8f6a0c 92%, transparent 100%); }
+            #username-table tr.row-main > td:nth-child(5)::before, #lineup-table tr.row-main > td:nth-child(4)::before, #portfolio-table tr.row-main > td:nth-child(5)::before { background-image: radial-gradient(circle closest-side, #ffffff 0, #d9dde3 40%, #a7adb6 80%, #6e747d 92%, transparent 100%); }
+            #username-table tr.row-main > td:nth-child(6)::before, #lineup-table tr.row-main > td:nth-child(5)::before, #portfolio-table tr.row-main > td:nth-child(6)::before { background-image: radial-gradient(circle closest-side, #ffd9b8 0, #e0915a 40%, #b5652f 80%, #7a3f18 92%, transparent 100%); }
             /* the expanded part hangs off the bottom of its card */
             #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 1px solid rgba(var(--a-rgb), 0.45); border-top: 0;
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
@@ -5015,6 +5025,25 @@
             #builder-view .hbw-cell .hb-info { grid-area: info; }
             #builder-view .hbw-cell .hb-name { font-size: 0.8rem; overflow-wrap: anywhere; }
             #builder-view .hbw-cell .hbw-in { grid-area: in; width: 100%; box-sizing: border-box; text-align: center; }
+        }
+        /* opened lineups: no chip boxes, just a bigger photo, the name beside it and the locked score at the right */
+        .lineup-container .chip-grid { gap: 10px 18px; }
+        .lineup-container .chip-grid .fighter-chip { background: transparent; border: 0; box-shadow: none; padding: 0; gap: 11px; border-radius: 0; font-size: 0.95rem; }
+        .lineup-container .chip-grid .fph.chip { width: 54px; height: 54px; }
+        .lineup-container .chip-grid .fighter-chip .n2 { min-width: 0; }
+        .fc-score { flex: none; margin-left: 4px; font-family: var(--fn-mono); font-weight: 700; font-size: 0.95rem; color: var(--accent-hi); font-variant-numeric: tabular-nums; }
+        #username-table tr.lineup-row > td, .whatif-table-scroll tr.lineup-row > td { padding: 0; }
+        #username-table .lineup-container, .whatif-table-scroll .lineup-container { padding: 8px 20px; }
+        .lineup-container .chip-grid .fighter-chip .n2 > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        @media (max-width: 600px) {
+            .lineup-container .chip-grid { gap: 10px 14px; }
+            .lineup-container .chip-grid .fighter-chip { font-size: 0.88rem; gap: 0 9px; display: grid; grid-template-columns: 46px minmax(0, 1fr); align-items: center; }
+            .lineup-container .chip-grid .fighter-chip .fph.chip { grid-row: 1 / span 2; }
+            .lineup-container .chip-grid .fighter-chip .n2 { align-self: end; }
+            .lineup-container .chip-grid .fighter-chip .fc-score { grid-column: 2; margin: 2px 0 0; align-self: start; font-size: 0.82rem; }
+            .lineup-container .chip-grid .fighter-chip:not(:has(.fc-score)) .n2 { grid-row: 1 / span 2; align-self: center; }
+            .lineup-container .chip-grid .fph.chip { width: 46px; height: 46px; }
+            #username-table .lineup-container, .whatif-table-scroll .lineup-container { padding: 12px 14px; }
         }
         /* --- refine: end --- */
 </style>
@@ -7633,6 +7662,17 @@
             }, () => { if (token === searchSeq) showExposureOnly(); });
         }
 
+        // A fighter's DK score once it is locked: the fight card's live score,
+        // else the post-event actuals; null while the fight is still to come
+        function lockedFighterScore(name) {
+            const num = v => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '')) && Number.isFinite(Number(v)) ? Number(v) : null;
+            if (contestFightCard) for (const fight of contestFightCard) {
+                if (fight.fighter1 === name && num(fight.fighter1_score) != null) return num(fight.fighter1_score);
+                if (fight.fighter2 === name && num(fight.fighter2_score) != null) return num(fight.fighter2_score);
+            }
+            return num(contestActualsMap && contestActualsMap[name]);
+        }
+
         function loadContestWithUser(contestIndex, username) {
             loadContest(contestIndex).then(() => {
                 document.getElementById('search-user').value = username;
@@ -8689,12 +8729,13 @@
                     <tr class="lineup-row ${isExpanded ? 'expanded' : ''}">
                         <td colspan="13">
                             <div class="lineup-container">
-                                <div class="chip-grid">${fighters.map(f => `
+                                <div class="chip-grid">${fighters.map(f => { const sc = lockedFighterScore(f.name); return `
                                     <div class="fighter-chip">
                                         ${photoHTML(f.name, 'chip')}
                                         ${twoLineName(f.name)}
-                                    </div>
-                                `).join('')}</div>
+                                        ${sc != null ? `<span class="fc-score">${sc.toFixed(2)}</span>` : ''}
+                                    </div>`; }
+                                ).join('')}</div>
                                 ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}
                             </div>
                         </td>
@@ -9401,7 +9442,7 @@
                                     <div class="fighter-chip">
                                         ${photoHTML(f.name, 'chip')}
                                         ${twoLineName(f.name)}
-                                        ${f.score !== null ? `<span style="color: var(--accent-green); font-weight: 600; margin-left: 4px;">${f.score}</span>` : ''}
+                                        ${f.score !== null ? `<span class="fc-score">${Number(f.score).toFixed(2)}</span>` : ''}
                                     </div>
                                 `).join('')}</div>
                                 ${fighters.length === 0 ? '<span style="color: var(--text-secondary);">No lineup data</span>' : ''}

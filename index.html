@@ -4835,6 +4835,104 @@
         .more-filters-btn[aria-expanded="true"] .mf-chev { transform: rotate(180deg); }
         @media (prefers-reduced-motion: reduce) { .more-filters-btn .mf-chev { transition: none; } }
         @media (max-width: 768px) { .more-filters-btn { justify-content: center; } }
+        /* ---------- phones: contest tables as cards, nothing scrolls sideways ----------
+           Each lineup row becomes a card on a 12-column grid: rank, name and Net EV
+           (or Payout) on top, the other numbers below in labelled tiles. The header
+           row is hidden, so a Sort control above the table takes over sorting. */
+        .m-sort { display: none; }
+        @media (max-width: 600px) {
+            .m-sort { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; }
+            .m-sort label { font-size: 0.78rem; color: var(--text-secondary); }
+            .m-sort select { flex: 1 1 auto; min-width: 0; padding: 9px 10px; border-radius: var(--r-md); border: 1px solid var(--line-2);
+                background: var(--fn-card-2, var(--bg-card)); color: var(--text-primary); font-family: var(--fn-body); font-size: 0.88rem; }
+            .m-sort button { flex: none; width: 40px; height: 38px; border-radius: var(--r-md); border: 1px solid var(--line-2);
+                background: rgba(255, 255, 255, 0.04); color: var(--text-primary); font-size: 1rem; cursor: pointer; }
+            #username-table .table-scroll, #lineup-table .table-scroll, #portfolio-table .table-scroll, .whatif-table-scroll .table-scroll { overflow: visible !important; max-height: none !important; }
+            #username-table table, #lineup-table table, #portfolio-table table, .whatif-table-scroll table { min-width: 0 !important; width: 100%; display: block; }
+            #username-table thead, #lineup-table thead, #portfolio-table thead, .whatif-table-scroll thead { display: none; }
+            #username-table tbody, #lineup-table tbody, #portfolio-table tbody, .whatif-table-scroll tbody { display: flex; flex-direction: column; gap: 8px; }
+            #username-table tr.row-main, #lineup-table tr.row-main, #portfolio-table tr.row-main, .whatif-table-scroll tr.row-main {
+                display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px 8px; align-items: start;
+                padding: 12px 12px 13px; border: 1px solid var(--line-1); border-radius: var(--r-md); background: var(--fn-card-2, var(--bg-card));
+            }
+            #username-table tr.row-main.expanded, #lineup-table tr.row-main.expanded, #portfolio-table tr.row-main.expanded, .whatif-table-scroll tr.row-main.expanded { border-color: rgba(var(--a-rgb), 0.45); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+            #username-table tr.row-main > td, #lineup-table tr.row-main > td, #portfolio-table tr.row-main > td, .whatif-table-scroll tr.row-main > td { display: block; padding: 0; border: 0; background-color: transparent; text-align: left; white-space: nowrap;
+                overflow: hidden; text-overflow: ellipsis; min-width: 0; font-size: 0.86rem; position: static; padding-bottom: 6px; }
+            /* labelled tiles: a small caption over each number, and the share bar as a thin line under it */
+            #username-table tr.row-main > td::before, #lineup-table tr.row-main > td::before, #portfolio-table tr.row-main > td::before, .whatif-table-scroll tr.row-main > td::before { display: block; font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.08em;
+                text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+            #username-table tr.row-main > td.depth, #lineup-table tr.row-main > td.depth, #portfolio-table tr.row-main > td.depth, .whatif-table-scroll tr.row-main > td.depth { padding-bottom: 6px; background-size: calc(var(--p, 0) * 100%) 3px, 100% 3px; background-position: 0 100%, 0 100%; }
+            /* the top line of each card */
+            #username-table tr.row-main > td:nth-child(1), .whatif-table-scroll tr.row-main > td:nth-child(1) { grid-row: 1; grid-column: 1 / span 1; align-self: center; }
+            #username-table tr.row-main > td:nth-child(2), .whatif-table-scroll tr.row-main > td:nth-child(2) { grid-row: 1; grid-column: 2 / span 1; align-self: center; color: var(--text-secondary); font-size: 0.8rem; }
+            #username-table tr.row-main > td:nth-child(3), .whatif-table-scroll tr.row-main > td:nth-child(3) { grid-row: 1; grid-column: 3 / span 6; align-self: center; font-size: 1rem; font-weight: 700; }
+            #username-table tr.row-main > td:nth-child(8), .whatif-table-scroll tr.row-main > td:nth-child(5) { grid-row: 1; grid-column: 9 / span 4; align-self: center; text-align: right; font-size: 1.05rem; font-weight: 700; }
+            #lineup-table tr.row-main > td:nth-child(1) { grid-row: 1; grid-column: 1 / span 6; align-self: center; color: var(--text-secondary); font-size: 0.8rem; }
+            #lineup-table tr.row-main > td:nth-child(7) { grid-row: 1; grid-column: 7 / span 6; align-self: center; text-align: right; font-size: 1.05rem; font-weight: 700; }
+            #lineup-table tr.row-main > td:nth-child(2) { grid-row: 2; grid-column: 1 / -1; white-space: normal; }
+            #lineup-table .lu-line { flex-wrap: wrap; gap: 2px 6px; font-size: 0.92rem; }
+            #portfolio-table tr.row-main > td:nth-child(1) { grid-row: 1; grid-column: 1 / span 1; align-self: center; color: var(--text-secondary); font-size: 0.8rem; }
+            #portfolio-table tr.row-main > td:nth-child(2) { grid-row: 1; grid-column: 2 / span 7; align-self: center; font-size: 1rem; font-weight: 700; }
+            #portfolio-table tr.row-main > td:nth-child(8) { grid-row: 1; grid-column: 9 / span 4; align-self: center; text-align: right; font-size: 1.05rem; font-weight: 700; }
+            /* the tiles */
+            #username-table tr.row-main > td:nth-child(4) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(5) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(6) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(7) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(9) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(10) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(11) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(12) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(13) { grid-column: span 4; }
+            #lineup-table tr.row-main > td:nth-child(3) { grid-column: span 3; }
+            #lineup-table tr.row-main > td:nth-child(4) { grid-column: span 3; }
+            #lineup-table tr.row-main > td:nth-child(5) { grid-column: span 3; }
+            #lineup-table tr.row-main > td:nth-child(6) { grid-column: span 3; }
+            #lineup-table tr.row-main > td:nth-child(8) { grid-column: span 3; }
+            #lineup-table tr.row-main > td:nth-child(9) { grid-column: span 3; }
+            #lineup-table tr.row-main > td:nth-child(10) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(3) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(4) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(5) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(6) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(7) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(9) { grid-column: span 3; }
+            #portfolio-table tr.row-main > td:nth-child(10) { grid-column: span 3; }
+            .whatif-table-scroll tr.row-main > td:nth-child(4) { grid-column: span 4; }
+            .whatif-table-scroll tr.row-main > td:nth-child(6) { grid-column: span 4; }
+            .whatif-table-scroll tr.row-main > td:nth-child(7) { grid-column: span 4; }
+            #username-table tr.row-main > td:nth-child(4)::before { content: "Win %"; }
+            #username-table tr.row-main > td:nth-child(5)::before { content: "2nd %"; }
+            #username-table tr.row-main > td:nth-child(6)::before { content: "3rd %"; }
+            #username-table tr.row-main > td:nth-child(7)::before { content: "Cash %"; }
+            #username-table tr.row-main > td:nth-child(9)::before { content: "ROI"; }
+            #username-table tr.row-main > td:nth-child(10)::before { content: "Own sum"; }
+            #username-table tr.row-main > td:nth-child(11)::before { content: "Proj"; }
+            #username-table tr.row-main > td:nth-child(12)::before { content: "Salary"; }
+            #username-table tr.row-main > td:nth-child(13)::before { content: "Copies"; }
+            #lineup-table tr.row-main > td:nth-child(3)::before { content: "Win %"; }
+            #lineup-table tr.row-main > td:nth-child(4)::before { content: "2nd %"; }
+            #lineup-table tr.row-main > td:nth-child(5)::before { content: "3rd %"; }
+            #lineup-table tr.row-main > td:nth-child(6)::before { content: "Cash %"; }
+            #lineup-table tr.row-main > td:nth-child(8)::before { content: "Proj"; }
+            #lineup-table tr.row-main > td:nth-child(9)::before { content: "Salary"; }
+            #lineup-table tr.row-main > td:nth-child(10)::before { content: "Copies"; }
+            #portfolio-table tr.row-main > td:nth-child(3)::before { content: "Entries"; }
+            #portfolio-table tr.row-main > td:nth-child(4)::before { content: "Win %"; }
+            #portfolio-table tr.row-main > td:nth-child(5)::before { content: "2nd %"; }
+            #portfolio-table tr.row-main > td:nth-child(6)::before { content: "3rd %"; }
+            #portfolio-table tr.row-main > td:nth-child(7)::before { content: "Top 3 %"; }
+            #portfolio-table tr.row-main > td:nth-child(9)::before { content: "ROI"; }
+            #portfolio-table tr.row-main > td:nth-child(10)::before { content: "Avg salary"; }
+            .whatif-table-scroll tr.row-main > td:nth-child(4)::before { content: "Score"; }
+            .whatif-table-scroll tr.row-main > td:nth-child(6)::before { content: "Salary"; }
+            .whatif-table-scroll tr.row-main > td:nth-child(7)::before { content: "Copies"; }
+            /* the expanded part hangs off the bottom of its card */
+            #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -8px; border: 1px solid rgba(var(--a-rgb), 0.45); border-top: 0;
+                border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }
+            #username-table tr.lineup-row.expanded > td, #lineup-table tr.lineup-row.expanded > td, #portfolio-table tr.lineup-row.expanded > td, .whatif-table-scroll tr.lineup-row.expanded > td { display: block; padding: 0; border: 0; }
+            #username-table .lineup-container, #lineup-table .lineup-container, #portfolio-table .lineup-container, .whatif-table-scroll .lineup-container, #username-table .username-tiles, #lineup-table .username-tiles, #portfolio-table .username-tiles, .whatif-table-scroll .username-tiles { position: static; max-width: none; padding: 10px; }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -7923,6 +8021,43 @@
             c.textContent = !moreFiltersOpen && n ? String(n) : '';
             c.hidden = !c.textContent;
         }
+        // Phones hide the table header, so each contest table gets a Sort control
+        // above it (shown by CSS on phones only), built from that table's own
+        // sortable columns. It drives the same sort as tapping a header.
+        function initMobileSort() {
+            ['#username-table', '#lineup-table', '#portfolio-table', '.whatif-table-scroll'].forEach(id => {
+                const box = document.querySelector(id);
+                if (!box || box.querySelector('.m-sort')) return;
+                const opts = [...box.querySelectorAll('thead th.sortable')].map(th => {
+                    const m = (th.getAttribute('onclick') || '').match(/setSort\('([^']+)'\)/);
+                    return m ? `<option value="${m[1]}">${th.textContent.trim()}</option>` : '';
+                }).join('');
+                if (!opts) return;
+                const wrap = document.createElement('div');
+                wrap.className = 'm-sort';
+                wrap.innerHTML = `<label>Sort</label><select aria-label="Sort by"><option value="__cur" disabled hidden></option>${opts}</select><button type="button" aria-label="Reverse the order">\u2193</button>`;
+                wrap.querySelector('select').addEventListener('change', e => {
+                    currentSort = e.target.value; sortAscending = currentSort === 'Username';
+                    filterAndRender();
+                });
+                wrap.querySelector('button').addEventListener('click', () => { sortAscending = !sortAscending; filterAndRender(); });
+                box.prepend(wrap);
+            });
+            syncMobileSort();
+        }
+        function syncMobileSort() {
+            document.querySelectorAll('.m-sort').forEach(w => {
+                const sel = w.querySelector('select');
+                sel.value = currentSort;
+                if (sel.value !== currentSort) {
+                    // sorted by a column this table doesn't offer: name it anyway
+                    const th = [...document.querySelectorAll('thead th.sortable')].find(t => (t.getAttribute('onclick') || '').includes(`'${currentSort}'`));
+                    sel.options[0].textContent = th ? th.textContent.trim() : 'Rank';
+                    sel.value = '__cur';
+                }
+                w.querySelector('button').textContent = sortAscending ? '\u2191' : '\u2193';
+            });
+        }
         function toggleHideDead(on) {
             hideDead = on;
             filterAndRender();
@@ -7939,6 +8074,7 @@
         
         function filterAndRender() {
             syncMoreFilters();
+            syncMobileSort();
             const searchUser = document.getElementById('search-user').value.toLowerCase();
             // v2 color: the sorted column's header carries the orange caret
             document.querySelectorAll('.leaderboard-page th.sortable[onclick^="setSort"]')
@@ -9293,6 +9429,7 @@
         
         // Start
         initLanding();
+        initMobileSort();
 
         // ==================== FIGHTER PHOTOS ====================
         // fighter_images.json (written by publish from the UFC.com event pages)

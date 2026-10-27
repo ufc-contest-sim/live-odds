@@ -4923,26 +4923,26 @@
             .whatif-table-scroll tr.row-main > td:nth-child(4) { grid-column: span 4; }
             .whatif-table-scroll tr.row-main > td:nth-child(6) { grid-column: span 4; }
             .whatif-table-scroll tr.row-main > td:nth-child(7) { grid-column: span 4; }
-            #username-table tr.row-main > td:nth-child(4)::before { content: "🥇 Win %"; }
-            #username-table tr.row-main > td:nth-child(5)::before { content: "🥈 2nd %"; }
-            #username-table tr.row-main > td:nth-child(6)::before { content: "🥉 3rd %"; }
+            #username-table tr.row-main > td:nth-child(4)::before { content: "🥇\2009%"; }
+            #username-table tr.row-main > td:nth-child(5)::before { content: "🥈\2009%"; }
+            #username-table tr.row-main > td:nth-child(6)::before { content: "🥉\2009%"; }
             #username-table tr.row-main > td:nth-child(7)::before { content: "Cash %"; }
             #username-table tr.row-main > td:nth-child(9)::before { content: "ROI"; }
             #username-table tr.row-main > td:nth-child(10)::before { content: "Own sum"; }
             #username-table tr.row-main > td:nth-child(11)::before { content: "Proj"; }
             #username-table tr.row-main > td:nth-child(12)::before { content: "Salary"; }
             #username-table tr.row-main > td:nth-child(13)::before { content: "Copies"; }
-            #lineup-table tr.row-main > td:nth-child(3)::before { content: "🥇 Win %"; }
-            #lineup-table tr.row-main > td:nth-child(4)::before { content: "🥈 2nd %"; }
-            #lineup-table tr.row-main > td:nth-child(5)::before { content: "🥉 3rd %"; }
+            #lineup-table tr.row-main > td:nth-child(3)::before { content: "🥇\2009%"; }
+            #lineup-table tr.row-main > td:nth-child(4)::before { content: "🥈\2009%"; }
+            #lineup-table tr.row-main > td:nth-child(5)::before { content: "🥉\2009%"; }
             #lineup-table tr.row-main > td:nth-child(6)::before { content: "Cash %"; }
             #lineup-table tr.row-main > td:nth-child(8)::before { content: "Proj"; }
             #lineup-table tr.row-main > td:nth-child(9)::before { content: "Salary"; }
             #lineup-table tr.row-main > td:nth-child(10)::before { content: "Copies"; }
             #portfolio-table tr.row-main > td:nth-child(3)::before { content: "Entries"; }
-            #portfolio-table tr.row-main > td:nth-child(4)::before { content: "🥇 Win %"; }
-            #portfolio-table tr.row-main > td:nth-child(5)::before { content: "🥈 2nd %"; }
-            #portfolio-table tr.row-main > td:nth-child(6)::before { content: "🥉 3rd %"; }
+            #portfolio-table tr.row-main > td:nth-child(4)::before { content: "🥇\2009%"; }
+            #portfolio-table tr.row-main > td:nth-child(5)::before { content: "🥈\2009%"; }
+            #portfolio-table tr.row-main > td:nth-child(6)::before { content: "🥉\2009%"; }
             #portfolio-table tr.row-main > td:nth-child(7)::before { content: "Top 3 %"; }
             #portfolio-table tr.row-main > td:nth-child(9)::before { content: "ROI"; }
             #portfolio-table tr.row-main > td:nth-child(10)::before { content: "Avg salary"; }
@@ -4954,6 +4954,8 @@
             #username-table tr.row-main > td:nth-child(4), #username-table tr.row-main > td:nth-child(7), #username-table tr.row-main > td:nth-child(11), #lineup-table tr.row-main > td:nth-child(3), #lineup-table tr.row-main > td:nth-child(8), #portfolio-table tr.row-main > td:nth-child(3), #portfolio-table tr.row-main > td:nth-child(7), .whatif-table-scroll tr.row-main > td:nth-child(4) { align-items: flex-start; text-align: left; }
             #username-table tr.row-main > td:nth-child(5), #username-table tr.row-main > td:nth-child(9), #username-table tr.row-main > td:nth-child(12), #lineup-table tr.row-main > td:nth-child(4), #lineup-table tr.row-main > td:nth-child(5), #lineup-table tr.row-main > td:nth-child(9), #portfolio-table tr.row-main > td:nth-child(4), #portfolio-table tr.row-main > td:nth-child(5), #portfolio-table tr.row-main > td:nth-child(9), .whatif-table-scroll tr.row-main > td:nth-child(6) { align-items: center; text-align: center; }
             #username-table tr.row-main > td:nth-child(6), #username-table tr.row-main > td:nth-child(10), #username-table tr.row-main > td:nth-child(13), #lineup-table tr.row-main > td:nth-child(6), #lineup-table tr.row-main > td:nth-child(10), #portfolio-table tr.row-main > td:nth-child(6), #portfolio-table tr.row-main > td:nth-child(10), .whatif-table-scroll tr.row-main > td:nth-child(7) { align-items: flex-end; text-align: right; }
+            /* medals stand in for the Win, 2nd and 3rd words, a little larger than the other labels */
+            #username-table tr.row-main > td:nth-child(4)::before, #username-table tr.row-main > td:nth-child(5)::before, #username-table tr.row-main > td:nth-child(6)::before, #lineup-table tr.row-main > td:nth-child(3)::before, #lineup-table tr.row-main > td:nth-child(4)::before, #lineup-table tr.row-main > td:nth-child(5)::before, #portfolio-table tr.row-main > td:nth-child(4)::before, #portfolio-table tr.row-main > td:nth-child(5)::before, #portfolio-table tr.row-main > td:nth-child(6)::before { font-size: 0.86rem; line-height: 1; letter-spacing: 0; margin-bottom: 2px; }
             /* the expanded part hangs off the bottom of its card */
             #username-table tr.lineup-row.expanded, #lineup-table tr.lineup-row.expanded, #portfolio-table tr.lineup-row.expanded, .whatif-table-scroll tr.lineup-row.expanded { display: block; margin-top: -14px; border: 1px solid rgba(var(--a-rgb), 0.45); border-top: 0;
                 border-radius: 0 0 var(--r-md) var(--r-md); background: rgba(0, 0, 0, 0.18); }

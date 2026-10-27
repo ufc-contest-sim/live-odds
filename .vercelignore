@@ -4,6 +4,7 @@ PostContestSim.py
 Post Contest Sim.xlsm
 publish_results.py
 export_fight_order.py
+export_fighter_images.py
 scrape_dk_contests.py
 scrape_ufc_stats.py
 scrape_actuals.py

@@ -4955,6 +4955,12 @@
             #landing-page .masthead { padding-top: 6px; }
             #leaderboard-page.leaderboard-page { padding-top: 12px; }
         }
+        /* landing search results: no panel around them; the stat tiles, the chart,
+           Fighter Exposure and the contests table each stand on the page as their own tile */
+        #quick-search-results.visible { background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+        #quick-search-results .search-results-header { padding-left: 0; padding-right: 0; }
+        #quick-search-results #portfolio-chart-wrapper { background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+        #quick-search-results .sr-table { margin-top: 0; }
         /* landing search: the user's contests as a compact table, best Net EV first */
         .sr-table { margin-top: 14px; border: 1px solid var(--line-1); border-radius: var(--r-md); overflow: hidden; background: var(--fn-card-2, var(--bg-card)); }
         .sr-head, .sr-row { display: grid; grid-template-columns: minmax(0, 1fr) 84px 92px 84px 18px; gap: 0 14px; align-items: center; padding: 0 16px; }

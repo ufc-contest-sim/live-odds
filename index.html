@@ -2981,20 +2981,24 @@
         .fph .ini { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Chakra Petch', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.5px; }
         .fph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: translateY(8%) scale(1.4); transform-origin: 50% 0; }
         /* matchup figure: the fighter (photo or plain silhouette) with a zone bar on the inner side */
-        .fmx-figwrap { display: flex; align-items: stretch; justify-content: center; gap: 14px; }
+        .fmx-figwrap { display: flex; align-items: stretch; justify-content: center; gap: 10px; }
         .fmx-figwrap .fmx-body { margin: 0; flex: 0 1 auto; }
         .fmx-figwrap .fmx-sil { background: #2c2a31; }
         .fmx-body.photo { max-width: 190px; aspect-ratio: auto; display: flex; align-items: flex-end; }
         .fmx-body.photo img { display: block; width: auto; max-width: 100%; height: min(411px, 88vw); object-fit: contain; }
         .fmx-body.photo img.flip { transform: scaleX(-1); }
-        .fmx-zbar { position: relative; flex: none; width: 40px; border-radius: 8px; border: 1px solid var(--glass-border); }
-        .fmx-zbar b { position: absolute; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; line-height: 1.05;
-            font-family: 'Chakra Petch', monospace; font-size: 0.74rem; font-weight: 700; color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); white-space: nowrap; }
-        .fmx-zbar b small { font-size: 0.52rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.85; }
+        /* a thin strip with the readings beside it, on the side facing the other fighter */
+        .fmx-zbar { position: relative; flex: none; width: 6px; border-radius: 3px; margin-right: 34px; }
+        .fmx-figwrap.rt .fmx-zbar { margin-right: 0; margin-left: 34px; }
+        .fmx-zbar b { position: absolute; left: calc(100% + 6px); transform: translateY(-50%); display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1;
+            font-family: 'Chakra Petch', monospace; font-size: 0.7rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+        .fmx-figwrap.rt .fmx-zbar b { left: auto; right: calc(100% + 6px); align-items: flex-end; }
+        .fmx-zbar b small { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--text-secondary); }
         @media (max-width: 600px) {
-            .fmx-figwrap { gap: 8px; }
-            .fmx-zbar { width: 34px; }
-            .fmx-zbar b { font-size: 0.66rem; }
+            .fmx-figwrap { gap: 6px; }
+            .fmx-zbar { width: 5px; margin-right: 28px; }
+            .fmx-figwrap.rt .fmx-zbar { margin-left: 28px; }
+            .fmx-zbar b { font-size: 0.62rem; }
         }
         /* the initials are only a fallback: hidden while a photo is there, back if it fails to load */
         .fph:has(img) .ini { display: none; }
@@ -3024,7 +3028,7 @@
         }
         .fmx-toggle button.sel { background: var(--accent); border-color: var(--accent); color: #180a02; font-weight: 700; }
         .fmx-legend { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; }
-        .fmx-legend .bar { width: 110px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, #2b2118, #a34608, #ff9d3d); }
+        .fmx-legend .bar { width: 110px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, hsl(24, 0%, 46%), hsl(24, 50%, 51%), hsl(24, 100%, 56%)); }
         .fmx-legend span { font-family: 'Chakra Petch', monospace; font-size: 0.58rem; color: var(--text-secondary); }
         .fmx-sec { font-family: 'Chakra Petch', monospace; font-size: 0.66rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-lo); font-weight: 700; margin: 16px 0 4px; padding-top: 12px; border-top: 1px solid var(--glass-border); }
         .fmx-sec:first-of-type { border-top: none; padding-top: 0; }
@@ -5505,6 +5509,20 @@
 
         // Best-effort fire-and-forget POST to the sheet. no-cors + text/plain
         // avoids a CORS preflight (Apps Script reads e.postData.contents).
+        // What kind of device this is, for the sheet's Device column. iPads on
+        // iPadOS 13+ describe themselves as a Mac, so a Mac with a touch screen
+        // counts as a tablet; Android tablets leave "Mobile" out of the string.
+        function deviceKind() {
+            try {
+                const ua = navigator.userAgent || '';
+                if (/iPad|Tablet|Kindle|Silk|PlayBook/i.test(ua)) return 'Tablet';
+                if (/Macintosh/.test(ua) && navigator.maxTouchPoints > 0) return 'Tablet';   // Macs report no touch points
+                if (/Android/i.test(ua)) return /Mobile/i.test(ua) ? 'Phone' : 'Tablet';
+                if (/iPhone|iPod|Windows Phone|IEMobile|BlackBerry|Opera Mini/i.test(ua)) return 'Phone';
+                if (navigator.userAgentData && navigator.userAgentData.mobile) return 'Phone';
+                return 'PC / Laptop';
+            } catch (e) { return ''; }
+        }
         function logEvent(event, query) {
             if (!SHEET_ENDPOINT) return;
             if (isOwner()) return;   // don't log the owner's own activity
@@ -5522,6 +5540,7 @@
                     ref: navigator.userAgent + (dev ? ' | dev ' + dev : '') + (referrer ? ' | ref ' + referrer : ''),
                     browser: navigator.userAgent,
                     device: dev,
+                    kind: deviceKind(),   // Phone, Tablet or PC / Laptop: the sheet's Device column
                     referrer: referrer
                 });
                 const direct = () => fetch(SHEET_ENDPOINT, {
@@ -11113,13 +11132,11 @@
             // traced to an alpha mask). The three zone colours are painted as a
             // soft vertical blend behind it and the mask cuts them to the body,
             // so nothing here is hand-drawn anatomy.
-            function fmxHeat(t) {   // t: 0..1 -> dim ember to hot amber
-                const stops = [[0, [43, 33, 24]], [0.5, [163, 70, 8]], [1, [255, 157, 61]]];
+            function fmxHeat(t) {   // t: 0..1 -> grey to orange, no brown between
+                // one hue, saturation rising with the rank and lightness rising with
+                // it, so the middle reads as faded orange instead of a dark brown
                 t = Math.max(0, Math.min(1, t));
-                let a = stops[0], b = stops[stops.length - 1];
-                for (let i = 0; i < stops.length - 1; i++) if (t >= stops[i][0] && t <= stops[i + 1][0]) { a = stops[i]; b = stops[i + 1]; break; }
-                const f = (t - a[0]) / ((b[0] - a[0]) || 1);
-                return 'rgb(' + a[1].map((c, i) => Math.round(c + (b[1][i] - c) * f)).join(',') + ')';
+                return `hsl(24, ${Math.round(100 * t)}%, ${(46 + 10 * t).toFixed(1)}%)`;
             }
             function fmxBodyHTML(p, mode, name, side) {
                 const pre = mode === 'absorb' ? 'abs_' : 'tgt_';

@@ -7052,98 +7052,14 @@
             `;
         }
 
-        function renderPortfolioFilters(contestNames, byContest, allPctData) {
+        // The outcome chart always covers every contest the user entered. Only
+        // that combination comes straight from the simulation (each run scores
+        // all contests on the same fight results), so there is no contest picker:
+        // a partial selection could only be approximated by adding percentiles,
+        // which overstates both tails.
+        function renderPortfolioFilters() {
             const filtersEl = document.getElementById('portfolio-filters');
-            if (!filtersEl) return;
-            if (!contestNames || !byContest || Object.keys(byContest).length < 2) {
-                filtersEl.innerHTML = '';
-                return;
-            }
-            // Only show contests the user participates in
-            const userContests = contestNames.filter(c => byContest[c]);
-            if (userContests.length < 2) { filtersEl.innerHTML = ''; return; }
-            filtersEl.innerHTML = `
-                <div class="pfd">
-                    <button type="button" class="pfd-btn" aria-haspopup="true" aria-expanded="false">
-                        <span>Contests</span>
-                        <span class="pfd-count">${userContests.length} of ${userContests.length}</span>
-                        <span class="pfd-caret">&#9662;</span>
-                    </button>
-                    <div class="pfd-menu" hidden>
-                        <div class="pfd-actions">
-                            <button type="button" data-pfd="all">All</button>
-                            <button type="button" data-pfd="none">None</button>
-                        </div>
-                        ${userContests.map(c => `<label class="pfd-item"><input type="checkbox" checked data-contest="${pexEsc(c)}"><span>${pexEsc(c)}</span></label>`).join('')}
-                    </div>
-                </div>`;
-            // Store data for recomputation
-            filtersEl._byContest = byContest;
-            filtersEl._allPctData = allPctData;
-            filtersEl._userContests = userContests;
-            filtersEl.addEventListener('change', onPortfolioFilterChange);
-
-            // Open/close the menu; All/None tick everything on or off.
-            const pfd = filtersEl.querySelector('.pfd');
-            const btn = pfd.querySelector('.pfd-btn');
-            const menu = pfd.querySelector('.pfd-menu');
-            const setOpen = (open) => {
-                pfd.classList.toggle('open', open);
-                menu.hidden = !open;
-                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-            };
-            btn.addEventListener('click', (e) => { e.stopPropagation(); setOpen(menu.hidden); });
-            menu.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const act = e.target.closest('[data-pfd]');
-                if (!act) return;
-                menu.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = act.dataset.pfd === 'all'; });
-                onPortfolioFilterChange();
-            });
-            installDropdownClose();
-        }
-
-        function onPortfolioFilterChange() {
-            const filtersEl = document.getElementById('portfolio-filters');
-            if (!filtersEl || !filtersEl._byContest) return;
-            const checkboxes = filtersEl.querySelectorAll('input[type="checkbox"]');
-            const selected = [];
-            checkboxes.forEach(cb => { if (cb.checked) selected.push(cb.dataset.contest); });
-            // Keep the dropdown button honest: "3 of 11", highlighted while filtered.
-            const countEl = filtersEl.querySelector('.pfd-count');
-            const btnEl = filtersEl.querySelector('.pfd-btn');
-            if (countEl) countEl.textContent = `${selected.length} of ${checkboxes.length}`;
-            if (btnEl) btnEl.classList.toggle('filtered', selected.length !== checkboxes.length);
-            if (selected.length === 0) {
-                // "None" leaves nothing to show: say so instead of leaving the
-                // previous selection's numbers on screen.
-                const qp = document.getElementById('portfolio-quintiles');
-                if (qp) qp.innerHTML = '<div class="pq-stats"><span class="pq-stat">No contests selected</span></div>';
-                renderPortfolioExposure([]);
-                return;
-            }
-            const allSelected = selected.length === filtersEl._userContests.length;
-            // The fighter exposure list follows the same checkboxes: every
-            // contest when all are ticked, otherwise only the ticked ones.
-            renderPortfolioExposure(allSelected ? null : selected);
-            if (allSelected) {
-                // All selected — use pre-computed accurate "all" data
-                renderPortfolioQuintiles(filtersEl._allPctData);
-            } else {
-                // Sum per-contest percentiles for selected contests (approximate)
-                const pKeys = ['min','p1','p5','p10','p15','p20','p25','p30','p35','p40','p45','p50','p55','p60','p65','p70','p75','p80','p85','p90','p95','p99','max'];
-                const combined = {};
-                for (const pk of pKeys) {
-                    combined[pk] = 0;
-                    for (const cname of selected) {
-                        if (filtersEl._byContest[cname] && filtersEl._byContest[cname][pk] !== undefined) {
-                            combined[pk] += filtersEl._byContest[cname][pk];
-                        }
-                    }
-                    combined[pk] = Math.round(combined[pk] * 100) / 100;
-                }
-                renderPortfolioQuintiles(combined);
-            }
+            if (filtersEl) filtersEl.innerHTML = '';
         }
 
         // ---------- Fighter exposure (landing-page username search) ----------
@@ -7643,8 +7559,8 @@
                 </div>
             `;
 
-            // Fighter exposure list: data lives on the filters element next to
-            // _byContest so the contest checkboxes can re-aggregate it.
+            // Fighter exposure list: its per-contest data lives on the filters
+            // element, where renderPortfolioExposure reads it.
             const filtersEl = document.getElementById('portfolio-filters');
             if (filtersEl) {
                 filtersEl._exposureByContest = exposureByContest;

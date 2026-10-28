@@ -5098,8 +5098,9 @@
             #username-table .m-stand th:nth-child(3), #username-table .m-stand td:nth-child(3),
             #username-table .m-stand th:nth-child(4), #username-table .m-stand td:nth-child(4),
             #username-table .m-stand th:nth-child(5), #username-table .m-stand td:nth-child(5) { width: 50px; }
-            #username-table .m-stand th:nth-child(6), #username-table .m-stand td:nth-child(6) { width: 54px; padding-right: 2px; }
-            #username-table .m-stand th:nth-child(n+3) { font-size: 0.62rem; letter-spacing: 0; }
+            #username-table .m-stand th:nth-child(6), #username-table .m-stand td:nth-child(6) { width: 54px; }
+            #username-table .m-stand th:nth-child(n+3) { letter-spacing: 0.02em; }
+            #username-table .m-stand th:nth-child(n+3), #username-table .m-stand td:nth-child(n+3) { text-align: center; }
             #username-table .m-stand td.u { font-size: 0.86rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
             #username-table .m-stand tr[data-user] { cursor: pointer; }
             #username-table .m-stand tr[data-user]:active { background: rgba(var(--a-rgb), 0.08); }
@@ -8298,7 +8299,7 @@
             const medals = ['', '\u{1F947}', '\u{1F948}', '\u{1F949}'];
             const pct = v => v != null ? fmtWin(v) : '--';
             const roiText = v => { const a = Math.abs(v); return (v < 0 ? '-' : '') + (a >= 100 ? Math.round(a).toLocaleString() : a.toFixed(1)) + '%'; };
-            wrap.innerHTML = `<table><thead><tr><th class="p">#</th><th class="u">Username</th><th>${medals[1]} %</th><th>${medals[2]} %</th><th>${medals[3]} %</th><th>ROI</th></tr></thead><tbody>` +
+            wrap.innerHTML = `<table><thead><tr><th class="p">#</th><th class="u">Username</th><th>1st %</th><th>2nd %</th><th>3rd %</th><th>ROI</th></tr></thead><tbody>` +
                 shown.map(({ row, pos, medal }) => {
                     const roi = row['ROI%'] || 0;
                     return `<tr data-user="${phEsc(row.Username || '')}"${medal ? ` class="top m${medal}"` : ''}>` +

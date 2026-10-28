@@ -5102,13 +5102,28 @@
             #username-table .m-stand th:nth-child(n+3) { letter-spacing: 0.02em; }
             #username-table .m-stand th:nth-child(n+3), #username-table .m-stand td:nth-child(n+3) { text-align: center; }
             #username-table .m-stand td.u { font-size: 0.86rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
-            #username-table .m-stand tr[data-user] { cursor: pointer; }
-            #username-table .m-stand tr[data-user]:active { background: rgba(var(--a-rgb), 0.08); }
+            #username-table .m-stand tr[data-i] { cursor: pointer; }
+            #username-table .m-stand tr[data-i]:active { background: rgba(var(--a-rgb), 0.08); }
             #username-table .m-stand tr.top td { background: rgba(var(--a-rgb), 0.05); }
             #username-table .m-stand .md { font-size: 1.25rem; line-height: 1; }
             #username-table .m-stand .rk { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 22px; padding: 0 5px; box-sizing: border-box; border-radius: 6px;
                 background: rgba(var(--a-rgb), 0.16); border: 1px solid rgba(var(--a-rgb), 0.5); color: var(--accent-hi); font-family: var(--fn-mono); font-size: 0.7rem; font-weight: 700; }
             #username-table .m-stand td.positive { color: var(--accent-green); } #username-table .m-stand td.negative { color: var(--accent-red); }
+            /* one lineup's card, opened under its row */
+            #username-table .m-stand tr.open td { background: rgba(var(--a-rgb), 0.12); border-bottom: 0; }
+            #username-table .m-stand td.st-cell { height: auto; padding: 0 0 12px; white-space: normal; text-align: left; border-bottom: 1px solid var(--line-1); background: transparent; }
+            #username-table .st-card { border: 2px solid rgba(var(--a-rgb), 0.55); border-top: 0; border-radius: 0 0 var(--r-md) var(--r-md); background: var(--fn-card-2, var(--bg-card)); padding: 12px 14px 4px; }
+            #username-table .st-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 10px; font-size: 1rem; font-weight: 700; }
+            #username-table .st-top b { font-size: 1.05rem; }
+            #username-table .st-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 8px; }
+            #username-table .st-tiles > div { display: flex; flex-direction: column; min-width: 0; }
+            #username-table .st-tiles > div:nth-child(3n+2) { align-items: center; text-align: center; }
+            #username-table .st-tiles > div:nth-child(3n) { align-items: flex-end; text-align: right; }
+            #username-table .st-tiles span { font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+            #username-table .st-tiles > div:nth-child(-n+3) span { font-size: 0.86rem; letter-spacing: 0; line-height: 1; margin-bottom: 2px; }
+            #username-table .st-tiles b { font-size: 0.88rem; font-weight: 600; }
+            #username-table .st-card .positive { color: var(--accent-green); } #username-table .st-card .negative { color: var(--accent-red); }
+            #username-table .st-card .lineup-container { padding: 6px 0 10px; border-top: 1px solid var(--line-1); margin-top: 4px; }
             #username-table .m-stand .no-results { padding: 24px 0; text-align: center; color: var(--text-secondary); }
         }
         /* --- refine: end --- */
@@ -8252,6 +8267,27 @@
             return fieldStandingsMap;
         }
 
+        let standOpen = null;   // the one lineup opened from the standings
+        // the card for one lineup, opened under its standings row
+        function standingsCard(row, roiText) {
+            const pct = v => v != null ? fmtWin(v) : '--';
+            const roi = row['ROI%'] || 0;
+            const tiles = [
+                ['\u{1F947} %', pct(row.WinPct)], ['\u{1F948} %', pct(row.SecondPct)], ['\u{1F949} %', pct(row.ThirdPct)],
+                ['Cash %', pct(row.CashPct)], ['ROI', roiText(roi), roi >= 0 ? 'positive' : 'negative'], ['Own sum', pct(row.OwnSum)],
+                ['Proj', (row.MeanScore || 0).toFixed(2)], ['Salary', row.TotalSalary ? '$' + Number(row.TotalSalary).toLocaleString() : '--'], ['Copies', row.Copies || 0],
+            ];
+            const fighters = [];
+            for (let k = 1; k <= 6; k++) if (row[`F${k}`]) fighters.push(row[`F${k}`]);
+            fighters.sort(byFighterName);
+            const ev = row.NetEV || 0;
+            return `<div class="st-card">` +
+                `<div class="st-top"><span>${phEsc(row.Username || '')}</span><b class="${ev >= 0 ? 'positive' : 'negative'}">${fmtDollars(ev)}</b></div>` +
+                `<div class="st-tiles">${tiles.map(([k, v, c]) => `<div><span>${k}</span><b${c ? ` class="${c}"` : ''}>${v}</b></div>`).join('')}</div>` +
+                `<div class="lineup-container"><div class="chip-grid">${fighters.map(f => { const sc = lockedFighterScore(f); return `<div class="fighter-chip">${photoHTML(f, 'chip')}${twoLineName(f)}${sc != null ? `<span class="fc-score">${sc.toFixed(2)}</span>` : ''}</div>`; }).join('')}</div></div>` +
+                `</div>`;
+        }
+
         function setStandingsView(v) { standChoice = v; filterAndRender(); }
 
         function renderStandings(data) {
@@ -8275,13 +8311,12 @@
                 wrap = document.createElement('div');
                 wrap.className = 'm-stand';
                 wrap.addEventListener('click', e => {
-                    const tr = e.target.closest('tr[data-user]');
+                    const tr = e.target.closest('tr[data-i]');
                     if (!tr) return;
-                    // a tap shows that person's lineups as cards
-                    const inp = document.getElementById('search-user');
-                    inp.value = tr.dataset.user;
+                    // a tap opens just that lineup's card under its row; again closes it
+                    const row = (wrap._rows || [])[+tr.dataset.i];
+                    standOpen = standOpen === row ? null : row;
                     filterAndRender();
-                    box.scrollIntoView({ block: 'start' });
                 });
                 box.appendChild(wrap);
             }
@@ -8300,14 +8335,17 @@
             const pct = v => v != null ? fmtWin(v) : '--';
             const roiText = v => { const a = Math.abs(v); return (v < 0 ? '-' : '') + (a >= 100 ? Math.round(a).toLocaleString() : a.toFixed(1)) + '%'; };
             wrap.innerHTML = `<table><thead><tr><th class="p">#</th><th class="u">Username</th><th>1st %</th><th>2nd %</th><th>3rd %</th><th>ROI</th></tr></thead><tbody>` +
-                shown.map(({ row, pos, medal }) => {
+                shown.map(({ row, pos, medal }, i) => {
                     const roi = row['ROI%'] || 0;
-                    return `<tr data-user="${phEsc(row.Username || '')}"${medal ? ` class="top m${medal}"` : ''}>` +
+                    const open = row === standOpen;
+                    return `<tr data-i="${i}" class="${medal ? `top m${medal}` : ''}${open ? ' open' : ''}" aria-expanded="${open}">` +
                         `<td class="p">${medal ? `<span class="md">${medals[medal]}</span>` : `<span class="rk">${pos}</span>`}</td>` +
                         `<td class="u">${phEsc(row.Username || '')}</td>` +
                         `<td>${pct(row.WinPct)}</td><td>${pct(row.SecondPct)}</td><td>${pct(row.ThirdPct)}</td>` +
-                        `<td class="${roi >= 0 ? 'positive' : 'negative'}">${roiText(roi)}</td></tr>`;
+                        `<td class="${roi >= 0 ? 'positive' : 'negative'}">${roiText(roi)}</td></tr>` +
+                        (open ? `<tr class="st-open"><td colspan="6" class="st-cell">${standingsCard(row, roiText)}</td></tr>` : '');
                 }).join('') + `</tbody></table>`;
+            wrap._rows = shown.map(o => o.row);
             return true;
         }
 

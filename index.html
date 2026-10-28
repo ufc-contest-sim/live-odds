@@ -5091,14 +5091,16 @@
             #username-table .m-stand thead { display: table-header-group; }
             #username-table .m-stand tbody { display: table-row-group; }
             #username-table .m-stand tr { display: table-row; }
-            #username-table .m-stand th { padding: 9px 4px; font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(20, 12, 4, 0.85); font-weight: 700; text-align: right; }
-            #username-table .m-stand td { padding: 0 4px; height: 44px; font-size: 0.84rem; font-weight: 600; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line-1); }
-            #username-table .m-stand th.p, #username-table .m-stand td.p { width: 38px; text-align: left; padding-left: 2px; }
+            #username-table .m-stand th { padding: 9px 3px; box-sizing: border-box; font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(20, 12, 4, 0.85); font-weight: 700; text-align: right; white-space: nowrap; }
+            #username-table .m-stand td { padding: 0 3px; box-sizing: border-box; height: 44px; font-size: 0.8rem; font-weight: 600; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line-1); }
+            #username-table .m-stand th.p, #username-table .m-stand td.p { width: 36px; text-align: left; padding-left: 2px; }
             #username-table .m-stand th.u, #username-table .m-stand td.u { width: auto; text-align: left; }
-            #username-table .m-stand th:nth-child(3), #username-table .m-stand td:nth-child(3) { width: 52px; }
-            #username-table .m-stand th:nth-child(4), #username-table .m-stand td:nth-child(4) { width: 58px; }
-            #username-table .m-stand th:nth-child(5), #username-table .m-stand td:nth-child(5) { width: 62px; padding-right: 2px; }
-            #username-table .m-stand td.u { font-size: 0.9rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
+            #username-table .m-stand th:nth-child(3), #username-table .m-stand td:nth-child(3),
+            #username-table .m-stand th:nth-child(4), #username-table .m-stand td:nth-child(4),
+            #username-table .m-stand th:nth-child(5), #username-table .m-stand td:nth-child(5) { width: 50px; }
+            #username-table .m-stand th:nth-child(6), #username-table .m-stand td:nth-child(6) { width: 54px; padding-right: 2px; }
+            #username-table .m-stand th:nth-child(n+3) { font-size: 0.62rem; letter-spacing: 0; }
+            #username-table .m-stand td.u { font-size: 0.86rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
             #username-table .m-stand tr[data-user] { cursor: pointer; }
             #username-table .m-stand tr[data-user]:active { background: rgba(var(--a-rgb), 0.08); }
             #username-table .m-stand tr.top td { background: rgba(var(--a-rgb), 0.05); }
@@ -8294,15 +8296,16 @@
                 `Showing ${shown.length.toLocaleString()} of ${list.length.toLocaleString()} lineups`;
             if (!shown.length) { wrap.innerHTML = '<div class="no-results">No lineups match your filters</div>'; return true; }
             const medals = ['', '\u{1F947}', '\u{1F948}', '\u{1F949}'];
-            wrap.innerHTML = `<table><thead><tr><th class="p">#</th><th class="u">Username</th><th>Proj</th><th>Win %</th><th>Net EV</th></tr></thead><tbody>` +
+            const pct = v => v != null ? fmtWin(v) : '--';
+            const roiText = v => { const a = Math.abs(v); return (v < 0 ? '-' : '') + (a >= 100 ? Math.round(a).toLocaleString() : a.toFixed(1)) + '%'; };
+            wrap.innerHTML = `<table><thead><tr><th class="p">#</th><th class="u">Username</th><th>${medals[1]} %</th><th>${medals[2]} %</th><th>${medals[3]} %</th><th>ROI</th></tr></thead><tbody>` +
                 shown.map(({ row, pos, medal }) => {
-                    const ev = row.NetEV || 0;
+                    const roi = row['ROI%'] || 0;
                     return `<tr data-user="${phEsc(row.Username || '')}"${medal ? ` class="top m${medal}"` : ''}>` +
                         `<td class="p">${medal ? `<span class="md">${medals[medal]}</span>` : `<span class="rk">${pos}</span>`}</td>` +
                         `<td class="u">${phEsc(row.Username || '')}</td>` +
-                        `<td>${(row.MeanScore || 0).toFixed(1)}</td>` +
-                        `<td>${fmtWin(row.WinPct || 0)}</td>` +
-                        `<td class="${ev >= 0 ? 'positive' : 'negative'}">${fmtDollars(ev)}</td></tr>`;
+                        `<td>${pct(row.WinPct)}</td><td>${pct(row.SecondPct)}</td><td>${pct(row.ThirdPct)}</td>` +
+                        `<td class="${roi >= 0 ? 'positive' : 'negative'}">${roiText(roi)}</td></tr>`;
                 }).join('') + `</tbody></table>`;
             return true;
         }

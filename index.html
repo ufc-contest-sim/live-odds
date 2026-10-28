@@ -8301,7 +8301,7 @@
             if (!bar) {
                 bar = document.createElement('div');
                 bar.className = 'm-view';
-                bar.innerHTML = `<button type="button" data-v="table">Standings</button><button type="button" data-v="cards">Cards</button>`;
+                bar.innerHTML = `<button type="button" data-v="table">Proj. Standings</button><button type="button" data-v="cards">Cards</button>`;
                 bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setStandingsView(b.dataset.v); });
                 box.prepend(bar);
             }

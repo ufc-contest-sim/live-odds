@@ -5013,7 +5013,8 @@
         .sr-row:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: -2px; }
         .sr-c { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
         .sr-name { font-weight: 700; font-size: 0.95rem; line-height: 1.25; }
-        .sr-short { display: none; }
+        /* the short name shows everywhere; the full one stays for the tooltip and the activity log */
+        .sr-full { display: none; } .sr-short { display: inline; }
         .sr-ent { font-size: 0.74rem; color: var(--text-secondary); }
         .sr-n { text-align: right; font-weight: 700; font-size: 0.95rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
         .sr-n.positive { color: var(--accent-green); } .sr-n.negative { color: var(--accent-red); }
@@ -7737,7 +7738,7 @@
                     <div class="sr-head" role="row"><span role="columnheader">Contest</span><span class="sr-h-bar" aria-hidden="true"></span><span role="columnheader">Win %</span><span role="columnheader">Net EV</span><span role="columnheader">ROI</span><span aria-hidden="true"></span></div>
                     ${results.slice().sort((a, b) => b.netEV - a.netEV).map(r => `
                     <button type="button" class="sr-row" role="row" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
-                        <span class="sr-c" role="cell"><span class="sr-name"><span class="sr-full">${r.name}</span><span class="sr-short">${String(r.name).replace(/Fantasy MMA World Championship Qualifier/i, 'WC Qualifier')}</span></span><span class="sr-ent">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span></span>
+                        <span class="sr-c" role="cell"><span class="sr-name" title="${String(r.name).replace(/"/g, '&quot;')}"><span class="sr-full">${r.name}</span><span class="sr-short">${String(r.name).replace(/Fantasy MMA World Championship/i, 'FMWC')}</span></span><span class="sr-ent">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span></span>
                         <span class="sr-n sr-win" role="cell" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">${fmtWin(r.winPct)}</span>
                         <span class="sr-n ${r.netEV >= 0 ? 'positive' : 'negative'}" role="cell">${formatNetEV(r.netEV)}</span>
                         <span class="sr-n ${r.roi >= 0 ? 'positive' : 'negative'}" role="cell">${formatROI(r.roi)}</span>

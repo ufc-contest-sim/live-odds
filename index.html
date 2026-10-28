@@ -5236,6 +5236,17 @@
         .live-ticker-track span { color: var(--text-primary); }
         .fsx-table thead tr.grp th { color: var(--text-primary); }
         .dupe-table td.u-nil { color: var(--text-primary); }
+        /* landing Fighter Exposure: the number columns ($, %, Lineups, Score) share
+           equal widths and sit centered; rows stay sorted by $ */
+        .pex-table.pex-land th.n, .pex-table.pex-land td.n { width: 15% !important; text-align: center !important; padding-left: 4px !important; padding-right: 4px !important; }
+        .pex-table.pex-land:not(.has-act) th.n, .pex-table.pex-land:not(.has-act) td.n { width: 19% !important; }
+        .pex-table.pex-land td.pc { color: var(--text-primary); font-weight: 600; }
+        .pex-table.pex-land td.act:not(.tbd) { color: var(--accent-hi); }
+        @media (max-width: 600px) {
+            .pex-table.pex-land th.n, .pex-table.pex-land td.n { width: 15.5% !important; padding-left: 2px !important; padding-right: 2px !important; }
+            .pex-table.pex-land:not(.has-act) th.n, .pex-table.pex-land:not(.has-act) td.n { width: 20% !important; }
+            .pex-table.pex-land th.n { white-space: normal; line-height: 1.25; vertical-align: bottom; }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -7403,6 +7414,7 @@
                 return `<tr>
                     <td class="name" title="${pexEsc(r.name)}"><span class="fx-who">${photoHTML(r.name, 'sm fxp', null, true)}${twoLineName(r.name)}</span></td>
                     <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${usd(r.usd)}</td>
+                    <td class="n pc">${fmtWin(totalLineups ? 100 * r.lineups / totalLineups : 0)}</td>
                     <td class="n lu">${r.lineups.toLocaleString()}</td>
                     ${act}
                 </tr>`;
@@ -7411,10 +7423,11 @@
             panel.innerHTML = `
                 <div class="portfolio-chart-title pex-title">Fighter Exposure<span class="pex-meta">At risk ${usd(totalUsd)} &middot; ${rows.length} fighter${rows.length === 1 ? '' : 's'}</span></div>
                 <div class="pex-body"><div class="pex-scroll">
-                    <table class="pex-table${showActual ? ' has-act' : ''}">
+                    <table class="pex-table pex-land${showActual ? ' has-act' : ''}">
                         <thead><tr>
                             <th>Fighter</th>
                             <th class="n">$ Exposure</th>
+                            <th class="n" title="Share of these lineups the fighter is in">%</th>
                             <th class="n">Lineups</th>
                             ${showActual ? '<th class="n">Score</th>' : ''}
                         </tr></thead>

@@ -5206,6 +5206,14 @@
             .pex-table .fph.fxp { width: 46px; height: 46px; flex: none; }
             .pex-table .fph.fxp .ini { font-size: 0.8rem; }
         }
+        /* rows that open: a small orange + button (like the Hand Builder's), a minus once open */
+        .expand-icon, .expand-icon.open { -webkit-mask: none; mask: none; transform: none; display: inline-flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; vertical-align: middle; border-radius: 6px; background: var(--accent); color: #180a02;
+            font-family: var(--fn-mono); font-size: 15px; font-weight: 800; line-height: 1; transition: background 120ms, box-shadow 120ms; }
+        .expand-icon::before { content: "+"; transform: translateY(-0.5px); }
+        .expand-icon.open::before { content: "\2212"; }
+        .row-main:hover .expand-icon { background: var(--accent-hi); color: #180a02; box-shadow: 0 0 0 3px rgba(var(--a-rgb), 0.2); }
+        .row-main.expanded .expand-icon { background: transparent; color: var(--accent-hi); box-shadow: inset 0 0 0 1.5px var(--accent); }
         /* --- refine: end --- */
 </style>
 </head>

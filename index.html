@@ -7843,6 +7843,7 @@
             loadContest(contestIndex).then(() => {
                 document.getElementById('search-user').value = username;
                 filterAndRender();
+                landOnContest();
             });
         }
 
@@ -7864,6 +7865,17 @@
         function showLeaderboard() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('leaderboard-page').style.display = 'block';
+            landOnContest();
+        }
+        // Opening a contest starts at its top, not wherever the landing page was
+        // scrolled to; on phones it lands with the stats cards at the top.
+        function landOnContest() {
+            const stats = document.querySelector('#leaderboard-page .stats-top');
+            if (window.matchMedia('(max-width: 600px)').matches && stats && stats.offsetParent) {
+                window.scrollTo({ top: Math.max(0, stats.getBoundingClientRect().top + window.scrollY - 12), behavior: 'instant' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
         }
         
         async function loadContest(contestIndex) {
@@ -7940,6 +7952,7 @@
                 if (rangeRow) rangeRow.style.display = lineupViews ? '' : 'none';
 
                 clearFilters();
+                landOnContest();
                 
             } catch (error) {
                 console.error('Error loading data:', error);

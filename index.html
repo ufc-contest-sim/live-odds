@@ -5002,7 +5002,7 @@
         #quick-search-results .sr-table { margin-top: 0; }
         /* landing search: the user's contests as a compact table, best Net EV first */
         .sr-table { margin-top: 14px; border: 1px solid var(--line-1); border-radius: var(--r-md); overflow: hidden; background: var(--fn-card-2, var(--bg-card)); }
-        .sr-head, .sr-row { display: grid; grid-template-columns: minmax(0, 1fr) 84px 92px 84px 18px; gap: 0 14px; align-items: center; padding: 0 16px; }
+        .sr-head, .sr-row { display: grid; grid-template-columns: minmax(180px, 30%) minmax(0, 1fr) 84px 92px 84px 18px; gap: 0 14px; align-items: center; padding: 0 16px; }
         .sr-head { padding-top: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line-1);
             font-family: var(--fn-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
         .sr-head > span:nth-child(n+2) { text-align: right; }
@@ -5021,27 +5021,35 @@
             background-repeat: no-repeat; background-size: calc(var(--p, 0) * 100%) 3px, 100% 3px; background-position: 100% 100%, 100% 100%; }
         .sr-go { color: var(--ink-3); display: grid; place-items: center; }
         /* the standings strip spans the row under its numbers */
-        .sr-bar { grid-row: 2; grid-column: 1 / -1; position: relative; display: block; height: 14px; margin: 8px 0 1px; }
+        /* desktop: every row shares the table's columns, so the name column is as wide as the
+           longest name (up to 260px, longer names wrap) and each strip starts right after the names */
+        @supports (grid-template-columns: subgrid) {
+            @media (min-width: 601px) {
+                .sr-table { display: grid; grid-template-columns: fit-content(260px) minmax(0, 1fr) 84px 92px 84px 18px; column-gap: 14px; padding: 0 16px; }
+                .sr-table > .sr-head, .sr-table > .sr-row { grid-column: 1 / -1; grid-template-columns: subgrid; padding-left: 16px; padding-right: 16px; margin: 0 -16px; }
+            }
+        }
+        .sr-bar { grid-row: 1; grid-column: 2; align-self: center; position: relative; display: block; height: 14px; margin: 0 6px 0 4px; }
         .sr-bar::before, .sr-bar::after { content: ""; position: absolute; top: 5px; height: 4px; border-radius: 2px; }
         .sr-bar::before { left: 0; right: 0; background: rgba(255, 255, 255, 0.12); }
         .sr-bar::after { right: 0; width: calc(var(--paid, 0) * 100%); min-width: 4px; background: var(--accent-green); opacity: 0.9; }
-        .sr-best { display: none; }
+        /* where the paid places start: a green tick, a little taller than the dots */
+        .sr-bar .sr-cash { position: absolute; z-index: 2; top: -3px; bottom: -3px; left: calc((1 - var(--paid, 0)) * 100%); width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--accent-green); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55); }
         .sr-bar i { position: absolute; z-index: 1; top: 0; left: calc(var(--x) * (100% - 14px)); width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%;
             background: #f4f4f5; border: 1.5px solid #15151a; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
         .sr-row:hover .sr-go { color: var(--accent-hi); }
         @media (max-width: 600px) {
             /* phones: no arrow column (the whole row is the button) and qualifier names shortened */
             .sr-head, .sr-row { grid-template-columns: minmax(0, 1fr) 58px 62px 62px; gap: 0 8px; padding-left: 12px; padding-right: 12px; }
+            .sr-h-bar { display: none; }
             .sr-head > span:last-child, .sr-go { display: none; }
             .sr-full { display: none; } .sr-short { display: inline; }
             .sr-name { font-size: 0.88rem; }
             .sr-n { font-size: 0.86rem; }
-            /* phones: the best place sits at the right end of the strip instead of under the name */
-            .sr-best-in { display: none; }
-            .sr-bar { grid-column: 1 / 4; height: 11px; }
+            /* phones: the strip runs under the row's numbers */
+            .sr-bar { grid-row: 2; grid-column: 1 / -1; height: 11px; margin: 8px 0 1px; }
             .sr-bar::before, .sr-bar::after { top: 4px; height: 3px; }
             .sr-bar i { width: 11px; height: 11px; left: calc(var(--x) * (100% - 11px)); border-width: 1.25px; }
-            .sr-best { display: block; grid-row: 2; grid-column: 4; align-self: center; margin-top: 7px; text-align: right; font-weight: 700; font-size: 0.82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
         }
         /* one bout per row: favorite on the left, opponent on the right */
         #builder-view .hbw-bouts { max-width: 860px; display: block; }
@@ -7726,10 +7734,10 @@
                     </div>
                 </div>
                 <div class="sr-table" role="table" aria-label="Contests ${query.replace(/"/g, '&quot;').replace(/</g, '&lt;')} entered, best Net EV first">
-                    <div class="sr-head" role="row"><span role="columnheader">Contest</span><span role="columnheader">Win %</span><span role="columnheader">Net EV</span><span role="columnheader">ROI</span><span aria-hidden="true"></span></div>
+                    <div class="sr-head" role="row"><span role="columnheader">Contest</span><span class="sr-h-bar" aria-hidden="true"></span><span role="columnheader">Win %</span><span role="columnheader">Net EV</span><span role="columnheader">ROI</span><span aria-hidden="true"></span></div>
                     ${results.slice().sort((a, b) => b.netEV - a.netEV).map(r => `
                     <button type="button" class="sr-row" role="row" onclick="loadContestWithUser(${r.contestIndex}, '${query.replace(/'/g, "\\'")}')">
-                        <span class="sr-c" role="cell"><span class="sr-name"><span class="sr-full">${r.name}</span><span class="sr-short">${String(r.name).replace(/Fantasy MMA World Championship Qualifier/i, 'WC Qualifier')}</span></span><span class="sr-ent">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}${r.places.length ? `<span class="sr-best-in"> &middot; best ${ordinal(Math.min(...r.places))}</span>` : ''}</span></span>
+                        <span class="sr-c" role="cell"><span class="sr-name"><span class="sr-full">${r.name}</span><span class="sr-short">${String(r.name).replace(/Fantasy MMA World Championship Qualifier/i, 'WC Qualifier')}</span></span><span class="sr-ent">${r.entries} entr${r.entries === 1 ? 'y' : 'ies'}</span></span>
                         <span class="sr-n sr-win" role="cell" style="--p:${Math.max(0, Math.min(1, r.winPct / 100)).toFixed(4)}">${fmtWin(r.winPct)}</span>
                         <span class="sr-n ${r.netEV >= 0 ? 'positive' : 'negative'}" role="cell">${formatNetEV(r.netEV)}</span>
                         <span class="sr-n ${r.roi >= 0 ? 'positive' : 'negative'}" role="cell">${formatROI(r.roi)}</span>
@@ -8274,9 +8282,7 @@
             const x = pos => n > 1 ? 1 - (pos - 1) / (n - 1) : 1;
             const dots = r.places.slice().sort((a, b) => b - a)
                 .map(pos => `<i style="--x:${x(pos).toFixed(4)}"></i>`).join('');
-            const best = Math.min(...r.places);
-            return `<span class="sr-bar" style="--paid:${(r.paid / n).toFixed(4)}" role="img" aria-label="Projected best place ${ordinal(best)} of ${n.toLocaleString()}; ${r.paid.toLocaleString()} places paid">${dots}</span>` +
-                `<span class="sr-best" aria-hidden="true">${ordinal(best)}</span>`;
+            return `<span class="sr-bar" style="--paid:${(r.paid / n).toFixed(4)}" role="img" aria-label="Projected places of ${r.places.length.toLocaleString()} entr${r.places.length === 1 ? 'y' : 'ies'} in a field of ${n.toLocaleString()}; ${r.paid.toLocaleString()} places paid">${dots}${r.paid > 0 ? '<b class="sr-cash" aria-hidden="true"></b>' : ''}</span>`;
         }
 
         function projectedStandings(rows) {

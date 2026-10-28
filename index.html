@@ -6027,7 +6027,7 @@
                 for (let attempt = 0; attempt < 4 && text === null; attempt++) {
                     if (attempt) await new Promise(r => setTimeout(r, 3000));
                     try {
-                        const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                        const resp = await fetch('DKSalaries.csv', { cache: 'no-cache' });
                         if (resp.ok) text = await resp.text();
                     } catch (e) { /* retry */ }
                 }
@@ -6080,10 +6080,10 @@
                 if (checking) return;
                 checking = true;
                 try {
-                    const cj = await (await fetch('contests.json?v=' + Date.now())).json();
+                    const cj = await (await fetch('contests.json', { cache: 'no-cache' })).json();
                     const first = cj && cj.contests && cj.contests[0];
                     if (first) {
-                        const d = await (await fetch(first.file + '?v=' + Date.now())).json();
+                        const d = await (await fetch(first.file, { cache: 'no-cache' })).json();
                         let hits = 0;
                         for (const f of (d.fight_card || [])) {
                             if (f.fighter1 && slateNames.has(String(f.fighter1).trim().toLowerCase())) hits++;
@@ -6691,7 +6691,7 @@
         // Load contests from contests.json
         async function loadContestConfig() {
             try {
-                const response = await fetch('contests.json?v=' + Date.now());
+                const response = await fetch('contests.json', { cache: 'no-cache' });
                 if (!response.ok) throw new Error('contests.json not found');
                 const config = await response.json();
                 CONTESTS = config.contests || [];
@@ -6789,7 +6789,7 @@
             let cardFighters = [];
             let updatedAt = null;
             try {
-                const data = await (await fetch(CONTESTS[0].file + '?v=' + Date.now())).json();
+                const data = await (await fetch(CONTESTS[0].file, { cache: 'no-cache' })).json();
                 updatedAt = data.last_updated || null;
                 const fights = (data.fight_card || []).slice().sort((a, b) => (a.fight_id || 0) - (b.fight_id || 0));
                 cardFighters = fights.flatMap(f => [[f.fighter1, f.fighter1_score], [f.fighter2, f.fighter2_score]]).filter(([n]) => n);
@@ -6801,7 +6801,7 @@
             let fighters = [];   // [name, score|null]
             let lockAt = null;   // earliest bout time on the salary sheet (ms)
             try {
-                const resp = await fetch('DKSalaries.csv?v=' + Date.now());
+                const resp = await fetch('DKSalaries.csv', { cache: 'no-cache' });
                 if (resp.ok) {
                     const txt = await resp.text();
                     const lre = /(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(AM|PM)\s+ET/g;
@@ -6848,7 +6848,7 @@
             // replaces the all-TBD scroll with one plain line.
             let eventName = '', boutCount = 0;
             try {
-                const fo = await (await fetch('fight_order.json?v=' + Date.now())).json();
+                const fo = await (await fetch('fight_order.json', { cache: 'no-cache' })).json();
                 const src = String(fo.source || '');
                 // only a UFC Stats source carries the event's name; the workbook
                 // fallback writes its filename there, so name the card after its
@@ -6976,7 +6976,7 @@
         function fetchPortfolioPercentiles() {
             if (portfolioPercentilesCache) return Promise.resolve(portfolioPercentilesCache);
             if (!portfolioPercentilesPromise) {
-                portfolioPercentilesPromise = fetch('portfolio_percentiles.json?v=' + Date.now())
+                portfolioPercentilesPromise = fetch('portfolio_percentiles.json', { cache: 'no-cache' })
                     .then(resp => resp.ok ? resp.json() : null)
                     .then(data => {
                         portfolioPercentilesCache = data;
@@ -7352,6 +7352,7 @@
             await Promise.allSettled(CONTESTS.map(c => fetchContestData(c)));
             rebuildUsernameIndexFromCache();
             usernameIndexBuilding = false;
+            precomputeStandings();
         }
 
         function showUsernameDropdown(query) {
@@ -7465,7 +7466,7 @@
                     return;
                 }
                 logSearchQuery(query);
-                searchTimeout = setTimeout(() => searchAllContests(query), 300);
+                searchTimeout = setTimeout(() => searchAllContests(query), 200);
             });
 
             // Hide dropdown when clicking outside
@@ -7518,7 +7519,7 @@
             if (!contestFetchPromises[contest.file]) {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 10000);
-                contestFetchPromises[contest.file] = fetch(contest.file + '?v=' + Date.now(), { signal: controller.signal })
+                contestFetchPromises[contest.file] = fetch(contest.file, { signal: controller.signal, cache: 'no-cache' })
                     .then(response => {
                         clearTimeout(timeoutId);
                         if (!response.ok) throw new Error('Failed to load');
@@ -7585,12 +7586,12 @@
                     const roi = totalCost > 0 ? (totalNetEV / totalCost) * 100 : 0;
                     // where each of this user's entries sits in the projected standings
                     const field = data.leaderboard || [];
-                    const placeOf = new Map(projectedStandings(field).map(o => [o.row, o.pos]));
+                    const placeOf = standingsIndex(field);
                     const pay = Array.isArray(data.payouts) ? data.payouts : [];
                     let paid = 0;
                     for (let k = 1; k < pay.length; k++) if ((pay[k] || 0) > 0) paid = k;
                     results.push({
-                        places: entries.map(r => placeOf.get(r)).filter(Boolean),
+                        places: entries.map(r => (placeOf.get(r) || {}).pos).filter(Boolean),
                         field: field.length,
                         paid: Math.min(paid, field.length),
                         contestIndex: i,
@@ -7810,7 +7811,7 @@
                 `<tr class="skel-row" aria-hidden="true"><td colspan="11"><span class="skel-bar" style="width:${62 + (i * 13) % 30}%"></span></td></tr>`).join('');
             
             try {
-                const [response] = await Promise.all([fetch(contest.file + '?v=' + Date.now()), loadFighterPhotos()]);
+                const [response] = await Promise.all([fetch(contest.file, { cache: 'no-cache' }), loadFighterPhotos()]);
                 if (!response.ok) throw new Error(`Failed to load ${contest.file}`);
                 const data = await response.json();
                 
@@ -8258,13 +8259,24 @@
             return out;
         }
 
-        let fieldStandingsFor = null, fieldStandingsMap = null;
-        function fieldStandings() {
-            if (fieldStandingsFor !== allData) {
-                fieldStandingsMap = new Map(projectedStandings(allData || []).map((o, i) => [o.row, { row: o.row, pos: o.pos, medal: o.medal, i }]));
-                fieldStandingsFor = allData;
+        // each contest's standings are worked out once and kept with its rows
+        const standingsCache = new WeakMap();
+        function standingsIndex(rows) {
+            rows = rows || [];
+            let m = standingsCache.get(rows);
+            if (!m) {
+                m = new Map(projectedStandings(rows).map((o, i) => [o.row, { row: o.row, pos: o.pos, medal: o.medal, i }]));
+                standingsCache.set(rows, m);
             }
-            return fieldStandingsMap;
+            return m;
+        }
+        function fieldStandings() { return standingsIndex(allData); }
+        // work them out in the background once the contests have loaded, so a search doesn't wait on it
+        function precomputeStandings() {
+            const queue = CONTESTS.map(c => contestDataCache[c.file]).filter(d => d && d.leaderboard && !standingsCache.has(d.leaderboard));
+            const idle = window.requestIdleCallback || (fn => setTimeout(fn, 50));
+            const step = () => { const d = queue.shift(); if (!d) return; standingsIndex(d.leaderboard); idle(step); };
+            idle(step);
         }
 
         let standOpen = null;   // the one lineup opened from the standings
@@ -9728,7 +9740,7 @@
         };
         function loadFighterPhotos() {
             if (fighterPhotosP) return fighterPhotosP;
-            const get = f => fetch(f + '?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
+            const get = f => fetch(f, { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null);
             const fill = (entries, m, loose) => entries.forEach(([n, v]) => {
                 const url = v && (typeof v === 'string' ? v : v.photo);
                 if (typeof url !== 'string' || !/^https:\/\//.test(url)) return;
@@ -9947,7 +9959,7 @@
             function ensureData() {
                 if (dataPromise) return dataPromise;
                 dataPromise = (async () => {
-                    const resp = await fetch('ufc_fight_stats.csv?v=' + Date.now());
+                    const resp = await fetch('ufc_fight_stats.csv', { cache: 'no-cache' });
                     const buf = await resp.arrayBuffer();
                     // the CSV is single-byte (windows-1252) — decode so accented names render right
                     const text = new TextDecoder('windows-1252').decode(buf);
@@ -10983,7 +10995,7 @@
             async function openOwnership() {
                 if (omBuilt) return;
                 try {
-                    const resp = await fetch('ownership_history.csv?v=' + Date.now());
+                    const resp = await fetch('ownership_history.csv', { cache: 'no-cache' });
                     if (!resp.ok) throw new Error('missing');
                     omRows = omParse(await resp.text());
                 } catch (e) { document.getElementById('omLoading').textContent = 'No projection history is published yet.'; return; }
@@ -11620,9 +11632,9 @@
                 if (fluSlatePromise) return fluSlatePromise;
                 // fight_order.json (written by publish from the sim workbook's FightIDs)
                 // sets the bout order when present; without it, start times decide
-                const orderP = fetch('fight_order.json?v=' + Date.now())
+                const orderP = fetch('fight_order.json', { cache: 'no-cache' })
                     .then(r => r.ok ? r.json() : null).catch(() => null);
-                return fluSlatePromise = Promise.all([fetch('DKSalaries.csv?v=' + Date.now())
+                return fluSlatePromise = Promise.all([fetch('DKSalaries.csv', { cache: 'no-cache' })
                     .then(r => { if (!r.ok) throw new Error('no slate'); return r.text(); }), orderP])
                     .then(([t, order]) => {
                         const byGame = new Map();
@@ -12380,7 +12392,7 @@
             function ensureSalary() {
                 if (salaryPromise) return salaryPromise;
                 salaryPromise = (async () => {
-                    const [resp] = await Promise.all([fetch('DKSalaries.csv?v=' + Date.now()), loadFighterPhotos()]);
+                    const [resp] = await Promise.all([fetch('DKSalaries.csv', { cache: 'no-cache' }), loadFighterPhotos()]);
                     if (!resp.ok) throw new Error('slate not posted');
                     FIGHTERS = loadSalaryCSV(await resp.text());
                     renderGrid();

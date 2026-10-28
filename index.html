@@ -5093,7 +5093,7 @@
             #username-table .m-stand tr { display: table-row; }
             #username-table .m-stand th { padding: 9px 3px; box-sizing: border-box; font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(20, 12, 4, 0.85); font-weight: 700; text-align: right; white-space: nowrap; }
             #username-table .m-stand td { padding: 0 3px; box-sizing: border-box; height: 44px; font-size: 0.8rem; font-weight: 600; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line-1); }
-            #username-table .m-stand th.p, #username-table .m-stand td.p { width: 36px; text-align: left; padding-left: 2px; }
+            #username-table .m-stand th.p, #username-table .m-stand td.p { width: 46px; text-align: left; padding-left: 2px; }
             #username-table .m-stand th.u, #username-table .m-stand td.u { width: auto; text-align: left; }
             #username-table .m-stand th:nth-child(3), #username-table .m-stand td:nth-child(3),
             #username-table .m-stand th:nth-child(4), #username-table .m-stand td:nth-child(4),
@@ -5125,7 +5125,11 @@
             #username-table .st-card .positive { color: var(--accent-green); } #username-table .st-card .negative { color: var(--accent-red); }
             #username-table .st-card .lineup-container { padding: 6px 0 10px; border-top: 1px solid var(--line-1); margin-top: 4px; }
             /* a searched name: Entire field / My lineups, and their rows marked in the whole field */
-            #username-table .st-mine { display: flex; gap: 6px; margin: 0 0 10px; }
+            #username-table .st-mine { display: flex; gap: 6px; margin: 0 0 12px; }
+            #username-table .m-stand th[data-k] { cursor: pointer; -webkit-user-select: none; user-select: none; }
+            #username-table .m-stand th .sa { margin-left: 2px; font-size: 0.5rem; }
+            #username-table tr.row-main.mine, #username-table tr.row-main.mine + tr.lineup-row { border-color: rgba(var(--a-rgb), 0.75) !important; }
+            #username-table tr.row-main.mine .username { color: var(--accent-hi); }
             #username-table .st-mine button { flex: 1 1 0; padding: 7px 0; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; color: var(--text-secondary);
                 font: inherit; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
             #username-table .st-mine button.active { border-color: rgba(var(--a-rgb), 0.6); background: rgba(var(--a-rgb), 0.14); color: var(--accent-hi); }
@@ -8238,31 +8242,19 @@
         }
 
         function projectedStandings(rows) {
-            // ties take up the places they share, like a leaderboard: ten tied
-            // for 1st means the next entry is 11th. 2nd % decides a group only
-            // when it starts at 2nd, 3rd % only when it starts at 3rd.
-            let rest = rows.slice();
+            // Win % first; ties (and everyone at 0) go by 2nd %, then 3rd %, then
+            // projected score. Entries equal on all four share a place, and the
+            // places they share are used up: three tied for 1st, then 4th.
+            const k = r => [r.WinPct || 0, r.SecondPct || 0, r.ThirdPct || 0, r.MeanScore || 0];
+            const keyed = rows.map(r => ({ r, k: k(r) }));
+            keyed.sort((a, b) => b.k[0] - a.k[0] || b.k[1] - a.k[1] || b.k[2] - a.k[2] || b.k[3] - a.k[3]);
             const out = [];
-            const keyFor = { 1: 'WinPct', 2: 'SecondPct', 3: 'ThirdPct' };
-            let place = 1;
-            while (place <= 3 && rest.length) {
-                const key = keyFor[place];
-                let best = 0;
-                for (const r of rest) if ((r[key] || 0) > best) best = r[key] || 0;
-                if (best <= 0) break;
-                const top = rest.filter(r => (r[key] || 0) === best);
-                rest = rest.filter(r => (r[key] || 0) !== best);
-                top.sort((a, b) => (b.MeanScore || 0) - (a.MeanScore || 0));
-                top.forEach(r => out.push({ row: r, pos: place, medal: place }));
-                place += top.length;
-            }
-            rest.sort((a, b) => (b.MeanScore || 0) - (a.MeanScore || 0));
-            // the rest by projected score; equal scores share a place
-            let prev = null, prevPos = place;
-            rest.forEach((r, i) => {
-                const p = prev !== null && (r.MeanScore || 0) === prev ? prevPos : place + i;
-                out.push({ row: r, pos: p, medal: p <= 3 ? p : 0 });
-                prev = r.MeanScore || 0; prevPos = p;
+            let prev = null, prevPos = 1;
+            keyed.forEach(({ r, k: key }, i) => {
+                const same = prev && prev[0] === key[0] && prev[1] === key[1] && prev[2] === key[2] && prev[3] === key[3];
+                const pos = same ? prevPos : i + 1;
+                out.push({ row: r, pos, medal: pos <= 3 ? pos : 0 });
+                prev = key; prevPos = pos;
             });
             return out;
         }
@@ -8311,31 +8303,56 @@
         function setStandingsView(v) { standChoice = v; filterAndRender(); }
         let standMine = false;            // a searched name: whole field (false) or just their lineups
         let standFieldFilter = () => true; // every filter except the name search
+        let standMineCount = 0, standMark = '';
+        let standSort = { key: 'pos', asc: true };
+        // a new search goes back to the defaults: Compact view, whole field
+        function syncStandSearch() {
+            const search = (document.getElementById('search-user').value || '').trim();
+            if (search !== standLastSearch) { standChoice = null; standMine = false; standLastSearch = search; }
+        }
 
         function renderStandings(data) {
             const box = document.getElementById('username-table');
             if (!box) return false;
             const search = (document.getElementById('search-user').value || '').trim();
-            if (search !== standLastSearch) { standChoice = null; standMine = false; standLastSearch = search; }
-            // phones open on the projected standings, searched name or not
+            syncStandSearch();
+            // phones open on the compact table, searched name or not
             const on = standPhone.matches && (standChoice ? standChoice === 'table' : true);
 
             let bar = box.querySelector('.m-view');
             if (!bar) {
                 bar = document.createElement('div');
                 bar.className = 'm-view';
-                bar.innerHTML = `<button type="button" data-v="table">Proj. Standings</button><button type="button" data-v="cards">Cards</button>`;
+                bar.innerHTML = `<button type="button" data-v="table">Compact</button><button type="button" data-v="cards">Expanded</button>`;
                 bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setStandingsView(b.dataset.v); });
                 box.prepend(bar);
             }
             bar.querySelectorAll('button').forEach(b => b.classList.toggle('active', (b.dataset.v === 'table') === on));
+            // Entire field / My lineups, for both views
+            let mineBar = box.querySelector('.st-mine');
+            if (!mineBar) {
+                mineBar = document.createElement('div');
+                mineBar.className = 'st-mine';
+                mineBar.setAttribute('role', 'group');
+                mineBar.setAttribute('aria-label', 'Which lineups');
+                mineBar.addEventListener('click', e => { const m = e.target.closest('[data-m]'); if (m) { standMine = m.dataset.m === 'mine'; standOpen = null; filterAndRender(); } });
+                bar.after(mineBar);
+            }
+            mineBar.style.display = standPhone.matches && search ? '' : 'none';
+            if (search) mineBar.innerHTML = `<button type="button" data-m="all" class="${standMine ? '' : 'active'}">Entire field</button>` +
+                `<button type="button" data-m="mine" class="${standMine ? 'active' : ''}">My lineups (${standMineCount.toLocaleString()})</button>`;
             let wrap = box.querySelector('.m-stand');
             if (!wrap) {
                 wrap = document.createElement('div');
                 wrap.className = 'm-stand';
                 wrap.addEventListener('click', e => {
-                    const m = e.target.closest('[data-m]');
-                    if (m) { standMine = m.dataset.m === 'mine'; standOpen = null; filterAndRender(); return; }
+                    const th = e.target.closest('th[data-k]');
+                    if (th) {
+                        const k = th.dataset.k;
+                        standSort = standSort.key === k ? { key: k, asc: !standSort.asc } : { key: k, asc: k === 'pos' || k === 'Username' };
+                        filterAndRender();
+                        return;
+                    }
                     const tr = e.target.closest('tr[data-i]');
                     if (!tr) return;
                     // a tap opens just that lineup's card under its row; again closes it
@@ -8351,29 +8368,30 @@
             // places count every entry in the contest, so a searched name or a
             // filter shows its own lineups at their real places (1, 5, 11, 54...)
             const placed = fieldStandings();
-            const q = search.toLowerCase();
-            // a searched name sees the whole field by default, with their own rows marked
-            const whole = !!search && !standMine;
-            const list = whole
-                ? [...placed.values()].filter(o => standFieldFilter(o.row))
-                : data.filter(r => placed.has(r)).map(r => placed.get(r)).sort((a, b) => a.i - b.i);
+            const q = standMark.toLowerCase();
+            const list = data.map(r => placed.get(r)).filter(Boolean);
+            // order: place by default, or the column tapped
+            const sk = standSort.key, dir = standSort.asc ? 1 : -1;
+            if (sk === 'pos') list.sort((a, b) => dir * (a.i - b.i));
+            else if (sk === 'Username') list.sort((a, b) => dir * String(a.row.Username || '').localeCompare(String(b.row.Username || ''), undefined, { sensitivity: 'base' }) || a.i - b.i);
+            else list.sort((a, b) => dir * ((a.row[sk] || 0) - (b.row[sk] || 0)) || a.i - b.i);
             const shown = list.slice(0, 1000);
             const isMine = r => !!q && !!r.Username && r.Username.toLowerCase().includes(q);
-            const mineCount = search ? data.length : 0;
             document.getElementById('row-count').textContent =
                 `Showing ${shown.length.toLocaleString()} of ${list.length.toLocaleString()} lineups`;
-            const switcher = search ? `<div class="st-mine" role="group" aria-label="Which lineups">` +
-                `<button type="button" data-m="all" class="${whole ? 'active' : ''}">Entire field</button>` +
-                `<button type="button" data-m="mine" class="${whole ? '' : 'active'}">My lineups (${mineCount.toLocaleString()})</button></div>` : '';
-            if (!shown.length) { wrap.innerHTML = switcher + '<div class="no-results">No lineups match your filters</div>'; return true; }
+            if (!shown.length) { wrap.innerHTML = '<div class="no-results">No lineups match your filters</div>'; return true; }
             const medals = ['', '\u{1F947}', '\u{1F948}', '\u{1F949}'];
             const pct = v => v != null ? fmtWin(v) : '--';
-            const roiText = v => { const a = Math.abs(v); return (v < 0 ? '-' : '') + (a >= 100 ? Math.round(a).toLocaleString() : a.toFixed(1)) + '%'; };
-            wrap.innerHTML = switcher + `<table><thead><tr><th class="p">#</th><th class="u">Username</th><th>1st %</th><th>2nd %</th><th>3rd %</th><th>ROI</th></tr></thead><tbody>` +
+            const roiText = v => { const a = Math.abs(v); return (v < 0 ? '-' : '') + (a >= 99.95 ? Math.round(a).toLocaleString() : a.toFixed(1)) + '%'; };
+            const th = (k, label, cls) => {
+                const on = standSort.key === k;
+                return `<th data-k="${k}"${cls ? ` class="${cls}"` : ''} aria-sort="${on ? (standSort.asc ? 'ascending' : 'descending') : 'none'}">${label}${on ? `<span class="sa">${standSort.asc ? '\u25B2' : '\u25BC'}</span>` : ''}</th>`;
+            };
+            wrap.innerHTML = `<table><thead><tr>${th('pos', '#', 'p')}${th('Username', 'Username', 'u')}${th('WinPct', '1st %')}${th('SecondPct', '2nd %')}${th('ThirdPct', '3rd %')}${th('ROI%', 'ROI')}</tr></thead><tbody>` +
                 shown.map(({ row, pos, medal }, i) => {
                     const roi = row['ROI%'] || 0;
                     const open = row === standOpen;
-                    return `<tr data-i="${i}" class="${medal ? `top m${medal}` : ''}${open ? ' open' : ''}${whole && isMine(row) ? ' mine' : ''}" aria-expanded="${open}">` +
+                    return `<tr data-i="${i}" class="${medal ? `top m${medal}` : ''}${open ? ' open' : ''}${isMine(row) ? ' mine' : ''}" aria-expanded="${open}">` +
                         `<td class="p">${medal ? `<span class="md">${medals[medal]}</span>` : `<span class="rk">${pos}</span>`}</td>` +
                         `<td class="u">${phEsc(row.Username || '')}</td>` +
                         `<td>${pct(row.WinPct)}</td><td>${pct(row.SecondPct)}</td><td>${pct(row.ThirdPct)}</td>` +
@@ -8415,7 +8433,7 @@
             });
             
             // Sort
-            filteredData.sort((a, b) => {
+            const rowOrder = (a, b) => {
                 let aVal = a[currentSort] || 0;
                 let bVal = b[currentSort] || 0;
                 
@@ -8427,7 +8445,8 @@
                 }
                 
                 return sortAscending ? aVal - bVal : bVal - aVal;
-            });
+            };
+            filteredData.sort(rowOrder);
             
             // Update stats based on filtered data.
             // On the lineup view we keep filteredData un-username-filtered so the
@@ -8454,7 +8473,13 @@
 
             // Render based on current view
             if (currentView === 'username') {
-                renderUsernameView(filteredData);
+                // phones: a searched name still sees every lineup, theirs marked,
+                // unless My lineups is on; the stats above stay theirs
+                syncStandSearch();
+                standMineCount = searchUser.trim() ? filteredData.length : 0;
+                const wholeField = standPhone.matches && !!searchUser.trim() && !standMine;
+                standMark = wholeField ? searchUser.trim() : '';
+                renderUsernameView(wholeField ? allData.filter(standFieldFilter).sort(rowOrder) : filteredData);
             } else if (currentView === 'lineup') {
                 renderLineupView(filteredData);
             } else if (currentView === 'portfolio') {
@@ -8992,9 +9017,9 @@
                 
                 // Get projected score (it's called "MeanScore" in the data)
                 const projScore = row['MeanScore'] || 0;
-                
+                const mine = standMark && row.Username && row.Username.toLowerCase().includes(standMark.toLowerCase());
                 return `
-                    <tr class="row-main ${isExpanded ? 'expanded' : ''}" onclick="toggleRow('${rowId}')">
+                    <tr class="row-main ${isExpanded ? 'expanded' : ''}${mine ? ' mine' : ''}" onclick="toggleRow('${rowId}')">
                         <td><span class="expand-icon${isExpanded ? ' open' : ''}"></span></td>
                         <td class="num"><span class="rk">${idx + 1}</span></td>
                         <td class="username"><span class="rk rk-in">${idx + 1}</span>${row.Username || ''}</td>

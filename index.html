@@ -5185,6 +5185,12 @@
             #lineup-table .luc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
             #lineup-table .luc-chips span { padding: 5px 10px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
         }
+        /* desktop and tablets: bigger fighter photos in the Fighter Exposure tables */
+        @media (min-width: 601px) {
+            .pex-table .fx-who { gap: 11px; }
+            .pex-table .fph.fxp { width: 46px; height: 46px; flex: none; }
+            .pex-table .fph.fxp .ini { font-size: 0.8rem; }
+        }
         /* --- refine: end --- */
 </style>
 </head>
@@ -7350,7 +7356,7 @@
                         ? '<td class="n act tbd">TBD</td>'
                         : `<td class="n act">${r.actual.toFixed(2)}</td>`);
                 return `<tr>
-                    <td class="name" title="${pexEsc(r.name)}"><span class="fx-who">${photoHTML(r.name, 'sm')}${twoLineName(r.name)}</span></td>
+                    <td class="name" title="${pexEsc(r.name)}"><span class="fx-who">${photoHTML(r.name, 'sm fxp', null, true)}${twoLineName(r.name)}</span></td>
                     <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${usd(r.usd)}</td>
                     <td class="n lu">${r.lineups.toLocaleString()}</td>
                     ${act}
@@ -8026,7 +8032,7 @@
                 const opt = optShade(r.optimal);
                 return `
                 <tr>
-                    <td class="name" title="${phEsc(r.fighter)}"><span class="fx-who">${photoHTML(r.fighter, 'sm')}${twoLineName(r.fighter)}</span></td>
+                    <td class="name" title="${phEsc(r.fighter)}"><span class="fx-who">${photoHTML(r.fighter, 'sm fxp', null, true)}${twoLineName(r.fighter)}</span></td>
                     <td class="n usd" style="background-size:${share.toFixed(1)}% 62%;">${fmtWin(r.draft)}</td>
                     <td class="n">${fmtWin(r.win)}</td>
                     <td${opt.replace('class="', 'class="n ')}>${r.optimal != null ? fmtWin(r.optimal) : '--'}</td>
@@ -9890,8 +9896,11 @@
         // name) so the pair face each other; flip a shot taken for the
         // other side so both still face the middle here
         function photoFlip(url, side) { const shot = url && (url.match(/_([LR])_/) || [])[1]; return !!(side && shot && shot.toLowerCase() !== side); }
-        function photoHTML(name, cls, side) {
-            const head = headshotUrl(name), url = head || photoUrl(name);
+        // preferEvent: use this week's larger fight-card photo when there is one
+        // (the roster headshots are small and go grainy at bigger sizes)
+        function photoHTML(name, cls, side, preferEvent) {
+            const ev = preferEvent ? photoUrl(name) : null;
+            const head = ev ? null : headshotUrl(name), url = ev || head || photoUrl(name);
             const flip = !head && photoFlip(url, side);
             const ini = phEsc(String(name || '').split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase());
             // a photo that fails to load falls back to the initials underneath it

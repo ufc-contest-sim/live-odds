@@ -3418,9 +3418,9 @@
             --border: rgba(255, 255, 255, 0.08);
             --border-accent: rgba(255, 138, 43, 0.55);
             --text-primary: #f5f4f7;
-            --text-secondary: #a8a7b3;
+            --text-secondary: #f5f4f7;       /* secondary text reads white too (was grey #a8a7b3) */
             --text-on-dark: #f5f4f7;
-            --text-on-dark-mute: #8b8a98;      /* 5.3:1 on the card surface */
+            --text-on-dark-mute: #f5f4f7;
             --accent: #ff6a12;
             --accent-hi: #ff8a2b;
             --accent-lo: #ff7d1f;            /* was a dark burnt orange; must read on dark */
@@ -3443,7 +3443,7 @@
             /* refinement tokens: lines, hint ink, radius scale, the one shadow (floating menus only) */
             --line-1: rgba(255, 255, 255, 0.06);
             --line-2: rgba(255, 255, 255, 0.10);
-            --ink-3: #8b8a98;
+            --ink-3: #f5f4f7;                /* labels and hints: white (was grey #8b8a98) */
             --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-pill: 999px;
             --shadow-menu: 0 12px 32px rgba(0, 0, 0, 0.45);
         }
@@ -4168,11 +4168,12 @@
                full-width track --- */
         td.depth {
             background-image:
-                linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5)),
+                linear-gradient(90deg, rgba(255, 106, 18, 0.78), var(--accent, #ff6a12)),
                 linear-gradient(90deg, rgba(var(--a-rgb), 0.06), rgba(var(--a-rgb), 0.06));
             background-repeat: no-repeat;
             background-size: calc(var(--p, 0) * (100% - 24px)) min(64%, 22px), calc(100% - 24px) min(64%, 22px);
             background-position: 12px 50%, 12px 50%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
         }
         /* --- sorted column on the gradient header keeps the header's normal
                color; only its caret is drawn at full strength --- */
@@ -5204,12 +5205,11 @@
         /* desktop and tablets: bigger fighter photos in the Fighter Exposure tables */
         @media (min-width: 601px) {
             .pex-table .fx-who { gap: 11px; }
-            .pex-table .fph.fxp { width: 46px; height: 46px; flex: none; }
+            .pex-table .fph.fxp { width: 58px; height: 58px; flex: none; }
             .pex-table .fph.fxp .ini { font-size: 0.8rem; }
-            /* the exposure bar gets the room: it starts right after the photo and name,
-               and a name too long for what is left trims with an ellipsis */
-            .pex-table th:nth-child(2), .pex-table td:nth-child(2) { width: 42%; }
-            .pex-table.has-act th:nth-child(2), .pex-table.has-act td:nth-child(2) { width: 38%; }
+            /* a name too long for its column trims with an ellipsis */
+            .pex-table th:nth-child(2), .pex-table td:nth-child(2) { width: 22%; }
+            .pex-table.has-act th:nth-child(2), .pex-table.has-act td:nth-child(2) { width: 20%; }
             .pex-table td.name { overflow-wrap: normal; }
             .pex-table td.name .fx-who, .pex-table td.name .n2 { min-width: 0; }
             .pex-table td.name .n2 > span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -5227,6 +5227,15 @@
         .expand-icon.open::before { content: "\2212"; }
         .row-main:hover .expand-icon { background: var(--accent-hi); color: #180a02; box-shadow: 0 0 0 3px rgba(var(--a-rgb), 0.2); }
         .row-main.expanded .expand-icon { background: transparent; color: var(--accent-hi); box-shadow: inset 0 0 0 1.5px var(--accent); }
+        /* Fighter Exposure: just the figures, no bars; photos a size up on phones too */
+        .pex-table td.usd { background-image: none !important; text-shadow: none; }
+        @media (max-width: 600px) { .pex-table .fph.fxp { width: 40px; height: 40px; flex: none; } }
+        /* the last grey text literals go white with the rest */
+        #username-table tr.row-main > td::before, #lineup-table tr.row-main > td::before, #portfolio-table tr.row-main > td::before, .whatif-table-scroll tr.row-main > td::before,
+        #lineup-table .luc-tiles span, .pex-table td.act.tbd, .site-footer, .about-card .about-disclaim { opacity: 1; }
+        .live-ticker-track span { color: var(--text-primary); }
+        .fsx-table thead tr.grp th { color: var(--text-primary); }
+        .dupe-table td.u-nil { color: var(--text-primary); }
         /* --- refine: end --- */
 </style>
 </head>

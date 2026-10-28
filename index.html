@@ -899,8 +899,9 @@
         /* Faint bar behind the $ cell: share of the biggest exposure (inline background-size). */
         .pex-table td.usd {
             color: var(--text-primary);
-            background-image: linear-gradient(90deg, rgba(255, 138, 43, 0.22), rgba(255, 138, 43, 0.5));
+            background-image: linear-gradient(90deg, rgba(255, 106, 18, 0.78), var(--accent, #ff6a12));
             background-repeat: no-repeat; background-position: 0 50%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
         }
         .pex-table td.lu { color: var(--text-secondary); font-weight: 600; }
         .pex-table td.act { color: var(--accent-green); }
@@ -5205,6 +5206,13 @@
             .pex-table .fx-who { gap: 11px; }
             .pex-table .fph.fxp { width: 46px; height: 46px; flex: none; }
             .pex-table .fph.fxp .ini { font-size: 0.8rem; }
+            /* the exposure bar gets the room: it starts right after the photo and name,
+               and a name too long for what is left trims with an ellipsis */
+            .pex-table th:nth-child(2), .pex-table td:nth-child(2) { width: 42%; }
+            .pex-table.has-act th:nth-child(2), .pex-table.has-act td:nth-child(2) { width: 38%; }
+            .pex-table td.name { overflow-wrap: normal; }
+            .pex-table td.name .fx-who, .pex-table td.name .n2 { min-width: 0; }
+            .pex-table td.name .n2 > span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             /* the Lineup Optimizer's photos fill most of their row */
             .fph.sm.optp { width: 46px; height: 46px; flex: none; }
             .fph.sm.optp .ini { font-size: 0.8rem; }
@@ -7399,7 +7407,7 @@
                             <th>Fighter</th>
                             <th class="n">$ Exposure</th>
                             <th class="n">Lineups</th>
-                            ${showActual ? '<th class="n">Actual</th>' : ''}
+                            ${showActual ? '<th class="n">Score</th>' : ''}
                         </tr></thead>
                         <tbody>${body}</tbody>
                     </table>

@@ -8158,8 +8158,11 @@
                 </div>
             `;
             
-            // Update fighter draft % table
-            updateFighterDraftTable(data);
+            // Update fighter draft % table. Phones with a name searched on By
+            // Username follow the Entire field / My lineups switch instead.
+            const fxWhole = currentView === 'username' && window.matchMedia('(max-width: 600px)').matches && !standMine &&
+                (document.getElementById('search-user').value || '').trim() && allData && allData.length;
+            updateFighterDraftTable(fxWhole ? allData.filter(standFieldFilter) : data);
 
             // Sync fighter draft container height to match portfolio stats
             syncDraftHeight();
@@ -8495,6 +8498,7 @@
         }
 
         function filterAndRender() {
+            syncStandSearch();
             syncMoreFilters();
             syncMobileSort();
             const searchUser = document.getElementById('search-user').value.toLowerCase();

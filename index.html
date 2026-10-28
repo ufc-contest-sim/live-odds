@@ -4194,10 +4194,19 @@
         @media (max-width: 600px) {
             /* contest view tabs: the five pills share two full-width rows
                instead of a ragged centered wrap; nothing scrolls sideways */
-            /* contest Insights: the two 860x470 SVGs scroll inside their card
-               instead of shrinking to a thumbnail */
-            .insights-leverage, .insights-pairing, .insights-bands { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            #chart-leverage, #chart-pairing, #chart-bands { min-width: 640px; }
+            /* contest Insights: the charts are drawn at the card's width, and the
+               cards give their contents a little more of the screen */
+            #insights-view .chart-card { padding-left: 14px; padding-right: 14px; overflow-x: hidden; }
+            #chart-leverage, #chart-pairing, #chart-bands { width: 100%; height: auto; min-width: 0; }
+            /* the two tables fit every column: tighter type, shorter headers */
+            #insights-view .dupe-table-scroll { overflow-x: hidden; }
+            #insights-view .dupe-table { width: 100%; min-width: 0 !important; table-layout: auto; }
+            #insights-view .dupe-table th, #insights-view .dupe-table td { padding: 8px 3px; font-size: 0.72rem; line-height: 1.25; }
+            #insights-view .dupe-table td:first-child { white-space: normal; overflow-wrap: anywhere; }
+            #insights-view .dupe-table td:not(:first-child) { white-space: nowrap; }
+            #insights-view .dupe-table th { white-space: normal; }
+            #insights-view .dupe-table th { font-size: 0.56rem; letter-spacing: 0.02em; vertical-align: bottom; }
+            #insights-view .dupe-table th:first-child, #insights-view .dupe-table td:first-child { padding-left: 6px; }
         }
 
         /* --- classic port: insights, fighter stats, optimizer, builder --- */
@@ -8583,6 +8592,25 @@
             node.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
         }
         function niceMax(v) { return Math.max(10, Math.ceil(v / 10) * 10); }
+        // Phones draw the Insights charts at the screen's own width (one SVG unit
+        // = one CSS pixel) so text stays readable and nothing runs off the card;
+        // wider screens keep the 860-wide drawing.
+        function chartPhone() { return window.matchMedia('(max-width: 600px)').matches; }
+        function chartPhoneW(svg) {
+            const box = svg.parentElement || svg, cs = getComputedStyle(box);
+            const w = box.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+            return Math.max(240, Math.round(w || 320));
+        }
+        // "Abdul Rakhman Yakhyaev" -> "A. Yakhyaev": first initial and the surname
+        function chartShortName(n) {
+            const p = String(n).trim().split(/\s+/);
+            let last = p.length - 1;
+            if (last > 1 && /^(jr|sr|ii|iii|iv)\.?$/i.test(p[last])) last--;
+            return p.length > 1 ? p[0][0] + '. ' + p.slice(last).join(' ') : n;
+        }
+        window.matchMedia('(max-width: 600px)').addEventListener('change', () => {
+            if (currentView === 'insights' && allData && allData.length) { renderLeverageChart(); renderPairingChart(); renderBandsChart(); }
+        });
 
         function renderInsights() {
             renderLeverageChart();
@@ -8769,16 +8797,19 @@
                 t.textContent = baseCount ? 'No other fighters paired' : 'No lineups with that combination'; svg.appendChild(t); return;
             }
             const maxV = Math.max(...rows.map(r => r.v), 1e-9);
-            const W = 860, H = 470, M = { l: 175, r: 60, t: 10, b: 10 };
+            const phone = chartPhone();
+            const W = phone ? chartPhoneW(svg) : 860, H = phone ? Math.max(200, rows.length * 19 + 20) : 470;
+            const M = phone ? { l: 112, r: 48, t: 10, b: 10 } : { l: 175, r: 60, t: 10, b: 10 };
+            svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
             const pw = W - M.l - M.r, ph = H - M.t - M.b;
             const rowH = ph / rows.length;
             const barH = Math.min(rowH * 0.72, 24);
-            const fontN = Math.min(12, rowH * 0.62);
+            const fontN = Math.min(phone ? 11.5 : 12, rowH * 0.62);
             rows.forEach((o, i) => {
                 const cy = M.t + rowH * i + rowH / 2;
                 const t = o.v / maxV;
                 const nm = svgEl('text', { x: M.l - 10, y: cy + fontN * 0.35, fill: '#4a453d', 'font-size': fontN, 'text-anchor': 'end' });
-                nm.textContent = o.name; svg.appendChild(nm);
+                nm.textContent = phone ? chartShortName(o.name) : o.name; svg.appendChild(nm);
                 svg.appendChild(svgEl('rect', { x: M.l, y: cy - barH / 2, width: pw, height: barH, fill: '#ece6dd', rx: 4 }));
                 const rect = svgEl('rect', { x: M.l, y: cy - barH / 2, width: Math.max(2, pw * t), height: barH, fill: heatColor(t), rx: 4 });
                 rect.style.cursor = 'pointer';
@@ -8844,7 +8875,10 @@
             const fmt = v => Number.isInteger(step) ? String(Math.round(v)) : v.toFixed(1);
             const rows = B.map((b, i) => ({ label: i === 9 ? fmt(b.lo) + '+' : i === 0 && scores[0] < b.lo ? 'under ' + fmt(b.hi) : fmt(b.lo) + ' to ' + fmt(b.hi), n: b.n, pct: 100 * b.n / live.length, ev: b.n ? b.ev / b.n : 0, winShare: winTotal ? 100 * b.win / winTotal : 0 })).reverse();
             const maxV = Math.max(...rows.map(r => bandMetric === 'pct' ? r.pct : r.n), 1e-9);
-            const W = 860, H = 360, M = { l: 175, r: 70, t: 10, b: 10 };
+            const phone = chartPhone();
+            const W = phone ? chartPhoneW(svg) : 860, H = phone ? 300 : 360;
+            const M = phone ? { l: 82, r: 50, t: 8, b: 8 } : { l: 175, r: 70, t: 10, b: 10 };
+            svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
             const pw = W - M.l - M.r, ph = H - M.t - M.b, rowH = ph / rows.length, barH = Math.min(rowH * 0.72, 24), fontN = Math.min(12, rowH * 0.62);
             rows.forEach((o, i) => {
                 const cy = M.t + rowH * i + rowH / 2, v = bandMetric === 'pct' ? o.pct : o.n, t = v / maxV;
@@ -8925,7 +8959,10 @@
                 oppDraft: oppName[f.fighter] != null ? (draftPct[oppName[f.fighter]] || 0) : null,
             }));
             if (!pts.length) return;
-            const W = 860, H = 470, M = { l: 64, r: 30, t: 20, b: 58 };
+            const phone = chartPhone();
+            const W = phone ? chartPhoneW(svg) : 860, H = phone ? Math.round(W * 1.0) : 470;
+            const M = phone ? { l: 54, r: 14, t: 14, b: 46 } : { l: 64, r: 30, t: 20, b: 58 };
+            svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
             const pw = W - M.l - M.r, ph = H - M.t - M.b;
             const xOf = p => p.draft;
             const maxV = niceMax(Math.max(...pts.map(p => Math.max(xOf(p), p.win))));
@@ -8934,20 +8971,22 @@
             for (let v = 0; v <= maxV; v += 10) {
                 svg.appendChild(svgEl('line', { x1: x(v), y1: M.t, x2: x(v), y2: M.t + ph, stroke: '#e7e1d8', 'stroke-width': 1 }));
                 svg.appendChild(svgEl('line', { x1: M.l, y1: y(v), x2: M.l + pw, y2: y(v), stroke: '#e7e1d8', 'stroke-width': 1 }));
-                let t = svgEl('text', { x: x(v), y: M.t + ph + 20, fill: C.grey, 'font-size': 11, 'text-anchor': 'middle' }); t.textContent = v + '%'; svg.appendChild(t);
+                if (!phone || maxV <= 50 || v % 20 === 0) { let t0 = svgEl('text', { x: x(v), y: M.t + ph + 20, fill: C.grey, 'font-size': 11, 'text-anchor': 'middle' }); t0.textContent = v + '%'; svg.appendChild(t0); }
+                let t;
                 t = svgEl('text', { x: M.l - 10, y: y(v) + 4, fill: C.grey, 'font-size': 11, 'text-anchor': 'end' }); t.textContent = v + '%'; svg.appendChild(t);
             }
             svg.appendChild(svgEl('line', { x1: x(0), y1: y(0), x2: x(maxV), y2: y(maxV), stroke: '#b8b1a6', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' }));
             let xl = svgEl('text', { x: M.l + pw / 2, y: H - 12, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle' });
             xl.textContent = 'Draft % (field ownership)';
             svg.appendChild(xl);
-            let yl = svgEl('text', { x: 18, y: M.t + ph / 2, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle', transform: `rotate(-90 18 ${M.t + ph / 2})` }); yl.textContent = 'Optimal %'; svg.appendChild(yl);
+            const ylx = phone ? 14 : 18;
+            let yl = svgEl('text', { x: ylx, y: M.t + ph / 2, fill: C.txt, 'font-size': 13, 'text-anchor': 'middle', transform: `rotate(-90 ${ylx} ${M.t + ph / 2})` }); yl.textContent = 'Optimal %'; svg.appendChild(yl);
             pts.forEach(p => {
                 // color always encodes true leverage (optimal vs own ownership)
                 // so switching the x-axis never changes what green/red mean
                 const lev = p.win - p.draft;
                 const color = lev > 3 ? C.green : (lev < -3 ? C.red : C.grey);
-                const c = svgEl('circle', { cx: x(xOf(p)), cy: y(p.win), r: 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
+                const c = svgEl('circle', { cx: x(xOf(p)), cy: y(p.win), r: phone ? 5 : 6, fill: color, 'fill-opacity': 0.85, stroke: C.bg, 'stroke-width': 1.5 });
                 c.style.cursor = 'pointer';
                 const oppLine = p.opp ? `<br>vs ${p.opp}: ${p.oppDraft != null ? p.oppDraft.toFixed(1) : '—'}% owned` : '';
                 bindTip(c, `<b>${p.name}</b><br>Draft: ${fmtWin(p.draft)} · Optimal: ${fmtWin(p.win)}${oppLine}<br>Leverage: ${lev > 0 ? '+' : ''}${lev.toFixed(1)}`);
@@ -8971,10 +9010,11 @@
             ];
             // label the ten fighters furthest from the diagonal (the leverage story);
             // everyone else keeps a hover tooltip, so the cluster near the origin stays legible
-            const LABEL_MAX = 10;
+            const LABEL_MAX = phone ? 6 : 10;
             const labelSet = new Set([...pts].sort((a, b) => Math.abs(b.win - xOf(b)) - Math.abs(a.win - xOf(a))).slice(0, LABEL_MAX));
             [...pts].filter(p => labelSet.has(p)).sort((a, b) => b.win - a.win).forEach(p => {
-                const cx = x(xOf(p)), cy = y(p.win), w = estW(p.name);
+                const lbl = phone ? p.name.trim().split(/\s+/).pop() : p.name;
+                const cx = x(xOf(p)), cy = y(p.win), w = estW(lbl);
                 let best = null, bestCost = Infinity;
                 for (const [dx, dy, anchor] of CAND) {
                     const tx = cx + dx, ty = cy + dy;
@@ -8993,7 +9033,7 @@
                 if (!best) return;
                 placed.push(best.box);
                 const t = svgEl('text', { x: best.tx, y: best.ty, fill: C.txt, 'font-size': FS, 'text-anchor': best.anchor, 'fill-opacity': 0.85, 'pointer-events': 'none' });
-                t.textContent = p.name;
+                t.textContent = lbl;
                 svg.appendChild(t);
             });
         }

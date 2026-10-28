@@ -5205,6 +5205,11 @@
             .pex-table .fx-who { gap: 11px; }
             .pex-table .fph.fxp { width: 46px; height: 46px; flex: none; }
             .pex-table .fph.fxp .ini { font-size: 0.8rem; }
+            /* the Lineup Optimizer's photos fill most of their row */
+            .fph.sm.optp { width: 46px; height: 46px; flex: none; }
+            .fph.sm.optp .ini { font-size: 0.8rem; }
+            .fx-who:has(.optp) { gap: 12px; }
+            .opt-grid td:has(.optp) { padding-top: 6px; padding-bottom: 6px; }
         }
         /* rows that open: a small orange + button (like the Hand Builder's), a minus once open */
         .expand-icon, .expand-icon.open { -webkit-mask: none; mask: none; transform: none; display: inline-flex; align-items: center; justify-content: center;
@@ -12245,7 +12250,7 @@
                 const body = document.getElementById('optGridBody');
                 body.innerHTML = FIGHTERS.map((f, i) => `
                     <tr class="${f.exclude ? 'excluded' : ''}${f.lock ? ' locked' : ''}" data-i="${i}">
-                        <td class="l" style="font-weight:600"><span class="fx-who">${photoHTML(f.name, 'sm')}<span>${oEsc(f.name)}</span></span></td>
+                        <td class="l" style="font-weight:600"><span class="fx-who">${photoHTML(f.name, 'sm optp', null, true)}<span>${oEsc(f.name)}</span></span></td>
                         <td class="l" style="color:var(--text-secondary)">${oEsc(f.matchup)}</td>
                         <td class="sal">$${f.salary.toLocaleString()}</td>
                         <td class="proj-cell"><input type="number" step="0.1" data-k="proj" class="${f.proj ? 'filled' : ''}" value="${f.proj || ''}" placeholder="0"></td>

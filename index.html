@@ -5242,10 +5242,20 @@
         .pex-table.pex-land:not(.has-act) th.n, .pex-table.pex-land:not(.has-act) td.n { width: 19% !important; }
         .pex-table.pex-land td.pc { color: var(--text-primary); font-weight: 600; }
         .pex-table.pex-land td.act:not(.tbd) { color: var(--accent-hi); }
+        /* headers read at the same size as the figures under them, and sort on click */
+        .pex-table.pex-land th { font-family: var(--fn-mono); font-size: 0.84rem !important; font-weight: 700; letter-spacing: 0 !important; text-transform: none; color: var(--text-primary); }
+        .pex-table.pex-land th.pex-sort { cursor: pointer; -webkit-user-select: none; user-select: none; white-space: nowrap !important; }
+        .pex-table.pex-land th.pex-sort:hover, .pex-table.pex-land th.pex-sort.on { color: var(--accent-hi); }
+        .pex-table.pex-land th .pex-arr { margin-left: 4px; font-size: 0.6em; vertical-align: 1px; }
+        @media (max-width: 600px) { .pex-table.pex-land th { font-size: 0.8rem !important; } }
+        @media (max-width: 360px) {
+            table.pex-table.pex-land th.n, table.pex-table.pex-land td.n { padding-left: 0 !important; padding-right: 0 !important; width: 14% !important; }
+            table.pex-table.pex-land th:nth-child(4), table.pex-table.pex-land td:nth-child(4) { width: 18% !important; }
+            .pex-table.pex-land th .pex-arr { margin-left: 1px; }
+        }
         @media (max-width: 600px) {
             .pex-table.pex-land th.n, .pex-table.pex-land td.n { width: 15.5% !important; padding-left: 2px !important; padding-right: 2px !important; }
             .pex-table.pex-land:not(.has-act) th.n, .pex-table.pex-land:not(.has-act) td.n { width: 20% !important; }
-            .pex-table.pex-land th.n { white-space: normal; line-height: 1.25; vertical-align: bottom; }
         }
         /* Hand Builder: the picked lineup's photos match the fighter list's (38px) */
         .hb-slot .fph.xs { width: 38px; height: 38px; flex: none; }
@@ -7377,6 +7387,12 @@
         window.addEventListener('resize', placeExposurePanel);
 
         // selectedNames: null = every contest; otherwise the ticked filter labels.
+        let pexSort = { key: 'usd', asc: false };
+        function sortPortfolioExposure(key) {
+            pexSort = pexSort.key === key ? { key, asc: !pexSort.asc } : { key, asc: key === 'name' };
+            const panel = document.getElementById('portfolio-exposure');
+            renderPortfolioExposure(panel ? panel._pexSel : null);
+        }
         function renderPortfolioExposure(selectedNames) {
             const panel = document.getElementById('portfolio-exposure');
             const filtersEl = document.getElementById('portfolio-filters');
@@ -7401,14 +7417,23 @@
                 }
             }
             const rows = [...agg.values()].sort((a, b) => b.usd - a.usd || b.lineups - a.lineups || a.name.localeCompare(b.name));
+            rows.forEach(r => { const s = actuals.get(r.name.trim().toLowerCase()); r.actual = s === undefined ? null : s; r.pct = totalLineups ? 100 * r.lineups / totalLineups : 0; });
+            // a header click re-sorts; $ (most first) is the default
+            const ps = pexSort, dir = ps.asc ? 1 : -1;
+            if (ps.key === 'name') rows.sort((a, b) => dir * a.name.localeCompare(b.name));
+            else if (ps.key !== 'usd' || ps.asc) rows.sort((a, b) => dir * (((a[ps.key] == null ? -1 : a[ps.key]) - (b[ps.key] == null ? -1 : b[ps.key]))) || b.usd - a.usd);
             rows.forEach(r => { const s = actuals.get(r.name.trim().toLowerCase()); r.actual = s === undefined ? null : s; });
             if (!rows.length) { panel.innerHTML = ''; return; }
 
             // The Actual column appears once any held fighter has a final score.
             const showActual = rows.some(r => r.actual != null);
-            const maxUsd = rows[0].usd || 1;
+            const maxUsd = Math.max(...rows.map(r => r.usd)) || 1;
             const usd = v => '$' + Math.round(v).toLocaleString();
 
+            const pexTh = (k, label, cls, title) => {
+                const on = pexSort.key === k;
+                return `<th class="${cls} pex-sort${on ? ' on' : ''}" onclick="sortPortfolioExposure('${k}')" aria-sort="${on ? (pexSort.asc ? 'ascending' : 'descending') : 'none'}"${title ? ` title="${title}"` : ''}>${label}${on ? `<span class="pex-arr">${pexSort.asc ? '\u25B2' : '\u25BC'}</span>` : ''}</th>`;
+            };
             const body = rows.map(r => {
                 const share = Math.max(0, Math.min(100, 100 * r.usd / maxUsd));
                 const act = !showActual ? ''
@@ -7429,11 +7454,11 @@
                 <div class="pex-body"><div class="pex-scroll">
                     <table class="pex-table pex-land${showActual ? ' has-act' : ''}">
                         <thead><tr>
-                            <th>Fighter</th>
-                            <th class="n">$ Exposure</th>
-                            <th class="n" title="Share of these lineups the fighter is in">%</th>
-                            <th class="n">Lineups</th>
-                            ${showActual ? '<th class="n">Score</th>' : ''}
+                            ${pexTh('name', 'Fighter', '')}
+                            ${pexTh('usd', '$', 'n', '$ exposure')}
+                            ${pexTh('pct', '%', 'n', 'Share of these lineups the fighter is in')}
+                            ${pexTh('lineups', 'Lineups', 'n')}
+                            ${showActual ? pexTh('actual', 'Score', 'n') : ''}
                         </tr></thead>
                         <tbody>${body}</tbody>
                     </table>

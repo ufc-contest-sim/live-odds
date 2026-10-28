@@ -5080,6 +5080,12 @@
         .lineup-container .chip-grid .fighter-chip { background: transparent; border: 0; box-shadow: none; padding: 0; gap: 11px; border-radius: 0; font-size: 0.95rem; }
         .lineup-container .chip-grid .fph.chip { width: 54px; height: 54px; }
         .lineup-container .chip-grid .fighter-chip .n2 { min-width: 0; }
+        /* the score sits under the name, a couple of sizes smaller, so long names never run into it */
+        .lineup-container .chip-grid .fighter-chip { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; column-gap: 11px; row-gap: 0; align-items: center; }
+        .lineup-container .chip-grid .fighter-chip .fph.chip { grid-row: 1 / span 2; }
+        .lineup-container .chip-grid .fighter-chip .n2 { grid-column: 2; grid-row: 1; align-self: end; }
+        .lineup-container .chip-grid .fighter-chip:not(:has(.fc-score)) .n2 { grid-row: 1 / span 2; align-self: center; }
+        .lineup-container .chip-grid .fighter-chip .fc-score { grid-column: 2; grid-row: 2; align-self: start; margin: 1px 0 0; padding: 0; font-size: 0.8rem; line-height: 1.1; }
         .fc-score { flex: none; margin-left: 4px; font-family: var(--fn-mono); font-weight: 700; font-size: 0.95rem; color: var(--accent-hi); font-variant-numeric: tabular-nums; }
         #username-table tr.lineup-row > td, .whatif-table-scroll tr.lineup-row > td { padding: 0; }
         #username-table .lineup-container, .whatif-table-scroll .lineup-container { padding: 8px 20px; }

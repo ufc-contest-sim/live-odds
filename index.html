@@ -5093,7 +5093,7 @@
             #username-table .m-stand tr { display: table-row; }
             #username-table .m-stand th { padding: 9px 3px; box-sizing: border-box; font-family: var(--fn-mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(20, 12, 4, 0.85); font-weight: 700; text-align: right; white-space: nowrap; }
             #username-table .m-stand td { padding: 0 3px; box-sizing: border-box; height: 44px; font-size: 0.8rem; font-weight: 600; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line-1); }
-            #username-table .m-stand th.p, #username-table .m-stand td.p { width: 46px; text-align: left; padding-left: 2px; }
+            #username-table .m-stand th.p, #username-table .m-stand td.p { width: 54px; text-align: left; padding-left: 8px; }
             #username-table .m-stand th.u, #username-table .m-stand td.u { width: auto; text-align: left; }
             #username-table .m-stand th:nth-child(3), #username-table .m-stand td:nth-child(3),
             #username-table .m-stand th:nth-child(4), #username-table .m-stand td:nth-child(4),
@@ -5137,11 +5137,14 @@
             #username-table .m-stand tr.mine td.p { box-shadow: inset 3px 0 0 var(--accent); }
             #username-table .m-stand tr.mine td.u { color: var(--accent-hi); }
             /* black panels with an edge: the compact table, and Fighter Exposure below it */
-            #username-table.standings-on .m-stand { border: 2px solid rgba(255, 255, 255, 0.17); border-radius: var(--r-md); overflow: hidden; background: transparent; }
+            #username-table.standings-on .m-stand { border: 2px solid rgba(255, 255, 255, 0.17); border-radius: var(--r-md); overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+                max-height: calc(15 * 44px + 36px); background: transparent; }
+            #username-table .m-stand thead { position: sticky; top: 0; z-index: 3; }
             #username-table .m-stand tbody tr:last-child > td { border-bottom: 0; }
             .lb-cols .fighter-draft-container.fx-panel { background: transparent !important; background-image: none !important; box-shadow: none !important; border: 2px solid rgba(255, 255, 255, 0.17) !important; border-radius: var(--r-md); }
             .lb-cols .fighter-draft-container.fx-panel .pex-body, .lb-cols .fighter-draft-container.fx-panel .pex-scroll, .lb-cols .fighter-draft-container.fx-panel .pex-table,
-            .lb-cols .fighter-draft-container.fx-panel .pex-table thead, .lb-cols .fighter-draft-container.fx-panel .pex-table th, .lb-cols .fighter-draft-container.fx-panel .pex-table tr { background-color: transparent !important; }
+            .lb-cols .fighter-draft-container.fx-panel .pex-table thead, .lb-cols .fighter-draft-container.fx-panel .pex-table tr { background-color: transparent !important; }
+            .lb-cols .fighter-draft-container.fx-panel .pex-table thead th { background-color: #0b0b0e !important; z-index: 2; }
             .lb-cols .fighter-draft-container.fx-panel .pex-table td { background-color: transparent; }
             #username-table .m-stand .no-results { padding: 24px 0; text-align: center; color: var(--text-secondary); }
         }

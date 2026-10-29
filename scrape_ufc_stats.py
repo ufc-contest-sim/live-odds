@@ -66,6 +66,26 @@ def _is_complete(detail) -> bool:
     return bool(detail and detail.get("totals"))
 
 
+# ufcstats posts a new event's stats within a day or two. A fight whose page
+# was fetched but still has no stats this long after the event never will
+# (many early-UFC fights have none), so it stops being retried.
+STATS_GRACE_DAYS = 30
+
+
+def _is_settled(detail, event_date) -> bool:
+    """Done for good: the stats are in, or the page was read and the event is
+    old enough that ufcstats will not be adding them."""
+    if _is_complete(detail):
+        return True
+    if not detail or not event_date:
+        return False   # the page never loaded (worth another try), or no date to judge by
+    try:
+        age = (datetime.now() - datetime.strptime(str(event_date)[:10], "%Y-%m-%d")).days
+    except ValueError:
+        return False
+    return age > STATS_GRACE_DAYS
+
+
 def _empty_cache() -> dict:
     return {"events": {}, "fights": {}, "meta": {"last_updated": None}}
 
@@ -873,7 +893,7 @@ def main():
         cached_event = cache["events"].get(eid, {})
         cached_fights = cached_event.get("fights", [])
         all_cached = all(
-            _is_complete(cache["fights"].get(f["fight_id"]))
+            _is_settled(cache["fights"].get(f["fight_id"]), event.get("date"))
             for f in cached_fights
         ) if cached_fights else False
 
@@ -902,7 +922,7 @@ def main():
         new_count = 0
         for fi, fight in enumerate(fight_list):
             fid = fight["fight_id"]
-            if _is_complete(cache["fights"].get(fid)):
+            if _is_settled(cache["fights"].get(fid), event.get("date")):
                 continue
 
             detail = scrape_fight_detail(fight["url"])
@@ -917,7 +937,7 @@ def main():
             status += f" ({new_count} new)"
         else:
             status += " (all cached)"
-        pending = [f for f in fight_list if not _is_complete(cache["fights"].get(f["fight_id"]))]
+        pending = [f for f in fight_list if not _is_settled(cache["fights"].get(f["fight_id"]), event.get("date"))]
         if pending:
             status += f" - {len(pending)} without stats yet on ufcstats (will retry next run)"
         print(status)

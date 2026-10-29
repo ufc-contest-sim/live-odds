@@ -1,0 +1,97 @@
+{
+  "generated": "2026-10-29T10:05:27",
+  "source": "Post Contest Sim.xlsm",
+  "fights": [
+    {
+      "fight_id": 1,
+      "fighters": [
+        "Rafael Fiziev",
+        "Manuel Torres"
+      ]
+    },
+    {
+      "fight_id": 2,
+      "fighters": [
+        "Shara Magomedov",
+        "Michel Pereira"
+      ]
+    },
+    {
+      "fight_id": 3,
+      "fighters": [
+        "Nazim Sadykhov",
+        "Matheus Camilo"
+      ]
+    },
+    {
+      "fight_id": 4,
+      "fighters": [
+        "Asu Almabayev",
+        "Charles Johnson"
+      ]
+    },
+    {
+      "fight_id": 5,
+      "fighters": [
+        "Ikram Aliskerov",
+        "Brunno Ferreira"
+      ]
+    },
+    {
+      "fight_id": 6,
+      "fighters": [
+        "Abus Magomedov",
+        "Michal Oleksiejczuk"
+      ]
+    },
+    {
+      "fight_id": 7,
+      "fighters": [
+        "Farman Hasanov",
+        "Eric Nolan"
+      ]
+    },
+    {
+      "fight_id": 8,
+      "fighters": [
+        "Abdul Rakhman Yakhyaev",
+        "Julius Walker"
+      ]
+    },
+    {
+      "fight_id": 9,
+      "fighters": [
+        "Nursulton Ruziboev",
+        "Andrey Pulyaev"
+      ]
+    },
+    {
+      "fight_id": 10,
+      "fighters": [
+        "Javier Reyes",
+        "Kaan Ofli"
+      ]
+    },
+    {
+      "fight_id": 11,
+      "fighters": [
+        "Daniil Donchenko",
+        "Theodor Berggren"
+      ]
+    },
+    {
+      "fight_id": 12,
+      "fighters": [
+        "Jean Matsumoto",
+        "Bekzat Almakhan"
+      ]
+    },
+    {
+      "fight_id": 13,
+      "fighters": [
+        "Tahir Abdullayev",
+        "Jefferson Nascimento"
+      ]
+    }
+  ]
+}

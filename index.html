@@ -4848,7 +4848,7 @@
         .qs-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
         .qs-clear[hidden] { display: none; }
         /* contest filters: only Username until More filters opens the rest */
-        .filters.collapsed #fighter-filter, .filters.collapsed #dead-filter, .filters.collapsed #range-filters { display: none !important; }
+        .filters.collapsed #fighter-filter, .filters.collapsed #exclude-filter, .filters.collapsed #dead-filter, .filters.collapsed #range-filters { display: none !important; }
         .filters:not(.clearable) .clear-btn { display: none; }
         .more-filters-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px; border-radius: var(--r-md);
             border: 1px solid var(--line-2); background: rgba(255, 255, 255, 0.04); color: var(--text-primary);
@@ -5261,6 +5261,8 @@
         .hb-slot .fph.xs { width: 38px; height: 38px; flex: none; }
         .hb-slot .fph.xs .ini { font-size: 0.66rem; }
         .hb-slot { padding-top: 6px; padding-bottom: 6px; min-height: 52px; box-sizing: border-box; }
+        /* excluded fighters: red chips, so they read as "not these" next to the picked ones */
+        .fighter-chip-selected.excl { background: var(--accent-red); color: #1a0306; }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5702,6 +5704,14 @@
                     </div>
                     <div id="selected-fighters" class="selected-fighters" style="margin: 0;"></div>
                 </div>
+                <div class="filter-group" id="exclude-filter" style="display: none; flex: 0 1 auto; flex-wrap: wrap; max-width: 320px;">
+                    <label for="exclude-dropdown">Exclude:</label>
+                    <div style="position: relative; width: 240px; flex: none;">
+                        <input type="text" id="exclude-dropdown" placeholder="Fighters to leave out..." autocomplete="off" style="width: 100%;">
+                        <div id="exclude-dropdown-list" class="fighter-dropdown-list"></div>
+                    </div>
+                    <div id="excluded-fighters" class="selected-fighters" style="margin: 0;"></div>
+                </div>
                 <div class="filter-group" id="dead-filter">
                     <label for="hide-dead" style="cursor:pointer;">
                         <input type="checkbox" id="hide-dead" onchange="toggleHideDead(this.checked)" style="accent-color: var(--accent); margin-right: 6px; vertical-align: -2px;">Hide dead lineups (0.0% win)
@@ -5971,6 +5981,7 @@
         let currentView = 'username';
         let allFighters = [];
         let selectedFighters = [];
+        let excludedFighters = [];   // lineups holding any of these are left out
         let contestFightCard = null;  // fight_card from JSON (if available)
         let contestPayouts = null;    // payouts array from JSON (if available)
         let contestOptimalMap = null; // fighter -> optimal% from JSON (if available)
@@ -6661,7 +6672,7 @@
             const dropdownList = document.getElementById('fighter-dropdown-list');
             const filtered = allFighters.filter(fighter => 
                 fighter.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                !selectedFighters.includes(fighter)
+                !selectedFighters.includes(fighter) && !excludedFighters.includes(fighter)
             );
             
             if (filtered.length === 0) {
@@ -6705,6 +6716,44 @@
             ).join('');
         }
         
+        // Exclude: the same picker as Fighter(s), but a lineup holding any of
+        // these fighters is left out
+        function setupExcludeDropdown() {
+            const input = document.getElementById('exclude-dropdown');
+            const list = document.getElementById('exclude-dropdown-list');
+            if (!input || !list) return;
+            input.addEventListener('focus', () => { updateExcludeDropdown(''); list.classList.add('show'); });
+            input.addEventListener('input', e => { updateExcludeDropdown(e.target.value); list.classList.add('show'); });
+            document.addEventListener('click', e => { if (!e.target.closest('#exclude-filter')) list.classList.remove('show'); });
+        }
+        function updateExcludeDropdown(term) {
+            const list = document.getElementById('exclude-dropdown-list');
+            const t = String(term || '').toLowerCase();
+            const opts = allFighters.filter(f => f.toLowerCase().includes(t) && !excludedFighters.includes(f) && !selectedFighters.includes(f));
+            list.innerHTML = opts.length
+                ? opts.slice(0, 50).map(f => `<div class="fighter-option" onclick="addExcluded('${f.replace(/'/g, "\\'")}')">${f}</div>`).join('')
+                : '<div class="fighter-option" style="color: var(--text-secondary); cursor: default;">No fighters found</div>';
+        }
+        function addExcluded(f) {
+            if (excludedFighters.includes(f)) return;
+            excludedFighters.push(f);
+            updateExcludedDisplay();
+            document.getElementById('exclude-dropdown').value = '';
+            document.getElementById('exclude-dropdown-list').classList.remove('show');
+            filterAndRender();
+        }
+        function removeExcluded(f) {
+            excludedFighters = excludedFighters.filter(x => x !== f);
+            updateExcludedDisplay();
+            filterAndRender();
+        }
+        function updateExcludedDisplay() {
+            const box = document.getElementById('excluded-fighters');
+            if (!box) return;
+            box.innerHTML = excludedFighters.map(f =>
+                `<div class="fighter-chip-selected excl">${f}<span class="remove-fighter" onclick="removeExcluded('${f.replace(/'/g, "\\'")}')">&times;</span></div>`).join('');
+        }
+
         function switchView(view) {
             currentView = view;
 
@@ -6763,6 +6812,7 @@
                 document.getElementById('username-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'flex';
+                document.getElementById('exclude-filter').style.display = 'flex';
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
@@ -6771,6 +6821,7 @@
                 document.getElementById('lineup-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'flex';
+                document.getElementById('exclude-filter').style.display = 'flex';
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
                 filtersPanel.style.display = '';
@@ -6779,6 +6830,7 @@
                 document.getElementById('portfolio-table').style.display = 'block';
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
+                document.getElementById('exclude-filter').style.display = 'none';
                 statsPanel.classList.add('three-col');
                 whatifLayout.classList.remove('active');
                 statsPanel.style.display = '';
@@ -6788,6 +6840,7 @@
                 whatifLayout.classList.add('active');
                 document.getElementById('username-filter').style.display = 'flex';
                 document.getElementById('fighter-filter').style.display = 'none';
+                document.getElementById('exclude-filter').style.display = 'none';
                 statsPanel.style.display = 'none';
                 filtersPanel.style.display = '';
                 tableHeader.style.display = 'none';
@@ -8042,6 +8095,7 @@
                 expandedRows.clear();
                 extractAllFighters(data.leaderboard);
                 setupFighterDropdown();
+                setupExcludeDropdown();
 
                 // If user is already on the What If tab, re-render the
                 // fight card inputs for the new contest before filterAndRender runs.
@@ -8052,6 +8106,7 @@
                 // the fighter filter and the range row belong to By Username and By Lineup
                 const lineupViews = currentView === 'username' || currentView === 'lineup';
                 document.getElementById('fighter-filter').style.display = lineupViews ? 'flex' : 'none';
+                document.getElementById('exclude-filter').style.display = lineupViews ? 'flex' : 'none';
                 const rangeRow = document.getElementById('range-filters');
                 if (rangeRow) rangeRow.style.display = lineupViews ? '' : 'none';
 
@@ -8297,6 +8352,9 @@
             document.getElementById('fighter-dropdown').value = '';
             selectedFighters = [];
             updateSelectedFightersDisplay();
+            excludedFighters = [];
+            updateExcludedDisplay();
+            const exIn = document.getElementById('exclude-dropdown'); if (exIn) exIn.value = '';
             document.querySelectorAll('#range-filters .rf').forEach(g => { g.querySelector('.rf-op').value = 'any'; g.querySelector('.rf-a').value = ''; g.querySelector('.rf-b').value = ''; syncRangeBoxes(g); rangeFilters[g.dataset.rf] = { op: 'any', a: '', b: '' }; });
             currentSort = 'NetEV';
             sortAscending = false;
@@ -8322,6 +8380,7 @@
             let n = 0;
             if (hasMore) {
                 if (selectedFighters.length) n++;
+                if (excludedFighters.length) n++;
                 if (hideDead) n++;
                 for (const k in rangeFilters) if (rangeFilters[k].op !== 'any') n++;
             }
@@ -8587,11 +8646,12 @@
                 (currentView === 'username' || currentView === 'lineup') &&
                 !((row.WinPct || 0) > 0);
             // every picked fighter must be in the lineup
+            // and none of the excluded ones
             const hasFighters = row => {
-                if (selectedFighters.length === 0) return true;
+                if (selectedFighters.length === 0 && excludedFighters.length === 0) return true;
                 const lineupFighters = [];
                 for (let i = 1; i <= 6; i++) { const f = row[`F${i}`]; if (f && f !== '') lineupFighters.push(f); }
-                return selectedFighters.every(f => lineupFighters.includes(f));
+                return selectedFighters.every(f => lineupFighters.includes(f)) && !excludedFighters.some(f => lineupFighters.includes(f));
             };
             standFieldFilter = row => !dead(row) && hasFighters(row) && rangeOk(row);
             filteredData = allData.filter(row => {

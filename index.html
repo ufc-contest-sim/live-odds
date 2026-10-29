@@ -6234,7 +6234,7 @@
                                 try {
                                     if (!sessionStorage.getItem(key)) {
                                         sessionStorage.setItem(key, '1');
-                                        location.reload();
+                                        reloadOrOffer();
                                     }
                                 } catch (e) {}
                             }
@@ -6346,6 +6346,23 @@
             }, true);
         })();
 
+        // A reload is only automatic when it can't cost the visitor anything:
+        // still on the landing page, search box empty, nothing tapped yet.
+        // Otherwise the "new version" bar offers it and they choose when.
+        let userActed = false;
+        ['pointerdown', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, () => { userActed = true; }, { capture: true, passive: true }));
+        function safeToReload() {
+            if (userActed) return false;
+            const landing = document.getElementById('landing-page');
+            const q = document.getElementById('quick-search-input');
+            return !!(landing && landing.style.display !== 'none' && landing.offsetParent !== null && !(q && q.value.trim()));
+        }
+        function reloadOrOffer() {
+            if (safeToReload()) { location.reload(); return; }
+            const bar = document.getElementById('update-bar');
+            if (bar) bar.hidden = false;
+        }
+
         // Keep every visitor on the latest build. The HTML is served with
         // must-revalidate, so a fresh navigation always gets the newest copy;
         // the gap is a tab left open (iPad Safari keeps them alive for days).
@@ -6379,12 +6396,12 @@
                         const mine = new Date(document.lastModified), theirs = new Date(h.mod || 0);
                         if (!isNaN(mine) && !isNaN(theirs) && theirs - mine > 60000) {
                             const key = 'mmaLiveSim_fresh_' + h.tag;
-                            if (!sessionStorage.getItem(key)) { sessionStorage.setItem(key, '1'); location.reload(); }
+                            if (!sessionStorage.getItem(key)) { sessionStorage.setItem(key, '1'); reloadOrOffer(); }
                         }
                         return;
                     }
                     if (h.tag !== servedTag) {
-                        if (awayMs >= 15 * 60000 && !typing()) location.reload();
+                        if (awayMs >= 15 * 60000 && !typing()) reloadOrOffer();
                         else offer();
                     }
                 } catch (e) { /* offline or blocked: try again next time */ }

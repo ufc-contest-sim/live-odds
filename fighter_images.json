@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27T14:06:20",
+ "generated": "2026-10-29T10:05:28",
  "event": "UFC Fight Night: Moicano vs Nolan",
  "event_url": "https://www.ufc.com/event/ufc-fight-night-october-31-2026",
  "fighters": {
@@ -125,7 +125,7 @@
   },
   "Joe Kropschot": {
    "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-08/KROPSCHOT_JOE_R_08-11.png?itok=NB6qLus6",
-   "ufc_name": "Joseph Kropschot",
+   "ufc_name": "Joe Kropschot",
    "profile": "https://www.ufc.com/athlete/joseph-kropschot"
   }
  }

@@ -6391,7 +6391,7 @@
             const bar = document.getElementById('update-bar');
             const head = async () => {
                 const r = await fetch(location.pathname || '/', { method: 'HEAD', cache: 'no-store' });
-                return { tag: r.headers.get('etag'), mod: r.headers.get('last-modified') };
+                return { tag: r.headers.get('etag') };
             };
             const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)); };
             const offer = () => { if (bar) bar.hidden = false; };
@@ -6401,16 +6401,11 @@
                 try {
                     const h = await head();
                     if (!h.tag) return;
-                    if (servedTag === null) {
-                        // first check: does the copy we are showing match the server's?
-                        servedTag = h.tag;
-                        const mine = new Date(document.lastModified), theirs = new Date(h.mod || 0);
-                        if (!isNaN(mine) && !isNaN(theirs) && theirs - mine > 60000) {
-                            const key = 'mmaLiveSim_fresh_' + h.tag;
-                            if (!sessionStorage.getItem(key)) { sessionStorage.setItem(key, '1'); reloadOrOffer(); }
-                        }
-                        return;
-                    }
+                    // The ETag is a hash of the page's content, so it only changes when the
+                    // site itself changes. Last-Modified moves on every data publish (each
+                    // publish redeploys), so it is not used: comparing it flagged a "newer
+                    // version" for everyone all through a live event.
+                    if (servedTag === null) { servedTag = h.tag; return; }
                     if (h.tag !== servedTag) {
                         if (awayMs >= 15 * 60000 && !typing()) reloadOrOffer();
                         else offer();

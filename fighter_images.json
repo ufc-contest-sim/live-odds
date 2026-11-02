@@ -1,0 +1,277 @@
+{
+ "generated": "2026-11-02T14:14:42",
+ "event": "UFC Fight Night: Cortes Acosta vs Walker",
+ "event_url": "https://www.ufc.com/event/ufc-fight-night-november-07-2026",
+ "fighters": {
+  "Renato Moicano": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/MOICANO_RENATO_L_10-31.png?itok=pQRt8fI4",
+   "ufc_name": "Renato Moicano",
+   "profile": "https://www.ufc.com/athlete/renato-moicano"
+  },
+  "Tom Nolan": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/NOLAN_TOM_R_10-31.png?itok=C6Z1VWZn",
+   "ufc_name": "Tom Nolan",
+   "profile": "https://www.ufc.com/athlete/tom-nolan"
+  },
+  "Randy Brown": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/BROWN_RANDY_L_10-31.png?itok=4usapKxK",
+   "ufc_name": "Randy Brown",
+   "profile": "https://www.ufc.com/athlete/randy-brown"
+  },
+  "Jacobe Smith": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/SMITH_JACOBE_R_10-31.png?itok=vxPmJHbG",
+   "ufc_name": "Jacobe Smith",
+   "profile": "https://www.ufc.com/athlete/jacobe-smith"
+  },
+  "Ode Osbourne": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/OSBOURNE_ODE_L_10-31.png?itok=a-3zZDKM",
+   "ufc_name": "Ode' Osbourne",
+   "profile": "https://www.ufc.com/athlete/ode-osbourne"
+  },
+  "Cody Durden": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/DURDEN_CODY_R_10-31.png?itok=5l23--Jo",
+   "ufc_name": "Cody Durden",
+   "profile": "https://www.ufc.com/athlete/cody-durden"
+  },
+  "Yana Santos": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/SANTOS_YANA_L_10-31.png?itok=3QGE8kte",
+   "ufc_name": "Yana Santos",
+   "profile": "https://www.ufc.com/athlete/yana-santos"
+  },
+  "Luana Santos": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/SANTOS_LUANA_R_10-31.png?itok=gxDAO06V",
+   "ufc_name": "Luana Santos",
+   "profile": "https://www.ufc.com/athlete/luana-santos"
+  },
+  "Jean-Paul Lebosnoyani": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/LEBOSNOYANI_JEAN-PAUL_L_10-31.png?itok=TAAL62YF",
+   "ufc_name": "Jean-Paul Lebosnoyani",
+   "profile": "https://www.ufc.com/athlete/jean-paul-lebosnoyani"
+  },
+  "Farman Hasanov": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/HASANOV_FARMAN_R_10-31.png?itok=ZbX_n1Oq",
+   "ufc_name": "Farman Hasanov",
+   "profile": "https://www.ufc.com/athlete/farman-hasanov"
+  },
+  "Francis Marshall": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/MARSHALL_FRANCIS_L_10-31.png?itok=wS1uGXOZ",
+   "ufc_name": "Francis Marshall",
+   "profile": "https://www.ufc.com/athlete/francis-marshall"
+  },
+  "Dakota Hope": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/HOPE_DAKOTA_R_10-31.png?itok=bZL7TKbv",
+   "ufc_name": "Dakota Hope",
+   "profile": "https://www.ufc.com/athlete/dakota-hope"
+  },
+  "Rodrigo Sezinando": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/SEZINANDO_RODRIGO_L_10-31.png?itok=JipAUnpa",
+   "ufc_name": "Rodrigo Sezinando",
+   "profile": "https://www.ufc.com/athlete/rodrigo-sezinando"
+  },
+  "Theodor Berggren": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/BERGGREN_THEODOR_R_10-31.png?itok=ACQLrEFw",
+   "ufc_name": "Theodor Berggren",
+   "profile": "https://www.ufc.com/athlete/theodor-berggren"
+  },
+  "Julian Erosa": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/EROSA_JULIAN_L_10-31.png?itok=5kFO0SjR",
+   "ufc_name": "Julian Erosa",
+   "profile": "https://www.ufc.com/athlete/julian-erosa"
+  },
+  "JeongYeong Lee": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/LEE_JEONGYEONG_R_10-31.png?itok=ah81-cTH",
+   "ufc_name": "JeongYeong Lee",
+   "profile": "https://www.ufc.com/athlete/jeongyeong-lee"
+  },
+  "Zachary Reese": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-02/REESE_ZACH_L_02-21.png?itok=e7IOESnj",
+   "ufc_name": "Zachary Reese",
+   "profile": "https://www.ufc.com/athlete/zachary-reese"
+  },
+  "Mickey Gall": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/GALL_MICKEY_R_10-31.png?itok=c8XP4vVQ",
+   "ufc_name": "Mickey Gall",
+   "profile": "https://www.ufc.com/athlete/mickey-gall"
+  },
+  "Nick Klein": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/KLEIN_NICK_L_10-31.png?itok=ZIhOH8Sf",
+   "ufc_name": "Nick Klein",
+   "profile": "https://www.ufc.com/athlete/nick-klein"
+  },
+  "Joseph Kropschot": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-08/KROPSCHOT_JOE_R_08-11.png?itok=NB6qLus6",
+   "ufc_name": "Joseph Kropschot",
+   "profile": "https://www.ufc.com/athlete/joseph-kropschot"
+  },
+  "Talita Alencar": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/ALENCAR_TALITA_L_10-31.png?itok=A4SFVxSA",
+   "ufc_name": "Talita Alencar",
+   "profile": "https://www.ufc.com/athlete/talita-alencar"
+  },
+  "Piera Rodriguez": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/RODRIGUEZ_PIERA_R_10-31.png?itok=pC9KSh7T",
+   "ufc_name": "Piera Rodriguez",
+   "profile": "https://www.ufc.com/athlete/piera-rodriguez"
+  },
+  "Tainara Lisboa": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/LISBOA_TAINARA_R_10-31.png?itok=90tpfHnP",
+   "ufc_name": "Tainara Lisboa",
+   "profile": "https://www.ufc.com/athlete/tainara-lisboa"
+  },
+  "Zach Reese": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/REESE_ZACHARY_L_10-31.png?itok=4gJQ-nPy",
+   "ufc_name": "Zachary Reese",
+   "profile": "https://www.ufc.com/athlete/zachary-reese"
+  },
+  "Joe Kropschot": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/KROPSCHOT_JOSEPH_R_10-31.png?itok=UTQsj5lB",
+   "ufc_name": "Joe Kropschot",
+   "profile": "https://www.ufc.com/athlete/joseph-kropschot"
+  },
+  "Lucia Szabova": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-10/SZABOVA_LUCIA_L_10-31.png?itok=wbeFSZsw",
+   "ufc_name": "Lucia Szabová",
+   "profile": "https://www.ufc.com/athlete/lucia-szabova"
+  },
+  "Waldo Cortes Acosta": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-09/CORTES_ACOSTA_WALDO_L_09-12.png?itok=xe7OyefZ",
+   "ufc_name": "Waldo Cortes Acosta",
+   "profile": "https://www.ufc.com/athlete/waldo-cortes-acosta"
+  },
+  "Johnny Walker": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-04/WALKER_JOHNNY_R_04-11.png?itok=AvyI1teS",
+   "ufc_name": "Johnny Walker",
+   "profile": "https://www.ufc.com/athlete/johnny-walker"
+  },
+  "Tatiana Suarez": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-04/SUAREZ_TATIANA_L_04-11.png?itok=-XhH4172",
+   "ufc_name": "Tatiana Suarez",
+   "profile": "https://www.ufc.com/athlete/tatiana-suarez"
+  },
+  "Virna Jandiroba": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2025-04/JANDIROBA_VIRNA_R_04-12.png?itok=4Kts2B55",
+   "ufc_name": "Virna Jandiroba",
+   "profile": "https://www.ufc.com/athlete/virna-jandiroba"
+  },
+  "Davey Grant": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-04/GRANT_DAVEY_L_04-25.png?itok=RTtukIUQ",
+   "ufc_name": "Davey Grant",
+   "profile": "https://www.ufc.com/athlete/davey-grant"
+  },
+  "Elijah Smith": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2025-02/SMITH_ELIJAH_R_02-15.png?itok=1jzq2URZ",
+   "ufc_name": "Elijah Smith",
+   "profile": "https://www.ufc.com/athlete/elijah-smith"
+  },
+  "Seokhyeon Ko": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2025-06/KO_SEOKHYEON_L_06-21.png?itok=0TbU7QQZ",
+   "ufc_name": "Seokhyeon Ko",
+   "profile": "https://www.ufc.com/athlete/seokhyeon-ko"
+  },
+  "Wellington Turman": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-07/TURMAN_WELLINGTON_R_07-25.png?itok=edl-tevT",
+   "ufc_name": "Wellington Turman",
+   "profile": "https://www.ufc.com/athlete/wellington-turman"
+  },
+  "Billy Elekana": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-02/ELEKANA_BILLY_L_01-31.png?itok=11376dr5",
+   "ufc_name": "Billy Elekana",
+   "profile": "https://www.ufc.com/athlete/billy-elekana"
+  },
+  "Lucas Fernando": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-08/FERNANDO_LUCAS_R_08-15.png?itok=6rJIETAv",
+   "ufc_name": "Lucas Fernando",
+   "profile": "https://www.ufc.com/athlete/lucas-fernando"
+  },
+  "Mantas Kondratavicius": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-03/KONDRATAVICIUS_MANTAS_L_03-21.png?itok=WqKzfr3y",
+   "ufc_name": "Mantas Kondratavičius",
+   "profile": "https://www.ufc.com/athlete/mantas-kondratavicius"
+  },
+  "Andre Petroski": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-05/PETROSKI_ANDRE_R_05-16.png?itok=h8TtwACb",
+   "ufc_name": "Andre Petroski",
+   "profile": "https://www.ufc.com/athlete/andre-petroski"
+  },
+  "Gabriel Lorenco": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-09/LORENCO_GABRIEL_L_09-01.png?itok=SKF_hxQA",
+   "ufc_name": "Gabriel Lorenco",
+   "profile": "https://www.ufc.com/athlete/gabriel-lorenco"
+  },
+  "Thomas Petersen": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-07/PETERSEN_THOMAS_R_07-25.png?itok=uZQNgORk",
+   "ufc_name": "Thomas Petersen",
+   "profile": "https://www.ufc.com/athlete/thomas-petersen"
+  },
+  "Karine Silva": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2025-08/SILVA_KARINE_L_08-16.png?itok=F8My5IT_",
+   "ufc_name": "Karine Silva",
+   "profile": "https://www.ufc.com/athlete/karine-silva"
+  },
+  "Gabriella Fernandes": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-03/FERNANDES_GABRIELLA_R_03-28.png?itok=4p1EXlgz",
+   "ufc_name": "Gabriella Fernandes",
+   "profile": "https://www.ufc.com/athlete/gabriella-fernandes"
+  },
+  "Mitch Raposo": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2024-05/RAPOSO_MITCH_L_06-01.png?itok=uYCRED7z",
+   "ufc_name": "Mitch Raposo",
+   "profile": "https://www.ufc.com/athlete/mitch-raposo"
+  },
+  "Marcos Degli": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-09/DEGLI_MARCOS_L_09-22.png?itok=WKdRVjd9",
+   "ufc_name": "Marcos Degli",
+   "profile": "https://www.ufc.com/athlete/marcos-degli"
+  },
+  "Jose Delano": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-04/DELANO_JOSE_L_04-04.png?itok=nfHIiHT7",
+   "ufc_name": "Jose Delano",
+   "profile": "https://www.ufc.com/athlete/jose-delano"
+  },
+  "Murtazali Magomedov": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-06/MAGOMEDOV_MURTAZLI_R_06-20.png?itok=o6w6Qpv4",
+   "ufc_name": "Murtazali Magomedov",
+   "profile": "https://www.ufc.com/athlete/murtazali-magomedov"
+  },
+  "Keiichiro Nakamura": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-01/NAKAMURA_KEIICHIRO_L_01-31.png?itok=7yUuAlVg",
+   "ufc_name": "Keiichiro Nakamura",
+   "profile": "https://www.ufc.com/athlete/keiichiro-nakamura-0"
+  },
+  "Ollie Schmid": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-04/SCHMID_OLLIE_R_05-02.png?itok=n8sRgxWc",
+   "ufc_name": "Ollie Schmid",
+   "profile": "https://www.ufc.com/athlete/ollie-schmid"
+  },
+  "Austin Bashi": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-07/BASHI_AUSTIN_L_07-18.png?itok=tlXBt4Gd",
+   "ufc_name": "Austin Bashi",
+   "profile": "https://www.ufc.com/athlete/austin-bashi"
+  },
+  "Lucas Brennan": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-04/BRENNAN_LUCAS_R_04-25.png?itok=Nr91asmQ",
+   "ufc_name": "Lucas Brennan",
+   "profile": "https://www.ufc.com/athlete/lucas-brennan"
+  },
+  "Priscila Cachoeira": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-06/CACHOEIRA_PRISCILA_L_06-06.png?itok=H8kx523Z",
+   "ufc_name": "Priscila Cachoeira",
+   "profile": "https://www.ufc.com/athlete/priscila-cachoeira"
+  },
+  "Nina Milosevic": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-07/MILOSEVIC_NINA_L_08-01.png?itok=Xacar1A1",
+   "ufc_name": "Nina Milošević",
+   "profile": "https://www.ufc.com/athlete/nina-milosevic"
+  },
+  "Jonny Parsons": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2023-07/PARSONS_JONNY_L_07-22.png?itok=izstbTRw",
+   "ufc_name": "Jonny Parsons",
+   "profile": "https://www.ufc.com/athlete/jonny-parsons"
+  },
+  "Jose Souza": {
+   "photo": "https://ufc.com/images/styles/event_fight_card_upper_body_of_standing_athlete/s3/2026-05/SOUZA_JOSE_R_05-30.png?itok=A8mXxqVU",
+   "ufc_name": "José Souza",
+   "profile": "https://www.ufc.com/athlete/jose-henrique"
+  }
+ }
+}

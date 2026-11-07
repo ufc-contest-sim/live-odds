@@ -6,7 +6,7 @@
       "file": "100K_Knockout.json",
       "entryFee": 555.0,
       "totalPrizes": 100000,
-      "entrants": 200
+      "entrants": 191
     },
     {
       "id": "10k_contender",
@@ -17,20 +17,20 @@
       "entrants": 111
     },
     {
-      "id": "10k_jab",
-      "name": "10K Jab",
-      "file": "10K_Jab.json",
-      "entryFee": 1.0,
-      "totalPrizes": 10000,
-      "entrants": 11890
-    },
-    {
       "id": "10k_title_fight",
       "name": "10K Title Fight",
       "file": "10K_Title_Fight.json",
       "entryFee": 1060.0,
       "totalPrizes": 10000,
       "entrants": 10
+    },
+    {
+      "id": "12k_jab",
+      "name": "12K Jab",
+      "file": "12K_Jab.json",
+      "entryFee": 1.0,
+      "totalPrizes": 12000,
+      "entrants": 13176
     },
     {
       "id": "20k_ground_pound",
@@ -54,7 +54,7 @@
       "file": "300K_Throwdown.json",
       "entryFee": 20.0,
       "totalPrizes": 300000,
-      "entrants": 17636
+      "entrants": 17342
     },
     {
       "id": "30k_double_champ",
@@ -62,7 +62,7 @@
       "file": "30K_Double_Champ.json",
       "entryFee": 2120.0,
       "totalPrizes": 30000,
-      "entrants": 15
+      "entrants": 14
     },
     {
       "id": "40k_arm_bar",
@@ -70,7 +70,7 @@
       "file": "40K_Arm_Bar.json",
       "entryFee": 5.0,
       "totalPrizes": 40000,
-      "entrants": 9512
+      "entrants": 9178
     },
     {
       "id": "40k_hook",
@@ -81,28 +81,28 @@
       "entrants": 5882
     },
     {
-      "id": "750k_fantasy_mma_world_championship_qualifier_33",
-      "name": "750K Fantasy MMA World Championship Qualifier 33",
-      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_33.json",
+      "id": "750k_fantasy_mma_world_championship_qualifier_36",
+      "name": "750K Fantasy MMA World Championship Qualifier 36",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_36.json",
       "entryFee": 1000.0,
       "totalPrizes": 8600,
       "entrants": 10
     },
     {
-      "id": "750k_fantasy_mma_world_championship_qualifier_34",
-      "name": "750K Fantasy MMA World Championship Qualifier 34",
-      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_34.json",
+      "id": "750k_fantasy_mma_world_championship_qualifier_37",
+      "name": "750K Fantasy MMA World Championship Qualifier 37",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_37.json",
       "entryFee": 600.0,
       "totalPrizes": 8260,
-      "entrants": 16
+      "entrants": 15
     },
     {
-      "id": "750k_fantasy_mma_world_championship_qualifier_35",
-      "name": "750K Fantasy MMA World Championship Qualifier 35",
-      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_35.json",
+      "id": "750k_fantasy_mma_world_championship_qualifier_38",
+      "name": "750K Fantasy MMA World Championship Qualifier 38",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_38.json",
       "entryFee": 150.0,
       "totalPrizes": 8800,
-      "entrants": 69
+      "entrants": 67
     },
     {
       "id": "80k_mega_mini-max",
@@ -118,7 +118,7 @@
       "file": "8K_Counter_Punch.json",
       "entryFee": 40.0,
       "totalPrizes": 8000,
-      "entrants": 233
+      "entrants": 227
     },
     {
       "id": "8k_fifth_round",
@@ -135,14 +135,6 @@
       "entryFee": 12.0,
       "totalPrizes": 8000,
       "entrants": 784
-    },
-    {
-      "id": "satellite_to_1k_fmwc_qualifier",
-      "name": "Satellite to 1K FMWC Qualifier",
-      "file": "Satellite_to_1K_FMWC_Qualifier.json",
-      "entryFee": 17.0,
-      "totalPrizes": 1000,
-      "entrants": 52
     }
   ]
 }

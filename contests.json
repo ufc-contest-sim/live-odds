@@ -135,6 +135,14 @@
       "entryFee": 12.0,
       "totalPrizes": 8000,
       "entrants": 784
+    },
+    {
+      "id": "satellite_to_ufc_334_555_knockout_special_11-14",
+      "name": "Satellite to UFC 334 555 Knockout Special 11-14",
+      "file": "Satellite_to_UFC_334_555_Knockout_Special_11-14.json",
+      "entryFee": 34.0,
+      "totalPrizes": 555,
+      "entrants": 19
     }
   ]
 }

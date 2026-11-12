@@ -1,0 +1,148 @@
+{
+  "contests": [
+    {
+      "id": "100k_knockout",
+      "name": "100K Knockout",
+      "file": "100K_Knockout.json",
+      "entryFee": 555.0,
+      "totalPrizes": 100000,
+      "entrants": 191
+    },
+    {
+      "id": "10k_contender",
+      "name": "10K Contender",
+      "file": "10K_Contender.json",
+      "entryFee": 100.0,
+      "totalPrizes": 10000,
+      "entrants": 111
+    },
+    {
+      "id": "10k_title_fight",
+      "name": "10K Title Fight",
+      "file": "10K_Title_Fight.json",
+      "entryFee": 1060.0,
+      "totalPrizes": 10000,
+      "entrants": 10
+    },
+    {
+      "id": "12k_jab",
+      "name": "12K Jab",
+      "file": "12K_Jab.json",
+      "entryFee": 1.0,
+      "totalPrizes": 12000,
+      "entrants": 13176
+    },
+    {
+      "id": "20k_ground_pound",
+      "name": "20K Ground  Pound",
+      "file": "20K_Ground_Pound.json",
+      "entryFee": 200.0,
+      "totalPrizes": 20000,
+      "entrants": 111
+    },
+    {
+      "id": "20k_mini-max",
+      "name": "20K mini-MAX",
+      "file": "20K_mini-MAX.json",
+      "entryFee": 0.5,
+      "totalPrizes": 20000,
+      "entrants": 47562
+    },
+    {
+      "id": "300k_throwdown",
+      "name": "300K Throwdown",
+      "file": "300K_Throwdown.json",
+      "entryFee": 20.0,
+      "totalPrizes": 300000,
+      "entrants": 17342
+    },
+    {
+      "id": "30k_double_champ",
+      "name": "30K Double Champ",
+      "file": "30K_Double_Champ.json",
+      "entryFee": 2120.0,
+      "totalPrizes": 30000,
+      "entrants": 14
+    },
+    {
+      "id": "40k_arm_bar",
+      "name": "40K Arm Bar",
+      "file": "40K_Arm_Bar.json",
+      "entryFee": 5.0,
+      "totalPrizes": 40000,
+      "entrants": 9178
+    },
+    {
+      "id": "40k_hook",
+      "name": "40K Hook",
+      "file": "40K_Hook.json",
+      "entryFee": 8.0,
+      "totalPrizes": 40000,
+      "entrants": 5882
+    },
+    {
+      "id": "750k_fantasy_mma_world_championship_qualifier_36",
+      "name": "750K Fantasy MMA World Championship Qualifier 36",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_36.json",
+      "entryFee": 1000.0,
+      "totalPrizes": 8600,
+      "entrants": 10
+    },
+    {
+      "id": "750k_fantasy_mma_world_championship_qualifier_37",
+      "name": "750K Fantasy MMA World Championship Qualifier 37",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_37.json",
+      "entryFee": 600.0,
+      "totalPrizes": 8260,
+      "entrants": 15
+    },
+    {
+      "id": "750k_fantasy_mma_world_championship_qualifier_38",
+      "name": "750K Fantasy MMA World Championship Qualifier 38",
+      "file": "750K_Fantasy_MMA_World_Championship_Qualifier_38.json",
+      "entryFee": 150.0,
+      "totalPrizes": 8800,
+      "entrants": 67
+    },
+    {
+      "id": "80k_mega_mini-max",
+      "name": "80K MEGA mini-MAX",
+      "file": "80K_MEGA_mini-MAX.json",
+      "entryFee": 3.0,
+      "totalPrizes": 80000,
+      "entrants": 31708
+    },
+    {
+      "id": "8k_counter_punch",
+      "name": "8K Counter Punch",
+      "file": "8K_Counter_Punch.json",
+      "entryFee": 40.0,
+      "totalPrizes": 8000,
+      "entrants": 227
+    },
+    {
+      "id": "8k_fifth_round",
+      "name": "8K Fifth Round",
+      "file": "8K_Fifth_Round.json",
+      "entryFee": 55.0,
+      "totalPrizes": 8000,
+      "entrants": 165
+    },
+    {
+      "id": "8k_flying_knee",
+      "name": "8K Flying Knee",
+      "file": "8K_Flying_Knee.json",
+      "entryFee": 12.0,
+      "totalPrizes": 8000,
+      "entrants": 784
+    },
+    {
+      "id": "satellite_to_ufc_334_555_knockout_special_11-14",
+      "name": "Satellite to UFC 334 555 Knockout Special 11-14",
+      "file": "Satellite_to_UFC_334_555_Knockout_Special_11-14.json",
+      "entryFee": 34.0,
+      "totalPrizes": 555,
+      "entrants": 19
+    }
+  ]
+}

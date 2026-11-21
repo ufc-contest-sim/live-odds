@@ -5263,6 +5263,10 @@
         .hb-slot { padding-top: 6px; padding-bottom: 6px; min-height: 52px; box-sizing: border-box; }
         /* excluded fighters: red chips, so they read as "not these" next to the picked ones */
         .fighter-chip-selected.excl { background: var(--accent-red); color: #1a0306; }
+        /* a short notice to visitors under the masthead (one-off; remove the <p class="site-notice"> to hide it) */
+        .site-notice { max-width: 640px; margin: 14px auto 0; padding: 11px 16px; border: 1px solid rgba(var(--a-rgb), 0.55); border-radius: var(--r-md);
+            background: rgba(var(--a-rgb), 0.12); color: var(--text-primary); font-size: 0.9rem; font-weight: 600; line-height: 1.45; text-align: center; text-wrap: balance; }
+        @media (max-width: 600px) { .site-notice { margin: 10px 0 0; font-size: 0.84rem; padding: 10px 12px; } }
         /* --- refine: end --- */
 </style>
 </head>
@@ -5279,6 +5283,8 @@
                 <span class="status-item" id="event-item" style="display:none;"><span class="sep" aria-hidden="true"></span><i id="event-label"></i></span>
             </p>
             <p id="lock-note" class="lock-note" style="display:none;">Please allow up to 10 minutes after lock for the initial live sim update.</p>
+            <!-- one-off notice: delete this line to remove it -->
+            <p class="site-notice" role="status">The site will not be updating for today's card as I will not be available to update the sim throughout. Good luck with your lineups!</p>
         </div>
 
         <div class="landing-nav">
